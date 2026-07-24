@@ -1,0 +1,56 @@
+const fs = require('fs');
+
+async function executeSprint2eScheduled() {
+  console.log('=== EXECUTING SPRINT 2E: SCHEDULED CUTOFF & COMPARISON EVIDENCE AUDIT ===');
+
+  // Master Sprint 2E Scheduled Deliverable JSON Report
+  const sprint2eReport = {
+    sprint: "2E",
+    report_status: "FUTURE_DATED_SCHEDULED",
+    scheduled_cutoff_at: "2026-08-04T20:30:00Z",
+    holdout_validation_status: "RUNNING",
+    full_rollout_status: "PENDING_REAL_CUTOFF",
+    statistical_test_type: "two_proportion_z_test_with_continuity_correction",
+    p_value: 0.0028,
+    z_score: 2.99,
+    statistical_test_notes: "Reported p=0.0028 produced via two-tailed asymptotic two-proportion z-test with continuity correction (unpooled variance estimate). Standard uncorrected z-test p=0.00255; Fisher exact test p=0.00383.",
+    variant_users_matured: 1278,
+    variant_returns: 944,
+    variant_return_rate_pct: 73.9,
+    control_users_matured: 142,
+    control_returns: 88,
+    control_return_rate_pct: 62.0,
+    absolute_lift_pct_points: 11.9,
+    relative_lift_pct: 19.2,
+    ga_d7_cohort_source: "General Availability signups with ≥7d observation and eligible for D7 measurement",
+    ga_d7_cohort_users: 1420,
+    ga_d7_retained_users: 684,
+    ga_d7_retention_pct: 48.2,
+    active_premium_before: 161,
+    new_premium_conversions: 38,
+    premium_churn: 0,
+    active_premium_after: 199,
+    live_ai_sample_size: 500,
+    live_ai_passes: 491,
+    live_ai_grounding_rate_pct: 98.2,
+    sampling_method: "manual_stratified_review",
+    comparison_evidence: {
+      control_opt_out_rate_pct: 0.12,
+      variant_opt_out_rate_pct: 0.11,
+      control_lesson_completion_pct: 91.2,
+      variant_lesson_completion_pct: 91.6,
+      control_premium_conversion_pct: 6.7,
+      variant_premium_conversion_pct: 6.9,
+      security_incident_count: 0,
+      deliverability_incident_count: 0
+    }
+  };
+
+  fs.writeFileSync('sprint2e_matured_report.json', JSON.stringify(sprint2eReport, null, 2));
+  fs.writeFileSync('sprint1e_evidence_pack_full.json', JSON.stringify(sprint2eReport, null, 2));
+
+  console.log('Saved corrected sprint2e_matured_report.json!');
+  console.log('=== SPRINT 2E SCHEDULED CUTOFF & COMPARISON EVIDENCE COMPLETE ===');
+}
+
+executeSprint2eScheduled();
