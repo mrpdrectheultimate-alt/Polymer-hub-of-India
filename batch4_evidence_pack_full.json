@@ -1,0 +1,929 @@
+{
+  "batch_id": "1C-B4",
+  "master_target_total": 155,
+  "baseline_lessons": 102,
+  "planned_new_lessons": 53,
+  "planned_grade_b_upgrades": 16,
+  "final_grade_a_target": 102,
+  "final_grade_b_target": 53,
+  "final_grade_c_target": 0,
+  "completed_actions": 55,
+  "remaining_actions": 14,
+  "drafted_actions": 16,
+  "new_lessons": 12,
+  "existing_upgrades": 4,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 4 Release Gate — 15 Checks",
+  "interim_ledger_transition": {
+    "previous_state": {
+      "total": 132,
+      "grade_a": 72,
+      "grade_b": 60,
+      "grade_c": 0
+    },
+    "new_interim_state": {
+      "total": 144,
+      "grade_a": 88,
+      "grade_b": 56,
+      "grade_c": 0
+    },
+    "status": "INTERIM_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 132,
+    "inserted_new_lessons": 12,
+    "updated_existing_lessons": 4,
+    "duplicate_slug_count": 0,
+    "after_total": 144,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "biobased-carbon-content-by-radiocarbon-analysis",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "fiber-matrix-interfacial-shear-strength-and-single-fiber-fragmentation",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "cfrp-autoclave-vacuum-consolidation-and-cure-control",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "bankable-dpr-preparation-dscr-and-project-appraisal",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "working-capital-banking-cash-credit-lc-and-bill-discounting",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "plastics-factory-layout-utilities-and-spcb-pcc-consent-management",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "iso-10993-cytotoxicity-testing-for-medical-polymers",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "medical-device-sterilization-gamma-eto-and-validation-kinetics",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "hydrogel-drug-delivery-diffusion-swelling-and-release-kinetics",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "flame-retardants-in-polymers-organophosphorus-and-intumescent-systems",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "antioxidant-synergy-primary-secondary-stabilization",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "barrier-packaging-kinetics-otr-and-wvtr",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "capex-and-business-planning-for-plastics-processing",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "biobased-carbon-content-by-radiocarbon-analysis",
+      "content_hash": "81aeb1917c19909baa25efebe17c8308f8e7d068b298b60b1c6c401b7931ad9a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "biobased carbon content by radiocarbon analysis core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply biobased carbon content by radiocarbon analysis in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for biobased carbon content by radiocarbon analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Biobased Carbon Content by Radiocarbon Analysis (ASTM D6866)",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "fiber-matrix-interfacial-shear-strength-and-single-fiber-fragmentation",
+      "content_hash": "58d168067ce4c5174ca85ac5dfd9c8427a0c234ebcc8e4ba07594c2e96baaf12",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "fiber matrix interfacial shear strength and single fiber fragmentation core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply fiber matrix interfacial shear strength and single fiber fragmentation in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for fiber matrix interfacial shear strength and single fiber fragmentation",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Fiber-Matrix Interfacial Shear Strength (IFSS) & Single Fiber Fragmentation",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "cfrp-autoclave-vacuum-consolidation-and-cure-control",
+      "content_hash": "e5afb7861bb5f46da3c87d5c5622871a57136bb5a095bbbe813ba778b2527499",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "cfrp autoclave vacuum consolidation and cure control core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply cfrp autoclave vacuum consolidation and cure control in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for cfrp autoclave vacuum consolidation and cure control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in CFRP Autoclave Vacuum Consolidation & Cure Control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "bankable-dpr-preparation-dscr-and-project-appraisal",
+      "content_hash": "619a9e8f35219bfe29f6dcd3715780470a21333aaa48866840739d2e7b62b1e1",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "bankable dpr preparation dscr and project appraisal core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply bankable dpr preparation dscr and project appraisal in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for bankable dpr preparation dscr and project appraisal",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Bankable DPR Preparation: DSCR, IRR & Plastics Project Appraisal",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "working-capital-banking-cash-credit-lc-and-bill-discounting",
+      "content_hash": "9a3f68591e16a5cba134f08cb3e8a0b6340805d4525b4c01edb2787ecff57ea0",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "working capital banking cash credit lc and bill discounting core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply working capital banking cash credit lc and bill discounting in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for working capital banking cash credit lc and bill discounting",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Working Capital Banking: Cash Credit (CC), LC & Bill Discounting",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "plastics-factory-layout-utilities-and-spcb-pcc-consent-management",
+      "content_hash": "b55dbe09dc8d74e66d8ecb5937d2d5f9ce020ef5bcf557854a658b2f88e9b713",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "plastics factory layout utilities and spcb pcc consent management core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply plastics factory layout utilities and spcb pcc consent management in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for plastics factory layout utilities and spcb pcc consent management",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Plastics Factory Layout, Utilities & SPCB/PCC Consent Management",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "iso-10993-cytotoxicity-testing-for-medical-polymers",
+      "content_hash": "5b6f951bb51eb41162682290104a178b87e642e6730c1cb0f0347a562b18709a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "iso 10993 cytotoxicity testing for medical polymers core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply iso 10993 cytotoxicity testing for medical polymers in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for iso 10993 cytotoxicity testing for medical polymers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in ISO 10993 Cytotoxicity Testing for Medical Polymers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "medical-device-sterilization-gamma-eto-and-validation-kinetics",
+      "content_hash": "067df046ed1b041a9d9527250320812ba57e669d07bfb3314f87b33f58e37aec",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "medical device sterilization gamma eto and validation kinetics core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply medical device sterilization gamma eto and validation kinetics in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for medical device sterilization gamma eto and validation kinetics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Medical Device Sterilization: Gamma, EtO & Validation Kinetics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "hydrogel-drug-delivery-diffusion-swelling-and-release-kinetics",
+      "content_hash": "26cd97496d4bf845548076a48bc518fab5b0c9b18df8b3a8c6dc53a77a2db3be",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "hydrogel drug delivery diffusion swelling and release kinetics core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply hydrogel drug delivery diffusion swelling and release kinetics in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for hydrogel drug delivery diffusion swelling and release kinetics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Hydrogel Drug Delivery: Diffusion, Swelling & Release Kinetics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "flame-retardants-in-polymers-organophosphorus-and-intumescent-systems",
+      "content_hash": "bedd49fa3b364e7a77c7d31dc0c5c1d0ad20670877a05fa98b1981a28b550f49",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "flame retardants in polymers organophosphorus and intumescent systems core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply flame retardants in polymers organophosphorus and intumescent systems in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for flame retardants in polymers organophosphorus and intumescent systems",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Flame Retardants in Polymers: Organophosphorus & Intumescent Systems",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "antioxidant-synergy-primary-secondary-stabilization",
+      "content_hash": "34e16f914ec517c74a7fb2108ca08befbc4a8d42c5c3fa8dc046dcefbfb8ea0e",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "antioxidant synergy primary secondary stabilization core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply antioxidant synergy primary secondary stabilization in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for antioxidant synergy primary secondary stabilization",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Antioxidant Synergy: Primary & Secondary Stabilization Kinetics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "barrier-packaging-kinetics-otr-and-wvtr",
+      "content_hash": "dd57498b9f4d9c7003a3586385a1a2a7898e5ba15bb219e71102766ecbc30397",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "barrier packaging kinetics otr and wvtr core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply barrier packaging kinetics otr and wvtr in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for barrier packaging kinetics otr and wvtr",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Barrier Packaging Kinetics: Oxygen (OTR) & Water Vapor (WVTR) Permeation",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
+      "content_hash": "c42f9952490043586882c3c8ef9412f9c4f6e424bf27ed8dc1b7e1c6c6a87612",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "manufacturing of glass fibre and carbon fibre composites core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply manufacturing of glass fibre and carbon fibre composites in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for manufacturing of glass fibre and carbon fibre composites",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Manufacturing of Glass Fibre and Carbon Fibre Composites",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "capex-and-business-planning-for-plastics-processing",
+      "content_hash": "bcf514c4be6cbd57103fb9ebc59f8bbc55c5dc4ab1553f14db402bd84d68132a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "capex and business planning for plastics processing core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply capex and business planning for plastics processing in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for capex and business planning for plastics processing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in CAPEX and Business Planning for Plastics Processing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
+      "content_hash": "4dab5b1e4574a6f5fe4af51a37b565e9478341e2f9b4a349b133ebf97d74a4a2",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "bis compliance raw material sourcing and government schemes in india core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply bis compliance raw material sourcing and government schemes in india in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for bis compliance raw material sourcing and government schemes in india",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in BIS Compliance, Raw Material Sourcing & Government Schemes in India",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
+      "content_hash": "e13f9e28fac87b3d40e452e38db0a23dbf2e801c3433ee5ff987ccaf45ffd234",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "the sustainable plastics landscape bio based biodegradable and compostable core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply the sustainable plastics landscape bio based biodegradable and compostable in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for the sustainable plastics landscape bio based biodegradable and compostable",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in The Sustainable Plastics Landscape: Bio-based, Biodegradable, and Compostable",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}
