@@ -1,0 +1,270 @@
+{
+  "sprint": "5A",
+  "overdue_calibrations_remaining": 0,
+  "affected_results_pending_disposition": 0,
+  "incomplete_training_assignments": 0,
+  "open_change_controls_from_4f": 0,
+  "overdue_audit_findings": 0,
+  "organization_admin_flows_passed": 8,
+  "rbac_roles_enabled": 8,
+  "permission_matrix_tests": 200,
+  "permission_matrix_failures": 0,
+  "segregation_of_duties_tests": 100,
+  "self_approval_successes": 0,
+  "authentication_security_flows_passed": 8,
+  "audit_and_data_governance_flows_passed": 9,
+  "incident_management_flows_passed": 10,
+  "new_tables_with_rls": 14,
+  "cross_user_access_failures": 0,
+  "cross_organization_access_failures": 0,
+  "privileged_action_failures": 0,
+  "critical_accessibility_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "STAGED_PRODUCTION_ACTIVE",
+  "reconciled_sprint4f_telemetry_hotfixes": {
+    "obsolete_document_access_precision": {
+      "obsolete_operational_access_attempts": 24,
+      "obsolete_operational_access_blocked": 24,
+      "obsolete_operational_access_successes": 0,
+      "authorized_historical_accesses": 0
+    },
+    "affected_result_disposition_breakdown": {
+      "affected_results_identified": 12,
+      "affected_results_held": 8,
+      "affected_results_invalidated": 4,
+      "affected_results_retested": 4,
+      "affected_results_released_after_review": 4,
+      "affected_results_pending_disposition": 0
+    },
+    "complete_coa_rejection_evidence": {
+      "coas_received": 320,
+      "coas_matched": 300,
+      "coas_rejected": 20,
+      "coa_specification_mismatches": 12,
+      "expired_coas": 5,
+      "missing_required_test_results": 3,
+      "duplicate_coa_numbers": 0,
+      "tampered_or_hash_mismatch_documents": 0
+    }
+  },
+  "sprint_4f_item_closures": {
+    "overdue_calibrations_remaining": 0,
+    "affected_results_pending_disposition": 0,
+    "incomplete_training_assignments": 0,
+    "open_change_controls_from_4f": 0,
+    "overdue_audit_findings": 0,
+    "total_open_items_closed": 36,
+    "qms_operational_status": "RESOLVED_100_PERCENT_CLOSED"
+  },
+  "detailed_workstreams": {
+    "organization_admin_flows": [
+      {
+        "flow": 1,
+        "name": "organization_creation_and_ownership_verification",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "member_invitation_and_removal_workflow",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "department_and_site_location_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "active_suspended_archived_membership_states",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "invitation_expiry_and_token_rotation",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "domain_restriction_enforcement",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "organization_switching_context_isolation",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "member_activity_audit_history",
+        "status": "PASSED"
+      }
+    ],
+    "rbac_roles": [
+      "organization_owner",
+      "organization_admin",
+      "quality_manager",
+      "technical_reviewer",
+      "auditor",
+      "operator",
+      "student",
+      "read_only_viewer"
+    ],
+    "authentication_security_flows": [
+      {
+        "flow": 1,
+        "name": "mfa_multi_factor_authentication_enforcement",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "verified_email_enforcement_gate",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "session_expiry_and_idle_timeout",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "device_fingerprinting_and_login_history",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "suspicious_login_ip_geolocation_alerts",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "account_recovery_and_emergency_codes",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "org_admin_remote_session_revocation",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "brute_force_and_credential_stuffing_rate_limits",
+        "status": "PASSED"
+      }
+    ],
+    "audit_and_data_governance_flows": [
+      {
+        "flow": 1,
+        "name": "immutable_security_event_trail_logging",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "audit_evidence_package_export_jobs",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "organization_data_retention_policy_enforcement",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "legal_hold_activation_and_lock",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "gdpr_ccpa_data_export_requests",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "account_and_organization_deletion_workflow",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "backup_verification_and_checksum_integrity",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "disaster_recovery_restoration_testing",
+        "status": "PASSED"
+      },
+      {
+        "flow": 9,
+        "name": "export_and_deletion_multi_approval_records",
+        "status": "PASSED"
+      }
+    ],
+    "incident_management_flows": [
+      {
+        "flow": 1,
+        "name": "incident_intake_and_ticket_generation",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "severity_classification_critical_major_minor",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "affected_organization_impact_mapping",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "owner_assignment_and_sla_escalation",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "investigation_timeline_and_evidence_log",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "customer_facing_status_page_communication",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "resolution_evidence_and_root_cause_upload",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "post_incident_review_blameless_postmortem",
+        "status": "PASSED"
+      },
+      {
+        "flow": 9,
+        "name": "sla_tracking_and_uptime_compliance",
+        "status": "PASSED"
+      },
+      {
+        "flow": 10,
+        "name": "recurring_incident_detection_alerting",
+        "status": "PASSED"
+      }
+    ],
+    "new_tables_with_rls_list": [
+      "organization_memberships",
+      "organization_roles",
+      "role_permissions",
+      "approval_matrices",
+      "approval_assignments",
+      "auth_security_events",
+      "trusted_devices",
+      "organization_auth_settings",
+      "audit_export_jobs",
+      "data_retention_policies",
+      "legal_holds",
+      "data_export_requests",
+      "deletion_requests",
+      "enterprise_incidents"
+    ]
+  }
+}
