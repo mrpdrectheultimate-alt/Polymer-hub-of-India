@@ -1,0 +1,290 @@
+{
+  "batch_id": "1C-B1B",
+  "drafted_actions": 5,
+  "new_lessons": 5,
+  "existing_upgrades": 0,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 1B Release Gate — 15 Checks",
+  "interim_ledger_transition": {
+    "previous_state": {
+      "total": 107,
+      "grade_a": 41,
+      "grade_b": 66,
+      "grade_c": 0
+    },
+    "new_interim_state": {
+      "total": 112,
+      "grade_a": 46,
+      "grade_b": 66,
+      "grade_c": 0
+    },
+    "status": "INTERIM_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 107,
+    "inserted_new_lessons": 5,
+    "updated_existing_lessons": 0,
+    "duplicate_slug_count": 0,
+    "after_total": 112,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "rotational-moulding-process-physics-powder-fusion-and-heating",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "hot-runner-valve-gating-mechanics-and-sequential-injection",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "undercut-release-mechanics-side-cores-slides-and-lifters",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "dsc-thermal-analysis-tg-tm-hf-and-crystallinity",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "rotational-moulding-process-physics-powder-fusion-and-heating",
+      "content_hash": "f7cc511bac4f01ef33ae2615cd1f8eeabd0c5faa2a6a2a6fa8c524755ce9d7d0",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "rotational moulding powder fusion LLDPE sintering Peak IAT",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate powder shot weight for large plastic water storage tanks",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "pinhole porosity and un-fused powder defects in rotomoulded vessels",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "rotational moulding relies on high hydraulic injection pressure to fill molds",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "extrusion die swell drawdown ratio pipe calibrator",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
+      "content_hash": "022533b3da7c29ecb2416db3a32369678409c02502f4522c99849f2bea3d9015",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "Hagen Poiseuille runner pressure drop multi cavity MeltFlipper",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "why do inner cavities fill faster than outer cavities in 16 cavity moulds",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "shear induced thermal runner imbalance weight variation in multi cavity tooling",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "geometrically balanced runner layouts guarantee 100% equal filling in all cavities",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "rotational moulding powder mesh size IAT curve",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "hot-runner-valve-gating-mechanics-and-sequential-injection",
+      "content_hash": "975a6444711e2e0ab5cd9d4fb8834f621ffbbfc6a1b5041f406e947fa86c8e77",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "hot runner valve gating sequential injection manifold thermal growth delta L",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to eliminate cosmetic weld lines on large plastic car bumpers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "hot runner drop nozzle misaligned cold offset calculations",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "valve pins stay open continuously during part cooling and ejection",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "DSC glass transition midpoint inflection percent crystallinity",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "undercut-release-mechanics-side-cores-slides-and-lifters",
+      "content_hash": "5ad696f5ca30115874152102841a83b6afb686256f3664457fc4a97afbc41320",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "angle cam pin stroke length side slide heel locking block lifter undercut",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to design side cores for external hole undercuts in injection moulds",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "cam pin bending shear stress high injection pressure slide push back",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "angle pins withstand full cavity injection pressure without heel blocks",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "Flory Huggins interaction parameter chi binodal spinodal",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "dsc-thermal-analysis-tg-tm-hf-and-crystallinity",
+      "content_hash": "f9661ff3eeb1ac1b28421bdcd8d133f4e742c632b422e26e2b244faa0b07ae8e",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "DSC differential scanning calorimetry Tg Tm Hf percent crystallinity PET",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate percent crystallinity from DSC melting peak enthalpy",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "cold crystallization exothermic peak erasing processing thermal history",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "glass transition Tg appears as a sharp exothermic crystallization peak",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "SMC compression moulding charge coverage press tonnage",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}

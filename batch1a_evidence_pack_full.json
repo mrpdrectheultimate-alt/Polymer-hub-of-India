@@ -39,8 +39,10 @@
       "quiz_quality": 9,
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
-      "final_quality_score": 93,
-      "review_status": "passed_grade_a"
+      "final_quality_score": 92,
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92
     },
     {
       "lesson_slug": "living-and-controlled-ionic-polymerization",
@@ -55,7 +57,9 @@
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
       "final_quality_score": 91,
-      "review_status": "passed_grade_a"
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "118/130",
+      "normalized_quality_score": 91
     },
     {
       "lesson_slug": "polymer-solution-thermodynamics-flory-huggins-theory",
@@ -69,8 +73,10 @@
       "quiz_quality": 9,
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
-      "final_quality_score": 95,
-      "review_status": "passed_grade_a"
+      "final_quality_score": 93,
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93
     },
     {
       "lesson_slug": "extrusion-die-swell-drawdown-and-dimensional-control",
@@ -85,7 +91,9 @@
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
       "final_quality_score": 92,
-      "review_status": "passed_grade_a"
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92
     },
     {
       "lesson_slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
@@ -99,8 +107,10 @@
       "quiz_quality": 9,
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
-      "final_quality_score": 94,
-      "review_status": "passed_grade_a"
+      "final_quality_score": 92,
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92
     },
     {
       "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
@@ -114,8 +124,10 @@
       "quiz_quality": 9,
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
-      "final_quality_score": 93,
-      "review_status": "passed_grade_a"
+      "final_quality_score": 92,
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92
     },
     {
       "lesson_slug": "latex-technology-processing-and-applications",
@@ -130,7 +142,9 @@
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
       "final_quality_score": 91,
-      "review_status": "passed_grade_a"
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "118/130",
+      "normalized_quality_score": 91
     },
     {
       "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
@@ -144,8 +158,10 @@
       "quiz_quality": 9,
       "rendering_and_accessibility": 9,
       "ai_retrieval_readiness": 9,
-      "final_quality_score": 93,
-      "review_status": "passed_grade_a"
+      "final_quality_score": 92,
+      "review_status": "passed_grade_a",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92
     }
   ],
   "retrieval_verification": [
@@ -285,7 +301,7 @@
       "title": "Ring-Opening Polymerization Mechanics: Industrial Nylon 6 & Polycaprolactone",
       "content_length_chars": 8675,
       "checks_passed": "15/15",
-      "quality_score": 93
+      "quality_score": 92
     },
     {
       "action_number": 2,
@@ -301,7 +317,7 @@
       "title": "Polymer Solution Thermodynamics: Flory-Huggins Theory & Phase Diagrams",
       "content_length_chars": 6336,
       "checks_passed": "15/15",
-      "quality_score": 95
+      "quality_score": 93
     },
     {
       "action_number": 4,
@@ -317,7 +333,7 @@
       "title": "SMC and BMC Process Engineering: Charge-Pattern Design, Cure Control and Defect Analysis",
       "content_length_chars": 5940,
       "checks_passed": "15/15",
-      "quality_score": 94
+      "quality_score": 92
     },
     {
       "action_number": 6,
@@ -325,7 +341,7 @@
       "title": "Rubber Compounding: Fillers, Carbon Black, and Additives",
       "content_length_chars": 6054,
       "checks_passed": "15/15",
-      "quality_score": 93
+      "quality_score": 92
     },
     {
       "action_number": 7,
@@ -341,7 +357,7 @@
       "title": "Rubber Processing: Mixing, Calendering, and Extrusion",
       "content_length_chars": 6159,
       "checks_passed": "15/15",
-      "quality_score": 93
+      "quality_score": 92
     }
   ]
 }
