@@ -8,160 +8,23 @@
   "backup_restore_test_passed": true,
   "critical_vulnerabilities": 0,
   "high_severity_runtime_errors": 0,
-  "ai_grounding_pass_rate": 98.4,
+  "ai_evaluation_queries": 310,
+  "ai_evaluation_passes": 306,
+  "top3_retrieval_failures": 2,
+  "citation_support_failures": 1,
+  "unsupported_claim_guardrail_failures": 1,
+  "high_risk_unsupported_retrievals": 0,
+  "ai_grounding_pass_rate": 98.7,
   "closed_beta_status": "PASSED",
-  "public_launch_status": "READY",
-  "backup_restore_details": {
-    "latest_backup_timestamp": "2026-07-24T19:50:00Z",
-    "restore_test_completed": true,
-    "restore_environment": "staging",
-    "restore_time_minutes": 2,
-    "lesson_count_after_restore": 155,
-    "quiz_count_after_restore": 155,
-    "foreign_key_failures": 0,
-    "content_hash_mismatches": 0,
-    "recovery_point_objective": "< 24 hours",
-    "recovery_time_objective": "< 15 minutes"
-  },
-  "ai_evaluation_details": {
-    "direct_lesson_queries": {
-      "count": 155,
-      "top_3_rank_pass": 155,
-      "pass_rate": 100
-    },
-    "paraphrased_cross_subject_queries": {
-      "count": 75,
-      "top_3_rank_pass": 73,
-      "pass_rate": 97.33
-    },
-    "misconception_queries": {
-      "count": 30,
-      "citation_support_pass": 29,
-      "pass_rate": 96.67
-    },
-    "adversarial_unsupported_queries": {
-      "count": 30,
-      "refusal_evidence_pass": 29,
-      "pass_rate": 96.67
-    },
-    "regulatory_date_sensitivity_queries": {
-      "count": 20,
-      "accurate_date_pass": 20,
-      "pass_rate": 100
-    }
-  },
-  "e2e_journey_details": [
-    {
-      "flow_id": 1,
-      "name": "register_verify_login",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 2,
-      "name": "complete_user_profile",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 3,
-      "name": "open_lesson_content",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 4,
-      "name": "create_and_edit_user_notes",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 5,
-      "name": "complete_compulsory_quiz",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 6,
-      "name": "record_score_and_progress",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 7,
-      "name": "resume_learning_later",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 8,
-      "name": "bookmark_lesson",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 9,
-      "name": "download_permitted_pdf",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 10,
-      "name": "use_ai_tutor_with_lesson_citations",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 11,
-      "name": "encounter_premium_restriction_correctly",
-      "status": "PASSED"
-    },
-    {
-      "flow_id": 12,
-      "name": "logout_and_relogin_data_persistence",
-      "status": "PASSED"
-    }
-  ],
-  "rls_security_details": [
-    {
-      "table": "users",
-      "rls_enabled": true,
-      "UserA_cannot_read_UserB": true
-    },
-    {
-      "table": "profiles",
-      "rls_enabled": true,
-      "UserA_cannot_alter_UserB": true
-    },
-    {
-      "table": "user_progress",
-      "rls_enabled": true,
-      "UserA_cannot_alter_UserB": true
-    },
-    {
-      "table": "user_notes",
-      "rls_enabled": true,
-      "UserA_cannot_read_UserB": true
-    },
-    {
-      "table": "bookmarks",
-      "rls_enabled": true,
-      "UserA_cannot_read_UserB": true
-    },
-    {
-      "table": "quiz_attempts",
-      "rls_enabled": true,
-      "UserA_cannot_alter_UserB": true
-    },
-    {
-      "table": "subscriptions",
-      "rls_enabled": true,
-      "UserA_cannot_read_UserB": true
-    },
-    {
-      "table": "admin_lessons",
-      "rls_enabled": true,
-      "Student_cannot_access_admin": true
-    },
-    {
-      "table": "premium_pdf_access",
-      "rls_enabled": true,
-      "Free_user_gated": true
-    },
-    {
-      "table": "ai_tutor_logs",
-      "rls_enabled": true,
-      "Unauthenticated_read_blocked": true
-    }
-  ]
+  "public_launch_status": "READY_FOR_STAGED_PUBLIC_LAUNCH",
+  "audit_summary": {
+    "total_lessons": 155,
+    "grade_a_lessons": 102,
+    "grade_b_lessons": 53,
+    "grade_c_lessons": 0,
+    "expansion_actions_completed": "69/69",
+    "security_gate": "PASSED",
+    "backup_restore_time": "2 minutes",
+    "production_rollout_status": "STAGED_PUBLIC_LAUNCH_ACTIVE"
+  }
 }
