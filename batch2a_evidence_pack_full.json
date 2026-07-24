@@ -1,0 +1,480 @@
+{
+  "batch_id": "1C-B2A",
+  "drafted_actions": 8,
+  "new_lessons": 5,
+  "existing_upgrades": 3,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 2A Release Gate — 15 Checks",
+  "interim_ledger_transition": {
+    "previous_state": {
+      "total": 112,
+      "grade_a": 46,
+      "grade_b": 66,
+      "grade_c": 0
+    },
+    "new_interim_state": {
+      "total": 117,
+      "grade_a": 54,
+      "grade_b": 63,
+      "grade_c": 0
+    },
+    "status": "INTERIM_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 112,
+    "inserted_new_lessons": 5,
+    "updated_existing_lessons": 3,
+    "duplicate_slug_count": 0,
+    "after_total": 117,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "gc-ms-screening-of-polymer-extractables-and-leachables",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "rubber-mixing-and-internal-mixer-process-control",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "thermoplastic-elastomers-tpe-tpu-tpv-structure-and-processing",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "tyre-compound-design-silica-silane-reinforcement-and-rolling-resistance",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "tyre-construction-from-components-to-finished-product",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
+      "raw_score_sum": "118/130",
+      "normalized_quality_score": 91,
+      "final_quality_score": 91,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "introduction-to-reinforced-polymer-composites",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
+      "content_hash": "e6ec323d5c5c23ef315c07a1f19eba923e651b9d19bf2653fdd16f330fdc656e",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "DMA dynamic mechanical analysis storage modulus loss modulus tan delta",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to measure loss factor and phase angle in viscoelastic polymers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "dynamic glass transition temperature shift in DMA versus DSC",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "DMA glass transition temperatures are identical to static DSC midpoint Tg",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "GC MS extractables screening SCT threshold AET",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "gc-ms-screening-of-polymer-extractables-and-leachables",
+      "content_hash": "cb6fbc7ffec1194bbfab64adad9cab7c22064c92d70ccb855ef38a35e34b3baf",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "GC MS extractables leachables AET threshold SML migration NIST",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate analytical evaluation threshold for medical tubing extractables",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "GC MS total ion chromatogram unknown peak identification Kovats retention index",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "NIST spectral library matching alone constitutes legal migration compliance",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "Banbury mixer internal fill factor specific energy",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "rubber-mixing-and-internal-mixer-process-control",
+      "content_hash": "18390e2c5898e32ec642a51c165db36b630f5756cc2fae7cbc614295eeb1c55e",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "Banbury internal mixer fill factor upside down mixing specific energy kWh kg",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "why add carbon black before rubber in upside down internal mixing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "overloading mixer chamber causing premature scorch and temperature spike",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "mixing time is superior to specific energy for controlling batch dump point",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "DMA storage modulus viscoelastic spectrum",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "thermoplastic-elastomers-tpe-tpu-tpv-structure-and-processing",
+      "content_hash": "d8e170a6c6963576946f3290e74f19c49230180fc2dcb259d7f69b4171d14e1d",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "TPE TPU TPV microphase separation hard domain physical crosslink 2K overmoulding",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how hard block volume fraction affects thermoplastic elastomer modulus",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "dynamic vulcanization EPDM PP TPV phase inversion twin screw extrusion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "thermoplastic elastomers require covalent sulfur vulcanization cycles",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "silica silane TESPT tyre tread rolling resistance",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "tyre-compound-design-silica-silane-reinforcement-and-rolling-resistance",
+      "content_hash": "c029854825dba38d4de84d0e02ee85d9494e5c4b1528d25d80144866c4d63271",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "green tyre silica silane TESPT coupling stoichiometry Payne effect rolling resistance",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how silane coupling reduces tyre rolling resistance while maintaining wet grip",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "silanization mixing temperature control ethanol byproduct removal scorch",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "silica automatically improves every tyre property without silane coupling",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "Banbury mixer upside down mixing specific energy",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "tyre-construction-from-components-to-finished-product",
+      "content_hash": "d68d77b978c3641ea6233a8c568133e985b380939d60dc1b357725bde1c0c1a0",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "radial tyre inner liner carcass ply bead apex steel belts tread extrusion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how radial tyre components function together in green tyre building",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "curing press internal bladder steam pressure inflation defects",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "carcass plies run parallel to circumference in radial tyres",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "IS 17088 respirometric biodegradation compostability",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
+      "content_hash": "7ab21f5d607810ddf32640928e50124cd7c48a9be512175993d275af9426f623",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "bioplastics IS 17088 ISO 17088 respirometric biodegradation industrial composting",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "what criteria are mandatory for certified compostable plastic packaging",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "calculating theoretical CO2 evolution ThCO2 in respirometric compost testing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "bio-based origin automatically guarantees biodegradability in environment",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "radial tyre inner liner carcass ply",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "introduction-to-reinforced-polymer-composites",
+      "content_hash": "38f20d654dfe23f64030a99139b7bf28f8b4b2d9511dc928d37c2b9a88d4e3d5",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "reinforced polymer composites rule of mixtures Voigt bound continuous glass fiber",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate longitudinal elastic modulus E11 using rule of mixtures",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "autoclave prepreg consolidation maximizing fiber volume fraction Vf",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "polymer matrix carries 100% of tensile load in fiber composites",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "GC MS extractables screening SCT AET",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}
