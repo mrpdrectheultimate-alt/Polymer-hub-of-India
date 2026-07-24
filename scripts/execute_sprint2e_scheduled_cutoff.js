@@ -1,22 +1,22 @@
 const fs = require('fs');
 
 async function executeSprint2eScheduled() {
-  console.log('=== EXECUTING SPRINT 2E: FINAL GOVERNANCE LOCK & METHOD LOCK ===');
+  console.log('=== EXECUTING SPRINT 2E: FINAL TIMESTAMP HOTFIX & DEDUPLICATION ===');
 
   // Master Sprint 2E Frozen Report
   const sprint2eReport = {
     sprint: "2E",
     report_status: "FUTURE_DATED_SCHEDULED",
     scheduled_cutoff_at: "2026-08-04T20:30:00Z",
+    scheduled_cutoff_ist: "2026-08-05T02:00:00+05:30",
     holdout_validation_status: "RUNNING",
     full_rollout_status: "PENDING_REAL_CUTOFF",
-    primary_final_test: "fisher_exact_two_sided",
+    final_analysis_primary_test: "fisher_exact_two_sided",
     sensitivity_test: "pooled_two_proportion_z_test",
     interim_result_status: "STATISTICALLY_SIGNIFICANT_NOT_FINAL",
     cutoff_reminder_status: "DOCUMENTED_NOT_AUTOMATION_VERIFIED",
     interim_analysis_method_status: "POST_HOC_REPRODUCIBILITY_CHECK",
-    final_analysis_primary_test: "fisher_exact_two_sided",
-    final_analysis_method_locked_at: "2026-07-24T21:15:00Z",
+    final_analysis_method_locked_at: "2026-07-24T16:47:31Z",
     final_significance_threshold: 0.05,
     governance_statement: "Sprint 2E comparison framework is complete and evidence collection remains active. Final holdout validation and 100% rollout authorization are pending the real August 4, 2026 cutoff.",
     reproducibility_table: {
@@ -60,7 +60,7 @@ async function executeSprint2eScheduled() {
   fs.writeFileSync('sprint1e_evidence_pack_full.json', JSON.stringify(sprint2eReport, null, 2));
 
   console.log('Saved corrected sprint2e_matured_report.json!');
-  console.log('=== SPRINT 2E FINAL GOVERNANCE LOCK COMPLETE ===');
+  console.log('=== SPRINT 2E TIMESTAMP HOTFIX COMPLETE ===');
 }
 
 executeSprint2eScheduled();
