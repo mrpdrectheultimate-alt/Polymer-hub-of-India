@@ -14,7 +14,14 @@
     },
     "new_lessons_targeting_grade_a": 46,
     "existing_grade_b_upgrades": 15,
-    "batch_structure": "5 Batches (Batch 1 split into Wave 1A and Wave 1B for risk control)"
+    "batch_structure": "5 Batches (Batch 1 split into Wave 1A and Wave 1B for risk control)",
+    "interim_ledger_after_batch_1a_passing": {
+      "total_lessons": 107,
+      "grade_a": 41,
+      "grade_b": 66,
+      "grade_c": 0,
+      "status": "Conditioned on Batch 1A QA gate passing score >= 85/100 for all 8 actions"
+    }
   },
   "batches": [
     {
