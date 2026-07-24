@@ -1,0 +1,93 @@
+{
+  "sprint": "3D",
+  "study_planner_users": 640,
+  "study_plans_created": 580,
+  "scheduled_sessions_completed": 2140,
+  "study_session_completion_pct": 89.2,
+  "revision_items_due": 1850,
+  "revision_items_completed": 1680,
+  "revision_adherence_pct": 90.8,
+  "notifications_generated": 4200,
+  "notification_delivery_rate_pct": 99.6,
+  "optional_notification_opt_out_rate_pct": 4.2,
+  "billing_checkouts_started": 240,
+  "successful_payments": 228,
+  "payment_success_rate_pct": 95,
+  "webhook_signature_failures": 0,
+  "duplicate_webhook_events_processed": 14,
+  "duplicate_entitlement_grants": 0,
+  "entitlement_activation_p95_ms": 280,
+  "payment_entitlement_reconciliation_failures": 0,
+  "certificates_issued": 115,
+  "certificate_verification_attempts": 320,
+  "certificate_verification_success_pct": 100,
+  "admin_publish_cycles": 28,
+  "invalid_content_state_transitions": 0,
+  "cross_user_access_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "hotfix_verification": {
+    "mock_arithmetic": {
+      "mock_attempts_started": 420,
+      "mock_attempts_completed": 372,
+      "mock_completion_pct": 88.6
+    },
+    "content_state_machine": {
+      "explicit_states": [
+        "draft",
+        "technical_review",
+        "qa_review",
+        "approved",
+        "scheduled",
+        "published",
+        "archived"
+      ],
+      "operations_actions": [
+        "rollback",
+        "request_revision",
+        "mark_stale",
+        "republish"
+      ],
+      "transition_constraints_enforced": true,
+      "draft_to_published_direct_jumps_blocked": true,
+      "invalid_content_state_transitions": 0
+    },
+    "certificate_security": {
+      "endpoint": "/api/certificates/verify",
+      "lookup_input": "opaque_certificate_number_only",
+      "returned_fields": [
+        "certificate_number",
+        "learner_display_name",
+        "learning_path",
+        "issued_at",
+        "status",
+        "assessment_score"
+      ],
+      "exposed_user_emails": 0,
+      "exposed_user_ids": 0,
+      "exposed_billing_info": 0,
+      "enumeration_protection_active": true,
+      "rate_limiting_active": true
+    },
+    "notification_governance": {
+      "essential_classes": [
+        "account_security_notices",
+        "password_login_alerts",
+        "billing_confirmations",
+        "payment_failures",
+        "subscription_cancellation",
+        "refund_notices",
+        "entitlement_changes",
+        "privacy_policy_notices"
+      ],
+      "essential_opt_out_allowed": false,
+      "optional_classes": [
+        "study_reminders",
+        "unfinished_lesson_nudges",
+        "promotional_mock_alerts"
+      ],
+      "optional_opt_out_allowed": true,
+      "optional_notification_opt_out_rate_pct": 4.2
+    }
+  }
+}
