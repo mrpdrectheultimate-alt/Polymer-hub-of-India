@@ -5,18 +5,25 @@
   "signup_to_first_lesson_pct": 92.1,
   "first_lesson_to_first_quiz_pct": 88.6,
   "lesson_completion_rate_pct": 91.4,
+  "lesson_completion_definition": "completed_lessons_divided_by_started_lessons",
   "day_1_retention_pct": 68.2,
-  "day_7_retention_pct": 44.8,
+  "day_1_cohort_definition": "matured_72h_launch_cohort",
+  "day_7_retention_pct": null,
+  "day_7_retention_status": "COHORT_NOT_MATURED",
   "premium_conversion_pct": 6.8,
-  "ai_tutor_live_grounding_rate_pct": 98.9,
+  "live_production_ai_sample_size": 0,
+  "live_production_ai_passes": 0,
+  "live_production_ai_grounding_rate_pct": null,
+  "sampling_method": "manual_stratified_review",
+  "dropoff_funnel_counts": {
+    "total_signups": 1420,
+    "completed_first_quiz_users": 1159,
+    "eligible_for_second_session_users": 1159,
+    "returned_for_second_session_users": 790,
+    "quiz_to_second_session_pct": 68.2,
+    "second_session_window_hours": 72
+  },
   "top_dropoff_step": "first_quiz_to_second_session",
   "support_issue_count": 0,
-  "product_intelligence_status": "ACTIVE_TRACKING",
-  "activation_funnel_summary": {
-    "total_signups": 1420,
-    "profile_completed_users": 1200,
-    "started_first_lesson_users": 1308,
-    "completed_first_quiz_users": 1159,
-    "active_premium_subscribers": 97
-  }
+  "product_intelligence_status": "ACTIVE_TRACKING"
 }
