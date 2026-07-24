@@ -1,0 +1,755 @@
+{
+  "batch_id": "1C-B3",
+  "drafted_actions": 13,
+  "new_lessons": 10,
+  "existing_upgrades": 3,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 3 Release Gate — 15 Checks",
+  "interim_ledger_transition": {
+    "previous_state": {
+      "total": 122,
+      "grade_a": 59,
+      "grade_b": 63,
+      "grade_c": 0
+    },
+    "new_interim_state": {
+      "total": 132,
+      "grade_a": 72,
+      "grade_b": 60,
+      "grade_c": 0
+    },
+    "status": "INTERIM_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 122,
+    "inserted_new_lessons": 10,
+    "updated_existing_lessons": 3,
+    "duplicate_slug_count": 0,
+    "after_total": 132,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "pultrusion-process-engineering-fiber-wet-out-die-heat-and-pull-force",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "filament-winding-mandrel-kinematics-winding-angles-and-cure",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "rohs-reach-and-global-chemical-compliance-in-plastics",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "lifecycle-assessment-lca-of-polymers-iso-14040-methodology",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "microcellular-foam-injection-moulding-mucell-process-physics",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "blow-moulding-parison-extrusion-programming-and-stretch-blow",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "twin-screw-compounding-extrusion-screw-elements-and-mixing",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "heat-deflection-temperature-hdt-and-vicat-softening-point",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "thermoforming-process-physics-plug-assist-and-draw-ratios",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
+      "raw_score_sum": "118/130",
+      "normalized_quality_score": 91,
+      "final_quality_score": 91,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "rigid-packaging-pet-hdpe-pp",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "pultrusion-process-engineering-fiber-wet-out-die-heat-and-pull-force",
+      "content_hash": "8a4d2448b9df22170f6bef66c5c228d681b8c34dcb0ecfd0dabc92369c3e21bc",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "pultrusion process engineering fiber wet out die heat and pull force core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply pultrusion process engineering fiber wet out die heat and pull force in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for pultrusion process engineering fiber wet out die heat and pull force",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in pultrusion process engineering fiber wet out die heat and pull force",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "filament-winding-mandrel-kinematics-winding-angles-and-cure",
+      "content_hash": "4fc8ee352db1e7e417d8025e8bcf1315cf7cf4f96ef90df928178562b81e6995",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "filament winding mandrel kinematics winding angles and cure core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply filament winding mandrel kinematics winding angles and cure in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for filament winding mandrel kinematics winding angles and cure",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in filament winding mandrel kinematics winding angles and cure",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity",
+      "content_hash": "f6fcbbc73d1757d0f4d671e64be52e32dda6b27ab4c208deac7ce8cb485e601e",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "resin transfer moulding rtm darcy flow permeability and viscosity core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply resin transfer moulding rtm darcy flow permeability and viscosity in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for resin transfer moulding rtm darcy flow permeability and viscosity",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in resin transfer moulding rtm darcy flow permeability and viscosity",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "rohs-reach-and-global-chemical-compliance-in-plastics",
+      "content_hash": "bac89b13cdb3dff41af97716d86e7a8951ffdd10081d797f35634b6e3db29a02",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "rohs reach and global chemical compliance in plastics core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply rohs reach and global chemical compliance in plastics in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for rohs reach and global chemical compliance in plastics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in rohs reach and global chemical compliance in plastics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "lifecycle-assessment-lca-of-polymers-iso-14040-methodology",
+      "content_hash": "2f7182144c9c53d54467f1af322a8059e1a44a65c772fcd0cf356ff9f17bb337",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "lifecycle assessment lca of polymers iso 14040 methodology core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply lifecycle assessment lca of polymers iso 14040 methodology in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for lifecycle assessment lca of polymers iso 14040 methodology",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in lifecycle assessment lca of polymers iso 14040 methodology",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "microcellular-foam-injection-moulding-mucell-process-physics",
+      "content_hash": "303852f3531896a2abb01c72fa78f0e7569980bd04db263f3c40c21269cbd110",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "microcellular foam injection moulding mucell process physics core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply microcellular foam injection moulding mucell process physics in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for microcellular foam injection moulding mucell process physics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in microcellular foam injection moulding mucell process physics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "blow-moulding-parison-extrusion-programming-and-stretch-blow",
+      "content_hash": "75a16fe029d889846188c43fcd2297bdacb02ddf3c3493c66aade4dca3bc356d",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "blow moulding parison extrusion programming and stretch blow core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply blow moulding parison extrusion programming and stretch blow in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for blow moulding parison extrusion programming and stretch blow",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in blow moulding parison extrusion programming and stretch blow",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "twin-screw-compounding-extrusion-screw-elements-and-mixing",
+      "content_hash": "f771ca166a55c2b6450d8d90fc2dea04fa9da52de4277f9653cf681ef91079fc",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "twin screw compounding extrusion screw elements and mixing core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply twin screw compounding extrusion screw elements and mixing in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for twin screw compounding extrusion screw elements and mixing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in twin screw compounding extrusion screw elements and mixing",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "heat-deflection-temperature-hdt-and-vicat-softening-point",
+      "content_hash": "516a142c38189bd3931cbecab211d067f00bb7baeb97e12f37cc0f0ba848b3d2",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "heat deflection temperature hdt and vicat softening point core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply heat deflection temperature hdt and vicat softening point in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for heat deflection temperature hdt and vicat softening point",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in heat deflection temperature hdt and vicat softening point",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "thermoforming-process-physics-plug-assist-and-draw-ratios",
+      "content_hash": "0879375479243cbb1e4c09f6ef92b39add36778138bc7b4706d226228ba972a9",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "thermoforming process physics plug assist and draw ratios core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply thermoforming process physics plug assist and draw ratios in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for thermoforming process physics plug assist and draw ratios",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in thermoforming process physics plug assist and draw ratios",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
+      "content_hash": "bd245c0d049fa89d520e16563088615a3d49ec6993295e9a946ecf62f76a18f6",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "polylactic acid pla synthesis properties and commercial reality core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply polylactic acid pla synthesis properties and commercial reality in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for polylactic acid pla synthesis properties and commercial reality",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in polylactic acid pla synthesis properties and commercial reality",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
+      "content_hash": "c77666bcd67e69d4d7816bc8347c832ee3902c352b2d8919213390bc7a5a731d",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "polyhydroxyalkanoates pha nature s true bioplastic core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply polyhydroxyalkanoates pha nature s true bioplastic in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for polyhydroxyalkanoates pha nature s true bioplastic",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in polyhydroxyalkanoates pha nature s true bioplastic",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "rigid-packaging-pet-hdpe-pp",
+      "content_hash": "c909961a2e87570c6f5833747d2c9503d6ddaa69fb2d439c1283ff0cc6525589",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "rigid packaging pet hdpe pp core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply rigid packaging pet hdpe pp in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for rigid packaging pet hdpe pp",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in rigid packaging pet hdpe pp",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}
