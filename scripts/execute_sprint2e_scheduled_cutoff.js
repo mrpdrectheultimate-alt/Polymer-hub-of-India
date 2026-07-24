@@ -1,22 +1,24 @@
 const fs = require('fs');
 
 async function executeSprint2eScheduled() {
-  console.log('=== EXECUTING SPRINT 2E: REPRODUCIBLE STATISTICAL AUDIT & INTERIM DATA LABELS ===');
+  console.log('=== EXECUTING SPRINT 2E: FINAL GOVERNANCE LOCK & METHOD LOCK ===');
 
-  // Master Sprint 2E Scheduled Deliverable JSON Report
+  // Master Sprint 2E Frozen Report
   const sprint2eReport = {
     sprint: "2E",
     report_status: "FUTURE_DATED_SCHEDULED",
     scheduled_cutoff_at: "2026-08-04T20:30:00Z",
     holdout_validation_status: "RUNNING",
     full_rollout_status: "PENDING_REAL_CUTOFF",
-    governance_statement: "Sprint 2E comparison framework is complete and evidence collection remains active. Final holdout validation and 100% rollout authorization are pending the real August 4, 2026 cutoff.",
-    primary_statistical_test: "fisher_exact_two_sided",
-    primary_p_value_interim: 0.00383,
+    primary_final_test: "fisher_exact_two_sided",
     sensitivity_test: "pooled_two_proportion_z_test",
-    sensitivity_z_score_interim: 3.017,
-    sensitivity_p_value_interim: 0.00255,
-    significance_threshold: 0.05,
+    interim_result_status: "STATISTICALLY_SIGNIFICANT_NOT_FINAL",
+    cutoff_reminder_status: "DOCUMENTED_NOT_AUTOMATION_VERIFIED",
+    interim_analysis_method_status: "POST_HOC_REPRODUCIBILITY_CHECK",
+    final_analysis_primary_test: "fisher_exact_two_sided",
+    final_analysis_method_locked_at: "2026-07-24T21:15:00Z",
+    final_significance_threshold: 0.05,
+    governance_statement: "Sprint 2E comparison framework is complete and evidence collection remains active. Final holdout validation and 100% rollout authorization are pending the real August 4, 2026 cutoff.",
     reproducibility_table: {
       pooled_two_proportion_z_test: { statistic: "z = 3.017", p_value: 0.00255 },
       pooled_z_test_with_continuity_correction: { statistic: "z = 2.918", p_value: 0.00352 },
@@ -58,7 +60,7 @@ async function executeSprint2eScheduled() {
   fs.writeFileSync('sprint1e_evidence_pack_full.json', JSON.stringify(sprint2eReport, null, 2));
 
   console.log('Saved corrected sprint2e_matured_report.json!');
-  console.log('=== SPRINT 2E STATISTICAL AUDIT & INTERIM LABELS COMPLETE ===');
+  console.log('=== SPRINT 2E FINAL GOVERNANCE LOCK COMPLETE ===');
 }
 
 executeSprint2eScheduled();
