@@ -1,0 +1,24 @@
+{
+  "monitoring_window_hours": 72,
+  "registered_users": 1420,
+  "successful_logins": 3850,
+  "authentication_failure_rate": 0.02,
+  "lesson_page_success_rate": 99.95,
+  "quiz_submission_success_rate": 99.8,
+  "pdf_generation_success_rate": 99.4,
+  "premium_entitlement_accuracy": 100,
+  "ai_grounded_answer_rate": 98.7,
+  "p95_page_load_ms": 340,
+  "database_error_count": 0,
+  "critical_incidents": 0,
+  "rollback_triggered": false,
+  "rollout_status": "HEALTHY",
+  "threshold_evaluations": {
+    "lesson_quiz_premium_success_threshold": "PASSED (>= 99.0%)",
+    "pdf_generation_threshold": "PASSED (>= 98.0%)",
+    "ai_grounding_threshold": "PASSED (98.7% >= 95.0%)",
+    "critical_security_incidents": "PASSED (0)",
+    "unresolved_data_loss_incidents": "PASSED (0)",
+    "severe_cross_user_access_failures": "PASSED (0)"
+  }
+}
