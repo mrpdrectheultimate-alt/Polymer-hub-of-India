@@ -1,0 +1,347 @@
+{
+  "metadata": {
+    "batch_id": "1C-B1A",
+    "generated_at": "2026-07-24T18:50:00Z",
+    "release_status": "APPROVED_FOR_RELEASE",
+    "internal_project_ledger": {
+      "total_lessons": 107,
+      "grade_a": 41,
+      "grade_b": 66,
+      "grade_c": 0,
+      "status": "LEDGER_TRANSITION_VERIFIED"
+    },
+    "independent_review_status": "PROVISIONALLY_ACCEPTED_WITH_FULL_EVIDENCE_PACK"
+  },
+  "database_reconciliation": {
+    "before_total": 102,
+    "inserted_new_lessons": 5,
+    "updated_existing_lessons": 3,
+    "duplicate_slug_count": 0,
+    "after_total": 107,
+    "grade_a_count": 41,
+    "grade_b_count": 66,
+    "grade_c_count": 0,
+    "quiz_parent_reference_failures": 0,
+    "module_reference_failures": 0,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+      "content_structure": 19,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 93,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "living-and-controlled-ionic-polymerization",
+      "content_structure": 19,
+      "technical_accuracy": 18,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 8,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 91,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "polymer-solution-thermodynamics-flory-huggins-theory",
+      "content_structure": 19,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 20,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 95,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "extrusion-die-swell-drawdown-and-dimensional-control",
+      "content_structure": 18,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 92,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+      "content_structure": 19,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 10,
+      "sources_and_standards": 9,
+      "diagrams": 8,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 94,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
+      "content_structure": 19,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 93,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "latex-technology-processing-and-applications",
+      "content_structure": 18,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 18,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 91,
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
+      "content_structure": 19,
+      "technical_accuracy": 19,
+      "equations_and_numericals": 19,
+      "learning_outcomes": 9,
+      "industrial_application": 9,
+      "sources_and_standards": 9,
+      "diagrams": 9,
+      "quiz_quality": 9,
+      "rendering_and_accessibility": 9,
+      "ai_retrieval_readiness": 9,
+      "final_quality_score": 93,
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "query": "caprolactam equilibrium monomer concentration hydrolytic nylon 6 ROP",
+      "expected_lesson_slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+      "returned_top_5": [
+        "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "801316b75a38145c5d38fa054078d8c1beeb5141374bcc887455e98f324cfb57",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "living anionic polymerization SEC dispersity Đ sec-butyllithium Poisson",
+      "expected_lesson_slug": "living-and-controlled-ionic-polymerization",
+      "returned_top_5": [
+        "living-and-controlled-ionic-polymerization",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "9dfc1bd8c985d064bf728129b24ab78c5d076554f7c6c1f8f077f94c92f12e6c",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "Flory Huggins chi critical parameter spinodal binodal theta condition",
+      "expected_lesson_slug": "polymer-solution-thermodynamics-flory-huggins-theory",
+      "returned_top_5": [
+        "polymer-solution-thermodynamics-flory-huggins-theory",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "6e72686c13a6e8224461c41d845bd5604c17dd3ee4ded41a6dbfc7b619f141a3",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "extrudate die swell ratio B drawdown ratio DDR vacuum calibrator",
+      "expected_lesson_slug": "extrusion-die-swell-drawdown-and-dimensional-control",
+      "returned_top_5": [
+        "extrusion-die-swell-drawdown-and-dimensional-control",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "fc2e5db0017696be02428ac2a21f4f6184d9e440d2a431b117f1847e958e3dca",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "SMC compression moulding charge coverage 50% press tonnage calculation",
+      "expected_lesson_slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+      "returned_top_5": [
+        "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "2b7834d3436c1a85fafc7f77d8f4374f03dc9aabffc668494502a7c62a810137",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "rubber compounding Banbury internal mixer fill factor carbon black N220",
+      "expected_lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
+      "returned_top_5": [
+        "rubber-compounding-fillers-carbon-black-and-additives",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "45258a285865c5a6de9f62c12b2ba569487680b51a010c8e6ad799c9d3d209f1",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "natural rubber latex centrifugation DRC 60% coagulant dipping glove former",
+      "expected_lesson_slug": "latex-technology-processing-and-applications",
+      "returned_top_5": [
+        "latex-technology-processing-and-applications",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "54af9483c42b628243c1cd11517554c3a35cf694e2c6842aed9d0d469f291b5b",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    },
+    {
+      "query": "rubber specific mixing energy kWh/kg 4-roll calender nip shear rate",
+      "expected_lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
+      "returned_top_5": [
+        "rubber-processing-mixing-calendering-and-extrusion",
+        "introduction-to-polymer-structure-and-molecular-weight",
+        "extrusion-process-screw-design-and-die-types",
+        "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+        "polymer-blends-and-composites-combining-materials-for-better-performance"
+      ],
+      "expected_rank": 1,
+      "content_hash": "50d672ad17fb66b39b803228d200f615da34dc8b975374ea69ee89254dca2534",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_version": "v2026.1",
+      "passed": true
+    }
+  ],
+  "lesson_artifacts_summary": [
+    {
+      "action_number": 1,
+      "slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+      "title": "Ring-Opening Polymerization Mechanics: Industrial Nylon 6 & Polycaprolactone",
+      "content_length_chars": 8675,
+      "checks_passed": "15/15",
+      "quality_score": 93
+    },
+    {
+      "action_number": 2,
+      "slug": "living-and-controlled-ionic-polymerization",
+      "title": "Living and Controlled Ionic Polymerization",
+      "content_length_chars": 6836,
+      "checks_passed": "15/15",
+      "quality_score": 91
+    },
+    {
+      "action_number": 3,
+      "slug": "polymer-solution-thermodynamics-flory-huggins-theory",
+      "title": "Polymer Solution Thermodynamics: Flory-Huggins Theory & Phase Diagrams",
+      "content_length_chars": 6336,
+      "checks_passed": "15/15",
+      "quality_score": 95
+    },
+    {
+      "action_number": 4,
+      "slug": "extrusion-die-swell-drawdown-and-dimensional-control",
+      "title": "Extrusion Die Swell, Drawdown and Dimensional Control",
+      "content_length_chars": 6690,
+      "checks_passed": "15/15",
+      "quality_score": 92
+    },
+    {
+      "action_number": 5,
+      "slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+      "title": "SMC and BMC Process Engineering: Charge-Pattern Design, Cure Control and Defect Analysis",
+      "content_length_chars": 5940,
+      "checks_passed": "15/15",
+      "quality_score": 94
+    },
+    {
+      "action_number": 6,
+      "slug": "rubber-compounding-fillers-carbon-black-and-additives",
+      "title": "Rubber Compounding: Fillers, Carbon Black, and Additives",
+      "content_length_chars": 6054,
+      "checks_passed": "15/15",
+      "quality_score": 93
+    },
+    {
+      "action_number": 7,
+      "slug": "latex-technology-processing-and-applications",
+      "title": "Latex Technology: Processing and Applications",
+      "content_length_chars": 6003,
+      "checks_passed": "15/15",
+      "quality_score": 91
+    },
+    {
+      "action_number": 8,
+      "slug": "rubber-processing-mixing-calendering-and-extrusion",
+      "title": "Rubber Processing: Mixing, Calendering, and Extrusion",
+      "content_length_chars": 6159,
+      "checks_passed": "15/15",
+      "quality_score": 93
+    }
+  ]
+}
