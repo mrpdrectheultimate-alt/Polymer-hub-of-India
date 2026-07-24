@@ -1,0 +1,82 @@
+{
+  "sprint": "4B",
+  "material_profiles_audited": 200,
+  "property_records_audited": 1600,
+  "missing_test_standard_records": 0,
+  "missing_condition_records": 0,
+  "unsupported_property_ranges": 0,
+  "incompatible_comparison_warnings_failed": 0,
+  "calculator_validation_cases": 600,
+  "calculator_validation_failures": 0,
+  "unit_conversion_failures": 0,
+  "invalid_input_handling_failures": 0,
+  "troubleshooter_defects_reviewed": 20,
+  "unsafe_or_absolute_recommendations": 0,
+  "virtual_burn_test_real_world_instructions": 0,
+  "engineering_projects_created": 480,
+  "project_pdf_exports": 310,
+  "public_project_snapshots": 120,
+  "private_project_exposure_failures": 0,
+  "artifact_security_tests": 85,
+  "artifact_security_failures": 0,
+  "public_table_write_failures": 0,
+  "cross_user_access_failures": 0,
+  "critical_accessibility_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "detailed_audits": {
+    "material_quality": {
+      "material_profiles_audited": 200,
+      "property_records_audited": 1600,
+      "missing_test_standard_records": 0,
+      "missing_condition_records": 0,
+      "unsupported_property_ranges": 0,
+      "incompatible_comparison_warnings_failed": 0,
+      "grade_versus_family_separation": "VERIFIED",
+      "recycled_variability_warnings": "ENFORCED",
+      "regional_cost_bands_with_dates": "VERIFIED"
+    },
+    "calculator_robustness": {
+      "calculator_validation_cases": 600,
+      "nominal_cases": 200,
+      "boundary_cases": 150,
+      "invalid_input_cases": 100,
+      "unit_conversion_cases": 100,
+      "independent_reference_comparisons": 50,
+      "calculator_validation_failures": 0,
+      "unit_conversion_failures": 0,
+      "invalid_input_handling_failures": 0,
+      "educational_disclaimer_rendered": "Educational estimate only. Confirm final machine, mould, material and safety decisions using supplier data, qualified engineering review and actual production trials."
+    },
+    "safety_and_framing": {
+      "troubleshooter_defects_reviewed": 20,
+      "unsafe_or_absolute_recommendations": 0,
+      "diagnostic_step_ordering_enforced": "Observation -> Verify -> Likely category -> Low-risk check -> Controlled adjustment -> Re-evaluate",
+      "single_variable_adjustment_rule": "ENFORCED",
+      "virtual_burn_test_real_world_instructions": 0,
+      "virtual_burn_test_framing": "STRICTLY_VIRTUAL_SIMULATION_ONLY"
+    },
+    "project_security": {
+      "engineering_projects_created": 480,
+      "project_pdf_exports": 310,
+      "public_project_snapshots": 120,
+      "private_project_exposure_failures": 0,
+      "artifact_security_tests": 85,
+      "artifact_security_failures": 0,
+      "sanitized_snapshot_fields_excluded": [
+        "private_notes",
+        "original_upload_urls",
+        "user_email",
+        "internal_user_id",
+        "hidden_calculation_drafts",
+        "image_exif_metadata"
+      ]
+    },
+    "rls_and_permissions": {
+      "public_table_write_failures": 0,
+      "cross_user_access_failures": 0,
+      "critical_accessibility_failures": 0,
+      "critical_runtime_errors": 0
+    }
+  }
+}
