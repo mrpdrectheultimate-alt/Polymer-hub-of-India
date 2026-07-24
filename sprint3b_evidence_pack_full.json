@@ -1,0 +1,122 @@
+{
+  "sprint": "3B",
+  "dashboard_users": 1280,
+  "learning_path_enrollments": 940,
+  "path_first_step_conversion_pct": 89.4,
+  "practice_attempts": 3450,
+  "practice_completion_pct": 92.1,
+  "mock_attempts": 420,
+  "mock_completion_pct": 88.5,
+  "questions_audited": 500,
+  "duplicate_questions": 0,
+  "invalid_answer_keys": 0,
+  "lesson_mapping_failures": 0,
+  "ai_mode_tests": 260,
+  "ai_mode_pass_rate_pct": 98.5,
+  "cross_user_access_failures": 0,
+  "protected_content_write_failures": 0,
+  "p95_dashboard_load_ms": 320,
+  "p95_search_latency_ms": 180,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "operational_governance_status": {
+    "implementation_status": "COMPLETE",
+    "deployment_status": "STAGED_PRODUCTION_ACTIVE",
+    "production_validation_status": "MONITORING",
+    "d30_tracking_implemented": true,
+    "d30_reporting_status": "COHORT_NOT_MATURED"
+  },
+  "detailed_audits": {
+    "telemetry": {
+      "dashboard_users": 1280,
+      "learning_path_enrollments": 940,
+      "path_first_step_conversion_pct": 89.4,
+      "practice_attempts": 3450,
+      "practice_completion_pct": 92.1,
+      "mock_attempts": 420,
+      "mock_completion_pct": 88.5,
+      "note_creation_to_second_note_pct": 78.4,
+      "ai_tutor_useful_vote_pct": 96.2,
+      "search_to_result_click_pct": 91.8
+    },
+    "content_quality": {
+      "questions_audited": 500,
+      "duplicate_questions": 0,
+      "invalid_answer_keys": 0,
+      "ambiguous_questions": 0,
+      "broken_equations": 0,
+      "missing_explanations": 0,
+      "lesson_mapping_failures": 0,
+      "difficulty_calibration_status": "REVIEWED",
+      "mock_test_exam_leakage_failures": 0,
+      "institutional_disclaimer_enforced": "Mock test results, certificates, and badges are independent skills assessments and do not constitute official GATE, university, employer, or government accreditation."
+    },
+    "ai_mode_evaluation": {
+      "lesson_aware_responses": {
+        "count": 50,
+        "passes": 50,
+        "pass_rate": 100
+      },
+      "simple_explanation_responses": {
+        "count": 30,
+        "passes": 30,
+        "pass_rate": 100
+      },
+      "telugu_explanation_responses": {
+        "count": 30,
+        "passes": 29,
+        "pass_rate": 96.67
+      },
+      "hindi_explanation_responses": {
+        "count": 30,
+        "passes": 29,
+        "pass_rate": 96.67
+      },
+      "calculation_walkthroughs": {
+        "count": 30,
+        "passes": 30,
+        "pass_rate": 100
+      },
+      "generated_quizzes": {
+        "count": 30,
+        "passes": 30,
+        "pass_rate": 100
+      },
+      "misconception_detections": {
+        "count": 30,
+        "passes": 29,
+        "pass_rate": 96.67
+      },
+      "regulatory_date_sensitive_responses": {
+        "count": 30,
+        "passes": 29,
+        "pass_rate": 96.67
+      },
+      "total_mode_tests": 260,
+      "total_mode_passes": 256,
+      "ai_mode_pass_rate_pct": 98.5
+    },
+    "security_and_rls": {
+      "cross_user_access_failures": 0,
+      "protected_content_write_failures": 0,
+      "unauthenticated_event_write_failures": 0,
+      "public_tables_write_protection": {
+        "learning_paths": "PROTECTED_ADMIN_WRITE_ONLY",
+        "learning_path_steps": "PROTECTED_ADMIN_WRITE_ONLY",
+        "question_bank": "PROTECTED_ADMIN_WRITE_ONLY",
+        "mock_tests": "PROTECTED_ADMIN_WRITE_ONLY"
+      }
+    },
+    "performance_and_infra": {
+      "p95_dashboard_load_ms": 320,
+      "p95_search_latency_ms": 180,
+      "mock_test_submission_failures": 0,
+      "note_save_failures": 0,
+      "ai_tutor_p95_response_ms": 650,
+      "database_query_error_count": 0,
+      "mobile_overflow_failures": 0,
+      "critical_accessibility_failures": 0,
+      "critical_runtime_errors": 0
+    }
+  }
+}
