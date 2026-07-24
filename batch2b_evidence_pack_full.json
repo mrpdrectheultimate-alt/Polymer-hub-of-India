@@ -1,0 +1,315 @@
+{
+  "batch_id": "1C-B2B",
+  "drafted_actions": 5,
+  "new_lessons": 5,
+  "existing_upgrades": 0,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 2B Release Gate — 15 Checks",
+  "interim_ledger_transition": {
+    "previous_state": {
+      "total": 117,
+      "grade_a": 54,
+      "grade_b": 63,
+      "grade_c": 0
+    },
+    "new_interim_state": {
+      "total": 122,
+      "grade_a": 59,
+      "grade_b": 63,
+      "grade_c": 0
+    },
+    "status": "INTERIM_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 117,
+    "inserted_new_lessons": 5,
+    "updated_existing_lessons": 0,
+    "duplicate_slug_count": 0,
+    "after_total": 122,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "food-contact-rpet-super-cleaning-challenge-testing-and-regulatory-evaluation",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "advanced-chemical-recycling-pyrolysis-and-solvolysis-pathways",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "e-waste-plastics-density-separation-and-flame-retardant-removal",
+      "raw_score_sum": "119/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "controlled-composting-biodegradation-by-co2-respirometry",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "bacterial-pha-biosynthesis-fermentation-and-recovery",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "food-contact-rpet-super-cleaning-challenge-testing-and-regulatory-evaluation",
+      "content_hash": "a92b7fb117a12d76bb3165510c8a25390418dc52d59a00a58c2b5f2b244bdaf5",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "rPET super cleaning challenge testing surrogate EFSA FSSAI SSP",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate decontamination cleaning efficiency for recycled PET bottles",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "residual toluene and benzophenone surrogate contamination in bottle recycling",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "EFSA and FSSAI share identical food contact regulatory guidelines in India",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "pyrolysis thermal cracking PE PP naphtha oil",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "advanced-chemical-recycling-pyrolysis-and-solvolysis-pathways",
+      "content_hash": "757212a7efa6a018a28195a13b7c2e827bbdf94190900fabdbbe0d411c8f714b",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "advanced chemical recycling pyrolysis solvolysis glycolysis mass yield carbon yield",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate physical mass yield versus carbon mass yield in chemical recycling",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "py-oil hydrotreating de-chlorination steam cracker co-feeding",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "mass balance certification guarantees physical molecular origin of recycled plastics",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "heavy media sink float density separation WEEE",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "e-waste-plastics-density-separation-and-flame-retardant-removal",
+      "content_hash": "1e25515264e79322bda4d97bfa66f0ecaa79ce36e7d6441546597c12b8d4bf0d",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "WEEE e-waste plastics heavy media sink float triboelectric BFR RoHS XRF",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to separate ABS and HIPS e-waste plastics using density separation",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "terminal settling velocity calculations for heavy brominated flame retardant flakes",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "brominated flame retardants lower plastic density in e-waste streams",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "respirometric CO2 evolution compostability ISO 14855",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "controlled-composting-biodegradation-by-co2-respirometry",
+      "content_hash": "5349a7b13d8cae99cdcc42ceff60adb00a07b27b1e0cd787088411641699f665",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "controlled composting respirometry CO2 evolution ThCO2 ISO 14855 IS 17088",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to calculate cumulative percentage biodegradation from respirometric CO2",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "thermo-philic composting 58C respirometer vessel blank background correction",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "respirometric CO2 evolution alone is sufficient for full ISO 17088 compostability",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "bacterial PHA fermentation Cupriavidus necator",
+          "expected_rank": 4,
+          "actual_top_rank": 4,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "bacterial-pha-biosynthesis-fermentation-and-recovery",
+      "content_hash": "c652172d6cc091b4919c6d919fe6902f5d1c27f2b491058a6445849a7364e715",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "bacterial PHA biosynthesis PHB Cupriavidus necator nitrogen starvation fed-batch",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how nitrogen starvation triggers intracellular PHA granule accumulation in bacteria",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "downstream enzymatic cell wall lysis and pure PHA polymer recovery yield",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "PHA marine biodegradation requires industrial composting at 58C like PLA",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "rPET super cleaning challenge testing EFSA",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}
