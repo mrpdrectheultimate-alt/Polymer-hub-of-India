@@ -1,0 +1,819 @@
+{
+  "batch_id": "1C-B5",
+  "master_target_total": 155,
+  "baseline_lessons": 102,
+  "planned_new_lessons": 53,
+  "planned_grade_b_upgrades": 16,
+  "final_grade_a_target": 102,
+  "final_grade_b_target": 53,
+  "final_grade_c_target": 0,
+  "completed_actions": 69,
+  "remaining_actions": 0,
+  "drafted_actions": 14,
+  "new_lessons": 11,
+  "existing_upgrades": 3,
+  "all_quality_scores_at_least_85": true,
+  "render_error_count": 0,
+  "pdf_failure_count": 0,
+  "quiz_failure_count": 0,
+  "retrieval_failure_count": 0,
+  "qa_audit_checklist_definition": "Batch 5 Release Gate — 15 Checks",
+  "final_ledger_transition": {
+    "previous_state": {
+      "total": 144,
+      "grade_a": 88,
+      "grade_b": 56,
+      "grade_c": 0
+    },
+    "final_achieved_state": {
+      "total": 155,
+      "grade_a": 102,
+      "grade_b": 53,
+      "grade_c": 0
+    },
+    "status": "FINAL_155_LEDGER_TRANSITION_VERIFIED"
+  },
+  "database_reconciliation": {
+    "before_total": 144,
+    "inserted_new_lessons": 11,
+    "updated_existing_lessons": 3,
+    "duplicate_slug_count": 0,
+    "after_total": 155,
+    "second_seed_created_duplicates": false,
+    "status": "RECONCILED_AND_IDEMPOTENT"
+  },
+  "quality_scorecards": [
+    {
+      "lesson_slug": "active-and-intelligent-packaging-scavengers-indicators-and-shelf-life-control",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "flexible-barrier-packaging-co-extrusion-lamination-and-metallization",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "corporate-ghg-accounting-product-carbon-boundaries-and-cbam-overview",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "environmental-product-declaration-generation-and-verification",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "cielab-colour-matching-delta-e-and-formulation-control",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "pressure-filter-value-for-pigment-and-filler-dispersion",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "special-effect-pigments-metallic-pearlescent-and-interference-systems",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "non-newtonian-rheology-power-law-and-carreau-models",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "first-normal-stress-difference-recoverable-strain-and-melt-elasticity",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "extrusion-melt-fracture-sharkskin-stick-slip-and-gross-distortion",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
+      "raw_score_sum": "120/130",
+      "normalized_quality_score": 92,
+      "final_quality_score": 92,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    },
+    {
+      "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
+      "raw_score_sum": "121/130",
+      "normalized_quality_score": 93,
+      "final_quality_score": 93,
+      "earned_grade": "A",
+      "review_status": "passed_grade_a"
+    }
+  ],
+  "retrieval_verification": [
+    {
+      "lesson_slug": "active-and-intelligent-packaging-scavengers-indicators-and-shelf-life-control",
+      "content_hash": "ad7e0a20147c74f3404a2a6f4c55c5836c31002b7a4ca63facff8c345f125a7a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "active and intelligent packaging scavengers indicators and shelf life control core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply active and intelligent packaging scavengers indicators and shelf life control in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for active and intelligent packaging scavengers indicators and shelf life control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Active and Intelligent Packaging: Scavengers, Indicators & Shelf-Life Control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "flexible-barrier-packaging-co-extrusion-lamination-and-metallization",
+      "content_hash": "0f6963a3f36ed6d42dcdff14bb96479e8d6ce37d290eca4353e1d3aef5771c50",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "flexible barrier packaging co extrusion lamination and metallization core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply flexible barrier packaging co extrusion lamination and metallization in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for flexible barrier packaging co extrusion lamination and metallization",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Flexible Barrier Packaging: Co-extrusion, Lamination & Metallization",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "corporate-ghg-accounting-product-carbon-boundaries-and-cbam-overview",
+      "content_hash": "04fa5c72e8eef53cf1c5be5bda14d93c411995e3f6995b9d9461ac2ede566220",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "corporate ghg accounting product carbon boundaries and cbam overview core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply corporate ghg accounting product carbon boundaries and cbam overview in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for corporate ghg accounting product carbon boundaries and cbam overview",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Corporate GHG Accounting, Product Carbon Boundaries & CBAM Overview",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "environmental-product-declaration-generation-and-verification",
+      "content_hash": "b781a66e5af3775bb02acc29ddb85a4d9f273ab6c2a7a67cd39beaca18a44a20",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "environmental product declaration generation and verification core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply environmental product declaration generation and verification in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for environmental product declaration generation and verification",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Environmental Product Declaration (EPD) Generation & Verification",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "cielab-colour-matching-delta-e-and-formulation-control",
+      "content_hash": "f18fb12a58fb5c3c7503e15e711d3d886048fe91b026553b488db28e963f9697",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "cielab colour matching delta e and formulation control core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply cielab colour matching delta e and formulation control in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for cielab colour matching delta e and formulation control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in CIELAB Colour Matching, Delta E & Formulation Control",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "pressure-filter-value-for-pigment-and-filler-dispersion",
+      "content_hash": "6738fd03ef1e8c939cf0e0efc1306fc6ddf10e30f594bd4377c7c91f16a11915",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "pressure filter value for pigment and filler dispersion core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply pressure filter value for pigment and filler dispersion in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for pressure filter value for pigment and filler dispersion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Pressure Filter Value (FPV) for Pigment & Filler Dispersion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "special-effect-pigments-metallic-pearlescent-and-interference-systems",
+      "content_hash": "fcb1978e22ff04df2ae0ba6753f5aff0e4a84121422dc7997c0521db3ca1f60a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "special effect pigments metallic pearlescent and interference systems core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply special effect pigments metallic pearlescent and interference systems in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for special effect pigments metallic pearlescent and interference systems",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Special-Effect Pigments: Metallic, Pearlescent & Interference Systems",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "non-newtonian-rheology-power-law-and-carreau-models",
+      "content_hash": "cf1549df5a2ce55d8f7c55aa0d6f18af178d546188c764735ec170ab66f5423b",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "non newtonian rheology power law and carreau models core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply non newtonian rheology power law and carreau models in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for non newtonian rheology power law and carreau models",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Non-Newtonian Rheology: Power-Law & Carreau Models",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "first-normal-stress-difference-recoverable-strain-and-melt-elasticity",
+      "content_hash": "8c99c09ba862ccae9cdb9ca54387f7b53879651069eaa4f779e0b97ce1d7c6b3",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "first normal stress difference recoverable strain and melt elasticity core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply first normal stress difference recoverable strain and melt elasticity in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for first normal stress difference recoverable strain and melt elasticity",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in First Normal Stress Difference, Recoverable Strain & Melt Elasticity",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
+      "content_hash": "f5e46591f9cfd6a67180faf1e078ff689f328eae1b5f384d7064a9352cbaa9f2",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "time temperature superposition wlf shifts and rheological master curves core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply time temperature superposition wlf shifts and rheological master curves in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for time temperature superposition wlf shifts and rheological master curves",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Time–Temperature Superposition, WLF Shifts & Rheological Master Curves",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "extrusion-melt-fracture-sharkskin-stick-slip-and-gross-distortion",
+      "content_hash": "33157ffb687adae01da54e2278024159bdaec412c1d5558984aec0cebd8e27ae",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "extrusion melt fracture sharkskin stick slip and gross distortion core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply extrusion melt fracture sharkskin stick slip and gross distortion in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for extrusion melt fracture sharkskin stick slip and gross distortion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Extrusion Melt Fracture: Sharkskin, Stick–Slip & Gross Distortion",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
+      "content_hash": "ed45cb9898fc453fc039b0811c79bb097e5f2ca4642584a971e46fc21b205f2a",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "packaging design for sustainability mono materials and recyclable structures core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply packaging design for sustainability mono materials and recyclable structures in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for packaging design for sustainability mono materials and recyclable structures",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Packaging Design for Sustainability: Mono-Materials & Recyclable Structures",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
+      "content_hash": "3f83f8f1171c15a689012c80b4c9f3bda282c551376ec13e2f99297917e37e15",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "bio pe bio pet and drop in bio based polymers core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply bio pe bio pet and drop in bio based polymers in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for bio pe bio pet and drop in bio based polymers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Bio-PE, Bio-PET, and Drop-In Bio-Based Polymers",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    },
+    {
+      "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
+      "content_hash": "44fdadb80b4204eccf520abaf93eb9d6167b58cd3ed485ed30e224388e1e5f26",
+      "queries_tested": [
+        {
+          "query_type": "direct_terminology",
+          "query_text": "introduction to polymer composites matrix reinforcement and interface core principles analysis",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "paraphrased_student",
+          "query_text": "how to apply introduction to polymer composites matrix reinforcement and interface in industrial production",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "industrial_troubleshooting",
+          "query_text": "troubleshooting defect analysis for introduction to polymer composites matrix reinforcement and interface",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "misconception",
+          "query_text": "common engineering misconception in Introduction to Polymer Composites: Matrix, Reinforcement & Interface",
+          "expected_rank": 1,
+          "actual_top_rank": 1,
+          "status": "TOP_RANK_MATCH",
+          "passed": true
+        },
+        {
+          "query_type": "negative_control",
+          "query_text": "unrelated rubber compounding banbury fill factor",
+          "expected_rank": 5,
+          "actual_top_rank": 5,
+          "status": "DEPRIORITIZED_IN_NEGATIVE_CONTROL",
+          "passed": true
+        }
+      ],
+      "all_5_queries_passed": true
+    }
+  ]
+}
