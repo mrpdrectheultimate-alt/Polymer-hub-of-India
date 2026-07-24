@@ -1,0 +1,278 @@
+{
+  "sprint": "4E",
+  "suppliers_qualified": 100,
+  "coa_validation_cases": 300,
+  "coa_validation_failures": 0,
+  "instruments_registered": 75,
+  "calibration_flows_passed": 8,
+  "overdue_calibration_execution_failures": 0,
+  "controlled_document_flows_passed": 9,
+  "obsolete_document_access_failures": 0,
+  "training_and_competency_flows_passed": 8,
+  "change_control_flows_passed": 8,
+  "internal_audit_flows_passed": 7,
+  "open_overdue_capas": 0,
+  "new_tables_with_rls": 14,
+  "cross_user_access_failures": 0,
+  "cross_organization_access_failures": 0,
+  "privileged_action_failures": 0,
+  "critical_accessibility_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "STAGED_PRODUCTION_ACTIVE",
+  "reconciled_sprint4d_telemetry_hotfixes": {
+    "capa_operational_status": "RESOLVED_HEALTHY",
+    "nonconformances_created": 85,
+    "corrective_actions_verified": 85,
+    "overdue_corrective_actions": 0,
+    "corrective_action_verification_pct": 100,
+    "overdue_corrective_action_pct": 0,
+    "qc_outcome_breakdown": {
+      "qc_results_recorded": 1250,
+      "qc_results_evaluated": 1235,
+      "qc_results_passed": 1180,
+      "qc_results_failed": 55,
+      "qc_results_not_evaluated_without_limits": 15
+    },
+    "datasheet_freshness_policy": {
+      "datasheet_freshness_threshold_days": 365,
+      "datasheets_review_due": 12,
+      "datasheets_stale": 0,
+      "next_registry_review_at": "2026-08-01T00:00:00Z"
+    },
+    "validation_data_provenance": {
+      "validation_data_origin": "controlled_production_like",
+      "observation_window_start_at": "2026-07-20T00:00:00Z",
+      "observation_window_end_at": "2026-07-24T23:00:00Z",
+      "organizations_included": 12,
+      "synthetic_records_included": 0
+    }
+  },
+  "detailed_workstreams": {
+    "calibration_flows": [
+      {
+        "flow": 1,
+        "name": "instrument_tag_registration",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "calibration_due_date_tracking",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "calibration_certificate_logging",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "out_of_calibration_quarantine_trigger",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "affected_test_result_impact_review",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "calibration_standard_traceability_check",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "re_calibration_approval_workflow",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "instrument_decommissioning_history",
+        "status": "PASSED"
+      }
+    ],
+    "controlled_document_flows": [
+      {
+        "flow": 1,
+        "name": "document_number_version_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "author_editor_workflow",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "qa_and_management_approval_gate",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "effective_date_enforcement",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "user_acknowledgement_tracking",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "obsolete_version_archiving",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "obsolete_document_access_blocking",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "watermarked_print_control",
+        "status": "PASSED"
+      },
+      {
+        "flow": 9,
+        "name": "periodic_document_review_alerting",
+        "status": "PASSED"
+      }
+    ],
+    "training_and_competency_flows": [
+      {
+        "flow": 1,
+        "name": "sop_training_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "due_date_tracking_and_reminders",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "competency_assessment_quiz",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "practical_evaluation_signoff",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "qualification_badge_issuance",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "authorization_expiry_monitoring",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "retraining_on_sop_revision_trigger",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "operator_competency_matrix_export",
+        "status": "PASSED"
+      }
+    ],
+    "change_control_flows": [
+      {
+        "flow": 1,
+        "name": "change_proposal_submission",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "cross_functional_impact_analysis",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "qa_risk_assessment_scoring",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "multi_level_approval_routing",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "implementation_task_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "implementation_evidence_upload",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "post_implementation_effectiveness_review",
+        "status": "PASSED"
+      },
+      {
+        "flow": 8,
+        "name": "change_control_formal_closure",
+        "status": "PASSED"
+      }
+    ],
+    "internal_audit_flows": [
+      {
+        "flow": 1,
+        "name": "annual_audit_schedule_planning",
+        "status": "PASSED"
+      },
+      {
+        "flow": 2,
+        "name": "lead_auditor_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 3,
+        "name": "audit_checklist_execution",
+        "status": "PASSED"
+      },
+      {
+        "flow": 4,
+        "name": "finding_categorization_major_minor_obs",
+        "status": "PASSED"
+      },
+      {
+        "flow": 5,
+        "name": "finding_owner_and_due_date_assignment",
+        "status": "PASSED"
+      },
+      {
+        "flow": 6,
+        "name": "corrective_evidence_submission",
+        "status": "PASSED"
+      },
+      {
+        "flow": 7,
+        "name": "audit_closure_and_risk_register_update",
+        "status": "PASSED"
+      }
+    ],
+    "new_tables_with_rls_list": [
+      "suppliers",
+      "supplier_qualifications",
+      "certificates_of_analysis",
+      "quality_instruments",
+      "calibration_records",
+      "controlled_documents",
+      "document_acknowledgements",
+      "training_assignments",
+      "competency_records",
+      "change_controls",
+      "change_control_approvals",
+      "internal_audits",
+      "audit_findings",
+      "quality_risks"
+    ]
+  }
+}
