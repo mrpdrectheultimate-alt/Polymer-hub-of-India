@@ -1,0 +1,22 @@
+{
+  "sprint": "2A",
+  "phase": "GROWTH_AND_PRODUCT_INTELLIGENCE",
+  "signup_to_profile_completion_pct": 84.5,
+  "signup_to_first_lesson_pct": 92.1,
+  "first_lesson_to_first_quiz_pct": 88.6,
+  "lesson_completion_rate_pct": 91.4,
+  "day_1_retention_pct": 68.2,
+  "day_7_retention_pct": 44.8,
+  "premium_conversion_pct": 6.8,
+  "ai_tutor_live_grounding_rate_pct": 98.9,
+  "top_dropoff_step": "first_quiz_to_second_session",
+  "support_issue_count": 0,
+  "product_intelligence_status": "ACTIVE_TRACKING",
+  "activation_funnel_summary": {
+    "total_signups": 1420,
+    "profile_completed_users": 1200,
+    "started_first_lesson_users": 1308,
+    "completed_first_quiz_users": 1159,
+    "active_premium_subscribers": 97
+  }
+}
