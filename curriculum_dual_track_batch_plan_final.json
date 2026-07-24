@@ -1,81 +1,98 @@
 {
   "metadata": {
-    "starting_ledger": {
+    "current_position": {
       "grade_a": 33,
       "grade_b": 69,
       "grade_c": 0,
       "total": 102
     },
-    "expansion_additions": {
-      "new_grade_a": 46,
-      "total": 46
-    },
-    "grade_b_upgrades_to_a": {
-      "upgraded_to_a": 15,
-      "total": 15
-    },
-    "reconciled_final_ledger": {
+    "projected_target": {
       "grade_a": 94,
       "grade_b": 54,
       "grade_c": 0,
       "total": 148
     },
-    "dual_track_model": "5 Sequential Dual-Track Batches (46 New Grade A + 15 Upgraded Grade A)"
+    "new_lessons_targeting_grade_a": 46,
+    "existing_grade_b_upgrades": 15,
+    "batch_structure": "5 Batches (Batch 1 split into Wave 1A and Wave 1B for risk control)"
   },
   "batches": [
     {
-      "batch_id": "Batch 1 (1C-B1)",
-      "new_lessons_count": 10,
-      "grade_b_upgrades_count": 3,
+      "batch_id": "Batch 1A (1C-B1A)",
+      "wave": "1A — Drafting Authorized",
+      "new_lessons_targeting_grade_a_count": 5,
+      "existing_grade_b_upgrades_count": 3,
       "new_lesson_slugs": [
         "ring-opening-polymerization-nylon-6-and-polycaprolactone",
         "living-and-controlled-ionic-polymerization",
         "polymer-solution-thermodynamics-flory-huggins-theory",
         "extrusion-die-swell-drawdown-and-dimensional-control",
-        "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+        "smc-and-bmc-process-engineering-charge-pattern-cure-control"
+      ],
+      "existing_grade_b_upgrades": [
+        {
+          "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
+          "original_score": 74,
+          "original_grade": "B",
+          "audit_rank": 1,
+          "selection_reason": "Lowest unresolved audit score in rubber compounding domain with critical filler dispersion gaps",
+          "prerequisite_centrality": 8,
+          "identified_gaps": [
+            "Needs explicit ASTM D3182 compounding procedure steps",
+            "Needs quantitative fill factor worked example"
+          ],
+          "target_grade": "A",
+          "target_score_minimum": 85
+        },
+        {
+          "lesson_slug": "latex-technology-processing-and-applications",
+          "original_score": 74,
+          "original_grade": "B",
+          "audit_rank": 2,
+          "selection_reason": "Lowest unresolved audit score in rubber compounding domain with critical filler dispersion gaps",
+          "prerequisite_centrality": 8,
+          "identified_gaps": [
+            "Needs explicit ASTM D3182 compounding procedure steps",
+            "Needs quantitative fill factor worked example"
+          ],
+          "target_grade": "A",
+          "target_score_minimum": 85
+        },
+        {
+          "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
+          "original_score": 74,
+          "original_grade": "B",
+          "audit_rank": 3,
+          "selection_reason": "Lowest unresolved audit score in rubber compounding domain with critical filler dispersion gaps",
+          "prerequisite_centrality": 8,
+          "identified_gaps": [
+            "Needs explicit ASTM D3182 compounding procedure steps",
+            "Needs quantitative fill factor worked example"
+          ],
+          "target_grade": "A",
+          "target_score_minimum": 85
+        }
+      ]
+    },
+    {
+      "batch_id": "Batch 1B (1C-B1B)",
+      "wave": "1B — Pending 1A QA Approval",
+      "new_lessons_targeting_grade_a_count": 5,
+      "existing_grade_b_upgrades_count": 0,
+      "new_lesson_slugs": [
         "rotational-moulding-process-physics-powder-fusion-and-heating",
         "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
         "hot-runner-valve-gating-mechanics-and-sequential-injection",
         "undercut-release-mechanics-side-cores-slides-and-lifters",
         "dsc-thermal-analysis-tg-tm-hf-and-crystallinity"
       ],
-      "grade_b_upgrades": [
-        {
-          "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
-          "original_score": 74,
-          "reason_selected": "Lowest unresolved original audit score in core compounding domain",
-          "identified_gaps": [
-            "Needs explicit ASTM/ISO testing standard steps",
-            "Needs quantitative worked example"
-          ],
-          "target_score": 92
-        },
-        {
-          "lesson_slug": "latex-technology-processing-and-applications",
-          "original_score": 74,
-          "reason_selected": "Lowest unresolved original audit score in core compounding domain",
-          "identified_gaps": [
-            "Needs explicit ASTM/ISO testing standard steps",
-            "Needs quantitative worked example"
-          ],
-          "target_score": 92
-        },
-        {
-          "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
-          "original_score": 74,
-          "reason_selected": "Lowest unresolved original audit score in core compounding domain",
-          "identified_gaps": [
-            "Needs explicit ASTM/ISO testing standard steps",
-            "Needs quantitative worked example"
-          ],
-          "target_score": 92
-        }
-      ]
+      "existing_grade_b_upgrades": []
     },
     {
       "batch_id": "Batch 2 (1C-B2)",
-      "new_lessons_count": 10,
-      "grade_b_upgrades_count": 3,
+      "wave": "Batch 2",
+      "new_lessons_targeting_grade_a_count": 10,
+      "existing_grade_b_upgrades_count": 3,
       "new_lesson_slugs": [
         "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
         "gc-ms-screening-of-polymer-extractables-and-leachables",
@@ -88,43 +105,56 @@
         "controlled-composting-biodegradation-by-co2-respirometry",
         "polyhydroxyalkanoates-pha-biosynthesis-fermentation-and-processing"
       ],
-      "grade_b_upgrades": [
+      "existing_grade_b_upgrades": [
         {
           "lesson_slug": "tyre-construction-from-components-to-finished-product",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved audit score in rubber and bioplastics processing",
+          "original_grade": "B",
+          "audit_rank": 4,
+          "selection_reason": "Lowest unresolved audit score in rubber processing and bioplastics synthesis",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
-            "Needs MDR/DSC experimental cure interpretation",
+            "Needs MDR cure curve interpretation",
             "Needs Indian industrial cluster case study"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved audit score in rubber and bioplastics processing",
+          "original_grade": "B",
+          "audit_rank": 5,
+          "selection_reason": "Lowest unresolved audit score in rubber processing and bioplastics synthesis",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
-            "Needs MDR/DSC experimental cure interpretation",
+            "Needs MDR cure curve interpretation",
             "Needs Indian industrial cluster case study"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "introduction-to-reinforced-polymer-composites",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved audit score in rubber and bioplastics processing",
+          "original_grade": "B",
+          "audit_rank": 6,
+          "selection_reason": "Lowest unresolved audit score in rubber processing and bioplastics synthesis",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
-            "Needs MDR/DSC experimental cure interpretation",
+            "Needs MDR cure curve interpretation",
             "Needs Indian industrial cluster case study"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         }
       ]
     },
     {
       "batch_id": "Batch 3 (1C-B3)",
-      "new_lessons_count": 10,
-      "grade_b_upgrades_count": 3,
+      "wave": "Batch 3",
+      "new_lessons_targeting_grade_a_count": 10,
+      "existing_grade_b_upgrades_count": 3,
       "new_lesson_slugs": [
         "biobased-carbon-content-by-radiocarbon-analysis",
         "fiber-matrix-interfacial-shear-strength-and-fragmentation-testing",
@@ -137,43 +167,56 @@
         "medical-plastics-sterilization-compatibility-gamma-eto-autoclave",
         "polymeric-drug-delivery-systems-hydrogel-swelling-and-release"
       ],
-      "grade_b_upgrades": [
+      "existing_grade_b_upgrades": [
         {
           "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "original_grade": "B",
+          "audit_rank": 7,
+          "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs financial DSCR sensitivity modeling",
             "Needs composite micromechanics derivations"
           ],
-          "target_score": 94
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "capex-and-business-planning-for-plastics-processing",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "original_grade": "B",
+          "audit_rank": 8,
+          "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs financial DSCR sensitivity modeling",
             "Needs composite micromechanics derivations"
           ],
-          "target_score": 94
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "original_grade": "B",
+          "audit_rank": 9,
+          "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs financial DSCR sensitivity modeling",
             "Needs composite micromechanics derivations"
           ],
-          "target_score": 94
+          "target_grade": "A",
+          "target_score_minimum": 85
         }
       ]
     },
     {
       "batch_id": "Batch 4 (1C-B4)",
-      "new_lessons_count": 8,
-      "grade_b_upgrades_count": 3,
+      "wave": "Batch 4",
+      "new_lessons_targeting_grade_a_count": 8,
+      "existing_grade_b_upgrades_count": 3,
       "new_lesson_slugs": [
         "flame-retardants-in-polymers-halogen-free-organophosphorus-systems",
         "antioxidants-and-thermal-stabilizers-synergy-in-polyolefins",
@@ -184,43 +227,56 @@
         "iso-14040-44-life-cycle-assessment-execution-and-lci",
         "corporate-ghg-accounting-product-carbon-boundaries-and-cbam-overview"
       ],
-      "grade_b_upgrades": [
+      "existing_grade_b_upgrades": [
         {
           "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "original_grade": "B",
+          "audit_rank": 10,
+          "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
             "Needs barrier transmission rate unit conversions",
             "Needs C14 radiocarbon pMC calculations"
           ],
-          "target_score": 92
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "original_grade": "B",
+          "audit_rank": 11,
+          "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
             "Needs barrier transmission rate unit conversions",
             "Needs C14 radiocarbon pMC calculations"
           ],
-          "target_score": 92
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "original_grade": "B",
+          "audit_rank": 12,
+          "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
+          "prerequisite_centrality": 7,
           "identified_gaps": [
             "Needs barrier transmission rate unit conversions",
             "Needs C14 radiocarbon pMC calculations"
           ],
-          "target_score": 92
+          "target_grade": "A",
+          "target_score_minimum": 85
         }
       ]
     },
     {
       "batch_id": "Batch 5 (1C-B5)",
-      "new_lessons_count": 8,
-      "grade_b_upgrades_count": 3,
+      "wave": "Batch 5",
+      "new_lessons_targeting_grade_a_count": 8,
+      "existing_grade_b_upgrades_count": 3,
       "new_lesson_slugs": [
         "environmental-product-declarations-epd-and-pcr-compliance",
         "cielab-color-space-and-spectrophotometric-delta-e-matching",
@@ -231,36 +287,48 @@
         "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
         "extrusion-flow-instabilities-sharkskin-melt-fracture-and-gross-fracture"
       ],
-      "grade_b_upgrades": [
+      "existing_grade_b_upgrades": [
         {
           "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "original_grade": "B",
+          "audit_rank": 13,
+          "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs multi-layer co-extrusion tie-layer analysis",
             "Needs EFSA/FSSAI regulatory disclaimers"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "original_grade": "B",
+          "audit_rank": 14,
+          "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs multi-layer co-extrusion tie-layer analysis",
             "Needs EFSA/FSSAI regulatory disclaimers"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         },
         {
           "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
           "original_score": 74,
-          "reason_selected": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "original_grade": "B",
+          "audit_rank": 15,
+          "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
+          "prerequisite_centrality": 8,
           "identified_gaps": [
             "Needs multi-layer co-extrusion tie-layer analysis",
             "Needs EFSA/FSSAI regulatory disclaimers"
           ],
-          "target_score": 93
+          "target_grade": "A",
+          "target_score_minimum": 85
         }
       ]
     }

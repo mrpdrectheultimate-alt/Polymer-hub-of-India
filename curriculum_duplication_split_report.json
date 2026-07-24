@@ -1,32 +1,53 @@
 {
   "metadata": {
     "total_audited": 102,
+    "similarity_audits_performed": 1,
     "overloaded_lessons_identified": 3,
     "duplicates_identified": 0,
-    "boundary_clarifications": 5,
+    "boundary_clarifications": 6,
     "status": "APPROVED_BOUNDARIES"
   },
+  "similarity_audit_results": [
+    {
+      "lesson_a": "introduction-to-reinforced-polymer-composites",
+      "lesson_b": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
+      "semantic_overlap_percentage": "22%",
+      "overlap_verdict": "DISTINCT_SCOPES_PRESERVED",
+      "scope_boundaries": {
+        "lesson_a_focus": "Overview of reinforced composite classifications, glass/carbon fiber forms, thermoset vs thermoplastic processing routes, hand lay-up/spray-up, structural applications, and basic property comparisons.",
+        "lesson_b_focus": "Micromechanics of matrix-fiber load transfer, Kelly-Tyson critical fiber length l_c, interfacial shear strength (IFSS), fiber orientation distribution, and interfacial debonding/pull-out failure modes."
+      }
+    }
+  ],
   "overloaded_lessons": [
     {
       "slug": "extrusion-process-screw-design-and-die-types",
       "title": "Extrusion Process: Screw Design, Flow Mechanics and Die Geometry",
       "issue": "Combines screw channel fluid mechanics, die pressure drop, and extrudate die swell into single lesson",
-      "resolution": "Boundaries demarcated. New lesson 'EXP-PROC-01: Extrusion Die Swell Mechanics' added to isolate viscoelastic exit flow."
+      "resolution": "Boundaries demarcated. New lesson 'extrusion-die-swell-drawdown-and-dimensional-control' added to isolate viscoelastic exit flow."
     },
     {
       "slug": "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
       "title": "Vulcanization of Rubber: Chemistry, Systems & Industrial Practice",
       "issue": "Combines sulfur vulcanization chemistry with MDR experimental cure curves and TPE physics",
-      "resolution": "Boundaries demarcated. New lessons 'EXP-RUBB-01: MDR Cure Curve Analysis' and 'EXP-RUBB-02: Thermoplastic Elastomers' added to isolate kinetics."
+      "resolution": "Boundaries demarcated. New lessons 'rubber-mixing-and-internal-mixer-process-control' and 'thermoplastic-elastomers-tpe-tpu-tpv-structure-and-processing' added to isolate kinetics."
     },
     {
       "slug": "draft-angles-and-shrinkage-allowance-in-mould-design",
       "title": "Draft Angles & Volumetric Shrinkage Allowance in Injection Mould Design",
       "issue": "Combines component design rules of thumb with runner balancing and tool mechanical kinematics",
-      "resolution": "Boundaries demarcated. New lessons 'EXP-MOLD-01: Multi-Cavity Runner Balancing' and 'EXP-MOLD-03: Undercut Release Mechanics' added."
+      "resolution": "Boundaries demarcated. New lessons 'multi-cavity-runner-balancing-kinetics-and-pressure-drop' and 'undercut-release-mechanics-side-cores-slides-and-lifters' added."
     }
   ],
   "boundary_clarifications": [
+    {
+      "domain": "Extrusion Die Swell vs Melt Elasticity",
+      "rule": "Processing lesson (extrusion-die-swell-drawdown-and-dimensional-control) focuses on die geometry, drawdown ratio, haul-off speed, cooling water calibration, and dimensional tolerances. Rheology lesson (first-normal-stress-difference-recoverable-strain-and-melt-elasticity) focuses on First Normal Stress Difference N1, recoverable strain Sr, normal force cone-and-plate measurement, elastic recoil, and molecular relaxation."
+    },
+    {
+      "domain": "GC-MS Screening vs Legal Migration Compliance",
+      "rule": "Testing lesson (gc-ms-screening-of-polymer-extractables-and-leachables) focuses on controlled laboratory extractables profiling vs real-world leachables studies, volatile/semi-volatile identification via NIST library matching, specific migration limits (SML), and Analytical Evaluation Thresholds (AET)."
+    },
     {
       "domain": "Polymer Processing vs Mould Design",
       "rule": "Processing lessons focus on polymer fluid mechanics, shear rate, and machine parameters. Mould Design lessons focus on steel tooling geometry, runner sizing, cooling channels, and actuation kinematics."

@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "generated_at": "2026-07-24T14:30:00Z",
-    "validation_mode": "Strict Topological Sort & Pedagogical Pathway Audit",
+    "generated_at": "2026-07-24T18:30:00Z",
+    "validation_mode": "Strict Root Reachability & Level Transition Audit",
     "target_nodes": 148
   },
   "validation_metrics": {
@@ -13,9 +13,14 @@
     "missing_reference_count": 0,
     "duplicate_slug_count": 0,
     "root_foundation_node_count": 15,
+    "nodes_reachable_from_valid_roots": 148,
+    "unreachable_node_count": 0,
     "intermediate_node_count": 78,
     "terminal_advanced_node_count": 55,
     "isolated_node_count": 0,
+    "weakly_connected_component_count": 15,
+    "cross_subject_edge_count": 2,
+    "invalid_level_transition_count": 0,
     "status": "passed"
   },
   "nodes_without_prerequisites": [
