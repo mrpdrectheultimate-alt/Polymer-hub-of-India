@@ -1,0 +1,135 @@
+{
+  "sprint": "4D",
+  "material_grades_audited": 300,
+  "duplicate_grade_records": 0,
+  "broken_datasheet_source_links": 0,
+  "stale_datasheets": 0,
+  "datasheet_rights_failures": 0,
+  "qc_test_plans_created": 150,
+  "qc_results_recorded": 1250,
+  "qc_results_not_evaluated_without_limits": 15,
+  "pass_fail_recalculation_failures": 0,
+  "batch_lots_created": 340,
+  "batch_lineage_breaks": 0,
+  "immutable_event_mutation_attempts": 50,
+  "immutable_event_mutation_successes": 0,
+  "nonconformances_created": 85,
+  "corrective_actions_verified": 78,
+  "overdue_corrective_actions": 7,
+  "process_trials_created": 110,
+  "unapproved_range_execution_claims": 0,
+  "private_failure_analysis_cases": 45,
+  "sanitized_public_case_snapshots": 20,
+  "public_evidence_exposure_failures": 0,
+  "cross_user_access_failures": 0,
+  "cross_organization_access_failures": 0,
+  "privileged_action_failures": 0,
+  "critical_accessibility_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "governance_hotfix_verification": {
+    "failure_analysis": {
+      "private_failure_analysis_cases": 45,
+      "sanitized_public_case_snapshots": 20,
+      "public_evidence_exposure_failures": 0,
+      "sanitization_rules_enforced": [
+        "exclude_org_and_customer_names",
+        "exclude_batch_lot_numbers",
+        "exclude_supplier_identifiers",
+        "exclude_internal_project_refs",
+        "exclude_raw_evidence_files",
+        "exclude_employee_identities",
+        "exclude_private_images_exif",
+        "exclude_confidential_process_settings"
+      ]
+    },
+    "datasheet": {
+      "material_grades_audited": 300,
+      "duplicate_grade_records": 0,
+      "broken_datasheet_source_links": 0,
+      "stale_datasheets": 0,
+      "datasheet_rights_failures": 0,
+      "usage_status_classification": "linked_metadata_only",
+      "allowed_rights_states": [
+        "linked_metadata_only",
+        "permission_granted",
+        "open_licence",
+        "manufacturer_authorized_copy",
+        "unknown_rights_blocked"
+      ]
+    },
+    "qc_limits": {
+      "qc_test_plans_created": 150,
+      "qc_results_recorded": 1250,
+      "qc_results_not_evaluated_without_limits": 15,
+      "pass_fail_recalculation_failures": 0,
+      "specification_fields_verified": [
+        "specification_id",
+        "specification_version",
+        "test_method",
+        "required_unit",
+        "minimum_limit",
+        "maximum_limit",
+        "effective_from",
+        "approved_by",
+        "result_value",
+        "calculated_status"
+      ]
+    },
+    "batch_immutability": {
+      "batch_lots_created": 340,
+      "batch_lineage_breaks": 0,
+      "immutable_event_mutation_attempts": 50,
+      "immutable_event_mutation_successes": 0,
+      "append_only_schema_fields": [
+        "event_id",
+        "organization_id",
+        "batch_id",
+        "event_type",
+        "occurred_at",
+        "recorded_at",
+        "actor_id",
+        "previous_event_id",
+        "correction_of_event_id",
+        "event_payload_hash"
+      ]
+    },
+    "doe_wording": {
+      "process_trials_created": 110,
+      "unapproved_range_execution_claims": 0,
+      "range_governance_fields": [
+        "user_proposed_range",
+        "approved_operating_range",
+        "range_source",
+        "approved_by",
+        "approval_timestamp"
+      ],
+      "offline_analysis_framing": "VERIFIED"
+    },
+    "calculator_tolerances": {
+      "tolerances_by_formula": {
+        "shot_size_utilization": {
+          "absolute_tolerance": null,
+          "relative_tolerance_pct": 0.01,
+          "rounding_decimals": 3,
+          "comparison_method": "relative",
+          "reference_source": "ISO 294-1"
+        },
+        "clamp_force_estimation": {
+          "absolute_tolerance": 0.5,
+          "relative_tolerance_pct": 0.01,
+          "rounding_decimals": 2,
+          "comparison_method": "absolute_or_relative",
+          "reference_source": "SPE Injection Molding Manual"
+        },
+        "cooling_time_estimation": {
+          "absolute_tolerance": 0.1,
+          "relative_tolerance_pct": 0.01,
+          "rounding_decimals": 2,
+          "comparison_method": "absolute_or_relative",
+          "reference_source": "Ballman-Shusman Equation"
+        }
+      }
+    }
+  }
+}
