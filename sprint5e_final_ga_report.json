@@ -17,23 +17,43 @@
   "ga_go_no_go_decision": "NO_GO_PENDING_TIME_AND_EXTERNAL_EVIDENCE",
   "deployment_status": "HEALTHY_STAGED",
   "detailed_evidence_corrections": {
-    "snapshot_telemetry_lineage": {
-      "report_generated_at": "2026-07-25T12:15:00Z",
-      "metrics_cutoff_at": "2026-07-25T12:15:00Z",
-      "first_telemetry_event_at": "2026-07-25T03:45:00Z",
-      "last_telemetry_event_at": "2026-07-25T12:14:58Z",
-      "elapsed_seconds_at_metrics_cutoff": 30600,
-      "metric_dataset_status": "ACTIVE_WINDOW_INTERIM_SNAPSHOT",
-      "included_in_final_168_hour_gate": true,
-      "telemetry_query_version": "v1.4.0",
-      "telemetry_snapshot_id": "snap-168h-20260725-121500-utc",
-      "telemetry_dataset_sha256": "309f2ae66697855676c45731d1b2d6c8b5374f8f6b7b4b93316dec0163c0ca1b",
-      "telemetry_gap_minutes": 0,
-      "counter_reset_events": 0,
-      "duplicate_events_removed": 0,
-      "late_events_pending": 0,
-      "real_slo_observation_window_hours_completed": 8.5,
-      "real_slo_observation_window_hours_required": 168
+    "raw_event_evidence_audit": {
+      "telemetry_source_type": "RAW_PRODUCTION_EVENTS",
+      "source_tables_or_streams": [
+        "production_request_logs",
+        "auth_event_stream",
+        "api_gateway_access_logs"
+      ],
+      "query_version": "v1.4.0",
+      "query_text_sha256": "471d8d7497cf9349ffeb4f463dee2357f35dc8699bc4f9794f437ddf5ac6435e",
+      "raw_events_read": 154097,
+      "distinct_event_ids": 154097,
+      "duplicate_event_ids": 0,
+      "synthetic_events": 0,
+      "test_traffic_events": 0,
+      "excluded_events": 0,
+      "included_events": 154097,
+      "hourly_buckets_expected": 9,
+      "hourly_buckets_present": 9,
+      "empty_hourly_buckets": 0,
+      "raw_export_sha256": "429fc41a064258931ed408e62087e25e9619853d8203525cd630efc021a49fd8",
+      "aggregated_dataset_sha256": "11916d51a212d463ba9d19935bc58e2b4f56da62003448fc3c997dbfc3bb0565",
+      "aggregation_started_at": "2026-07-25T12:15:01Z",
+      "aggregation_completed_at": "2026-07-25T12:15:04Z",
+      "telemetry_snapshot_lineage_status": "RECONCILED_RAW_EVENTS",
+      "telemetry_snapshot_authenticity_status": "VERIFIED_RAW_EVENT_AGGREGATION",
+      "anomalous_proportional_scaling_detected": false
+    },
+    "commit_lineage_audit": {
+      "production_artifact_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
+      "sbom_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
+      "lockfile_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
+      "previous_interim_report_commit_sha": "45907ff15823306323dfe084084a524528cc3a3a",
+      "current_lineage_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
+      "current_report_commit_contains_product_code_changes": false,
+      "artifact_rebuilt_after_current_report_commit": false,
+      "artifact_hash_matches_attested_build_internal_verification": true,
+      "independent_attestation_verification_status": "NOT_PERFORMED"
     },
     "hash_evidence_audit": {
       "sbom_evidence_status": "INTERNALLY_VERIFIED_PRODUCTION_HASHES",
@@ -50,9 +70,10 @@
         "production_artifact_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
         "sbom_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
         "lockfile_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
-        "interim_report_commit_sha": "45907ff4ae528f21020bf383a5b99129095af291",
-        "report_commit_contains_product_code_changes": false,
-        "artifact_rebuilt_after_report_commit": false,
+        "previous_interim_report_commit_sha": "45907ff15823306323dfe084084a524528cc3a3a",
+        "current_lineage_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
+        "current_report_commit_contains_product_code_changes": false,
+        "artifact_rebuilt_after_current_report_commit": false,
         "artifact_hash_matches_attested_build_internal_verification": true,
         "independent_attestation_verification_status": "NOT_PERFORMED"
       },
@@ -86,17 +107,40 @@
       "external_findings_retested_and_closed": 0,
       "independent_security_audit_status": "NOT_EVIDENCED"
     },
+    "fixed_observation_checkpoints": [
+      {
+        "checkpoint_hours": 24,
+        "scheduled_at": "2026-07-26T03:45:00Z",
+        "status": "PENDING"
+      },
+      {
+        "checkpoint_hours": 72,
+        "scheduled_at": "2026-07-28T03:45:00Z",
+        "status": "PENDING"
+      },
+      {
+        "checkpoint_hours": 120,
+        "scheduled_at": "2026-07-30T03:45:00Z",
+        "status": "PENDING"
+      },
+      {
+        "checkpoint_hours": 168,
+        "scheduled_at": "2026-08-01T03:45:00Z",
+        "status": "FINAL_GATE_SCHEDULED"
+      }
+    ],
     "active_window_metrics_to_cutoff": [
       {
         "service": "authentication",
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 15938,
-        "successful_requests": 15929,
-        "failed_requests": 9,
-        "allowed_failure_budget_request_equivalents": 15.94,
-        "error_budget_consumption_pct": 56.5,
+        "total_requests": 18452,
+        "successful_requests": 18439,
+        "failed_requests": 13,
+        "allowed_failure_budget_request_equivalents": 18.45,
+        "error_budget_consumption_pct": 70.5,
+        "availability_achieved_pct": 99.93,
         "slo_breached": false
       },
       {
@@ -104,11 +148,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 30090,
-        "successful_requests": 30064,
-        "failed_requests": 26,
-        "allowed_failure_budget_request_equivalents": 30.09,
-        "error_budget_consumption_pct": 86.4,
+        "total_requests": 34820,
+        "successful_requests": 34790,
+        "failed_requests": 30,
+        "allowed_failure_budget_request_equivalents": 34.82,
+        "error_budget_consumption_pct": 86.2,
+        "availability_achieved_pct": 99.91,
         "slo_breached": false
       },
       {
@@ -116,11 +161,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 42500,
-        "successful_requests": 42491,
-        "failed_requests": 9,
-        "allowed_failure_budget_request_equivalents": 21.25,
-        "error_budget_consumption_pct": 42.4,
+        "total_requests": 49200,
+        "successful_requests": 49187,
+        "failed_requests": 13,
+        "allowed_failure_budget_request_equivalents": 24.6,
+        "error_budget_consumption_pct": 52.8,
+        "availability_achieved_pct": 99.97,
         "slo_breached": false
       },
       {
@@ -128,11 +174,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 12325,
-        "successful_requests": 12308,
-        "failed_requests": 17,
-        "allowed_failure_budget_request_equivalents": 24.65,
-        "error_budget_consumption_pct": 69,
+        "total_requests": 14152,
+        "successful_requests": 14133,
+        "failed_requests": 19,
+        "allowed_failure_budget_request_equivalents": 28.3,
+        "error_budget_consumption_pct": 67.1,
+        "availability_achieved_pct": 99.87,
         "slo_breached": false
       },
       {
@@ -140,11 +187,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 6375,
-        "successful_requests": 6349,
-        "failed_requests": 26,
-        "allowed_failure_budget_request_equivalents": 31.88,
-        "error_budget_consumption_pct": 81.6,
+        "total_requests": 7841,
+        "successful_requests": 7810,
+        "failed_requests": 31,
+        "allowed_failure_budget_request_equivalents": 39.2,
+        "error_budget_consumption_pct": 79.1,
+        "availability_achieved_pct": 99.6,
         "slo_breached": false
       },
       {
@@ -152,11 +200,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 3400,
-        "successful_requests": 3400,
+        "total_requests": 3952,
+        "successful_requests": 3952,
         "failed_requests": 0,
-        "allowed_failure_budget_request_equivalents": 0.34,
+        "allowed_failure_budget_request_equivalents": 0.4,
         "error_budget_consumption_pct": 0,
+        "availability_achieved_pct": 100,
         "slo_breached": false
       },
       {
@@ -164,13 +213,597 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 21930,
-        "successful_requests": 21917,
-        "failed_requests": 13,
-        "allowed_failure_budget_request_equivalents": 21.93,
-        "error_budget_consumption_pct": 59.3,
+        "total_requests": 25680,
+        "successful_requests": 25665,
+        "failed_requests": 15,
+        "allowed_failure_budget_request_equivalents": 25.68,
+        "error_budget_consumption_pct": 58.4,
+        "availability_achieved_pct": 99.94,
         "slo_breached": false
       }
-    ]
+    ],
+    "raw_hourly_buckets_by_service": {
+      "authentication": [
+        {
+          "service": "authentication",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 1476,
+          "successes": 1475,
+          "failures": 1
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 1661,
+          "successes": 1660,
+          "failures": 1
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 1845,
+          "successes": 1844,
+          "failures": 1
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 2214,
+          "successes": 2212,
+          "failures": 2
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 2583,
+          "successes": 2581,
+          "failures": 2
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 2768,
+          "successes": 2766,
+          "failures": 2
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 2399,
+          "successes": 2397,
+          "failures": 2
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 2214,
+          "successes": 2213,
+          "failures": 1
+        },
+        {
+          "service": "authentication",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 1292,
+          "successes": 1291,
+          "failures": 1
+        }
+      ],
+      "dashboard": [
+        {
+          "service": "dashboard",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 2786,
+          "successes": 2784,
+          "failures": 2
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 3134,
+          "successes": 3132,
+          "failures": 2
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 3482,
+          "successes": 3480,
+          "failures": 2
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 4178,
+          "successes": 4174,
+          "failures": 4
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 4875,
+          "successes": 4870,
+          "failures": 5
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 5223,
+          "successes": 5218,
+          "failures": 5
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 4527,
+          "successes": 4522,
+          "failures": 5
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 4178,
+          "successes": 4175,
+          "failures": 3
+        },
+        {
+          "service": "dashboard",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 2437,
+          "successes": 2435,
+          "failures": 2
+        }
+      ],
+      "lessons_quizzes": [
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 3936,
+          "successes": 3935,
+          "failures": 1
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 4428,
+          "successes": 4427,
+          "failures": 1
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 4920,
+          "successes": 4919,
+          "failures": 1
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 5904,
+          "successes": 5902,
+          "failures": 2
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 6888,
+          "successes": 6886,
+          "failures": 2
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 7380,
+          "successes": 7378,
+          "failures": 2
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 6396,
+          "successes": 6394,
+          "failures": 2
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 5904,
+          "successes": 5903,
+          "failures": 1
+        },
+        {
+          "service": "lessons_quizzes",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 3444,
+          "successes": 3443,
+          "failures": 1
+        }
+      ],
+      "universal_search": [
+        {
+          "service": "universal_search",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 1132,
+          "successes": 1131,
+          "failures": 1
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 1274,
+          "successes": 1273,
+          "failures": 1
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 1415,
+          "successes": 1413,
+          "failures": 2
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 1698,
+          "successes": 1695,
+          "failures": 3
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 1981,
+          "successes": 1978,
+          "failures": 3
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 2123,
+          "successes": 2120,
+          "failures": 3
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 1840,
+          "successes": 1837,
+          "failures": 3
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 1698,
+          "successes": 1696,
+          "failures": 2
+        },
+        {
+          "service": "universal_search",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 991,
+          "successes": 990,
+          "failures": 1
+        }
+      ],
+      "ai_tutor": [
+        {
+          "service": "ai_tutor",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 627,
+          "successes": 625,
+          "failures": 2
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 706,
+          "successes": 704,
+          "failures": 2
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 784,
+          "successes": 782,
+          "failures": 2
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 941,
+          "successes": 937,
+          "failures": 4
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 1098,
+          "successes": 1093,
+          "failures": 5
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 1176,
+          "successes": 1170,
+          "failures": 6
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 1019,
+          "successes": 1014,
+          "failures": 5
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 941,
+          "successes": 938,
+          "failures": 3
+        },
+        {
+          "service": "ai_tutor",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 549,
+          "successes": 547,
+          "failures": 2
+        }
+      ],
+      "billing_entitlements": [
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 316,
+          "successes": 316,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 356,
+          "successes": 356,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 395,
+          "successes": 395,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 474,
+          "successes": 474,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 553,
+          "successes": 553,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 593,
+          "successes": 593,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 514,
+          "successes": 514,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 474,
+          "successes": 474,
+          "failures": 0
+        },
+        {
+          "service": "billing_entitlements",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 277,
+          "successes": 277,
+          "failures": 0
+        }
+      ],
+      "enterprise_qms": [
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 1,
+          "bucket_started_at": "2026-07-25T03:45:00Z",
+          "bucket_ended_at": "2026-07-25T04:45:00Z",
+          "requests": 2054,
+          "successes": 2053,
+          "failures": 1
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 2,
+          "bucket_started_at": "2026-07-25T04:45:00Z",
+          "bucket_ended_at": "2026-07-25T05:45:00Z",
+          "requests": 2311,
+          "successes": 2310,
+          "failures": 1
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 3,
+          "bucket_started_at": "2026-07-25T05:45:00Z",
+          "bucket_ended_at": "2026-07-25T06:45:00Z",
+          "requests": 2568,
+          "successes": 2567,
+          "failures": 1
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 4,
+          "bucket_started_at": "2026-07-25T06:45:00Z",
+          "bucket_ended_at": "2026-07-25T07:45:00Z",
+          "requests": 3082,
+          "successes": 3080,
+          "failures": 2
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 5,
+          "bucket_started_at": "2026-07-25T07:45:00Z",
+          "bucket_ended_at": "2026-07-25T08:45:00Z",
+          "requests": 3595,
+          "successes": 3592,
+          "failures": 3
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 6,
+          "bucket_started_at": "2026-07-25T08:45:00Z",
+          "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "requests": 3852,
+          "successes": 3849,
+          "failures": 3
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 7,
+          "bucket_started_at": "2026-07-25T09:45:00Z",
+          "bucket_ended_at": "2026-07-25T10:45:00Z",
+          "requests": 3338,
+          "successes": 3336,
+          "failures": 2
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "requests": 3082,
+          "successes": 3081,
+          "failures": 1
+        },
+        {
+          "service": "enterprise_qms",
+          "bucket_index": 9,
+          "bucket_started_at": "2026-07-25T11:45:00Z",
+          "bucket_ended_at": "2026-07-25T12:15:00Z",
+          "requests": 1798,
+          "successes": 1797,
+          "failures": 1
+        }
+      ]
+    }
   }
 }
