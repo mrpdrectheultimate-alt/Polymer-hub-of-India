@@ -2,7 +2,7 @@
   "sprint": "5E",
   "observation_window_integrity_status": "INTACT_ENVIRONMENT_UNCHANGED",
   "checkpoint_scheduler_status": "ENABLED_AND_VALIDATED",
-  "external_penetration_test_status": "IN_PROGRESS",
+  "external_penetration_test_status": "SCHEDULED_CONFIRMED",
   "sprint2e_experiment_integrity_status": "UNCHANGED",
   "ga_go_no_go_decision": "NO_GO_PENDING_TIME_AND_EXTERNAL_EVIDENCE",
   "deployment_status": "HEALTHY_STAGED",
@@ -29,23 +29,14 @@
   "pentest_engagement_audit": {
     "penetration_test_engagement_status": "CONFIRMED",
     "external_assessor_legal_name": "Apex CyberSec Assurance LLC",
-    "external_assessor_independence_status": "VERIFIED",
+    "external_assessor_independence_status": "VERIFIED_REPORTED_EVIDENCE",
     "signed_statement_of_work_received": true,
     "signed_rules_of_engagement_received": true,
-    "assessment_started_at": "2026-07-26T00:00:00Z",
+    "assessment_scheduled_start_at": "2026-07-26T00:00:00Z",
     "assessment_target_end_at": "2026-07-31T23:59:59Z",
-    "external_penetration_test_status": "IN_PROGRESS",
-    "prioritized_test_sequence": [
-      "1. Authentication and account recovery",
-      "2. Tenant isolation and RLS",
-      "3. RBAC and privilege escalation",
-      "4. API/RPC authorization",
-      "5. Storage and signed URLs",
-      "6. Billing webhooks",
-      "7. QMS audit integrity",
-      "8. Session and rate-limit controls"
-    ],
-    "retest_policy": "INDEPENDENT_RETEST_STATEMENT_REQUIRED_FOR_FINDING_CLOSURE"
+    "assessment_started_at": null,
+    "external_penetration_test_status": "SCHEDULED_CONFIRMED",
+    "transition_policy": "Requires explicit assessor check-in record at or after 2026-07-26T00:00:00Z"
   },
   "freeze_state_audit": {
     "watchlist_remediation_status": "STAGED_NOT_DEPLOYED",
@@ -56,5 +47,25 @@
     "telemetry_counter_resets_allowed": false,
     "sprint2e_experiment_changes_allowed": false,
     "emergency_exception_policy": "DOCUMENTED_REQUIRES_WINDOW_RESTART_EVALUATION"
+  },
+  "authoritativeState": {
+    "sprint": "5E",
+    "observation_window_integrity_status": "INTACT_ENVIRONMENT_UNCHANGED",
+    "checkpoint_scheduler_status": "ENABLED_AND_VALIDATED",
+    "external_penetration_test_status": "SCHEDULED_CONFIRMED",
+    "watchlist_remediation_status": "STAGED_NOT_DEPLOYED",
+    "sprint2e_experiment_integrity_status": "UNCHANGED",
+    "ga_go_no_go_decision": "NO_GO_PENDING_TIME_AND_EXTERNAL_EVIDENCE",
+    "deployment_status": "HEALTHY_STAGED"
+  },
+  "activation_commit_classification": {
+    "activation_commit_sha": "d212de1c6d447d2f5ae0cf424907925d85f028d5",
+    "contains_documentation_changes": true,
+    "contains_scheduler_automation_changes": true,
+    "contains_product_code_changes": false,
+    "contains_database_migrations": false,
+    "contains_runtime_configuration_changes": false,
+    "deployed_to_observation_environment": false,
+    "production_artifact_rebuild_required": false
   }
 }
