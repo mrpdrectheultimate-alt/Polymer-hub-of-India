@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
 export async function GET(request: Request) {
+  const authHeader = request.headers.get('authorization');
   const secret = process.env.CRON_SECRET;
 
   // Strict Bearer Token Auth ONLY - No Query Parameters Allowed in Logged URLs
