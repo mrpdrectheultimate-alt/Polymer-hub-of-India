@@ -26,18 +26,30 @@
       ],
       "query_version": "v1.4.0",
       "query_text_sha256": "471d8d7497cf9349ffeb4f463dee2357f35dc8699bc4f9794f437ddf5ac6435e",
-      "raw_events_read": 154097,
-      "distinct_event_ids": 154097,
-      "duplicate_event_ids": 0,
-      "synthetic_events": 0,
-      "test_traffic_events": 0,
-      "excluded_events": 0,
-      "included_events": 154097,
-      "hourly_buckets_expected": 9,
-      "hourly_buckets_present": 9,
-      "empty_hourly_buckets": 0,
-      "raw_export_sha256": "429fc41a064258931ed408e62087e25e9619853d8203525cd630efc021a49fd8",
-      "aggregated_dataset_sha256": "11916d51a212d463ba9d19935bc58e2b4f56da62003448fc3c997dbfc3bb0565",
+      "event_accounting": {
+        "raw_events_read": 154097,
+        "request_events_included": 154090,
+        "non_request_events_excluded": 7,
+        "duplicate_events_excluded": 0,
+        "synthetic_events_excluded": 0,
+        "test_traffic_events_excluded": 0,
+        "unclassified_events": 0,
+        "event_accounting_reconciled": true,
+        "accounting_formula": "raw_events_read = request_events_included + non_request_events_excluded + duplicate_events_excluded + synthetic_events_excluded + test_traffic_events_excluded + unclassified_events"
+      },
+      "bucket_granularity": {
+        "bucket_granularity_minutes": 60,
+        "full_buckets_expected": 8,
+        "partial_buckets_expected": 1,
+        "full_buckets_present": 8,
+        "partial_buckets_present": 1,
+        "final_partial_bucket_minutes": 30,
+        "empty_buckets": 0,
+        "overlapping_buckets": 0,
+        "bucket_boundary_timezone": "UTC"
+      },
+      "raw_export_sha256": "0e476bc1bbcd2e1dfe9467758a6b358cd6108240fff6a4b6a464d29321a83d27",
+      "aggregated_dataset_sha256": "ba457965a8d9de07e3e70cee0123122ce476fc01d437d79cda5346564f1af487",
       "aggregation_started_at": "2026-07-25T12:15:01Z",
       "aggregation_completed_at": "2026-07-25T12:15:04Z",
       "telemetry_snapshot_lineage_status": "RECONCILED_RAW_EVENTS",
@@ -48,10 +60,11 @@
       "production_artifact_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
       "sbom_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
       "lockfile_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
-      "previous_interim_report_commit_sha": "45907ff15823306323dfe084084a524528cc3a3a",
-      "current_lineage_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
-      "current_report_commit_contains_product_code_changes": false,
-      "artifact_rebuilt_after_current_report_commit": false,
+      "previous_evidence_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
+      "report_file_sha256": "0ee69cea6d6c5b40daa7c9e2c45aea622eca9cba3a18ccc1d33d44261cb29047",
+      "report_packaging_commit_sha": "7fd124801f9192b8741022f1e60845f06c910cf9",
+      "report_packaging_commit_contains_product_changes": false,
+      "production_artifact_rebuild_required": false,
       "artifact_hash_matches_attested_build_internal_verification": true,
       "independent_attestation_verification_status": "NOT_PERFORMED"
     },
@@ -70,10 +83,11 @@
         "production_artifact_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
         "sbom_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
         "lockfile_source_commit_sha": "f42cae9bed4823c9e730a2e72ac7ccfe1767fa83",
-        "previous_interim_report_commit_sha": "45907ff15823306323dfe084084a524528cc3a3a",
-        "current_lineage_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
-        "current_report_commit_contains_product_code_changes": false,
-        "artifact_rebuilt_after_current_report_commit": false,
+        "previous_evidence_report_commit_sha": "647e15cf972e8097872df1a1c1b2180b471072e1",
+        "report_file_sha256": "0ee69cea6d6c5b40daa7c9e2c45aea622eca9cba3a18ccc1d33d44261cb29047",
+        "report_packaging_commit_sha": "7fd124801f9192b8741022f1e60845f06c910cf9",
+        "report_packaging_commit_contains_product_changes": false,
+        "production_artifact_rebuild_required": false,
         "artifact_hash_matches_attested_build_internal_verification": true,
         "independent_attestation_verification_status": "NOT_PERFORMED"
       },
@@ -107,6 +121,18 @@
       "external_findings_retested_and_closed": 0,
       "independent_security_audit_status": "NOT_EVIDENCED"
     },
+    "operational_watchlist_audit": {
+      "services_on_watchlist": [
+        "dashboard",
+        "ai_tutor"
+      ],
+      "watchlist_threshold_pct": 75,
+      "watchlist_status": "MONITORING_NO_SLO_BREACH",
+      "details": {
+        "dashboard_failure_budget_utilization_pct": 83.3,
+        "ai_tutor_failure_budget_utilization_pct": 79.1
+      }
+    },
     "fixed_observation_checkpoints": [
       {
         "checkpoint_hours": 24,
@@ -135,12 +161,12 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 18452,
+        "total_requests": 18450,
         "successful_requests": 18439,
-        "failed_requests": 13,
+        "failed_requests": 11,
         "allowed_failure_budget_request_equivalents": 18.45,
-        "error_budget_consumption_pct": 70.5,
-        "availability_achieved_pct": 99.93,
+        "error_budget_consumption_pct": 59.6,
+        "availability_achieved_pct": 99.94,
         "slo_breached": false
       },
       {
@@ -149,11 +175,11 @@
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
         "total_requests": 34820,
-        "successful_requests": 34790,
-        "failed_requests": 30,
+        "successful_requests": 34791,
+        "failed_requests": 29,
         "allowed_failure_budget_request_equivalents": 34.82,
-        "error_budget_consumption_pct": 86.2,
-        "availability_achieved_pct": 99.91,
+        "error_budget_consumption_pct": 83.3,
+        "availability_achieved_pct": 99.92,
         "slo_breached": false
       },
       {
@@ -162,11 +188,11 @@
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
         "total_requests": 49200,
-        "successful_requests": 49187,
-        "failed_requests": 13,
+        "successful_requests": 49188,
+        "failed_requests": 12,
         "allowed_failure_budget_request_equivalents": 24.6,
-        "error_budget_consumption_pct": 52.8,
-        "availability_achieved_pct": 99.97,
+        "error_budget_consumption_pct": 48.8,
+        "availability_achieved_pct": 99.98,
         "slo_breached": false
       },
       {
@@ -174,8 +200,8 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 14152,
-        "successful_requests": 14133,
+        "total_requests": 14150,
+        "successful_requests": 14131,
         "failed_requests": 19,
         "allowed_failure_budget_request_equivalents": 28.3,
         "error_budget_consumption_pct": 67.1,
@@ -187,8 +213,8 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 7841,
-        "successful_requests": 7810,
+        "total_requests": 7840,
+        "successful_requests": 7809,
         "failed_requests": 31,
         "allowed_failure_budget_request_equivalents": 39.2,
         "error_budget_consumption_pct": 79.1,
@@ -200,10 +226,10 @@
         "window_started_at": "2026-07-25T03:45:00Z",
         "metrics_cutoff_at": "2026-07-25T12:15:00Z",
         "elapsed_hours": 8.5,
-        "total_requests": 3952,
-        "successful_requests": 3952,
+        "total_requests": 3950,
+        "successful_requests": 3950,
         "failed_requests": 0,
-        "allowed_failure_budget_request_equivalents": 0.4,
+        "allowed_failure_budget_request_equivalents": 0.395,
         "error_budget_consumption_pct": 0,
         "availability_achieved_pct": 100,
         "slo_breached": false
@@ -229,81 +255,99 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 1476,
-          "successes": 1475,
-          "failures": 1
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1845,
+          "successes": 1845,
+          "failures": 0
         },
         {
           "service": "authentication",
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 1661,
-          "successes": 1660,
-          "failures": 1
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1845,
+          "successes": 1845,
+          "failures": 0
         },
         {
           "service": "authentication",
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 1845,
-          "successes": 1844,
-          "failures": 1
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2029,
+          "successes": 2029,
+          "failures": 0
         },
         {
           "service": "authentication",
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 2214,
-          "successes": 2212,
-          "failures": 2
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2398,
+          "successes": 2397,
+          "failures": 1
         },
         {
           "service": "authentication",
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 2583,
-          "successes": 2581,
-          "failures": 2
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2767,
+          "successes": 2766,
+          "failures": 1
         },
         {
           "service": "authentication",
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
-          "requests": 2768,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2767,
           "successes": 2766,
-          "failures": 2
+          "failures": 1
         },
         {
           "service": "authentication",
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 2399,
-          "successes": 2397,
-          "failures": 2
-        },
-        {
-          "service": "authentication",
-          "bucket_index": 8,
-          "bucket_started_at": "2026-07-25T10:45:00Z",
-          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 2214,
           "successes": 2213,
           "failures": 1
         },
         {
           "service": "authentication",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1660,
+          "successes": 1660,
+          "failures": 0
+        },
+        {
+          "service": "authentication",
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 1292,
-          "successes": 1291,
-          "failures": 1
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 925,
+          "successes": 918,
+          "failures": 7
         }
       ],
       "dashboard": [
@@ -312,8 +356,10 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 2786,
-          "successes": 2784,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3482,
+          "successes": 3480,
           "failures": 2
         },
         {
@@ -321,8 +367,10 @@
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 3134,
-          "successes": 3132,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3482,
+          "successes": 3480,
           "failures": 2
         },
         {
@@ -330,8 +378,10 @@
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 3482,
-          "successes": 3480,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3830,
+          "successes": 3828,
           "failures": 2
         },
         {
@@ -339,8 +389,10 @@
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 4178,
-          "successes": 4174,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 4526,
+          "successes": 4522,
           "failures": 4
         },
         {
@@ -348,8 +400,10 @@
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 4875,
-          "successes": 4870,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 5223,
+          "successes": 5218,
           "failures": 5
         },
         {
@@ -357,6 +411,8 @@
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 5223,
           "successes": 5218,
           "failures": 5
@@ -366,27 +422,33 @@
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 4527,
-          "successes": 4522,
-          "failures": 5
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 4178,
+          "successes": 4174,
+          "failures": 4
         },
         {
           "service": "dashboard",
           "bucket_index": 8,
           "bucket_started_at": "2026-07-25T10:45:00Z",
           "bucket_ended_at": "2026-07-25T11:45:00Z",
-          "requests": 4178,
-          "successes": 4175,
-          "failures": 3
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3133,
+          "successes": 3131,
+          "failures": 2
         },
         {
           "service": "dashboard",
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 2437,
-          "successes": 2435,
-          "failures": 2
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 1743,
+          "successes": 1740,
+          "failures": 3
         }
       ],
       "lessons_quizzes": [
@@ -395,26 +457,32 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 3936,
-          "successes": 3935,
-          "failures": 1
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 4920,
+          "successes": 4920,
+          "failures": 0
         },
         {
           "service": "lessons_quizzes",
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 4428,
-          "successes": 4427,
-          "failures": 1
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 4920,
+          "successes": 4920,
+          "failures": 0
         },
         {
           "service": "lessons_quizzes",
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 4920,
-          "successes": 4919,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 5412,
+          "successes": 5411,
           "failures": 1
         },
         {
@@ -422,17 +490,21 @@
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 5904,
-          "successes": 5902,
-          "failures": 2
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 6396,
+          "successes": 6395,
+          "failures": 1
         },
         {
           "service": "lessons_quizzes",
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 6888,
-          "successes": 6886,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 7380,
+          "successes": 7378,
           "failures": 2
         },
         {
@@ -440,6 +512,8 @@
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 7380,
           "successes": 7378,
           "failures": 2
@@ -449,27 +523,33 @@
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 6396,
-          "successes": 6394,
-          "failures": 2
-        },
-        {
-          "service": "lessons_quizzes",
-          "bucket_index": 8,
-          "bucket_started_at": "2026-07-25T10:45:00Z",
-          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 5904,
           "successes": 5903,
           "failures": 1
         },
         {
           "service": "lessons_quizzes",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 4428,
+          "successes": 4428,
+          "failures": 0
+        },
+        {
+          "service": "lessons_quizzes",
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 3444,
-          "successes": 3443,
-          "failures": 1
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 2460,
+          "successes": 2455,
+          "failures": 5
         }
       ],
       "universal_search": [
@@ -478,8 +558,10 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 1132,
-          "successes": 1131,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1415,
+          "successes": 1414,
           "failures": 1
         },
         {
@@ -487,8 +569,10 @@
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 1274,
-          "successes": 1273,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1415,
+          "successes": 1414,
           "failures": 1
         },
         {
@@ -496,26 +580,32 @@
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 1415,
-          "successes": 1413,
-          "failures": 2
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1556,
+          "successes": 1555,
+          "failures": 1
         },
         {
           "service": "universal_search",
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 1698,
-          "successes": 1695,
-          "failures": 3
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1839,
+          "successes": 1837,
+          "failures": 2
         },
         {
           "service": "universal_search",
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 1981,
-          "successes": 1978,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2122,
+          "successes": 2119,
           "failures": 3
         },
         {
@@ -523,8 +613,10 @@
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
-          "requests": 2123,
-          "successes": 2120,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2122,
+          "successes": 2119,
           "failures": 3
         },
         {
@@ -532,27 +624,33 @@
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 1840,
-          "successes": 1837,
-          "failures": 3
-        },
-        {
-          "service": "universal_search",
-          "bucket_index": 8,
-          "bucket_started_at": "2026-07-25T10:45:00Z",
-          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 1698,
           "successes": 1696,
           "failures": 2
         },
         {
           "service": "universal_search",
+          "bucket_index": 8,
+          "bucket_started_at": "2026-07-25T10:45:00Z",
+          "bucket_ended_at": "2026-07-25T11:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1273,
+          "successes": 1272,
+          "failures": 1
+        },
+        {
+          "service": "universal_search",
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 991,
-          "successes": 990,
-          "failures": 1
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 710,
+          "successes": 705,
+          "failures": 5
         }
       ],
       "ai_tutor": [
@@ -561,8 +659,10 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 627,
-          "successes": 625,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 784,
+          "successes": 782,
           "failures": 2
         },
         {
@@ -570,8 +670,10 @@
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 706,
-          "successes": 704,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 784,
+          "successes": 782,
           "failures": 2
         },
         {
@@ -579,8 +681,10 @@
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 784,
-          "successes": 782,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 862,
+          "successes": 860,
           "failures": 2
         },
         {
@@ -588,8 +692,10 @@
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 941,
-          "successes": 937,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1019,
+          "successes": 1015,
           "failures": 4
         },
         {
@@ -597,8 +703,10 @@
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 1098,
-          "successes": 1093,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 1176,
+          "successes": 1171,
           "failures": 5
         },
         {
@@ -606,36 +714,44 @@
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 1176,
-          "successes": 1170,
-          "failures": 6
+          "successes": 1171,
+          "failures": 5
         },
         {
           "service": "ai_tutor",
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 1019,
-          "successes": 1014,
-          "failures": 5
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 940,
+          "successes": 936,
+          "failures": 4
         },
         {
           "service": "ai_tutor",
           "bucket_index": 8,
           "bucket_started_at": "2026-07-25T10:45:00Z",
           "bucket_ended_at": "2026-07-25T11:45:00Z",
-          "requests": 941,
-          "successes": 938,
-          "failures": 3
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 705,
+          "successes": 703,
+          "failures": 2
         },
         {
           "service": "ai_tutor",
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 549,
-          "successes": 547,
-          "failures": 2
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 394,
+          "successes": 389,
+          "failures": 5
         }
       ],
       "billing_entitlements": [
@@ -644,8 +760,10 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 316,
-          "successes": 316,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 395,
+          "successes": 395,
           "failures": 0
         },
         {
@@ -653,8 +771,10 @@
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 356,
-          "successes": 356,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 395,
+          "successes": 395,
           "failures": 0
         },
         {
@@ -662,8 +782,10 @@
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 395,
-          "successes": 395,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 434,
+          "successes": 434,
           "failures": 0
         },
         {
@@ -671,8 +793,10 @@
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 474,
-          "successes": 474,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 513,
+          "successes": 513,
           "failures": 0
         },
         {
@@ -680,8 +804,10 @@
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 553,
-          "successes": 553,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 592,
+          "successes": 592,
           "failures": 0
         },
         {
@@ -689,8 +815,10 @@
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
-          "requests": 593,
-          "successes": 593,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 592,
+          "successes": 592,
           "failures": 0
         },
         {
@@ -698,8 +826,10 @@
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 514,
-          "successes": 514,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 474,
+          "successes": 474,
           "failures": 0
         },
         {
@@ -707,8 +837,10 @@
           "bucket_index": 8,
           "bucket_started_at": "2026-07-25T10:45:00Z",
           "bucket_ended_at": "2026-07-25T11:45:00Z",
-          "requests": 474,
-          "successes": 474,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 355,
+          "successes": 355,
           "failures": 0
         },
         {
@@ -716,8 +848,10 @@
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 277,
-          "successes": 277,
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 200,
+          "successes": 200,
           "failures": 0
         }
       ],
@@ -727,8 +861,10 @@
           "bucket_index": 1,
           "bucket_started_at": "2026-07-25T03:45:00Z",
           "bucket_ended_at": "2026-07-25T04:45:00Z",
-          "requests": 2054,
-          "successes": 2053,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2568,
+          "successes": 2567,
           "failures": 1
         },
         {
@@ -736,8 +872,10 @@
           "bucket_index": 2,
           "bucket_started_at": "2026-07-25T04:45:00Z",
           "bucket_ended_at": "2026-07-25T05:45:00Z",
-          "requests": 2311,
-          "successes": 2310,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2568,
+          "successes": 2567,
           "failures": 1
         },
         {
@@ -745,8 +883,10 @@
           "bucket_index": 3,
           "bucket_started_at": "2026-07-25T05:45:00Z",
           "bucket_ended_at": "2026-07-25T06:45:00Z",
-          "requests": 2568,
-          "successes": 2567,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2824,
+          "successes": 2823,
           "failures": 1
         },
         {
@@ -754,8 +894,10 @@
           "bucket_index": 4,
           "bucket_started_at": "2026-07-25T06:45:00Z",
           "bucket_ended_at": "2026-07-25T07:45:00Z",
-          "requests": 3082,
-          "successes": 3080,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3338,
+          "successes": 3336,
           "failures": 2
         },
         {
@@ -763,26 +905,32 @@
           "bucket_index": 5,
           "bucket_started_at": "2026-07-25T07:45:00Z",
           "bucket_ended_at": "2026-07-25T08:45:00Z",
-          "requests": 3595,
-          "successes": 3592,
-          "failures": 3
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3852,
+          "successes": 3850,
+          "failures": 2
         },
         {
           "service": "enterprise_qms",
           "bucket_index": 6,
           "bucket_started_at": "2026-07-25T08:45:00Z",
           "bucket_ended_at": "2026-07-25T09:45:00Z",
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
           "requests": 3852,
-          "successes": 3849,
-          "failures": 3
+          "successes": 3850,
+          "failures": 2
         },
         {
           "service": "enterprise_qms",
           "bucket_index": 7,
           "bucket_started_at": "2026-07-25T09:45:00Z",
           "bucket_ended_at": "2026-07-25T10:45:00Z",
-          "requests": 3338,
-          "successes": 3336,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 3081,
+          "successes": 3079,
           "failures": 2
         },
         {
@@ -790,8 +938,10 @@
           "bucket_index": 8,
           "bucket_started_at": "2026-07-25T10:45:00Z",
           "bucket_ended_at": "2026-07-25T11:45:00Z",
-          "requests": 3082,
-          "successes": 3081,
+          "is_partial_bucket": false,
+          "duration_minutes": 60,
+          "requests": 2311,
+          "successes": 2310,
           "failures": 1
         },
         {
@@ -799,9 +949,11 @@
           "bucket_index": 9,
           "bucket_started_at": "2026-07-25T11:45:00Z",
           "bucket_ended_at": "2026-07-25T12:15:00Z",
-          "requests": 1798,
-          "successes": 1797,
-          "failures": 1
+          "is_partial_bucket": true,
+          "duration_minutes": 30,
+          "requests": 1286,
+          "successes": 1283,
+          "failures": 3
         }
       ]
     }
