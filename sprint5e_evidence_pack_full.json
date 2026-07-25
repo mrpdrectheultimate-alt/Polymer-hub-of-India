@@ -1039,6 +1039,33 @@
       "contains_runtime_configuration_changes": false,
       "deployed_to_observation_environment": false,
       "production_artifact_rebuild_required": false
+    },
+    "speed_mode_operating_rule": {
+      "mode": "EXECUTION_ONLY",
+      "new_feature_work": "FROZEN",
+      "preparation_reports": "STOPPED",
+      "checkpoint_reports": "AUTOMATED_ONLY",
+      "pentest_remediation": "HIGHEST_PRIORITY",
+      "observation_window_changes": "PROHIBITED",
+      "sprint2e_changes": "PROHIBITED",
+      "ga_announcement": "PROHIBITED_UNTIL_APPROVAL"
+    },
+    "final_168h_report_template": {
+      "sprint": "5E",
+      "checkpoint": "168_HOURS",
+      "observation_window_start_at": "2026-07-25T03:45:00Z",
+      "observation_window_end_at": "2026-08-01T03:45:00Z",
+      "elapsed_seconds": 604800,
+      "event_accounting_reconciled": null,
+      "full_hourly_buckets_present": null,
+      "telemetry_gaps_minutes": null,
+      "services_with_slo_breaches": [],
+      "external_penetration_test_status": "PENDING_RESULT",
+      "critical_external_findings_open": null,
+      "high_external_findings_open": null,
+      "independent_retest_status": "PENDING",
+      "sprint2e_experiment_integrity_status": "UNCHANGED",
+      "ga_go_no_go_decision": "PENDING_FINAL_REVIEW"
     }
   }
 }
