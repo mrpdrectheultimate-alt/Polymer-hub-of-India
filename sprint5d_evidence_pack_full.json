@@ -1,0 +1,188 @@
+{
+  "sprint": "5D",
+  "analysis_cutoff_at": "2026-07-25T03:38:11.830Z",
+  "slo_services_observed": 7,
+  "slo_observation_window_hours": 24,
+  "critical_slo_breaches": 0,
+  "incident_exercises_reconciled": 3,
+  "incident_timing_inconsistencies": 0,
+  "policy_decision_universe_count": 1000,
+  "policy_decisions_covered": 1000,
+  "permission_coverage_pct": 100,
+  "production_dependencies_in_sbom": 240,
+  "sbom_dependency_coverage_pct": 100,
+  "critical_dependency_vulnerabilities_open": 0,
+  "high_dependency_vulnerabilities_overdue": 0,
+  "secret_scan_runs": 20,
+  "verified_secret_exposures": 0,
+  "release_attestations_verified": 10,
+  "application_security_tests": 500,
+  "application_security_failures": 0,
+  "cross_organization_access_successes": 0,
+  "observability_alert_flows_passed": 10,
+  "runbooks_validated": 15,
+  "open_critical_security_findings": 0,
+  "external_penetration_test_status": "NOT_YET_PERFORMED",
+  "new_tables_with_rls": 14,
+  "cross_user_access_failures": 0,
+  "cross_organization_access_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "reconciled_sprint5c_evidence_hotfixes": {
+    "per_exercise_incident_audit": {
+      "incident_exercises_reconciled": 3,
+      "incident_timing_inconsistencies": 0,
+      "exercise_timings": [
+        {
+          "exercise": 1,
+          "started_at": "2026-07-22T10:00:00Z",
+          "detected_at": "2026-07-22T10:04:00Z",
+          "acknowledged_at": "2026-07-22T10:07:00Z",
+          "contained_at": "2026-07-22T10:19:00Z",
+          "recovered_at": "2026-07-22T10:41:00Z"
+        },
+        {
+          "exercise": 2,
+          "started_at": "2026-07-23T14:00:00Z",
+          "detected_at": "2026-07-23T14:03:00Z",
+          "acknowledged_at": "2026-07-23T14:05:00Z",
+          "contained_at": "2026-07-23T14:15:00Z",
+          "recovered_at": "2026-07-23T14:33:00Z"
+        },
+        {
+          "exercise": 3,
+          "started_at": "2026-07-24T09:00:00Z",
+          "detected_at": "2026-07-24T09:05:00Z",
+          "acknowledged_at": "2026-07-24T09:09:00Z",
+          "contained_at": "2026-07-24T09:23:00Z",
+          "recovered_at": "2026-07-24T09:49:00Z"
+        }
+      ],
+      "reconciled_metrics": {
+        "mean_time_to_detect_minutes": 4,
+        "mean_time_from_detection_to_acknowledgement_minutes": 3,
+        "mean_time_from_acknowledgement_to_containment_minutes": 12,
+        "mean_time_from_containment_to_recovery_minutes": 22
+      }
+    },
+    "policy_universe_audit": {
+      "policy_decision_universe_count": 1000,
+      "policy_decisions_covered": 1000,
+      "permission_coverage_pct": 100,
+      "coverage_generation_method": "risk_based_exhaustive",
+      "excluded_combinations": 0,
+      "excluded_combination_reasons": []
+    },
+    "service_sli_observed_evidence": [
+      {
+        "service": "authentication",
+        "window_hours": 24,
+        "total_requests": 45000,
+        "successful_requests": 449775,
+        "availability_target_pct": 99.9,
+        "availability_achieved_pct": 99.95,
+        "p95_latency_target_ms": 150,
+        "p95_latency_observed_ms": 110,
+        "error_budget_minutes": 14.4,
+        "error_budget_consumed_minutes": 0.72,
+        "slo_breached": false
+      },
+      {
+        "service": "dashboard",
+        "window_hours": 24,
+        "total_requests": 85000,
+        "successful_requests": 84932,
+        "availability_target_pct": 99.9,
+        "availability_achieved_pct": 99.92,
+        "p95_latency_target_ms": 350,
+        "p95_latency_observed_ms": 280,
+        "error_budget_minutes": 14.4,
+        "error_budget_consumed_minutes": 1.15,
+        "slo_breached": false
+      },
+      {
+        "service": "lessons_quizzes",
+        "window_hours": 24,
+        "total_requests": 120000,
+        "successful_requests": 119976,
+        "availability_target_pct": 99.95,
+        "availability_achieved_pct": 99.98,
+        "p95_latency_target_ms": 250,
+        "p95_latency_observed_ms": 190,
+        "error_budget_minutes": 7.2,
+        "error_budget_consumed_minutes": 0.28,
+        "slo_breached": false
+      },
+      {
+        "service": "universal_search",
+        "window_hours": 24,
+        "total_requests": 35000,
+        "successful_requests": 34958,
+        "availability_target_pct": 99.8,
+        "availability_achieved_pct": 99.88,
+        "p95_latency_target_ms": 200,
+        "p95_latency_observed_ms": 150,
+        "error_budget_minutes": 28.8,
+        "error_budget_consumed_minutes": 3.45,
+        "slo_breached": false
+      },
+      {
+        "service": "ai_tutor",
+        "window_hours": 24,
+        "total_requests": 18000,
+        "successful_requests": 17937,
+        "availability_target_pct": 99.5,
+        "availability_achieved_pct": 99.65,
+        "p95_latency_target_ms": 800,
+        "p95_latency_observed_ms": 620,
+        "error_budget_minutes": 72,
+        "error_budget_consumed_minutes": 25.2,
+        "slo_breached": false
+      },
+      {
+        "service": "billing_entitlements",
+        "window_hours": 24,
+        "total_requests": 9500,
+        "successful_requests": 9500,
+        "availability_target_pct": 99.99,
+        "availability_achieved_pct": 100,
+        "p95_latency_target_ms": 300,
+        "p95_latency_observed_ms": 210,
+        "error_budget_minutes": 1.44,
+        "error_budget_consumed_minutes": 0,
+        "slo_breached": false
+      },
+      {
+        "service": "enterprise_qms",
+        "window_hours": 24,
+        "total_requests": 62000,
+        "successful_requests": 61962,
+        "availability_target_pct": 99.9,
+        "availability_achieved_pct": 99.94,
+        "p95_latency_target_ms": 400,
+        "p95_latency_observed_ms": 310,
+        "error_budget_minutes": 14.4,
+        "error_budget_consumed_minutes": 0.86,
+        "slo_breached": false
+      }
+    ]
+  },
+  "detailed_workstreams": {
+    "new_tables_with_rls_list": [
+      "sbom_components",
+      "dependency_vulnerabilities",
+      "security_scan_runs",
+      "secret_scan_findings",
+      "release_attestations",
+      "application_security_findings",
+      "remediation_actions",
+      "on_call_rotations",
+      "operational_runbooks",
+      "observability_alerts",
+      "data_flow_inventory",
+      "subprocessors",
+      "external_assessment_scopes",
+      "assurance_evidence_packages"
+    ]
+  }
+}
