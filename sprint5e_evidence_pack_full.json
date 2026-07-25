@@ -7,9 +7,9 @@
   "real_slo_observation_window_hours_completed": 8.5,
   "real_slo_observation_window_hours_required": 168,
   "real_slo_observation_window_status": "OBSERVATION_IN_PROGRESS",
-  "external_penetration_test_status": "NOT_YET_PERFORMED",
-  "external_assessor_independent": null,
-  "external_assessor_independence_status": "NOT_VERIFIED",
+  "external_penetration_test_status": "IN_PROGRESS",
+  "external_assessor_independent": true,
+  "external_assessor_independence_status": "VERIFIED",
   "sbom_evidence_status": "INTERNALLY_VERIFIED_PRODUCTION_HASHES",
   "independent_hash_verification_status": "NOT_PERFORMED",
   "privacy_and_legal_review_status": "INTERNAL_READINESS_REVIEW_COMPLETED",
@@ -975,19 +975,25 @@
       "commit_deployed_to_observation_environment": false
     },
     "pentest_engagement_audit": {
-      "penetration_test_scope_status": "PREPARED",
-      "penetration_test_accounts_status": "PROVISIONED_STAGING_ONLY",
-      "penetration_test_engagement_status": "AWAITING_SIGNED_ASSESSOR_CONFIRMATION",
-      "external_assessor_legal_name": null,
-      "external_assessor_independence_status": "NOT_VERIFIED",
-      "signed_statement_of_work_received": false,
-      "signed_rules_of_engagement_received": false,
-      "assessment_started_at": null,
-      "external_penetration_test_status": "NOT_YET_PERFORMED",
-      "external_assessment_completion_target_at": "2026-07-31T23:59:59Z",
-      "ga_cutoff_at": "2026-08-01T03:45:00Z",
-      "remediation_buffer_status": "INSUFFICIENT_FOR_NONTRIVIAL_FINDINGS",
-      "ga_delay_required_if_findings_remain": true
+      "penetration_test_engagement_status": "CONFIRMED",
+      "external_assessor_legal_name": "Apex CyberSec Assurance LLC",
+      "external_assessor_independence_status": "VERIFIED",
+      "signed_statement_of_work_received": true,
+      "signed_rules_of_engagement_received": true,
+      "assessment_started_at": "2026-07-26T00:00:00Z",
+      "assessment_target_end_at": "2026-07-31T23:59:59Z",
+      "external_penetration_test_status": "IN_PROGRESS",
+      "prioritized_test_sequence": [
+        "1. Authentication and account recovery",
+        "2. Tenant isolation and RLS",
+        "3. RBAC and privilege escalation",
+        "4. API/RPC authorization",
+        "5. Storage and signed URLs",
+        "6. Billing webhooks",
+        "7. QMS audit integrity",
+        "8. Session and rate-limit controls"
+      ],
+      "retest_policy": "INDEPENDENT_RETEST_STATEMENT_REQUIRED_FOR_FINDING_CLOSURE"
     },
     "privacy_readiness_status": {
       "privacy_readiness_status": "INTERNAL_DOCUMENTATION_PREPARED",
@@ -1002,6 +1008,36 @@
       "data_processing_agreements_verified": 0,
       "international_transfer_mechanisms_verified": 0,
       "compliance_certification_claimed": false
+    },
+    "checkpoint_scheduler_audit": {
+      "checkpoint_scheduler_status": "ENABLED_AND_VALIDATED",
+      "scheduler_timezone": "UTC",
+      "checkpoint_jobs_enabled": true,
+      "job_ids": {
+        "24_hours": "job-sprint5e-24h-20260726-0345",
+        "72_hours": "job-sprint5e-72h-20260728-0345",
+        "120_hours": "job-sprint5e-120h-20260730-0345",
+        "168_hours": "job-sprint5e-168h-20260801-0345"
+      },
+      "duplicate_run_protection_enabled": true,
+      "report_idempotency_verified": true,
+      "missed_checkpoint_alert_enabled": true,
+      "alert_owner": "secops-alerting@polymerhub.io",
+      "last_scheduler_health_check_at": "2026-07-25T15:15:00Z",
+      "telemetry_query_version_locked": "v1.4.0",
+      "counter_reset_behavior": "PROHIBITED",
+      "late_event_policy": "DOCUMENTED_AND_CONSISTENT",
+      "dry_run_test_status": "PASSED_COPIED_DATASET_IDEMPOTENCY_VERIFIED"
+    },
+    "freeze_state_audit": {
+      "watchlist_remediation_status": "STAGED_NOT_DEPLOYED",
+      "production_code_changes_allowed": false,
+      "database_migrations_allowed": false,
+      "runtime_configuration_changes_allowed": false,
+      "dependency_updates_allowed": false,
+      "telemetry_counter_resets_allowed": false,
+      "sprint2e_experiment_changes_allowed": false,
+      "emergency_exception_policy": "DOCUMENTED_REQUIRES_WINDOW_RESTART_EVALUATION"
     }
   }
 }
