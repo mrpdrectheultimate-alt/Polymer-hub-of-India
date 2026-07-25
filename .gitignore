@@ -47,3 +47,5 @@ build_clean.log
 build_utf8.log
 supabase-*.log
 supabase-*.txt
+
+auth-*.txt
