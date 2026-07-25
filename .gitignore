@@ -51,3 +51,6 @@ supabase-*.txt
 auth-*.txt
 
 build_*.log
+
+step5-*.txt
+step5-*.json
