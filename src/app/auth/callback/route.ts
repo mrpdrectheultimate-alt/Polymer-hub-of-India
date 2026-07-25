@@ -1,13 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
+import { safeRedirectPath } from '@/lib/auth-helpers'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-
-export function safeRedirectPath(value: string | null): string {
-  if (!value || !value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
-    return '/dashboard'
-  }
-  return value
-}
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url)

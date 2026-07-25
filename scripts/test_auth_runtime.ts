@@ -3,7 +3,7 @@
  * Tests 15 core authorization and profile isolation rules.
  */
 
-import { safeRedirectPath } from '../src/app/auth/callback/route'
+import { safeRedirectPath } from '../src/lib/auth-helpers'
 
 export type TestResult = {
   id: number
