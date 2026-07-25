@@ -1,29 +1,52 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 
 export async function POST(request: Request) {
   try {
-    const { userId } = await request.json()
-    
-    if (!userId) {
-      return NextResponse.json({ error: 'Missing userId' }, { status: 400 })
+    // 1. HARD SECURITY BLOCKER: Completely disabled in production unless explicitly enabled via ALLOW_PAYMENT_SIMULATE=true
+    if (process.env.NODE_ENV === 'production' && process.env.ALLOW_PAYMENT_SIMULATE !== 'true') {
+      return NextResponse.json(
+        { error: 'Payment simulation endpoint is strictly disabled in production environments.' },
+        { status: 403 }
+      )
     }
+
+    // 2. REQUIRE AUTHENTICATED ADMIN SESSION
+    const supabaseUserClient = createClient()
+    const { data: { session } } = await supabaseUserClient.auth.getSession()
+
+    if (!session) {
+      return NextResponse.json({ error: 'Authentication required for simulation.' }, { status: 401 })
+    }
+
+    const { data: callerProfile } = await supabaseUserClient
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .single()
+
+    if (!callerProfile || (callerProfile.role !== 'admin' && callerProfile.role !== 'organization_owner')) {
+      return NextResponse.json({ error: 'Forbidden: Admin access required.' }, { status: 403 })
+    }
+
+    const { userId } = await request.json()
+    const targetUserId = userId || session.user.id
 
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
     if (!supabaseUrl || !supabaseServiceKey) {
-      return NextResponse.json({ error: 'Supabase environment variables not set' }, { status: 500 })
+      return NextResponse.json({ error: 'Supabase environment configuration error' }, { status: 500 })
     }
 
-    // Initialize service role client to bypass RLS and promote user
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+    // 3. SECURE ADMIN PROMOTION
+    const supabaseAdmin = createAdminClient(supabaseUrl, supabaseServiceKey)
 
-    // 1. Promote user profile to premium
     const { data: profile, error: profileError } = await supabaseAdmin
       .from('profiles')
       .update({ subscription_status: 'premium' })
-      .eq('id', userId)
+      .eq('id', targetUserId)
       .select()
       .single()
 
@@ -31,23 +54,18 @@ export async function POST(request: Request) {
       throw profileError
     }
 
-    // 2. Approve all pending payment requests for this user
-    const { error: paymentError } = await supabaseAdmin
+    await supabaseAdmin
       .from('payment_requests')
       .update({ 
         status: 'approved',
         reviewed_at: new Date().toISOString()
       })
-      .eq('user_id', userId)
+      .eq('user_id', targetUserId)
       .eq('status', 'pending')
-
-    if (paymentError) {
-      console.error('Warning: Failed to update payment requests:', paymentError.message)
-    }
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Subscription successfully promoted to premium.',
+      message: 'Subscription successfully promoted to premium in sandbox mode.',
       profile 
     })
   } catch (err: unknown) {
