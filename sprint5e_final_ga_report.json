@@ -7,7 +7,7 @@
   "real_slo_observation_window_hours_completed": 8.5,
   "real_slo_observation_window_hours_required": 168,
   "real_slo_observation_window_status": "OBSERVATION_IN_PROGRESS",
-  "external_penetration_test_status": "CLAIMED_NOT_EVIDENCED",
+  "external_penetration_test_status": "NOT_YET_PERFORMED",
   "external_assessor_independent": null,
   "external_assessor_independence_status": "NOT_VERIFIED",
   "sbom_evidence_status": "INTERNALLY_VERIFIED_PRODUCTION_HASHES",
@@ -956,6 +956,52 @@
           "failures": 3
         }
       ]
+    },
+    "observation_environment_integrity": {
+      "watchlist_remediation_status": "STAGED_NOT_DEPLOYED",
+      "observation_environment_changed_after_window_start": false,
+      "observation_window_restart_required": false,
+      "planned_deployment_after_observation_cutoff": true,
+      "observation_window_integrity_status": "INTACT_ENVIRONMENT_UNCHANGED",
+      "details": "Database composite index, 60s cache policy, and AI Tutor circuit breaker changes were documented in staging artifacts but NOT deployed to the live observation environment. Environment remains identical to release candidate f42cae9."
+    },
+    "prep_commit_classification": {
+      "ga_preparation_commit_sha": "29b9172bed75c7fd5120db2913f49b0e22024153",
+      "commit_contains_documentation_changes": true,
+      "commit_contains_checkpoint_automation_changes": true,
+      "commit_contains_database_schema_changes": false,
+      "commit_contains_application_code_changes": false,
+      "commit_contains_runtime_configuration_changes": false,
+      "commit_deployed_to_observation_environment": false
+    },
+    "pentest_engagement_audit": {
+      "penetration_test_scope_status": "PREPARED",
+      "penetration_test_accounts_status": "PROVISIONED_STAGING_ONLY",
+      "penetration_test_engagement_status": "AWAITING_SIGNED_ASSESSOR_CONFIRMATION",
+      "external_assessor_legal_name": null,
+      "external_assessor_independence_status": "NOT_VERIFIED",
+      "signed_statement_of_work_received": false,
+      "signed_rules_of_engagement_received": false,
+      "assessment_started_at": null,
+      "external_penetration_test_status": "NOT_YET_PERFORMED",
+      "external_assessment_completion_target_at": "2026-07-31T23:59:59Z",
+      "ga_cutoff_at": "2026-08-01T03:45:00Z",
+      "remediation_buffer_status": "INSUFFICIENT_FOR_NONTRIVIAL_FINDINGS",
+      "ga_delay_required_if_findings_remain": true
+    },
+    "privacy_readiness_status": {
+      "privacy_readiness_status": "INTERNAL_DOCUMENTATION_PREPARED",
+      "jurisdictions_reviewed": [
+        "EU",
+        "US"
+      ],
+      "global_legal_coverage_claimed": false,
+      "external_legal_review_completed": false,
+      "subprocessors_documented": 12,
+      "subprocessors_legally_approved": null,
+      "data_processing_agreements_verified": 0,
+      "international_transfer_mechanisms_verified": 0,
+      "compliance_certification_claimed": false
     }
   }
 }
