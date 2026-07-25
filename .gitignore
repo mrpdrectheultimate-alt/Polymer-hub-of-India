@@ -49,3 +49,5 @@ supabase-*.log
 supabase-*.txt
 
 auth-*.txt
+
+build_*.log
