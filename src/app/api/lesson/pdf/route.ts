@@ -4,10 +4,13 @@ import { NextRequest, NextResponse } from 'next/server'
 export const dynamic = 'force-dynamic'
 
 type LessonPDFData = {
+  id: string
   title: string
   summary: string
   content: string
   order_index: number
+  is_published?: boolean
+  is_premium?: boolean
 }
 
 export async function GET(req: NextRequest) {
@@ -19,14 +22,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Sign in to download lesson notes.' }, { status: 401 })
     }
 
-    // Check premium
+    // Check premium subscription
     const { data: profile } = await supabase
       .from('profiles')
-      .select('subscription_status, full_name')
+      .select('subscription_status, full_name, is_premium')
       .eq('id', session.user.id)
       .single()
 
-    const isPremium = profile?.subscription_status === 'premium'
+    const isPremium = profile?.subscription_status === 'premium' || profile?.is_premium === true
     if (!isPremium) {
       return NextResponse.json(
         { error: 'PDF download is a Premium feature. Upgrade for ₹149/month.' },
@@ -46,22 +49,38 @@ export async function GET(req: NextRequest) {
       .eq('slug', slug)
       .single()
 
-    if (!lesson) {
-      return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+    if (!lesson || lesson.is_published === false) {
+      return NextResponse.json({ error: 'Lesson not found or unpublished' }, { status: 404 })
     }
+
+    // Log PDF download
+    await supabase.from('pdf_download_log').insert({
+      user_id: session.user.id,
+      lesson_id: lesson.id,
+      downloaded_at: new Date().toISOString()
+    })
 
     const subjects = lesson.subjects as unknown as { name: string; slug: string }
     const subjectName = subjects?.name ?? 'Polymer Engineering'
     const studentName = profile?.full_name ?? 'Student'
 
-    // Generate the PDF content as HTML that will be rendered
+    // Generate the PDF content as HTML that will be rendered/printed
     const htmlContent = generateLessonHTML(lesson, subjectName, studentName)
 
-    // Return HTML with PDF-friendly headers
+    const safeFilename = lesson.title
+      .replace(/[^a-zA-Z0-9-_ ]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+      .slice(0, 80)
+
+    // Return HTML with PDF security headers
     return new NextResponse(htmlContent, {
       headers: {
-        'Content-Type': 'text/html',
-        'X-Lesson-Title': lesson.title,
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Disposition': `inline; filename="${safeFilename}.html"`,
+        'Cache-Control': 'private, no-store, max-age=0',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Lesson-Title': safeFilename,
       },
     })
 
@@ -77,10 +96,8 @@ export async function GET(req: NextRequest) {
 function generateLessonHTML(lesson: LessonPDFData, subjectName: string, studentName: string): string {
   const now = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
 
-  // Convert markdown to clean HTML for PDF
   let content = lesson.content || ''
 
-  // Tables
   content = content.replace(/(\|.+\|\n)+/g, (table: string) => {
     const rows = table.trim().split('\n')
     const headers = rows[0].split('|').filter(Boolean).map((h: string) => h.trim())
@@ -98,313 +115,35 @@ function generateLessonHTML(lesson: LessonPDFData, subjectName: string, studentN
   content = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
   content = content.replace(/`([^`]+)`/g, '<code>$1</code>')
   content = content.replace(/^- (.+)$/gm, '<li>$1</li>')
-  content = content.replace(/(<li>[\s\S]+?<\/li>)/g, '<ul>$1</ul>')
-  content = content.replace(/^(?!<[a-z]).+$/gm, (line: string) => {
-    if (!line.trim()) return ''
-    return `<p>${line}</p>`
-  })
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${lesson.title} — PolymerHub Notes</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      font-size: 11pt;
-      line-height: 1.6;
-      color: #0A0A0A;
-      background: white;
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* Print styles */
-    @media print {
-      body { padding: 0; max-width: 100%; }
-      .no-print { display: none !important; }
-      .page-break { page-break-before: always; }
-      h2 { page-break-after: avoid; }
-    }
-
-    /* Header */
-    .header {
-      border-bottom: 4px solid #0A0A0A;
-      padding-bottom: 16px;
-      margin-bottom: 24px;
-    }
-
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .logo-box {
-      width: 32px;
-      height: 32px;
-      background: #0A0A0A;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-text {
-      font-size: 14pt;
-      font-weight: 900;
-      color: #0A0A0A;
-    }
-
-    .header-meta {
-      text-align: right;
-      font-size: 8pt;
-      color: #6B7280;
-      font-family: 'Courier New', monospace;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .subject-tag {
-      display: inline-block;
-      border: 2px solid #0A0A0A;
-      padding: 2px 8px;
-      font-size: 8pt;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
-    }
-
-    .lesson-title {
-      font-size: 20pt;
-      font-weight: 900;
-      line-height: 1.2;
-      color: #0A0A0A;
-      margin-bottom: 8px;
-    }
-
-    .lesson-summary {
-      font-size: 10pt;
-      color: #404040;
-      line-height: 1.6;
-      padding-left: 12px;
-      border-left: 3px solid #1D4ED8;
-    }
-
-    /* Content styles */
-    h2 {
-      font-size: 14pt;
-      font-weight: 900;
-      color: #0A0A0A;
-      margin: 24px 0 10px;
-      padding-bottom: 6px;
-      border-bottom: 3px solid #0A0A0A;
-    }
-
-    h3 {
-      font-size: 12pt;
-      font-weight: 700;
-      color: #0A0A0A;
-      margin: 18px 0 8px;
-    }
-
-    p {
-      margin: 8px 0;
-      color: #1A1A1A;
-    }
-
-    ul {
-      margin: 8px 0 8px 20px;
-    }
-
-    li {
-      margin: 4px 0;
-      color: #1A1A1A;
-    }
-
-    strong {
-      font-weight: 700;
-      color: #0A0A0A;
-    }
-
-    code {
-      font-family: 'Courier New', monospace;
-      font-size: 9pt;
-      background: #F3F4F6;
-      border: 1px solid #D1D5DB;
-      padding: 1px 4px;
-      color: #1D4ED8;
-    }
-
-    hr {
-      border: none;
-      border-top: 2px solid #E5E7EB;
-      margin: 20px 0;
-    }
-
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0;
-      font-size: 10pt;
-    }
-
-    th {
-      background: #0A0A0A;
-      color: white;
-      padding: 8px 10px;
-      text-align: left;
-      font-weight: 700;
-      font-size: 9pt;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    td {
-      padding: 7px 10px;
-      border-bottom: 1px solid #E5E7EB;
-      color: #1A1A1A;
-    }
-
-    tr:nth-child(even) td { background: #F9FAFB; }
-
-    /* Footer */
-    .footer {
-      margin-top: 40px;
-      padding-top: 16px;
-      border-top: 3px solid #0A0A0A;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-text {
-      font-size: 8pt;
-      color: #6B7280;
-      font-family: 'Courier New', monospace;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .watermark {
-      font-size: 7pt;
-      color: #9CA3AF;
-      font-family: 'Courier New', monospace;
-      text-transform: uppercase;
-    }
-
-    /* Print button */
-    .print-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: #0A0A0A;
-      color: white;
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 100;
-    }
-
-    .print-bar-text {
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .print-btn {
-      background: #FACC15;
-      color: #0A0A0A;
-      border: none;
-      padding: 8px 20px;
-      font-weight: 900;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      cursor: pointer;
-    }
-
-    .print-btn:hover { background: #EAB308; }
-
-    @media print {
-      body { padding-top: 0 !important; }
-      .print-bar { display: none; }
-    }
-
-    body { padding-top: 56px; }
+    body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    .header { border-bottom: 3px solid #000; padding-bottom: 20px; margin-bottom: 30px; }
+    .title { font-size: 28px; font-weight: 900; text-transform: uppercase; margin: 0; }
+    .subtitle { font-size: 14px; color: #666; font-weight: bold; margin-top: 5px; }
+    .watermark { font-size: 11px; color: #888; border-top: 1px solid #ddd; margin-top: 40px; padding-top: 15px; display: flex; justify-content: space-between; }
+    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+    th, td { border: 1px solid #ccc; padding: 8px 12px; text-align: left; }
+    th { background: #f4f4f4; font-weight: bold; }
+    code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
   </style>
 </head>
 <body>
-
-  <!-- Print bar (hidden when printing) -->
-  <div class="print-bar no-print">
-    <span class="print-bar-text">📄 ${lesson.title} — PolymerHub Notes</span>
-    <button class="print-btn" onclick="window.print()">⬇ Save as PDF</button>
-  </div>
-
-  <!-- Document header -->
   <div class="header">
-    <div class="header-top">
-      <div class="logo">
-        <div class="logo-box">
-          <span style="color: #FACC15; font-weight: 900; font-size: 14px;">P</span>
-        </div>
-        <span class="logo-text">PolymerHub</span>
-      </div>
-      <div class="header-meta">
-        <div>India's PPE Knowledge Platform</div>
-        <div>polymer-hub-six.vercel.app</div>
-        <div>Downloaded: ${now}</div>
-        <div>Student: ${studentName}</div>
-      </div>
-    </div>
-    <div class="subject-tag">${subjectName} · Lesson ${lesson.order_index}</div>
-    <h1 class="lesson-title">${lesson.title}</h1>
-    <p class="lesson-summary">${lesson.summary}</p>
+    <div class="subtitle">${subjectName.toUpperCase()} — POLYMERHUB EXCLUSIVE NOTES</div>
+    <h1 class="title">${lesson.title}</h1>
   </div>
-
-  <!-- Lesson content -->
-  <div class="content">
-    ${content}
+  <div class="content">${content}</div>
+  <div class="watermark">
+    <span>Licensed to: ${studentName}</span>
+    <span>Generated: ${now}</span>
+    <span>PolymerHub — All Rights Reserved</span>
   </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <div class="footer-text">
-      PolymerHub · ${subjectName} · Lesson ${lesson.order_index}<br>
-      polymer-hub-six.vercel.app
-    </div>
-    <div class="watermark">
-      Generated for ${studentName}<br>
-      ${now} · Premium Notes
-    </div>
-  </div>
-
-  <script>
-    // Auto-trigger print dialog after fonts load
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        window.print();
-      }, 500);
-    });
-  </script>
-
 </body>
 </html>`
 }
