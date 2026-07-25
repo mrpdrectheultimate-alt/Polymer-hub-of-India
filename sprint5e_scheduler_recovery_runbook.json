@@ -1,0 +1,10 @@
+{
+  "title": "Sprint 5E Telemetry Scheduler Manual Recovery Runbook",
+  "recovery_rule": "Recovery run reads immutable raw event log and preserves original scheduled cutoff. Never resets counters or replaces source events.",
+  "steps": [
+    "1. Verify database event stream completeness for missed interval",
+    "2. Execute query_version v1.4.0 with exact immutable timestamp boundary",
+    "3. Generate raw_export_sha256 and aggregated_dataset_sha256",
+    "4. Publish report with scheduler_execution_status: RECOVERY_SUCCESS"
+  ]
+}

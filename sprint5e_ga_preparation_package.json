@@ -94,5 +94,128 @@
     "independent_retest_status": "PENDING",
     "sprint2e_experiment_integrity_status": "UNCHANGED",
     "ga_go_no_go_decision": "PENDING_FINAL_REVIEW"
+  },
+  "speedModeV2Package": {
+    "sprint": "5E",
+    "mode": "EXECUTION_ONLY",
+    "preparation_status": "FROZEN",
+    "observation_window_integrity_status": "INTACT_ENVIRONMENT_UNCHANGED",
+    "external_penetration_test_status": "SCHEDULED_CONFIRMED",
+    "ga_go_no_go_decision": "NO_GO_PENDING_TIME_AND_EXTERNAL_EVIDENCE",
+    "deployment_status": "HEALTHY_STAGED",
+    "pentestCommandCenter": {
+      "pentest_response_mode": "ACTIVE",
+      "finding_intake_owner": "secops-intake@polymerhub.io",
+      "technical_triage_owner": "secops-lead@polymerhub.io",
+      "business_risk_owner": "ciso@polymerhub.io",
+      "critical_triage_sla_minutes": 30,
+      "high_triage_sla_minutes": 60,
+      "medium_triage_sla_hours": 4,
+      "retest_package_template_ready": true,
+      "independent_retest_required": true,
+      "ga_blocking_severities": [
+        "CRITICAL",
+        "HIGH"
+      ],
+      "empty_finding_register_path": "sprint5e_pentest_finding_register.json"
+    },
+    "checkpointFailureProtection": {
+      "checkpoint_job_timeout_minutes": 20,
+      "checkpoint_retry_limit": 2,
+      "duplicate_execution_lock_ttl_minutes": 60,
+      "missed_run_detection_minutes": 10,
+      "primary_alert_owner": "secops-alerting@polymerhub.io",
+      "secondary_alert_owner": "secops-oncall@polymerhub.io",
+      "report_storage_status": "WRITE_TESTED",
+      "report_checksum_generation_enabled": true,
+      "scheduler_audit_log_enabled": true,
+      "manual_recovery_runbook_ready": true,
+      "recovery_runbook_path": "sprint5e_scheduler_recovery_runbook.json"
+    },
+    "customerSupportReadiness": {
+      "getting_started_guide": "COMPLETED_STAGED",
+      "organization_setup_guide": "COMPLETED_STAGED",
+      "role_permission_guide": "COMPLETED_STAGED",
+      "billing_subscription_faq": "COMPLETED_STAGED",
+      "account_recovery_guide": "COMPLETED_STAGED",
+      "data_export_deletion_guide": "COMPLETED_STAGED",
+      "admin_troubleshooting_guide": "COMPLETED_STAGED",
+      "service_status_comm_templates": "COMPLETED_STAGED",
+      "support_escalation_matrix": "COMPLETED_STAGED",
+      "critical_incident_customer_message": "COMPLETED_STAGED",
+      "status": "SUPPORT_LAUNCH_PACK_APPROVED_INTERNALLY"
+    },
+    "launchCommandStructure": {
+      "launch_commander": "launch-commander@polymerhub.io",
+      "engineering_owner": "eng-lead@polymerhub.io",
+      "security_owner": "sec-lead@polymerhub.io",
+      "database_owner": "db-lead@polymerhub.io",
+      "billing_owner": "billing-lead@polymerhub.io",
+      "support_owner": "support-lead@polymerhub.io",
+      "communications_owner": "comms-lead@polymerhub.io",
+      "rollback_authority": "cto@polymerhub.io",
+      "ga_approval_authority": "vp-eng@polymerhub.io",
+      "status": "LAUNCH_COMMAND_SHEET_NAMED_OWNERS_STAGED"
+    },
+    "isolatedPerformanceValidation": {
+      "dashboard_fix_status": "STAGED_NOT_DEPLOYED",
+      "ai_tutor_fix_status": "STAGED_NOT_DEPLOYED",
+      "validation_environment": "ISOLATED_CLONE",
+      "dashboard_before_p95_ms": 240,
+      "dashboard_after_p95_ms": 178,
+      "dashboard_error_rate_before_pct": 0.08,
+      "dashboard_error_rate_after_pct": 0.02,
+      "ai_tutor_before_p95_ms": 910,
+      "ai_tutor_after_p95_ms": 740,
+      "ai_tutor_failure_rate_before_pct": 0.45,
+      "ai_tutor_failure_rate_after_pct": 0.12,
+      "production_deployment_allowed": false,
+      "status": "ISOLATED_CLONE_BENCHMARK_COMPLETED"
+    },
+    "commercialReadiness": {
+      "pricing_plan_limits": "FROZEN_STAGED",
+      "enterprise_sla_draft": "FROZEN_STAGED",
+      "security_privacy_faq": "FROZEN_STAGED",
+      "subprocessor_summary": "FROZEN_STAGED",
+      "procurement_questionnaire_responses": "FROZEN_STAGED",
+      "product_demo_script": "FROZEN_STAGED",
+      "pilot_onboarding_offer": "FROZEN_STAGED",
+      "cancellation_refund_policy": "FROZEN_STAGED",
+      "sales_objection_responses": "FROZEN_STAGED",
+      "customer_success_handoff": "FROZEN_STAGED",
+      "compliance_claims": "LIMITED_TO_INTERNAL_READINESS_ONLY"
+    },
+    "analyticsSprint2ePrep": {
+      "sprint2e_assignment_changes_allowed": false,
+      "sprint2e_traffic_split_changes_allowed": false,
+      "sprint2e_early_rollout_allowed": false,
+      "final_primary_test": "FISHER_EXACT_TWO_SIDED",
+      "sensitivity_test": "TWO_PROPORTION_Z_TEST",
+      "analysis_template_ready": true,
+      "final_cutoff_unchanged": true,
+      "scheduled_experiment_cutoff_at": "2026-08-04T20:30:00Z"
+    },
+    "finalGaDecisionSheet": {
+      "reliability_gate": "PENDING_168_HOURS",
+      "security_gate": "PENDING_EXTERNAL_REPORT",
+      "critical_findings_open": null,
+      "high_findings_open": null,
+      "independent_retest_status": "PENDING",
+      "rollback_gate": "REPORTED_READY",
+      "support_gate": "PENDING_FINAL_APPROVAL",
+      "privacy_gate": "INTERNAL_READINESS_ONLY",
+      "sprint2e_gate": "SEPARATE_FUTURE_CUTOFF",
+      "ga_decision": "NO_GO"
+    },
+    "strictFreezeBoundary": {
+      "observed_release_candidate": "FROZEN",
+      "production_code_changes": "PROHIBITED",
+      "database_migrations": "PROHIBITED",
+      "runtime_configuration_changes": "PROHIBITED",
+      "dependency_updates": "PROHIBITED",
+      "performance_fix_deployment": "PROHIBITED",
+      "telemetry_counter_resets": "PROHIBITED",
+      "sprint2e_changes": "PROHIBITED"
+    }
   }
 }
