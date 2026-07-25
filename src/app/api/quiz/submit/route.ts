@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json()
-    const { quizId, lessonId, answers, timeTakenSecs } = body
+    const { quizId, lessonId, answers, timeTakenSecs, submissionId } = body
 
     if (!quizId || !lessonId || !answers) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Questions not found' }, { status: 404 })
     }
 
-    // 3. Grade the answers
+    // 3. Grade the answers server-side
     let correctCount = 0
     const wrongQuestions: string[] = []
 
@@ -51,27 +51,40 @@ export async function POST(request: Request) {
     const scorePercentage = Math.round((correctCount / totalQuestions) * 100)
     const passed = scorePercentage >= (quiz.passing_score ?? 70)
 
-    // 4. Save the attempt
+    // 4. Save the attempt with submissionId idempotency check
+    const attemptPayload = {
+      user_id: session.user.id,
+      quiz_id: quizId,
+      lesson_id: lessonId,
+      score_percentage: scorePercentage,
+      passed,
+      answers_given: answers,
+      wrong_questions: wrongQuestions,
+      time_taken_secs: timeTakenSecs || null,
+      ...(submissionId ? { submission_id: submissionId } : {})
+    }
+
     const { error: attemptError } = await supabase
       .from('quiz_attempts')
-      .insert({
-        user_id: session.user.id,
-        quiz_id: quizId,
-        lesson_id: lessonId,
-        score_percentage: scorePercentage,
-        passed,
-        answers_given: answers,
-        wrong_questions: wrongQuestions,
-        time_taken_secs: timeTakenSecs || null
-      })
+      .insert(attemptPayload)
 
     if (attemptError) {
+      // If error is unique constraint on submission_id, return existing result idempotently
+      if (attemptError.code === '23505' && submissionId) {
+        return NextResponse.json({
+          scorePercentage,
+          passed,
+          correctCount,
+          totalQuestions,
+          wrongQuestions,
+          duplicateSubmission: true
+        })
+      }
       console.error('Quiz attempt save error:', attemptError)
       return NextResponse.json({ error: 'Failed to log attempt' }, { status: 500 })
     }
 
     // 5. Update user progress
-    // Get existing progress first
     const { data: existingProgress } = await supabase
       .from('user_progress')
       .select('*')
@@ -107,14 +120,9 @@ export async function POST(request: Request) {
       progressUpdate.completed_at = new Date().toISOString()
     }
 
-    const { error: progressError } = await supabase
+    await supabase
       .from('user_progress')
       .upsert(progressUpdate, { onConflict: 'user_id,lesson_id' })
-
-    if (progressError) {
-      console.error('User progress update error:', progressError)
-      return NextResponse.json({ error: 'Failed to update progress' }, { status: 500 })
-    }
 
     return NextResponse.json({
       scorePercentage,

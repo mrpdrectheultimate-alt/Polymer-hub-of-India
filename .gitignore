@@ -54,3 +54,6 @@ build_*.log
 
 step5-*.txt
 step5-*.json
+
+step6-*.txt
+step6-*.json
