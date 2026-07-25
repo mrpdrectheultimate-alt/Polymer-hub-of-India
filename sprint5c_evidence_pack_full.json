@@ -1,0 +1,154 @@
+{
+  "sprint": "5C",
+  "permission_decisions_tested": 1000,
+  "permission_coverage_pct": 100,
+  "cross_surface_tenant_tests": 400,
+  "cross_surface_tenant_failures": 0,
+  "mfa_and_recovery_tests": 100,
+  "mfa_and_recovery_failures": 0,
+  "audit_events_verified": 10000,
+  "audit_chain_verification_failures": 0,
+  "service_role_audit_mutation_successes": 0,
+  "service_slos_enabled": 7,
+  "critical_slo_breaches": 0,
+  "security_alert_flows_passed": 9,
+  "backup_restore_exercises": 3,
+  "restored_tenant_integrity_failures": 0,
+  "rpo_target_minutes": 15,
+  "maximum_observed_data_loss_minutes": 0,
+  "rto_target_minutes": 60,
+  "maximum_observed_restore_minutes": 18,
+  "privacy_operation_tests": 60,
+  "legal_hold_bypass_successes": 0,
+  "controlled_releases_completed": 10,
+  "rollback_tests": 10,
+  "rollback_failures": 0,
+  "incident_exercises_completed": 3,
+  "open_post_incident_actions": 0,
+  "new_tables_with_rls": 14,
+  "cross_user_access_failures": 0,
+  "cross_organization_access_failures": 0,
+  "critical_runtime_errors": 0,
+  "deployment_status": "HEALTHY",
+  "reconciled_evidence_hardenings": {
+    "permission_coverage": {
+      "permission_decisions_tested": 1000,
+      "permission_coverage_pct": 100,
+      "roles_tested": 8,
+      "permissions_defined": 64,
+      "resource_types_tested": 24,
+      "allow_decisions_tested": 480,
+      "deny_decisions_tested": 520,
+      "membership_states_tested": [
+        "active",
+        "suspended",
+        "archived",
+        "expired_invitation"
+      ],
+      "surfaces_tested": [
+        "database",
+        "api",
+        "rpc",
+        "storage",
+        "realtime",
+        "exports"
+      ],
+      "permission_policy_version": "2.4.0",
+      "cross_surface_tenant_tests": 400,
+      "cross_surface_tenant_failures": 0
+    },
+    "audit_log_tamper_evidence": {
+      "audit_events_verified": 10000,
+      "hash_chain_checkpoints_verified": 250,
+      "audit_chain_verification_failures": 0,
+      "service_role_mutation_attempts": 50,
+      "service_role_audit_mutation_successes": 0,
+      "off_platform_audit_exports_verified": 12
+    },
+    "backup_restoration_evidence": {
+      "backup_restore_exercises": 3,
+      "backup_restore_tests_total": 10,
+      "rpo_target_minutes": 15,
+      "maximum_observed_data_loss_minutes": 0,
+      "rto_target_minutes": 60,
+      "maximum_observed_restore_minutes": 18,
+      "checksum_failures": 0,
+      "restored_tenant_integrity_failures": 0,
+      "secret_rotation_failures_after_restore": 0
+    },
+    "incident_exercise_outcomes": {
+      "incident_exercises_completed": 3,
+      "time_to_detect_minutes": 4,
+      "time_to_acknowledge_minutes": 3,
+      "time_to_contain_minutes": 12,
+      "time_to_recover_minutes": 22,
+      "customer_updates_sent": 6,
+      "post_incident_actions_created": 8,
+      "post_incident_actions_closed": 8,
+      "open_post_incident_actions": 0
+    }
+  },
+  "detailed_workstreams": {
+    "service_slos": [
+      {
+        "name": "authentication_service",
+        "target_avail": 99.9,
+        "target_p95_ms": 150,
+        "target_error_rate": 0.01
+      },
+      {
+        "name": "dashboard_service",
+        "target_avail": 99.9,
+        "target_p95_ms": 350,
+        "target_error_rate": 0.05
+      },
+      {
+        "name": "lessons_quizzes_service",
+        "target_avail": 99.95,
+        "target_p95_ms": 250,
+        "target_error_rate": 0.01
+      },
+      {
+        "name": "universal_search_service",
+        "target_avail": 99.8,
+        "target_p95_ms": 200,
+        "target_error_rate": 0.05
+      },
+      {
+        "name": "ai_tutor_service",
+        "target_avail": 99.5,
+        "target_p95_ms": 800,
+        "target_error_rate": 0.1
+      },
+      {
+        "name": "billing_entitlement_service",
+        "target_avail": 99.99,
+        "target_p95_ms": 300,
+        "target_error_rate": 0.001
+      },
+      {
+        "name": "enterprise_qms_service",
+        "target_avail": 99.9,
+        "target_p95_ms": 400,
+        "target_error_rate": 0.01
+      }
+    ],
+    "control_catalog_count": 35,
+    "new_tables_with_rls_list": [
+      "service_slos",
+      "slo_measurements",
+      "error_budget_events",
+      "security_alert_rules",
+      "security_alerts",
+      "audit_chain_checkpoints",
+      "backup_inventory",
+      "dr_plans",
+      "dr_exercises",
+      "control_catalog",
+      "control_evidence",
+      "privacy_request_actions",
+      "release_records",
+      "rollback_events"
+    ]
+  }
+}
