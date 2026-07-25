@@ -84,7 +84,7 @@ export default function Navbar() {
       } else setProfile(null)
     })
     return () => subscription.unsubscribe()
-  }, [])
+  }, [supabase])
 
   useEffect(() => {
     setMobileOpen(false)

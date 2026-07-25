@@ -102,7 +102,7 @@ export default function ProfilePage() {
       setLoading(false)
     }
     load()
-  }, [])
+  }, [router, supabase])
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
