@@ -82,3 +82,9 @@ step13-*.json
 
 step14-*.txt
 step14-*.json
+
+production-*.json
+test-suite-manifest.json
+rollback-*.json
+monitoring-*.json
+release-*.log
