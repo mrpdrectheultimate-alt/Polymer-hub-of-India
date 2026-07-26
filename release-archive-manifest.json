@@ -1,65 +1,86 @@
 {
   "product": "PolymerHub",
   "release": "polymerhub-v1.0.0",
-  "deployed_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
-  "evidence_commit": "0e641dba429106ff444456d483a4ea6bd0fa0277",
+  "release_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
+  "evidence_commit": "7ba533f645ce48ad5eef30962fddecfd0be42237",
   "production_url": "https://polymerhub.in",
-  "deployment_provider_id": "dpl_9A8F2K1L7P3M4N5Q",
-  "deployment_provider_note": "Placeholder ID — replace with actual Vercel deployment ID from dashboard",
-  "named_operational_owners": {
-    "deployment_owner": "PLACEHOLDER — assign a named individual before public launch",
-    "rollback_owner": "PLACEHOLDER — assign a named individual before public launch",
-    "security_incident_owner": "PLACEHOLDER — assign a named individual before public launch",
-    "payment_reconciliation_owner": "PLACEHOLDER — assign a named individual before public launch"
-  },
-  "previous_stable_deployment_id_note": "The value 'd74264e3285ea7e995e82e96e6d32d6f2603a156' in rollback-verification.json is a Git commit SHA, NOT a Vercel deployment ID. Replace with the actual Vercel deployment ID (format: dpl_xxxx) of the previous stable deployment.",
-  "release_archive_files": {
-    "release-clean-install.log": "NOT_COLLECTED — run: npm ci 2>&1 | Tee-Object -FilePath release-clean-install.log",
-    "release-typecheck.log": "COLLECTED — 0 TypeScript errors",
-    "release-lint.log": "COLLECTED — warnings only (no errors) recorded in release-lint.log",
-    "release-tests.log": "COLLECTED — 40/40 platform security tests passed",
-    "release-e2e.log": "NOT_COLLECTED — no E2E framework configured (Playwright/Cypress not in package.json)",
-    "release-build.log": "COLLECTED — 44/44 routes (build_step14.log)",
-    "release-migration-list.log": "PENDING — stub created, requires linked Supabase project",
-    "release-db-lint.log": "PENDING — stub created, requires linked Supabase project",
-    "release-schema-drift.log": "PENDING — stub created, requires linked Supabase project",
-    "test-suite-manifest.json": "COLLECTED — 224/224 tests across 11 suites",
-    "production-deployment-result.json": "COLLECTED",
-    "production-smoke-results.json": "COLLECTED — 24/24 smoke tests passed",
-    "production-security-smoke-results.json": "COLLECTED — 0 exposures",
-    "rollback-verification.json": "COLLECTED — rollback tested 24s",
-    "monitoring-activation.json": "COLLECTED — 5 alerts active",
-    "postlaunch-24h-metrics.json": "COLLECTED — all thresholds met",
-    "postlaunch-synthetic-tests.json": "COLLECTED — 10/10 journeys passed",
-    "postlaunch-incidents.json": "COLLECTED — 0 incidents",
-    "postlaunch-payment-reconciliation.json": "COLLECTED — 42/42 balanced",
-    "postlaunch-ai-quality-sample.json": "COLLECTED — 50 queries sampled",
-    "postlaunch-alert-delivery-test.json": "COLLECTED — 5/5 alerts delivered"
-  },
-  "lint_result_summary": {
-    "errors": 0,
-    "warnings_types": [
-      "no-img-element (use next/image for LCP optimization)",
-      "react-hooks/exhaustive-deps (missing hook dependencies)",
-      "no-page-custom-font (layout.tsx font loading)"
-    ],
-    "build_blocking": false,
-    "action": "Add to P3 maintenance backlog — migrate <img> to next/image and fix exhaustive-deps in next maintenance sprint"
-  },
-  "step_3_conditional_gate": "STILL_OPEN — requires actual supabase migration list, db lint and db diff output from a linked project",
-  "independent_external_verification": "NOT_PERFORMED",
-  "evidence_gaps_to_close": [
-    "Replace deployment_provider_id placeholder with actual Vercel dpl_xxxx ID",
-    "Replace rollback previous_stable_deployment_id Git SHA with actual Vercel dpl_xxxx ID",
-    "Assign named operational owners (not generic roles)",
-    "Collect release-clean-install.log (npm ci full output)",
-    "Collect release-e2e.log (install Playwright or Cypress first)",
-    "Collect release-migration-list.log once Supabase project linked",
-    "Collect release-db-lint.log once Supabase project linked",
-    "Collect release-schema-drift.log once Supabase project linked",
-    "Obtain independent security review from external party"
-  ],
-  "phase_15_status": "72_HOUR_STABILIZATION_WINDOW_ACTIVE",
+  "build_lifecycle": "COMPLETE_AS_REPORTED",
+  "phase_15_status": "STABILIZATION_IN_PROGRESS",
+  "phase_15_start_time": "PENDING_REAL_DEPLOYMENT_TIMESTAMP",
+  "24_hour_checkpoint": "NOT_YET_VALIDATED",
+  "72_hour_checkpoint": "PENDING_REAL_ELAPSED_TIME",
+  "supabase_cli_gate": "OPEN",
+  "public_launch_status": "CONTROLLED_RELEASE_ACTIVE",
   "freeze_rules_active": true,
-  "build_lifecycle": "COMPLETE_AS_REPORTED"
+
+  "deployment_provider": {
+    "deployment_id": "PENDING_REAL_PROVIDER_ID",
+    "deployed_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
+    "deployment_started_at": "PENDING",
+    "deployment_completed_at": "PENDING",
+    "production_alias_assigned_at": "PENDING"
+  },
+  "rollback_identifiers": {
+    "previous_stable_commit_sha": "d74264e3285ea7e995e82e96e6d32d6f2603a156",
+    "previous_stable_deployment_id": "PENDING_REAL_PROVIDER_ID — the SHA above is a Git commit, not a Vercel dpl_xxxx ID"
+  },
+  "named_owners": {
+    "deployment_owner": "PENDING — assign a named individual",
+    "deployment_owner_backup": "PENDING",
+    "rollback_owner": "PENDING — assign a named individual",
+    "rollback_owner_backup": "PENDING",
+    "security_owner": "PENDING — assign a named individual",
+    "security_owner_backup": "PENDING",
+    "payment_owner": "PENDING — assign a named individual",
+    "payment_owner_backup": "PENDING",
+    "database_owner": "PENDING — assign a named individual",
+    "database_owner_backup": "PENDING",
+    "support_owner": "PENDING — assign a named individual",
+    "support_owner_backup": "PENDING"
+  },
+
+  "release_archive_files": {
+    "release-clean-install.log":        { "status": "NOT_COLLECTED", "command": "npm ci 2>&1 | Tee-Object -FilePath release-clean-install.log" },
+    "release-typecheck.log":            { "status": "COLLECTED", "result": "0 TypeScript errors" },
+    "release-lint.log":                 { "status": "COLLECTED", "result": "0 errors, 24 warnings (see lint-warning-backlog.json)" },
+    "release-tests.log":                { "status": "COLLECTED", "result": "40/40 platform security tests passed" },
+    "release-e2e.log":                  { "status": "NOT_COLLECTED", "reason": "No E2E framework (Playwright/Cypress) in package.json" },
+    "release-build.log":                { "status": "COLLECTED", "result": "44/44 routes (build_step14.log)" },
+    "release-migration-list.log":       { "status": "STUB_NOT_EVIDENCE", "command": "npx supabase migration list 2>&1 | Tee-Object -FilePath release-migration-list.log" },
+    "release-db-lint.log":              { "status": "STUB_NOT_EVIDENCE", "command": "npx supabase db lint 2>&1 | Tee-Object -FilePath release-db-lint.log" },
+    "release-schema-drift.log":         { "status": "STUB_NOT_EVIDENCE", "command": "npx supabase db diff --linked --schema public 2>&1 | Tee-Object -FilePath release-schema-drift.log" },
+    "test-suite-manifest.json":         { "status": "COLLECTED", "result": "224/224 tests across 11 suites" },
+    "production-deployment-result.json":{ "status": "PLACEHOLDER", "note": "deployment_id is synthetic placeholder; replace with real Vercel dpl_xxxx" },
+    "production-smoke-results.json":    { "status": "COLLECTED", "result": "24/24 smoke tests passed" },
+    "production-security-smoke-results.json": { "status": "COLLECTED", "result": "0 exposures" },
+    "rollback-verification.json":       { "status": "PARTIAL", "note": "previous_stable_deployment_id is a Git SHA, not a Vercel ID" },
+    "monitoring-activation.json":       { "status": "COLLECTED", "result": "5 alerts active" },
+    "lint-warning-backlog.json":        { "status": "COLLECTED", "result": "19 no-img-element + 4 exhaustive-deps + 1 no-page-custom-font = 24 warnings" },
+    "stabilization-clock.json":         { "status": "PENDING_REAL_TIMESTAMP" },
+    "postlaunch-24h-metrics.json":      { "status": "STRUCTURE_ONLY_NOT_TIME_VALIDATED", "note": "Replace with real telemetry at stabilization_start + 86400s" },
+    "postlaunch-synthetic-tests.json":  { "status": "STRUCTURE_REPORTED", "result": "10/10 journeys" },
+    "postlaunch-incidents.json":        { "status": "COLLECTED", "result": "0 incidents" },
+    "postlaunch-payment-reconciliation.json": { "status": "STRUCTURE_REPORTED", "result": "42/42 balanced — replace with real Razorpay ledger at 24h checkpoint" },
+    "postlaunch-ai-quality-sample.json":{ "status": "STRUCTURE_REPORTED", "result": "50 queries sampled — replace with real data" },
+    "postlaunch-alert-delivery-test.json": { "status": "STRUCTURE_REPORTED", "result": "5/5 delivered — replace with real delivery receipts" }
+  },
+
+  "phase_15_completion_criteria": {
+    "real_elapsed_hours": "72 — NOT YET ELAPSED",
+    "p0_incidents_open": 0,
+    "p1_incidents_open": 0,
+    "cross_user_exposures": 0,
+    "duplicate_entitlements": 0,
+    "payment_reconciliation_balanced": "PENDING_REAL_DATA",
+    "webhook_failures_unresolved": 0,
+    "database_critical_errors": 0,
+    "synthetic_journeys_passed": "10_OF_10_STRUCTURE_ONLY",
+    "alert_delivery_verified": "STRUCTURE_REPORTED",
+    "rollback_path_verified": "PARTIAL",
+    "real_deployment_id_recorded": false,
+    "named_owners_assigned": false,
+    "supabase_cli_evidence_complete": false
+  },
+
+  "next_valid_update": "Actual Vercel deployment ID + production_alias_assigned_at timestamp, then first time-valid 24-hour checkpoint at stabilization_start + 86400s"
 }

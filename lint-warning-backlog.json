@@ -1,0 +1,56 @@
+{
+  "_source": "npm run lint output captured in release-lint.log (task-9745, 2026-07-26T11:06:52Z)",
+  "_note": "These are warnings only — zero lint errors. The build is not blocked. All items go to P3 maintenance backlog.",
+  "lint_errors": 0,
+  "lint_warnings_total": 24,
+  "categories": {
+    "no_img_element": {
+      "rule": "@next/next/no-img-element",
+      "count": 19,
+      "action": "Migrate all <img> tags to next/image for LCP optimization",
+      "files": [
+        "src/app/dashboard/page.tsx:225",
+        "src/app/forum/page.tsx:76",
+        "src/app/history/page.tsx:175",
+        "src/app/leaderboard/page.tsx:83",
+        "src/app/page.tsx:275",
+        "src/app/page.tsx:316",
+        "src/app/page.tsx:528",
+        "src/app/page.tsx:547",
+        "src/app/page.tsx:566",
+        "src/app/profile/page.tsx:224",
+        "src/app/subjects/page.tsx:268",
+        "src/app/subjects/[slug]/page.tsx:170",
+        "src/app/today/page.tsx:115",
+        "src/app/today/page.tsx:187",
+        "src/app/videos/page.tsx:78",
+        "src/app/videos/page.tsx:110",
+        "src/app/world/page.tsx:122",
+        "src/app/world/page.tsx:202",
+        "src/components/Navbar.tsx:213",
+        "src/components/Navbar.tsx:264"
+      ]
+    },
+    "react_hooks_exhaustive_deps": {
+      "rule": "react-hooks/exhaustive-deps",
+      "count": 4,
+      "action": "Add missing hook dependencies or restructure to stable references",
+      "files": [
+        "src/app/dashboard/page.tsx:188 (missing: supabase)",
+        "src/app/forum/page.tsx:192 (missing: currentUserId, loadAnswers, loadUserUpvotes)",
+        "src/app/forum/page.tsx:463 (missing: loadQuestions, supabase)",
+        "src/app/forum/page.tsx:465 (missing: loadQuestions)"
+      ]
+    },
+    "no_page_custom_font": {
+      "rule": "@next/next/no-page-custom-font",
+      "count": 1,
+      "action": "Move custom font loading to next/font/google in layout.tsx instead of <link> tag in pages/_document.js",
+      "files": [
+        "src/app/layout.tsx:119"
+      ]
+    }
+  },
+  "p3_backlog_priority": "Migrate <img> to next/image in next maintenance sprint to improve LCP scores; fix exhaustive-deps to prevent stale closure bugs",
+  "release_blocking": false
+}
