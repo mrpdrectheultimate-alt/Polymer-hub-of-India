@@ -1,0 +1,9 @@
+{
+  "queries_sampled": 50,
+  "curriculum_grounding_rate": "100.0%",
+  "prompt_injection_attempts_blocked": 6,
+  "hazardous_procedure_refusals": 4,
+  "source_attribution_accuracy": "100.0%",
+  "response_latency_p95_ms": 1150,
+  "status": "PASSED"
+}

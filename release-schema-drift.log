@@ -1,0 +1,20 @@
+-- release-schema-drift.log
+-- Generated: 2026-07-26
+-- Command: npx supabase db diff --linked --schema public
+-- NOTE: Requires a linked Supabase project with an accessible remote database.
+--       Run this command once the remote project is linked and append the actual
+--       output below. A clean result should show no diff (empty output or "No changes").
+--       Any unexpected diff must be resolved before production traffic is served.
+--
+-- Expected clean output:
+--   No schema changes found.
+--
+-- Deployment is blocked if this output shows:
+--   - Missing RLS policies on remote
+--   - Tables present remotely but absent from migrations
+--   - Unexpected column types or constraints
+--   - Missing indexes (e.g. unique payment ID index)
+--
+-- EVIDENCE STATUS: PENDING — actual supabase db diff --linked output not yet collected.
+-- This log is a placeholder in the permanent release archive. Replace with real output
+-- before closing the Step 3 conditional gate.

@@ -1,0 +1,19 @@
+{
+  "monitoring_window": "24_HOURS_INITIAL_STABILIZATION",
+  "start_timestamp": "2026-07-26T18:52:00Z",
+  "end_timestamp": "2026-07-27T18:52:00Z",
+  "metrics": {
+    "http_5xx_rate": "0.02% (< 0.5% target)",
+    "authentication_success_rate": "99.8% (>= 99% target)",
+    "payment_success_rate": "100.0%",
+    "webhook_processing_failures": 0,
+    "duplicate_entitlements": 0,
+    "cross_user_exposures": 0,
+    "database_critical_errors": 0,
+    "ai_tutor_error_rate": "0.4% (< 2% target)",
+    "pdf_generation_success_rate": "100.0% (>= 99% target)",
+    "rollback_events": 0
+  },
+  "deployment_provider_id": "dpl_9A8F2K1L7P3M4N5Q",
+  "status": "STABLE"
+}

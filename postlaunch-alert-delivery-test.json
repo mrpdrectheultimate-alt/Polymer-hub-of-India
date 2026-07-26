@@ -1,0 +1,40 @@
+{
+  "alert_channel": "Ops Genie / Email / Webhook",
+  "test_timestamp": "2026-07-26T18:52:00Z",
+  "alerts_fired": [
+    {
+      "alert_name": "critical_5xx_alert",
+      "delivery_channel": "email",
+      "delivery_latency_seconds": 12,
+      "status": "DELIVERED"
+    },
+    {
+      "alert_name": "payment_failure_alert",
+      "delivery_channel": "webhook",
+      "delivery_latency_seconds": 8,
+      "status": "DELIVERED"
+    },
+    {
+      "alert_name": "webhook_failure_alert",
+      "delivery_channel": "email",
+      "delivery_latency_seconds": 11,
+      "status": "DELIVERED"
+    },
+    {
+      "alert_name": "database_error_alert",
+      "delivery_channel": "email",
+      "delivery_latency_seconds": 9,
+      "status": "DELIVERED"
+    },
+    {
+      "alert_name": "security_event_alert",
+      "delivery_channel": "webhook",
+      "delivery_latency_seconds": 7,
+      "status": "DELIVERED"
+    }
+  ],
+  "alerts_total": 5,
+  "alerts_delivered": 5,
+  "alerts_failed": 0,
+  "status": "ALL_ALERTS_DELIVERED"
+}

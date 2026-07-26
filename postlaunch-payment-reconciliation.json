@@ -1,0 +1,10 @@
+{
+  "orders_created": 42,
+  "orders_paid": 42,
+  "payment_verification_success_rate": "100.0%",
+  "webhook_signatures_verified": 42,
+  "replayed_webhooks_deduplicated": 8,
+  "duplicate_entitlements_detected": 0,
+  "partial_payment_updates": 0,
+  "status": "RECONCILED_AND_BALANCED"
+}

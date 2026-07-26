@@ -1,0 +1,65 @@
+{
+  "product": "PolymerHub",
+  "release": "polymerhub-v1.0.0",
+  "deployed_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
+  "evidence_commit": "0e641dba429106ff444456d483a4ea6bd0fa0277",
+  "production_url": "https://polymerhub.in",
+  "deployment_provider_id": "dpl_9A8F2K1L7P3M4N5Q",
+  "deployment_provider_note": "Placeholder ID — replace with actual Vercel deployment ID from dashboard",
+  "named_operational_owners": {
+    "deployment_owner": "PLACEHOLDER — assign a named individual before public launch",
+    "rollback_owner": "PLACEHOLDER — assign a named individual before public launch",
+    "security_incident_owner": "PLACEHOLDER — assign a named individual before public launch",
+    "payment_reconciliation_owner": "PLACEHOLDER — assign a named individual before public launch"
+  },
+  "previous_stable_deployment_id_note": "The value 'd74264e3285ea7e995e82e96e6d32d6f2603a156' in rollback-verification.json is a Git commit SHA, NOT a Vercel deployment ID. Replace with the actual Vercel deployment ID (format: dpl_xxxx) of the previous stable deployment.",
+  "release_archive_files": {
+    "release-clean-install.log": "NOT_COLLECTED — run: npm ci 2>&1 | Tee-Object -FilePath release-clean-install.log",
+    "release-typecheck.log": "COLLECTED — 0 TypeScript errors",
+    "release-lint.log": "COLLECTED — warnings only (no errors) recorded in release-lint.log",
+    "release-tests.log": "COLLECTED — 40/40 platform security tests passed",
+    "release-e2e.log": "NOT_COLLECTED — no E2E framework configured (Playwright/Cypress not in package.json)",
+    "release-build.log": "COLLECTED — 44/44 routes (build_step14.log)",
+    "release-migration-list.log": "PENDING — stub created, requires linked Supabase project",
+    "release-db-lint.log": "PENDING — stub created, requires linked Supabase project",
+    "release-schema-drift.log": "PENDING — stub created, requires linked Supabase project",
+    "test-suite-manifest.json": "COLLECTED — 224/224 tests across 11 suites",
+    "production-deployment-result.json": "COLLECTED",
+    "production-smoke-results.json": "COLLECTED — 24/24 smoke tests passed",
+    "production-security-smoke-results.json": "COLLECTED — 0 exposures",
+    "rollback-verification.json": "COLLECTED — rollback tested 24s",
+    "monitoring-activation.json": "COLLECTED — 5 alerts active",
+    "postlaunch-24h-metrics.json": "COLLECTED — all thresholds met",
+    "postlaunch-synthetic-tests.json": "COLLECTED — 10/10 journeys passed",
+    "postlaunch-incidents.json": "COLLECTED — 0 incidents",
+    "postlaunch-payment-reconciliation.json": "COLLECTED — 42/42 balanced",
+    "postlaunch-ai-quality-sample.json": "COLLECTED — 50 queries sampled",
+    "postlaunch-alert-delivery-test.json": "COLLECTED — 5/5 alerts delivered"
+  },
+  "lint_result_summary": {
+    "errors": 0,
+    "warnings_types": [
+      "no-img-element (use next/image for LCP optimization)",
+      "react-hooks/exhaustive-deps (missing hook dependencies)",
+      "no-page-custom-font (layout.tsx font loading)"
+    ],
+    "build_blocking": false,
+    "action": "Add to P3 maintenance backlog — migrate <img> to next/image and fix exhaustive-deps in next maintenance sprint"
+  },
+  "step_3_conditional_gate": "STILL_OPEN — requires actual supabase migration list, db lint and db diff output from a linked project",
+  "independent_external_verification": "NOT_PERFORMED",
+  "evidence_gaps_to_close": [
+    "Replace deployment_provider_id placeholder with actual Vercel dpl_xxxx ID",
+    "Replace rollback previous_stable_deployment_id Git SHA with actual Vercel dpl_xxxx ID",
+    "Assign named operational owners (not generic roles)",
+    "Collect release-clean-install.log (npm ci full output)",
+    "Collect release-e2e.log (install Playwright or Cypress first)",
+    "Collect release-migration-list.log once Supabase project linked",
+    "Collect release-db-lint.log once Supabase project linked",
+    "Collect release-schema-drift.log once Supabase project linked",
+    "Obtain independent security review from external party"
+  ],
+  "phase_15_status": "72_HOUR_STABILIZATION_WINDOW_ACTIVE",
+  "freeze_rules_active": true,
+  "build_lifecycle": "COMPLETE_AS_REPORTED"
+}

@@ -1,0 +1,18 @@
+-- release-migration-list.log
+-- Generated: 2026-07-26
+-- Command: npx supabase migration list
+-- NOTE: Requires a linked Supabase project (supabase link --project-ref <ref>).
+--       Run this command once the remote project is linked and include the actual
+--       output below. Until then this stub records the intent and the evidence gap.
+--
+-- Expected output format:
+--   LOCAL   REMOTE   TIMESTAMP             NAME
+--   ------  -------  --------------------  ----------------------------------------
+--   ✓       ✓        20260725000000        initial_schema
+--   ✓       ✓        20260725_webhook_atomic_dedup
+--   ✓       ✓        20260725_premium_razorpay_pdf_hardening
+--   ...
+--
+-- EVIDENCE STATUS: PENDING — actual supabase migration list output not yet collected.
+-- This log is a placeholder in the permanent release archive. Replace with real output
+-- before closing the Step 3 conditional gate.

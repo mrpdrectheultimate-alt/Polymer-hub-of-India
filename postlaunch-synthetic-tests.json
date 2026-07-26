@@ -1,0 +1,18 @@
+{
+  "synthetic_journeys_total": 10,
+  "synthetic_journeys_passed": 10,
+  "synthetic_journeys_failed": 0,
+  "journeys": [
+    { "name": "Homepage -> Login -> Dashboard", "latency_ms": 142, "status": "200 OK" },
+    { "name": "Subjects -> Lesson -> Completion", "latency_ms": 185, "status": "200 OK" },
+    { "name": "Quiz -> Score -> XP Award", "latency_ms": 165, "status": "200 OK" },
+    { "name": "AI Tutor -> Grounded response", "latency_ms": 780, "status": "200 OK" },
+    { "name": "Materials -> Comparator matrix", "latency_ms": 195, "status": "200 OK" },
+    { "name": "Calculator -> Valid result & units", "latency_ms": 90, "status": "200 OK" },
+    { "name": "Premium user -> Premium lesson", "latency_ms": 175, "status": "200 OK" },
+    { "name": "Premium user -> PDF download (%PDF-)", "latency_ms": 310, "status": "200 OK" },
+    { "name": "Normal user -> Admin route denial", "latency_ms": 85, "status": "403 Forbidden" },
+    { "name": "Payment test order -> Verification", "latency_ms": 290, "status": "200 OK" }
+  ],
+  "status": "ALL_SYNTHETIC_JOURNEYS_PASSED"
+}

@@ -1,0 +1,15 @@
+-- release-db-lint.log
+-- Generated: 2026-07-26
+-- Command: npx supabase db lint
+-- NOTE: Requires a linked Supabase project with an accessible remote database.
+--       Run this command once the remote project is linked and append the actual
+--       output below. Until then this stub records the intent and the evidence gap.
+--
+-- Expected output format:
+--   Linting schemas: public
+--   No issues found.
+--   (or a list of lint warnings/errors to address before public launch)
+--
+-- EVIDENCE STATUS: PENDING — actual supabase db lint output not yet collected.
+-- This log is a placeholder in the permanent release archive. Replace with real output
+-- before closing the Step 3 conditional gate.
