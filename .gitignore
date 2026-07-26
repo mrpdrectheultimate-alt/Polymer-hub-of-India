@@ -88,3 +88,8 @@ test-suite-manifest.json
 rollback-*.json
 monitoring-*.json
 release-*.log
+
+postlaunch-*.json
+release-archive-manifest.json
+release-*.log
+test-suite-manifest.json
