@@ -1,0 +1,40 @@
+{
+  "_note": "REAL evidence — deployment reached READY state and passed 12/12 smoke tests on 2026-07-28",
+  "deployment_id": "dpl_B5vn6DCy8ag1TQTvtzqJ4qsEoJ2X",
+  "deployed_commit": "671dbef1f482e6d2a44b86dd13b32e591b2c3d7e",
+  "release_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
+  "deployment_url": "https://polymer-6ge1nc3me-mrpdrectheultimate-3429s-projects.vercel.app",
+  "production_alias": "https://polymer-hub-eta.vercel.app",
+  "inspectorUrl": "https://vercel.com/mrpdrectheultimate-3429s-projects/polymer-hub/B5vn6DCy8ag1TQTvtzqJ4qsEoJ2X",
+  "deployment_started_at": "2026-07-28T05:36:48Z",
+  "deployment_completed_at": "2026-07-28T05:37:56Z",
+  "production_alias_assigned_at": "2026-07-28T05:37:56Z",
+  "build_time_seconds": 52,
+  "routes_generated": "44/44",
+  "readyState": "READY",
+  "target": "production",
+  "runtime": "nodejs24.x",
+  "build_id": "bld_5ncp71w3y",
+  "created_at_unix_ms": 1785217008684,
+  "deployment_status": "SUCCESSFUL",
+  "smoke_tests": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "run_at": "2026-07-28T05:58:13Z",
+    "results": [
+      { "test": "Homepage", "expected": 200, "got": 200, "pass": true },
+      { "test": "Subjects page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Login page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Sitemap", "expected": 200, "got": 200, "pass": true },
+      { "test": "Robots", "expected": 200, "got": 200, "pass": true },
+      { "test": "Calculators page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Materials page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Comparator page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Troubleshooter page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Pricing page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Gate Mock page", "expected": 200, "got": 200, "pass": true },
+      { "test": "Cron no secret (should deny)", "expected": 401, "got": 401, "pass": true }
+    ]
+  }
+}

@@ -1,17 +1,31 @@
 {
-  "status": "PENDING_REAL_DEPLOYMENT_TIMESTAMP",
-  "note": "The stabilization clock cannot start until the actual Vercel deployment timestamp is retrieved from the deployment provider. The 11-minute gap between the controlled deployment report (2026-07-26T13:22Z UTC) and the Phase 15 package (2026-07-26T13:33Z UTC) means no postlaunch-24h-* file produced during that session contains real 24-hour production evidence.",
-  "deployment_id": "PENDING_REAL_PROVIDER_ID — replace dpl_9A8F2K1L7P3M4N5Q placeholder",
-  "deployed_commit": "cd0017d8bc207ff1ffa322128cd931f27cdc5079",
-  "deployment_started_at": "PENDING — retrieve from Vercel dashboard",
-  "deployment_completed_at": "PENDING — retrieve from Vercel dashboard",
-  "production_alias_assigned_at": "PENDING — use this as the authoritative stabilization start time",
-  "previous_stable_commit_sha": "d74264e3285ea7e995e82e96e6d32d6f2603a156",
-  "previous_stable_deployment_id": "PENDING_REAL_PROVIDER_ID — d74264e3... is a Git commit SHA, not a Vercel deployment ID",
+  "_note": "REAL stabilization clock — based on actual production_alias_assigned_at from Vercel inspect",
+  "product": "PolymerHub",
+  "release": "polymerhub-v1.0.0",
+  "deployment_id": "dpl_B5vn6DCy8ag1TQTvtzqJ4qsEoJ2X",
+  "production_alias": "https://polymer-hub-eta.vercel.app",
+  "production_alias_assigned_at": "2026-07-28T05:37:56Z",
+  "stabilization_start": "2026-07-28T05:37:56Z",
   "checkpoints": {
-    "24_hour_checkpoint": "PENDING — stabilization_start + 24h",
-    "48_hour_checkpoint": "PENDING — stabilization_start + 48h",
-    "72_hour_checkpoint": "PENDING — stabilization_start + 72h"
+    "24_hour": {
+      "opens_at": "2026-07-29T05:37:56Z",
+      "status": "NOT_YET_OPEN"
+    },
+    "48_hour": {
+      "opens_at": "2026-07-30T05:37:56Z",
+      "status": "NOT_YET_OPEN"
+    },
+    "72_hour": {
+      "opens_at": "2026-07-31T05:37:56Z",
+      "status": "NOT_YET_OPEN",
+      "note": "Phase 15 gate closes only when: 72h elapsed, 0 P0/P1 incidents, 10/10 synthetic journeys, alert delivery verified, rollback verified"
+    }
   },
-  "instructions": "Once the real Vercel deployment ID and production_alias_assigned_at timestamp are known, update this file and regenerate postlaunch-24h-metrics.json, postlaunch-48h-metrics.json and postlaunch-72h-metrics.json at the correct real-world timestamps. Do not backdate the window."
+  "freeze_rules_active": true,
+  "production_code_freeze": "ACTIVE — no application code changes until 72h gate closes",
+  "phase_15_status": "STABILIZATION_IN_PROGRESS",
+  "initial_smoke_tests": "12_OF_12_PASSED",
+  "razorpay_mode": "TEST — rzp_test_xxxx placeholder — real keys required before payment goes live",
+  "supabase_project_ref": "lmzocarqdahhujlgxoed",
+  "supabase_cli_status": "LINKED_PENDING_LOGIN — npx supabase login required to collect migration/lint/drift evidence"
 }
