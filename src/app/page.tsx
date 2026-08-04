@@ -384,7 +384,7 @@ export default function HomePage() {
 
           {/* Official Brand Logo Badge in Hero */}
           <div className="mb-6">
-            <div className="inline-block bg-white border-4 border-yellow-bright p-2" style={{ boxShadow: '4px 4px 0px 0px #FACC15' }}>
+            <div className="inline-block bg-white border-4 border-yellow-bright p-2" style={{ boxShadow: '4px 4px 0px 0px #FDE047' }}>
               <Image
                 src="/logo-vertical.jpg"
                 alt="Polymer Hub of India — Knowledge · Innovation · Future"

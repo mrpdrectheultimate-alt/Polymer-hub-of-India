@@ -207,7 +207,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
             {!isContentLocked && (
               <>
                 <div
-                  className="border-4 border-ink p-6 md:p-8 bg-canvas mb-6"
+                  className="border-4 border-ink p-6 md:p-8 bg-canvas mb-6 max-w-[72ch] mx-auto"
                   style={{ boxShadow: `4px 4px 0px 0px ${domain.color}` }}
                 >
                   <TechnicalMarkdownRenderer

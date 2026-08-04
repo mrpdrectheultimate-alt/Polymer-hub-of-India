@@ -37,7 +37,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-yellow-bright flex flex-col justify-center items-center px-4 py-12 relative">
+    <div className="min-h-screen bg-yellow-light flex flex-col justify-center items-center px-4 py-12 relative">
       {/* Grid background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{
@@ -49,7 +49,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {!sent ? (
           /* ── Login Form ── */
-          <div className="bg-canvas border-4 border-ink p-8 md:p-10 shadow-hard" style={{ boxShadow: '6px 6px 0px 0px #0A0A0A' }}>
+          <div className="bg-canvas border-4 border-ink p-8 md:p-10 shadow-hard" style={{ boxShadow: '6px 6px 0px 0px #1A1C20' }}>
             <div className="text-center mb-8">
               <div className="w-14 h-14 bg-yellow-bright border-4 border-ink flex items-center justify-center mx-auto mb-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                 <FlaskConical className="w-7 h-7 text-ink" />
@@ -59,7 +59,7 @@ export default function LoginPage() {
                 Enter your email address to receive a secure sign-in magic link.
               </p>
             </div>
-
+            
             <form onSubmit={handleLogin} className="space-y-4">
               <div>
                 <label htmlFor="email" className="block font-mono text-[10px] font-black text-ink uppercase tracking-wider mb-2">
@@ -136,7 +136,7 @@ export default function LoginPage() {
 
         ) : (
           /* ── Success State ── */
-          <div className="bg-canvas border-4 border-ink p-8 md:p-10 text-center shadow-hard" style={{ boxShadow: '6px 6px 0px 0px #0A0A0A' }}>
+          <div className="bg-canvas border-4 border-ink p-8 md:p-10 text-center shadow-hard" style={{ boxShadow: '6px 6px 0px 0px #1A1C20' }}>
             <div className="w-16 h-16 bg-emerald-50 border-4 border-ink flex items-center justify-center mx-auto mb-5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               <CheckCircle className="w-8 h-8 text-emerald-700" />
             </div>

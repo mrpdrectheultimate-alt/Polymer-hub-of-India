@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Space Grotesk', 'sans-serif'],
-        sans:    ['Inter', 'system-ui', 'sans-serif'],
-        mono:    ['JetBrains Mono', 'Courier New', 'monospace'],
+        display: ['var(--font-space-grotesk)', 'sans-serif'],
+        sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        mono:    ['var(--font-jetbrains-mono)', 'monospace'],
       },
       colors: {
         // ─── PolymerHub v3 — Bold CN-Industrial Palette ──────────────────
@@ -30,9 +30,9 @@ const config: Config = {
 
         // Domain: Chemistry / Trust / Navigation
         blue: {
-          DEFAULT: '#1D4ED8',       // primary blue
-          hover: '#1E40AF',
-          light: '#EFF6FF',
+          DEFAULT: '#2563EB',       // softer readable blue
+          hover: '#1D4ED8',
+          light: '#EEF2FF',
           border: '#BFDBFE',
           dark: '#1e3a8a',
           600: '#2563EB',
@@ -65,7 +65,7 @@ const config: Config = {
           hover: '#A16207',
           light: '#FEFCE8',
           border: '#FEF08A',
-          bright: '#FACC15',        // for dark backgrounds
+          bright: '#FDE047',        // soft gold (not harsh)
           dark: '#713F12',
         },
 

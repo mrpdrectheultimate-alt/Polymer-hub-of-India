@@ -88,25 +88,25 @@ function PolymerSelector({ label, selected, onChange, exclude }: {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full text-left border-4 border-ink overflow-hidden transition-all"
+        className="w-full text-left border-2 border-ink overflow-hidden transition-all"
         style={{
-          boxShadow: selected ? `4px 4px 0px 0px ${selected.color}` : '4px 4px 0px 0px #0A0A0A',
+          boxShadow: selected ? `2px 2px 0px 0px ${selected.color}` : '2px 2px 0px 0px #1A1C20',
         }}
       >
         {selected ? (
           <div className="flex items-center gap-0">
-            <div className="w-16 h-16 border-r-4 border-ink flex items-center justify-center flex-shrink-0 font-mono font-black text-sm text-white" style={{ backgroundColor: selected.color }}>
+            <div className="w-16 h-16 border-r-2 border-ink flex items-center justify-center flex-shrink-0 font-mono font-black text-sm text-white" style={{ backgroundColor: selected.color }}>
               {selected.abbr}
             </div>
             <div className="px-4 flex-1 bg-canvas">
               <div className="font-display text-base font-black text-ink">{selected.name}</div>
               <div className="font-mono text-[10px] text-ink/50">{selected.family}</div>
             </div>
-            <div className="px-4 font-mono text-[10px] text-ink/40 border-l-4 border-ink h-16 flex items-center">Change ▾</div>
+            <div className="px-4 font-mono text-[10px] text-ink/40 border-l-2 border-ink h-16 flex items-center">Change ▾</div>
           </div>
         ) : (
           <div className="flex items-center gap-4 p-5 bg-canvas">
-            <div className="w-10 h-10 border-4 border-ink flex items-center justify-center">
+            <div className="w-10 h-10 border-2 border-ink flex items-center justify-center">
               <Scale className="w-5 h-5 text-ink/40" />
             </div>
             <div>
@@ -118,7 +118,7 @@ function PolymerSelector({ label, selected, onChange, exclude }: {
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 right-0 z-30 border-4 border-ink bg-canvas mt-1 max-h-80 overflow-y-auto shadow-hard-lg">
+        <div className="absolute top-full left-0 right-0 z-30 border-2 border-ink bg-canvas mt-1 max-h-80 overflow-y-auto shadow-hard-lg">
           {types.map((type) => {
             const tc = TYPE_CONFIG[type]
             const group = POLYMERS.filter((p) => p.type === type && p.id !== exclude)
@@ -173,7 +173,7 @@ export default function ComparatorPage() {
         <div className="relative max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue border-4 border-blue flex items-center justify-center">
+              <div className="w-10 h-10 bg-blue border-2 border-blue flex items-center justify-center">
                 <Scale className="w-5 h-5 text-white" />
               </div>
               <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">Property Comparator</span>
@@ -212,7 +212,7 @@ export default function ComparatorPage() {
             >
               {showAll ? 'Show Key Properties Only' : 'Show All 16 Properties'} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAll ? 'rotate-180' : ''}`} />
             </button>
-            <button onClick={reset} className="border-4 border-ink px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-white transition-colors flex items-center gap-1.5">
+            <button onClick={reset} className="border-2 border-ink px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-white transition-colors flex items-center gap-1.5">
               <RotateCcw className="w-3.5 h-3.5" /> Reset
             </button>
           </div>
@@ -226,8 +226,8 @@ export default function ComparatorPage() {
             <div className="grid grid-cols-3 gap-3 mb-4">
               <div />
               {[polyA, polyB].map((poly) => (
-                <div key={poly!.id} className="border-4 border-ink overflow-hidden" style={{ boxShadow: `4px 4px 0px 0px ${poly!.color}` }}>
-                  <div className="border-b-4 border-ink p-3 text-center text-white font-mono font-black text-xl" style={{ backgroundColor: poly!.color }}>
+                <div key={poly!.id} className="border-2 border-ink overflow-hidden" style={{ boxShadow: `2px 2px 0px 0px ${poly!.color}` }}>
+                  <div className="border-b-2 border-ink p-3 text-center text-white font-mono font-black text-xl" style={{ backgroundColor: poly!.color }}>
                     {poly!.abbr}
                   </div>
                   <div className="p-3 text-center bg-canvas">
@@ -243,7 +243,7 @@ export default function ComparatorPage() {
               <div key={prop.key} className={`grid grid-cols-3 gap-3 ${prop.highlight ? 'ring-2 ring-yellow-bright' : ''}`}>
                 {/* Label */}
                 <div
-                  className="border-4 border-ink px-3 py-3 flex items-center gap-2"
+                  className="border-2 border-ink px-3 py-3 flex items-center gap-2"
                   style={{ backgroundColor: prop.highlight ? '#FEFCE8' : '#F9FAFB' }}
                 >
                   <span className="text-base flex-shrink-0">{prop.icon}</span>
@@ -256,8 +256,8 @@ export default function ComparatorPage() {
                 {[polyA, polyB].map((poly) => (
                   <div
                     key={poly!.id}
-                    className="border-4 border-ink px-3 py-3 flex items-center bg-canvas"
-                    style={{ borderColor: prop.highlight ? poly!.color : '#0A0A0A', borderWidth: prop.highlight ? '4px' : '4px' }}
+                    className="border-2 border-ink px-3 py-3 flex items-center bg-canvas"
+                    style={{ borderColor: prop.highlight ? poly!.color : 'var(--border)' }}
                   >
                     <p className="text-sm text-ink leading-relaxed">{poly!.properties[prop.key]}</p>
                   </div>
@@ -270,8 +270,8 @@ export default function ComparatorPage() {
             </p>
           </div>
         ) : (
-          <div className="border-4 border-ink p-12 text-center shadow-hard">
-            <div className="w-16 h-16 border-4 border-ink mx-auto mb-5 flex items-center justify-center">
+          <div className="border-2 border-ink p-12 text-center shadow-hard">
+            <div className="w-16 h-16 border-2 border-ink mx-auto mb-5 flex items-center justify-center">
               <Scale className="w-8 h-8 text-ink/30" />
             </div>
             <div className="font-display text-2xl font-black text-ink mb-2">Select Two Polymers to Compare</div>

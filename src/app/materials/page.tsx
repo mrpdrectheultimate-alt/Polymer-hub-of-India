@@ -43,7 +43,7 @@ function MaterialRow({ material, expanded, onToggle }: {
 
   if (material.is_premium) {
     return (
-      <div className="bg-amber-50 border-4 border-ink p-4 flex items-center justify-between gap-4 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]">
+      <div className="bg-amber-50 border-2 border-ink p-4 flex items-center justify-between gap-4 shadow-[2px_2px_0px_0px_rgba(26,28,32,1)]">
         <div className="flex items-center gap-3 min-w-0">
           <Lock className="w-5 h-5 text-amber-600 flex-shrink-0" />
           <div className="min-w-0">
@@ -60,8 +60,8 @@ function MaterialRow({ material, expanded, onToggle }: {
 
   return (
     <div
-      className="bg-white border-4 border-ink transition-all shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]"
-      style={{ transform: expanded ? 'translate(-2px, -2px)' : 'none', boxShadow: expanded ? '5px 5px 0px 0px #0A0A0A' : '3px 3px 0px 0px #0A0A0A' }}
+      className="bg-white border-2 border-ink transition-all shadow-[2px_2px_0px_0px_rgba(26,28,32,1)]"
+      style={{ transform: expanded ? 'translate(-2px, -2px)' : 'none', boxShadow: expanded ? '4px 4px 0px 0px #1A1C20' : '2px 2px 0px 0px #1A1C20' }}
     >
       {/* Row header */}
       <button
@@ -193,7 +193,7 @@ export default function MaterialsPage() {
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           <div>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-ink border-4 border-ink flex items-center justify-center">
+              <div className="w-10 h-10 bg-ink border-2 border-ink flex items-center justify-center">
                 <Database className="w-5 h-5 text-yellow-bright" />
               </div>
               <span className="font-mono text-[10px] font-black text-ink border-2 border-ink px-3 py-1 uppercase tracking-widest bg-white">
@@ -309,7 +309,7 @@ export default function MaterialsPage() {
         {loading && (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="border-4 border-ink p-5 bg-white shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] animate-pulse">
+              <div key={i} className="border-2 border-ink p-5 bg-white shadow-[2px_2px_0px_0px_rgba(26,28,32,1)] animate-pulse">
                 <div className="h-4 bg-slate-100 rounded w-48 mb-2" />
                 <div className="h-3 bg-slate-100 rounded w-64" />
               </div>
@@ -321,7 +321,7 @@ export default function MaterialsPage() {
         {!loading && viewMode === 'table' && (
           <div className="space-y-4">
             {filtered.length === 0 ? (
-              <div className="border-4 border-ink p-12 text-center shadow-hard bg-white">
+              <div className="border-2 border-ink p-12 text-center shadow-hard bg-white">
                 <Database className="w-10 h-10 mx-auto mb-4 text-ink/40" />
                 <div className="font-display text-2xl font-black text-ink mb-2">No polymers matched</div>
                 <p className="text-ink/60 max-w-sm mx-auto font-mono text-xs">
@@ -345,7 +345,7 @@ export default function MaterialsPage() {
         {!loading && viewMode === '3d' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {threeDModels.map((model) => (
-              <div key={model.id} className="bg-white border-4 border-ink p-5 shadow-hard flex flex-col justify-between">
+              <div key={model.id} className="bg-white border-2 border-ink p-5 shadow-hard flex flex-col justify-between">
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[9px] font-black border-2 border-ink px-2 py-0.5 uppercase tracking-wider bg-purple-50 text-purple-700 border-purple-300">
@@ -366,7 +366,7 @@ export default function MaterialsPage() {
         )}
 
         {/* Premium Upgrade alert */}
-        <div className="mt-10 border-4 border-ink p-6 shadow-hard" style={{ backgroundColor: '#FEFCE8', boxShadow: '4px 4px 0px 0px #EA580C' }}>
+        <div className="mt-10 border-2 border-ink p-6 shadow-hard" style={{ backgroundColor: '#FEFCE8', boxShadow: '2px 2px 0px 0px #EA580C' }}>
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-start gap-4">
               <Lock className="w-6 h-6 text-orange flex-shrink-0 mt-0.5" />

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Lora } from 'next/font/google'
+import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
@@ -7,19 +7,22 @@ import FeedbackWidget from '@/components/FeedbackWidget'
 import { DEFAULT_METADATA } from '@/lib/seo'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 
-
-
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   display: 'swap',
 })
 
-const lora = Lora({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-lora',
+  variable: '--font-space-grotesk',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -32,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${lora.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable}`}>
       <head>
         {/* JSON-LD Structured Data — helps Google understand the site */}
         <script

@@ -97,12 +97,12 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
 
             // ── Paragraphs ─────────────────────────────────────────────────────
             p: ({ children }) => (
-              <p className="text-ink/80 leading-relaxed mb-4 text-base">{children}</p>
+              <p className="text-ink/80 leading-[1.8] mb-4 text-base">{children}</p>
             ),
 
             // ── Tables ─────────────────────────────────────────────────────────
             table: ({ children }) => (
-              <div className="overflow-x-auto my-6 border-4 border-ink shadow-hard">
+              <div className="overflow-x-auto my-6 border-2 border-ink shadow-hard">
                 <table className="w-full border-collapse font-mono text-sm">{children}</table>
               </div>
             ),
@@ -126,7 +126,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
               const isBlock = className?.includes('language-')
               if (isBlock) {
                 return (
-                  <pre className="border-4 border-ink bg-ink text-green-400 font-mono text-sm p-5 overflow-x-auto my-6 shadow-hard">
+                  <pre className="border-2 border-ink bg-ink text-green-400 font-mono text-sm p-5 overflow-x-auto my-6 shadow-hard">
                     <code>{children}</code>
                   </pre>
                 )
@@ -155,7 +155,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
                   className="w-3 h-3 border-2 border-ink flex-shrink-0 mt-1.5"
                   style={{ backgroundColor: domainColor }}
                 />
-                <span className="text-ink/80 leading-relaxed flex-1">{children}</span>
+                <span className="text-ink/80 leading-[1.8] flex-1">{children}</span>
               </li>
             ),
 
