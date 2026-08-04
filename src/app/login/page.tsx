@@ -37,7 +37,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-yellow-light flex flex-col justify-center items-center px-4 py-12 relative">
+    <div className="min-h-screen bg-yellow-light flex flex-col justify-center items-center px-4 py-12 relative animate-soft-fade">
       {/* Grid background */}
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
         style={{

@@ -362,7 +362,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-canvas">
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex flex-col justify-end overflow-hidden border-b-4 border-ink">
+      <section className="relative min-h-[85vh] flex flex-col justify-end overflow-hidden border-b-4 border-ink animate-soft-fade">
 
         {/* Background image */}
         <div className="absolute inset-0">
