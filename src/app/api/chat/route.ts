@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import OpenAI from 'openai'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
 
 type LessonChunk = {
   lesson_title: string
@@ -82,9 +83,25 @@ Key Takeaways: ${lesson.key_takeaways || ''}`
     }
 
     // ── Generate query embedding ─────────────────────────────────────────────
-    const embeddingModel = genAI.getGenerativeModel({ model: 'gemini-embedding-001' })
-    const embeddingResult = await embeddingModel.embedContent(message)
-    const queryEmbedding = embeddingResult.embedding.values
+    let queryEmbedding: number[] = []
+
+    if (process.env.GEMINI_API_KEY && genAI) {
+      const embeddingModel = genAI.getGenerativeModel({ model: 'gemini-embedding-001' })
+      const embeddingResult = await embeddingModel.embedContent(message)
+      queryEmbedding = embeddingResult.embedding.values
+    } else if (process.env.OPENROUTER_API_KEY) {
+      const openai = new OpenAI({
+        apiKey: process.env.OPENROUTER_API_KEY,
+        baseURL: 'https://openrouter.ai/api/v1',
+      })
+      const response = await openai.embeddings.create({
+        model: 'openai/text-embedding-3-small',
+        input: message,
+      })
+      queryEmbedding = response.data[0].embedding
+    } else {
+      return NextResponse.json({ error: 'AI integration keys not configured.' }, { status: 500 })
+    }
 
     // ── Vector similarity search ─────────────────────────────────────────────
     const { data: chunks } = await supabase.rpc('match_lesson_chunks', {
@@ -115,14 +132,6 @@ Key Takeaways: ${lesson.key_takeaways || ''}`
       })
     }
 
-
-    // ── Build conversation history for Gemini ────────────────────────────────
-    // Convert our message history format to Gemini's format
-    const conversationHistory = history.map((msg: { role: string; content: string }) => ({
-      role: msg.role === 'user' ? 'user' : 'model',
-      parts: [{ text: msg.content }],
-    }))
-
     // ── System instruction ────────────────────────────────────────────────────
     const systemInstruction = `You are the PolymerHub AI Tutor — an expert polymer engineering educator for Indian B.Tech PPE (Plastic Polymer Engineering) students.
 
@@ -145,24 +154,60 @@ ANSWER FORMAT:
 
 ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific lesson content was retrieved for this query — answer from general polymer engineering knowledge.'}`
 
-    // ── Call Gemini with conversation history ────────────────────────────────
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      systemInstruction,
-    })
+    let answer = ''
 
-    // Start chat with history
-    const chat = model.startChat({
-      history: conversationHistory,
-      generationConfig: {
-        maxOutputTokens: 1024,
-        temperature: 0.3, // Low temperature for factual accuracy
-      },
-    })
+    if (process.env.OPENROUTER_API_KEY) {
+      const openai = new OpenAI({
+        apiKey: process.env.OPENROUTER_API_KEY,
+        baseURL: 'https://openrouter.ai/api/v1',
+        defaultHeaders: {
+          'HTTP-Referer': 'https://polymer-hub-six.vercel.app',
+          'X-Title': 'Polymer Hub of India',
+        }
+      })
 
-    // Send the current message
-    const result = await chat.sendMessage(message)
-    const answer = result.response.text()
+      const openRouterMessages = [
+        { role: 'system', content: systemInstruction },
+        ...history.map((msg: { role: string; content: string }) => ({
+          role: msg.role === 'user' ? 'user' : 'assistant',
+          content: msg.content,
+        })),
+        { role: 'user', content: message }
+      ]
+
+      const response = await openai.chat.completions.create({
+        model: 'google/gemini-2.5-flash',
+        messages: openRouterMessages as any,
+        temperature: 0.3,
+        max_tokens: 1024,
+      })
+
+      answer = response.choices[0].message.content || ''
+    } else if (process.env.GEMINI_API_KEY && genAI) {
+      // ── Build conversation history for Gemini ────────────────────────────────
+      const conversationHistory = history.map((msg: { role: string; content: string }) => ({
+        role: msg.role === 'user' ? 'user' : 'model',
+        parts: [{ text: msg.content }],
+      }))
+
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-2.5-flash',
+        systemInstruction,
+      })
+
+      const chat = model.startChat({
+        history: conversationHistory,
+        generationConfig: {
+          maxOutputTokens: 1024,
+          temperature: 0.3,
+        },
+      })
+
+      const result = await chat.sendMessage(message)
+      answer = result.response.text()
+    } else {
+      return NextResponse.json({ error: 'AI configuration is missing.' }, { status: 500 })
+    }
 
     // ── Update query count ────────────────────────────────────────────────────
     if (!isPremium) {

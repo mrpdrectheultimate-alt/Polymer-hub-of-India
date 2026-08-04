@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import OpenAI from 'openai'
 
 export const dynamic = 'force-dynamic'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
+const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
 
 export async function GET() {
   try {
@@ -63,14 +64,6 @@ export async function GET() {
       }).join('\n')
     }
 
-    // Call Gemini 1.5 Flash to generate personalized Focus & Career blueprint
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-1.5-flash',
-      generationConfig: {
-        temperature: 0.2, // Keep it highly analytical and grounded
-      },
-    })
-
     const prompt = `You are the Lead Career Advisor & Curriculum Director at PolymerHub.
 Your target audience is Indian B.Tech students studying Plastic and Polymer Engineering (PPE) at institutes like CIPET, IITs, or state universities.
 
@@ -99,8 +92,37 @@ Please structure your response into the following four clear sections using clea
 
 Make the tone encouraging, highly professional, and engineering-focused.`
 
-    const result = await model.generateContent(prompt)
-    const plan = result.response.text()
+    let plan = ''
+
+    if (process.env.OPENROUTER_API_KEY) {
+      const openai = new OpenAI({
+        apiKey: process.env.OPENROUTER_API_KEY,
+        baseURL: 'https://openrouter.ai/api/v1',
+        defaultHeaders: {
+          'HTTP-Referer': 'https://polymer-hub-six.vercel.app',
+          'X-Title': 'Polymer Hub of India',
+        }
+      })
+
+      const response = await openai.chat.completions.create({
+        model: 'google/gemini-flash-1.5',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.2,
+      })
+
+      plan = response.choices[0].message.content || ''
+    } else if (process.env.GEMINI_API_KEY && genAI) {
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-1.5-flash',
+        generationConfig: {
+          temperature: 0.2,
+        },
+      })
+      const result = await model.generateContent(prompt)
+      plan = result.response.text()
+    } else {
+      return NextResponse.json({ error: 'AI configuration is missing.' }, { status: 500 })
+    }
 
     return NextResponse.json({ plan })
   } catch (error: unknown) {
