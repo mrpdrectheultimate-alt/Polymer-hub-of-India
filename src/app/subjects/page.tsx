@@ -3,13 +3,12 @@
 import Link from 'next/link'
 import { ArrowRight, BookOpen, Brain, FlaskConical, Recycle, Wrench } from 'lucide-react'
 
-// ─── Subject data ─────────────────────────────────────────────────────────────
-
+// ─── Subject data ───────────────────
 const SUBJECTS = [
   {
     name: 'Polymer Chemistry',
     slug: 'polymer-chemistry',
-    lessons: 9,
+    lessons: 15,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Foundation',
@@ -24,7 +23,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Processing',
     slug: 'polymer-processing',
-    lessons: 14,
+    lessons: 20,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Manufacturing',
@@ -39,7 +38,7 @@ const SUBJECTS = [
   {
     name: 'Mould Design',
     slug: 'mould-design',
-    lessons: 9,
+    lessons: 12,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Engineering',
@@ -84,7 +83,7 @@ const SUBJECTS = [
   {
     name: 'Recycling Technology',
     slug: 'recycling-technology',
-    lessons: 8,
+    lessons: 12,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Circular Economy',
@@ -99,7 +98,7 @@ const SUBJECTS = [
   {
     name: 'Sustainable Plastics & Bioplastics',
     slug: 'sustainable-plastics',
-    lessons: 16,
+    lessons: 18,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Bioplastics',
@@ -114,7 +113,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Composites',
     slug: 'polymer-composites',
-    lessons: 13,
+    lessons: 16,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Advanced Materials',
@@ -144,7 +143,7 @@ const SUBJECTS = [
   {
     name: 'Medical Plastics & Biomaterials',
     slug: 'medical-plastics',
-    lessons: 9,
+    lessons: 12,
     color: '#7C3AED',
     bg: '#F5F3FF',
     tag: 'Specialised',
@@ -174,7 +173,7 @@ const SUBJECTS = [
   {
     name: 'Additives & Compounding',
     slug: 'additives-compounding',
-    lessons: 11,
+    lessons: 16,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Formulation',
@@ -189,7 +188,7 @@ const SUBJECTS = [
   {
     name: 'Plastic Packaging Engineering',
     slug: 'plastic-packaging-engineering',
-    lessons: 11,
+    lessons: 16,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Application',
@@ -230,15 +229,75 @@ const SUBJECTS = [
     indianCompany: 'Poddar Pigments',
     globalCompany: 'Avient',
     icon: Wrench,
+  },
+  {
+    name: 'Polymer Nanotechnology',
+    slug: 'polymer-nanotechnology',
+    lessons: 6,
+    color: '#1D4ED8',
+    bg: '#EFF6FF',
+    tag: 'Nanotech',
+    tagBg: '#1D4ED8',
+    desc: 'Nanocomposites, carbon nanotubes, nanoclay, properties enhancement, characterization.',
+    topics: ['Carbon Nanotubes', 'Nanoclay & Graphene', 'Properties Enhancement', 'TEM & SEM Characterization', 'Exfoliation vs Intercalation'],
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80',
+    indianCompany: 'Aditya Birla Science & Tech',
+    globalCompany: 'Arkema',
+    icon: FlaskConical,
+  },
+  {
+    name: 'Bioprocessing & Fermentation',
+    slug: 'bioprocessing-fermentation',
+    lessons: 6,
+    color: '#15803D',
+    bg: '#F0FDF4',
+    tag: 'Biotech',
+    tagBg: '#15803D',
+    desc: 'Microbial synthesis of PHA, fermentation parameters, feedstock purification, downstream recovery.',
+    topics: ['Microbial PHA Synthesis', 'Bioreactor Design', 'Carbon Feedstocks', 'Downstream Processing', 'Sterilization Protocols'],
+    image: 'https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?w=800&q=80',
+    indianCompany: 'Praji Industries',
+    globalCompany: 'Genomatica',
+    icon: Recycle,
+  },
+  {
+    name: 'Robotics in Plastics Manufacturing',
+    slug: 'robotics-plastics',
+    lessons: 6,
+    color: '#EA580C',
+    bg: '#FFF7ED',
+    tag: 'Automation',
+    tagBg: '#EA580C',
+    desc: 'Part retrieval, degating robots, insert molding automation, cobots in compounding & packaging.',
+    topics: ['Cartesian & Articulated Robots', 'Degating & Sprue Removal', 'EOAT Design', 'PLC & Robot Integration', 'Safety Interlocks'],
+    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&q=80',
+    indianCompany: 'Yaskawa India',
+    globalCompany: 'Kuka',
+    icon: Wrench,
+  },
+  {
+    name: 'Digital Twins in Polymer Manufacturing',
+    slug: 'digital-twins-plastics',
+    lessons: 6,
+    color: '#CA8A04',
+    bg: '#FEFCE8',
+    tag: 'Industry 4.0',
+    tagBg: '#CA8A04',
+    desc: 'Real-time cavity pressure matching, machine learning in extrusion, predictive maintenance.',
+    topics: ['Sensorized Moulds', 'Real-time CAE Correction', 'ML Quality Prediction', 'IIoT Edge Nodes', 'Predictive Screw Wear'],
+    image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=800&q=80',
+    indianCompany: 'Tata Technologies',
+    globalCompany: 'Kautex',
+    icon: Brain,
   }
 ]
 
 const DOMAIN_BANDS = [
-  { color: '#1D4ED8', bg: '#EFF6FF', label: 'Chemistry & Science', subjects: ['Polymer Chemistry', 'Polymer Composites', 'Additives & Compounding'] },
-  { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', subjects: ['Polymer Processing', 'Mould Design', 'Rubber Technology', 'Polymer Rheology'] },
+  { color: '#1D4ED8', bg: '#EFF6FF', label: 'Chemistry & Science', subjects: ['Polymer Chemistry', 'Polymer Composites', 'Additives & Compounding', 'Polymer Nanotechnology'] },
+  { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', subjects: ['Polymer Processing', 'Mould Design', 'Rubber Technology', 'Polymer Rheology', 'Robotics in Plastics Manufacturing'] },
   { color: '#7C3AED', bg: '#F5F3FF', label: 'Testing & Medical', subjects: ['Polymer Testing', 'Medical Plastics & Biomaterials'] },
-  { color: '#15803D', bg: '#F0FDF4', label: 'Sustainability & Circular Economy', subjects: ['Recycling Technology', 'Sustainable Plastics & Bioplastics', 'Life Cycle Assessment', 'Plastic Packaging Engineering'] },
-  { color: '#CA8A04', bg: '#FEFCE8', label: 'Business & Entrepreneurship', subjects: ['Entrepreneurship in Plastics', 'Color Science & Masterbatches'] },
+  { color: '#15803D', bg: '#F0FDF4', label: 'Sustainability & Circular Economy', subjects: ['Recycling Technology', 'Sustainable Plastics & Bioplastics', 'Life Cycle Assessment', 'Plastic Packaging Engineering', 'Bioprocessing & Fermentation'] },
+  { color: '#CA8A04', bg: '#FEFCE8', label: 'Business & Automation', subjects: ['Entrepreneurship in Plastics', 'Color Science & Masterbatches', 'Digital Twins in Polymer Manufacturing'] },
 ]
 
 // ─── Components ───────────────────────────────────────────────────────────────
