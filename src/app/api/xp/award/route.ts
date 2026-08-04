@@ -13,7 +13,10 @@ const XP_VALUES: Record<string, number> = {
   profile_complete: 25,
   gate_pass:        100,
   gate_top:         250,
+  video_watch:      5,
+  study_group_join: 10,
 }
+
 
 export async function POST(req: NextRequest) {
   try {

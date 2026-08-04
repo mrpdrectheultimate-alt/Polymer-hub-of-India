@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import { DEFAULT_METADATA } from '@/lib/seo'
+import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
+
 
 
 const inter = Inter({
@@ -66,14 +68,14 @@ export default function RootLayout({
                   hasOfferCatalog: {
                     '@type': 'OfferCatalog',
                     name: 'Polymer Engineering Courses',
-                    numberOfItems: 10,
+                    numberOfItems: 15,
                   },
                 },
                 {
                   '@type': 'Course',
                   '@id': 'https://polymer-hub-six.vercel.app/#course',
                   name: 'Complete B.Tech Plastic Polymer Engineering Curriculum',
-                  description: '60 world-class lessons across 15 subjects: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, and Entrepreneurship',
+                  description: '155 world-class lessons across 15 subjects: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, and Entrepreneurship',
                   provider: {
                     '@type': 'Organization',
                     name: 'PolymerHub',
@@ -85,7 +87,7 @@ export default function RootLayout({
                   hasCourseInstance: {
                     '@type': 'CourseInstance',
                     courseMode: 'online',
-                    courseWorkload: 'PT60H',
+                    courseWorkload: 'PT155H',
                   },
                   offers: {
                     '@type': 'Offer',
@@ -95,7 +97,7 @@ export default function RootLayout({
                     availability: 'https://schema.org/InStock',
                     url: 'https://polymer-hub-six.vercel.app/pricing',
                   },
-                  numberOfCredits: 60,
+                  numberOfCredits: 155,
                   teaches: [
                     'Polymer Chemistry and Polymerization Mechanisms',
                     'Injection Moulding and Extrusion Processing',
@@ -124,11 +126,31 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        {/* Theme color */}
-        <meta name="theme-color" content="#0A0A0A" />
-        <meta name="color-scheme" content="light" />
+        {/* PWA & Dark Mode support */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1D4ED8" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="color-scheme" content="light dark" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `
+          }}
+        />
       </head>
       <body className="bg-canvas text-ink antialiased font-sans">
+        <ServiceWorkerRegister />
         <Navbar />
         <main>{children}</main>
         <FeedbackWidget />

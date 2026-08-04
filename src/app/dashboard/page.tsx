@@ -3,8 +3,9 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { ArrowRight, Brain, BookOpen, Zap, User, Trophy, Target, ChevronRight, CheckCircle, Clock } from 'lucide-react'
+import { ArrowRight, Brain, Zap, User, Trophy, Target, ChevronRight, CheckCircle, Clock, Users } from 'lucide-react'
 import RecommendationsWidget from '@/components/RecommendationsWidget'
+import { FlashcardWidget } from '@/components/FlashcardWidget'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -33,7 +34,25 @@ type Profile = {
   target_path: string | null
   subscription_status: string | null
   ai_queries_today: number | null
+  xp_points: number
+  current_streak: number
+  longest_streak: number
 }
+
+type UserBadge = {
+  badge_id: string
+  earned_at: string
+  badges: {
+    id: string
+    name: string
+    description: string
+    icon: string
+    color: string
+    xp_reward: number
+    category: string
+  } | null
+}
+
 
 type Subject = {
   id: string
@@ -95,6 +114,7 @@ export default function DashboardPage() {
   const [progress, setProgress] = useState<LessonProgress[]>([])
   const [subjectStats, setSubjectStats] = useState<SubjectStat[]>([])
   const [recentActivity, setRecentActivity] = useState<RecentActivityItem[]>([])
+  const [earnedBadges, setEarnedBadges] = useState<UserBadge[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'subjects'>('overview')
 
@@ -108,11 +128,13 @@ export default function DashboardPage() {
         { data: subs },
         { data: lessons },
         { data: prog },
+        { data: badgesData },
       ] = await Promise.all([
         supabase.from('profiles').select('*').eq('id', session.user.id).single(),
         supabase.from('subjects').select('id, name, slug, order_index').order('order_index'),
         supabase.from('lessons').select('id, title, slug, subject_id, order_index, is_premium').order('order_index'),
         supabase.from('user_progress').select('*').eq('user_id', session.user.id),
+        supabase.from('user_badges').select('badge_id, earned_at, badges(*)').eq('user_id', session.user.id),
       ])
 
       let activeProfile = prof
@@ -133,6 +155,9 @@ export default function DashboardPage() {
             branch: 'B.Tech Plastic Polymer Engineering',
             graduation_year: null,
             target_path: null,
+            xp_points: 0,
+            current_streak: 0,
+            longest_streak: 0,
           })
           .select()
           .single()
@@ -148,6 +173,7 @@ export default function DashboardPage() {
       if (subs) setSubjects(subs)
       if (lessons) setAllLessons(lessons)
       if (prog) setProgress(prog)
+      if (badgesData) setEarnedBadges(badgesData as unknown as UserBadge[])
 
       // Calculate subject stats
       if (subs && lessons && prog) {
@@ -284,6 +310,51 @@ export default function DashboardPage() {
             {/* ── MAIN COLUMN ─────────────────────────────── */}
             <div className="lg:col-span-2 space-y-5">
 
+              {/* Gamification Streak & XP Banner */}
+              <div className="bg-gradient-to-r from-blue-600 to-violet-600 text-white p-5 border-4 border-ink shadow-hard flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-white/20 border-2 border-white flex items-center justify-center text-2xl animate-pulse">
+                    🔥
+                  </div>
+                  <div>
+                    <span className="font-mono text-[8px] text-white/70 uppercase font-black tracking-wider">Habit Streak</span>
+                    <h2 className="font-display text-2xl font-black leading-none mt-0.5">{profile.current_streak} days active</h2>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-6">
+                  <div className="text-right">
+                    <span className="font-mono text-[8px] text-white/70 uppercase font-black tracking-wider">Total XP</span>
+                    <h2 className="font-display text-2xl font-black leading-none mt-0.5">{profile.xp_points.toLocaleString()}</h2>
+                  </div>
+                  <Link href="/leaderboard" className="border-2 border-white px-3 py-1 font-mono text-[9px] font-black uppercase hover:bg-white hover:text-ink transition-all">
+                    Leaderboard →
+                  </Link>
+                </div>
+              </div>
+
+              {/* AI Mock Exam Promotional CTA */}
+              <div className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-5 border-4 border-ink shadow-hard flex items-center justify-between gap-4 flex-wrap">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-white border-2 border-slate-900 flex items-center justify-center text-2xl shrink-0">
+                    🧠
+                  </div>
+                  <div>
+                    <span className="font-mono text-[8px] text-white/70 uppercase font-black tracking-wider">NEW FEATURE</span>
+                    <h2 className="font-display text-lg font-black leading-tight mt-0.5">Generate Custom AI Mock Exams</h2>
+                    <p className="text-xs text-white/80 font-semibold mt-0.5">Test yourself on any polymer topic with instant grading and explanations.</p>
+                  </div>
+                </div>
+                <Link
+                  href="/practice/ai-generator"
+                  className="bg-white border-2 border-slate-900 text-indigo-600 px-4 py-2 font-mono text-[10px] font-black uppercase hover:bg-slate-100 transition-all flex items-center gap-1 shrink-0"
+                  style={{ boxShadow: '2px 2px 0px 0px #000' }}
+                >
+                  Generate Quiz <Zap className="w-3 h-3 text-amber-500 fill-current" />
+                </Link>
+              </div>
+
+
               {/* Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {[
@@ -399,6 +470,34 @@ export default function DashboardPage() {
                 </div>
               )}
 
+              {/* Flashcards study deck */}
+              <FlashcardWidget />
+
+              {/* Badges Widget */}
+              <div className="border-4 border-ink overflow-hidden bg-white" style={{ boxShadow: '4px 4px 0px 0px #7C3AED' }}>
+                <div className="border-b-4 border-ink px-4 py-3 bg-violet-600 text-white flex items-center justify-between">
+                  <span className="font-mono text-[9px] font-black uppercase tracking-widest">Earned Badges ({earnedBadges.length})</span>
+                  <Link href="/leaderboard" className="font-mono text-[8px] text-white/80 hover:text-white uppercase font-bold">
+                    View All →
+                  </Link>
+                </div>
+                <div className="p-4 grid grid-cols-4 gap-2">
+                  {earnedBadges.slice(0, 8).map(ub => (
+                    <div key={ub.badge_id} className="text-center" title={ub.badges?.description}>
+                      <div className="w-10 h-10 bg-slate-50 border-2 border-ink rounded-lg flex items-center justify-center text-xl mx-auto">
+                        {ub.badges?.icon || '🏅'}
+                      </div>
+                      <div className="text-[7px] font-bold mt-1 truncate max-w-full text-slate-700 leading-tight">{ub.badges?.name}</div>
+                    </div>
+                  ))}
+                  {earnedBadges.length === 0 && (
+                    <div className="col-span-full py-4 text-center font-mono text-[9px] text-slate-400 uppercase tracking-wide">
+                      No badges earned yet
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Quick links */}
               <div className="border-4 border-ink overflow-hidden shadow-hard">
                 <div className="border-b-4 border-ink px-4 py-3 bg-ink">
@@ -407,8 +506,8 @@ export default function DashboardPage() {
                 {[
                   { label: 'AI Tutor', href: '/ai-tutor', icon: Brain, color: '#15803D' },
                   { label: 'Practice Quiz', href: '/practice', icon: Zap, color: '#CA8A04' },
-                  { label: 'All Subjects', href: '/subjects', icon: BookOpen, color: '#1D4ED8' },
-                  { label: 'Careers', href: '/careers', icon: Trophy, color: '#7C3AED' },
+                  { label: 'Study Groups', href: '/study-groups', icon: Users, color: '#1D4ED8' },
+                  { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, color: '#7C3AED' },
                 ].map(link => {
                   const Icon = link.icon
                   return (
@@ -451,7 +550,7 @@ export default function DashboardPage() {
                   </div>
                   <div className="p-4 bg-canvas">
                     <div className="font-display text-2xl font-black text-ink mb-1">₹149<span className="text-sm font-sans text-ink/50">/month</span></div>
-                    <p className="text-xs text-ink/60 mb-3">All 102 lessons · Unlimited AI · Cancel anytime</p>
+                    <p className="text-xs text-ink/60 mb-3">All 216 lessons · Unlimited AI · Cancel anytime</p>
                     <div className="cn-btn-black w-full justify-center text-xs">Upgrade Now <ArrowRight className="w-3.5 h-3.5" /></div>
                   </div>
                 </Link>

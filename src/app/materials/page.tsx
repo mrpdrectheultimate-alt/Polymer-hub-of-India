@@ -4,6 +4,10 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database } from 'lucide-react'
+import { ThreeDViewer } from '@/components/ThreeDViewer'
+import { Database as DB } from '@/lib/supabase/types'
+
+type ThreeDModel = DB['public']['Tables']['three_d_models']['Row']
 
 type Material = {
   id: string
@@ -146,6 +150,9 @@ export default function MaterialsPage() {
   const [search, setSearch] = useState('')
   const [selectedFamily, setSelectedFamily] = useState('All')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  
+  const [viewMode, setViewMode] = useState<'table' | '3d'>('table')
+  const [threeDModels, setThreeDModels] = useState<ThreeDModel[]>([])
 
   useEffect(() => {
     async function fetchMaterials() {
@@ -156,6 +163,13 @@ export default function MaterialsPage() {
         .select('*')
         .order('name')
       setMaterials(data ?? [])
+
+      const { data: models } = await supabase
+        .from('three_d_models')
+        .select('*')
+        .order('name')
+      setThreeDModels(models ?? [])
+
       setLoading(false)
     }
     fetchMaterials()
@@ -233,28 +247,63 @@ export default function MaterialsPage() {
       {/* Main content */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
-        {/* Family tabs */}
-        <div className="flex flex-wrap gap-2 mb-6">
-          {FAMILIES.map((f) => (
-            <button
-              key={f}
-              onClick={() => setSelectedFamily(f)}
-              className={`font-mono text-[9px] font-black px-3.5 py-1.5 border-2 border-ink whitespace-nowrap uppercase tracking-wider transition-all ${
-                selectedFamily === f
-                  ? 'bg-yellow-bright text-ink shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                  : 'bg-white text-ink/60 hover:text-ink'
-              }`}
-            >
-              {f === 'All' ? `All (${materials.length})` : f}
-            </button>
-          ))}
+        {/* View Mode Toggle */}
+        <div className="flex gap-3 mb-6 border-b-4 border-ink pb-4">
+          <button
+            onClick={() => setViewMode('table')}
+            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+              viewMode === 'table'
+                ? 'bg-ink text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-white text-ink hover:bg-slate-50'
+            }`}
+          >
+            📊 Specs Database Table
+          </button>
+          <button
+            onClick={() => setViewMode('3d')}
+            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+              viewMode === '3d'
+                ? 'bg-ink text-yellow-bright shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-white text-ink hover:bg-slate-50'
+            }`}
+          >
+            🧊 3D Molecule & Product Models
+          </button>
         </div>
 
-        {/* Count details */}
-        <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-4">
-          Showing {filtered.length} of {materials.length} polymers
-          {search && ` matching "${search}"`}
-        </p>
+        {/* Specs specific tabs and counts */}
+        {viewMode === 'table' && (
+          <>
+            {/* Family tabs */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {FAMILIES.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setSelectedFamily(f)}
+                  className={`font-mono text-[9px] font-black px-3.5 py-1.5 border-2 border-ink whitespace-nowrap uppercase tracking-wider transition-all ${
+                    selectedFamily === f
+                      ? 'bg-yellow-bright text-ink shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                      : 'bg-white text-ink/60 hover:text-ink'
+                  }`}
+                >
+                  {f === 'All' ? `All (${materials.length})` : f}
+                </button>
+              ))}
+            </div>
+
+            {/* Count details */}
+            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-4">
+              Showing {filtered.length} of {materials.length} polymers
+              {search && ` matching "${search}"`}
+            </p>
+          </>
+        )}
+
+        {viewMode === '3d' && (
+          <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-6">
+            Showing {threeDModels.length} interactive 3D structures (Rotate with mouse drag, zoom with scroll wheel)
+          </p>
+        )}
 
         {/* Loading skeleton */}
         {loading && (
@@ -269,7 +318,7 @@ export default function MaterialsPage() {
         )}
 
         {/* Materials List */}
-        {!loading && (
+        {!loading && viewMode === 'table' && (
           <div className="space-y-4">
             {filtered.length === 0 ? (
               <div className="border-4 border-ink p-12 text-center shadow-hard bg-white">
@@ -289,6 +338,30 @@ export default function MaterialsPage() {
                 />
               ))
             )}
+          </div>
+        )}
+
+        {/* 3D view mode list */}
+        {!loading && viewMode === '3d' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {threeDModels.map((model) => (
+              <div key={model.id} className="bg-white border-4 border-ink p-5 shadow-hard flex flex-col justify-between">
+                <div className="space-y-3 mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[9px] font-black border-2 border-ink px-2 py-0.5 uppercase tracking-wider bg-purple-50 text-purple-700 border-purple-300">
+                      {model.category}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="font-display font-black text-ink text-base uppercase leading-tight">{model.name}</h3>
+                    <p className="font-mono text-[10px] text-ink/60 mt-1 leading-normal uppercase">{model.description}</p>
+                  </div>
+                </div>
+                <div>
+                  <ThreeDViewer modelType={model.model_type} name={model.name} />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

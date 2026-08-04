@@ -1,7 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { Check, X, Sparkles, Zap } from 'lucide-react'
+import { Check, X, Sparkles, Zap, GraduationCap } from 'lucide-react'
 import RazorpayCheckout from '@/components/RazorpayCheckout'
 
 const FREE_FEATURES = [
@@ -29,6 +30,7 @@ const PREMIUM_FEATURES = [
 ]
 
 export default function PricingPage() {
+  const [demoRequested, setDemoRequested] = useState(false)
 
   return (
     <div className="min-h-screen bg-canvas pb-16">
@@ -62,8 +64,8 @@ export default function PricingPage() {
       </section>
 
       {/* Pricing cards */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
           {/* Free plan */}
           <div className="bg-white border-4 border-ink p-7 md:p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
@@ -129,6 +131,52 @@ export default function PricingPage() {
               buttonText="Upgrade to Premium"
               buttonClass="w-full border-4 border-ink bg-blue hover:bg-blue/90 text-white font-mono font-black text-xs py-3.5 uppercase tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
             />
+          </div>
+
+          {/* Institutional plan */}
+          <div className="bg-white border-4 border-ink p-7 md:p-8 shadow-[4px_4px_0px_0px_rgba(124,58,237,1)] flex flex-col justify-between">
+            <div>
+              <div className="mb-6 border-b-2 border-ink/10 pb-4">
+                <div className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-[9px] font-mono font-black px-2.5 py-1 uppercase border-2 border-ink shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] mb-3">
+                  <GraduationCap className="w-3 h-3" /> B2B Package
+                </div>
+                <h2 className="font-display font-black text-xl text-ink uppercase tracking-tight mb-1">Institutional Plan</h2>
+                <div className="flex items-baseline gap-1 mb-2">
+                  <span className="text-4xl font-black text-ink font-mono">₹99</span>
+                  <span className="text-violet-600 font-mono text-xs uppercase font-bold">/ seat / mo</span>
+                </div>
+                <p className="text-xs font-bold text-violet-600 uppercase">For colleges, universities & departments.</p>
+              </div>
+
+              <div className="space-y-3 mb-8">
+                {[
+                  { text: 'Everything in Premium plan', included: true },
+                  { text: 'College-wide HOD seat allocator dashboard', included: true },
+                  { text: 'Student performance metrics tracking', included: true },
+                  { text: 'Collective college leaderboard rank', included: true },
+                  { text: '30+ seats minimum purchase', included: true },
+                  { text: 'Customized regional syllabus tags', included: true },
+                ].map((f) => (
+                  <div key={f.text} className="flex items-start gap-3">
+                    <Check className="w-4 h-4 text-violet-600 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs font-bold text-ink">{f.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {demoRequested ? (
+              <div className="border-2 border-dashed border-violet-600 bg-violet-50 p-4 text-center font-mono text-[10px] font-black uppercase text-violet-700 leading-snug">
+                📨 Demo request received! Our B2B onboarding team will contact your department within 12 hours.
+              </div>
+            ) : (
+              <button
+                onClick={() => setDemoRequested(true)}
+                className="w-full border-4 border-ink bg-violet-600 hover:bg-violet-700 text-white font-mono font-black text-xs py-3.5 uppercase tracking-wider shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
+              >
+                Request B2B Demo
+              </button>
+            )}
           </div>
         </div>
 

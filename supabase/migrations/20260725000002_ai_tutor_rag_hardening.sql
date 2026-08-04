@@ -3,6 +3,13 @@
 -- Migration: 20260725_ai_tutor_rag_hardening.sql
 -- ============================================================
 
+-- Ensure is_published column exists on subjects and lessons before they are used in functions or policies
+ALTER TABLE public.subjects
+ADD COLUMN IF NOT EXISTS is_published BOOLEAN DEFAULT true;
+
+ALTER TABLE public.lessons
+ADD COLUMN IF NOT EXISTS is_published BOOLEAN DEFAULT true;
+
 -- 1. Enable pgvector extension
 CREATE EXTENSION IF NOT EXISTS vector;
 
@@ -24,6 +31,10 @@ CREATE POLICY "Embeddings readable by all"
   USING (true);
 
 -- 3. Stored RPC function for RAG similarity match (768-dim)
+DROP FUNCTION IF EXISTS public.match_lesson_chunks(vector,double precision,integer);
+DROP FUNCTION IF EXISTS public.match_lesson_chunks(extensions.vector,double precision,integer);
+DROP FUNCTION IF EXISTS public.match_lesson_chunks(vector,float,integer);
+DROP FUNCTION IF EXISTS public.match_lesson_chunks(extensions.vector,float,integer);
 CREATE OR REPLACE FUNCTION public.match_lesson_chunks(
   query_embedding  vector(768),
   match_threshold  FLOAT,
@@ -39,7 +50,7 @@ RETURNS TABLE (
 )
 LANGUAGE plpgsql
 SECURITY DEFINER
-SET search_path = public, auth
+SET search_path = public, auth, extensions
 AS $$
 BEGIN
   RETURN QUERY

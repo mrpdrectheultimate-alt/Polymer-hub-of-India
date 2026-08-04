@@ -3,6 +3,10 @@
 -- Migration: 20260725_admin_cms_hardening.sql
 -- ============================================================
 
+-- Ensure role column exists on profiles table before it is used in policies
+ALTER TABLE public.profiles
+ADD COLUMN IF NOT EXISTS role text DEFAULT 'student' CHECK (role IN ('student', 'admin', 'content_reviewer', 'editor', 'organization_owner'));
+
 -- 1. Content lifecycle and version tracking columns on lessons
 ALTER TABLE public.lessons
 ADD COLUMN IF NOT EXISTS version_number INTEGER NOT NULL DEFAULT 1,

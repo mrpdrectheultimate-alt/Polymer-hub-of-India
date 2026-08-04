@@ -1,6 +1,6 @@
 {
   "release": "Sprint 1B Batch 5 Final Release QA",
-  "timestamp": "2026-07-23T17:54:20.379Z",
+  "timestamp": "2026-07-30T15:38:43.140Z",
   "qa_lead": "Internally curated and technically reviewed",
   "summary": {
     "total_upgraded": 5,
@@ -18,8 +18,8 @@
       {
         "slug": "extrusion-process-screw-design-and-die-types",
         "previous_score": 74,
-        "new_score": 94,
-        "score_delta": 20
+        "new_score": 96,
+        "score_delta": 22
       },
       {
         "slug": "blow-moulding-extrusion-and-injection-blow-processes",
@@ -50,17 +50,17 @@
   "lessons": [
     {
       "slug": "extrusion-process-screw-design-and-die-types",
-      "title": "Extrusion Process: Screw Design Kinetics, Zone Drag Flow & Die Geometries",
+      "title": "Extrusion Process: Screw Design, Flow Mechanics and Die Geometry",
       "module_name": "Module 1 — Extrusion Systems & Screw Design",
       "module_id_verified": true,
       "human_reviewed_by": "Internally curated and technically reviewed",
       "academic_reviewer_id": null,
       "previous_score": 74,
-      "new_score": 94,
-      "score_delta": 20,
+      "new_score": 96,
+      "score_delta": 22,
       "component_scores": {
-        "technical_accuracy": 24,
-        "conceptual_depth": 19,
+        "technical_accuracy": 25,
+        "conceptual_depth": 20,
         "clarity": 15,
         "diagrams": 9,
         "industry_relevance": 9,
@@ -68,7 +68,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:54:21.865Z",
+      "scored_at": "2026-07-30T15:38:43.992Z",
       "evidence_reference": "curriculum_batch5_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -101,7 +101,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:54:22.610Z",
+      "scored_at": "2026-07-30T15:38:44.654Z",
       "evidence_reference": "curriculum_batch5_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -134,7 +134,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:54:23.280Z",
+      "scored_at": "2026-07-30T15:38:45.284Z",
       "evidence_reference": "curriculum_batch5_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -167,7 +167,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:54:24.040Z",
+      "scored_at": "2026-07-30T15:38:45.923Z",
       "evidence_reference": "curriculum_batch5_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -182,7 +182,7 @@
     },
     {
       "slug": "ejection-systems-pins-sleeves-strippers-and-air-ejection",
-      "title": "Ejection Systems in Moulds: Mechanics, Pin/Sleeve Actuation & Stripper Kinetics",
+      "title": "Ejection Systems in Moulds: Mechanics, Pin/Sleeve Actuation & Stripper Mechanics",
       "module_name": "Module 2 — Injection Mould Systems (Runner, Gate, Ejection)",
       "module_id_verified": true,
       "human_reviewed_by": "Internally curated and technically reviewed",
@@ -193,14 +193,14 @@
       "component_scores": {
         "technical_accuracy": 24,
         "conceptual_depth": 19,
-        "clarity": 15,
+        "clarity": 14,
         "diagrams": 9,
         "industry_relevance": 9,
-        "assessment": 9,
+        "assessment": 8,
         "sources": 8
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:54:24.717Z",
+      "scored_at": "2026-07-30T15:38:46.565Z",
       "evidence_reference": "curriculum_batch5_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,

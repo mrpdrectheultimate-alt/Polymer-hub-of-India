@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Clock, Trophy, Brain, CheckCircle, XCircle, AlertTriangle, BookOpen } from 'lucide-react'
 
-// ─── GATE Questions (30 questions mapped to 102 lessons) ───────────────────────
+// ─── GATE Questions (30 questions mapped to 155 lessons) ───────────────────────
 
 const GATE_QUESTIONS = [
   // Polymer Chemistry (6 questions)

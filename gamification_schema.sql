@@ -55,10 +55,20 @@ alter table public.badges enable row level security;
 alter table public.user_badges enable row level security;
 alter table public.xp_log enable row level security;
 
+-- Drop existing policies if they exist to prevent errors on re-run
+drop policy if exists "Badges readable by all" on public.badges;
 create policy "Badges readable by all" on public.badges for select using (true);
+
+drop policy if exists "User badges readable by all" on public.user_badges;
 create policy "User badges readable by all" on public.user_badges for select using (true);
+
+drop policy if exists "Users manage own badges" on public.user_badges;
 create policy "Users manage own badges" on public.user_badges for insert with check (auth.uid() = user_id);
+
+drop policy if exists "Users view own XP" on public.xp_log;
 create policy "Users view own XP" on public.xp_log for select using (auth.uid() = user_id);
+
+drop policy if exists "Users earn XP" on public.xp_log;
 create policy "Users earn XP" on public.xp_log for insert with check (auth.uid() = user_id);
 
 -- ── 6. LEADERBOARD VIEW ──────────────────────────────────────────────────────
@@ -89,7 +99,7 @@ insert into public.badges (slug, name, description, icon, color, xp_reward, cate
 ('ten_lessons', 'Dedicated Learner', 'Completed 10 lessons', '🎓', '#1D4ED8', 100, 'learning', 'Complete 10 lessons'),
 ('twenty_five_lessons', 'Knowledge Builder', 'Completed 25 lessons', '🏗️', '#1D4ED8', 200, 'learning', 'Complete 25 lessons'),
 ('fifty_lessons', 'Halfway Hero', 'Completed 50 lessons', '⚡', '#CA8A04', 400, 'learning', 'Complete 50 lessons'),
-('all_lessons', 'Polymer Master', 'Completed all 60 lessons — the highest learning achievement on PolymerHub', '🏆', '#CA8A04', 1000, 'learning', 'Complete all 60 lessons'),
+('all_lessons', 'Polymer Master', 'Completed all 155 lessons — the highest learning achievement on PolymerHub', '🏆', '#CA8A04', 1000, 'learning', 'Complete all 155 lessons'),
 
 -- Subject completion badges
 ('chemistry_complete', 'Polymer Chemist', 'Completed all Polymer Chemistry lessons', '🧪', '#1D4ED8', 150, 'learning', 'Complete all Chemistry lessons'),

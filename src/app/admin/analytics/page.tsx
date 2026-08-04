@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import {
   Users, BookOpen, Brain, TrendingUp, Trophy, BarChart2, FlaskConical,
-  MessageSquarePlus, Star, Bug, Lightbulb, Heart, CheckCircle, Eye
+  MessageSquarePlus, Star, Bug, Lightbulb, Heart, CheckCircle, Eye, Flame
 } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -37,6 +37,10 @@ type OverviewStats = {
   avg_quiz_score: number | null
   total_ai_queries: number
   revenue_estimate: number
+  total_xp: number
+  avg_streak: number
+  total_badges: number
+  total_study_groups: number
 }
 
 type RecentUser = {
@@ -120,13 +124,17 @@ export default function AdminAnalyticsPage() {
         { data: completedProgress },
         { data: quizAttempts },
         { data: allProfiles },
+        { count: totalBadges },
+        { count: totalGroups },
       ] = await Promise.all([
         supabase.from('profiles').select('*', { count: 'exact', head: true }),
         supabase.from('profiles').select('id').eq('subscription_status', 'premium'),
         supabase.from('user_progress').select('*', { count: 'exact', head: true }),
         supabase.from('user_progress').select('quiz_score').eq('status', 'completed'),
         supabase.from('quiz_attempts').select('score_percentage, passed'),
-        supabase.from('profiles').select('total_ai_queries'),
+        supabase.from('profiles').select('total_ai_queries, xp_points, current_streak'),
+        supabase.from('user_badges').select('*', { count: 'exact', head: true }),
+        supabase.from('study_groups').select('*', { count: 'exact', head: true }),
       ])
 
       const avgScore = completedProgress && completedProgress.length > 0
@@ -134,6 +142,11 @@ export default function AdminAnalyticsPage() {
         : null
 
       const totalAiQueries = allProfiles?.reduce((a, p) => a + (p.total_ai_queries ?? 0), 0) ?? 0
+      const totalXp = allProfiles?.reduce((a, p) => a + (p.xp_points ?? 0), 0) ?? 0
+      const totalStreak = allProfiles?.reduce((a, p) => a + (p.current_streak ?? 0), 0) ?? 0
+      const avgStreak = allProfiles && allProfiles.length > 0
+        ? Math.round((totalStreak / allProfiles.length) * 10) / 10
+        : 0
       const premiumCount = premiumProfiles?.length ?? 0
 
       setOverview({
@@ -144,6 +157,10 @@ export default function AdminAnalyticsPage() {
         avg_quiz_score: avgScore,
         total_ai_queries: totalAiQueries,
         revenue_estimate: premiumCount * 149,
+        total_xp: totalXp,
+        avg_streak: avgStreak,
+        total_badges: totalBadges ?? 0,
+        total_study_groups: totalGroups ?? 0,
       })
 
       // ── Lesson stats ──────────────────────────────────────────────────────
@@ -345,6 +362,10 @@ export default function AdminAnalyticsPage() {
                 { val: overview.avg_quiz_score !== null ? `${overview.avg_quiz_score}%` : '—', label: 'Avg Quiz Score', color: '#1D4ED8', bg: '#EFF6FF', icon: Trophy },
                 { val: overview.total_ai_queries, label: 'AI Queries Total', color: '#15803D', bg: '#F0FDF4', icon: Brain },
                 { val: `${Math.round((overview.premium_users / Math.max(overview.total_users, 1)) * 100)}%`, label: 'Conversion Rate', color: '#CA8A04', bg: '#FEFCE8', icon: TrendingUp },
+                { val: overview.total_xp.toLocaleString(), label: 'Total Student XP', color: '#7C3AED', bg: '#F5F3FF', icon: Star },
+                { val: `${overview.avg_streak} days`, label: 'Avg Daily Streak', color: '#EA580C', bg: '#FFF7ED', icon: Flame },
+                { val: overview.total_badges.toLocaleString(), label: 'Badges Earned', color: '#1D4ED8', bg: '#EFF6FF', icon: Trophy },
+                { val: overview.total_study_groups.toLocaleString(), label: 'Study Groups', color: '#15803D', bg: '#F0FDF4', icon: Users },
               ].map(stat => {
                 const Icon = stat.icon
                 return (

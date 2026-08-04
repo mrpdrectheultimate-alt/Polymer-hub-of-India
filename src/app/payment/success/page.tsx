@@ -27,7 +27,7 @@ export default function PaymentSuccessPage() {
 
             <div className="space-y-2 mb-6 text-left">
               {[
-                { icon: BookOpen, text: 'All 102 lessons across 15 subjects — unlocked', color: '#1D4ED8' },
+                { icon: BookOpen, text: 'All 216 lessons across 19 subjects — unlocked', color: '#1D4ED8' },
                 { icon: Brain, text: 'Unlimited AI Tutor queries — no daily limit', color: '#15803D' },
                 { icon: Zap, text: 'All practice questions + quiz attempts', color: '#CA8A04' },
               ].map((item) => {

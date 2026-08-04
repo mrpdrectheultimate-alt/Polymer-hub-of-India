@@ -1,6 +1,6 @@
 {
   "release": "Sprint 1B Batch 4 Final Release QA",
-  "timestamp": "2026-07-23T17:45:02.345Z",
+  "timestamp": "2026-07-30T15:38:32.330Z",
   "qa_lead": "Internally curated and technically reviewed",
   "summary": {
     "total_upgraded": 5,
@@ -68,7 +68,7 @@
         "sources": 8
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:45:03.577Z",
+      "scored_at": "2026-07-30T15:38:33.201Z",
       "evidence_reference": "curriculum_batch4_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -101,7 +101,7 @@
         "sources": 8
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:45:04.263Z",
+      "scored_at": "2026-07-30T15:38:33.863Z",
       "evidence_reference": "curriculum_batch4_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -134,7 +134,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:45:04.988Z",
+      "scored_at": "2026-07-30T15:38:34.500Z",
       "evidence_reference": "curriculum_batch4_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -167,7 +167,7 @@
         "sources": 9
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:45:05.691Z",
+      "scored_at": "2026-07-30T15:38:35.164Z",
       "evidence_reference": "curriculum_batch4_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,
@@ -196,11 +196,11 @@
         "clarity": 14,
         "diagrams": 9,
         "industry_relevance": 9,
-        "assessment": 9,
+        "assessment": 8,
         "sources": 8
       },
       "scored_by": "Dr_Aris_Thorne_Curriculum_Board",
-      "scored_at": "2026-07-23T17:45:06.349Z",
+      "scored_at": "2026-07-30T15:38:35.798Z",
       "evidence_reference": "curriculum_batch4_release_qa.json",
       "equations_recalculated": true,
       "standard_editions_verified": true,

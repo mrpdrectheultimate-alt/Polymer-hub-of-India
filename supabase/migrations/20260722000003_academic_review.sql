@@ -12,6 +12,7 @@ ADD COLUMN IF NOT EXISTS mapping_level text DEFAULT 'subject';
 
 -- Update RLS Policy: Only show published videos that are approved or approved_with_caveat
 DROP POLICY IF EXISTS "Allow public read access to published videos" ON public.videos;
+DROP POLICY IF EXISTS "Allow public read access to academically approved videos" ON public.videos;
 CREATE POLICY "Allow public read access to academically approved videos"
 ON public.videos FOR SELECT
 USING (

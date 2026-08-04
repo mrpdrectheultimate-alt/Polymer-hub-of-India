@@ -24,6 +24,9 @@ type ProfileForm = {
   branch: string
   graduation_year: string
   target_path: string
+  is_hod: boolean
+  is_recruiter: boolean
+  recruiter_company: string
 }
 
 export default function ProfilePage() {
@@ -40,6 +43,9 @@ export default function ProfilePage() {
     branch: 'B.Tech Plastic Polymer Engineering',
     graduation_year: '',
     target_path: '',
+    is_hod: false,
+    is_recruiter: false,
+    recruiter_company: '',
   })
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
@@ -96,6 +102,9 @@ export default function ProfilePage() {
           branch: activeProfile.branch ?? 'B.Tech Plastic Polymer Engineering',
           graduation_year: activeProfile.graduation_year?.toString() ?? '',
           target_path: activeProfile.target_path ?? '',
+          is_hod: activeProfile.is_hod ?? false,
+          is_recruiter: activeProfile.is_recruiter ?? false,
+          recruiter_company: activeProfile.recruiter_company ?? '',
         })
         setAvatarUrl(activeProfile.avatar_url ?? null)
       }
@@ -150,6 +159,9 @@ export default function ProfilePage() {
         branch: form.branch.trim() || null,
         graduation_year: form.graduation_year ? parseInt(form.graduation_year) : null,
         target_path: form.target_path || null,
+        is_hod: form.is_hod,
+        is_recruiter: form.is_recruiter,
+        recruiter_company: form.recruiter_company.trim() || null,
         avatar_url: newAvatarUrl,
         updated_at: new Date().toISOString(),
       })
@@ -368,6 +380,81 @@ export default function ProfilePage() {
                 </button>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* HOD / B2B Simulation (B2B Testing) */}
+        <div className="border-4 border-ink overflow-hidden shadow-hard" style={{ borderColor: '#7C3AED' }}>
+          <div className="border-b-4 border-ink px-5 py-3 bg-violet-600 text-white flex justify-between items-center">
+            <span className="font-mono text-[10px] font-black uppercase tracking-widest">🏛️ HOD / Institutional Testing</span>
+            {form.is_hod && (
+              <Link href="/hod-dashboard" className="font-mono text-[9px] bg-white text-violet-700 border-2 border-white px-2 py-0.5 font-bold uppercase hover:bg-violet-50 transition-colors">
+                Go to HOD Dashboard →
+              </Link>
+            )}
+          </div>
+          <div className="p-5 bg-violet-50/50 space-y-3">
+            <p className="text-xs text-ink/70 leading-relaxed font-bold">
+              Toggle HOD (Head of Department) status below to test B2B seat allocation features. In HOD mode, you can allocate/revoke premium subscriptions for students in your college.
+            </p>
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="is_hod_checkbox"
+                checked={form.is_hod}
+                onChange={e => setForm(f => ({ ...f, is_hod: e.target.checked }))}
+                className="w-5 h-5 border-4 border-ink cursor-pointer accent-violet-600 rounded bg-white"
+              />
+              <label htmlFor="is_hod_checkbox" className="text-sm font-bold text-ink cursor-pointer select-none">
+                Enable HOD mode for my account
+              </label>
+            </div>
+            {form.is_hod && !form.college_name && (
+              <p className="text-[10px] text-amber-600 font-mono uppercase font-black">
+                ⚠️ Warning: You must select/enter a College / University above to match seats with students!
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Recruiter / Enterprise Simulation (Recruiter Testing) */}
+        <div className="border-4 border-ink overflow-hidden shadow-hard" style={{ borderColor: '#2563EB' }}>
+          <div className="border-b-4 border-ink px-5 py-3 bg-blue-600 text-white flex justify-between items-center">
+            <span className="font-mono text-[10px] font-black uppercase tracking-widest">👔 Recruiter / Enterprise Testing</span>
+            {form.is_recruiter && (
+              <Link href="/recruiter" className="font-mono text-[9px] bg-white text-blue-700 border-2 border-white px-2 py-0.5 font-bold uppercase hover:bg-blue-50 transition-colors">
+                Go to Recruiter Portal →
+              </Link>
+            )}
+          </div>
+          <div className="p-5 bg-blue-50/50 space-y-4">
+            <p className="text-xs text-ink/70 leading-relaxed font-bold">
+              Toggle Recruiter status to access recruiter features. Enter your target company to manage challenges sponsored by your firm and view the candidate directory.
+            </p>
+            <div className="flex items-center gap-3">
+              <input
+                type="checkbox"
+                id="is_recruiter_checkbox"
+                checked={form.is_recruiter}
+                onChange={e => setForm(f => ({ ...f, is_recruiter: e.target.checked }))}
+                className="w-5 h-5 border-4 border-ink cursor-pointer accent-blue-600 rounded bg-white"
+              />
+              <label htmlFor="is_recruiter_checkbox" className="text-sm font-bold text-ink cursor-pointer select-none">
+                Enable Recruiter mode for my account
+              </label>
+            </div>
+            {form.is_recruiter && (
+              <div>
+                <label className="font-mono text-[9px] text-slate-500 uppercase tracking-wide block font-bold mb-1">Recruiter Company Name</label>
+                <input
+                  type="text"
+                  value={form.recruiter_company}
+                  onChange={e => setForm(f => ({ ...f, recruiter_company: e.target.value }))}
+                  placeholder="e.g. Reliance Industries, Supreme Industries"
+                  className="w-full border-4 border-ink p-2 font-mono text-xs bg-white focus:outline-none"
+                />
+              </div>
+            )}
           </div>
         </div>
 

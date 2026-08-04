@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { ThemeToggle } from './ThemeToggle'
 import {
   Menu, X, ChevronDown, BookOpen, Brain, Zap, Trophy,
   MessageCircle, Calculator, Play, FlaskConical, ArrowRight,
-  Scale, Wrench, User, Star, Flame
+  Scale, Wrench, User, Star, Flame, GraduationCap, Users, Building
 } from 'lucide-react'
 
 const NAV = [
@@ -18,17 +20,25 @@ const NAV = [
       { label: 'History of Plastics', href: '/history', icon: BookOpen, desc: '162 years that remade civilization', color: '#1D4ED8' },
       { label: 'World of Plastic', href: '/world', icon: FlaskConical, desc: '7 industries that run on polymers', color: '#15803D' },
       { label: 'Video Library', href: '/videos', icon: Play, desc: 'NPTEL + industry videos mapped to lessons', color: '#1D4ED8' },
+      { label: 'Education Hub', href: '/education', icon: GraduationCap, desc: '84 programs & 17 scholarships', color: '#7C3AED' },
+      { label: 'Research Hub', href: '/research', icon: FlaskConical, desc: 'Academic papers & patent filing', color: '#1D4ED8' },
+      { label: 'Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
     ]
   },
   {
     label: 'Learn',
     items: [
-      { label: 'All Subjects', href: '/subjects', icon: BookOpen, desc: '15 subjects · 102 lessons', color: '#1D4ED8' },
+      { label: 'All Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
       { label: 'AI Tutor', href: '/ai-tutor', icon: Brain, desc: 'Ask anything — grounded in your lessons', color: '#15803D' },
       { label: 'Practice Questions', href: '/practice', icon: Zap, desc: '50+ MCQs across all subjects', color: '#CA8A04' },
       { label: 'GATE Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
       { label: 'Student Forum', href: '/forum', icon: MessageCircle, desc: 'Ask classmates, get answers', color: '#7C3AED' },
-      { label: 'Reference Library', href: '/resources', icon: BookOpen, desc: '17 books mapped to your subjects', color: '#1D4ED8' },
+      { label: 'Study Groups', href: '/study-groups', icon: Users, desc: 'Form groups, track progress', color: '#1D4ED8' },
+      { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, desc: 'Compare XP rankings & streaks', color: '#CA8A04' },
+      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '17 books & original guides', color: '#1D4ED8' },
+      { label: 'Community & Events', href: '/community', icon: Users, desc: 'Webinars, mentorship & live events', color: '#EA580C' },
+      { label: 'Company Challenges', href: '/practice/challenges', icon: Trophy, desc: 'Solve industry cases for XP', color: '#7C3AED' },
+      { label: 'Student Projects', href: '/projects', icon: BookOpen, desc: 'Case studies & engineering portfolios', color: '#1D4ED8' },
     ]
   },
   {
@@ -39,6 +49,7 @@ const NAV = [
       { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 12 polymers · 15 properties', color: '#1D4ED8' },
       { label: 'Careers', href: '/careers', icon: Trophy, desc: '6 career tracks · ₹4–40 LPA', color: '#15803D' },
       { label: 'Materials Database', href: '/materials', icon: FlaskConical, desc: 'Polymer properties & Indian industry', color: '#7C3AED' },
+      { label: 'Enterprise Portal', href: '/enterprise', icon: Building, desc: 'Corporate training & solutions', color: '#15803D' },
     ]
   },
 ]
@@ -49,6 +60,7 @@ type Profile = {
   subscription_status: string | null
   xp_points: number
   current_streak: number
+  is_recruiter?: boolean | null
 }
 
 export default function Navbar() {
@@ -66,7 +78,7 @@ export default function Navbar() {
       if (session) {
         const { data } = await supabase
           .from('profiles')
-          .select('full_name, avatar_url, subscription_status, xp_points, current_streak')
+          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter')
           .eq('id', session.user.id)
           .single()
         if (data) setProfile(data)
@@ -78,7 +90,7 @@ export default function Navbar() {
       setSession(session)
       if (session) {
         const { data } = await supabase.from('profiles')
-          .select('full_name, avatar_url, subscription_status, xp_points, current_streak')
+          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter')
           .eq('id', session.user.id).single()
         if (data) setProfile(data)
       } else setProfile(null)
@@ -128,13 +140,15 @@ export default function Navbar() {
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-8 h-8 bg-black flex items-center justify-center border-2 border-black flex-shrink-0">
-              <span className="font-black text-yellow-400 text-sm leading-none">P</span>
-            </div>
-            <span className="font-black text-black text-base leading-tight hidden sm:block tracking-tight">
-              Polymer<span className="text-blue-600">Hub</span>
-            </span>
+          <Link href="/" className="flex items-center flex-shrink-0">
+            <Image
+              src="/logo-banner.jpg"
+              alt="Polymer Hub of India"
+              width={200}
+              height={44}
+              className="h-10 w-auto object-contain"
+              priority
+            />
           </Link>
 
           {/* Desktop nav */}
@@ -182,10 +196,11 @@ export default function Navbar() {
 
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-2 flex-shrink-0">
+            <ThemeToggle />
             {session ? (
               <>
                 {profile && profile.current_streak > 0 && (
-                  <Link href="/achievements"
+                  <Link href="/leaderboard"
                     className="flex items-center gap-1 border-2 border-black px-2 py-1 hover:bg-black hover:text-white transition-colors"
                     title="Your streak">
                     <Flame className="w-3.5 h-3.5 text-orange-500" />
@@ -193,7 +208,7 @@ export default function Navbar() {
                   </Link>
                 )}
                 {profile && (
-                  <Link href="/achievements"
+                  <Link href="/leaderboard"
                     className="flex items-center gap-1 border-2 border-black px-2 py-1 hover:bg-yellow-400 transition-colors"
                     title="Your XP">
                     <Star className="w-3.5 h-3.5 text-yellow-600" />
@@ -205,6 +220,12 @@ export default function Navbar() {
                     style={{ borderColor: '#CA8A04', color: '#CA8A04' }}>
                     ⭐ Premium
                   </span>
+                )}
+                {profile?.is_recruiter && (
+                  <Link href="/recruiter"
+                    className="font-mono text-[8px] font-black border-2 px-2 py-0.5 uppercase bg-blue-50 border-blue-600 text-blue-600 hover:bg-blue-100 transition-colors">
+                    💼 Recruiter Portal
+                  </Link>
                 )}
                 <Link href="/dashboard"
                   className="flex items-center gap-2 border-4 border-black px-3 py-1 hover:bg-black hover:text-white group transition-colors"

@@ -1,10 +1,10 @@
 {
-  "total_lessons_reconciled": 102,
+  "total_lessons_reconciled": 155,
   "grade_distribution_post_batch6": {
-    "grade_A": 33,
-    "grade_B": 69,
+    "grade_A": 37,
+    "grade_B": 118,
     "grade_C": 0,
-    "total": 102
+    "total": 155
   },
   "summary": {
     "batch1_upgraded": 5,
@@ -17,478 +17,8 @@
   },
   "ledger": [
     {
-      "lesson_slug": "pla-pha-and-starch-based-polymers-in-packaging",
-      "title": "PLA, PHA, and Starch-based Polymers in Packaging",
-      "original_score": 66,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 2",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "injection-moulding-process-parameters-and-defects",
-      "title": "Injection Moulding: Process, Parameters, and Defects",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 1",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "gate-design-in-injection-moulds-types-location-and-selection",
-      "title": "Gate Design in Injection Moulds: Types, Location, and Selection",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 3R.1 Refined",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "compression-and-transfer-moulding-for-thermosets",
-      "title": "Compression and Transfer Moulding for Thermosets",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 2",
-      "new_score": 91,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "extrusion-die-design-fundamentals",
-      "title": "Extrusion Die Design Fundamentals",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 2",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "introduction-to-mechanical-and-chemical-recycling",
-      "title": "Introduction to Mechanical and Chemical Recycling",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 3R.1 Refined",
-      "new_score": 91,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "epr-extended-producer-responsibility-compliance-frameworks-in-india",
-      "title": "EPR (Extended Producer Responsibility) Compliance Frameworks in India",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 3R.1 Refined",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "75-lakh-2-crore-scale-tier-extrusion-plants-recycling-and-processing-lines",
-      "title": "₹75 Lakh–2 Crore Scale Tier: Extrusion Plants, Recycling, and Processing Lines",
-      "original_score": 69,
-      "original_grade": "C",
-      "batch_upgraded": "Batch 3R.1 Refined",
-      "new_score": 90,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "crystallinity-and-morphology-in-polymers",
-      "title": "Crystallinity and Morphology in Polymers",
-      "original_score": 70,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 2",
-      "new_score": 90,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "polymer-blends-and-composites-combining-materials-for-better-performance",
-      "title": "Polymer Blends and Composites: Combining Materials for Better Performance",
-      "original_score": 70,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 3R.1 Refined",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "25-75-lakh-growth-tier-higher-margin-technical-products",
-      "title": "₹25–75 Lakh Growth Tier: Higher-Margin Technical Products",
-      "original_score": 73,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 4R Refined",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "polymerization-mechanisms-addition-vs-condensation",
-      "title": "Polymerization Mechanisms: Addition vs Condensation",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 1",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "thermoplastics-vs-thermosets-structure-and-behavior",
-      "title": "Thermoplastics vs Thermosets: Structure and Behavior",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 4R Refined",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "polymer-degradation-and-stabilization",
-      "title": "Polymer Degradation and Stabilization",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 4R Refined",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "introduction-to-polymer-structure-and-molecular-weight",
-      "title": "Introduction to Polymer Structure and Molecular Weight",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 4R Refined",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "melt-flow-index-mfi-measurement-significance-and-indian-standards",
-      "title": "Melt Flow Index (MFI): Measurement, Significance, and Indian Standards",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 2",
-      "new_score": 92,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
-      "title": "Vulcanization of Rubber: Chemistry, Systems, and Industrial Practice",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 4R Refined",
-      "new_score": 92,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "extrusion-process-screw-design-and-die-types",
-      "title": "Extrusion: Process, Screw Design, and Die Types",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 5 Refined",
-      "new_score": 96,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "blow-moulding-extrusion-and-injection-blow-processes",
-      "title": "Blow Moulding: Extrusion and Injection Blow Processes",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 5 Refined",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "thermoforming-vacuum-pressure-and-twin-sheet-processes",
-      "title": "Thermoforming: Vacuum, Pressure, and Twin-Sheet Processes",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 5 Refined",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "cooling-system-design-channels-layout-and-heat-transfer",
-      "title": "Cooling System Design: Channels, Layout, and Heat Transfer",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 5 Refined",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "ejection-systems-pins-sleeves-strippers-and-air-ejection",
-      "title": "Ejection Systems: Pins, Sleeves, Strippers, and Air Ejection",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 5 Refined",
-      "new_score": 92,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "runner-and-sprue-design-balancing-flow-to-multiple-cavities",
-      "title": "Runner and Sprue Design: Balancing Flow to Multiple Cavities",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 1",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "draft-angles-and-shrinkage-allowance-in-mould-design",
-      "title": "Draft Angles and Shrinkage Allowance in Mould Design",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 6",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "mould-materials-and-surface-finish",
-      "title": "Mould Materials and Surface Finish",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 6",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "tensile-and-flexural-testing-measuring-mechanical-strength",
-      "title": "Tensile and Flexural Testing: Measuring Mechanical Strength",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 1",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "impact-testing-izod-and-charpy-methods",
-      "title": "Impact Testing: Izod and Charpy Methods",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 6",
-      "new_score": 93,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "hardness-testing-shore-a-and-shore-d-durometers",
-      "title": "Hardness Testing: Shore A and Shore D Durometers",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 6",
-      "new_score": 94,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "rheological-testing-understanding-melt-flow-behavior",
-      "title": "Rheological Testing: Understanding Melt Flow Behavior",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 6",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
-      "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
-      "title": "Rubber Compounding: Fillers, Carbon Black, and Additives",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "latex-technology-processing-and-applications",
-      "title": "Latex Technology: Processing and Applications",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
-      "title": "Rubber Processing: Mixing, Calendering, and Extrusion",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "tyre-construction-from-components-to-finished-product",
-      "title": "Tyre Construction: From Components to Finished Product",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
-      "title": "Bioplastics: Synthesis, Compostability, and Standards",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "introduction-to-reinforced-polymer-composites",
-      "title": "Introduction to Reinforced Polymer Composites",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
-      "title": "Manufacturing of Glass-Fibre and Carbon-Fibre Composites",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "capex-and-business-planning-for-plastics-processing",
-      "title": "CAPEX and Business Planning for Plastics Processing",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
-      "title": "BIS Compliance, Raw Material Sourcing, and Government Schemes in India",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
-      "title": "The Sustainable Plastics Landscape: Bio-based, Biodegradable, and Compostable",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
-      "title": "Polylactic Acid (PLA): Synthesis, Properties, and Commercial Reality",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
-      "title": "Polyhydroxyalkanoates (PHA): Nature's True Bioplastic",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
-      "title": "Packaging Design for Sustainability: Mono-materials and Recyclable Structures",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
-      "title": "Bio-PE, Bio-PET, and Drop-In Bio-based Polymers",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
-      "title": "Introduction to Polymer Composites: Matrix, Reinforcement, and Interface",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "glass-fibre-reinforced-plastics-gfrp-processing-and-applications",
-      "title": "Glass Fibre Reinforced Plastics (GFRP): Processing and Applications",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "introduction-to-the-plastics-recycling-landscape-why-it-matters-now",
-      "title": "Introduction to the Plastics Recycling Landscape: Why It Matters Now",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "mechanical-recycling-collection-sorting-and-reprocessing",
-      "title": "Mechanical Recycling: Collection, Sorting, and Reprocessing",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "chemical-recycling-pyrolysis-depolymerization-and-solvolysis",
-      "title": "Chemical Recycling: Pyrolysis, Depolymerization, and Solvolysis",
+      "lesson_slug": "the-plastics-entrepreneurship-landscape-in-india-why-your-degree-is-the-moat",
+      "title": "The Plastics Entrepreneurship Landscape in India: Why Your Degree Is the Moat",
       "original_score": 74,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -507,8 +37,8 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "extended-producer-responsibility-epr-and-regulatory-frameworks",
-      "title": "Extended Producer Responsibility (EPR) and Regulatory Frameworks",
+      "lesson_slug": "biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact",
+      "title": "Biocompatibility: ISO 10993 and the Science of Safe Polymer-Body Contact",
       "original_score": 74,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -527,158 +57,8 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "short-fibre-reinforced-thermoplastics-injection-moulded-composites",
-      "title": "Short Fibre Reinforced Thermoplastics: Injection Moulded Composites",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "the-plastics-entrepreneurship-landscape-in-india-why-your-degree-is-the-moat",
-      "title": "The Plastics Entrepreneurship Landscape in India: Why Your Degree Is the Moat",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "10-25-lakh-entry-tier-low-capex-manufacturing-businesses",
-      "title": "₹10–25 Lakh Entry Tier: Low-Capex Manufacturing Businesses",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "natural-fibre-composites-jute-flax-coir-and-bamboo-reinforcement",
-      "title": "Natural Fibre Composites: Jute, Flax, Coir, and Bamboo Reinforcement",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "composite-design-failure-modes-and-testing",
-      "title": "Composite Design, Failure Modes, and Testing",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "funding-government-schemes-and-project-report-basics",
-      "title": "Funding, Government Schemes, and Project Report Basics",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "running-a-plastics-business-quality-compliance-bis-certification-and-export",
-      "title": "Running a Plastics Business: Quality, Compliance, BIS Certification, and Export",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact",
-      "title": "Biocompatibility: ISO 10993 and the Science of Safe Polymer-Body Contact",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "key-medical-grade-polymers-properties-applications-and-selection",
-      "title": "Key Medical-Grade Polymers: Properties, Applications, and Selection",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "sterilization-methods-and-polymer-compatibility",
-      "title": "Sterilization Methods and Polymer Compatibility",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "implantable-polymers-and-biodegradable-medical-devices",
-      "title": "Implantable Polymers and Biodegradable Medical Devices",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "cleanroom-manufacturing-iso-13485-and-building-a-medical-plastics-career",
-      "title": "Cleanroom Manufacturing, ISO 13485, and Building a Medical Plastics Career",
-      "original_score": 74,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 74,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "carbon-fibre-reinforced-polymers-cfrp-aerospace-to-automotive",
-      "title": "Carbon Fibre Reinforced Polymers (CFRP): Aerospace to Automotive",
-      "original_score": 78,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 78,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "the-future-of-sustainable-plastics-trends-investment-and-your-career",
-      "title": "The Future of Sustainable Plastics: Trends, Investment, and Your Career",
-      "original_score": 78,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 78,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "introduction-to-medical-plastics-why-this-sector-demands-a-different-standard",
-      "title": "Introduction to Medical Plastics: Why This Sector Demands a Different Standard",
-      "original_score": 78,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 78,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "thermal-analysis-dsc-tga-and-hdt-testing",
-      "title": "Thermal Analysis: DSC, TGA, and HDT Testing",
+      "lesson_slug": "natural-rubber-vs-synthetic-rubber-sources-and-selection",
+      "title": "Natural Rubber vs Synthetic Rubber: Sources and Selection",
       "original_score": 79,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -687,8 +67,58 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "natural-rubber-vs-synthetic-rubber-sources-and-selection",
-      "title": "Natural Rubber vs Synthetic Rubber: Sources and Selection",
+      "lesson_slug": "glass-fibre-reinforced-plastics-gfrp-processing-and-applications",
+      "title": "Glass Fibre Reinforced Plastics (GFRP): Processing and Applications",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "introduction-to-the-plastics-recycling-landscape-why-it-matters-now",
+      "title": "Introduction to the Plastics Recycling Landscape: Why It Matters Now",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "mechanical-recycling-collection-sorting-and-reprocessing",
+      "title": "Mechanical Recycling: Collection, Sorting, and Reprocessing",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "extended-producer-responsibility-epr-and-regulatory-frameworks",
+      "title": "Extended Producer Responsibility (EPR) and Regulatory Frameworks",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "short-fibre-reinforced-thermoplastics-injection-moulded-composites",
+      "title": "Short Fibre Reinforced Thermoplastics: Injection Moulded Composites",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "10-25-lakh-entry-tier-low-capex-manufacturing-businesses",
+      "title": "₹10–25 Lakh Entry Tier: Low-Capex Manufacturing Businesses",
       "original_score": 79,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -707,8 +137,68 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "introduction-lca-plastic-footprint",
-      "title": "Introduction to LCA — Measuring the True Cost of Plastic",
+      "lesson_slug": "sterilization-methods-and-polymer-compatibility",
+      "title": "Sterilization Methods and Polymer Compatibility",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "implantable-polymers-and-biodegradable-medical-devices",
+      "title": "Implantable Polymers and Biodegradable Medical Devices",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "cleanroom-manufacturing-iso-13485-and-building-a-medical-plastics-career",
+      "title": "Cleanroom Manufacturing, ISO 13485, and Building a Medical Plastics Career",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "key-medical-grade-polymers-properties-applications-and-selection",
+      "title": "Key Medical-Grade Polymers: Properties, Applications, and Selection",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "composite-design-failure-modes-and-testing",
+      "title": "Composite Design, Failure Modes, and Testing",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "funding-government-schemes-and-project-report-basics",
+      "title": "Funding, Government Schemes, and Project Report Basics",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "running-a-plastics-business-quality-compliance-bis-certification-and-export",
+      "title": "Running a Plastics Business: Quality, Compliance, BIS Certification, and Export",
       "original_score": 79,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -777,6 +267,46 @@
       "new_review_status": "needs_light_revision"
     },
     {
+      "lesson_slug": "thermal-analysis-dsc-tga-and-hdt-testing",
+      "title": "Thermal Analysis: DSC, TGA, and HDT Testing",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "chemical-recycling-pyrolysis-depolymerization-and-solvolysis",
+      "title": "Chemical Recycling: Pyrolysis, Depolymerization, and Solvolysis",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "natural-fibre-composites-jute-flax-coir-and-bamboo-reinforcement",
+      "title": "Natural Fibre Composites: Jute, Flax, Coir, and Bamboo Reinforcement",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "introduction-lca-plastic-footprint",
+      "title": "Introduction to LCA — Measuring the True Cost of Plastic",
+      "original_score": 79,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 79,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
       "lesson_slug": "special-effects-masterbatch-pearl-metallic",
       "title": "Special Effects — Pearl, Metallic, Fluorescent, and Thermochromic",
       "original_score": 79,
@@ -787,8 +317,578 @@
       "new_review_status": "needs_light_revision"
     },
     {
+      "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
+      "title": "Rubber Compounding: Fillers, Carbon Black, and Additives",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "latex-technology-processing-and-applications",
+      "title": "Latex Technology: Processing and Applications",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "introduction-to-reinforced-polymer-composites",
+      "title": "Introduction to Reinforced Polymer Composites",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "tyre-construction-from-components-to-finished-product",
+      "title": "Tyre Construction: From Components to Finished Product",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
+      "title": "Rubber Processing: Mixing, Calendering, and Extrusion",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
+      "title": "Polyhydroxyalkanoates (PHA): Biosynthesis, Properties, and Applications",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
+      "title": "Polylactic Acid (PLA): Synthesis, Properties, and Industrial Processing",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
+      "title": "Bio-PE, Bio-PET, and Drop-In Bio-Based Polymers",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
+      "title": "Introduction to Polymer Composites: Matrix, Reinforcement & Interface",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
+      "title": "Manufacturing of Glass Fibre and Carbon Fibre Composites",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "capex-and-business-planning-for-plastics-processing",
+      "title": "CAPEX and Business Planning for Plastics Processing",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "dsc-thermal-analysis-tg-tm-hf-and-crystallinity",
+      "title": "Differential Scanning Calorimetry (DSC): Tg, Tm, Hf & Crystallinity Kinetics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "gc-ms-screening-of-polymer-extractables-and-leachables",
+      "title": "GC-MS Screening of Polymer Extractables and Leachables",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "rubber-mixing-and-internal-mixer-process-control",
+      "title": "Rubber Mixing and Internal-Mixer Process Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "hot-runner-valve-gating-mechanics-and-sequential-injection",
+      "title": "Hot Runner Valve Gating Mechanics, Sequential Injection & Thermal Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "polymer-solution-thermodynamics-flory-huggins-theory",
+      "title": "Polymer Solution Thermodynamics: Flory-Huggins Theory & Phase Diagrams",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "thermoplastic-elastomers-tpe-tpu-tpv-structure-and-processing",
+      "title": "Thermoplastic Elastomers (TPE, TPU, TPV): Microphase Separation & Processing",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+      "title": "Ring-Opening Polymerization Mechanics: Industrial Nylon 6 & Polycaprolactone",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
+      "title": "Dynamic Mechanical Analysis (DMA): Storage Modulus E', Loss Modulus E'' & Tan Delta",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
+      "title": "Multi-Cavity Runner Balancing Kinetics & Pressure Drop Optimization",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "living-and-controlled-ionic-polymerization",
+      "title": "Living and Controlled Ionic Polymerization",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "extrusion-die-swell-drawdown-and-dimensional-control",
+      "title": "Extrusion Die Swell, Drawdown and Dimensional Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "undercut-release-mechanics-side-cores-slides-and-lifters",
+      "title": "Undercut Release Mechanics: Side Cores, Angular Cam Pins, Slides & Lifters",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
+      "title": "SMC and BMC Process Engineering: Charge-Pattern Design, Cure Control and Defect Analysis",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "rotational-moulding-process-physics-powder-fusion-and-heating",
+      "title": "Rotational Moulding Process Physics: Powder Fusion, Heating Kinetics & Wall Uniformity",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "advanced-chemical-recycling-pyrolysis-and-solvolysis-pathways",
+      "title": "Advanced Chemical Recycling: Pyrolysis & Solvolysis Pathways",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity",
+      "title": "Resin Transfer Moulding (RTM): Darcy Flow, Preform Permeability & Gelation",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "bacterial-pha-biosynthesis-fermentation-and-recovery",
+      "title": "Bacterial PHA Biosynthesis, Fermentation & Downstream Recovery",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "filament-winding-mandrel-kinematics-winding-angles-and-cure",
+      "title": "Filament Winding Mandrel Kinematics, Winding Angles & Burst Pressure Physics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "microcellular-foam-injection-moulding-mucell-process-physics",
+      "title": "Microcellular Foam Injection Moulding (MuCell): Process Physics & Nucleation",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "blow-moulding-parison-extrusion-programming-and-stretch-blow",
+      "title": "Blow Moulding Parison Extrusion Programming & Stretch-Blow Kinetics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "pultrusion-process-engineering-fiber-wet-out-die-heat-and-pull-force",
+      "title": "Pultrusion Process Engineering: Fiber Wet-Out, Die Heat & Pull Force Physics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "tyre-compound-design-silica-silane-reinforcement-and-rolling-resistance",
+      "title": "Tyre Compound Design: Silica-Silane Reinforcement, Rolling Resistance & Wet Grip",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "twin-screw-compounding-extrusion-screw-elements-and-mixing",
+      "title": "Twin-Screw Compounding Extrusion: Screw Elements & Specific Energy",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "thermoforming-process-physics-plug-assist-and-draw-ratios",
+      "title": "Thermoforming Process Physics: Plug-Assist & Draw Ratio Optimization",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "hydrogel-drug-delivery-diffusion-swelling-and-release-kinetics",
+      "title": "Hydrogel Drug Delivery: Diffusion, Swelling & Release Kinetics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "biobased-carbon-content-by-radiocarbon-analysis",
+      "title": "Biobased Carbon Content by Radiocarbon Analysis (ASTM D6866)",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "fiber-matrix-interfacial-shear-strength-and-single-fiber-fragmentation",
+      "title": "Fiber-Matrix Interfacial Shear Strength (IFSS) & Single Fiber Fragmentation",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "cfrp-autoclave-vacuum-consolidation-and-cure-control",
+      "title": "CFRP Autoclave Vacuum Consolidation & Cure Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "bankable-dpr-preparation-dscr-and-project-appraisal",
+      "title": "Bankable DPR Preparation: DSCR, IRR & Plastics Project Appraisal",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "antioxidant-synergy-primary-secondary-stabilization",
+      "title": "Antioxidant Synergy: Primary & Secondary Stabilization Kinetics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "barrier-packaging-kinetics-otr-and-wvtr",
+      "title": "Barrier Packaging Kinetics: Oxygen (OTR) & Water Vapor (WVTR) Permeation",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "flexible-barrier-packaging-co-extrusion-lamination-and-metallization",
+      "title": "Flexible Barrier Packaging: Co-extrusion, Lamination & Metallization",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "cielab-colour-matching-delta-e-and-formulation-control",
+      "title": "CIELAB Colour Matching, Delta E & Formulation Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "pressure-filter-value-for-pigment-and-filler-dispersion",
+      "title": "Pressure Filter Value (FPV) for Pigment & Filler Dispersion",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "special-effect-pigments-metallic-pearlescent-and-interference-systems",
+      "title": "Special-Effect Pigments: Metallic, Pearlescent & Interference Systems",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "heat-deflection-temperature-hdt-and-vicat-softening-point",
+      "title": "Heat Deflection Temperature (HDT) and Vicat Softening Point Testing",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "iso-10993-cytotoxicity-testing-for-medical-polymers",
+      "title": "ISO 10993 Cytotoxicity Testing for Medical Polymers",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "non-newtonian-rheology-power-law-and-carreau-models",
+      "title": "Non-Newtonian Rheology: Power-Law & Carreau Models",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "first-normal-stress-difference-recoverable-strain-and-melt-elasticity",
+      "title": "First Normal Stress Difference, Recoverable Strain & Melt Elasticity",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "extrusion-melt-fracture-sharkskin-stick-slip-and-gross-distortion",
+      "title": "Extrusion Melt Fracture: Sharkskin, Stick–Slip & Gross Distortion",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "active-and-intelligent-packaging-scavengers-indicators-and-shelf-life-control",
+      "title": "Active and Intelligent Packaging: Scavengers, Indicators & Shelf-Life Control",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
+      "title": "Time–Temperature Superposition, WLF Shifts & Rheological Master Curves",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "medical-device-sterilization-gamma-eto-and-validation-kinetics",
+      "title": "Medical Device Sterilization: Gamma, EtO & Validation Kinetics",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "plastics-factory-layout-utilities-and-spcb-pcc-consent-management",
+      "title": "Plastics Factory Layout, Utilities & SPCB/PCC Consent Management",
+      "original_score": 80,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 80,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "carbon-fibre-reinforced-polymers-cfrp-aerospace-to-automotive",
+      "title": "Carbon Fibre Reinforced Polymers (CFRP): Aerospace to Automotive",
+      "original_score": 83,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 83,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
       "lesson_slug": "uv-stabilizers-hals-benzotriazoles",
       "title": "UV Stabilizers — HALS, Benzophenones, and Benzotriazoles",
+      "original_score": 83,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 83,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "the-future-of-sustainable-plastics-trends-investment-and-your-career",
+      "title": "The Future of Sustainable Plastics: Trends, Investment, and Your Career",
       "original_score": 83,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -817,26 +917,6 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "fillers-nucleating-agents-processing-aids",
-      "title": "Fillers, Nucleating Agents, and Processing Aids",
-      "original_score": 83,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 83,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "introduction-to-rheology-polymer-melts",
-      "title": "Introduction to Rheology — Why Polymer Melts Flow Differently",
-      "original_score": 83,
-      "original_grade": "B",
-      "batch_upgraded": "Batch 1",
-      "new_score": 95,
-      "new_grade": "A",
-      "new_review_status": "internally_reviewed"
-    },
-    {
       "lesson_slug": "shear-thinning-power-law-model",
       "title": "Shear-Thinning and the Power Law Model",
       "original_score": 83,
@@ -847,8 +927,8 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "capillary-rheometry-viscosity-measurement",
-      "title": "Capillary Rheometry and Viscosity Measurement",
+      "lesson_slug": "introduction-to-medical-plastics-why-this-sector-demands-a-different-standard",
+      "title": "Introduction to Medical Plastics: Why This Sector Demands a Different Standard",
       "original_score": 83,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -857,8 +937,8 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "melt-fracture-sharkskin-flow-instabilities",
-      "title": "Melt Fracture, Sharkskin, and Flow Instabilities",
+      "lesson_slug": "capillary-rheometry-viscosity-measurement",
+      "title": "Capillary Rheometry and Viscosity Measurement",
       "original_score": 83,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -917,16 +997,6 @@
       "new_review_status": "needs_light_revision"
     },
     {
-      "lesson_slug": "barrier-properties-otr-wvtr",
-      "title": "Barrier Properties — OTR, WVTR, and CO2 Transmission",
-      "original_score": 83,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 83,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
       "lesson_slug": "flexible-packaging-films",
       "title": "Flexible Packaging Films — LDPE, LLDPE, BOPP, PET, and PA Films",
       "original_score": 83,
@@ -939,16 +1009,6 @@
     {
       "lesson_slug": "multilayer-structures-coextrusion",
       "title": "Multilayer Structures and Co-extrusion — Combining Polymers for Performance",
-      "original_score": 83,
-      "original_grade": "B",
-      "batch_upgraded": "Unupgraded",
-      "new_score": 83,
-      "new_grade": "B",
-      "new_review_status": "needs_light_revision"
-    },
-    {
-      "lesson_slug": "rigid-packaging-pet-hdpe-pp",
-      "title": "Rigid Packaging — PET Bottles, HDPE Containers, and PP Food Containers",
       "original_score": 83,
       "original_grade": "B",
       "batch_upgraded": "Unupgraded",
@@ -1007,6 +1067,166 @@
       "new_review_status": "needs_light_revision"
     },
     {
+      "lesson_slug": "fillers-nucleating-agents-processing-aids",
+      "title": "Fillers, Nucleating Agents, and Processing Aids",
+      "original_score": 83,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 83,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "melt-fracture-sharkskin-flow-instabilities",
+      "title": "Melt Fracture, Sharkskin, and Flow Instabilities",
+      "original_score": 83,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 83,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "barrier-properties-otr-wvtr",
+      "title": "Barrier Properties — OTR, WVTR, and CO2 Transmission",
+      "original_score": 83,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 83,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
+      "title": "Bioplastics: Synthesis, Compostability, and Standards",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
+      "title": "BIS Compliance, Raw Material Sourcing & Government Schemes in India",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "e-waste-plastics-density-separation-and-flame-retardant-removal",
+      "title": "E-Waste Plastics: Density Separation & Flame-Retardant Removal",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "rohs-reach-and-global-chemical-compliance-in-plastics",
+      "title": "RoHS, REACH & Global Chemical Compliance in Plastics",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "controlled-composting-biodegradation-by-co2-respirometry",
+      "title": "Controlled-Composting Biodegradation by CO2 Respirometry",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "lifecycle-assessment-lca-of-polymers-iso-14040-methodology",
+      "title": "Life Cycle Assessment (LCA) of Polymers: ISO 14040 Methodology",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "working-capital-banking-cash-credit-lc-and-bill-discounting",
+      "title": "Working Capital Banking: Cash Credit (CC), LC & Bill Discounting",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "flame-retardants-in-polymers-organophosphorus-and-intumescent-systems",
+      "title": "Flame Retardants in Polymers: Organophosphorus & Intumescent Systems",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "rigid-packaging-pet-hdpe-pp",
+      "title": "Polyethylene Terephthalate (PET): Synthesis, Crystallization & Bottle Processing",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "environmental-product-declaration-generation-and-verification",
+      "title": "Environmental Product Declaration (EPD) Generation & Verification",
+      "original_score": 84,
+      "original_grade": "B",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 84,
+      "new_grade": "B",
+      "new_review_status": "needs_light_revision"
+    },
+    {
+      "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
+      "title": "Packaging Design for Sustainability: Mono-Materials & Recyclable Structures",
+      "original_score": 85,
+      "original_grade": "A",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 85,
+      "new_grade": "A",
+      "new_review_status": "approved"
+    },
+    {
+      "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
+      "title": "The Sustainable Plastics Landscape: Bio-based, Biodegradable, and Compostable",
+      "original_score": 85,
+      "original_grade": "A",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 85,
+      "new_grade": "A",
+      "new_review_status": "approved"
+    },
+    {
+      "lesson_slug": "food-contact-rpet-super-cleaning-challenge-testing-and-regulatory-evaluation",
+      "title": "Food-Contact rPET Super-Cleaning, Challenge Testing & Regulatory Evaluation",
+      "original_score": 85,
+      "original_grade": "A",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 85,
+      "new_grade": "A",
+      "new_review_status": "approved"
+    },
+    {
       "lesson_slug": "lca-practice-india-epr-esg",
       "title": "LCA in Practice — How Indian Companies Use It for EPR and ESG Reporting",
       "original_score": 85,
@@ -1015,6 +1235,276 @@
       "new_score": 85,
       "new_grade": "A",
       "new_review_status": "approved"
+    },
+    {
+      "lesson_slug": "polymer-blends-and-composites-combining-materials-for-better-performance",
+      "title": "Polymer Blends, Composites & Micromechanics (Voigt Rule of Mixtures)",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 3R.1 Refined",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "thermoforming-vacuum-pressure-and-twin-sheet-processes",
+      "title": "Thermoforming: Vacuum, Pressure & Twin-Sheet Forming Kinetics",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 5 Refined",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "polymerization-mechanisms-addition-vs-condensation",
+      "title": "Addition & Condensation Polymerization Reaction Mechanisms",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 1",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "thermoplastics-vs-thermosets-structure-and-behavior",
+      "title": "Thermoplastics vs Thermosets: Molecular Structure, Thermal Transitions & Recyclability",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 4R Refined",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "compression-and-transfer-moulding-for-thermosets",
+      "title": "Compression and Transfer Moulding of Thermosetting Polymers",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 2",
+      "new_score": 91,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+      "title": "Vulcanization Chemistry, Accelerator Kinetics & Rheometer Cure Curves",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 4R Refined",
+      "new_score": 92,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "extrusion-die-design-fundamentals",
+      "title": "Extrusion Die Design Fundamentals: Rheology, Pressure Drop & Land Geometry",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 2",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "crystallinity-and-morphology-in-polymers",
+      "title": "Crystallinity, Lamellar Morphology & Density Characterization in Polymers",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 2",
+      "new_score": 90,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "polymer-degradation-and-stabilization",
+      "title": "Polymer Degradation Pathways, Kinetics & Antioxidant Stabilization",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 4R Refined",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "introduction-to-polymer-structure-and-molecular-weight",
+      "title": "Polymer Structure, Molecular Weight Averages, Dispersity and SEC Characterization",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 4R Refined",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "blow-moulding-extrusion-and-injection-blow-processes",
+      "title": "Blow Moulding: Extrusion Blow (EBM), Injection Blow (IBM) & ISBM Systems",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 5 Refined",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "injection-moulding-process-parameters-and-defects",
+      "title": "Injection Moulding Parameters, Melt Dynamics & Defect Troubleshooting",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 1",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "extrusion-process-screw-design-and-die-types",
+      "title": "Extrusion Process: Screw Design, Flow Mechanics and Die Geometry",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 5 Refined",
+      "new_score": 96,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "gate-design-in-injection-moulds-types-location-and-selection",
+      "title": "Gate Design in Injection Moulds: Types, Location & Shear Kinetics",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 3R.1 Refined",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "melt-flow-index-mfi-measurement-significance-and-indian-standards",
+      "title": "Melt Flow Index (MFI / MFR): Testing, Significance & Standards (ISO 1133 / ASTM D1238 / IS 2530)",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 2",
+      "new_score": 92,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "pla-pha-and-starch-based-polymers-in-packaging",
+      "title": "PLA, PHA, and Starch-Based Biopolymers in Packaging Engineering",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 2",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "rheological-testing-understanding-melt-flow-behavior",
+      "title": "Rheological Testing: MFR/MVR Limitations vs Rotational & Capillary Rheometry",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 6",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "epr-extended-producer-responsibility-compliance-frameworks-in-india",
+      "title": "EPR (Extended Producer Responsibility) Compliance Frameworks in India",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 3R.1 Refined",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "hardness-testing-shore-a-and-shore-d-durometers",
+      "title": "Hardness Testing: Shore A & Shore D Durometer Mechanics & Viscoelastic Dwell Kinetics",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 6",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "cooling-system-design-channels-layout-and-heat-transfer",
+      "title": "Cooling System Design in Moulds: Heat Transfer Kinetics, Turbulent Channels & Conformal Lines",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 5 Refined",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "draft-angles-and-shrinkage-allowance-in-mould-design",
+      "title": "Draft Angles & Volumetric Shrinkage Allowance in Injection Mould Design",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 6",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "impact-testing-izod-and-charpy-methods",
+      "title": "Impact Testing: Izod vs Charpy Pendulum Dynamics & Fracture Mechanics",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 6",
+      "new_score": 93,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "introduction-to-mechanical-and-chemical-recycling",
+      "title": "Introduction to Mechanical and Chemical Recycling of Polymers",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 3R.1 Refined",
+      "new_score": 91,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "runner-and-sprue-design-balancing-flow-to-multiple-cavities",
+      "title": "Injection Mould Runner Systems, Gate Design & Feed Balancing",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 1",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "introduction-to-rheology-polymer-melts",
+      "title": "Polymer Melt Rheology, Viscosity & Shear Flow Fundamentals",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 1",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "25-75-lakh-growth-tier-higher-margin-technical-products",
+      "title": "₹25–75 Lakh Growth Tier: Higher-Margin Technical Plastics Manufacturing",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 4R Refined",
+      "new_score": 94,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "tensile-and-flexural-testing-measuring-mechanical-strength",
+      "title": "Tensile Properties & Mechanical Testing (ASTM D638 vs ISO 527)",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 1",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
     },
     {
       "lesson_slug": "viscoelasticity-polymer-melt-memory",
@@ -1035,6 +1525,46 @@
       "new_score": 89,
       "new_grade": "A",
       "new_review_status": "approved"
+    },
+    {
+      "lesson_slug": "75-lakh-2-crore-scale-tier-extrusion-plants-recycling-and-processing-lines",
+      "title": "₹75 Lakh–₹2 Crore Scale Recycling & Extrusion Plants: Project Economics & Working Capital",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 3R.1 Refined",
+      "new_score": 90,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "ejection-systems-pins-sleeves-strippers-and-air-ejection",
+      "title": "Ejection Systems in Moulds: Mechanics, Pin/Sleeve Actuation & Stripper Mechanics",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 5 Refined",
+      "new_score": 92,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
+    },
+    {
+      "lesson_slug": "corporate-ghg-accounting-product-carbon-boundaries-and-cbam-overview",
+      "title": "Corporate GHG Accounting, Product Carbon Boundaries & CBAM Overview",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Unupgraded",
+      "new_score": 89,
+      "new_grade": "A",
+      "new_review_status": "approved"
+    },
+    {
+      "lesson_slug": "mould-materials-and-surface-finish",
+      "title": "Mould Steel Metallurgy, Heat Treatment & International Surface Finish Standards",
+      "original_score": 89,
+      "original_grade": "A",
+      "batch_upgraded": "Batch 6",
+      "new_score": 95,
+      "new_grade": "A",
+      "new_review_status": "internally_reviewed"
     }
   ]
 }

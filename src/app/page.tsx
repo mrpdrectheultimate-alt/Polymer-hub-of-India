@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   ArrowRight, FlaskConical, Brain, Zap,
   Newspaper, BookOpen, Wrench, Scale
@@ -12,7 +13,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Chemistry',
     slug: 'polymer-chemistry',
-    lessons: 6,
+    lessons: 9,
     color: 'blue',
     bg: '#EFF6FF',
     border: '#1D4ED8',
@@ -25,7 +26,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Processing',
     slug: 'polymer-processing',
-    lessons: 6,
+    lessons: 14,
     color: 'orange',
     bg: '#FFF7ED',
     border: '#EA580C',
@@ -38,7 +39,7 @@ const SUBJECTS = [
   {
     name: 'Mould Design',
     slug: 'mould-design',
-    lessons: 6,
+    lessons: 9,
     color: 'orange',
     bg: '#FFF7ED',
     border: '#EA580C',
@@ -51,7 +52,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Testing',
     slug: 'polymer-testing',
-    lessons: 6,
+    lessons: 10,
     color: 'violet',
     bg: '#F5F3FF',
     border: '#7C3AED',
@@ -64,7 +65,7 @@ const SUBJECTS = [
   {
     name: 'Rubber Technology',
     slug: 'rubber-technology',
-    lessons: 6,
+    lessons: 9,
     color: 'orange',
     bg: '#FFF7ED',
     border: '#EA580C',
@@ -77,7 +78,7 @@ const SUBJECTS = [
   {
     name: 'Recycling Technology',
     slug: 'recycling-technology',
-    lessons: 6,
+    lessons: 8,
     color: 'green',
     bg: '#F0FDF4',
     border: '#15803D',
@@ -90,7 +91,7 @@ const SUBJECTS = [
   {
     name: 'Sustainable Plastics',
     slug: 'sustainable-plastics',
-    lessons: 6,
+    lessons: 16,
     color: 'green',
     bg: '#F0FDF4',
     border: '#15803D',
@@ -103,7 +104,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Composites',
     slug: 'polymer-composites',
-    lessons: 6,
+    lessons: 13,
     color: 'blue',
     bg: '#EFF6FF',
     border: '#1D4ED8',
@@ -116,7 +117,7 @@ const SUBJECTS = [
   {
     name: 'Entrepreneurship',
     slug: 'entrepreneurship-plastics',
-    lessons: 6,
+    lessons: 11,
     color: 'yellow',
     bg: '#FEFCE8',
     border: '#CA8A04',
@@ -129,7 +130,7 @@ const SUBJECTS = [
   {
     name: 'Medical Plastics',
     slug: 'medical-plastics',
-    lessons: 6,
+    lessons: 9,
     color: 'violet',
     bg: '#F5F3FF',
     border: '#7C3AED',
@@ -142,7 +143,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Rheology',
     slug: 'polymer-rheology',
-    lessons: 6,
+    lessons: 9,
     color: 'orange',
     bg: '#FFF7ED',
     border: '#EA580C',
@@ -155,7 +156,7 @@ const SUBJECTS = [
   {
     name: 'Additives & Compounding',
     slug: 'additives-compounding',
-    lessons: 8,
+    lessons: 11,
     color: 'blue',
     bg: '#EFF6FF',
     border: '#1D4ED8',
@@ -168,7 +169,7 @@ const SUBJECTS = [
   {
     name: 'Plastic Packaging Engineering',
     slug: 'plastic-packaging-engineering',
-    lessons: 8,
+    lessons: 11,
     color: 'green',
     bg: '#F0FDF4',
     border: '#15803D',
@@ -181,7 +182,7 @@ const SUBJECTS = [
   {
     name: 'Life Cycle Assessment',
     slug: 'life-cycle-assessment',
-    lessons: 6,
+    lessons: 8,
     color: 'green',
     bg: '#F0FDF4',
     border: '#15803D',
@@ -194,7 +195,7 @@ const SUBJECTS = [
   {
     name: 'Color Science & Masterbatches',
     slug: 'color-science-masterbatches',
-    lessons: 6,
+    lessons: 8,
     color: 'yellow',
     bg: '#FEFCE8',
     border: '#CA8A04',
@@ -207,7 +208,7 @@ const SUBJECTS = [
 ]
 
 const STATS = [
-  { value: '102', unit: 'Lessons', label: 'Across 15 subjects', color: '#1D4ED8', bg: '#EFF6FF' },
+  { value: '216', unit: 'Lessons', label: 'Across 19 subjects', color: '#1D4ED8', bg: '#EFF6FF' },
   { value: '17', unit: 'Reference Books', label: 'Mapped to your career', color: '#7C3AED', bg: '#F5F3FF' },
   { value: '20+', unit: 'Polymers', label: 'With full property data', color: '#EA580C', bg: '#FFF7ED' },
   { value: '₹0', unit: 'To Start', label: '15 AI queries/day free', color: '#15803D', bg: '#F0FDF4' },
@@ -216,7 +217,7 @@ const STATS = [
 const TOOLS = [
   { name: 'Defect Troubleshooter', desc: 'Fix sink marks, warpage, flash — corrective actions from Rosato', href: '/troubleshooter', color: '#EA580C', bg: '#FFF7ED', icon: Wrench },
   { name: 'Property Comparator', desc: 'Compare 20 polymers across 15 properties from Brandrup Handbook', href: '/comparator', color: '#1D4ED8', bg: '#EFF6FF', icon: Scale },
-  { name: 'Reference Library', desc: '17 books that define the global plastics sector — mapped to your subjects', href: '/resources', color: '#7C3AED', bg: '#F5F3FF', icon: BookOpen },
+  { name: 'Reference Library', desc: '17 books & original guides that define the global plastics sector — mapped to your subjects', href: '/library', color: '#7C3AED', bg: '#F5F3FF', icon: BookOpen },
   { name: 'AI Tutor', desc: 'Ask anything — grounded in your actual lessons via real RAG pipeline', href: '/ai-tutor', color: '#15803D', bg: '#F0FDF4', icon: Brain },
 ]
 
@@ -327,7 +328,21 @@ export default function HomePage() {
         <div className="absolute bottom-1/3 left-10 w-40 h-40 rounded-full opacity-15 animate-blob-pulse" style={{ backgroundColor: '#7C3AED', filter: 'blur(35px)', animationDelay: '4s' }} />
 
         {/* Hero content */}
-        <div className="relative px-6 md:px-12 pb-12 pt-32 max-w-6xl mx-auto w-full">
+        <div className="relative px-6 md:px-12 pb-12 pt-24 max-w-6xl mx-auto w-full">
+
+          {/* Official Brand Logo Badge in Hero */}
+          <div className="mb-6">
+            <div className="inline-block bg-white border-4 border-yellow-bright p-2" style={{ boxShadow: '4px 4px 0px 0px #FACC15' }}>
+              <Image
+                src="/logo-vertical.jpg"
+                alt="Polymer Hub of India — Knowledge · Innovation · Future"
+                width={160}
+                height={120}
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
 
           {/* Label */}
           <div className="inline-flex items-center gap-2 border-2 border-yellow-bright px-3 py-1 mb-6">
@@ -347,7 +362,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-8 leading-relaxed font-medium">
-            60 world-class lessons. AI Tutor grounded in your syllabus. Real industry data updated daily.
+            216 world-class lessons. AI Tutor grounded in your syllabus. Real industry data updated daily.
             Career clarity for every PPE student in India.
           </p>
 
@@ -393,7 +408,7 @@ export default function HomePage() {
             </div>
             <div>
               <h2 className="font-display text-2xl font-black text-white uppercase tracking-tight">
-                15 Subjects · 102 Lessons
+                19 Subjects · 216 Lessons
               </h2>
               <p className="font-mono text-xs text-white/60 uppercase tracking-wider">The complete PPE curriculum</p>
             </div>
@@ -593,7 +608,7 @@ export default function HomePage() {
               Ask Anything.<br />Get Answers Grounded<br />in Your Lessons.
             </h2>
             <p className="text-white/80 text-base leading-relaxed mb-6">
-              Not a generic chatbot. The PolymerHub AI Tutor uses real pgvector similarity search across all 102 lessons — so every answer cites actual lesson content.
+              Not a generic chatbot. The PolymerHub AI Tutor uses real pgvector similarity search across all 216 lessons — so every answer cites actual lesson content.
             </p>
             <div className="flex flex-wrap gap-2 mb-6">
               {['What is the difference between Izod and Charpy testing?', 'How does vulcanization work?', 'Which career suits me?'].map((q) => (
@@ -682,19 +697,40 @@ export default function HomePage() {
         <div className="max-w-6xl mx-auto px-6 md:px-12 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-10 h-10 bg-yellow-bright border-4 border-yellow-bright flex items-center justify-center">
-                  <FlaskConical className="w-5 h-5 text-ink" />
-                </div>
-                <span className="font-display text-xl font-black text-white">PolymerHub</span>
+              {/* Official Brand Logo in Footer */}
+              <div className="mb-4">
+                <Image
+                  src="/logo-vertical.jpg"
+                  alt="Polymer Hub of India"
+                  width={160}
+                  height={120}
+                  className="object-contain brightness-0 invert"
+                />
               </div>
               <p className="text-white/50 text-sm leading-relaxed">
                 India&apos;s first Plastic Polymer Engineering knowledge platform for B.Tech students.
               </p>
+              <div className="flex gap-3 mt-4">
+                <a href="https://twitter.com/polymerhub_" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="X (Twitter)">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  </svg>
+                </a>
+                <a href="https://linkedin.com/in/lpk-naidu-3414153b2" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="LinkedIn">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                </a>
+                <a href="https://t.me/PolymerHub" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="Telegram Channel">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+                  </svg>
+                </a>
+              </div>
             </div>
 
             {[
-              { title: 'Learn', links: [{ label: 'All Subjects', href: '/subjects' }, { label: 'Materials DB', href: '/materials' }, { label: 'AI Tutor', href: '/ai-tutor' }, { label: 'Reference Library', href: '/resources' }] },
+              { title: 'Learn', links: [{ label: 'All Subjects', href: '/subjects' }, { label: 'Materials DB', href: '/materials' }, { label: 'AI Tutor', href: '/ai-tutor' }, { label: 'Reference Library', href: '/library' }] },
               { title: 'Explore', links: [{ label: 'World of Plastic', href: '/world' }, { label: 'History', href: '/history' }, { label: 'Daily Pulse', href: '/today' }, { label: 'Careers', href: '/careers' }] },
               { title: 'Tools', links: [{ label: 'Defect Troubleshooter', href: '/troubleshooter' }, { label: 'Property Comparator', href: '/comparator' }, { label: 'Pricing — ₹149/mo', href: '/pricing' }, { label: 'Sign In', href: '/login' }] },
             ].map((col) => (

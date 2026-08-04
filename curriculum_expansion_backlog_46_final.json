@@ -48,11 +48,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -105,11 +103,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -162,11 +158,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -219,11 +213,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -277,11 +269,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -334,11 +324,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -391,11 +379,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -448,11 +434,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -505,11 +489,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -562,11 +544,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -619,11 +599,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -676,11 +654,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 4,
-      "positive_sum": 84,
-      "calculated_score": 80,
-      "clamped_priority_score": 80
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -4,
+      "final_priority_score": 80
     },
     "lesson_quality_score": null
   },
@@ -734,11 +710,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -791,11 +765,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -849,11 +821,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -907,11 +877,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 4,
-      "positive_sum": 84,
-      "calculated_score": 80,
-      "clamped_priority_score": 80
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -4,
+      "final_priority_score": 80
     },
     "lesson_quality_score": null
   },
@@ -964,11 +932,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1021,11 +987,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1078,11 +1042,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 2,
-      "positive_sum": 84,
-      "calculated_score": 82,
-      "clamped_priority_score": 82
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -2,
+      "final_priority_score": 82
     },
     "lesson_quality_score": null
   },
@@ -1135,11 +1097,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1192,11 +1152,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1249,11 +1207,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1306,11 +1262,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1363,11 +1317,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1420,11 +1372,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1477,11 +1427,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1534,11 +1482,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 2,
-      "positive_sum": 84,
-      "calculated_score": 82,
-      "clamped_priority_score": 82
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -2,
+      "final_priority_score": 82
     },
     "lesson_quality_score": null
   },
@@ -1591,11 +1537,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 4,
-      "positive_sum": 84,
-      "calculated_score": 80,
-      "clamped_priority_score": 80
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -4,
+      "final_priority_score": 80
     },
     "lesson_quality_score": null
   },
@@ -1648,11 +1592,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 2,
-      "positive_sum": 84,
-      "calculated_score": 82,
-      "clamped_priority_score": 82
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -2,
+      "final_priority_score": 82
     },
     "lesson_quality_score": null
   },
@@ -1705,11 +1647,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1762,11 +1702,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1819,11 +1757,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1876,11 +1812,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1933,11 +1867,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -1990,11 +1922,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2047,11 +1977,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2104,11 +2032,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2161,11 +2087,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 4,
-      "positive_sum": 84,
-      "calculated_score": 80,
-      "clamped_priority_score": 80
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": -4,
+      "final_priority_score": 80
     },
     "lesson_quality_score": null
   },
@@ -2218,11 +2142,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2275,11 +2197,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2332,11 +2252,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2389,11 +2307,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2446,11 +2362,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2503,11 +2417,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2560,11 +2472,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   },
@@ -2617,11 +2527,9 @@
       "laboratory_testing_value": 8,
       "source_readiness": 8,
       "learner_usefulness_demand": 8,
-      "duplication_penalty_magnitude": 0,
-      "regulatory_risk_penalty_magnitude": 0,
-      "positive_sum": 84,
-      "calculated_score": 84,
-      "clamped_priority_score": 84
+      "duplication_penalty": 0,
+      "regulatory_risk_penalty": 0,
+      "final_priority_score": 84
     },
     "lesson_quality_score": null
   }

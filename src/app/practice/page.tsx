@@ -345,7 +345,7 @@ export default function PracticePage() {
           <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none mb-3">
             TEST YOURSELF.<br />
             <span className="text-yellow-bright italic">GATE-READY QUESTIONS</span><br />
-            ACROSS ALL 10 SUBJECTS.
+            ACROSS ALL 15 SUBJECTS.
           </h1>
           <p className="text-white/70 max-w-xl leading-relaxed">
             MCQ questions mapped to your lessons. Each wrong answer shows exactly why — tied back to the concept in the lesson.
@@ -458,7 +458,7 @@ export default function PracticePage() {
             <div className="grid grid-cols-3 gap-3">
               {[
                 { val: '50+', label: 'Questions', color: '#1D4ED8' },
-                { val: '10', label: 'Subjects', color: '#EA580C' },
+                { val: '15', label: 'Subjects', color: '#EA580C' },
                 { val: 'GATE', label: 'Mapped', color: '#7C3AED' },
               ].map((s) => (
                 <div key={s.label} className="border-4 border-ink p-4 text-center shadow-hard-sm" style={{ backgroundColor: s.color + '12' }}>
@@ -466,6 +466,22 @@ export default function PracticePage() {
                   <div className="font-mono text-[9px] text-ink/50 uppercase tracking-wider mt-1">{s.label}</div>
                 </div>
               ))}
+            </div>
+
+            {/* Sponsored Challenges Promo */}
+            <div className="border-4 border-ink bg-blue-50/50 p-5 shadow-hard flex flex-col sm:flex-row items-center gap-4 justify-between" style={{ borderColor: '#2563EB' }}>
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5 text-blue-700">
+                  <Trophy className="w-4 h-4" />
+                  <span className="font-mono text-[9px] font-black uppercase tracking-wider">Industry Sponsored Challenges</span>
+                </div>
+                <h3 className="font-display text-base font-black text-ink">Solve Industry Cases & Earn Up to +250 XP</h3>
+                <p className="font-mono text-[9px] text-slate-400">Get hired directly by companies like Reliance & Supreme.</p>
+              </div>
+              <Link href="/practice/challenges"
+                className="border-4 border-ink bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 font-mono text-[9px] font-black uppercase shadow-hard-sm transition-all flex items-center gap-1 flex-shrink-0">
+                View Challenges <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
             </div>
           </div>
         )}

@@ -14,14 +14,7 @@
     },
     "new_lessons_targeting_grade_a": 46,
     "existing_grade_b_upgrades": 15,
-    "batch_structure": "5 Batches (Batch 1 split into Wave 1A and Wave 1B for risk control)",
-    "interim_ledger_after_batch_1a_passing": {
-      "total_lessons": 107,
-      "grade_a": 41,
-      "grade_b": 66,
-      "grade_c": 0,
-      "status": "Conditioned on Batch 1A QA gate passing score >= 85/100 for all 8 actions"
-    }
+    "batch_structure": "5 Batches (Batch 1 split into Wave 1A and Wave 1B for risk control)"
   },
   "batches": [
     {
@@ -38,7 +31,7 @@
       ],
       "existing_grade_b_upgrades": [
         {
-          "lesson_slug": "rubber-compounding-fillers-carbon-black-and-additives",
+          "lesson_slug": "the-plastics-entrepreneurship-landscape-in-india-why-your-degree-is-the-moat",
           "original_score": 74,
           "original_grade": "B",
           "audit_rank": 1,
@@ -52,7 +45,7 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "latex-technology-processing-and-applications",
+          "lesson_slug": "enzymatic-and-biological-recycling-the-frontier-technology",
           "original_score": 74,
           "original_grade": "B",
           "audit_rank": 2,
@@ -66,7 +59,7 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "rubber-processing-mixing-calendering-and-extrusion",
+          "lesson_slug": "biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact",
           "original_score": 74,
           "original_grade": "B",
           "audit_rank": 3,
@@ -114,7 +107,7 @@
       ],
       "existing_grade_b_upgrades": [
         {
-          "lesson_slug": "tyre-construction-from-components-to-finished-product",
+          "lesson_slug": "life-cycle-assessment-lca-and-the-circular-economy-framework",
           "original_score": 74,
           "original_grade": "B",
           "audit_rank": 4,
@@ -128,8 +121,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "bioplastics-synthesis-compostability-and-standards",
-          "original_score": 74,
+          "lesson_slug": "natural-rubber-vs-synthetic-rubber-sources-and-selection",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 5,
           "selection_reason": "Lowest unresolved audit score in rubber processing and bioplastics synthesis",
@@ -142,8 +135,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "introduction-to-reinforced-polymer-composites",
-          "original_score": 74,
+          "lesson_slug": "glass-fibre-reinforced-plastics-gfrp-processing-and-applications",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 6,
           "selection_reason": "Lowest unresolved audit score in rubber processing and bioplastics synthesis",
@@ -176,8 +169,8 @@
       ],
       "existing_grade_b_upgrades": [
         {
-          "lesson_slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
-          "original_score": 74,
+          "lesson_slug": "introduction-to-the-plastics-recycling-landscape-why-it-matters-now",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 7,
           "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
@@ -190,8 +183,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "capex-and-business-planning-for-plastics-processing",
-          "original_score": 74,
+          "lesson_slug": "mechanical-recycling-collection-sorting-and-reprocessing",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 8,
           "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
@@ -204,8 +197,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
-          "original_score": 74,
+          "lesson_slug": "extended-producer-responsibility-epr-and-regulatory-frameworks",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 9,
           "selection_reason": "Lowest unresolved score in composite manufacturing and entrepreneurship DPR planning",
@@ -236,8 +229,8 @@
       ],
       "existing_grade_b_upgrades": [
         {
-          "lesson_slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
-          "original_score": 74,
+          "lesson_slug": "short-fibre-reinforced-thermoplastics-injection-moulded-composites",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 10,
           "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
@@ -250,8 +243,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
-          "original_score": 74,
+          "lesson_slug": "10-25-lakh-entry-tier-low-capex-manufacturing-businesses",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 11,
           "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
@@ -264,8 +257,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
-          "original_score": 74,
+          "lesson_slug": "plasticizers-flexibility-pvc",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 12,
           "selection_reason": "Lowest unresolved score in bio-based plastics and packaging sustainability",
@@ -296,8 +289,8 @@
       ],
       "existing_grade_b_upgrades": [
         {
-          "lesson_slug": "packaging-design-for-sustainability-mono-materials-and-recyclable-structures",
-          "original_score": 74,
+          "lesson_slug": "sterilization-methods-and-polymer-compatibility",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 13,
           "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
@@ -310,8 +303,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
-          "original_score": 74,
+          "lesson_slug": "implantable-polymers-and-biodegradable-medical-devices",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 14,
           "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",
@@ -324,8 +317,8 @@
           "target_score_minimum": 85
         },
         {
-          "lesson_slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
-          "original_score": 74,
+          "lesson_slug": "cleanroom-manufacturing-iso-13485-and-building-a-medical-plastics-career",
+          "original_score": 79,
           "original_grade": "B",
           "audit_rank": 15,
           "selection_reason": "Lowest unresolved score in packaging mono-materials and drop-in biopolymers",

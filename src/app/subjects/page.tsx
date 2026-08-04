@@ -9,7 +9,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Chemistry',
     slug: 'polymer-chemistry',
-    lessons: 6,
+    lessons: 9,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Foundation',
@@ -24,7 +24,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Processing',
     slug: 'polymer-processing',
-    lessons: 6,
+    lessons: 14,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Manufacturing',
@@ -39,7 +39,7 @@ const SUBJECTS = [
   {
     name: 'Mould Design',
     slug: 'mould-design',
-    lessons: 6,
+    lessons: 9,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Engineering',
@@ -54,7 +54,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Testing',
     slug: 'polymer-testing',
-    lessons: 6,
+    lessons: 10,
     color: '#7C3AED',
     bg: '#F5F3FF',
     tag: 'QA / QC',
@@ -69,7 +69,7 @@ const SUBJECTS = [
   {
     name: 'Rubber Technology',
     slug: 'rubber-technology',
-    lessons: 6,
+    lessons: 9,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Elastomers',
@@ -84,7 +84,7 @@ const SUBJECTS = [
   {
     name: 'Recycling Technology',
     slug: 'recycling-technology',
-    lessons: 6,
+    lessons: 8,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Circular Economy',
@@ -99,7 +99,7 @@ const SUBJECTS = [
   {
     name: 'Sustainable Plastics & Bioplastics',
     slug: 'sustainable-plastics',
-    lessons: 6,
+    lessons: 16,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Bioplastics',
@@ -114,7 +114,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Composites',
     slug: 'polymer-composites',
-    lessons: 6,
+    lessons: 13,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Advanced Materials',
@@ -129,7 +129,7 @@ const SUBJECTS = [
   {
     name: 'Entrepreneurship in Plastics',
     slug: 'entrepreneurship-plastics',
-    lessons: 6,
+    lessons: 11,
     color: '#CA8A04',
     bg: '#FEFCE8',
     tag: 'Business',
@@ -144,7 +144,7 @@ const SUBJECTS = [
   {
     name: 'Medical Plastics & Biomaterials',
     slug: 'medical-plastics',
-    lessons: 6,
+    lessons: 9,
     color: '#7C3AED',
     bg: '#F5F3FF',
     tag: 'Specialised',
@@ -159,7 +159,7 @@ const SUBJECTS = [
   {
     name: 'Polymer Rheology',
     slug: 'polymer-rheology',
-    lessons: 6,
+    lessons: 9,
     color: '#EA580C',
     bg: '#FFF7ED',
     tag: 'Advanced',
@@ -174,7 +174,7 @@ const SUBJECTS = [
   {
     name: 'Additives & Compounding',
     slug: 'additives-compounding',
-    lessons: 8,
+    lessons: 11,
     color: '#1D4ED8',
     bg: '#EFF6FF',
     tag: 'Formulation',
@@ -189,7 +189,7 @@ const SUBJECTS = [
   {
     name: 'Plastic Packaging Engineering',
     slug: 'plastic-packaging-engineering',
-    lessons: 8,
+    lessons: 11,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Application',
@@ -204,7 +204,7 @@ const SUBJECTS = [
   {
     name: 'Life Cycle Assessment',
     slug: 'life-cycle-assessment',
-    lessons: 6,
+    lessons: 8,
     color: '#15803D',
     bg: '#F0FDF4',
     tag: 'Sustainability',
@@ -219,7 +219,7 @@ const SUBJECTS = [
   {
     name: 'Color Science & Masterbatches',
     slug: 'color-science-masterbatches',
-    lessons: 6,
+    lessons: 8,
     color: '#CA8A04',
     bg: '#FEFCE8',
     tag: 'Design',
@@ -355,7 +355,7 @@ export default function SubjectsPage() {
               <BookOpen className="w-5 h-5 text-ink" />
             </div>
             <span className="font-mono text-xs font-bold text-yellow-bright uppercase tracking-widest border-2 border-yellow-bright px-3 py-1">
-              15 Subjects · 102 Lessons
+              19 Subjects · 216 Lessons
             </span>
           </div>
 

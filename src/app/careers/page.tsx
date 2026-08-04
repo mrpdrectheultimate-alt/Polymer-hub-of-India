@@ -1,8 +1,87 @@
+// src/app/careers/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { ArrowRight, ChevronDown, ChevronUp, Brain, BookOpen, Briefcase } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { Session } from '@supabase/supabase-js'
+import { 
+  ArrowRight, 
+  ChevronDown, 
+  ChevronUp, 
+  Brain, 
+  Briefcase, 
+  Search, 
+  Printer, 
+  Save,
+  Loader2, 
+  CheckCircle2, 
+  AlertCircle 
+} from 'lucide-react'
+
+// Mock Interview questions database
+const MOCK_QUESTIONS = [
+  {
+    id: 1,
+    question: "What is the glass transition temperature (Tg) and why is it important in processing?",
+    options: [
+      "The temperature at which a polymer melts completely into a low-viscosity liquid",
+      "The temperature at which an amorphous polymer transitions from a hard, glassy state to a rubbery, flexible state",
+      "The temperature where chemical cross-linking reactions begin to occur",
+      "The temperature at which thermal degradation and gas emission start"
+    ],
+    correct: 1,
+    explanation: "Tg is the temperature where amorphous regions of a polymer gain chain mobility. Below Tg, polymers are brittle and glassy; above Tg, they are rubbery and ductile."
+  },
+  {
+    id: 2,
+    question: "What is the primary function of a runner system in an injection mold layout?",
+    options: [
+      "To circulate cooling water or oil around the cavity inserts",
+      "To channel molten polymer from the sprue bushing to the gates of individual cavities",
+      "To push the solidified molded parts out of the cores during mold open",
+      "To vents out trapped gases and air from the cavities during injection fill"
+    ],
+    correct: 1,
+    explanation: "The runner system acts as the feed channels directing molten thermoplastic from the sprue/nozzle connection into the entry gates of the product cavities."
+  },
+  {
+    id: 3,
+    question: "Why is a high L/D (Length to Diameter) screw ratio desirable in twin-screw compounding extruders?",
+    options: [
+      "It decreases machine manufacturing costs and reduces overall footprint",
+      "It allows longer residence times, yielding superior melting, mixing, and dispersion of additives",
+      "It decreases pressure drops across the extrusion die plate",
+      "It prevents high shear heating, safeguarding heat-sensitive bioplastics"
+    ],
+    correct: 1,
+    explanation: "A high L/D ratio (typically 36:1 to 48:1) gives more processing barrel length for modular compounding steps like feeding, melting, liquid injection, mixing, venting, and pressure building."
+  },
+  {
+    id: 4,
+    question: "Which ASTM standard is universally used to evaluate the tensile properties of plastics?",
+    options: [
+      "ASTM D1238 (Melt Flow Index)",
+      "ASTM D648 (Heat Deflection Temperature)",
+      "ASTM D638 (Tensile Testing of Plastics)",
+      "ASTM D256 (Izod Impact Resistance)"
+    ],
+    correct: 2,
+    explanation: "ASTM D638 outlines the test method for measuring tensile properties of unreinforced and reinforced plastics using dumbbell-shaped 'dogbone' specimens."
+  },
+  {
+    id: 5,
+    question: "What differentiates a Thermosetting polymer from a Thermoplastic polymer at the structural level?",
+    options: [
+      "Thermosets have high linear molecular weight but zero chemical linkages",
+      "Thermosets form three-dimensional chemically cross-linked networks that do not melt upon reheating",
+      "Thermosets are completely amorphous while thermoplastics are 100% crystalline",
+      "Thermosets degrade at room temperature under low moisture exposure"
+    ],
+    correct: 1,
+    explanation: "Thermosets undergo irreversible chemical cross-linking (curing) forming a rigid network. Reheating them will cause thermal degradation rather than melting, unlike thermoplastics."
+  }
+]
 
 const TRACKS = [
   {
@@ -85,71 +164,937 @@ const TRACKS = [
   },
 ]
 
-const SALARY_BANDS = [
-  { range: '₹4–6 LPA', label: 'Fresher (0–1 yr)', desc: 'CIPET / tier-2 college hire, QA/QC, production assistant', color: '#6B7280' },
-  { range: '₹8–14 LPA', label: 'Mid-level (3–5 yr)', desc: 'Process engineer, mould designer, materials technician', color: '#1D4ED8' },
-  { range: '₹16–22 LPA', label: 'Senior (7–10 yr)', desc: 'R&D lead, CAE specialist, plant head, sustainability officer', color: '#EA580C' },
-  { range: '₹25–40+ LPA', label: 'Expert / MNC (10+ yr)', desc: 'BASF, SABIC, Dow — formulation leads, global project managers', color: '#7C3AED' },
-]
+interface JobListing {
+  id: string
+  title: string
+  company: string
+  location: string
+  type: 'Full-time' | 'Internship'
+  salary: string
+  description: string
+  application_url: string
+}
 
-const GATE_MAPPING = [
-  { topic: 'Polymer Chemistry & Structure', paper: 'CH — Section 3', slug: 'introduction-to-polymer-structure-and-molecular-weight' },
-  { topic: 'Polymerization Mechanisms', paper: 'CH — Reaction Engineering', slug: 'polymerization-mechanisms-addition-vs-condensation' },
-  { topic: 'Polymer Processing — Injection', paper: 'CH — Mass Transfer + Heat Transfer', slug: 'injection-moulding-process-parameters-and-defects' },
-  { topic: 'Rheology & Melt Flow', paper: 'CH — Fluid Mechanics + Rheology', slug: 'rheological-testing-understanding-melt-flow-behavior' },
-  { topic: 'Thermal Analysis (DSC/TGA)', paper: 'CH — Thermodynamics', slug: 'thermal-analysis-dsc-tga-and-hdt-testing' },
-]
+interface Education {
+  degree: string
+  institute: string
+  year: string
+}
 
-const ENTREPRENEUR_TIERS = [
-  { capex: '₹10–25 Lakh', tier: 'Entry', color: '#15803D', bg: '#F0FDF4', products: ['Air bubble wrap sheets', 'Stretch / cling films', 'PP woven bags (120µ+)'] },
-  { capex: '₹25–75 Lakh', tier: 'Growth', color: '#1D4ED8', bg: '#EFF6FF', products: ['Masterbatch compounding', 'PVC pipe fittings (IS 7834)', 'PP/HDPE woven sacks (FIBC)'] },
-  { capex: '₹75L–2 Crore', tier: 'Scale', color: '#EA580C', bg: '#FFF7ED', products: ['HDPE/uPVC pipe extrusion line', 'PET mechanical recycling plant', 'Blown film line (LDPE/LLDPE)'] },
-]
+interface Experience {
+  role: string
+  company: string
+  duration: string
+  desc: string
+}
+
+interface Project {
+  name: string
+  tech: string
+  desc: string
+}
+
+export default function CareersHubPage() {
+  const [session, setSession] = useState<Session | null>(null)
+  const [activeTab, setActiveTab] = useState<'tracks' | 'resume' | 'interview'>('tracks')
+  
+  // Job Board States
+  const [listings, setListings] = useState<JobListing[]>([])
+  const [listingsLoading, setListingsLoading] = useState(true)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedType, setSelectedType] = useState('all')
+
+  // Resume Builder States
+  const [resumeLoaded, setResumeLoaded] = useState(false)
+  const [resumeSaving, setResumeSaving] = useState(false)
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [skills, setSkills] = useState<string[]>([])
+  const [newSkill, setNewSkill] = useState('')
+  const [education, setEducation] = useState<Education[]>([])
+  const [experience, setExperience] = useState<Experience[]>([])
+  const [projects, setProjects] = useState<Project[]>([])
+
+  // Temporary item inputs
+  const [tempEdu, setTempEdu] = useState<Education>({ degree: '', institute: '', year: '' })
+  const [tempExp, setTempExp] = useState<Experience>({ role: '', company: '', duration: '', desc: '' })
+  const [tempProj, setTempProj] = useState<Project>({ name: '', tech: '', desc: '' })
+
+  // Mock Interview States
+  const [answers, setAnswers] = useState<Record<number, number>>({})
+  const [submittedInterview, setSubmittedInterview] = useState(false)
+  const [interviewScore, setInterviewScore] = useState<number | null>(null)
+
+  // 1. Fetch Session
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session)
+    })
+  }, [])
+
+  // 2. Fetch Job Listings
+  useEffect(() => {
+    if (activeTab !== 'tracks') return
+    async function loadListings() {
+      setListingsLoading(true)
+      try {
+        const res = await fetch(`/api/careers/listings?q=${searchQuery}&type=${selectedType}`)
+        if (res.ok) {
+          setListings(await res.json())
+        }
+      } catch (err) {
+        console.error('Failed to load listings:', err)
+      } finally {
+        setListingsLoading(false)
+      }
+    }
+    loadListings()
+  }, [activeTab, searchQuery, selectedType])
+
+  // 3. Fetch Resume Profile (once session is active)
+  useEffect(() => {
+    if (!session || activeTab !== 'resume') return
+    async function loadResume() {
+      try {
+        const res = await fetch('/api/careers/resume')
+        if (res.ok) {
+          const data = await res.json()
+          if (data) {
+            setFullName(data.full_name || '')
+            setEmail(data.email || '')
+            setPhone(data.phone || '')
+            setSkills(data.skills || [])
+            setEducation(data.education || [])
+            setExperience(data.experience || [])
+            setProjects(data.projects || [])
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch resume:', err)
+      } finally {
+        setResumeLoaded(true)
+      }
+    }
+    loadResume()
+  }, [session, activeTab])
+
+  // 4. Save/Update Resume Profile
+  const handleSaveResume = async () => {
+    if (!session) return
+    setResumeSaving(true)
+    try {
+      const res = await fetch('/api/careers/resume', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: fullName,
+          email,
+          phone,
+          education,
+          experience,
+          projects,
+          skills
+        })
+      })
+      if (!res.ok) throw new Error('Failed to save')
+      alert('Resume specs saved successfully!')
+    } catch (err) {
+      console.error(err)
+      alert('Failed to save resume details.')
+    } finally {
+      setResumeSaving(false)
+    }
+  }
+
+  // 5. Add items to list
+  const addEdu = () => {
+    if (!tempEdu.degree || !tempEdu.institute || !tempEdu.year) return
+    setEducation(prev => [...prev, tempEdu])
+    setTempEdu({ degree: '', institute: '', year: '' })
+  }
+  const addExp = () => {
+    if (!tempExp.role || !tempExp.company || !tempExp.duration) return
+    setExperience(prev => [...prev, tempExp])
+    setTempExp({ role: '', company: '', duration: '', desc: '' })
+  }
+  const addProj = () => {
+    if (!tempProj.name || !tempProj.tech) return
+    setProjects(prev => [...prev, tempProj])
+    setTempProj({ name: '', tech: '', desc: '' })
+  }
+  const addSkill = () => {
+    if (!newSkill.trim()) return
+    if (!skills.includes(newSkill.trim())) {
+      setSkills(prev => [...prev, newSkill.trim()])
+    }
+    setNewSkill('')
+  }
+
+  // 6. Technical Interview submit check
+  const handleInterviewSubmit = () => {
+    let score = 0
+    MOCK_QUESTIONS.forEach(q => {
+      if (answers[q.id] === q.correct) {
+        score++
+      }
+    })
+    setInterviewScore(Math.round((score / MOCK_QUESTIONS.length) * 100))
+    setSubmittedInterview(true)
+  }
+
+  return (
+    <div className="min-h-screen bg-canvas text-slate-900 pb-20 dark:text-slate-100">
+      <div className="h-2 bg-violet-600" />
+
+      {/* Top Banner */}
+      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden dark:border-slate-800">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
+        <div className="relative max-w-6xl mx-auto flex items-center justify-between gap-6 flex-wrap">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-violet-600 flex items-center justify-center">
+                <Briefcase className="w-4 h-4 text-white" />
+              </div>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-yellow-400 font-bold">Career &amp; Industry Hub</span>
+            </div>
+            <h1 className="font-display text-3xl font-black uppercase tracking-tight leading-none">
+              💼 Industry &amp; Career Hub
+            </h1>
+            <p className="text-xs text-slate-400 mt-2 max-w-xl leading-relaxed">
+              Find active jobs and internships, customize a print-ready polymer-focused resume, or test your skills with a technical mock interview.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Main Workspace Column */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        
+        {/* Workspace tabs */}
+        <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:shadow-none dark:bg-slate-950 mb-8">
+          {([
+            { id: 'tracks', label: 'Career Tracks & Jobs', icon: Briefcase },
+            { id: 'resume', label: 'Resume Builder', icon: Printer },
+            { id: 'interview', label: 'Technical Mock Interview', icon: Brain }
+          ] as const).map(tab => {
+            const Icon = tab.icon
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 font-mono text-[10px] font-black uppercase tracking-wider py-3 border-r-4 border-slate-900 last:border-r-0 flex items-center justify-center gap-1.5 transition-colors dark:border-slate-800 ${
+                  isActive 
+                    ? 'bg-violet-600 text-white' 
+                    : 'bg-transparent text-slate-500 hover:text-slate-950 dark:hover:text-white'
+                }`}
+              >
+                <Icon className="w-3.5 h-3.5 shrink-0" />
+                <span>{tab.label}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        {/* TAB CONTENTS */}
+        
+        {/* TAB 1: CAREER TRACKS & JOB BOARD */}
+        {activeTab === 'tracks' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            {/* Left 2 Cols: 6 Tracks + Job Board */}
+            <div className="lg:col-span-2 space-y-8">
+              
+              {/* Job Listings Panel */}
+              <div className="space-y-4">
+                <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center dark:border-slate-800">
+                  <h2 className="font-display font-black text-sm uppercase">Active Polymer Openings</h2>
+                  <span className="font-mono text-[9px] uppercase text-slate-400">Real-time Industry Feed</span>
+                </div>
+
+                {/* Filter and Search Box */}
+                <div className="flex gap-3 flex-wrap">
+                  <div className="flex-1 min-w-[200px] border-4 border-slate-900 bg-white rounded-xl flex items-center px-3 gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                    <Search className="w-4 h-4 text-slate-400" />
+                    <input
+                      type="text"
+                      placeholder="Search jobs, companies, skills..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full py-2 bg-transparent text-xs outline-none"
+                    />
+                  </div>
+
+                  <select
+                    value={selectedType}
+                    onChange={(e) => setSelectedType(e.target.value)}
+                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                  >
+                    <option value="all">All Types</option>
+                    <option value="Full-time">Full-time</option>
+                    <option value="Internship">Internship</option>
+                  </select>
+                </div>
+
+                {listingsLoading ? (
+                  <div className="flex flex-col items-center justify-center py-10">
+                    <Loader2 className="w-8 h-8 animate-spin text-violet-600 mb-2" />
+                    <p className="font-mono text-xs text-slate-500">Checking job board feeds...</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {listings.length === 0 ? (
+                      <p className="text-center font-mono text-xs text-slate-400 py-10">No active job listings found.</p>
+                    ) : (
+                      listings.map(job => (
+                        <div 
+                          key={job.id} 
+                          className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-2 flex flex-col justify-between"
+                        >
+                          <div>
+                            <div className="flex justify-between items-start gap-4 flex-wrap">
+                              <h3 className="font-display font-black text-sm uppercase text-slate-950 dark:text-white leading-tight">
+                                {job.title}
+                              </h3>
+                              <span className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 dark:border-slate-800 dark:bg-slate-900 px-2 py-0.5 uppercase">
+                                {job.type}
+                              </span>
+                            </div>
+                            <p className="text-[10px] font-mono text-slate-400">
+                              {job.company} · {job.location}
+                            </p>
+                          </div>
+
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-normal line-clamp-3">
+                            {job.description}
+                          </p>
+
+                          <div className="flex items-center justify-between gap-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex-wrap">
+                            <span className="font-mono text-xs font-black text-green-600">
+                              {job.salary}
+                            </span>
+                            <a
+                              href={job.application_url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-mono text-[9px] font-black uppercase bg-violet-600 text-white px-3 py-1.5 rounded hover:bg-violet-700 transition-colors"
+                            >
+                              Apply Now &rarr;
+                            </a>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* 6 Career Tracks */}
+              <div className="space-y-4">
+                <div className="border-b-4 border-slate-900 pb-2 dark:border-slate-800">
+                  <h2 className="font-display font-black text-sm uppercase">6 Specialized Career Pathways</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  {TRACKS.map(track => (
+                    <TrackCard key={track.id} track={track} />
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Right Sidebar: Quick info */}
+            <div className="space-y-6">
+              {/* Placement moats */}
+              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-3">
+                <h4 className="font-display font-black text-xs uppercase tracking-wider">
+                  💼 Polymer Job Market Stats
+                </h4>
+                <ul className="space-y-2 font-mono text-[9px] text-slate-500 leading-normal">
+                  <li>
+                    <strong>India CAGR:</strong> Plastics consumption is growing at 8.5% annually, driven by automotive weight-reduction and flexible packaging demand.
+                  </li>
+                  <li>
+                    <strong>Compounding Hubs:</strong> Top clusters are centered in Gujarat (Halol, Ahmedabad), Maharashtra (Pune), Daman &amp; Diu, Chennai (CIPET/Motherson hubs), and Noida.
+                  </li>
+                  <li>
+                    <strong>Standards knowledge:</strong> Companies prioritize candidates familiar with testing standards (ASTM D638, ASTM D1238, ISO 9001).
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {/* TAB 2: RESUME BUILDER */}
+        {activeTab === 'resume' && (
+          <div className="space-y-6">
+            {!session ? (
+              <div className="border-4 border-slate-900 rounded-xl p-8 bg-white text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] max-w-md mx-auto dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                <span className="text-3xl block mb-2">🔒</span>
+                <h3 className="font-display font-black text-xs uppercase mb-1">Resume Drafting locked</h3>
+                <p className="text-[10px] text-slate-400 leading-normal mb-4">Please log in to design and save your professional polymer resume profile.</p>
+                <Link href="/login" className="inline-block bg-slate-900 text-white font-mono text-[9px] font-black uppercase px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800">
+                  Authenticate →
+                </Link>
+              </div>
+            ) : !resumeLoaded ? (
+              <div className="flex flex-col items-center justify-center py-16">
+                <Loader2 className="w-8 h-8 animate-spin text-violet-600 mb-2" />
+                <p className="font-mono text-xs text-slate-500">Retrieving resume profile...</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                {/* Form Editor (Left side) */}
+                <div className="space-y-6 border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                  <div>
+                    <h3 className="font-display font-black text-sm uppercase mb-1">Plastics Engineering Resume Form</h3>
+                    <p className="text-[10px] text-slate-500">Provide details to construct your standard PDF resume.</p>
+                  </div>
+
+                  {/* Contact details */}
+                  <div className="space-y-3">
+                    <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">1. Contact Information</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Full Name</label>
+                        <input
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="e.g. Priyesh Kumar"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Email Address</label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="e.g. priyesh@college.edu"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                        />
+                      </div>
+                      <div className="sm:col-span-2">
+                        <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Phone Number</label>
+                        <input
+                          type="text"
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="e.g. +91 98765 43210"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Education details */}
+                  <div className="space-y-3">
+                    <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">2. Education History</h4>
+                    <div className="space-y-2">
+                      {education.map((edu, idx) => (
+                        <div key={idx} className="flex justify-between items-center bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                          <div>
+                            <strong>{edu.degree}</strong> - {edu.institute} ({edu.year})
+                          </div>
+                          <button
+                            onClick={() => setEducation(prev => prev.filter((_, i) => i !== idx))}
+                            className="text-red-500 hover:text-red-700"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-end pt-1">
+                      <input
+                        type="text"
+                        placeholder="Degree (e.g. B.Tech Polymer)"
+                        value={tempEdu.degree}
+                        onChange={(e) => setTempEdu(prev => ({ ...prev, degree: e.target.value }))}
+                        className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Institute (e.g. CIPET)"
+                        value={tempEdu.institute}
+                        onChange={(e) => setTempEdu(prev => ({ ...prev, institute: e.target.value }))}
+                        className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Year"
+                          value={tempEdu.year}
+                          onChange={(e) => setTempEdu(prev => ({ ...prev, year: e.target.value }))}
+                          className="w-16 p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <button
+                          onClick={addEdu}
+                          className="flex-1 bg-slate-900 text-white font-mono text-[9px] uppercase font-black py-1.5 border-2 border-slate-900 rounded"
+                        >
+                          + Add
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Experience details */}
+                  <div className="space-y-3">
+                    <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">3. Professional Experience</h4>
+                    <div className="space-y-2">
+                      {experience.map((exp, idx) => (
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                          <div>
+                            <strong>{exp.role}</strong> at {exp.company} ({exp.duration})
+                            <p className="text-[10px] text-slate-500 mt-0.5">{exp.desc}</p>
+                          </div>
+                          <button
+                            onClick={() => setExperience(prev => prev.filter((_, i) => i !== idx))}
+                            className="text-red-500 hover:text-red-700 shrink-0"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-2 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <input
+                          type="text"
+                          placeholder="Role (e.g. Design Intern)"
+                          value={tempExp.role}
+                          onChange={(e) => setTempExp(prev => ({ ...prev, role: e.target.value }))}
+                          className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Company"
+                          value={tempExp.company}
+                          onChange={(e) => setTempExp(prev => ({ ...prev, company: e.target.value }))}
+                          className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Duration (e.g. 2025-2026)"
+                          value={tempExp.duration}
+                          onChange={(e) => setTempExp(prev => ({ ...prev, duration: e.target.value }))}
+                          className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Key responsibilities summary..."
+                          value={tempExp.desc}
+                          onChange={(e) => setTempExp(prev => ({ ...prev, desc: e.target.value }))}
+                          className="flex-1 p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <button
+                          onClick={addExp}
+                          className="bg-slate-900 text-white font-mono text-[9px] uppercase font-black px-4 py-1.5 border-2 border-slate-900 rounded shrink-0"
+                        >
+                          + Add Exp
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Projects details */}
+                  <div className="space-y-3">
+                    <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">4. Gating &amp; Polymer Projects</h4>
+                    <div className="space-y-2">
+                      {projects.map((proj, idx) => (
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                          <div>
+                            <strong>{proj.name}</strong> (Technology: {proj.tech})
+                            <p className="text-[10px] text-slate-500 mt-0.5">{proj.desc}</p>
+                          </div>
+                          <button
+                            onClick={() => setProjects(prev => prev.filter((_, i) => i !== idx))}
+                            className="text-red-500 hover:text-red-700 shrink-0"
+                          >
+                            &times;
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="space-y-2 pt-1">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          placeholder="Project Name (e.g. Mould Flow Analysis)"
+                          value={tempProj.name}
+                          onChange={(e) => setTempProj(prev => ({ ...prev, name: e.target.value }))}
+                          className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <input
+                          type="text"
+                          placeholder="Tech / Standards (e.g. Moldflow, CAD)"
+                          value={tempProj.tech}
+                          onChange={(e) => setTempProj(prev => ({ ...prev, tech: e.target.value }))}
+                          className="p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                      </div>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Key results achieved (e.g. Reduced warpage by 20%...)"
+                          value={tempProj.desc}
+                          onChange={(e) => setTempProj(prev => ({ ...prev, desc: e.target.value }))}
+                          className="flex-1 p-1.5 border border-slate-350 rounded text-xs bg-slate-50 text-slate-900 outline-none"
+                        />
+                        <button
+                          onClick={addProj}
+                          className="bg-slate-900 text-white font-mono text-[9px] uppercase font-black px-4 py-1.5 border-2 border-slate-900 rounded shrink-0"
+                        >
+                          + Add Proj
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Skills details */}
+                  <div className="space-y-3">
+                    <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">5. Skills Tagging</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {skills.map((s) => (
+                        <span key={s} className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 px-2 py-0.5 rounded uppercase dark:border-slate-800 dark:bg-slate-900 flex items-center gap-1">
+                          {s}
+                          <button
+                            type="button"
+                            onClick={() => setSkills(prev => prev.filter(item => item !== s))}
+                            className="text-red-500 font-bold hover:text-red-700 ml-1"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="Add skill tag (e.g. Extrusion, DSC, SOLIDWORKS)"
+                        value={newSkill}
+                        onChange={(e) => setNewSkill(e.target.value)}
+                        className="flex-1 p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                        onKeyDown={(e) => { if (e.key === 'Enter') addSkill() }}
+                      />
+                      <button
+                        type="button"
+                        onClick={addSkill}
+                        className="bg-slate-900 text-white font-mono text-[9px] uppercase font-black px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800"
+                      >
+                        + Add Skill
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Save trigger */}
+                  <button
+                    onClick={handleSaveResume}
+                    disabled={resumeSaving}
+                    className="w-full bg-blue-600 text-white font-mono text-xs font-black uppercase tracking-wider py-3 border-2 border-slate-900 shadow-hard hover:bg-blue-700 flex items-center justify-center gap-1.5"
+                  >
+                    {resumeSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                    Save Specifications
+                  </button>
+
+                </div>
+
+                {/* Resume Preview Sheet (Right side) */}
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="font-mono text-xs text-slate-400">Standard printable layout</span>
+                    <button
+                      onClick={() => window.print()}
+                      className="inline-flex items-center gap-1 text-xs font-bold uppercase hover:underline border border-slate-300 dark:border-slate-800 px-3 py-1 rounded bg-white dark:bg-slate-950"
+                    >
+                      <Printer className="w-3.5 h-3.5" /> Print PDF / A4
+                    </button>
+                  </div>
+
+                  {/* Printable A4 Box */}
+                  <div id="resume-preview-box" className="border-4 border-slate-900 bg-white text-slate-900 p-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-6 min-h-[600px] rounded-xl">
+                    
+                    {/* Header */}
+                    <div className="text-center border-b pb-4 border-slate-200">
+                      <h2 className="font-display font-black text-xl uppercase tracking-tight">
+                        {fullName || 'Your Name'}
+                      </h2>
+                      <p className="text-[10px] font-mono text-slate-500 mt-1">
+                        {email || 'candidate@domain.com'} · {phone || '+91 99999 99999'}
+                      </p>
+                    </div>
+
+                    {/* Education */}
+                    <div>
+                      <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Education</h3>
+                      {education.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 italic">No education records added.</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {education.map((edu, idx) => (
+                            <div key={idx} className="flex justify-between text-xs">
+                              <div>
+                                <strong className="text-slate-800">{edu.degree}</strong>
+                                <span className="block text-[10px] text-slate-500">{edu.institute}</span>
+                              </div>
+                              <span className="font-mono text-[10px] text-slate-400">{edu.year}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Experience */}
+                    <div>
+                      <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Experience</h3>
+                      {experience.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 italic">No experience records added.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {experience.map((exp, idx) => (
+                            <div key={idx} className="space-y-1">
+                              <div className="flex justify-between text-xs">
+                                <div>
+                                  <strong className="text-slate-800">{exp.role}</strong> at <span className="italic">{exp.company}</span>
+                                </div>
+                                <span className="font-mono text-[10px] text-slate-400">{exp.duration}</span>
+                              </div>
+                              <p className="text-[10px] text-slate-500 leading-normal">{exp.desc}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Projects */}
+                    <div>
+                      <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Compounding &amp; Processing Projects</h3>
+                      {projects.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 italic">No project listings added.</p>
+                      ) : (
+                        <div className="space-y-3">
+                          {projects.map((proj, idx) => (
+                            <div key={idx} className="space-y-1 text-xs">
+                              <div>
+                                <strong className="text-slate-800">{proj.name}</strong> · <span className="font-mono text-[9px] text-blue-600 uppercase">{proj.tech}</span>
+                              </div>
+                              <p className="text-[10px] text-slate-500 leading-normal">{proj.desc}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Skills */}
+                    <div>
+                      <h3 className="font-mono text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2 border-b border-slate-100 pb-0.5">Technical Skills &amp; Standards</h3>
+                      {skills.length === 0 ? (
+                        <p className="text-[10px] text-slate-400 italic">No skills listed.</p>
+                      ) : (
+                        <div className="flex flex-wrap gap-1">
+                          {skills.map((s) => (
+                            <span key={s} className="font-mono text-[9px] border px-2 py-0.5 rounded text-slate-600 bg-slate-50 uppercase">
+                              {s}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 3: MOCK INTERVIEW */}
+        {activeTab === 'interview' && (
+          <div className="max-w-2xl mx-auto space-y-6">
+            
+            <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center dark:border-slate-800">
+              <div>
+                <h2 className="font-display font-black text-sm uppercase">Technical Mock Interview Board</h2>
+                <p className="text-[10px] text-slate-400 mt-1">Answer 5 core questions evaluating polymer science and manufacturing competencies.</p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              {MOCK_QUESTIONS.map((q, idx) => {
+                return (
+                  <div 
+                    key={q.id} 
+                    className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4"
+                  >
+                    <div>
+                      <span className="font-mono text-[9px] uppercase font-black text-blue-600 block mb-1">Question {idx + 1} of 5</span>
+                      <h3 className="font-display font-black text-xs uppercase leading-relaxed text-slate-950 dark:text-white">
+                        {q.question}
+                      </h3>
+                    </div>
+
+                    <div className="space-y-2">
+                      {q.options.map((opt, optIdx) => {
+                        const isSelected = answers[q.id] === optIdx
+                        const isCorrect = q.correct === optIdx
+                        
+                        let optionStyle = 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900'
+                        if (submittedInterview) {
+                          if (isCorrect) {
+                            optionStyle = 'border-green-600 bg-green-50/10 text-green-700'
+                          } else if (isSelected) {
+                            optionStyle = 'border-red-600 bg-red-50/10 text-red-700'
+                          }
+                        } else if (isSelected) {
+                          optionStyle = 'border-blue-600 bg-blue-50/10'
+                        }
+
+                        return (
+                          <label 
+                            key={optIdx}
+                            className={`flex items-start gap-2.5 p-3 rounded-lg border-2 cursor-pointer transition-colors text-xs leading-normal ${optionStyle}`}
+                          >
+                            <input
+                              type="radio"
+                              name={`mock-q-${q.id}`}
+                              disabled={submittedInterview}
+                              checked={isSelected}
+                              onChange={() => setAnswers(prev => ({ ...prev, [q.id]: optIdx }))}
+                              className="mt-0.5 border-2 border-slate-900 rounded-full"
+                            />
+                            <span>{opt}</span>
+                          </label>
+                        )
+                      })}
+                    </div>
+
+                    {submittedInterview && (
+                      <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 flex gap-2.5 items-start">
+                        {answers[q.id] === q.correct ? (
+                          <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
+                        ) : (
+                          <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                        )}
+                        <div>
+                          <span className="font-mono text-[9px] font-black uppercase text-slate-400 block mb-0.5">Explanation</span>
+                          <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-normal">{q.explanation}</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+
+            {/* Score presentation or Submit action */}
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4">
+              {interviewScore === null ? (
+                <div className="flex justify-between items-center gap-4 flex-wrap">
+                  <p className="text-xs text-slate-400">Ensure you have selected answers for all 5 questions.</p>
+                  <button
+                    onClick={handleInterviewSubmit}
+                    disabled={Object.keys(answers).length < 5}
+                    className="bg-violet-600 border-2 border-slate-900 text-white font-mono text-xs font-black uppercase tracking-wider px-6 py-3 hover:bg-violet-700 shadow-hard disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Submit Answers
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between gap-6 flex-wrap">
+                  <div>
+                    <h4 className="font-display font-black text-sm uppercase">Evaluation Complete</h4>
+                    <p className="text-xs text-slate-500 mt-1">
+                      {interviewScore >= 80 
+                        ? "🎉 Excellent job! You are thoroughly prepared for polymer technical interviews." 
+                        : "📚 We recommend reviewing the subjects and retry to improve."}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-center border-4 border-slate-900 rounded-xl px-5 py-2.5 bg-yellow-400">
+                      <span className="font-mono text-2xl font-black block">{interviewScore}%</span>
+                      <span className="font-mono text-[8px] uppercase tracking-wider text-slate-700 font-bold">Your Score</span>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setAnswers({})
+                        setInterviewScore(null)
+                        setSubmittedInterview(false)
+                      }}
+                      className="font-mono text-[10px] font-black uppercase hover:underline"
+                    >
+                      Reset Quiz
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+          </div>
+        )}
+
+      </div>
+    </div>
+  )
+}
 
 function TrackCard({ track }: { track: typeof TRACKS[0] }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: `4px 4px 0px 0px ${track.color}` }}>
+    <div className="border-4 border-slate-900 bg-white dark:bg-slate-950 dark:border-slate-800 overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl">
       <button onClick={() => setOpen(!open)} className="w-full text-left">
-        <div className="relative border-b-4 border-ink overflow-hidden" style={{ height: '120px' }}>
+        <div className="relative border-b-4 border-slate-900 dark:border-slate-800 overflow-hidden" style={{ height: '120px' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={track.image} alt={track.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0" style={{ backgroundColor: track.color + 'CC' }} />
           <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div>
               <div className="font-mono text-[9px] font-bold text-white/70 uppercase tracking-wider">{track.subtitle}</div>
-              <h3 className="font-display text-lg font-black text-white leading-tight">{track.title}</h3>
+              <h3 className="font-display text-base font-black text-white leading-tight uppercase">{track.title}</h3>
             </div>
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-1 shrink-0">
               <span className="font-mono text-[9px] font-black text-white border-2 border-white px-2 py-0.5">{track.salary}</span>
               <span className="font-mono text-[8px] text-white/70 uppercase">{track.growth}</span>
             </div>
           </div>
         </div>
-        <div className="px-5 py-3 flex items-center justify-between" style={{ backgroundColor: track.bg }}>
-          <p className="text-xs text-ink/70 flex-1 pr-3">{track.desc}</p>
-          {open ? <ChevronUp className="w-4 h-4 text-ink/60 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-ink/60 flex-shrink-0" />}
+        <div className="px-5 py-3 flex items-center justify-between bg-slate-50 dark:bg-slate-900/40">
+          <p className="text-xs text-slate-600 dark:text-slate-300 flex-1 pr-3 leading-relaxed">{track.desc}</p>
+          {open ? <ChevronUp className="w-4 h-4 text-slate-500 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 flex-shrink-0" />}
         </div>
       </button>
 
       {open && (
-        <div className="border-t-4 border-ink p-5 space-y-4 bg-canvas">
+        <div className="border-t-4 border-slate-900 dark:border-slate-800 p-5 space-y-4 bg-white dark:bg-slate-950">
           <div>
-            <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-ink/50 mb-2">Skills to Build</div>
+            <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Skills to Build</div>
             <div className="space-y-1.5">
               {track.skills.map((s) => (
                 <div key={s} className="flex items-center gap-2">
-                  <div className="w-2 h-2 border-2 border-ink flex-shrink-0" style={{ backgroundColor: track.color }} />
-                  <span className="text-sm text-ink">{s}</span>
+                  <div className="w-2 h-2 border-2 border-slate-900 flex-shrink-0 dark:border-slate-800" style={{ backgroundColor: track.color }} />
+                  <span className="text-xs text-slate-700 dark:text-slate-300">{s}</span>
                 </div>
               ))}
             </div>
           </div>
           {track.recruiters.length > 0 && (
             <div>
-              <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-ink/50 mb-2">Top Recruiters</div>
+              <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Top Recruiters</div>
               <div className="flex flex-wrap gap-2">
                 {track.recruiters.map((r) => (
-                  <span key={r} className="font-mono text-[9px] border-2 border-ink px-2 py-0.5 text-ink">{r}</span>
+                  <span key={r} className="font-mono text-[9px] border-2 border-slate-900 dark:border-slate-800 px-2 py-0.5 text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900">{r}</span>
                 ))}
               </div>
             </div>
@@ -158,166 +1103,14 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
             <Link
               key={l.slug}
               href={`/lessons/${l.slug}`}
-              className="flex items-center justify-between border-4 border-ink p-3 hover:bg-ink hover:text-white group transition-colors shadow-hard-sm"
+              className="flex items-center justify-between border-4 border-slate-900 dark:border-slate-800 p-3 hover:bg-slate-900 hover:text-white dark:hover:bg-slate-150 dark:hover:text-slate-900 group transition-colors shadow-hard-sm"
             >
-              <span className="text-sm font-medium group-hover:text-white">{l.name}</span>
+              <span className="text-xs font-bold group-hover:text-white dark:group-hover:text-slate-900">{l.name}</span>
               <ArrowRight className="w-4 h-4 flex-shrink-0" />
             </Link>
           ))}
         </div>
       )}
-    </div>
-  )
-}
-
-export default function CareersPage() {
-  return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-violet" />
-
-      {/* Hero */}
-      <section className="border-b-4 border-ink bg-ink px-6 md:px-12 py-14 md:py-18 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="absolute top-0 right-0 w-96 h-96 rounded-full opacity-10 animate-blob-pulse" style={{ backgroundColor: '#7C3AED', filter: 'blur(60px)' }} />
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-10 h-10 bg-violet border-4 border-violet flex items-center justify-center">
-              <Briefcase className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">Career Hub</span>
-          </div>
-          <h1 className="font-display text-5xl md:text-7xl font-black text-white leading-none mb-5">
-            YOUR DEGREE<br />
-            OPENS <span className="text-yellow-bright italic">6 DISTINCT</span><br />
-            CAREER PATHS.
-          </h1>
-          <p className="text-white/70 text-lg max-w-xl leading-relaxed mb-8">
-            From designing rocket components in composite polymers to building a recycling plant in Gujarat — every path below is real, in-demand, and directly connected to what you are learning.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            {[
-              { val: '₹4–40 LPA', label: 'Starting to senior range', color: '#FACC15' },
-              { val: '12+', label: 'Active career roles', color: '#4ADE80' },
-              { val: '8.5%', label: 'India industry CAGR', color: '#A78BFA' },
-            ].map((s) => (
-              <div key={s.val} className="border-4 border-white/20 px-5 py-3 text-center">
-                <div className="font-mono text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
-                <div className="font-mono text-[9px] text-white/50 mt-0.5 uppercase tracking-wider">{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Career tracks */}
-      <section className="px-6 md:px-10 py-10 border-b-4 border-ink">
-        <div className="max-w-5xl mx-auto">
-          <div className="border-b-4 border-ink pb-4 mb-6 flex items-center justify-between">
-            <h2 className="font-display text-2xl font-black text-ink uppercase">6 Career Tracks — Click to Expand</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {TRACKS.map((track) => <TrackCard key={track.id} track={track} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* Salary reality */}
-      <section className="border-b-4 border-ink px-6 md:px-10 py-10">
-        <div className="max-w-5xl mx-auto">
-          <div className="border-b-4 border-ink pb-4 mb-6">
-            <h2 className="font-display text-2xl font-black text-ink uppercase">What This Degree Actually Pays</h2>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {SALARY_BANDS.map((band) => (
-              <div key={band.label} className="border-4 border-ink p-5 flex gap-4" style={{ boxShadow: `4px 4px 0px 0px ${band.color}` }}>
-                <div className="w-1.5 flex-shrink-0" style={{ backgroundColor: band.color }} />
-                <div>
-                  <div className="font-mono text-xl font-black text-ink">{band.range}</div>
-                  <div className="font-mono text-[10px] font-bold mb-1.5 uppercase tracking-wider" style={{ color: band.color }}>{band.label}</div>
-                  <p className="text-sm text-ink/60 leading-relaxed">{band.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* GATE section */}
-      <section className="border-b-4 border-ink px-6 md:px-10 py-10 bg-violet">
-        <div className="max-w-5xl mx-auto">
-          <div className="border-b-4 border-white/20 pb-4 mb-6">
-            <div className="font-mono text-[9px] font-bold text-yellow-bright uppercase tracking-widest mb-1">GATE Prep</div>
-            <h2 className="font-display text-2xl font-black text-white uppercase">Your Lessons Map Directly to GATE Polymer Science</h2>
-          </div>
-          <div className="space-y-2">
-            {GATE_MAPPING.map((item) => (
-              <Link
-                key={item.topic}
-                href={`/lessons/${item.slug}`}
-                className="flex items-center gap-4 border-4 border-white/20 p-4 hover:border-white hover:bg-white/10 group transition-colors"
-              >
-                <div className="w-2 h-2 border-2 border-yellow-bright bg-yellow-bright flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <div className="font-bold text-sm text-white group-hover:underline">{item.topic}</div>
-                  <div className="font-mono text-[9px] text-white/50 uppercase tracking-wider mt-0.5">{item.paper}</div>
-                </div>
-                <ArrowRight className="w-4 h-4 text-white/50 group-hover:text-white flex-shrink-0" />
-              </Link>
-            ))}
-          </div>
-          <div className="border-4 border-yellow-bright p-4 mt-4 bg-yellow-bright/10">
-            <p className="text-sm text-yellow-bright font-bold">Pro tip: Polymer Chemistry and Polymer Testing on PolymerHub cover ~65% of the GATE Polymer Science paper directly. Use the AI Tutor to practice exam-style questions.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Entrepreneur tiers */}
-      <section className="border-b-4 border-ink px-6 md:px-10 py-10">
-        <div className="max-w-5xl mx-auto">
-          <div className="border-b-4 border-ink pb-4 mb-6">
-            <div className="font-mono text-[9px] font-bold text-yellow uppercase tracking-widest mb-1">Entrepreneurship Track</div>
-            <h2 className="font-display text-2xl font-black text-ink uppercase">Start a Plastics Business. Your Degree Is the Moat.</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {ENTREPRENEUR_TIERS.map((tier) => (
-              <div key={tier.tier} className="border-4 border-ink overflow-hidden" style={{ boxShadow: `4px 4px 0px 0px ${tier.color}` }}>
-                <div className="border-b-4 border-ink p-4" style={{ backgroundColor: tier.color }}>
-                  <div className="font-mono text-[9px] font-black text-white/70 uppercase tracking-widest">{tier.tier}</div>
-                  <div className="font-display text-xl font-black text-white">{tier.capex}</div>
-                </div>
-                <div className="p-4" style={{ backgroundColor: tier.bg }}>
-                  <div className="font-mono text-[9px] font-bold text-ink/50 uppercase tracking-wider mb-2">Products</div>
-                  {tier.products.map((p) => (
-                    <div key={p} className="flex items-center gap-2 mb-1.5">
-                      <div className="w-2 h-2 border-2 border-ink flex-shrink-0" style={{ backgroundColor: tier.color }} />
-                      <span className="text-xs text-ink">{p}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="border-4 border-yellow bg-yellow-light mt-4 p-4" style={{ borderColor: '#CA8A04', backgroundColor: '#FEFCE8' }}>
-            <p className="text-sm font-bold" style={{ color: '#CA8A04' }}>Funding: MUDRA loans (up to ₹10L), SIDBI SMILE (up to ₹25L), PMEGP grant (15–35% of project cost), Gujarat SSIP (student startup grant). CGTMSE guarantees collateral-free loans up to ₹2 crore.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* AI Tutor CTA */}
-      <section className="border-t-4 border-ink bg-ink px-6 md:px-12 py-12 text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="font-display text-3xl md:text-4xl font-black text-white mb-3">Not Sure Which Path Fits You?</h2>
-          <p className="text-white/60 mb-8 leading-relaxed">Ask the AI Tutor — describe your interests and it will map them to the right career track and the lessons to start with.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/ai-tutor" className="cn-btn-yellow text-sm">
-              <Brain className="w-4 h-4" /> Ask AI Tutor
-            </Link>
-            <Link href="/subjects" className="cn-btn-white text-sm">
-              <BookOpen className="w-4 h-4" /> Browse All Subjects
-            </Link>
-          </div>
-        </div>
-      </section>
     </div>
   )
 }

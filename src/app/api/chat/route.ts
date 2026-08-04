@@ -47,10 +47,38 @@ export async function POST(req: NextRequest) {
     }
 
     // ── Parse request ────────────────────────────────────────────────────────
-    const { message, history = [] } = await req.json()
+    const { message, history = [], lessonId } = await req.json()
 
     if (!message?.trim()) {
       return NextResponse.json({ error: 'Message is required.' }, { status: 400 })
+    }
+
+    // ── Fetch active lesson context if lessonId is provided ──────────────────
+    let lessonContext = ''
+    let lessonSources: { title: string; slug: string }[] = []
+
+    if (lessonId) {
+      // Determine if UUID or slug
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(lessonId)
+      const query = supabase
+        .from('lessons')
+        .select('title, slug, why_matters, core_concept, deep_dive, formulas, real_world, common_mistakes, key_takeaways')
+
+      const { data: lesson } = isUuid
+        ? await query.eq('id', lessonId).single()
+        : await query.eq('slug', lessonId).single()
+
+      if (lesson) {
+        lessonContext = `[From active lesson: "${lesson.title}"]
+Why This Matters: ${lesson.why_matters || ''}
+Core Concept: ${lesson.core_concept || ''}
+Deep Dive: ${lesson.deep_dive || ''}
+Formulas: ${lesson.formulas || ''}
+Real-World Application: ${lesson.real_world || ''}
+Common Student Mistakes: ${lesson.common_mistakes || ''}
+Key Takeaways: ${lesson.key_takeaways || ''}`
+        lessonSources = [{ title: lesson.title, slug: lesson.slug }]
+      }
     }
 
     // ── Generate query embedding ─────────────────────────────────────────────
@@ -66,13 +94,27 @@ export async function POST(req: NextRequest) {
     })
 
     // ── Build context from retrieved chunks ───────────────────────────────────
-    const context = chunks && chunks.length > 0
+    let context = chunks && chunks.length > 0
       ? (chunks as LessonChunk[]).map((c) => `[From lesson: "${c.lesson_title}"]\n${c.content}`).join('\n\n---\n\n')
       : ''
 
-    const sources = chunks && chunks.length > 0
+    if (lessonContext) {
+      context = `${lessonContext}\n\n---\n\n${context}`
+    }
+
+    let sources = chunks && chunks.length > 0
       ? Array.from(new Map((chunks as LessonChunk[]).map((c) => [c.lesson_slug, { title: c.lesson_title, slug: c.lesson_slug }])).values()).slice(0, 3)
       : []
+
+    if (lessonSources.length > 0) {
+      const existing = new Set(sources.map(s => s.slug))
+      lessonSources.forEach(s => {
+        if (!existing.has(s.slug)) {
+          sources = [s, ...sources]
+        }
+      })
+    }
+
 
     // ── Build conversation history for Gemini ────────────────────────────────
     // Convert our message history format to Gemini's format

@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, Lock, Brain, ChevronRight, CheckCircle, BookOpen
 import { LessonShareBar } from '@/components/WhatsAppShare'
 import DownloadNotes from '@/components/DownloadNotes'
 import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
+import { LessonNotes } from '@/components/LessonNotes'
 
 type UserProgressRow = {
   quiz_passed?: boolean | null
@@ -191,7 +192,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                 </div>
                 <h2 className="font-display text-3xl font-black text-ink mb-3">Premium Lesson</h2>
                 <p className="text-ink/70 mb-8 max-w-md mx-auto leading-relaxed">
-                  Unlock all 102 lessons for ₹149/month. Cancel anytime.
+                  Unlock all 216 lessons for ₹149/month. Cancel anytime.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/pricing" className="cn-btn-yellow text-sm justify-center">
@@ -278,6 +279,11 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                     )}
                   </div>
                 )}
+
+                {/* Private Lesson Notes */}
+                <div className="mb-8 border-t-4 border-ink pt-8">
+                  <LessonNotes lessonSlug={lesson.slug} />
+                </div>
 
                 {/* Prev/Next navigation */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -370,7 +376,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                 <div className="font-mono text-[10px] font-black border-2 border-ink px-2 py-0.5 mb-3 inline-block uppercase tracking-wider" style={{ backgroundColor: domain.color, color: 'white' }}>
                   Premium
                 </div>
-                <p className="font-display text-lg font-black text-ink leading-tight mb-2">Unlock all 102 lessons</p>
+                <p className="font-display text-lg font-black text-ink leading-tight mb-2">Unlock all 216 lessons</p>
                 <p className="text-xs text-ink/60 mb-4 leading-relaxed">₹149/month · All subjects · Unlimited AI · Cancel anytime</p>
                 <Link href="/pricing" className="cn-btn-black w-full justify-center text-xs">
                   Get Premium <ArrowRight className="w-3.5 h-3.5" />

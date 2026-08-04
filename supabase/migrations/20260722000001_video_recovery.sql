@@ -16,7 +16,7 @@ ADD COLUMN IF NOT EXISTS failure_reason text;
 CREATE INDEX IF NOT EXISTS idx_videos_published_status ON public.videos (status, embed_status);
 
 -- RLS Policy: Allow public read access to published videos only
-DROP POLICY IF EXISTS "Allow public read access to videos" ON public.videos;
+DROP POLICY IF EXISTS "Allow public read access to published videos" ON public.videos;
 CREATE POLICY "Allow public read access to published videos"
 ON public.videos FOR SELECT
 USING (status = 'published' AND embed_status IN ('working', 'blocked'));

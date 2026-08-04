@@ -10,7 +10,7 @@ export const DEFAULT_METADATA = {
     default: 'PolymerHub — India\'s Plastic Polymer Engineering Knowledge Platform',
     template: '%s | PolymerHub',
   },
-  description: 'World-class learning platform for Plastic Polymer Engineering (PPE) B.Tech students in India. 102 lessons, AI Tutor, practice questions, career guidance, and daily industry news.',
+  description: 'World-class learning platform for Plastic Polymer Engineering (PPE) B.Tech students in India. 216 lessons, AI Tutor, practice questions, career guidance, and daily industry news.',
   keywords: [
     'plastic polymer engineering',
     'PPE B.Tech India',
@@ -37,20 +37,20 @@ export const DEFAULT_METADATA = {
     url: BASE_URL,
     siteName: 'PolymerHub',
     title: 'PolymerHub — India\'s Plastic Polymer Engineering Platform',
-    description: '60 world-class lessons. AI Tutor. Practice Questions. Daily Industry News. Career Guidance. Built for PPE students in India.',
+    description: '155 world-class lessons. AI Tutor. Practice Questions. Daily Industry News. Career Guidance. Built for PPE students in India.',
     images: [
       {
-        url: `${BASE_URL}/og-image.png`,
-        width: 1200,
-        height: 630,
-        alt: 'PolymerHub — India\'s Plastic Polymer Engineering Platform',
+        url: `${BASE_URL}/logo-banner.jpg`,
+        width: 1035,
+        height: 460,
+        alt: 'Polymer Hub of India — Knowledge · Innovation · Future',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image' as const,
     title: 'PolymerHub — India\'s Plastic Polymer Engineering Platform',
-    description: '60 world-class lessons. AI Tutor grounded in your syllabus. Practice MCQs. Daily plastics industry news.',
+    description: '155 world-class lessons. AI Tutor grounded in your syllabus. Practice MCQs. Daily plastics industry news.',
     images: [`${BASE_URL}/og-image.png`],
   },
   robots: {
@@ -71,7 +71,7 @@ export const DEFAULT_METADATA = {
 export function subjectMetadata(subject: { name: string; description: string; slug: string }) {
   return {
     title: `${subject.name} — Lessons & Study Guide`,
-    description: `${subject.description} | 6 world-class lessons with AI Tutor support, practice questions, and Indian industry examples. Free for PPE students.`,
+    description: `${subject.description} | complete lessons with AI Tutor support, practice questions, and Indian industry examples. Free for PPE students.`,
     keywords: [
       subject.name.toLowerCase(),
       `${subject.name.toLowerCase()} lessons`,
@@ -115,15 +115,15 @@ export function lessonMetadata(lesson: {
 export const PAGE_METADATA = {
   home: {
     title: 'PolymerHub — India\'s Plastic Polymer Engineering Knowledge Platform',
-    description: '60 world-class lessons across 10 PPE subjects. AI Tutor grounded in your syllabus. Practice MCQs with explanations. Daily plastics industry news. Career guidance. Free to start.',
+    description: '216 world-class lessons across 19 PPE subjects. AI Tutor grounded in your syllabus. Practice MCQs with explanations. Daily plastics industry news. Career guidance. Free to start.',
   },
   subjects: {
     title: 'All Subjects — Polymer Engineering Curriculum',
-    description: 'Complete B.Tech PPE curriculum: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, and Entrepreneurship. 102 lessons total.',
+    description: 'Complete B.Tech PPE curriculum: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, and Entrepreneurship. 216 lessons total.',
   },
   aiTutor: {
     title: 'AI Tutor — Ask Anything About Polymer Engineering',
-    description: 'Gemini-powered AI Tutor grounded in all 102 PolymerHub lessons. Ask about Tg, Tm, MFI, injection moulding, vulcanization, EPR — get answers tied directly to your syllabus.',
+    description: 'Gemini-powered AI Tutor grounded in all 216 PolymerHub lessons. Ask about Tg, Tm, MFI, injection moulding, vulcanization, EPR — get answers tied directly to your syllabus.',
   },
   today: {
     title: 'Daily Pulse — Today in the Plastics Industry',
@@ -135,7 +135,7 @@ export const PAGE_METADATA = {
   },
   practice: {
     title: 'Practice MCQs — Polymer Engineering Quiz',
-    description: 'Practice MCQ questions across all 10 PPE subjects. GATE-mapped questions with detailed explanations. Test yourself on Polymer Chemistry, Processing, Rubber Technology, and more.',
+    description: 'Practice MCQ questions across all 15 subjects. GATE-mapped questions with detailed explanations. Test yourself on Polymer Chemistry, Processing, Rubber Technology, and more.',
   },
   history: {
     title: 'History of Plastics — 162 Years That Remade Civilization',
@@ -159,6 +159,6 @@ export const PAGE_METADATA = {
   },
   pricing: {
     title: 'Pricing — PolymerHub Premium',
-    description: 'Unlock all 102 lessons, unlimited AI Tutor queries, and premium practice questions. ₹149/month — less than the cost of a single textbook chapter.',
+    description: 'Unlock all 216 lessons, unlimited AI Tutor queries, and premium practice questions. ₹149/month — less than the cost of a single textbook chapter.',
   },
 }
