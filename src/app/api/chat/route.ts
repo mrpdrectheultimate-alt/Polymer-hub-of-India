@@ -177,6 +177,7 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
 
       const response = await openai.chat.completions.create({
         model: 'google/gemini-2.5-flash',
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         messages: openRouterMessages as any,
         temperature: 0.3,
         max_tokens: 1024,

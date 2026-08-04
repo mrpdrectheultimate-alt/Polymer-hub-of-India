@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import {
-  ArrowRight, FlaskConical, Brain, Zap,
+  ArrowRight, Brain, Zap,
   Newspaper, BookOpen, Wrench, Scale
 } from 'lucide-react'
 
