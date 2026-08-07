@@ -8,25 +8,11 @@ import {
   ChevronLeft, ChevronRight, ExternalLink,
   ArrowLeft, Loader2, Heart, CheckCircle2
 } from 'lucide-react'
+import { VideoRecord } from '@/components/VideoCard'
 import { createClient } from '@/lib/supabase/client'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
 import { toast } from '@/hooks/use-toast'
 import { getFallbackVideoId } from '@/lib/youtube-replacement'
-
-type VideoRecord = {
-  id: string
-  title: string
-  youtubeId: string
-  canonicalUrl: string
-  channel: string
-  duration: string
-  description: string
-  level: string
-  subject: string
-  subjectSlug: string
-  seriesName?: string
-  seriesOrder?: number
-}
 
 type PlaylistRecord = {
   id: string
@@ -52,6 +38,8 @@ interface DBVideo {
   series_name?: string
   series_order?: number
   embed_status?: string
+  source?: string
+  status?: string
 }
 
 export default function PlaylistPlayerPage() {
@@ -118,13 +106,13 @@ export default function PlaylistPlayerPage() {
           .map(item => {
             const v = item.videos as unknown as DBVideo
             if (!v) return null
-            const isBroken = v.embed_status === 'broken'
+            const isBroken = ['invalid', 'private', 'restricted', 'removed', 'broken'].includes(v.embed_status || '')
             const resolvedYtId = getFallbackVideoId(
               v.youtube_id || extractYouTubeVideoId(v.youtube_url || ''),
               v.subject_slug,
               isBroken
             )
-            const rec: VideoRecord = {
+             const rec: VideoRecord = {
               id: v.id,
               title: v.display_title || v.title,
               youtubeId: resolvedYtId,
@@ -132,11 +120,12 @@ export default function PlaylistPlayerPage() {
               channel: v.channel || 'NPTEL / Industry',
               duration: v.duration || '15:00',
               description: v.description || '',
-              level: v.level || 'Foundation',
+              level: (['Foundation', 'Intermediate', 'Advanced'].includes(v.level || '') ? v.level : 'Foundation') as VideoRecord['level'],
               subject: v.subject_name || 'Polymer Engineering',
               subjectSlug: v.subject_slug || 'polymer-chemistry',
-              seriesName: v.series_name,
-              seriesOrder: v.series_order
+              source: (['NPTEL', 'Industry', 'IIT', 'MIT'].includes(v.source || '') ? v.source : 'Industry') as VideoRecord['source'],
+              status: (v.status || 'published') as VideoRecord['status'],
+              embedStatus: (v.embed_status === 'blocked') ? 'blocked' : (['invalid', 'private', 'restricted', 'removed', 'broken'].includes(v.embed_status || '') ? 'broken' : 'working')
             }
             return rec
           })

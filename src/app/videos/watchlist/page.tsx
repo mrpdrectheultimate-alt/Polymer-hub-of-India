@@ -7,6 +7,7 @@ import { ArrowLeft, Heart, Loader2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import VideoCard, { VideoRecord } from '@/components/VideoCard'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
+import { getFallbackVideoId } from '@/lib/youtube-replacement'
 
 type WatchProgress = {
   video_id: string
@@ -76,20 +77,25 @@ export default function WatchlistPage() {
           .map(item => {
             const v = item.videos as unknown as DBVideo
             if (!v) return null
+            
+            const isBroken = ['invalid', 'private', 'restricted', 'removed', 'broken'].includes(v.embed_status || '')
+            const rawYtId = v.youtube_id || extractYouTubeVideoId(v.youtube_url || '') || ''
+            const resolvedYtId = getFallbackVideoId(rawYtId, v.subject_slug, isBroken)
+
             return {
               id: v.id,
               title: v.display_title || v.title,
-              youtubeId: v.youtube_id || extractYouTubeVideoId(v.youtube_url || '') || '',
-              canonicalUrl: v.canonical_url || getYouTubeCanonicalUrl(v.youtube_id || ''),
+              youtubeId: resolvedYtId,
+              canonicalUrl: v.canonical_url || getYouTubeCanonicalUrl(resolvedYtId),
               channel: v.channel || 'NPTEL / Industry',
               duration: v.duration || '15:00',
               description: v.description || '',
-              level: v.level || 'Foundation',
+              level: (['Foundation', 'Intermediate', 'Advanced'].includes(v.level || '') ? v.level : 'Foundation') as VideoRecord['level'],
               subject: v.subject_name || 'Polymer Engineering',
               subjectSlug: v.subject_slug || 'polymer-chemistry',
               source: (['NPTEL', 'Industry', 'IIT', 'MIT'].includes(v.source) ? v.source : 'Industry') as VideoRecord['source'],
               status: (v.status || 'published') as VideoRecord['status'],
-              embedStatus: (v.embed_status || 'working') as VideoRecord['embedStatus']
+              embedStatus: (v.embed_status === 'blocked') ? 'blocked' : (isBroken ? 'broken' : 'working')
             }
           })
           .filter((v): v is VideoRecord => v !== null)

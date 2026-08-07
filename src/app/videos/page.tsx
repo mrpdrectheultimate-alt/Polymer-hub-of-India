@@ -206,7 +206,7 @@ export default function VideoLibraryPage() {
               const dbv = item as DBVideo
               const rawId = String(dbv.youtube_id || dbv.youtube_url || '')
               let cleanId = extractYouTubeVideoId(rawId)
-              const isBroken = dbv.embed_status === 'broken'
+              const isBroken = ['invalid', 'private', 'restricted', 'removed', 'broken'].includes(dbv.embed_status || '')
               
               // If ID is missing, invalid, or marked broken, resolve fallback ID to ensure playability
               if (!cleanId || isBroken) {
@@ -228,7 +228,7 @@ export default function VideoLibraryPage() {
                 learningRole: (dbv.learning_role as VideoRecord['learningRole']) || 'foundation',
                 lessonSlug: dbv.lesson_slug ? String(dbv.lesson_slug) : undefined,
                 status: 'published',
-                embedStatus: (dbv.embed_status === 'blocked' || dbv.embed_status === 'broken') ? dbv.embed_status : 'working'
+                embedStatus: (dbv.embed_status === 'blocked') ? 'blocked' : (['invalid', 'private', 'restricted', 'removed', 'broken'].includes(dbv.embed_status || '') ? 'broken' : 'working')
               }
             })
 
