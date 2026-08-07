@@ -95,7 +95,7 @@ export default function AdminVideosPage() {
       const hasEmbedError = 'embed_error' in editingVideo
       const hasFailureReason = 'failure_reason' in editingVideo
 
-      const updateData: any = {
+      const updateData: Record<string, string | null> = {
         youtube_id: cleanId,
         embed_status: statusText,
       }
@@ -134,11 +134,11 @@ export default function AdminVideosPage() {
         ...updateData
       } : v))
       setEditingVideo(null)
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
       toast({
         title: 'Mutation Failed',
-        description: err.message || 'Error updating video record.',
+        description: err instanceof Error ? err.message : 'Error updating video record.',
         variant: 'destructive'
       })
     } finally {
@@ -168,10 +168,10 @@ export default function AdminVideosPage() {
           variant: 'destructive'
         })
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast({
         title: 'Network Error',
-        description: err.message,
+        description: err instanceof Error ? err.message : 'Network failure.',
         variant: 'destructive'
       })
     } finally {
@@ -441,7 +441,7 @@ export default function AdminVideosPage() {
             <ul className="space-y-2 font-mono text-[9px] text-yellow-800 list-disc pl-4 leading-relaxed">
               <li>Check oEmbed statuses daily to resolve deleted or private clips.</li>
               <li>Always replace broken links with high-quality NPTEL lectures, university content, or industrial demonstrations.</li>
-              <li>Changes update on students' screens in real-time.</li>
+              <li>Changes update on students&apos; screens in real-time.</li>
             </ul>
           </div>
 

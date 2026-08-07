@@ -58,7 +58,7 @@ export async function GET(request: Request) {
   for (const video of videos || []) {
     const ytId = video.youtube_id;
     if (!ytId) {
-      const updateData: any = { embed_status: 'broken' };
+      const updateData: Record<string, string | null> = { embed_status: 'broken' };
       if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
       if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
       if (hasEmbedError) updateData.embed_error = 'Missing YouTube ID';
@@ -85,18 +85,18 @@ export async function GET(request: Request) {
       if (status === 'working') working++;
       else broken++;
 
-      const updateData: any = { embed_status: status };
+      const updateData: Record<string, string | null> = { embed_status: status };
       if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
       if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
       if (hasEmbedError) updateData.embed_error = errorMsg;
       if (hasFailureReason) updateData.failure_reason = errorMsg;
 
       await supabase.from('videos').update(updateData).eq('id', video.id);
-    } catch (err: any) {
+    } catch (err: unknown) {
       broken++;
-      const errMsg = err.message || 'Fetch aborted / network failure';
+      const errMsg = err instanceof Error ? err.message : 'Fetch aborted / network failure';
       
-      const updateData: any = { embed_status: 'broken' };
+      const updateData: Record<string, string | null> = { embed_status: 'broken' };
       if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
       if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
       if (hasEmbedError) updateData.embed_error = errMsg;

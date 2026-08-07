@@ -82,7 +82,9 @@ export function getFallbackVideoId(
   return originalId;
 }
 
-export function isVideoBroken(video: any): boolean {
+export function isVideoBroken(
+  video: { youtube_id?: string | null; youtubeId?: string | null; embed_status?: string | null } | null | undefined
+): boolean {
   const ytId = video?.youtube_id || video?.youtubeId;
   const isDummyId = ytId && (
     ytId.endsWith('8Y8G1b9pI') || 
