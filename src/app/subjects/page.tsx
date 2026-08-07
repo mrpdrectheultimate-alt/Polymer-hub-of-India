@@ -506,6 +506,22 @@ export default function SubjectsPage() {
             <SubjectCard subject={SUBJECTS[13]} />
             <SubjectCard subject={SUBJECTS[14]} />
           </div>
+
+          {/* Row 7: Nanotech (featured, 2/3) + Biotech (1/3) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="md:col-span-2">
+              <SubjectCard subject={SUBJECTS[15]} featured />
+            </div>
+            <SubjectCard subject={SUBJECTS[16]} />
+          </div>
+
+          {/* Row 8: Digital Twins (featured, 2/3) + Robotics (1/3) */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="md:col-span-2">
+              <SubjectCard subject={SUBJECTS[18]} featured />
+            </div>
+            <SubjectCard subject={SUBJECTS[17]} />
+          </div>
         </div>
       </section>
 

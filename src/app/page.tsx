@@ -513,10 +513,26 @@ export default function HomePage() {
           </div>
 
           {/* Row 6: 3 standard */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
             <SubjectCard subject={SUBJECTS[11]} />
             <SubjectCard subject={SUBJECTS[13]} />
             <SubjectCard subject={SUBJECTS[14]} />
+          </div>
+
+          {/* Row 7: 2-wide + 1 standard */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div className="md:col-span-2">
+              <SubjectCard subject={SUBJECTS[15]} />
+            </div>
+            <SubjectCard subject={SUBJECTS[16]} />
+          </div>
+
+          {/* Row 8: 2-wide + 1 standard */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2">
+              <SubjectCard subject={SUBJECTS[18]} />
+            </div>
+            <SubjectCard subject={SUBJECTS[17]} />
           </div>
         </div>
       </section>
