@@ -321,9 +321,14 @@ export default function AdminAnalyticsPage() {
             <div className="font-mono text-[9px] text-white/40 uppercase tracking-wider">Admin Dashboard</div>
           </div>
         </div>
-        <Link href="/admin/today" className="border-2 border-white/30 text-white font-mono text-[10px] font-bold px-3 py-1.5 hover:bg-white/10 transition-colors uppercase tracking-wider">
-          Daily Pulse Admin &rarr;
-        </Link>
+        <div className="flex gap-2.5">
+          <Link href="/admin/videos" className="border-2 border-rose-400 bg-rose-500 hover:bg-rose-600 text-white font-mono text-[9px] font-bold px-3 py-1.5 transition-colors uppercase tracking-wider">
+            🎬 Video Curation
+          </Link>
+          <Link href="/admin/today" className="border-2 border-white/30 text-white font-mono text-[9px] font-bold px-3 py-1.5 hover:bg-white/10 transition-colors uppercase tracking-wider">
+            Daily Pulse Admin &rarr;
+          </Link>
+        </div>
       </div>
 
       {/* Tab bar */}

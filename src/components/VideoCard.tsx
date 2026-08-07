@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { Play, ExternalLink, Heart } from 'lucide-react'
 import { getYouTubeThumbnailUrl } from '@/lib/youtube'
 import { toast } from '@/hooks/use-toast'
+import { getFallbackVideoId } from '@/lib/youtube-replacement'
 
 export type VideoRecord = {
   id: string
@@ -24,7 +25,7 @@ export type VideoRecord = {
   learningRole?: 'foundation' | 'applied' | 'case_study' | 'future_research'
   lessonSlug?: string
   status: 'published' | 'draft' | 'review' | 'archived'
-  embedStatus: 'working' | 'blocked' | 'removed' | 'invalid'
+  embedStatus: 'working' | 'blocked' | 'removed' | 'invalid' | 'broken'
   manualPlaybackVerified?: boolean
   verifiedBy?: string
   academicReviewStatus?: 'approved' | 'approved_with_caveat' | 'pending' | 'remap_required'
@@ -81,8 +82,11 @@ export default function VideoCard({
 
   const src = SOURCE_COLORS[video.source] || SOURCE_COLORS.Industry
   const subColor = SUBJECT_COLORS[video.subjectSlug] ?? '#1D4ED8'
-  const canEmbed = video.embedStatus === 'working' && Boolean(video.youtubeId)
-  const thumbnailUrl = getYouTubeThumbnailUrl(video.youtubeId)
+  
+  // Resolve active YouTube ID to fallback if database contains broken/mock ID references
+  const activeYoutubeId = getFallbackVideoId(video.youtubeId, video.subjectSlug)
+  const canEmbed = (video.embedStatus === 'working' || video.embedStatus === 'broken') && Boolean(activeYoutubeId)
+  const thumbnailUrl = getYouTubeThumbnailUrl(activeYoutubeId)
 
   async function handleWatchlistClick(e: React.MouseEvent) {
     e.stopPropagation()

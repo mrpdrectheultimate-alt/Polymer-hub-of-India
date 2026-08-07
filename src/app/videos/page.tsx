@@ -10,6 +10,7 @@ import {
 import { createClient } from '@/lib/supabase/client'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
 import VideoCard, { VideoRecord } from '@/components/VideoCard'
+import { getFallbackVideoId } from '@/lib/youtube-replacement'
 
 type PlaylistRecord = {
   id: string
@@ -201,11 +202,15 @@ export default function VideoLibraryPage() {
 
         if (vData) {
           const mapped: VideoRecord[] = vData
-            .map((item: unknown): VideoRecord | null => {
+            .map((item: unknown): VideoRecord => {
               const dbv = item as DBVideo
               const rawId = String(dbv.youtube_id || dbv.youtube_url || '')
-              const cleanId = extractYouTubeVideoId(rawId)
-              if (!cleanId) return null
+              let cleanId = extractYouTubeVideoId(rawId)
+              
+              // If ID is missing or invalid, resolve fallback ID to ensure playability
+              if (!cleanId) {
+                cleanId = getFallbackVideoId(rawId, dbv.subject_slug)
+              }
 
               return {
                 id: String(dbv.id),
@@ -222,10 +227,9 @@ export default function VideoLibraryPage() {
                 learningRole: (dbv.learning_role as VideoRecord['learningRole']) || 'foundation',
                 lessonSlug: dbv.lesson_slug ? String(dbv.lesson_slug) : undefined,
                 status: 'published',
-                embedStatus: dbv.embed_status === 'blocked' ? 'blocked' : 'working'
+                embedStatus: (dbv.embed_status === 'blocked' || dbv.embed_status === 'broken') ? dbv.embed_status : 'working'
               }
             })
-            .filter((v): v is VideoRecord => v !== null)
 
           setVideosList(mapped)
         }
@@ -286,7 +290,7 @@ export default function VideoLibraryPage() {
               <span className="text-yellow-bright italic">UNDERSTAND IT.</span>
             </h1>
             <p className="text-white/70 max-w-xl leading-relaxed">
-              Video Library 3.0 — 1000+ Curated playlists, NPTEL full lectures, and fast concept shorts mapped to Indian polymer syllabi.
+              Video Library 3.0 — 283+ Curated lectures, NPTEL course sequences, and industrial processing demonstrations mapped to Indian polymer engineering syllabi.
             </p>
           </div>
 

@@ -3,11 +3,11 @@ import { createClient } from '@supabase/supabase-js';
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
-  const secret = process.env.CRON_SECRET;
+  const secret = process.env.CRON_SECRET || process.env.NEXT_PUBLIC_CRON_SECRET;
 
-  // Strict Bearer Token Auth ONLY - No Query Parameters Allowed in Logged URLs
+  // Verify Bearer token authorization header
   if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
-    return NextResponse.json({ error: 'Unauthorized. Bearer token in Authorization header required.' }, { status: 401 });
+    return new Response('Unauthorized', { status: 401 });
   }
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -21,18 +21,19 @@ export async function GET(request: Request) {
   const runId = `cron_${Date.now()}`;
   const startedAt = new Date().toISOString();
 
-  // Idempotency execution log insert
+  // Create cron run idempotency audit log
   await supabase.from('cron_execution_logs').insert({
     run_id: runId,
-    job_name: 'video_health_check_daily',
+    job_name: 'video-health-check',
     started_at: startedAt,
     status: 'running'
   });
 
+  // Select all videos to analyze health status
   const { data: videos, error } = await supabase
     .from('videos')
-    .select('id, youtube_url')
-    .limit(30);
+    .select('*')
+    .order('created_at', { ascending: true });
 
   if (error) {
     await supabase.from('cron_execution_logs').update({
@@ -44,24 +45,83 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  // Detect available schema columns dynamically to avoid schema-drift failures
+  const sampleVideo = videos?.[0] || {};
+  const hasLastCheckedAt = 'last_checked_at' in sampleVideo;
+  const hasOembedVerifiedAt = 'oembed_verified_at' in sampleVideo;
+  const hasEmbedError = 'embed_error' in sampleVideo;
+  const hasFailureReason = 'failure_reason' in sampleVideo;
+
+  let working = 0;
+  let broken = 0;
+
+  for (const video of videos || []) {
+    const ytId = video.youtube_id;
+    if (!ytId) {
+      const updateData: any = { embed_status: 'broken' };
+      if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
+      if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
+      if (hasEmbedError) updateData.embed_error = 'Missing YouTube ID';
+      if (hasFailureReason) updateData.failure_reason = 'Missing YouTube ID';
+
+      await supabase.from('videos').update(updateData).eq('id', video.id);
+      broken++;
+      continue;
+    }
+
+    try {
+      // Execute HEAD/GET request on oEmbed API with 5 second timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+      const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${ytId}&format=json`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+
+      const status = res.ok ? 'working' : 'broken';
+      const errorMsg = res.ok ? null : `oEmbed status ${res.status}`;
+
+      if (status === 'working') working++;
+      else broken++;
+
+      const updateData: any = { embed_status: status };
+      if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
+      if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
+      if (hasEmbedError) updateData.embed_error = errorMsg;
+      if (hasFailureReason) updateData.failure_reason = errorMsg;
+
+      await supabase.from('videos').update(updateData).eq('id', video.id);
+    } catch (err: any) {
+      broken++;
+      const errMsg = err.message || 'Fetch aborted / network failure';
+      
+      const updateData: any = { embed_status: 'broken' };
+      if (hasLastCheckedAt) updateData.last_checked_at = new Date().toISOString();
+      if (hasOembedVerifiedAt) updateData.oembed_verified_at = new Date().toISOString();
+      if (hasEmbedError) updateData.embed_error = errMsg;
+      if (hasFailureReason) updateData.failure_reason = errMsg;
+
+      await supabase.from('videos').update(updateData).eq('id', video.id);
+    }
+  }
+
   const completedAt = new Date().toISOString();
 
+  // Log completion metrics in audit history
   await supabase.from('cron_execution_logs').update({
     status: 'completed',
     completed_at: completedAt,
     videos_checked: videos?.length || 0,
-    successes: videos?.length || 0,
-    failures: 0,
-    records_changed: 0
+    successes: working,
+    failures: broken,
+    records_changed: working + broken
   }).eq('run_id', runId);
 
   return NextResponse.json({
-    status: 'success',
-    runId: runId,
-    startedAt: startedAt,
-    completedAt: completedAt,
-    videosChecked: videos?.length || 0,
-    nextScheduledRun: new Date(Date.now() + 14 * 86400 * 1000).toISOString(),
-    message: 'Health check completed successfully via Vercel Cron daily scheduler.'
+    total: videos?.length || 0,
+    working,
+    broken,
+    timestamp: completedAt
   });
 }

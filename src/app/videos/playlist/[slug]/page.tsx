@@ -11,6 +11,7 @@ import {
 import { createClient } from '@/lib/supabase/client'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
 import { toast } from '@/hooks/use-toast'
+import { getFallbackVideoId } from '@/lib/youtube-replacement'
 
 type VideoRecord = {
   id: string
@@ -116,11 +117,12 @@ export default function PlaylistPlayerPage() {
           .map(item => {
             const v = item.videos as unknown as DBVideo
             if (!v) return null
+            const resolvedYtId = getFallbackVideoId(v.youtube_id || extractYouTubeVideoId(v.youtube_url || ''), v.subject_slug)
             const rec: VideoRecord = {
               id: v.id,
               title: v.display_title || v.title,
-              youtubeId: v.youtube_id || extractYouTubeVideoId(v.youtube_url || '') || '',
-              canonicalUrl: v.canonical_url || getYouTubeCanonicalUrl(v.youtube_id || ''),
+              youtubeId: resolvedYtId,
+              canonicalUrl: v.canonical_url || getYouTubeCanonicalUrl(resolvedYtId),
               channel: v.channel || 'NPTEL / Industry',
               duration: v.duration || '15:00',
               description: v.description || '',
