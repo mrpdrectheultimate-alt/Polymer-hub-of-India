@@ -51,6 +51,7 @@ interface DBVideo {
   subject_slug?: string
   series_name?: string
   series_order?: number
+  embed_status?: string
 }
 
 export default function PlaylistPlayerPage() {
