@@ -206,10 +206,11 @@ export default function VideoLibraryPage() {
               const dbv = item as DBVideo
               const rawId = String(dbv.youtube_id || dbv.youtube_url || '')
               let cleanId = extractYouTubeVideoId(rawId)
+              const isBroken = dbv.embed_status === 'broken'
               
-              // If ID is missing or invalid, resolve fallback ID to ensure playability
-              if (!cleanId) {
-                cleanId = getFallbackVideoId(rawId, dbv.subject_slug)
+              // If ID is missing, invalid, or marked broken, resolve fallback ID to ensure playability
+              if (!cleanId || isBroken) {
+                cleanId = getFallbackVideoId(cleanId || rawId, dbv.subject_slug, isBroken)
               }
 
               return {

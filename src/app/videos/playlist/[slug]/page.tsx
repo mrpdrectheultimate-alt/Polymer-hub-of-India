@@ -117,7 +117,12 @@ export default function PlaylistPlayerPage() {
           .map(item => {
             const v = item.videos as unknown as DBVideo
             if (!v) return null
-            const resolvedYtId = getFallbackVideoId(v.youtube_id || extractYouTubeVideoId(v.youtube_url || ''), v.subject_slug)
+            const isBroken = v.embed_status === 'broken'
+            const resolvedYtId = getFallbackVideoId(
+              v.youtube_id || extractYouTubeVideoId(v.youtube_url || ''),
+              v.subject_slug,
+              isBroken
+            )
             const rec: VideoRecord = {
               id: v.id,
               title: v.display_title || v.title,

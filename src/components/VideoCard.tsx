@@ -83,8 +83,9 @@ export default function VideoCard({
   const src = SOURCE_COLORS[video.source] || SOURCE_COLORS.Industry
   const subColor = SUBJECT_COLORS[video.subjectSlug] ?? '#1D4ED8'
   
+  const isBroken = video.embedStatus === 'broken'
   // Resolve active YouTube ID to fallback if database contains broken/mock ID references
-  const activeYoutubeId = getFallbackVideoId(video.youtubeId, video.subjectSlug)
+  const activeYoutubeId = getFallbackVideoId(video.youtubeId, video.subjectSlug, isBroken)
   const canEmbed = (video.embedStatus === 'working' || video.embedStatus === 'broken') && Boolean(activeYoutubeId)
   const thumbnailUrl = getYouTubeThumbnailUrl(activeYoutubeId)
 

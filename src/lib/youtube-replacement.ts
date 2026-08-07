@@ -63,16 +63,17 @@ export function getFallbackVideo(
  */
 export function getFallbackVideoId(
   originalId: string | null | undefined,
-  subjectSlug: string | null | undefined
+  subjectSlug: string | null | undefined,
+  forceFallback?: boolean
 ): string {
-  const isDummyId = originalId && (
+  const isDummyId = !!(originalId && (
     originalId.endsWith('8Y8G1b9pI') || 
     originalId.endsWith('8W1BqQn-X58') || 
     originalId.endsWith('Zq7qPebW1q4') || 
     ['rubber123', 'carbon456', 'mfi_test', 'xyzabc123', 'dqw4w9wgxcq'].includes(originalId.toLowerCase())
-  );
+  ));
 
-  if (!originalId || isDummyId) {
+  if (!originalId || isDummyId || forceFallback) {
     if (subjectSlug && SUBJECT_FALLBACKS[subjectSlug]) {
       return SUBJECT_FALLBACKS[subjectSlug];
     }
