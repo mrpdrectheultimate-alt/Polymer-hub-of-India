@@ -93,5 +93,5 @@ export function isVideoBroken(
     ['rubber123', 'carbon456', 'mfi_test', 'xyzabc123', 'dqw4w9wgxcq'].includes(ytId.toLowerCase())
   );
 
-  return video?.embed_status === 'broken' || video?.embed_status === 'pending' || isDummyId;
+  return video?.embed_status === 'broken' || video?.embed_status === 'pending' || !!isDummyId;
 }
