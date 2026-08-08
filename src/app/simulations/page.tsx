@@ -11,6 +11,12 @@ import { IzodTester } from '@/components/IzodTester'
 import { FlexuralTester } from '@/components/FlexuralTester'
 import { DSCAnalyzer } from '@/components/DSCAnalyzer'
 import { TGAnalyzer } from '@/components/TGAnalyzer'
+import { CharpyTester } from '@/components/CharpyTester'
+import { HardnessTester } from '@/components/HardnessTester'
+import { HazeTester } from '@/components/HazeTester'
+import { MvrTester } from '@/components/MvrTester'
+import { VicatTester } from '@/components/VicatTester'
+import { HDTTester } from '@/components/HDTTester'
 import { PolymerizationAnimator } from '@/components/PolymerizationAnimator'
 import { InjectionMoldingAnimator } from '@/components/InjectionMoldingAnimator'
 import { 
@@ -153,6 +159,21 @@ export default function SimulationsDashboardPage() {
                </button>
 
                <button
+                 onClick={() => setActiveLab('charpy')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'charpy' 
+                     ? 'bg-purple-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 4</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D6110 Charpy</h3>
+               </button>
+
+               <button
                  onClick={() => setActiveLab('flexural')}
                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
                    activeLab === 'flexural' 
@@ -161,10 +182,25 @@ export default function SimulationsDashboardPage() {
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
-                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 4</span>
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 5</span>
                    <ChevronRight className="w-4 h-4 shrink-0" />
                  </div>
                  <h3 className="font-display font-black text-xs uppercase">ASTM D790 Flexural</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('hardness')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'hardness' 
+                     ? 'bg-green-700 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 6</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">Shore Hardness</h3>
                </button>
 
                <button
@@ -176,7 +212,7 @@ export default function SimulationsDashboardPage() {
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
-                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 5</span>
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 7</span>
                    <ChevronRight className="w-4 h-4 shrink-0" />
                  </div>
                  <h3 className="font-display font-black text-xs uppercase">ASTM D3418 DSC</h3>
@@ -191,10 +227,70 @@ export default function SimulationsDashboardPage() {
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
-                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 6</span>
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 8</span>
                    <ChevronRight className="w-4 h-4 shrink-0" />
                  </div>
                  <h3 className="font-display font-black text-xs uppercase">ASTM E1131 TGA</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('haze')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'haze' 
+                     ? 'bg-blue-800 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 9</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D1003 Haze</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('mvr')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'mvr' 
+                     ? 'bg-orange-700 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 10</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ISO 1133 MVR</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('vicat')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'vicat' 
+                     ? 'bg-yellow-700 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 11</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D1525 Vicat</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('hdt')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'hdt' 
+                     ? 'bg-amber-700 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 12</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D648 HDT</h3>
                </button>
 
                <button
@@ -239,14 +335,32 @@ export default function SimulationsDashboardPage() {
                {activeLab === 'izod' && (
                  <IzodTester onComplete={loadHistory} />
                )}
+               {activeLab === 'charpy' && (
+                 <CharpyTester onComplete={loadHistory} />
+               )}
                {activeLab === 'flexural' && (
                  <FlexuralTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'hardness' && (
+                 <HardnessTester onComplete={loadHistory} />
                )}
                {activeLab === 'dsc' && (
                  <DSCAnalyzer onComplete={loadHistory} />
                )}
                {activeLab === 'tga' && (
                  <TGAnalyzer onComplete={loadHistory} />
+               )}
+               {activeLab === 'haze' && (
+                 <HazeTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'mvr' && (
+                 <MvrTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'vicat' && (
+                 <VicatTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'hdt' && (
+                 <HDTTester onComplete={loadHistory} />
                )}
                {activeLab === 'polymerization' && (
                  <PolymerizationAnimator />
@@ -310,9 +424,15 @@ export default function SimulationsDashboardPage() {
                           {item.lab_id === 'tensile-astm-d638' ? 'Tensile Test' :
                            item.lab_id === 'mfi-astm-d1238' ? 'Melt Flow Index' :
                            item.lab_id === 'izod-astm-d256' ? 'Izod Impact Test' :
+                           item.lab_id === 'charpy-astm-d6110' ? 'Charpy Impact Test' :
                            item.lab_id === 'flexural-astm-d790' ? 'Flexural 3-Point' :
+                           item.lab_id === 'hardness-shore-ad' ? 'Shore Hardness' :
                            item.lab_id === 'dsc-astm-d3418' ? 'DSC Thermal Scan' :
-                           item.lab_id === 'tga-astm-e1131' ? 'TGA Decomposition' : 'Lab Test'}
+                           item.lab_id === 'tga-astm-e1131' ? 'TGA Decomposition' :
+                           item.lab_id === 'haze-astm-d1003' ? 'Haze & Transm.' :
+                           item.lab_id === 'mvr-iso-1133' ? 'ISO 1133 MVR' :
+                           item.lab_id === 'vicat-astm-d1525' ? 'Vicat Softening' :
+                           item.lab_id === 'hdt-astm-d648' ? 'HDT Deflection' : 'Lab Test'}
                         </span>
                         <span className="font-mono text-[8px] text-slate-400">
                           {new Date(item.created_at).toLocaleDateString()}
@@ -342,10 +462,22 @@ export default function SimulationsDashboardPage() {
                             <span className="text-violet-600">Impact: {`${item.results?.impactStrength || ''}`} J/m</span>
                           </>
                         )}
+                        {item.lab_id === 'charpy-astm-d6110' && (
+                          <>
+                            <span>Absorbed: {`${item.results?.impactStrength || ''}`} kJ/m²</span>
+                            <span className="text-purple-600">Type: {`${item.results?.fractureType || ''}`}</span>
+                          </>
+                        )}
                         {item.lab_id === 'flexural-astm-d790' && (
                           <>
                             <span>Span: {`${item.parameters?.spanRatio || ''}`}:1</span>
                             <span className="text-amber-600">Strength: {`${item.results?.flexStrength || ''}`} MPa</span>
+                          </>
+                        )}
+                        {item.lab_id === 'hardness-shore-ad' && (
+                          <>
+                            <span>Scale: {`${item.results?.scale || ''}`}</span>
+                            <span className="text-green-600">Hardness: {`${item.results?.hardness || ''}`}</span>
                           </>
                         )}
                         {item.lab_id === 'dsc-astm-d3418' && (
@@ -358,6 +490,30 @@ export default function SimulationsDashboardPage() {
                           <>
                             <span>Onset: {`${item.results?.onsetTemp || ''}`}°C</span>
                             <span className="text-emerald-600">Residue: {`${item.results?.ashResidue || ''}`}%</span>
+                          </>
+                        )}
+                        {item.lab_id === 'haze-astm-d1003' && (
+                          <>
+                            <span>Haze: {`${item.results?.haze || ''}`}%</span>
+                            <span className="text-blue-600">Transm: {`${item.results?.transmittance || ''}`}%</span>
+                          </>
+                        )}
+                        {item.lab_id === 'mvr-iso-1133' && (
+                          <>
+                            <span>MFR: {`${item.results?.mfr || ''}`} g/10m</span>
+                            <span className="text-orange-600">MVR: {`${item.results?.mvr || ''}`} cm³</span>
+                          </>
+                        )}
+                        {item.lab_id === 'vicat-astm-d1525' && (
+                          <>
+                            <span>Load: {`${item.results?.load || ''}`} N</span>
+                            <span className="text-yellow-600">Vicat: {`${item.results?.vicatTemp || ''}`}°C</span>
+                          </>
+                        )}
+                        {item.lab_id === 'hdt-astm-d648' && (
+                          <>
+                            <span>Stress: {`${item.results?.stress || ''}`} MPa</span>
+                            <span className="text-amber-600">HDT: {`${item.results?.hdtTemp || ''}`}°C</span>
                           </>
                         )}
                       </div>

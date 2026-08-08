@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useEffect } from 'react'
 import { getMoleculeData, getElementColor, getElementRadius } from '@/lib/molecule-generator'
 import { getProductData } from '@/lib/product-generator'
 import { getMachineData } from '@/lib/machine-generator'
