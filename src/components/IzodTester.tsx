@@ -51,7 +51,6 @@ export function IzodTester({ onComplete }: { onComplete?: () => void }) {
     // Absorbed energy: impact strength is in J/m of notch width. Standard specimen width is 3.2 mm (0.0032 m).
     // E = Impact Strength * 0.0032
     const absorbed = (finalImpact * 0.0032)
-    const clampAbsorbed = Math.min(absorbed, pendulumAngle)
 
     let frame = 0
     const totalFrames = 50
