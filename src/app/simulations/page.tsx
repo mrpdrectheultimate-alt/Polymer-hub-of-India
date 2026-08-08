@@ -7,6 +7,10 @@ import { createClient } from '@/lib/supabase/client'
 import { Session } from '@supabase/supabase-js'
 import { TensileTester } from '@/components/TensileTester'
 import { MeltFlowIndexer } from '@/components/MeltFlowIndexer'
+import { IzodTester } from '@/components/IzodTester'
+import { FlexuralTester } from '@/components/FlexuralTester'
+import { DSCAnalyzer } from '@/components/DSCAnalyzer'
+import { TGAnalyzer } from '@/components/TGAnalyzer'
 import { PolymerizationAnimator } from '@/components/PolymerizationAnimator'
 import { InjectionMoldingAnimator } from '@/components/InjectionMoldingAnimator'
 import { 
@@ -21,7 +25,7 @@ import {
 
 interface LabSession {
   id: string
-  lab_id: 'tensile-astm-d638' | 'mfi-astm-d1238'
+  lab_id: string
   parameters: Record<string, unknown>
   results: Record<string, unknown>
   xp_awarded: number
@@ -30,7 +34,7 @@ interface LabSession {
 
 export default function SimulationsDashboardPage() {
   const [session, setSession] = useState<Session | null>(null)
-  const [activeLab, setActiveLab] = useState<'tensile' | 'mfi' | 'polymerization' | 'molding'>('tensile')
+  const [activeLab, setActiveLab] = useState<string>('tensile')
   
   // History logs
   const [history, setHistory] = useState<LabSession[]>([])
@@ -101,84 +105,156 @@ export default function SimulationsDashboardPage() {
           {/* Left / Center: Interactive Lab workspace */}
           <div className="lg:col-span-3 space-y-6">
             
-            {/* Lab Bench & Animation Selectors */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              <button
-                onClick={() => setActiveLab('tensile')}
-                className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
-                  activeLab === 'tensile' 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 1</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
-                </div>
-                <h3 className="font-display font-black text-xs uppercase">ASTM D638 Tensile</h3>
-              </button>
+             {/* Lab Bench & Animation Selectors */}
+             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+               <button
+                 onClick={() => setActiveLab('tensile')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'tensile' 
+                     ? 'bg-blue-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 1</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D638 Tensile</h3>
+               </button>
 
-              <button
-                onClick={() => setActiveLab('mfi')}
-                className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
-                  activeLab === 'mfi' 
-                    ? 'bg-orange-600 text-white' 
-                    : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 2</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
-                </div>
-                <h3 className="font-display font-black text-xs uppercase">ASTM D1238 MFI</h3>
-              </button>
+               <button
+                 onClick={() => setActiveLab('mfi')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'mfi' 
+                     ? 'bg-orange-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 2</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D1238 MFI</h3>
+               </button>
 
-              <button
-                onClick={() => setActiveLab('polymerization')}
-                className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
-                  activeLab === 'polymerization' 
-                    ? 'bg-slate-900 text-white dark:bg-slate-800' 
-                    : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="font-mono text-[9px] uppercase font-black opacity-85">Animation 1</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
-                </div>
-                <h3 className="font-display font-black text-xs uppercase">Polymerization</h3>
-              </button>
+               <button
+                 onClick={() => setActiveLab('izod')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'izod' 
+                     ? 'bg-violet-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 3</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D256 Izod</h3>
+               </button>
 
-              <button
-                onClick={() => setActiveLab('molding')}
-                className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
-                  activeLab === 'molding' 
-                    ? 'bg-red-600 text-white' 
-                    : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
-                }`}
-              >
-                <div className="flex items-center justify-between gap-2 mb-1">
-                  <span className="font-mono text-[9px] uppercase font-black opacity-85">Animation 2</span>
-                  <ChevronRight className="w-4 h-4 shrink-0" />
-                </div>
-                <h3 className="font-display font-black text-xs uppercase">Injection Molding</h3>
-              </button>
-            </div>
+               <button
+                 onClick={() => setActiveLab('flexural')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'flexural' 
+                     ? 'bg-amber-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 4</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D790 Flexural</h3>
+               </button>
 
-            {/* Active instrument/animation workspace rendering */}
-            <div>
-              {activeLab === 'tensile' && (
-                <TensileTester onComplete={loadHistory} />
-              )}
-              {activeLab === 'mfi' && (
-                <MeltFlowIndexer onComplete={loadHistory} />
-              )}
-              {activeLab === 'polymerization' && (
-                <PolymerizationAnimator />
-              )}
-              {activeLab === 'molding' && (
-                <InjectionMoldingAnimator />
-              )}
-            </div>
+               <button
+                 onClick={() => setActiveLab('dsc')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'dsc' 
+                     ? 'bg-red-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 5</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM D3418 DSC</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('tga')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'tga' 
+                     ? 'bg-emerald-600 text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Lab Bench 6</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">ASTM E1131 TGA</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('polymerization')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'polymerization' 
+                     ? 'bg-slate-900 text-white dark:bg-slate-800' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Animation 1</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">Polymerization</h3>
+               </button>
+
+               <button
+                 onClick={() => setActiveLab('molding')}
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                   activeLab === 'molding' 
+                     ? 'bg-[#4F46E5] text-white' 
+                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                 }`}
+               >
+                 <div className="flex items-center justify-between gap-2 mb-1">
+                   <span className="font-mono text-[9px] uppercase font-black opacity-85">Animation 2</span>
+                   <ChevronRight className="w-4 h-4 shrink-0" />
+                 </div>
+                 <h3 className="font-display font-black text-xs uppercase">Injection Molding</h3>
+               </button>
+             </div>
+
+             {/* Active instrument/animation workspace rendering */}
+             <div>
+               {activeLab === 'tensile' && (
+                 <TensileTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'mfi' && (
+                 <MeltFlowIndexer onComplete={loadHistory} />
+               )}
+               {activeLab === 'izod' && (
+                 <IzodTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'flexural' && (
+                 <FlexuralTester onComplete={loadHistory} />
+               )}
+               {activeLab === 'dsc' && (
+                 <DSCAnalyzer onComplete={loadHistory} />
+               )}
+               {activeLab === 'tga' && (
+                 <TGAnalyzer onComplete={loadHistory} />
+               )}
+               {activeLab === 'polymerization' && (
+                 <PolymerizationAnimator />
+               )}
+               {activeLab === 'molding' && (
+                 <InjectionMoldingAnimator />
+               )}
+             </div>
 
           </div>
 
@@ -231,7 +307,12 @@ export default function SimulationsDashboardPage() {
                     <div key={item.id} className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 text-xs space-y-1">
                       <div className="flex justify-between items-start">
                         <span className="font-bold text-[10px] uppercase text-slate-800 dark:text-slate-200">
-                          {item.lab_id === 'tensile-astm-d638' ? 'Tensile Test' : 'Melt Flow Index'}
+                          {item.lab_id === 'tensile-astm-d638' ? 'Tensile Test' :
+                           item.lab_id === 'mfi-astm-d1238' ? 'Melt Flow Index' :
+                           item.lab_id === 'izod-astm-d256' ? 'Izod Impact Test' :
+                           item.lab_id === 'flexural-astm-d790' ? 'Flexural 3-Point' :
+                           item.lab_id === 'dsc-astm-d3418' ? 'DSC Thermal Scan' :
+                           item.lab_id === 'tga-astm-e1131' ? 'TGA Decomposition' : 'Lab Test'}
                         </span>
                         <span className="font-mono text-[8px] text-slate-400">
                           {new Date(item.created_at).toLocaleDateString()}
@@ -243,15 +324,40 @@ export default function SimulationsDashboardPage() {
                       </p>
 
                       <div className="border-t border-dashed border-slate-200 dark:border-slate-800 pt-1 mt-1 flex justify-between text-[9px] font-bold">
-                        {item.lab_id === 'tensile-astm-d638' ? (
+                        {item.lab_id === 'tensile-astm-d638' && (
                           <>
                             <span>Modulus: {`${item.results?.modulus || ''}`} GPa</span>
                             <span className="text-blue-600">UTS: {`${item.results?.ultimateStrength || ''}`} MPa</span>
                           </>
-                        ) : (
+                        )}
+                        {item.lab_id === 'mfi-astm-d1238' && (
                           <>
                             <span>Temp: {`${item.parameters?.temperature || ''}`}°C</span>
                             <span className="text-orange-600">MFI: {`${item.results?.mfi || ''}`} g/10m</span>
+                          </>
+                        )}
+                        {item.lab_id === 'izod-astm-d256' && (
+                          <>
+                            <span>Absorbed: {`${item.results?.absorbedEnergy || ''}`} J</span>
+                            <span className="text-violet-600">Impact: {`${item.results?.impactStrength || ''}`} J/m</span>
+                          </>
+                        )}
+                        {item.lab_id === 'flexural-astm-d790' && (
+                          <>
+                            <span>Span: {`${item.parameters?.spanRatio || ''}`}:1</span>
+                            <span className="text-amber-600">Strength: {`${item.results?.flexStrength || ''}`} MPa</span>
+                          </>
+                        )}
+                        {item.lab_id === 'dsc-astm-d3418' && (
+                          <>
+                            <span>Tm: {`${item.results?.tm || ''}`}°C</span>
+                            <span className="text-red-600">Cryst: {`${item.results?.crystallinity || ''}`}%</span>
+                          </>
+                        )}
+                        {item.lab_id === 'tga-astm-e1131' && (
+                          <>
+                            <span>Onset: {`${item.results?.onsetTemp || ''}`}°C</span>
+                            <span className="text-emerald-600">Residue: {`${item.results?.ashResidue || ''}`}%</span>
                           </>
                         )}
                       </div>
