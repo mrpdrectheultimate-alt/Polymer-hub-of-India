@@ -767,13 +767,21 @@ export default function HomePage() {
             <div className="md:col-span-1">
               {/* Official Brand Logo in Footer */}
               <div className="mb-4">
-                <Image
-                  src="/logo-vertical.jpg"
-                  alt="Polymer Hub of India"
-                  width={160}
-                  height={120}
-                  className="object-contain brightness-0 invert"
-                />
+                <a href="/" aria-label="Polymer Hub of India">
+                  <img
+                    src="/logo-white.svg"
+                    alt="Polymer Hub of India"
+                    width={220}
+                    height={50}
+                    style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
+                    loading="lazy"
+                    onError={(e) => {
+                      const t = e.currentTarget as HTMLImageElement
+                      t.src = '/logo-banner.jpg'
+                      t.style.filter = 'brightness(0) invert(1)'
+                    }}
+                  />
+                </a>
               </div>
               <p className="text-white/50 text-sm leading-relaxed">
                 India&apos;s first Plastic Polymer Engineering knowledge platform for B.Tech students.

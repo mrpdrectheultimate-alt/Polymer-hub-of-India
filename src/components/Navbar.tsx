@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { ThemeToggle } from './ThemeToggle'
+import { Logo } from './Logo'
 import {
   Menu, X, ChevronDown, BookOpen, Brain, Zap, Trophy,
   MessageCircle, Calculator, Play, FlaskConical, ArrowRight,
@@ -135,21 +135,17 @@ export default function Navbar() {
       <nav
         data-navbar
         className="sticky top-0 left-0 right-0 z-50 bg-white border-b-4 border-black"
-        style={{ height: '56px' }}
+        style={{ height: '64px' }}
       >
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center flex-shrink-0">
-            <Image
-              src="/logo-banner.jpg"
-              alt="Polymer Hub of India"
-              width={200}
-              height={44}
-              className="h-10 w-auto object-contain"
-              priority
-            />
-          </Link>
+          {/* Logo — full on md+, icon on mobile */}
+          <div className="hidden sm:block">
+            <Logo variant="full" theme="light" />
+          </div>
+          <div className="sm:hidden">
+            <Logo variant="icon" />
+          </div>
 
           {/* Desktop nav */}
           <div className="hidden md:flex items-center gap-0.5 flex-1 justify-center" data-navbar>
@@ -271,12 +267,12 @@ export default function Navbar() {
           Does NOT push page content down
       ──────────────────────────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 md:hidden" style={{ top: '56px' }}>
+        <div className="fixed inset-0 z-40 md:hidden" style={{ top: '64px' }}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/50" onClick={() => setMobileOpen(false)} />
 
           {/* Drawer */}
-          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-56px)] overflow-y-auto">
+          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-64px)] overflow-y-auto">
 
             {/* Auth section */}
             {session ? (
