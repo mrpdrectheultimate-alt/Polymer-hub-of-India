@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { ThemeToggle } from './ThemeToggle'
 import { Logo } from './Logo'
+
 import {
   Menu, X, ChevronDown, BookOpen, Brain, Zap, Trophy,
   MessageCircle, Calculator, Play, FlaskConical, ArrowRight,
@@ -192,7 +192,6 @@ export default function Navbar() {
 
           {/* Desktop right */}
           <div className="hidden md:flex items-center gap-2 flex-shrink-0">
-            <ThemeToggle />
             {session ? (
               <>
                 {profile && profile.current_streak > 0 && (

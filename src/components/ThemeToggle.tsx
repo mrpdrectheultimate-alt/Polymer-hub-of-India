@@ -1,4 +1,4 @@
-// src/components/ThemeToggle.tsx
+﻿// src/components/ThemeToggle.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -25,7 +25,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="w-8 h-8 border-2 border-ink bg-white text-ink dark:bg-canvas dark:text-ink flex items-center justify-center hover:bg-ink hover:text-white dark:hover:bg-white dark:hover:text-canvas transition-colors shadow-hard-xs flex-shrink-0"
+      className="w-8 h-8 border-2 border-ink bg-white text-ink flex items-center justify-center hover:bg-ink hover:text-white transition-colors shadow-hard-xs flex-shrink-0"
       aria-label="Toggle theme"
       title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
     >

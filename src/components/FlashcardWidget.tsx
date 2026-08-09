@@ -1,4 +1,4 @@
-// src/components/FlashcardWidget.tsx
+﻿// src/components/FlashcardWidget.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -54,7 +54,7 @@ export function FlashcardWidget() {
 
   if (loading) {
     return (
-      <div className="bg-white border-4 border-slate-900 rounded-xl p-6 text-center shadow-hard dark:bg-slate-900 dark:border-slate-800">
+      <div className="bg-white border-4 border-slate-900 rounded-xl p-6 text-center shadow-hard">
         <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-2" />
         <p className="text-xs text-slate-500 font-mono">Loading revision deck...</p>
       </div>
@@ -63,7 +63,7 @@ export function FlashcardWidget() {
 
   if (cards.length === 0) {
     return (
-      <div className="bg-white border-4 border-slate-900 rounded-xl p-6 text-center shadow-hard dark:bg-slate-900 dark:border-slate-800">
+      <div className="bg-white border-4 border-slate-900 rounded-xl p-6 text-center shadow-hard">
         <div className="text-3xl mb-2">📚</div>
         <h4 className="font-display font-black text-sm uppercase tracking-wide mb-1">No Flashcards Yet</h4>
         <p className="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
@@ -76,12 +76,12 @@ export function FlashcardWidget() {
   const currentCard = cards[currentIndex]
 
   return (
-    <div className="bg-white border-4 border-slate-900 rounded-xl p-6 shadow-hard dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100">
-      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4 dark:border-slate-800">
+    <div className="bg-white border-4 border-slate-900 rounded-xl p-6 shadow-hard">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
         <h3 className="font-display font-black text-sm uppercase tracking-wider flex items-center gap-1.5">
           <BrainCircuit className="w-4 h-4 text-violet-600 shrink-0" /> Revision Deck
         </h3>
-        <span className="font-mono text-[10px] font-black bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-500">
+        <span className="font-mono text-[10px] font-black bg-slate-100 px-2 py-0.5 rounded text-slate-500">
           {currentIndex + 1} / {cards.length}
         </span>
       </div>
@@ -95,9 +95,9 @@ export function FlashcardWidget() {
           flipped ? 'rotate-y-180' : ''
         }`}>
           {/* Front side */}
-          <div className="absolute inset-0 w-full h-full backface-hidden border-2 border-slate-950 rounded-xl p-5 bg-[#FAF9F6] flex flex-col justify-between dark:bg-slate-950 dark:border-slate-700">
+          <div className="absolute inset-0 w-full h-full backface-hidden border-2 border-slate-950 rounded-xl p-5 bg-[#FAF9F6] flex flex-col justify-between">
             <div className="flex-1 flex items-center justify-center text-center">
-              <p className="font-bold text-sm text-slate-800 dark:text-slate-200 line-clamp-6 leading-relaxed italic">
+              <p className="font-bold text-sm text-slate-800 line-clamp-6 leading-relaxed italic">
                 &ldquo;{currentCard.front}&rdquo;
               </p>
             </div>
@@ -107,13 +107,13 @@ export function FlashcardWidget() {
           </div>
 
           {/* Back side */}
-          <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 border-2 border-slate-950 rounded-xl p-5 bg-violet-50/30 flex flex-col justify-between dark:bg-violet-950/20 dark:border-slate-700">
+          <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 border-2 border-slate-950 rounded-xl p-5 bg-violet-50/30 flex flex-col justify-between">
             <div className="flex-1 flex items-center justify-center text-center">
-              <p className="font-semibold text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+              <p className="font-semibold text-xs text-slate-700 leading-relaxed">
                 {currentCard.back}
               </p>
             </div>
-            <div className="flex items-center justify-between border-t border-violet-100/50 pt-2 mt-2 dark:border-slate-800">
+            <div className="flex items-center justify-between border-t border-violet-100/50 pt-2 mt-2">
               <span className="font-mono text-[8px] uppercase font-bold text-slate-400">Answer / Annotation</span>
               <button
                 onClick={(e) => {
@@ -133,7 +133,7 @@ export function FlashcardWidget() {
       {/* Navigation Controls */}
       <div className="flex gap-2">
         <button 
-          className="flex-1 border-2 border-slate-900 py-1.5 rounded-lg font-mono text-[10px] font-black uppercase hover:bg-slate-50 transition-colors flex items-center justify-center gap-1 dark:border-slate-700 dark:hover:bg-slate-800"
+          className="flex-1 border-2 border-slate-900 py-1.5 rounded-lg font-mono text-[10px] font-black uppercase hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"
           onClick={() => {
             setCurrentIndex((currentIndex - 1 + cards.length) % cards.length)
             setFlipped(false)
@@ -142,7 +142,7 @@ export function FlashcardWidget() {
           <ChevronLeft className="w-3.5 h-3.5" /> Previous
         </button>
         <button 
-          className="flex-1 border-2 border-slate-900 py-1.5 rounded-lg font-mono text-[10px] font-black uppercase hover:bg-slate-50 transition-colors flex items-center justify-center gap-1 dark:border-slate-700 dark:hover:bg-slate-800"
+          className="flex-1 border-2 border-slate-900 py-1.5 rounded-lg font-mono text-[10px] font-black uppercase hover:bg-slate-50 transition-colors flex items-center justify-center gap-1"
           onClick={() => {
             setCurrentIndex((currentIndex + 1) % cards.length)
             setFlipped(false)

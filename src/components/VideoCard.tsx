@@ -1,4 +1,4 @@
-// src/components/VideoCard.tsx
+﻿// src/components/VideoCard.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -170,7 +170,7 @@ export default function VideoCard({
         {/* Watchlist Heart Button */}
         <button
           onClick={handleWatchlistClick}
-          className="absolute top-2 right-2 z-10 w-7 h-7 bg-white dark:bg-canvas border-2 border-ink flex items-center justify-center hover:scale-110 transition-transform shadow-hard-xs"
+          className="absolute top-2 right-2 z-10 w-7 h-7 bg-white border-2 border-ink flex items-center justify-center hover:scale-110 transition-transform shadow-hard-xs"
           title={saved ? 'Remove from watchlist' : 'Add to watchlist'}
         >
           <Heart className={`w-3.5 h-3.5 ${saved ? 'fill-red-500 text-red-500' : 'text-ink'}`} />
@@ -241,7 +241,7 @@ export default function VideoCard({
 
         {/* Progress indicator */}
         {watchedPercent > 0 && (
-          <div className="mt-3 w-full bg-slate-100 dark:bg-zinc-800 h-2 border border-ink/10 relative overflow-hidden">
+          <div className="mt-3 w-full bg-slate-100 h-2 border border-ink/10 relative overflow-hidden">
             <div
               className={`h-full ${watchedPercent >= 100 ? 'bg-emerald-500' : 'bg-blue'}`}
               style={{ width: `${Math.min(watchedPercent, 100)}%` }}

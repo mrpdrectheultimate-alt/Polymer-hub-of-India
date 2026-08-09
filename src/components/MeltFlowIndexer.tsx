@@ -1,4 +1,4 @@
-// src/components/MeltFlowIndexer.tsx
+﻿// src/components/MeltFlowIndexer.tsx
 'use client'
 
 import { useState } from 'react'
@@ -134,7 +134,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
   }
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
       <div className="space-y-4">
         <div>
           <span className="font-mono text-[9px] font-bold text-orange-600 uppercase tracking-wider block mb-1">Standard flow evaluation</span>
@@ -149,7 +149,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               {Object.entries(MFI_DATA).map(([k, val]) => (
                 <option key={k} value={k}>{val.name}</option>
@@ -163,7 +163,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={temperature}
               onChange={(e) => setTemperature(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option value={190}>190 °C</option>
               <option value={230}>230 °C (Standard PP)</option>
@@ -176,7 +176,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={load}
               onChange={(e) => setLoad(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option value={2.16}>2.16 kg (Standard)</option>
               <option value={5.0}>5.0 kg</option>
@@ -190,7 +190,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={cutDuration}
               onChange={(e) => setCutDuration(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option value={1}>1 Minute</option>
               <option value={2}>2 Minutes (Recommended)</option>
@@ -201,7 +201,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
         </div>
 
         {/* Visual Extruder instrument diagram */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 dark:border-slate-800 dark:bg-slate-900 p-4 flex justify-around items-center">
+        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex justify-around items-center">
           
           {/* Cylinder drawing */}
           <div className="relative w-28 h-40 flex flex-col items-center">
@@ -218,7 +218,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
             />
 
             {/* Heated Barrel */}
-            <div className="w-12 h-20 bg-slate-350 border-x-4 border-slate-900 dark:border-slate-800 relative flex flex-col items-center py-1">
+            <div className="w-12 h-20 bg-slate-350 border-x-4 border-slate-900 relative flex flex-col items-center py-1">
               <div className="absolute inset-0 bg-orange-600/10 animate-pulse" />
               
               {/* Molten polymer volume */}
@@ -228,7 +228,7 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
             </div>
 
             {/* Extrusion Die Orifice */}
-            <div className="w-4 h-2 bg-slate-900 dark:bg-slate-800" />
+            <div className="w-4 h-2 bg-slate-900" />
             
             {/* Melting Extrudate Drops */}
             <div className="h-10 relative w-full flex justify-center items-start pt-1">
@@ -274,11 +274,11 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
       </div>
 
       {/* Volumetric Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
         {results ? (
           <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 dark:bg-green-950/20 p-2.5 rounded-lg border border-green-200 dark:border-green-900">
-              <span className="text-[10px] text-green-700 dark:text-green-400 font-bold uppercase flex items-center gap-1">
+            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
+              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
                 <CheckCircle className="w-3.5 h-3.5" /> Extrusions cut successfully
               </span>
               {xpAwarded && (
@@ -288,27 +288,27 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
               )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Melt Flow Index</span>
                 <strong className="text-xs text-orange-600">{results.mfi} g/10 min</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Extrudate Mass</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.mass} grams</strong>
+                <strong className="text-xs text-slate-800">{results.mass} grams</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Melt Density</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.meltDensity} g/cm³</strong>
+                <strong className="text-xs text-slate-800">{results.meltDensity} g/cm³</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Estimated Viscosity</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.viscosity} Pa·s</strong>
+                <strong className="text-xs text-slate-800">{results.viscosity} Pa·s</strong>
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg dark:bg-slate-900/40">
+          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
             <Info className="w-4 h-4 text-slate-300" /> Start cylinder extrusion test to get Melt Flow calculation sheet.
           </div>
         )}

@@ -1,4 +1,4 @@
-// src/components/InjectionMoldingAnimator.tsx
+﻿// src/components/InjectionMoldingAnimator.tsx
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -269,7 +269,7 @@ export function InjectionMoldingAnimator() {
   }
 
   return (
-    <div className="bg-white border-4 border-slate-900 rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+    <div className="bg-white border-4 border-slate-900 rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
       <div className="space-y-4">
         <div>
           <span className="font-mono text-[9px] font-bold text-red-600 uppercase tracking-wider block mb-1">Molding equipment cycle controller</span>
@@ -281,7 +281,7 @@ export function InjectionMoldingAnimator() {
             <button
               key={stage.id}
               className={`px-3 py-1.5 border-2 border-slate-900 rounded-lg text-[10px] font-mono font-black uppercase transition-all ${
-                currentStage === stage.id ? 'bg-slate-900 text-white dark:bg-slate-800' : 'bg-slate-50 hover:bg-slate-100'
+                currentStage === stage.id ? 'bg-slate-900 text-white' : 'bg-slate-50 hover:bg-slate-100'
               }`}
               onClick={() => handleStageClick(stage.id)}
             >
@@ -290,7 +290,7 @@ export function InjectionMoldingAnimator() {
           ))}
         </div>
         
-        <div className="relative border-4 border-slate-900 rounded-xl overflow-hidden bg-[#0F172A] dark:border-slate-800">
+        <div className="relative border-4 border-slate-900 rounded-xl overflow-hidden bg-[#0F172A]">
           <canvas ref={canvasRef} width={650} height={350} className="w-full block" />
         </div>
 
@@ -307,7 +307,7 @@ export function InjectionMoldingAnimator() {
             )}
           </button>
           <button 
-            className="px-6 py-3 border-2 border-slate-900 font-mono text-xs font-black uppercase rounded-lg hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-900 flex items-center gap-1.5"
+            className="px-6 py-3 border-2 border-slate-900 font-mono text-xs font-black uppercase rounded-lg hover:bg-slate-50 flex items-center gap-1.5"
             onClick={handleReset}
           >
             <RotateCw className="w-4 h-4" /> Reset
@@ -315,10 +315,10 @@ export function InjectionMoldingAnimator() {
         </div>
 
         {/* Phase Context details banner */}
-        <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg dark:bg-slate-900/50 dark:border-slate-800 flex items-start gap-2.5">
+        <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg flex items-start gap-2.5">
           <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
+            <h4 className="text-xs font-bold text-slate-800">
               Stage {currentStage}: {STAGES[currentStage - 1].name}
             </h4>
             <p className="text-[10px] text-slate-500 leading-normal">

@@ -1,4 +1,4 @@
-// src/components/GlossaryPopover.tsx
+﻿// src/components/GlossaryPopover.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -71,22 +71,22 @@ export function GlossaryPopover() {
 
   return (
     <div 
-      className="absolute bg-white text-slate-900 border-4 border-slate-900 rounded-xl p-4 max-w-xs shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] z-50 animate-fade-in font-sans -translate-x-1/2 transition-all dark:bg-slate-900 dark:text-slate-100 dark:border-slate-800 dark:shadow-none"
+      className="absolute bg-white text-slate-900 border-4 border-slate-900 rounded-xl p-4 max-w-xs shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] z-50 animate-fade-in font-sans -translate-x-1/2 transition-all"
       style={{ left: position.x, top: position.y }}
     >
-      <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-2 mb-2 dark:border-slate-800">
+      <div className="flex items-center justify-between gap-4 border-b border-slate-100 pb-2 mb-2">
         <span className="inline-flex items-center gap-1 text-[10px] uppercase font-mono font-black text-blue-600">
           <BookOpen className="w-3.5 h-3.5" /> Polymer Glossary
         </span>
         <button 
           onClick={() => setVisible(false)}
-          className="p-0.5 rounded hover:bg-slate-100 dark:hover:bg-slate-800"
+          className="p-0.5 rounded hover:bg-slate-100"
         >
           <X className="w-3.5 h-3.5 text-slate-400 hover:text-slate-600" />
         </button>
       </div>
       <h4 className="font-display font-black text-sm uppercase tracking-wide">{activeTerm}</h4>
-      <p className="text-xs text-slate-600 dark:text-slate-400 mt-1.5 leading-relaxed">{definition}</p>
+      <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">{definition}</p>
     </div>
   )
 }

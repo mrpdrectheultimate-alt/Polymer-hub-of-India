@@ -1,4 +1,4 @@
-// src/components/ReaderControls.tsx
+﻿// src/components/ReaderControls.tsx
 'use client'
 
 import { useState } from 'react'
@@ -25,7 +25,7 @@ export function ReaderControls({ onSettingsChange, initialSettings }: ReaderCont
   const fonts = ['serif', 'sans', 'dyslexic']
 
   return (
-    <div className="border-4 border-slate-900 rounded-xl p-4 bg-white text-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:bg-slate-900 dark:text-slate-100 dark:border-slate-800 dark:shadow-none">
+    <div className="border-4 border-slate-900 rounded-xl p-4 bg-white text-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
       <h3 className="font-display font-black text-sm uppercase mb-4 tracking-wider">📖 Reader Settings</h3>
       
       <div className="space-y-4">
@@ -39,8 +39,8 @@ export function ReaderControls({ onSettingsChange, initialSettings }: ReaderCont
                 onClick={() => handleSettingChange('margins', m)}
                 className={`flex-1 px-3 py-1.5 border-2 text-xs font-bold uppercase transition-all ${
                   settings.margins === m 
-                    ? 'border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900' 
-                    : 'border-slate-200 hover:border-slate-900 dark:border-slate-800 dark:hover:border-slate-100 bg-transparent'
+                    ? 'border-slate-900 bg-slate-900 text-white' 
+                    : 'border-slate-200 hover:border-slate-900 bg-transparent'
                 }`}
               >
                 {m}
@@ -59,8 +59,8 @@ export function ReaderControls({ onSettingsChange, initialSettings }: ReaderCont
                 onClick={() => handleSettingChange('lineHeight', lh)}
                 className={`flex-1 px-3 py-1.5 border-2 text-xs font-bold uppercase transition-all ${
                   settings.lineHeight === lh 
-                    ? 'border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900' 
-                    : 'border-slate-200 hover:border-slate-900 dark:border-slate-800 dark:hover:border-slate-100 bg-transparent'
+                    ? 'border-slate-900 bg-slate-900 text-white' 
+                    : 'border-slate-200 hover:border-slate-900 bg-transparent'
                 }`}
               >
                 {lh}
@@ -79,8 +79,8 @@ export function ReaderControls({ onSettingsChange, initialSettings }: ReaderCont
                 onClick={() => handleSettingChange('font', f)}
                 className={`flex-1 px-3 py-1.5 border-2 text-xs font-bold uppercase transition-all ${
                   settings.font === f 
-                    ? 'border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900' 
-                    : 'border-slate-200 hover:border-slate-900 dark:border-slate-800 dark:hover:border-slate-100 bg-transparent'
+                    ? 'border-slate-900 bg-slate-900 text-white' 
+                    : 'border-slate-200 hover:border-slate-900 bg-transparent'
                 }`}
               >
                 {f === 'dyslexic' ? 'Dyslexic' : f}

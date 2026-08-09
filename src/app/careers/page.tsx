@@ -1,4 +1,4 @@
-// src/app/careers/page.tsx
+﻿// src/app/careers/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -345,11 +345,11 @@ export default function CareersHubPage() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-900 pb-20 dark:text-slate-100">
+    <div className="min-h-screen bg-canvas text-slate-900 pb-20">
       <div className="h-2 bg-violet-600" />
 
       {/* Top Banner */}
-      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden dark:border-slate-800">
+      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
         <div className="relative max-w-6xl mx-auto flex items-center justify-between gap-6 flex-wrap">
           <div>
@@ -373,7 +373,7 @@ export default function CareersHubPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
         
         {/* Workspace tabs */}
-        <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:shadow-none dark:bg-slate-950 mb-8">
+        <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-8">
           {([
             { id: 'tracks', label: 'Career Tracks & Jobs', icon: Briefcase },
             { id: 'resume', label: 'Resume Builder', icon: Printer },
@@ -385,10 +385,10 @@ export default function CareersHubPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 font-mono text-[10px] font-black uppercase tracking-wider py-3 border-r-4 border-slate-900 last:border-r-0 flex items-center justify-center gap-1.5 transition-colors dark:border-slate-800 ${
+                className={`flex-1 font-mono text-[10px] font-black uppercase tracking-wider py-3 border-r-4 border-slate-900 last:border-r-0 flex items-center justify-center gap-1.5 transition-colors ${
                   isActive 
                     ? 'bg-violet-600 text-white' 
-                    : 'bg-transparent text-slate-500 hover:text-slate-950 dark:hover:text-white'
+                    : 'bg-transparent text-slate-500 hover:text-slate-950'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5 shrink-0" />
@@ -409,14 +409,14 @@ export default function CareersHubPage() {
               
               {/* Job Listings Panel */}
               <div className="space-y-4">
-                <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center dark:border-slate-800">
+                <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center">
                   <h2 className="font-display font-black text-sm uppercase">Active Polymer Openings</h2>
                   <span className="font-mono text-[9px] uppercase text-slate-400">Real-time Industry Feed</span>
                 </div>
 
                 {/* Filter and Search Box */}
                 <div className="flex gap-3 flex-wrap">
-                  <div className="flex-1 min-w-[200px] border-4 border-slate-900 bg-white rounded-xl flex items-center px-3 gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                  <div className="flex-1 min-w-[200px] border-4 border-slate-900 bg-white rounded-xl flex items-center px-3 gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     <Search className="w-4 h-4 text-slate-400" />
                     <input
                       type="text"
@@ -430,7 +430,7 @@ export default function CareersHubPage() {
                   <select
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
-                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none"
                   >
                     <option value="all">All Types</option>
                     <option value="Full-time">Full-time</option>
@@ -451,14 +451,14 @@ export default function CareersHubPage() {
                       listings.map(job => (
                         <div 
                           key={job.id} 
-                          className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-2 flex flex-col justify-between"
+                          className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-2 flex flex-col justify-between"
                         >
                           <div>
                             <div className="flex justify-between items-start gap-4 flex-wrap">
-                              <h3 className="font-display font-black text-sm uppercase text-slate-950 dark:text-white leading-tight">
+                              <h3 className="font-display font-black text-sm uppercase text-slate-950 leading-tight">
                                 {job.title}
                               </h3>
-                              <span className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 dark:border-slate-800 dark:bg-slate-900 px-2 py-0.5 uppercase">
+                              <span className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 px-2 py-0.5 uppercase">
                                 {job.type}
                               </span>
                             </div>
@@ -467,11 +467,11 @@ export default function CareersHubPage() {
                             </p>
                           </div>
 
-                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-normal line-clamp-3">
+                          <p className="text-xs text-slate-600 leading-normal line-clamp-3">
                             {job.description}
                           </p>
 
-                          <div className="flex items-center justify-between gap-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex-wrap">
+                          <div className="flex items-center justify-between gap-4 pt-3 border-t border-slate-100 flex-wrap">
                             <span className="font-mono text-xs font-black text-green-600">
                               {job.salary}
                             </span>
@@ -493,7 +493,7 @@ export default function CareersHubPage() {
 
               {/* 6 Career Tracks */}
               <div className="space-y-4">
-                <div className="border-b-4 border-slate-900 pb-2 dark:border-slate-800">
+                <div className="border-b-4 border-slate-900 pb-2">
                   <h2 className="font-display font-black text-sm uppercase">6 Specialized Career Pathways</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -508,7 +508,7 @@ export default function CareersHubPage() {
             {/* Right Sidebar: Quick info */}
             <div className="space-y-6">
               {/* Placement moats */}
-              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-3">
+              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-3">
                 <h4 className="font-display font-black text-xs uppercase tracking-wider">
                   💼 Polymer Job Market Stats
                 </h4>
@@ -533,11 +533,11 @@ export default function CareersHubPage() {
         {activeTab === 'resume' && (
           <div className="space-y-6">
             {!session ? (
-              <div className="border-4 border-slate-900 rounded-xl p-8 bg-white text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] max-w-md mx-auto dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+              <div className="border-4 border-slate-900 rounded-xl p-8 bg-white text-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] max-w-md mx-auto">
                 <span className="text-3xl block mb-2">🔒</span>
                 <h3 className="font-display font-black text-xs uppercase mb-1">Resume Drafting locked</h3>
                 <p className="text-[10px] text-slate-400 leading-normal mb-4">Please log in to design and save your professional polymer resume profile.</p>
-                <Link href="/login" className="inline-block bg-slate-900 text-white font-mono text-[9px] font-black uppercase px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800">
+                <Link href="/login" className="inline-block bg-slate-900 text-white font-mono text-[9px] font-black uppercase px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800">
                   Authenticate →
                 </Link>
               </div>
@@ -550,7 +550,7 @@ export default function CareersHubPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
                 {/* Form Editor (Left side) */}
-                <div className="space-y-6 border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                <div className="space-y-6 border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                   <div>
                     <h3 className="font-display font-black text-sm uppercase mb-1">Plastics Engineering Resume Form</h3>
                     <p className="text-[10px] text-slate-500">Provide details to construct your standard PDF resume.</p>
@@ -567,7 +567,7 @@ export default function CareersHubPage() {
                           value={fullName}
                           onChange={(e) => setFullName(e.target.value)}
                           placeholder="e.g. Priyesh Kumar"
-                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                         />
                       </div>
                       <div>
@@ -577,7 +577,7 @@ export default function CareersHubPage() {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="e.g. priyesh@college.edu"
-                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                         />
                       </div>
                       <div className="sm:col-span-2">
@@ -587,7 +587,7 @@ export default function CareersHubPage() {
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
                           placeholder="e.g. +91 98765 43210"
-                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                          className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                         />
                       </div>
                     </div>
@@ -598,7 +598,7 @@ export default function CareersHubPage() {
                     <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">2. Education History</h4>
                     <div className="space-y-2">
                       {education.map((edu, idx) => (
-                        <div key={idx} className="flex justify-between items-center bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                        <div key={idx} className="flex justify-between items-center bg-slate-50 p-2 rounded text-xs text-slate-900">
                           <div>
                             <strong>{edu.degree}</strong> - {edu.institute} ({edu.year})
                           </div>
@@ -650,7 +650,7 @@ export default function CareersHubPage() {
                     <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">3. Professional Experience</h4>
                     <div className="space-y-2">
                       {experience.map((exp, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs text-slate-900">
                           <div>
                             <strong>{exp.role}</strong> at {exp.company} ({exp.duration})
                             <p className="text-[10px] text-slate-500 mt-0.5">{exp.desc}</p>
@@ -712,7 +712,7 @@ export default function CareersHubPage() {
                     <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">4. Gating &amp; Polymer Projects</h4>
                     <div className="space-y-2">
                       {projects.map((proj, idx) => (
-                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs dark:bg-slate-900 text-slate-900 dark:text-slate-100">
+                        <div key={idx} className="flex justify-between items-start bg-slate-50 p-2 rounded text-xs text-slate-900">
                           <div>
                             <strong>{proj.name}</strong> (Technology: {proj.tech})
                             <p className="text-[10px] text-slate-500 mt-0.5">{proj.desc}</p>
@@ -767,7 +767,7 @@ export default function CareersHubPage() {
                     <h4 className="font-mono text-[10px] font-black uppercase text-slate-400 border-b pb-1">5. Skills Tagging</h4>
                     <div className="flex flex-wrap gap-1.5">
                       {skills.map((s) => (
-                        <span key={s} className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 px-2 py-0.5 rounded uppercase dark:border-slate-800 dark:bg-slate-900 flex items-center gap-1">
+                        <span key={s} className="font-mono text-[9px] font-bold border-2 border-slate-900 bg-slate-50 px-2 py-0.5 rounded uppercase flex items-center gap-1">
                           {s}
                           <button
                             type="button"
@@ -786,13 +786,13 @@ export default function CareersHubPage() {
                         placeholder="Add skill tag (e.g. Extrusion, DSC, SOLIDWORKS)"
                         value={newSkill}
                         onChange={(e) => setNewSkill(e.target.value)}
-                        className="flex-1 p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                        className="flex-1 p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                         onKeyDown={(e) => { if (e.key === 'Enter') addSkill() }}
                       />
                       <button
                         type="button"
                         onClick={addSkill}
-                        className="bg-slate-900 text-white font-mono text-[9px] uppercase font-black px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800"
+                        className="bg-slate-900 text-white font-mono text-[9px] uppercase font-black px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800"
                       >
                         + Add Skill
                       </button>
@@ -817,7 +817,7 @@ export default function CareersHubPage() {
                     <span className="font-mono text-xs text-slate-400">Standard printable layout</span>
                     <button
                       onClick={() => window.print()}
-                      className="inline-flex items-center gap-1 text-xs font-bold uppercase hover:underline border border-slate-300 dark:border-slate-800 px-3 py-1 rounded bg-white dark:bg-slate-950"
+                      className="inline-flex items-center gap-1 text-xs font-bold uppercase hover:underline border border-slate-300 px-3 py-1 rounded bg-white"
                     >
                       <Printer className="w-3.5 h-3.5" /> Print PDF / A4
                     </button>
@@ -925,7 +925,7 @@ export default function CareersHubPage() {
         {activeTab === 'interview' && (
           <div className="max-w-2xl mx-auto space-y-6">
             
-            <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center dark:border-slate-800">
+            <div className="border-b-4 border-slate-900 pb-2 flex justify-between items-center">
               <div>
                 <h2 className="font-display font-black text-sm uppercase">Technical Mock Interview Board</h2>
                 <p className="text-[10px] text-slate-400 mt-1">Answer 5 core questions evaluating polymer science and manufacturing competencies.</p>
@@ -937,11 +937,11 @@ export default function CareersHubPage() {
                 return (
                   <div 
                     key={q.id} 
-                    className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4"
+                    className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4"
                   >
                     <div>
                       <span className="font-mono text-[9px] uppercase font-black text-blue-600 block mb-1">Question {idx + 1} of 5</span>
-                      <h3 className="font-display font-black text-xs uppercase leading-relaxed text-slate-950 dark:text-white">
+                      <h3 className="font-display font-black text-xs uppercase leading-relaxed text-slate-950">
                         {q.question}
                       </h3>
                     </div>
@@ -951,7 +951,7 @@ export default function CareersHubPage() {
                         const isSelected = answers[q.id] === optIdx
                         const isCorrect = q.correct === optIdx
                         
-                        let optionStyle = 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900'
+                        let optionStyle = 'border-slate-200 hover:bg-slate-50'
                         if (submittedInterview) {
                           if (isCorrect) {
                             optionStyle = 'border-green-600 bg-green-50/10 text-green-700'
@@ -982,7 +982,7 @@ export default function CareersHubPage() {
                     </div>
 
                     {submittedInterview && (
-                      <div className="bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800 flex gap-2.5 items-start">
+                      <div className="bg-slate-50 p-3 rounded-lg border border-slate-200 flex gap-2.5 items-start">
                         {answers[q.id] === q.correct ? (
                           <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0 mt-0.5" />
                         ) : (
@@ -990,7 +990,7 @@ export default function CareersHubPage() {
                         )}
                         <div>
                           <span className="font-mono text-[9px] font-black uppercase text-slate-400 block mb-0.5">Explanation</span>
-                          <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-normal">{q.explanation}</p>
+                          <p className="text-[10px] text-slate-600 leading-normal">{q.explanation}</p>
                         </div>
                       </div>
                     )}
@@ -1000,7 +1000,7 @@ export default function CareersHubPage() {
             </div>
 
             {/* Score presentation or Submit action */}
-            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4">
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4">
               {interviewScore === null ? (
                 <div className="flex justify-between items-center gap-4 flex-wrap">
                   <p className="text-xs text-slate-400">Ensure you have selected answers for all 5 questions.</p>
@@ -1053,9 +1053,9 @@ export default function CareersHubPage() {
 function TrackCard({ track }: { track: typeof TRACKS[0] }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-4 border-slate-900 bg-white dark:bg-slate-950 dark:border-slate-800 overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl">
+    <div className="border-4 border-slate-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl">
       <button onClick={() => setOpen(!open)} className="w-full text-left">
-        <div className="relative border-b-4 border-slate-900 dark:border-slate-800 overflow-hidden" style={{ height: '120px' }}>
+        <div className="relative border-b-4 border-slate-900 overflow-hidden" style={{ height: '120px' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={track.image} alt={track.title} className="w-full h-full object-cover" />
           <div className="absolute inset-0" style={{ backgroundColor: track.color + 'CC' }} />
@@ -1070,21 +1070,21 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
             </div>
           </div>
         </div>
-        <div className="px-5 py-3 flex items-center justify-between bg-slate-50 dark:bg-slate-900/40">
-          <p className="text-xs text-slate-600 dark:text-slate-300 flex-1 pr-3 leading-relaxed">{track.desc}</p>
+        <div className="px-5 py-3 flex items-center justify-between bg-slate-50">
+          <p className="text-xs text-slate-600 flex-1 pr-3 leading-relaxed">{track.desc}</p>
           {open ? <ChevronUp className="w-4 h-4 text-slate-500 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 flex-shrink-0" />}
         </div>
       </button>
 
       {open && (
-        <div className="border-t-4 border-slate-900 dark:border-slate-800 p-5 space-y-4 bg-white dark:bg-slate-950">
+        <div className="border-t-4 border-slate-900 p-5 space-y-4 bg-white">
           <div>
             <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Skills to Build</div>
             <div className="space-y-1.5">
               {track.skills.map((s) => (
                 <div key={s} className="flex items-center gap-2">
-                  <div className="w-2 h-2 border-2 border-slate-900 flex-shrink-0 dark:border-slate-800" style={{ backgroundColor: track.color }} />
-                  <span className="text-xs text-slate-700 dark:text-slate-300">{s}</span>
+                  <div className="w-2 h-2 border-2 border-slate-900 flex-shrink-0" style={{ backgroundColor: track.color }} />
+                  <span className="text-xs text-slate-700">{s}</span>
                 </div>
               ))}
             </div>
@@ -1094,7 +1094,7 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
               <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Top Recruiters</div>
               <div className="flex flex-wrap gap-2">
                 {track.recruiters.map((r) => (
-                  <span key={r} className="font-mono text-[9px] border-2 border-slate-900 dark:border-slate-800 px-2 py-0.5 text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900">{r}</span>
+                  <span key={r} className="font-mono text-[9px] border-2 border-slate-900 px-2 py-0.5 text-slate-600 bg-slate-50">{r}</span>
                 ))}
               </div>
             </div>
@@ -1103,9 +1103,9 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
             <Link
               key={l.slug}
               href={`/lessons/${l.slug}`}
-              className="flex items-center justify-between border-4 border-slate-900 dark:border-slate-800 p-3 hover:bg-slate-900 hover:text-white dark:hover:bg-slate-150 dark:hover:text-slate-900 group transition-colors shadow-hard-sm"
+              className="flex items-center justify-between border-4 border-slate-900 p-3 hover:bg-slate-900 hover:text-white group transition-colors shadow-hard-sm"
             >
-              <span className="text-xs font-bold group-hover:text-white dark:group-hover:text-slate-900">{l.name}</span>
+              <span className="text-xs font-bold group-hover:text-white">{l.name}</span>
               <ArrowRight className="w-4 h-4 flex-shrink-0" />
             </Link>
           ))}

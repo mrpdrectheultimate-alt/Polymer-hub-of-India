@@ -1,4 +1,4 @@
-// src/components/DSCAnalyzer.tsx
+﻿// src/components/DSCAnalyzer.tsx
 'use client'
 
 import { useState } from 'react'
@@ -150,7 +150,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
   const heatColor = `rgb(${Math.min(255, 60 + (currentTemp / 300) * 195)}, 80, ${Math.max(50, 240 - (currentTemp / 300) * 190)})`
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
       <div className="space-y-4">
         <div>
           <span className="font-mono text-[9px] font-bold text-red-600 uppercase tracking-wider block mb-1">Standard DSC Thermal Scan</span>
@@ -165,7 +165,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               {Object.entries(MATERIALS).map(([k, m]) => (
                 <option key={k} value={k}>{m.name}</option>
@@ -179,7 +179,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={heatingRate}
               onChange={(e) => setHeatingRate(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option value={5}>5 °C/min</option>
               <option value={10}>10 °C/min (Standard)</option>
@@ -191,7 +191,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
             <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Cell Purge Gas</label>
             <select
               disabled={running}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option>Nitrogen (99.99%)</option>
               <option disabled>Helium (Ultra Pure)</option>
@@ -200,13 +200,13 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
         </div>
 
         {/* Visual Animation & Thermogram Plot */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 dark:border-slate-800 dark:bg-slate-900 p-4 flex gap-4 items-center justify-between">
+        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex gap-4 items-center justify-between">
           
           {/* Calorimeter Oven view */}
           <div className="text-center space-y-1">
             <span className="font-mono text-[8px] uppercase font-bold text-slate-400 block">DSC Cell</span>
             
-            <div className="w-20 h-28 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded relative flex flex-col items-center justify-center overflow-hidden mx-auto">
+            <div className="w-20 h-28 bg-white border border-slate-200 rounded relative flex flex-col items-center justify-center overflow-hidden mx-auto">
               
               {/* Crucible Heater furnace block */}
               <div 
@@ -221,7 +221,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
               </div>
 
               {/* Temperature display */}
-              <div className="mt-3 font-mono text-[8px] font-black text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-900 px-1 rounded border">
+              <div className="mt-3 font-mono text-[8px] font-black text-slate-800 bg-slate-100 px-1 rounded border">
                 {Math.round(currentTemp)}°C
               </div>
             </div>
@@ -230,7 +230,7 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           {/* Graph view */}
-          <div className="flex-1 relative border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-1 rounded-lg">
+          <div className="flex-1 relative border border-slate-200 bg-white p-1 rounded-lg">
             <svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
               {/* Grid Lines */}
               {[0, 1, 2].map(val => (
@@ -243,13 +243,13 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
                   stroke="#E2E8F0" 
                   strokeWidth="1"
                   strokeDasharray="2 2"
-                  className="dark:stroke-slate-800"
+                  className=""
                 />
               ))}
 
               {/* Axes */}
-              <line x1={paddingLeft} y1={plotY(-1)} x2={width - paddingRight} y2={plotY(-1)} stroke="#0f172a" strokeWidth="2" className="dark:stroke-slate-100" />
-              <line x1={paddingLeft} y1={plotY(-1)} x2={paddingLeft} y2={paddingTop} stroke="#0f172a" strokeWidth="2" className="dark:stroke-slate-100" />
+              <line x1={paddingLeft} y1={plotY(-1)} x2={width - paddingRight} y2={plotY(-1)} stroke="#0f172a" strokeWidth="2" className="" />
+              <line x1={paddingLeft} y1={plotY(-1)} x2={paddingLeft} y2={paddingTop} stroke="#0f172a" strokeWidth="2" className="" />
 
               {/* Axes labels */}
               <text x={width / 2} y={height - 5} textAnchor="middle" className="fill-slate-400 font-mono text-[8px] font-bold">Temperature (°C)</text>
@@ -289,11 +289,11 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
       </div>
 
       {/* Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
         {results ? (
           <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 dark:bg-green-950/20 p-2.5 rounded-lg border border-green-200 dark:border-green-900">
-              <span className="text-[10px] text-green-700 dark:text-green-400 font-bold uppercase flex items-center gap-1">
+            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
+              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
                 <CheckCircle className="w-3.5 h-3.5" /> Thermogram Resolved
               </span>
               {xpAwarded && (
@@ -303,27 +303,27 @@ export function DSCAnalyzer({ onComplete }: { onComplete?: () => void }) {
               )}
             </div>
 
-            <div className="grid grid-cols-4 gap-2 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+            <div className="grid grid-cols-4 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Tg (Glass)</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.tg}°C</strong>
+                <strong className="text-xs text-slate-800">{results.tg}°C</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Tc (Cryst)</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.tc === 0 ? '—' : `${results.tc}°C`}</strong>
+                <strong className="text-xs text-slate-800">{results.tc === 0 ? '—' : `${results.tc}°C`}</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Tm (Melting)</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.tm}°C</strong>
+                <strong className="text-xs text-slate-800">{results.tm}°C</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Crystallinity</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.crystallinity}%</strong>
+                <strong className="text-xs text-slate-800">{results.crystallinity}%</strong>
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg dark:bg-slate-900/40">
+          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
             <HelpCircle className="w-4 h-4 text-slate-300" /> Start DSC heating cycle to capture thermal transition states.
           </div>
         )}

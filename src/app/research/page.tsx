@@ -1,4 +1,4 @@
-// src/app/research/page.tsx
+﻿// src/app/research/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -227,11 +227,11 @@ export default function ResearchHubPage() {
   }
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-900 pb-20 dark:text-slate-100">
+    <div className="min-h-screen bg-canvas text-slate-900 pb-20">
       <div className="h-2 bg-blue-600" />
       
       {/* Top Banner */}
-      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden dark:border-slate-800">
+      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden">
         <div className="max-w-6xl mx-auto flex items-start justify-between gap-6 flex-wrap">
           <div>
             <span className="font-mono text-[9px] uppercase tracking-widest text-blue-400 font-bold block mb-1">R&amp;D Workspace</span>
@@ -264,7 +264,7 @@ export default function ResearchHubPage() {
           <div className="lg:col-span-3 space-y-6">
             
             {/* Tabs Row */}
-            <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:shadow-none dark:bg-slate-950">
+            <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               {([
                 { id: 'publications', label: 'Publications', icon: BookOpen },
                 { id: 'patents', label: 'Patent Registry', icon: Award },
@@ -280,10 +280,10 @@ export default function ResearchHubPage() {
                       setActiveTab(tab.id)
                       setSearchQuery('')
                     }}
-                    className={`flex-1 font-mono text-[10px] font-black uppercase tracking-wider py-3 border-r-4 border-slate-900 last:border-r-0 flex items-center justify-center gap-1.5 transition-colors dark:border-slate-800 ${
+                    className={`flex-1 font-mono text-[10px] font-black uppercase tracking-wider py-3 border-r-4 border-slate-900 last:border-r-0 flex items-center justify-center gap-1.5 transition-colors ${
                       isActive 
                         ? 'bg-blue-600 text-white' 
-                        : 'bg-transparent text-slate-500 hover:text-slate-950 dark:hover:text-white'
+                        : 'bg-transparent text-slate-500 hover:text-slate-950'
                     }`}
                   >
                     <Icon className="w-3.5 h-3.5 shrink-0" />
@@ -298,7 +298,7 @@ export default function ResearchHubPage() {
               <div className="flex gap-3 flex-wrap">
                 {/* Search query input */}
                 {(activeTab === 'publications' || activeTab === 'patents') && (
-                  <div className="flex-1 min-w-[200px] border-4 border-slate-900 bg-white rounded-xl flex items-center px-3 gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                  <div className="flex-1 min-w-[200px] border-4 border-slate-900 bg-white rounded-xl flex items-center px-3 gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                     <Search className="w-4 h-4 text-slate-400" />
                     <input
                       type="text"
@@ -315,7 +315,7 @@ export default function ResearchHubPage() {
                   <select
                     value={selectedSubject}
                     onChange={(e) => setSelectedSubject(e.target.value)}
-                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none"
                   >
                     <option value="all">All Subjects</option>
                     {Object.entries(SUBJECT_LABELS).map(([slug, name]) => (
@@ -329,7 +329,7 @@ export default function ResearchHubPage() {
                   <select
                     value={selectedJurisdiction}
                     onChange={(e) => setSelectedJurisdiction(e.target.value)}
-                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none dark:border-slate-800 dark:bg-slate-950 dark:shadow-none"
+                    className="border-4 border-slate-900 p-2 text-xs font-bold uppercase rounded-xl bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] outline-none"
                   >
                     <option value="all">All Jurisdictions</option>
                     <option value="India">India</option>
@@ -356,12 +356,12 @@ export default function ResearchHubPage() {
                       <p className="text-center font-mono text-xs text-slate-400 py-10">No matching research articles discovered.</p>
                     ) : (
                       papers.map(p => (
-                        <div key={p.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                        <div key={p.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                           <div className="flex justify-between items-start gap-4 mb-2">
-                            <h2 className="font-display font-black text-sm uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
+                            <h2 className="font-display font-black text-sm uppercase tracking-tight text-slate-950 leading-tight">
                               {p.title}
                             </h2>
-                            <span className="shrink-0 font-mono text-[9px] font-bold border-2 border-slate-900 px-2 py-0.5 rounded uppercase tracking-wider dark:border-slate-800 bg-slate-50 dark:bg-slate-905">
+                            <span className="shrink-0 font-mono text-[9px] font-bold border-2 border-slate-900 px-2 py-0.5 rounded uppercase tracking-wider bg-slate-50">
                               {p.publication_year}
                             </span>
                           </div>
@@ -370,11 +370,11 @@ export default function ResearchHubPage() {
                             By {p.authors} · <span className="italic">{p.journal}</span>
                           </p>
 
-                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                          <p className="text-xs text-slate-600 leading-relaxed mb-4">
                             {p.abstract}
                           </p>
 
-                          <div className="flex items-center justify-between gap-4 flex-wrap pt-3 border-t border-slate-100 dark:border-slate-800">
+                          <div className="flex items-center justify-between gap-4 flex-wrap pt-3 border-t border-slate-100">
                             {p.subject_slug && (
                               <span className="font-mono text-[9px] font-black text-blue-600 uppercase tracking-wide">
                                 {SUBJECT_LABELS[p.subject_slug] || p.subject_slug}
@@ -399,13 +399,13 @@ export default function ResearchHubPage() {
                       <p className="text-center font-mono text-xs text-slate-400 py-10">No matching patents matched in registry.</p>
                     ) : (
                       patents.map(pat => (
-                        <div key={pat.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                        <div key={pat.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                           <div className="flex justify-between items-start gap-4 mb-2">
                             <div>
                               <span className="font-mono text-[9px] font-bold text-blue-600 tracking-wider block mb-1">
                                 {pat.patent_number} ({pat.jurisdiction})
                               </span>
-                              <h2 className="font-display font-black text-sm uppercase tracking-tight text-slate-950 dark:text-white leading-tight">
+                              <h2 className="font-display font-black text-sm uppercase tracking-tight text-slate-950 leading-tight">
                                 {pat.title}
                               </h2>
                             </div>
@@ -422,16 +422,16 @@ export default function ResearchHubPage() {
                             Inventors: {pat.inventors} {pat.assignee && `· Assignee: ${pat.assignee}`}
                           </p>
 
-                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                          <p className="text-xs text-slate-600 leading-relaxed mb-4">
                             {pat.abstract}
                           </p>
 
                           {/* Claims index list toggle */}
-                          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+                          <div className="pt-3 border-t border-slate-100 space-y-2">
                             <span className="font-mono text-[9px] uppercase font-black text-slate-400 block">Independent Claims ({pat.claims.length})</span>
                             <ol className="list-decimal pl-4 space-y-1">
                               {pat.claims.map((claim, idx) => (
-                                <li key={idx} className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">{claim}</li>
+                                <li key={idx} className="text-[10px] text-slate-500 leading-relaxed">{claim}</li>
                               ))}
                             </ol>
                           </div>
@@ -443,14 +443,14 @@ export default function ResearchHubPage() {
 
                 {/* 3. IPO Filing Guide Tab */}
                 {activeTab === 'ipo' && (
-                  <div className="border-4 border-slate-900 rounded-xl p-6 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-6">
+                  <div className="border-4 border-slate-900 rounded-xl p-6 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-6">
                     <div>
                       <h2 className="font-display font-black text-lg uppercase mb-1">🏛️ Indian Patent Office (IPO) Filing Workflow</h2>
                       <p className="text-xs text-slate-500">Official protocol sequence for filing polymer and engineering patents in India.</p>
                     </div>
 
                     {/* Step-by-step roadmap timeline */}
-                    <div className="relative border-l-4 border-slate-900 dark:border-slate-800 pl-6 space-y-8 ml-2 pt-2">
+                    <div className="relative border-l-4 border-slate-900 pl-6 space-y-8 ml-2 pt-2">
                       {[
                         { step: 'Step 1', title: 'Prior Art Search (2-3 weeks)', desc: 'Examine existing papers and worldwide patent catalogs to verify novelty and avoid rejection.' },
                         { step: 'Step 2', title: 'Draft Specification (Form 2)', desc: 'Write detailed description, drawings, and numbered claims outlining the bounds of protected invention.' },
@@ -462,9 +462,9 @@ export default function ResearchHubPage() {
                       ].map((item, index) => (
                         <div key={index} className="relative">
                           {/* Dot marker */}
-                          <div className="absolute -left-[32px] top-0.5 w-4 h-4 rounded-full border-4 border-slate-900 bg-yellow-400 dark:border-slate-100" />
+                          <div className="absolute -left-[32px] top-0.5 w-4 h-4 rounded-full border-4 border-slate-900 bg-yellow-400" />
                           <h3 className="font-display font-black text-xs uppercase text-blue-600">{item.step}: {item.title}</h3>
-                          <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 max-w-xl">{item.desc}</p>
+                          <p className="text-xs text-slate-600 mt-1 max-w-xl">{item.desc}</p>
                         </div>
                       ))}
                     </div>
@@ -476,7 +476,7 @@ export default function ResearchHubPage() {
                   <div className="space-y-4">
                     
                     {/* Search strip header */}
-                    <div className="flex justify-between items-center gap-4 bg-slate-50 dark:bg-slate-900/40 p-4 border-4 border-slate-900 rounded-xl dark:border-slate-800">
+                    <div className="flex justify-between items-center gap-4 bg-slate-50 p-4 border-4 border-slate-900 rounded-xl">
                       <div>
                         <h3 className="font-bold text-xs uppercase">Research Collaboration Board</h3>
                         <p className="text-[10px] text-slate-500">Post project specs to recruit student partners or college thesis advisors.</p>
@@ -484,7 +484,7 @@ export default function ResearchHubPage() {
                       {session && (
                         <button
                           onClick={() => setShowPitchModal(true)}
-                          className="bg-slate-900 text-white text-[10px] uppercase font-black px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800 shrink-0"
+                          className="bg-slate-900 text-white text-[10px] uppercase font-black px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 shrink-0"
                         >
                           + Post Pitch Proposal
                         </button>
@@ -497,7 +497,7 @@ export default function ResearchHubPage() {
                         <p className="col-span-full text-center font-mono text-xs text-slate-400 py-10">No active collaboration proposals posted in this category.</p>
                       ) : (
                         pitches.map(p => (
-                          <div key={p.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+                          <div key={p.id} className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
                             <div className="space-y-2">
                               <div className="flex justify-between items-start gap-3">
                                 <span className="font-mono text-[9px] font-black text-blue-600 uppercase">
@@ -507,17 +507,17 @@ export default function ResearchHubPage() {
                                   {p.status}
                                 </span>
                               </div>
-                              <h3 className="font-display font-black text-sm uppercase leading-tight text-slate-950 dark:text-white line-clamp-2">
+                              <h3 className="font-display font-black text-sm uppercase leading-tight text-slate-950 line-clamp-2">
                                 {p.title}
                               </h3>
-                              <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-4 leading-relaxed">
+                              <p className="text-xs text-slate-500 line-clamp-4 leading-relaxed">
                                 {p.description}
                               </p>
                             </div>
 
-                            <div className="border-t border-slate-100 dark:border-slate-800 pt-3 mt-4 flex items-center justify-between gap-3">
+                            <div className="border-t border-slate-100 pt-3 mt-4 flex items-center justify-between gap-3">
                               <div>
-                                <span className="block font-bold text-[10px] text-slate-800 dark:text-slate-200">
+                                <span className="block font-bold text-[10px] text-slate-800">
                                   {p.profiles?.full_name || 'Anonymous Researcher'}
                                 </span>
                                 <span className="block font-mono text-[8px] text-slate-400 truncate max-w-[150px]">
@@ -547,8 +547,8 @@ export default function ResearchHubPage() {
           {/* Right Sidebar - Drafting Spec History */}
           <div className="space-y-6">
             {session ? (
-              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4">
-                <div className="border-b border-slate-100 pb-3 dark:border-slate-800">
+              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4">
+                <div className="border-b border-slate-100 pb-3">
                   <h3 className="font-display font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
                     <FileText className="w-4 h-4 text-violet-600" /> Patent Drafts ({drafts.length})
                   </h3>
@@ -569,11 +569,11 @@ export default function ResearchHubPage() {
                     {drafts.map(d => (
                       <div 
                         key={d.id}
-                        className="group flex items-center justify-between gap-3 p-2 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 hover:bg-slate-100/60 dark:hover:bg-slate-900 transition-all cursor-pointer"
+                        className="group flex items-center justify-between gap-3 p-2 rounded border border-slate-200 bg-slate-50 hover:bg-slate-100/60 transition-all cursor-pointer"
                         onClick={() => window.location.href = `/research/draft/${d.id}`}
                       >
                         <div className="flex-1 min-w-0">
-                          <span className="block font-bold text-[11px] truncate text-slate-800 dark:text-slate-200 group-hover:text-blue-600">
+                          <span className="block font-bold text-[11px] truncate text-slate-800 group-hover:text-blue-600">
                             {d.title}
                           </span>
                           <span className="block text-[8px] font-mono text-slate-400 uppercase">
@@ -594,18 +594,18 @@ export default function ResearchHubPage() {
                 )}
               </div>
             ) : (
-              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+              <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-center">
                 <span className="text-2xl block mb-1">🔒</span>
                 <h4 className="font-display font-black text-xs uppercase mb-1">Filing Workspace</h4>
                 <p className="text-[10px] text-slate-400 leading-normal mb-3">Login to save your patent specifications drafts.</p>
-                <Link href="/login" className="inline-block bg-slate-900 text-white font-mono text-[9px] font-black uppercase px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900 dark:border-slate-800">
+                <Link href="/login" className="inline-block bg-slate-900 text-white font-mono text-[9px] font-black uppercase px-4 py-2 border-2 border-slate-900 shadow-hard-sm hover:bg-slate-800">
                   Authenticate →
                 </Link>
               </div>
             )}
 
             {/* Checklist guide */}
-            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-3">
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-3">
               <h4 className="font-display font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
                 📋 IPO Submission Checklist
               </h4>
@@ -638,7 +638,7 @@ export default function ResearchHubPage() {
       {/* Collaboration Pitch submission Modal */}
       {showPitchModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white text-slate-900 border-4 border-slate-900 rounded-xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100">
+          <div className="bg-white text-slate-900 border-4 border-slate-900 rounded-xl max-w-md w-full p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
             <h3 className="font-display font-black text-sm uppercase tracking-wide mb-3">📢 Post Pitch Proposal</h3>
             
             <form onSubmit={handlePitchSubmit} className="space-y-4">
@@ -650,7 +650,7 @@ export default function ResearchHubPage() {
                   placeholder="e.g. Biodegradable PLA/Starch Compounds"
                   value={newPitch.title}
                   onChange={(e) => setNewPitch(prev => ({ ...prev, title: e.target.value }))}
-                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                 />
               </div>
 
@@ -659,7 +659,7 @@ export default function ResearchHubPage() {
                 <select
                   value={newPitch.subject_slug}
                   onChange={(e) => setNewPitch(prev => ({ ...prev, subject_slug: e.target.value }))}
-                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                 >
                   {Object.entries(SUBJECT_LABELS).map(([slug, name]) => (
                     <option key={slug} value={slug}>{name}</option>
@@ -675,7 +675,7 @@ export default function ResearchHubPage() {
                   placeholder="Describe your research proposal, novelty points, and what kind of collaborator profiles you are looking to recruit..."
                   value={newPitch.description}
                   onChange={(e) => setNewPitch(prev => ({ ...prev, description: e.target.value }))}
-                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                 />
               </div>
 
@@ -687,7 +687,7 @@ export default function ResearchHubPage() {
                   placeholder="e.g. researcher@college.edu"
                   value={newPitch.contact_info}
                   onChange={(e) => setNewPitch(prev => ({ ...prev, contact_info: e.target.value }))}
-                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800"
+                  className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900"
                 />
               </div>
 
@@ -695,7 +695,7 @@ export default function ResearchHubPage() {
                 <button
                   type="button"
                   onClick={() => setShowPitchModal(false)}
-                  className="px-4 py-2 border-2 border-slate-200 text-xs font-mono font-bold uppercase rounded-lg hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800"
+                  className="px-4 py-2 border-2 border-slate-200 text-xs font-mono font-bold uppercase rounded-lg hover:bg-slate-50"
                 >
                   Cancel
                 </button>

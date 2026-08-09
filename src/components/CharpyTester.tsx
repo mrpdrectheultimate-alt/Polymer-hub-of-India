@@ -1,4 +1,4 @@
-// src/components/CharpyTester.tsx
+﻿// src/components/CharpyTester.tsx
 'use client'
 
 import { useState } from 'react'
@@ -94,7 +94,7 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
   }
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between dark:border-slate-800 dark:bg-slate-950 dark:shadow-none">
+    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
       <div className="space-y-4">
         <div>
           <span className="font-mono text-[9px] font-bold text-violet-600 uppercase tracking-wider block mb-1">Standard Charpy Pendulum Test</span>
@@ -108,7 +108,7 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               {Object.entries(MATERIALS).map(([k, m]) => (
                 <option key={k} value={k}>{m.name}</option>
@@ -122,7 +122,7 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={notch}
               onChange={(e) => setNotch(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             >
               <option value="v">V-notch</option>
               <option value="u">U-notch</option>
@@ -136,14 +136,14 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
               disabled={running}
               value={temperature}
               onChange={(e) => setTemperature(Number(e.target.value))}
-              className="w-full p-1.5 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 dark:border-slate-800 disabled:opacity-60"
+              className="w-full p-1.5 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
             />
           </div>
         </div>
 
         {/* Charpy Swing Animation */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 dark:border-slate-800 dark:bg-slate-900 p-4 flex flex-col items-center justify-center">
-          <svg width="240" height="180" viewBox="0 0 240 180" className="overflow-visible bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg">
+        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex flex-col items-center justify-center">
+          <svg width="240" height="180" viewBox="0 0 240 180" className="overflow-visible bg-white border border-slate-200 rounded-lg">
             <rect x="100" y="10" width="40" height="8" fill="#475569" rx="2" />
             <circle cx="120" cy="14" r="4" fill="#1E293B" />
             <path d="M 80 50 A 50 50 0 0 1 160 50" fill="none" stroke="#CBD5E1" strokeWidth="6" strokeDasharray="3 3" />
@@ -191,11 +191,11 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
       </div>
 
       {/* Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
+      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
         {results ? (
           <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 dark:bg-green-950/20 p-2.5 rounded-lg border border-green-200 dark:border-green-900">
-              <span className="text-[10px] text-green-700 dark:text-green-400 font-bold uppercase flex items-center gap-1">
+            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
+              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
                 <CheckCircle className="w-3.5 h-3.5" /> Specimen Fractured Successfully
               </span>
               {xpAwarded && (
@@ -205,23 +205,23 @@ export function CharpyTester({ onComplete }: { onComplete?: () => void }) {
               )}
             </div>
 
-            <div className="grid grid-cols-3 gap-2 bg-slate-50 dark:bg-slate-900 p-3 rounded-lg border border-slate-200 dark:border-slate-800">
+            <div className="grid grid-cols-3 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Impact Strength</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.impactStrength} kJ/m²</strong>
+                <strong className="text-xs text-slate-800">{results.impactStrength} kJ/m²</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Fracture Mode</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100 capitalize">{results.fractureType}</strong>
+                <strong className="text-xs text-slate-800 capitalize">{results.fractureType}</strong>
               </div>
               <div>
                 <span className="block text-[8px] font-mono text-slate-400 uppercase">Temperature</span>
-                <strong className="text-xs text-slate-800 dark:text-slate-100">{results.temperature}°C</strong>
+                <strong className="text-xs text-slate-800">{results.temperature}°C</strong>
               </div>
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg dark:bg-slate-900/40">
+          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
             <HelpCircle className="w-4 h-4 text-slate-300" /> Start swing test to record Charpy impact strength.
           </div>
         )}

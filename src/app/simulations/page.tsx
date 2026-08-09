@@ -1,4 +1,4 @@
-// src/app/simulations/page.tsx
+﻿// src/app/simulations/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -80,11 +80,11 @@ export default function SimulationsDashboardPage() {
   }, [session, activeLab])
 
   return (
-    <div className="min-h-screen bg-canvas text-slate-900 pb-20 dark:text-slate-100">
+    <div className="min-h-screen bg-canvas text-slate-900 pb-20">
       <div className="h-2 bg-blue-600" />
 
       {/* Top Banner */}
-      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden dark:border-slate-800">
+      <section className="border-b-4 border-slate-900 bg-slate-900 text-white px-6 py-8 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
         <div className="relative max-w-6xl mx-auto flex items-start justify-between gap-6 flex-wrap">
           <div>
@@ -115,10 +115,10 @@ export default function SimulationsDashboardPage() {
              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                <button
                  onClick={() => setActiveLab('tensile')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'tensile' 
                      ? 'bg-blue-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -130,10 +130,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('mfi')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'mfi' 
                      ? 'bg-orange-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -145,10 +145,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('izod')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'izod' 
                      ? 'bg-violet-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -160,10 +160,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('charpy')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'charpy' 
                      ? 'bg-purple-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -175,10 +175,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('flexural')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'flexural' 
                      ? 'bg-amber-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -190,10 +190,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('hardness')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'hardness' 
                      ? 'bg-green-700 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -205,10 +205,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('dsc')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'dsc' 
                      ? 'bg-red-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -220,10 +220,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('tga')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'tga' 
                      ? 'bg-emerald-600 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -235,10 +235,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('haze')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'haze' 
                      ? 'bg-blue-800 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -250,10 +250,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('mvr')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'mvr' 
                      ? 'bg-orange-700 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -265,10 +265,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('vicat')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'vicat' 
                      ? 'bg-yellow-700 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -280,10 +280,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('hdt')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'hdt' 
                      ? 'bg-amber-700 text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -295,10 +295,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('polymerization')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'polymerization' 
-                     ? 'bg-slate-900 text-white dark:bg-slate-800' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     ? 'bg-slate-900 text-white' 
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -310,10 +310,10 @@ export default function SimulationsDashboardPage() {
 
                <button
                  onClick={() => setActiveLab('molding')}
-                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all dark:border-slate-800 dark:shadow-none ${
+                 className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
                    activeLab === 'molding' 
                      ? 'bg-[#4F46E5] text-white' 
-                     : 'bg-white hover:bg-slate-50 dark:bg-slate-950 dark:hover:bg-slate-900'
+                     : 'bg-white hover:bg-slate-50'
                  }`}
                >
                  <div className="flex items-center justify-between gap-2 mb-1">
@@ -376,7 +376,7 @@ export default function SimulationsDashboardPage() {
           <div className="space-y-6">
             
             {/* XP progress card */}
-            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-3">
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-3">
               <h4 className="font-display font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-yellow-500" /> Lab XP Milestones
               </h4>
@@ -386,15 +386,15 @@ export default function SimulationsDashboardPage() {
             </div>
 
             {/* Completed sessions trials history */}
-            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-4">
-              <div className="border-b border-slate-100 pb-3 flex items-center justify-between dark:border-slate-800">
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-4">
+              <div className="border-b border-slate-100 pb-3 flex items-center justify-between">
                 <h3 className="font-display font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
                   <History className="w-4 h-4 text-violet-600" /> Lab Logs History
                 </h3>
                 {session && (
                   <button 
                     onClick={loadHistory}
-                    className="text-slate-400 hover:text-slate-950 dark:hover:text-white"
+                    className="text-slate-400 hover:text-slate-950"
                     title="Refresh logs"
                   >
                     <RotateCw className="w-3.5 h-3.5" />
@@ -418,9 +418,9 @@ export default function SimulationsDashboardPage() {
               ) : (
                 <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1">
                   {history.map(item => (
-                    <div key={item.id} className="p-2.5 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 text-xs space-y-1">
+                    <div key={item.id} className="p-2.5 rounded border border-slate-200 bg-slate-50 text-xs space-y-1">
                       <div className="flex justify-between items-start">
-                        <span className="font-bold text-[10px] uppercase text-slate-800 dark:text-slate-200">
+                        <span className="font-bold text-[10px] uppercase text-slate-800">
                           {item.lab_id === 'tensile-astm-d638' ? 'Tensile Test' :
                            item.lab_id === 'mfi-astm-d1238' ? 'Melt Flow Index' :
                            item.lab_id === 'izod-astm-d256' ? 'Izod Impact Test' :
@@ -443,7 +443,7 @@ export default function SimulationsDashboardPage() {
                         Material: {`${item.parameters?.material || ''}`}
                       </p>
 
-                      <div className="border-t border-dashed border-slate-200 dark:border-slate-800 pt-1 mt-1 flex justify-between text-[9px] font-bold">
+                      <div className="border-t border-dashed border-slate-200 pt-1 mt-1 flex justify-between text-[9px] font-bold">
                         {item.lab_id === 'tensile-astm-d638' && (
                           <>
                             <span>Modulus: {`${item.results?.modulus || ''}`} GPa</span>
@@ -524,7 +524,7 @@ export default function SimulationsDashboardPage() {
             </div>
 
             {/* Instrument reference specs */}
-            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-none space-y-3">
+            <div className="border-4 border-slate-900 rounded-xl p-5 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-3">
               <h4 className="font-display font-black text-xs uppercase tracking-wider flex items-center gap-1.5">
                 <Sliders className="w-3.5 h-3.5 text-blue-600" /> ASTM Standards Specs
               </h4>

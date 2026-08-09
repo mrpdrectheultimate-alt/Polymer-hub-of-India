@@ -1,4 +1,4 @@
-// src/app/videos/page.tsx
+﻿// src/app/videos/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -330,7 +330,7 @@ export default function VideoLibraryPage() {
 
       {/* Trending panel (Only show on Main View) */}
       {activeView === 'all' && !search && selectedSubject === 'all' && selectedSource === 'all' && trendingVideos.length > 0 && (
-        <section className="border-b-4 border-ink p-6 bg-slate-50 dark:bg-zinc-900/30">
+        <section className="border-b-4 border-ink p-6 bg-slate-50">
           <div className="max-w-7xl mx-auto space-y-4">
             <div className="flex items-center gap-2">
               <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />

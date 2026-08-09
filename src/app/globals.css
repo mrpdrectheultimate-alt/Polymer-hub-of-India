@@ -41,40 +41,6 @@
     --ink-soft: #7E8492;               /* light gray for secondary captions */
   }
 
-  .dark {
-    --background: 240 10% 4%;
-    --foreground: 0 0% 98%;
-
-    --card: 240 10% 4%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 240 10% 4%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 224 71% 45%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 240 5% 15%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 240 5% 15%;
-    --muted-foreground: 240 5% 65%;
-
-    --accent: 21 90% 48%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 240 5% 26%;
-    --input: 240 5% 26%;
-    --ring: 224 71% 45%;
-
-    --canvas: #121418;                 /* deeper rich dark mode background */
-    --ink: #F3F4F6;                    /* comfortable light text */
-    --ink-muted: #A0A0A0;
-    --ink-soft: #9CA3AF;
-  }
 
 
 
@@ -94,7 +60,6 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.2s, color 0.2s;
   }
 
   h1 {
