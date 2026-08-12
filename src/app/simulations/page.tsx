@@ -1,4 +1,4 @@
-﻿// src/app/simulations/page.tsx
+// src/app/simulations/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -368,9 +368,85 @@ export default function SimulationsDashboardPage() {
                {activeLab === 'molding' && (
                  <InjectionMoldingAnimator />
                )}
-             </div>
+              </div>
 
-          </div>
+              {/* IIT Virtual Labs Reference */}
+              <div className="mt-12 bg-white border-4 border-slate-900 rounded-xl p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div className="flex items-center gap-2.5 mb-3 border-b-2 border-slate-100 pb-3">
+                  <div className="w-7 h-7 bg-blue-600 border-2 border-slate-900 flex items-center justify-center rounded">
+                    <Beaker className="w-3.5 h-3.5 text-white" />
+                  </div>
+                  <h2 className="font-display font-black text-base uppercase text-slate-900">
+                    🔬 IIT Virtual Labs Reference
+                  </h2>
+                </div>
+                <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+                  Enhance your learning by exploring official, interactive polymer testing and chemistry virtual lab simulators curated from premier Indian Institutes of Technology (IITs).
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="bg-[#F8FAFC] border-2 border-slate-900 rounded-lg p-4 flex flex-col justify-between hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all">
+                    <div>
+                      <div className="flex justify-between items-start gap-2 mb-1">
+                        <h4 className="font-display font-bold text-xs uppercase text-slate-900">Polymerization Reactor</h4>
+                        <span className="font-mono text-[8px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full shrink-0 font-bold">Kharagpur</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 leading-normal">
+                        Simulate reactor kinetics, free-radical polymerization rates, and thermal control profiles.
+                      </p>
+                    </div>
+                    <a
+                      href="https://virtual-labs.github.io/exp-polymerization-reactor-iitkgp/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 font-mono text-[9px] font-bold text-blue-600 hover:text-blue-800 uppercase flex items-center gap-1 self-start"
+                    >
+                      Open Lab &rarr;
+                    </a>
+                  </div>
+
+                  <div className="bg-[#F8FAFC] border-2 border-slate-900 rounded-lg p-4 flex flex-col justify-between hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all">
+                    <div>
+                      <div className="flex justify-between items-start gap-2 mb-1">
+                        <h4 className="font-display font-bold text-xs uppercase text-slate-900">Material Mechanics</h4>
+                        <span className="font-mono text-[8px] bg-orange-100 text-orange-800 px-2 py-0.5 rounded-full shrink-0 font-bold">Madras</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 leading-normal">
+                        Analyze molecular dynamics simulations for polymers, electrolytes, and hybrid composites.
+                      </p>
+                    </div>
+                    <a
+                      href="https://home.iitm.ac.in/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 font-mono text-[9px] font-bold text-blue-600 hover:text-blue-800 uppercase flex items-center gap-1 self-start"
+                    >
+                      Open Lab &rarr;
+                    </a>
+                  </div>
+
+                  <div className="bg-[#F8FAFC] border-2 border-slate-900 rounded-lg p-4 flex flex-col justify-between hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all">
+                    <div>
+                      <div className="flex justify-between items-start gap-2 mb-1">
+                        <h4 className="font-display font-bold text-xs uppercase text-slate-900">Mechanical Testing</h4>
+                        <span className="font-mono text-[8px] bg-violet-100 text-violet-800 px-2 py-0.5 rounded-full shrink-0 font-bold">Delhi</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 leading-normal">
+                        Verify stress-strain and visco-elastic behaviors under dynamic thermal mechanical loading (DMA).
+                      </p>
+                    </div>
+                    <a
+                      href="https://nptel.ac.in/courses/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 font-mono text-[9px] font-bold text-blue-600 hover:text-blue-800 uppercase flex items-center gap-1 self-start"
+                    >
+                      Open Lab &rarr;
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+           </div>
 
           {/* Right Sidebar: Completed Trials Logs */}
           <div className="space-y-6">

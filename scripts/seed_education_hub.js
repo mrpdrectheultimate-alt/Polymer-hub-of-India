@@ -839,6 +839,22 @@ const INDIAN_PROGRAMS = [
     curriculum_highlights: ["Precision CNC Machining", "Mould Maintenance Guidelines", "Tool and Die Fabrication Practice"],
     website_url: "https://www.cipet.gov.in",
     is_indian: true
+  },
+  {
+    slug: "piu-vapi-btech-plastic-polymer-engineering",
+    name: "B.Tech in Plastic and Polymer Engineering",
+    institution: "PlastIndia International University (PIU)",
+    location: "Vapi, Gujarat",
+    country: "India",
+    degree_type: "B.Tech",
+    duration: "4 Years",
+    fees_annual: "₹1,20,000",
+    ranking: "Industry-Backed Specialized University",
+    admission_process: "ACPC Counseling based on Board + GUJCET/JEE Main marks",
+    eligibility: "10+2 PCM with min 45% (40% for reserved categories) board aggregate",
+    curriculum_highlights: ["Plastics Processing Technology", "Polymer Chemistry & Blends", "Mould & Die Design", "Polymer Testing & Quality Control", "Sustainability & Circular Economy"],
+    website_url: "https://plastindia.edu.in",
+    is_indian: true
   }
 ];
 
@@ -1559,7 +1575,7 @@ async function seedEducationHub() {
       progCount++;
     }
   }
-  console.log(`✅ Seeded ${progCount} education programs successfully (52 Indian, 32 Global).`);
+  console.log(`✅ Seeded ${progCount} education programs successfully (53 Indian, 32 Global).`);
 
   // 2. Seed scholarships
   console.log('Cleaning existing scholarships records...');

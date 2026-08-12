@@ -55,7 +55,7 @@
   body {
     background-color: var(--canvas);
     color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -63,24 +63,44 @@
   }
 
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
     font-weight: 900;
     line-height: 1.0;
     letter-spacing: -0.03em;
   }
 
   h2 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.025em;
   }
 
   h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.015em;
+  }
+
+  /* Professional Tables and Spacing */
+  .tech-table th {
+    font-family: var(--font-inter), sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
+    padding: 0.75rem 1.25rem;
+  }
+
+  .tech-table td {
+    font-family: var(--font-inter), sans-serif;
+    padding: 0.875rem 1.25rem;
+    line-height: 1.6;
+  }
+
+  .tech-table tr:nth-child(even) {
+    background-color: #F8FAFC;
   }
 
   /* Selection highlight — blue */

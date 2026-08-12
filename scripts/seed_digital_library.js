@@ -221,6 +221,63 @@ const COMMERCIAL_BOOKS = [
       { id: 'ch3', title: 'Chapter 3: Biodegradable and Bio-based Resins' },
       { id: 'ch4', title: 'Chapter 4: 3D Printing of Polymers' }
     ]
+  },
+  {
+    slug: 'gowariker-polymer-science',
+    title: 'Polymer Science',
+    authors: 'V.R. Gowariker, N.V. Viswanathan, J. Sreedhar',
+    cover_url: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400',
+    category: 'commercial',
+    difficulty: 'Intermediate',
+    focus: 'Fundamentals of polymer chemistry, molecular weight determination, polymerization kinetics, and processing.',
+    summary: 'A standard reference textbook across Indian universities. Offers complete coverage of polymerization kinetics, solutions, molecular weight averages, characterization methods, and properties of major industrial plastics.',
+    purchase_url: 'https://www.amazon.in/dp/8122412549',
+    careers: ['R&D Scientist', 'Polymer Chemist', 'Materials Engineer'],
+    subject_slugs: ['polymer-chemistry', 'polymer-rheology', 'additives-compounding'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Chemistry of Polymerization' },
+      { id: 'ch2', title: 'Chapter 2: Molecular Weight and Size' },
+      { id: 'ch3', title: 'Chapter 3: Kinetics of Polymerization' },
+      { id: 'ch4', title: 'Chapter 4: Polymer Characterization' }
+    ]
+  },
+  {
+    slug: 'bhatnagar-polymer-chemistry',
+    title: 'A Textbook of Polymer Chemistry',
+    authors: 'M.S. Bhatnagar',
+    cover_url: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=400',
+    category: 'commercial',
+    difficulty: 'Foundational',
+    focus: 'Polymer structures, properties, additives, compounding, and fabrication methods.',
+    summary: 'A widely used Indian curriculum textbook covering polymer chemistry, processing operations, compounding formulations, and testing standards. Highly recommended for B.Tech students.',
+    purchase_url: 'https://www.amazon.in/dp/9385679133',
+    careers: ['Production Engineer', 'QA/QC Executive', 'Materials Analyst'],
+    subject_slugs: ['polymer-chemistry', 'additives-compounding', 'polymer-testing'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Polymerization Mechanisms' },
+      { id: 'ch2', title: 'Chapter 2: Compounding and Additives' },
+      { id: 'ch3', title: 'Chapter 3: Mechanical Testing of Plastics' },
+      { id: 'ch4', title: 'Chapter 4: Polymer Processing Operations' }
+    ]
+  },
+  {
+    slug: 'nayak-mould-design',
+    title: 'Fundamentals of Plastics Mould Design',
+    authors: 'Sanjay K. Nayak',
+    cover_url: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=400',
+    category: 'commercial',
+    difficulty: 'Intermediate',
+    focus: 'Injection mould design, feed systems, cooling layouts, and part design guidelines.',
+    summary: 'An authoritative textbook published by CIPET and McGraw-Hill, detailing complete guidelines for runner design, gating, cooling calculations, ejection mechanisms, and mould materials selection.',
+    purchase_url: 'https://www.amazon.in/dp/0070144933',
+    careers: ['Mould Designer', 'Tooling Engineer', 'CAE Analyst'],
+    subject_slugs: ['mould-design', 'polymer-processing'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Introduction to Injection Moulds' },
+      { id: 'ch2', title: 'Chapter 2: Feed System and Gate Design' },
+      { id: 'ch3', title: 'Chapter 3: Ejection and Venting Systems' },
+      { id: 'ch4', title: 'Chapter 4: Mould Cooling System Calculations' }
+    ]
   }
 ];
 
