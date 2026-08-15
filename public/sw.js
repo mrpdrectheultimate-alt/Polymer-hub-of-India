@@ -1,11 +1,9 @@
 // public/sw.js
-const CACHE_NAME = 'polymerhub-v1';
+const CACHE_NAME = 'polymerhub-v2';
 const ASSETS = [
-  '/',
   '/manifest.json',
   '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png',
-  '/logo.png'
+  '/icons/icon-512x512.png'
 ];
 
 self.addEventListener('install', (event) => {
