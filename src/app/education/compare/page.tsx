@@ -4,8 +4,8 @@ import { Scale, ArrowLeft } from 'lucide-react'
 import ProgramComparator from '@/components/ProgramComparator'
 import { Program } from '@/components/EducationDashboard'
 
-// Revalidate every 6 hours
-export const revalidate = 21600
+// Render dynamically to show fresh database changes
+export const dynamic = 'force-dynamic'
 
 export default async function ComparePage() {
   const supabase = createClient()

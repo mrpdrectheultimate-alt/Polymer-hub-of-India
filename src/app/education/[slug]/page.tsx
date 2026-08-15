@@ -4,16 +4,8 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { GraduationCap, ArrowLeft, Landmark, DollarSign, Clock, ListChecks, CheckCircle, ExternalLink, Scale } from 'lucide-react'
 
-// Revalidate every 6 hours
-export const revalidate = 21600
-
-export async function generateStaticParams() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder'
-  const supabase = createDirectClient(supabaseUrl, supabaseKey)
-  const { data } = await supabase.from('education_programs').select('slug')
-  return (data || []).map((p) => ({ slug: p.slug }))
-}
+// Render dynamically to show fresh database changes
+export const dynamic = 'force-dynamic'
 
 export default async function ProgramDetailPage({ params }: { params: { slug: string } }) {
   const supabase = createClient()

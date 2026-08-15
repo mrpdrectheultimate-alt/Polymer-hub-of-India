@@ -2,8 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import { GraduationCap } from 'lucide-react'
 import EducationDashboard, { Program, Scholarship } from '@/components/EducationDashboard'
 
-// Revalidate every 6 hours
-export const revalidate = 21600
+// Render dynamically to show fresh database changes
+export const dynamic = 'force-dynamic'
 
 export default async function EducationPage() {
   const supabase = createClient()
