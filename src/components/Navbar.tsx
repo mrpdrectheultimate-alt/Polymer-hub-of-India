@@ -9,7 +9,8 @@ import { Logo } from './Logo'
 import {
   Menu, X, ChevronDown, BookOpen, Brain, Zap, Trophy,
   MessageCircle, Calculator, Play, FlaskConical, ArrowRight,
-  Scale, Wrench, User, Star, Flame, GraduationCap, Users, Building
+  Scale, Wrench, User, Star, Flame, GraduationCap, Users, Building,
+  Image as ImageIcon
 } from 'lucide-react'
 
 const NAV = [
@@ -36,6 +37,7 @@ const NAV = [
       { label: 'Study Groups', href: '/study-groups', icon: Users, desc: 'Form groups, track progress', color: '#1D4ED8' },
       { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, desc: 'Compare XP rankings & streaks', color: '#CA8A04' },
       { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '17 books & original guides', color: '#1D4ED8' },
+      { label: 'Visual Library', href: '/library?tab=visual', icon: ImageIcon, desc: '64+ topic & chapter diagrams', color: '#EA580C' },
       { label: 'Community & Events', href: '/community', icon: Users, desc: 'Webinars, mentorship & live events', color: '#EA580C' },
       { label: 'Company Challenges', href: '/practice/challenges', icon: Trophy, desc: 'Solve industry cases for XP', color: '#7C3AED' },
       { label: 'Student Projects', href: '/projects', icon: BookOpen, desc: 'Case studies & engineering portfolios', color: '#1D4ED8' },

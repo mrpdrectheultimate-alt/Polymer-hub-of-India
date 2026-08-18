@@ -223,25 +223,6 @@ const COMMERCIAL_BOOKS = [
     ]
   },
   {
-    slug: 'gowariker-polymer-science',
-    title: 'Polymer Science',
-    authors: 'V.R. Gowariker, N.V. Viswanathan, J. Sreedhar',
-    cover_url: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400',
-    category: 'commercial',
-    difficulty: 'Intermediate',
-    focus: 'Fundamentals of polymer chemistry, molecular weight determination, polymerization kinetics, and processing.',
-    summary: 'A standard reference textbook across Indian universities. Offers complete coverage of polymerization kinetics, solutions, molecular weight averages, characterization methods, and properties of major industrial plastics.',
-    purchase_url: 'https://www.amazon.in/dp/8122412549',
-    careers: ['R&D Scientist', 'Polymer Chemist', 'Materials Engineer'],
-    subject_slugs: ['polymer-chemistry', 'polymer-rheology', 'additives-compounding'],
-    toc: [
-      { id: 'ch1', title: 'Chapter 1: Chemistry of Polymerization' },
-      { id: 'ch2', title: 'Chapter 2: Molecular Weight and Size' },
-      { id: 'ch3', title: 'Chapter 3: Kinetics of Polymerization' },
-      { id: 'ch4', title: 'Chapter 4: Polymer Characterization' }
-    ]
-  },
-  {
     slug: 'bhatnagar-polymer-chemistry',
     title: 'A Textbook of Polymer Chemistry',
     authors: 'M.S. Bhatnagar',
@@ -259,17 +240,174 @@ const COMMERCIAL_BOOKS = [
       { id: 'ch3', title: 'Chapter 3: Mechanical Testing of Plastics' },
       { id: 'ch4', title: 'Chapter 4: Polymer Processing Operations' }
     ]
+  }
+];
+
+const OPEN_ACCESS_RESOURCES = [
+  {
+    slug: 'polymer-science-gowariker-free',
+    title: 'Polymer Science',
+    authors: 'V.R. Gowariker, N.V. Viswanathan, J. Sreedhar',
+    cover_url: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Intermediate',
+    focus: 'Fundamentals of polymer chemistry, molecular weight determination, polymerization kinetics, and processing.',
+    summary: 'Basic coverage of polymer chemistry, physics, and techniques. Designed for the uninitiated who need to move quickly to advanced literature. Standard reference textbook across Indian universities.',
+    file_url: 'https://archive.org/details/polymerscience0000gowa',
+    purchase_url: 'https://archive.org/details/polymerscience0000gowa',
+    careers: ['R&D Scientist', 'Polymer Chemist', 'Materials Engineer'],
+    subject_slugs: ['polymer-chemistry', 'polymer-rheology', 'additives-compounding'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Chemistry of Polymerization' },
+      { id: 'ch2', title: 'Chapter 2: Molecular Weight and Size' },
+      { id: 'ch3', title: 'Chapter 3: Kinetics of Polymerization' },
+      { id: 'ch4', title: 'Chapter 4: Polymer Characterization' }
+    ]
   },
   {
-    slug: 'nayak-mould-design',
+    slug: 'textbook-polymer-science-billmeyer-free',
+    title: 'Textbook of Polymer Science (2nd Edition)',
+    authors: 'Fred W. Billmeyer Jr.',
+    cover_url: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Intermediate',
+    focus: 'Polymer chains, characterization, polymerization, commercial polymers, and processing.',
+    summary: 'Comprehensive coverage of polymer chains, characterization, polymerization, commercial polymers, and processing.',
+    file_url: 'https://archive.org/details/textbookofpolyme02edbill_m1p5',
+    purchase_url: 'https://archive.org/details/textbookofpolyme02edbill_m1p5',
+    careers: ['Polymer Chemist', 'Materials Specialist', 'R&D Engineer'],
+    subject_slugs: ['polymer-chemistry', 'polymer-science'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Polymer Chain Structure' },
+      { id: 'ch2', title: 'Chapter 2: Polymerization Kinetics' },
+      { id: 'ch3', title: 'Chapter 3: Polymer Characterization Methods' }
+    ]
+  },
+  {
+    slug: 'polymer-engineering-tylkowski-free',
+    title: 'Polymer Engineering',
+    authors: 'Bartosz Tylkowski, Karolina Wieszczycka, Renata Jastrzab',
+    cover_url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Advanced',
+    focus: 'Comprehensive aspects of polymer science and engineering. Open Access publication from De Gruyter.',
+    summary: 'Comprehensive aspects of polymer science and engineering. Open Access publication from De Gruyter.',
+    file_url: 'https://www.degruyter.com/document/doi/10.1515/9783110468281/html',
+    purchase_url: 'https://www.degruyter.com/document/doi/10.1515/9783110468281/html',
+    careers: ['Materials Engineer', 'Process Specialist', 'R&D Scientist'],
+    subject_slugs: ['polymer-chemistry', 'polymer-processing', 'polymer-testing'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Polymer Synthesis Techniques' },
+      { id: 'ch2', title: 'Chapter 2: Polymer Rheology and Processing' },
+      { id: 'ch3', title: 'Chapter 3: Additives and Matrix Properties' }
+    ]
+  },
+  {
+    slug: 'physics-polymers-strobl-free',
+    title: 'The Physics of Polymers: Concepts for Understanding Their Structures and Behavior',
+    authors: 'Gert R. Strobl',
+    cover_url: 'https://images.unsplash.com/photo-1507668077129-56e32842fceb?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Advanced',
+    focus: 'Key concepts of polymer physics: conformations, crystallization, dynamics, and phase behavior.',
+    summary: 'Key concepts of polymer physics in a very didactical way. Focuses on concepts, not on theoretical aspects or mere physical methods.',
+    file_url: 'https://archive.org/details/physicsofpolymer0000stro',
+    purchase_url: 'https://archive.org/details/physicsofpolymer0000stro',
+    careers: ['Polymer Physicist', 'Materials Researcher', 'R&D Specialist'],
+    subject_slugs: ['polymer-chemistry', 'polymer-physics'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Polymer Chain Conformations' },
+      { id: 'ch2', title: 'Chapter 2: Polymer Crystallization and Glass Transition' },
+      { id: 'ch3', title: 'Chapter 3: Dynamics of Polymer Melts' }
+    ]
+  },
+  {
+    slug: 'introduction-polymer-science-chanda-free',
+    title: 'Introduction to Polymer Science and Chemistry: A Problem Solving Approach',
+    authors: 'Manas Chanda',
+    cover_url: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Intermediate',
+    focus: 'Polymerization kinetics, kinetics modeling, copolymerization, and solution properties.',
+    summary: 'Emphasizing polymerization kinetics, uses a unique question-and-answer approach when developing theory or introducing new concepts.',
+    file_url: 'https://archive.org/details/introductiontopo0000chan',
+    purchase_url: 'https://archive.org/details/introductiontopo0000chan',
+    careers: ['Polymer Chemist', 'Materials Analyst', 'R&D Associate'],
+    subject_slugs: ['polymer-chemistry', 'polymer-science'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Polymer Chemistry Fundamentals' },
+      { id: 'ch2', title: 'Chapter 2: Condensation Polymerization Kinetics' },
+      { id: 'ch3', title: 'Chapter 3: Copolymerization and Phase Equilibrium' }
+    ]
+  },
+  {
+    slug: 'fundamentals-polymer-engineering-kumar-free',
+    title: 'Fundamentals of Polymer Engineering',
+    authors: 'Anil Kumar & Rakesh K. Gupta',
+    cover_url: 'https://images.unsplash.com/photo-1581092162384-8987c17d4e26?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Advanced',
+    focus: 'Characterization, thermodynamics, structural, mechanical, thermal behavior of polymers.',
+    summary: 'Characterization, thermodynamics, structural, mechanical, thermal behavior of polymers as melts, solutions, and solids.',
+    file_url: 'https://vdoc.pub/documents/fundamentals-of-polymer-engineering-7ukb3jbk2ok0',
+    purchase_url: 'https://vdoc.pub/documents/fundamentals-of-polymer-engineering-7ukb3jbk2ok0',
+    careers: ['Process Engineer', 'Polymer Rheologist', 'Materials Scientist'],
+    subject_slugs: ['polymer-chemistry', 'polymer-processing', 'polymer-engineering'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Rheology of Polymer Melts' },
+      { id: 'ch2', title: 'Chapter 2: Extrusion and Molding Processes' },
+      { id: 'ch3', title: 'Chapter 3: Mechanical and Thermal Properties' }
+    ]
+  },
+  {
+    slug: 'elements-polymer-science-rudin-free',
+    title: 'The Elements of Polymer Science & Engineering',
+    authors: 'Alfred Rudin, Phillip Choi',
+    cover_url: 'https://images.unsplash.com/photo-1518364538800-6bcb3f25da49?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Advanced',
+    focus: 'Comprehensive coverage of polymer science and engineering principles, with a focus on practical applications.',
+    summary: 'Comprehensive coverage of polymer science and engineering principles, with a focus on practical applications.',
+    file_url: 'https://www.sciencedirect.com/book/9780123821782/the-elements-of-polymer-science-and-engineering',
+    purchase_url: 'https://www.sciencedirect.com/book/9780123821782/the-elements-of-polymer-science-and-engineering',
+    careers: ['Materials Engineer', 'Polymer Chemist', 'R&D Consultant'],
+    subject_slugs: ['polymer-chemistry', 'polymer-science'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Basic Polymer Structures' },
+      { id: 'ch2', title: 'Chapter 2: Polymerization Solutions' },
+      { id: 'ch3', title: 'Chapter 3: Mechanical Design Principles' }
+    ]
+  },
+  {
+    slug: 'equilibrium-theory-inhomogeneous-polymers-fredrickson-free',
+    title: 'The Equilibrium Theory of Inhomogeneous Polymers',
+    authors: 'Glenn H. Fredrickson',
+    cover_url: 'https://images.unsplash.com/photo-1507668077129-56e32842fceb?auto=format&fit=crop&q=80&w=400',
+    category: 'open_access',
+    difficulty: 'Advanced',
+    focus: 'Equilibrium thermodynamics, inhomogeneous systems, block copolymers, and phase diagrams.',
+    summary: 'Oxford Academic publication covering the equilibrium theory of inhomogeneous polymers under CC BY-NC-ND license.',
+    file_url: 'https://academic.oup.com/book/43572',
+    purchase_url: 'https://academic.oup.com/book/43572',
+    careers: ['Materials Modeler', 'Polymer Scientist', 'Research Physicist'],
+    subject_slugs: ['polymer-chemistry', 'polymer-physics'],
+    toc: [
+      { id: 'ch1', title: 'Chapter 1: Self-Consistent Field Theory' },
+      { id: 'ch2', title: 'Chapter 2: Block Copolymer Phase Behavior' },
+      { id: 'ch3', title: 'Chapter 3: Polymer Blend Interfaces' }
+    ]
+  },
+  {
+    slug: 'fundamentals-plastics-mould-design-nayak-free',
     title: 'Fundamentals of Plastics Mould Design',
     authors: 'Sanjay K. Nayak',
     cover_url: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=400',
-    category: 'commercial',
+    category: 'open_access',
     difficulty: 'Intermediate',
     focus: 'Injection mould design, feed systems, cooling layouts, and part design guidelines.',
-    summary: 'An authoritative textbook published by CIPET and McGraw-Hill, detailing complete guidelines for runner design, gating, cooling calculations, ejection mechanisms, and mould materials selection.',
-    purchase_url: 'https://www.amazon.in/dp/0070144933',
+    summary: 'CIPET publication covering product design, injection mould design, compression mould design, and transfer mould design. Authoritative guidelines for runner design, gating, and mould cooling.',
+    file_url: 'https://www.cipet.gov.in/',
+    purchase_url: 'https://www.cipet.gov.in/',
     careers: ['Mould Designer', 'Tooling Engineer', 'CAE Analyst'],
     subject_slugs: ['mould-design', 'polymer-processing'],
     toc: [
@@ -278,10 +416,7 @@ const COMMERCIAL_BOOKS = [
       { id: 'ch3', title: 'Chapter 3: Ejection and Venting Systems' },
       { id: 'ch4', title: 'Chapter 4: Mould Cooling System Calculations' }
     ]
-  }
-];
-
-const OPEN_ACCESS_RESOURCES = [
+  },
   {
     slug: 'epa-recycling-manual',
     title: 'Plastic Recycling Best Practices and Systems',

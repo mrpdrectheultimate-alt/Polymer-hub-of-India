@@ -15,6 +15,10 @@
 - [x] Insert audit logs into `lesson_revisions` and references into `lesson_sources` for all upgraded lessons. (Phase 2)
 - [x] Restore quality scores of earlier upgraded lessons that were overwritten by standard database audits. (Phase 2)
 - [x] Verify database counts (155 Grade A, 0 Grade B) and run successful Next.js build. (Phase 2)
+- [x] **Phase 1: Database Seeding & Free Books**
+  - [x] Update `scripts/seed_digital_library.js` with the 9 open-access textbooks
+  - [x] Add `free_access` mapping to bookshelf cards in client/seeder
+  - [x] Run seeder script to update database using Supabase CLI. (Phase 3)
 - [x] Create Supabase migration for digital library schemas (`library_books`, `library_bookmarks`, `library_highlights`). (Phase 3)
 - [x] Push migration to remote database using Supabase CLI. (Phase 3)
 - [x] Code and execute digital library seeding script to populate original guides, open-access resources, and commercial book profiles. (Phase 3)
@@ -69,6 +73,10 @@
 - [x] Build Recruiter Portal dashboard at `/recruiter` with Tab Panels for Candidate search, Modal Side-Drawer Transcripts, and Challenges grading (Phase 20)
 - [x] Build Student Challenges page at `/practice/challenges` to browse company cases and upload text/repository solution codes (Phase 20)
 - [x] Build Enterprise Landing page at `/enterprise` detailing pricing models and submitting inquiries contact form (Phase 20)
+- [x] **Phase 3: Classification Tables Style & Spacing**
+  - [x] Update markdown table styles in `TechnicalMarkdownRenderer.tsx` to use Inter (sans)
+  - [x] Increase column/row padding and line heights for table rows
+  - [x] Apply alternating row backgrounds and clean borders
 - [x] Update profile page settings at `/profile` to add recruiter mode toggles and company associations (Phase 20)
 - [x] Update Navbar to add company challenges, enterprise, and recruiter badge indicators (Phase 20)
 - [x] Update Practice Dashboard `/practice` with neobrutalist sponsored challenges promo cards (Phase 20)

@@ -4,7 +4,7 @@
   "planned_new_lessons": 53,
   "planned_grade_b_upgrades": 16,
   "final_achieved_state": {
-    "total_lessons": 155,
+    "total_lessons": 216,
     "grade_a_lessons": 102,
     "grade_b_lessons": 53,
     "grade_c_lessons": 0
@@ -12,8 +12,8 @@
   "completed_actions": 69,
   "remaining_actions": 0,
   "dependency_graph": {
-    "total_node_count": 155,
-    "unique_slug_count": 155,
+    "total_node_count": 216,
+    "unique_slug_count": 216,
     "duplicate_slug_count": 0,
     "cycle_count": 0,
     "missing_references": 0,
@@ -41,13 +41,6 @@
     ]
   },
   "manifest_entries": [
-    {
-      "id": "77fded75-d843-4130-8c76-358da8f34f05",
-      "slug": "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
-      "title": "Vulcanization Chemistry, Accelerator Kinetics & Rheometer Cure Curves",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "d48f12e2fa81528f49b9f6d70466f50372ef9ab4c869b3ba3d7fc812e276e695"
-    },
     {
       "id": "34151cea-223d-4722-9fdc-e60dc63d9bfe",
       "slug": "extrusion-die-design-fundamentals",
@@ -91,18 +84,18 @@
       "content_hash": "e43d2f69cafe8e5b1786fe967b3918b1f8d2db7a8cc3d74a97ae7c12c796efce"
     },
     {
-      "id": "b67035d1-ef33-4bf7-9fa3-e3ab5ba2fb08",
-      "slug": "the-plastics-entrepreneurship-landscape-in-india-why-your-degree-is-the-moat",
-      "title": "The Plastics Entrepreneurship Landscape in India: Why Your Degree Is the Moat",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "72009136e70e32d8f0492913e49622206ad8edc740abb9902050d4ae14984666"
-    },
-    {
       "id": "0f574312-7451-407e-879f-21d458a58006",
       "slug": "thermoforming-vacuum-pressure-and-twin-sheet-processes",
       "title": "Thermoforming: Vacuum, Pressure & Twin-Sheet Forming Kinetics",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
       "content_hash": "be98a9024d9ddf6ee12291932df9f7f7e4290d7642c2aa5a7ef515546e984f3f"
+    },
+    {
+      "id": "77fded75-d843-4130-8c76-358da8f34f05",
+      "slug": "vulcanization-of-rubber-chemistry-systems-and-industrial-practice",
+      "title": "Vulcanization Chemistry, Accelerator Kinetics & Rheometer Cure Curves",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "d48f12e2fa81528f49b9f6d70466f50372ef9ab4c869b3ba3d7fc812e276e695"
     },
     {
       "id": "b5e3b102-6830-4f0f-b828-9f2c5a90f8ce",
@@ -126,46 +119,46 @@
       "content_hash": "f4353ed3516609dc2ff704a489afd7007cd8d91f4360fd778c33080ec3a53526"
     },
     {
-      "id": "19b4745d-e5c0-4526-b349-f0b3367894f9",
-      "slug": "rubber-compounding-fillers-carbon-black-and-additives",
-      "title": "Rubber Compounding: Fillers, Carbon Black, and Additives",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "d93d572b81c0af704c0c18be6bf69c8fa3ea7c56417002ddf68ef7e8c2ba0811"
-    },
-    {
-      "id": "9b5c8147-228d-4aed-99ce-99cfa8ea3db7",
-      "slug": "introduction-to-reinforced-polymer-composites",
-      "title": "Introduction to Reinforced Polymer Composites",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "690a0531328bb25c4e1eeb7b80731ced9732c74ad7d39e36bbc7f7c8059ab29e"
-    },
-    {
-      "id": "5a31267f-8bc6-4892-b436-f2e48c597b8c",
-      "slug": "tyre-construction-from-components-to-finished-product",
-      "title": "Tyre Construction: From Components to Finished Product",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "65d41d41382a5a11d38e0d6e095d43509ca669bb890eae116f72b03765be663d"
+      "id": "b67035d1-ef33-4bf7-9fa3-e3ab5ba2fb08",
+      "slug": "the-plastics-entrepreneurship-landscape-in-india-why-your-degree-is-the-moat",
+      "title": "The Plastics Entrepreneurship Landscape in India: Engineering Moats & Market Dynamics",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "bc9a743c8616280e24fd856549555f3e65870207c6fdc025e6616e3eda32f673"
     },
     {
       "id": "4c6e7715-80a6-44f3-8e11-798700bf2467",
       "slug": "rubber-processing-mixing-calendering-and-extrusion",
-      "title": "Rubber Processing: Mixing, Calendering, and Extrusion",
+      "title": "Rubber Processing: Banbury Mixing, Calendering Kinetics & Die Swell Extrusion",
       "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "e6272e773f72cc7c3998f2c13c63c736f785c3c14f2f920ad41bd308aa70da6e"
+      "content_hash": "c1841302b636b72140eeb1dfcf94c7d2aea8f6c7909e1406f5c6515c9f988716"
     },
     {
-      "id": "92ca5cb7-600a-4870-a0dd-b8aaa9499c87",
-      "slug": "natural-rubber-vs-synthetic-rubber-sources-and-selection",
-      "title": "Natural Rubber vs Synthetic Rubber: Sources and Selection",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "14a90983881454a6414d117090ffcf2d598b0f2ac851b5ebfdaef3543a353222"
+      "id": "7419c736-e568-4095-9679-daf6e547b404",
+      "slug": "fiber-matrix-interfacial-shear-strength-and-single-fiber-fragmentation",
+      "title": "Fiber-Matrix Interfacial Shear Strength (IFSS) & Single Fiber Fragmentation",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "5dbd9a9baa1eec2fb8126f76756c362e6a9c8596e08b227691c18d7dc79a363b"
     },
     {
-      "id": "ea2e45fe-59bc-4568-8c41-eaa1856e07e2",
-      "slug": "rheological-testing-understanding-melt-flow-behavior",
-      "title": "Rheological Testing: MFR/MVR Limitations vs Rotational & Capillary Rheometry",
-      "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "d0f513799ec23143dbd595dbcf0cfd9a4d7a81710d86937b3a579e1f25f39fff"
+      "id": "5a31267f-8bc6-4892-b436-f2e48c597b8c",
+      "slug": "tyre-construction-from-components-to-finished-product",
+      "title": "Tyre Construction: From Components, Plies & Belts to Vulcanisation Engineering",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "f164c7fb20fce5d7bf70507f55270326b04abf191c834c8eb54ff24c17bec43f"
+    },
+    {
+      "id": "1faa49a2-6543-4693-8c53-0edde00fe65f",
+      "slug": "controlled-radical-polymerization-raft",
+      "title": "Controlled Radical Polymerization — RAFT",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "01f204e3921086105a7f3260a16db89704326df4537fcade0674d2439dccbf8e"
+    },
+    {
+      "id": "19b4745d-e5c0-4526-b349-f0b3367894f9",
+      "slug": "rubber-compounding-fillers-carbon-black-and-additives",
+      "title": "Rubber Compounding: Carbon Black Reinforcement Mechanics, Fillers & Vulcanisation Packages",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "31d8bd1b15a9c6e93794e3d6f8aaa04716c4c75210c1d9e07f0dfab4cad55e2e"
     },
     {
       "id": "e1640ee0-5fe9-47c7-bbe1-e861688b42c2",
@@ -189,13 +182,6 @@
       "content_hash": "0247e8d0f0b408bbbf1f9ee76a63021715d54ef135061867dccf72b6c49dfee1"
     },
     {
-      "id": "161566a5-c027-4040-819b-3068ab5e9186",
-      "slug": "bioplastics-synthesis-compostability-and-standards",
-      "title": "Bioplastics: Synthesis, Compostability, and Standards",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "7b73aa4c27a1d8fa394127a81773abaa6b90828a0af516e7a9d77f4058546f02"
-    },
-    {
       "id": "1e79ee72-7373-4223-bcd1-e724927e6b1d",
       "slug": "runner-and-sprue-design-balancing-flow-to-multiple-cavities",
       "title": "Injection Mould Runner Systems, Gate Design & Feed Balancing",
@@ -217,32 +203,67 @@
       "content_hash": "8e16c2519ad521077279f2e9b03d21cba4bb94a02b97ebe6745e6e0ecd30df3b"
     },
     {
-      "id": "62e4ae71-02e1-474b-b485-7b767897caff",
-      "slug": "running-a-plastics-business-quality-compliance-bis-certification-and-export",
-      "title": "Running a Plastics Business: Quality, Compliance, BIS Certification, and Export",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "024b0acd030a484923c9a7c84ca88e7d70fa3eca968fae2cc830a2011de396b6"
+      "id": "955c65d2-b056-459b-8ca4-3853d3c8b2b0",
+      "slug": "resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity",
+      "title": "Resin Transfer Moulding (RTM): Darcy Flow, Preform Permeability & Gelation Control",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "9aa7251e3c2df9bf62133ec2e5b7ac55a562467190f1a92cf8baf9d8f0eb41a4"
     },
     {
-      "id": "b157f23d-1d86-4c04-bfb9-4e51f45dae95",
-      "slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
-      "title": "Polylactic Acid (PLA): Synthesis, Properties, and Industrial Processing",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "4e4029a24a222f0e90f4a76b82506195c5457aaa05dfa71d8933330a3db0f79f"
+      "id": "03f0eb87-c3d2-4fcc-9473-a5614e0930fa",
+      "slug": "gas-assisted-injection-molding-principles-design",
+      "title": "Gas-Assisted Injection Molding — Principles & Design",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "1903940c6cb1870a7c619e76adaae7b4f48390c28d4bc87d4a02313b92355b46"
     },
     {
-      "id": "e5172afa-ad6d-4d6d-8cce-de2f41f7ec99",
-      "slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
-      "title": "Bio-PE, Bio-PET, and Drop-In Bio-Based Polymers",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "bd5f0c8bded6d945fada735e0870b479b28d1b106483c751e0315f0d1e62f3da"
+      "id": "072e944c-5f8c-4701-b405-1fa7830b7b57",
+      "slug": "glass-fibre-reinforced-plastics-gfrp-processing-and-applications",
+      "title": "Glass Fibre Reinforced Plastics (GFRP): Mechanics, Processing & Industrial Applications",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "da4e9fe9817fb50296c8699ca19a7118fe5c1c4485c6ad5683cf700ba2a5606a"
     },
     {
       "id": "b77fe980-bbda-46ae-8fa1-3aacaf5f20f7",
       "slug": "manufacturing-of-glass-fibre-and-carbon-fibre-composites",
-      "title": "Manufacturing of Glass Fibre and Carbon Fibre Composites",
+      "title": "Manufacturing of Glass & Carbon Fibre Composites: Hand Lay-up, Spray-up & Spray Mechanics",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "ffcf9da95d02a110e742ad6c8df8404ac56a043b39d205825bcaa10c2c2359ef"
+      "content_hash": "6398eb27df96410eb3e9cb54e6fb547647ebac63f685c4f4fb821b9b1862027e"
+    },
+    {
+      "id": "3a2b13ae-ac15-4249-9303-c642f7e2bb78",
+      "slug": "capex-and-business-planning-for-plastics-processing",
+      "title": "CAPEX & Business Planning for Plastics Processing: Machine Selection, OPEX & Project Viability",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "79ec8f58d607b582642296851e0955043aeb12d64d5fded822cb1da2a3fa86a2"
+    },
+    {
+      "id": "96941399-5f24-4da5-97fc-74808eb636d1",
+      "slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
+      "title": "Polyhydroxyalkanoates (PHA): Fermentation Kinetics, Biosynthesis & Biodegradability",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "27d64079c8639d039c741b88ecb1ff686fa7381a36d7256dfe19f754b38d6084"
+    },
+    {
+      "id": "b157f23d-1d86-4c04-bfb9-4e51f45dae95",
+      "slug": "polylactic-acid-pla-synthesis-properties-and-commercial-reality",
+      "title": "Polylactic Acid (PLA): Ring-Opening Polymerization, Rheology & Biodegradability Physics",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "08470d5f68de1b013cd499157b74c849f2ebbe5e8f545477631b6baed39a91db"
+    },
+    {
+      "id": "dc4f0250-ca85-4587-b600-5025316cc912",
+      "slug": "carbon-footprint-polymer-production",
+      "title": "Carbon Footprint of Polymer Production: Naphtha Cracking to Pellets",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "3a52c04d4b5114d218e9c414ddee7cedf5cd943a0828be50955a124d2a2b812a"
+    },
+    {
+      "id": "5083e592-8a99-417d-9440-a8f8b8c33e69",
+      "slug": "biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact",
+      "title": "Biocompatibility: ISO 10993 Framework & Polymer-Body Contact Science",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "19016544b519f993127ca71caf064c57a22d558f7c86c5e25f01462ca95b9f7f"
     },
     {
       "id": "ffcf1264-7534-42cf-bb2a-b3ced044066b",
@@ -252,116 +273,81 @@
       "content_hash": "890b1b474276e7693b25312d5668caa9f72f333ddba3be527f261cbb5732425c"
     },
     {
-      "id": "3a2b13ae-ac15-4249-9303-c642f7e2bb78",
-      "slug": "capex-and-business-planning-for-plastics-processing",
-      "title": "CAPEX and Business Planning for Plastics Processing",
+      "id": "b93938d0-1519-421d-a712-f98eee2de807",
+      "slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
+      "title": "BIS Compliance & Quality Standards: Certification Processes & Regulatory Compliance",
       "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "e817e28a73405dc4ec59ce315a7aa10750654fbe4afc8b35369136ad82a17ae9"
+      "content_hash": "2bd01403876b7eee169b19cd7c2e1cfceedbbe44e79650b1d0be2f4a3818b38d"
     },
     {
       "id": "b81f817c-2b69-4a76-ba58-74e452e9cc1c",
       "slug": "carbon-fibre-reinforced-polymers-cfrp-aerospace-to-automotive",
-      "title": "Carbon Fibre Reinforced Polymers (CFRP): Aerospace to Automotive",
+      "title": "Carbon Fibre Reinforced Polymers (CFRP): Synthesis, Manufacturing & Microstructure Design",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "75149b645704d73017189ed64fbbfb1edabff6a4c6edaafffd4293550e63ddb6"
+      "content_hash": "023fa062cbe407592ba63b1af82fb10037ca6a7c361827c5e4f6199f16edc02d"
     },
     {
-      "id": "b93938d0-1519-421d-a712-f98eee2de807",
-      "slug": "bis-compliance-raw-material-sourcing-and-government-schemes-in-india",
-      "title": "BIS Compliance, Raw Material Sourcing & Government Schemes in India",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "76921510a4617e5e7fb7dfbcd97c578034393fd5616f2801bcfcfb871de14a04"
-    },
-    {
-      "id": "072e944c-5f8c-4701-b405-1fa7830b7b57",
-      "slug": "glass-fibre-reinforced-plastics-gfrp-processing-and-applications",
-      "title": "Glass Fibre Reinforced Plastics (GFRP): Mechanics, Processing & Industrial Applications",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "d7a050e34c5cf74187cf94b6069bbf9ca79e629b5801b2317032b27c24a9b7a5"
-    },
-    {
-      "id": "5083e592-8a99-417d-9440-a8f8b8c33e69",
-      "slug": "biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact",
-      "title": "Biocompatibility: ISO 10993 Framework & Polymer-Body Contact Science",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "b9d6c4eeffdc3c120920d93745d80b32ea5dc444f89bae056d6d550ea2e17b09"
-    },
-    {
-      "id": "dc4f0250-ca85-4587-b600-5025316cc912",
-      "slug": "carbon-footprint-polymer-production",
-      "title": "Carbon Footprint of Polymer Production — From Naphtha to Pellet",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "bac2a686973ca15a6466ca778197fbeb402641dffef3b80f9f484b388cebf3b4"
-    },
-    {
-      "id": "96941399-5f24-4da5-97fc-74808eb636d1",
-      "slug": "polyhydroxyalkanoates-pha-nature-s-true-bioplastic",
-      "title": "Polyhydroxyalkanoates (PHA): Biosynthesis, Properties, and Applications",
+      "id": "e5172afa-ad6d-4d6d-8cce-de2f41f7ec99",
+      "slug": "bio-pe-bio-pet-and-drop-in-bio-based-polymers",
+      "title": "Bio-PE, Bio-PET & Drop-In Bio-Based Polymers: Fermentation, Synthesis & De-fossilisation",
       "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "73da131b30eb54735fcf70052bb46d1fe0d4889c9ecbdc81c4dccb3c45d57e33"
-    },
-    {
-      "id": "caec9fd2-16de-4f7f-8ed7-7f28ea1d7d8c",
-      "slug": "introduction-to-the-plastics-recycling-landscape-why-it-matters-now",
-      "title": "Introduction to the Plastics Recycling Landscape: Why It Matters Now",
-      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "9e0aeb2d93436f3ba363baaeb03e11d6bc5dd32276d9926889340048b5fc2a56"
-    },
-    {
-      "id": "dcba10b8-a201-4b5f-b5c6-bbbea455d2d4",
-      "slug": "mechanical-recycling-collection-sorting-and-reprocessing",
-      "title": "Mechanical Recycling: Collection, Sorting, and Reprocessing",
-      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "520a1d70b13be30e534500fa67deb25e75656634f8ebe512866dfa9affe81e92"
+      "content_hash": "be0812f88a40de93104e7a18994246553eb8abf589340b9c921f71ad00bcf77a"
     },
     {
       "id": "6d85a055-22e0-4c5b-9ae0-22542425bed6",
       "slug": "extended-producer-responsibility-epr-and-regulatory-frameworks",
-      "title": "Extended Producer Responsibility (EPR) and Regulatory Frameworks",
+      "title": "Extended Producer Responsibility (EPR) & Sustainable Plastics Regulatory Frameworks",
       "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "0bab5a4b35c35d681018a6de4c3b1a72b29578d55f1b6233236d55ace99c959c"
+      "content_hash": "6af7ee4a9ba036c7e991911580b15c756fed28ee473e4d499525b4377a93a58f"
     },
     {
       "id": "d214d779-1489-4ec9-8156-fb6365d2e316",
       "slug": "short-fibre-reinforced-thermoplastics-injection-moulded-composites",
-      "title": "Short Fibre Reinforced Thermoplastics: Injection Moulded Composites",
+      "title": "Short Fibre Reinforced Thermoplastics: Orientation, Micromechanics & Injection Moulding",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "94283af113d77607f70d42ddafc8a47c243117fa39ce86bb85b3e6fac0d63999"
-    },
-    {
-      "id": "8a3f8e9a-1267-4284-b78c-85dd149c4bdb",
-      "slug": "10-25-lakh-entry-tier-low-capex-manufacturing-businesses",
-      "title": "₹10–25 Lakh Entry Tier: Low-Capex Manufacturing Businesses",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "06eca5fc32f2ccd1364b8f4c513dc77b46145fcd3c5627bd9362e1b6f55e3675"
+      "content_hash": "9b63330bb5a1d75740a43cd298ea1dbaa98a7cd8055467f7dbd483a3e3a3ee1a"
     },
     {
       "id": "6711ddc9-b7dc-4d54-be15-2f1bdd55f819",
       "slug": "the-future-of-sustainable-plastics-trends-investment-and-your-career",
-      "title": "The Future of Sustainable Plastics: Trends, Investment, and Your Career",
+      "title": "Sustainable Plastics Futures: Market Trends, Green Investment & Circular Career Paths",
       "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "eda762a368d8849697f3d7ef0b0e41c305514b3d0ce4302c3206206bdfab8f98"
+      "content_hash": "09b7c43974fe01aaef27c6c2b0590d700bdccc34d6413b9601c14007a797bcc3"
+    },
+    {
+      "id": "8a3f8e9a-1267-4284-b78c-85dd149c4bdb",
+      "slug": "10-25-lakh-entry-tier-low-capex-manufacturing-businesses",
+      "title": "₹10–25 Lakh Entry Tier: Low-Capex Plastics Manufacturing Businesses",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "140bf4b4a18e99962c16c567fa8e7857ca30b0503576a84098eebb206a8b047d"
+    },
+    {
+      "id": "10b66ba2-f3b3-42b2-a4df-c77c87e35f41",
+      "slug": "plasticizers-flexibility-pvc",
+      "title": "Plasticizers: Mechanisms of Flexibility, Regulatory Status & PVC Formulation",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "12b67ec89b05665c217ede35e4fcbe58af66bc3f7972a6bd5002fea5fa099d89"
     },
     {
       "id": "142c5caf-428a-4e61-832d-d73606cfac3a",
       "slug": "flame-retardants-polymer-safety",
-      "title": "Flame Retardants — Making Plastics Safe",
+      "title": "Flame Retardants in Polymers: Mechanisms, Formulations & Safety Standards",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "d81151f34d14c0faedc7f158e9ff41630fac5d4bb73d46ba90796dc17e34b1a5"
+      "content_hash": "e8f6f01573f3ca231929e649ddb2f4f0e809d728f881e6e948e74a18c90d0b59"
+    },
+    {
+      "id": "b853dc25-bdaf-4fc4-a665-dc07dc96d258",
+      "slug": "impact-modifiers-toughening-agents",
+      "title": "Polymer Toughening & Impact Modifiers: Rubber Toughening Mechanics, Blending & Formulation",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "d714c91bf56b9b7c9884fdccc2cb1019c16dac38a799cf505988274c3227295b"
     },
     {
       "id": "9372c69c-9099-40c0-be06-1b05a992f4e9",
       "slug": "tensile-and-flexural-testing-measuring-mechanical-strength",
       "title": "Tensile Properties & Mechanical Testing (ASTM D638 vs ISO 527)",
       "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "f551ac7d8e59128e08ceeb34ef66e6d76c5f54a687073c80908ec024f646dfa2"
-    },
-    {
-      "id": "b853dc25-bdaf-4fc4-a665-dc07dc96d258",
-      "slug": "impact-modifiers-toughening-agents",
-      "title": "Impact Modifiers and Toughening Agents",
-      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "cf4ea456c4a256d7e86bb45f34c7a6dbeb50d3d762d551090c7393468503d0cf"
+      "content_hash": "f2b4aab4c99cd3bac5bc0bdd0ce64fa3363035ccd237f10c48359f4d4441cb38"
     },
     {
       "id": "e6cb0c04-f273-4537-9dbf-eab202407cbf",
@@ -373,86 +359,93 @@
     {
       "id": "1c92c18d-be39-470f-85c0-d8980007ec47",
       "slug": "enzymatic-and-biological-recycling-the-frontier-technology",
-      "title": "Enzymatic and Biological Recycling: The Frontier Technology",
+      "title": "Enzymatic & Biological Recycling: Depolymerisation Kinetics & PETase/MHETase Biocatalysis",
       "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "64aa84f6b6ad093c38f49855fdb2ffda8512691e80d98c8407cc52d872da3210"
+      "content_hash": "dcfba5c9a190daa308e78f33100e1b7b0533f12fde6d685134aa948190c76117"
     },
     {
-      "id": "10b66ba2-f3b3-42b2-a4df-c77c87e35f41",
-      "slug": "plasticizers-flexibility-pvc",
-      "title": "Plasticizers: Mechanisms of Flexibility, Regulatory Status & PVC Formulation",
-      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "12b67ec89b05665c217ede35e4fcbe58af66bc3f7972a6bd5002fea5fa099d89"
+      "id": "dcba10b8-a201-4b5f-b5c6-bbbea455d2d4",
+      "slug": "mechanical-recycling-collection-sorting-and-reprocessing",
+      "title": "Mechanical Recycling: Collection, Sorting & Extrusion Reprocessing Kinetics",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "fd6c641660d8788dded34d6c7af6b51a842df95cb7ccfc0506334a95c818f5ae"
+    },
+    {
+      "id": "7782e216-dbda-4b4b-b7a7-7e4cf0e9db63",
+      "slug": "key-medical-grade-polymers-properties-applications-and-selection",
+      "title": "Key Medical-Grade Polymers: Properties, Applications & Selection Criteria",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "0e4341d362dbc3ceccc2e7d1f27682742f1317c73c207ff34352029699d22efe"
+    },
+    {
+      "id": "159297e4-de81-4f5c-a666-e51a0a06a7b4",
+      "slug": "funding-government-schemes-and-project-report-basics",
+      "title": "Funding, Government Schemes & Plastics Project Report Basics",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "714f3654f0d743353824a4fc58a13b2cac358c6a4e6e3e211e709f6b4bd897b1"
     },
     {
       "id": "88d8d393-8928-457d-b878-56bf6b8c9406",
       "slug": "implantable-polymers-and-biodegradable-medical-devices",
       "title": "Implantable Polymers and Biodegradable Medical Devices",
       "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "bcd1205f42af0be86694183c06226f4344dcc2b9ac9852264cdca47fcc866080"
-    },
-    {
-      "id": "f32cd0f6-d49d-4615-a77f-e0cebaa8bc8e",
-      "slug": "cleanroom-manufacturing-iso-13485-and-building-a-medical-plastics-career",
-      "title": "Cleanroom Manufacturing, ISO 13485, and Building a Medical Plastics Career",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "88ab2e6a48328249ef802ebafdaffe99bf036d16955f5e509778bb82e7e99c3e"
-    },
-    {
-      "id": "7782e216-dbda-4b4b-b7a7-7e4cf0e9db63",
-      "slug": "key-medical-grade-polymers-properties-applications-and-selection",
-      "title": "Key Medical-Grade Polymers: Properties, Applications, and Selection",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "a6342ab477ded2ecfa9ead6ced337c9afd3376a618df6f241fb635da06883a7a"
-    },
-    {
-      "id": "baa5a9d0-b2ef-4e13-96f1-581c6088c0ed",
-      "slug": "composite-design-failure-modes-and-testing",
-      "title": "Composite Design, Failure Modes, and Testing",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "6687ce16af0c434c689297f0f90323fe934c86c881ba9e4c0a86aaddafa05fb6"
-    },
-    {
-      "id": "159297e4-de81-4f5c-a666-e51a0a06a7b4",
-      "slug": "funding-government-schemes-and-project-report-basics",
-      "title": "Funding, Government Schemes, and Project Report Basics",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "62f4fadec033fd735c7061e57765f936eb7683ed5f91c2667d8e1f21ef3ac738"
-    },
-    {
-      "id": "34b6c5d9-e747-48d2-a967-d81c33127d96",
-      "slug": "latex-technology-processing-and-applications",
-      "title": "Latex Technology: Processing and Applications",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "3b57502e18af2fe87f38d04839438e3f29992e7dd18c9689c89a241be4de0447"
+      "content_hash": "430e550f126eef4dd6fe1715883a67f6c208afc16e1222995ecb1098717b01fc"
     },
     {
       "id": "886aadaa-5eb3-412f-b517-19be2d25c9f3",
       "slug": "shear-thinning-power-law-model",
       "title": "Shear-Thinning and the Power Law Model",
       "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "c6f4ba5ad9da637ac23681574e8edb68483079dc0e6fc82c7c143c23c874844b"
+      "content_hash": "2500efddd5d59686139170d16c172ea4188a56db6c4cdb7ba7631e3a549fbd7d"
+    },
+    {
+      "id": "baa5a9d0-b2ef-4e13-96f1-581c6088c0ed",
+      "slug": "composite-design-failure-modes-and-testing",
+      "title": "Composite Design, Failure Modes & Testing: Delamination, ILSS & Fatigue",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "f2d5c8383b8801d15d4ebab98e3f5661c1c5f74c128c8e4f2f1764401c9319c7"
     },
     {
       "id": "6abacf0d-cf2a-4157-8acc-7ae7cb273fff",
       "slug": "rheology-in-practice-selecting-processing-grades",
-      "title": "Rheology in Practice — Selecting and Processing Polymer Grades",
+      "title": "Rheology in Practice: Selecting and Processing Polymer Grades",
       "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "2d58fb9f95dad6f63eee0b3e9352306e1fdfcabbc9ee0c2f99f567de044d5438"
+      "content_hash": "516c8eb82240824152ab1afe0d9991a5c9a64780c903563de793adb7244dc04e"
     },
     {
       "id": "f99dcfc7-7ef7-4f88-9fd8-59e5eb1e8ef6",
       "slug": "introduction-polymer-additives",
-      "title": "Introduction to Polymer Additives — Why Pure Polymers Are Unusable",
+      "title": "Introduction to Polymer Additives: Why Pure Polymers Are Unusable",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "a854beb3646d2eb8121e595006052695559a7c3bd3be19202f5af2c2bfad4120"
+      "content_hash": "ac195b40b7ee6daf4e11ca8a5f2f456ffc4e4097850c8fad38e2d4a89fd82858"
     },
     {
       "id": "b10dc57b-6f7d-48f3-9c41-a77f9472813f",
       "slug": "antioxidants-polymer-stabilization",
-      "title": "Antioxidants — Protecting Polymers from Thermal and Oxidative Degradation",
+      "title": "Antioxidants & Polymer Thermal Stabilization: Kinetics & Synergistic Blends",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "cc3409e6685db8a5d776ebed197edfb7e2e63b505b030dace567747c9955078b"
+      "content_hash": "f412e0ef353860cd6e23a498ff8378bcb2f976ff69389e7202b2693ce696bb63"
+    },
+    {
+      "id": "06c36f37-378d-4a13-9817-4f2176dd66e4",
+      "slug": "capillary-rheometry-viscosity-measurement",
+      "title": "Capillary Rheometry and Viscosity Measurement: Flow, Corrections & Shear Kinetics",
+      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
+      "content_hash": "5caeaef451c641b013c778de811f9611850c130506629a5ea85e846b3cda6043"
+    },
+    {
+      "id": "f32cd0f6-d49d-4615-a77f-e0cebaa8bc8e",
+      "slug": "cleanroom-manufacturing-iso-13485-and-building-a-medical-plastics-career",
+      "title": "Cleanroom Manufacturing, ISO 13485 & Medical Plastics Operations",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "467c0299759ecb3dff806ffc301d4636adf0e2a3c424175f9ef195f03e83dee1"
+    },
+    {
+      "id": "34b6c5d9-e747-48d2-a967-d81c33127d96",
+      "slug": "latex-technology-processing-and-applications",
+      "title": "Latex Technology: Colloidal Stability, Compounding & Dipping Process Engineering",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "95c4a56015e8ff9525b49f71efcd956bab8a7f62a18354346249404981edbf8f"
     },
     {
       "id": "626beda4-503b-40a3-bc9d-2b264081cfd4",
@@ -462,95 +455,11 @@
       "content_hash": "426f3c50f390df62eac8515f2f9d73d6993f0196f0171b8ee66cad289aab7251"
     },
     {
-      "id": "06c36f37-378d-4a13-9817-4f2176dd66e4",
-      "slug": "capillary-rheometry-viscosity-measurement",
-      "title": "Capillary Rheometry and Viscosity Measurement",
-      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "4a39e0e87215169eff5beec4c0bba4847110dba1376a1b301604cfaeb623a6f3"
-    },
-    {
-      "id": "ceeeaf96-a236-4388-b5d2-d955c221a647",
-      "slug": "lca-impact-assessment-categories",
-      "title": "Impact Assessment — Carbon Footprint, Water, and Eutrophication",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "b2f0228e37dd5fd4e84038c50f8d256b18273abf50c4f3d1547662ec318d10b2"
-    },
-    {
-      "id": "36870060-5246-4485-9ac2-f454c39f96bc",
-      "slug": "lca-packaging-plastic-vs-alternatives",
-      "title": "LCA of Packaging — Comparing Plastic vs. Alternatives",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "31af78c8bd2e5923563217bdc93938374e9f8ff846b62c1ecda48ba18618ad5c"
-    },
-    {
       "id": "60a64608-92fa-4d7d-a292-a79c733afd7b",
       "slug": "organic-pigments-phthalocyanines-azo",
-      "title": "Organic Pigments — Phthalocyanines, Azo, and High-Performance Pigments",
+      "title": "Organic Pigments: Phthalocyanines, Azo, DPP & High-Performance Pigment Selection",
       "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "e99da1b2314f30bb84a718231ba0246f4e2d3e4e2bed792c24995e72b92e19b4"
-    },
-    {
-      "id": "b1788ceb-8b4a-449b-a949-820061923839",
-      "slug": "introduction-plastic-packaging",
-      "title": "Introduction to Plastic Packaging — The Largest Sector in Plastics",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "2abdadd1afbc5f67d9bf46523c2843ff599a00f5ba1f8b7e7c4244beff576d0f"
-    },
-    {
-      "id": "7011dccc-ebe5-490c-ae50-11c10e16d49b",
-      "slug": "multilayer-structures-coextrusion",
-      "title": "Multilayer Structures and Co-extrusion — Combining Polymers for Performance",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "5dcccf302058f89b8a2d28e8e818a45b74e12ee15d32589a76ede08ca0227447"
-    },
-    {
-      "id": "868a94d2-990e-4db9-8292-c5eac90fd845",
-      "slug": "food-contact-regulations-packaging",
-      "title": "Food Contact Regulations and Packaging Safety",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "19f7181da159eaf824de118f9214af34acee739e17b2b5be20743b3c91fd435b"
-    },
-    {
-      "id": "f135e404-b013-46d7-bc6e-b7bdb7adc885",
-      "slug": "sustainable-packaging-design-epr",
-      "title": "Sustainable Packaging Design — Mono-Materials, Recyclability, and EPR",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "645e1015138748afa0d90f7d710f34812cae3094399b97be193d1488ec4b22b1"
-    },
-    {
-      "id": "97d9da35-0dcf-4c23-9018-2d6a2f9932ef",
-      "slug": "titanium-dioxide-plastics-pigment",
-      "title": "Titanium Dioxide — The Most Important Pigment in Plastics",
-      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "fb6c5b2cbebcc87a511098536e77697452c540bc45e3e71f0be56d735033a3e0"
-    },
-    {
-      "id": "35440063-1424-4318-9d41-0755990363d7",
-      "slug": "masterbatch-formulation-manufacturing",
-      "title": "Masterbatch Formulation and Manufacturing",
-      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "2de9d7ef491cba1a3f422a63edfb9ed06dbd2706150647e78708e8082f3bf287"
-    },
-    {
-      "id": "e0e91b18-3295-4f6c-9ca5-14ded95cbd7d",
-      "slug": "life-cycle-inventory-lci",
-      "title": "Life Cycle Inventory — Quantifying Inputs and Outputs",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "8ccfc459e78b7877fe4c0b73014a2b164ad379b38218ef408ed21a1bdbd48922"
-    },
-    {
-      "id": "02f21d40-3d2f-4e94-ba98-2589286cd654",
-      "slug": "twin-screw-compounding-masterbatch",
-      "title": "Twin-Screw Compounding — Masterbatch and Compound Manufacturing",
-      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "f1c020328328f75ebda7bca161e5d74cea6f2715d2b5665abdce1f02abca0155"
-    },
-    {
-      "id": "e9720098-9008-406e-93c6-340a1350e669",
-      "slug": "active-intelligent-packaging",
-      "title": "Active and Intelligent Packaging",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "edb71e06f347774a82fe93ab8a14e0bf45736c7916115fe2d1acf1c2f8e1f0e7"
+      "content_hash": "333589dfd670c9411be9962d71b7878d7481c82397db3bf0eaaaa47daac643a9"
     },
     {
       "id": "bba0abc3-d6a6-4252-994f-920c4b26ffd0",
@@ -560,81 +469,144 @@
       "content_hash": "8d8170bdcf33b70fa2aab5efbb5af42a040b7fc53ae26593281b720661d8ca5e"
     },
     {
+      "id": "ceeeaf96-a236-4388-b5d2-d955c221a647",
+      "slug": "lca-impact-assessment-categories",
+      "title": "Impact Assessment: Carbon Footprint, Water & Eutrophication Metrics",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "d9f8446eb96acbb13357d78e0dc183ca6b658746c52056d7bf37846fdf17013c"
+    },
+    {
+      "id": "7011dccc-ebe5-490c-ae50-11c10e16d49b",
+      "slug": "multilayer-structures-coextrusion",
+      "title": "Multilayer Structures & Co-extrusion: Die Kinetics, Feedblocks & Layer Instabilities",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "4d5366b8195b851a3d38c2c34f1292242216cf5aeed80a5eaa8937b4befaa096"
+    },
+    {
+      "id": "f135e404-b013-46d7-bc6e-b7bdb7adc885",
+      "slug": "sustainable-packaging-design-epr",
+      "title": "Sustainable Packaging Design: Mono-Materials, Design-for-Recycling & EPR Compliance",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "f94a09e47d054d5d4b8e108419ba691db21d64089feaac241f92f8bc7858c5ea"
+    },
+    {
+      "id": "97d9da35-0dcf-4c23-9018-2d6a2f9932ef",
+      "slug": "titanium-dioxide-plastics-pigment",
+      "title": "Titanium Dioxide: Rutile vs. Anatase Polymorphs, Dispersion & Photo-Catalysis Physics",
+      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
+      "content_hash": "34f729feeb30624339071d85dea0e9949416e91ffdc7304cd3b9addf18f72064"
+    },
+    {
+      "id": "35440063-1424-4318-9d41-0755990363d7",
+      "slug": "masterbatch-formulation-manufacturing",
+      "title": "Masterbatch Formulation & Manufacturing: Pigment Wetting, Dispersion & Compounding Mechanics",
+      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
+      "content_hash": "2431d1c4ac1e50b8941fe0c0e75837242b5f9181f77322e049fba1e05c7788dd"
+    },
+    {
+      "id": "02f21d40-3d2f-4e94-ba98-2589286cd654",
+      "slug": "twin-screw-compounding-masterbatch",
+      "title": "Twin-Screw Compounding: Screw Elements, Mixing Zones & Specific Energy Mechanics",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "428de5b991cde2bfe25ae1720e2217602d72a13550343b86bd6769221c0562b2"
+    },
+    {
+      "id": "b1788ceb-8b4a-449b-a949-820061923839",
+      "slug": "introduction-plastic-packaging",
+      "title": "Introduction to Plastic Packaging: Materials, Formats & Design Criteria",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "9a155f38e78d2105f9145d4df94a5a5ebc184e106926fd5a1cb5119eaaf034c3"
+    },
+    {
+      "id": "e0e91b18-3295-4f6c-9ca5-14ded95cbd7d",
+      "slug": "life-cycle-inventory-lci",
+      "title": "Life Cycle Inventory (LCI): Data Collection, Mass Balance & Allocation Rules",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "b25c77ed237ace04130e7ff357c973f2831388254fcc20d3ae620ff723485d07"
+    },
+    {
+      "id": "36870060-5246-4485-9ac2-f454c39f96bc",
+      "slug": "lca-packaging-plastic-vs-alternatives",
+      "title": "LCA of Packaging: Plastic vs. Glass, Aluminium & Paperboard — Comparative Analysis",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "f27356e5136e1053cb670d59ee2d30f83ee77d99452b351cf78fe2025d8edd41"
+    },
+    {
+      "id": "e9720098-9008-406e-93c6-340a1350e669",
+      "slug": "active-intelligent-packaging",
+      "title": "Active and Intelligent Packaging",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "edb71e06f347774a82fe93ab8a14e0bf45736c7916115fe2d1acf1c2f8e1f0e7"
+    },
+    {
       "id": "3cfb26f5-747b-4722-847b-17c9e93da609",
       "slug": "hot-runner-valve-gating-mechanics-and-sequential-injection",
       "title": "Hot Runner Valve Gating Mechanics, Sequential Injection & Thermal Control",
       "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
-      "content_hash": "ecdc0e12bb6c8c687651c0322bab64b0aa1ed04271200c133048417b9e09c409"
+      "content_hash": "a56445ec112d64f52e1174334c12e9be9d6c082099d58dc2c46127393c4f5eb6"
     },
     {
       "id": "36f5015d-1d06-4cc8-adde-4c0aa2b2a46e",
       "slug": "polymer-solution-thermodynamics-flory-huggins-theory",
       "title": "Polymer Solution Thermodynamics: Flory-Huggins Theory & Phase Diagrams",
       "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
-      "content_hash": "bd53efba491e6b8af63b499882818d0df490d4f5bcc66d202234e0a43863254c"
+      "content_hash": "ead3995deb6422d22553c3b7da652d2782766815b32a1f7429af1a6d3e38853e"
     },
     {
       "id": "230cbfda-25d8-4446-90d6-afd29c773fe1",
       "slug": "thermoplastic-elastomers-tpe-tpu-tpv-structure-and-processing",
-      "title": "Thermoplastic Elastomers (TPE, TPU, TPV): Microphase Separation & Processing",
+      "title": "Thermoplastic Elastomers (TPE, TPU, TPV): Microphase Separation, Properties & Processing",
       "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "d4911ff869e289c63d8e72c8415aa4c4aba74b87a6fd1745ddee5763bc6502a7"
-    },
-    {
-      "id": "0f6c74bb-f90f-4d10-a436-48ab4f2615e3",
-      "slug": "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
-      "title": "Dynamic Mechanical Analysis (DMA): Storage Modulus E', Loss Modulus E'' & Tan Delta",
-      "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "ba2ef4fe431fb0ed5e25d45d9ce04acba85856a2c12d85696f926506e2366d42"
-    },
-    {
-      "id": "afc85ddb-b6d0-4ca5-b4ae-c2be6fdde9c1",
-      "slug": "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
-      "title": "Multi-Cavity Runner Balancing Kinetics & Pressure Drop Optimization",
-      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
-      "content_hash": "525358d8903d9e9356d3ba2b18ebf0c5dad0c482032025b28a37e86612060fb8"
-    },
-    {
-      "id": "7952293d-0c17-4249-8ca0-d23c15bea1de",
-      "slug": "living-and-controlled-ionic-polymerization",
-      "title": "Living and Controlled Ionic Polymerization",
-      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
-      "content_hash": "658a4ec1975e865d92fc05d5a77ed9224b4bc462426960086bbd6c2911ede2b2"
+      "content_hash": "bdd1f79ee1f599a705d3a75d08470986aa8ef1afe9a3ddff9590c88c89a2bb2c"
     },
     {
       "id": "002af0af-3db3-46ed-ba38-2ade5587b7ef",
       "slug": "extrusion-die-swell-drawdown-and-dimensional-control",
-      "title": "Extrusion Die Swell, Drawdown and Dimensional Control",
+      "title": "Extrusion Die Swell, Drawdown & Dimensional Control: Viscoelasticity & Land Length Physics",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "8f8a7561e30ad075fe12a54939a7beb4b94f3c677fc55cb756cc4bc7f6c0caf1"
+      "content_hash": "f3722bd57c331822b879b34f1a0ec1ca2b21356de4a79de0ae35e94501956a88"
+    },
+    {
+      "id": "afc85ddb-b6d0-4ca5-b4ae-c2be6fdde9c1",
+      "slug": "multi-cavity-runner-balancing-kinetics-and-pressure-drop",
+      "title": "Multi-Cavity Runner Balancing: Pressure Drop Equations, Rheological Balancing & Sequential Gating",
+      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
+      "content_hash": "1e232821b2d8287c6d74764bbff60e93d60bcde8090b5f1bdd75b68fc993a846"
     },
     {
       "id": "6ea62186-ab16-4af8-926e-b04621730bb2",
       "slug": "smc-and-bmc-process-engineering-charge-pattern-cure-control",
-      "title": "SMC and BMC Process Engineering: Charge-Pattern Design, Cure Control and Defect Analysis",
+      "title": "SMC & BMC Process Engineering: Charge-Pattern Design, Press Physics & Cure Kinetics",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "bd463411d6a898aab71f43dc9b4612844825979738f6579e1c3c2f142c3bc5f6"
+      "content_hash": "a589484c8d2efebd4c42165a169a9b85f59239161ef078b6c0c1220558c04a4d"
     },
     {
       "id": "ba75e89f-c88f-429a-ac1a-2228c6a9455f",
       "slug": "rotational-moulding-process-physics-powder-fusion-and-heating",
       "title": "Rotational Moulding Process Physics: Powder Fusion, Heating Kinetics & Wall Uniformity",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "cc823e21d0c517e95c575e52e5333728c6d84d072e802064ad4bdeccd730b48b"
+      "content_hash": "c8fb93f018c0743d0774907901997f014b405be7a56d27e1138c1606478c38f0"
     },
     {
       "id": "a51b78a7-1ebd-401d-8550-7a4318fdbd58",
       "slug": "introduction-to-polymer-composites-matrix-reinforcement-and-interface",
-      "title": "Introduction to Polymer Composites: Matrix, Reinforcement & Interface",
+      "title": "Fundamentals of Polymer Composites: Phase Interfaces, Classification & Properties",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "0a7b364c9027dd25fdf8031955e5ba8cd5dc1638876990cc21f878c624ef672b"
+      "content_hash": "8e1caf678013aa97996b27c189f46237de39a2c1ab54be82637c8ec5e708fc34"
     },
     {
       "id": "896544d7-5bc9-45d4-b41f-ff0e06dafbdd",
       "slug": "gc-ms-screening-of-polymer-extractables-and-leachables",
-      "title": "GC-MS Screening of Polymer Extractables and Leachables",
+      "title": "GC-MS Screening of Polymer Extractables & Leachables: Sample Prep, Chromatography & Mass Spectra",
       "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "f68c43534ccde4b2bb7ef9c8329bcb6b9518c456cc950b84e14e1a550823ecbf"
+      "content_hash": "e258b4c563e342da1364dd9af1b0cfb097cc935eccec99bf4fa8cba7b8b88424"
+    },
+    {
+      "id": "0f6c74bb-f90f-4d10-a436-48ab4f2615e3",
+      "slug": "dma-dynamic-mechanical-analysis-modulus-and-tan-delta",
+      "title": "Dynamic Mechanical Analysis (DMA): Storage Modulus E', Loss Modulus E'' & Tan Delta",
+      "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
+      "content_hash": "d87045e6bb140d2fd66417232244e3ebbb9b320a28b9c2d61c3ab4d0935c821d"
     },
     {
       "id": "c306bbda-6f87-478e-ba64-017c19df74e7",
@@ -644,53 +616,74 @@
       "content_hash": "46fa2ec7b525116ce60ce3b1c1817f3505c9ef5023597445f48052941487e81e"
     },
     {
-      "id": "955c65d2-b056-459b-8ca4-3853d3c8b2b0",
-      "slug": "resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity",
-      "title": "Resin Transfer Moulding (RTM): Darcy Flow, Preform Permeability & Gelation",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "e64294faf05ba99dcf413636420c2106204ec52a50db3124e39993efeadb63c0"
-    },
-    {
-      "id": "dc96a7fc-c338-423f-801d-b9a0cbf742b7",
-      "slug": "bacterial-pha-biosynthesis-fermentation-and-recovery",
-      "title": "Bacterial PHA Biosynthesis, Fermentation & Downstream Recovery",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "26f8aad9f205f704e1fcb62bb28e80d03f09b694c519bf9434ff6fffa6acebcf"
+      "id": "7952293d-0c17-4249-8ca0-d23c15bea1de",
+      "slug": "living-and-controlled-ionic-polymerization",
+      "title": "Living & Controlled Ionic Polymerization: Anionic, Cationic & ROMP Mechanisms",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "be1838ae37fd65d177d12086a14aaa5a4ae19b478cac1e6b3d6c220690b672fd"
     },
     {
       "id": "c416b5fa-5558-4c68-bc33-d49d5a73c32c",
       "slug": "microcellular-foam-injection-moulding-mucell-process-physics",
-      "title": "Microcellular Foam Injection Moulding (MuCell): Process Physics & Nucleation",
+      "title": "Microcellular Foam Injection Moulding (MuCell): Supercritical Fluid Physics & Nucleation",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "d23af573eada6a1def44db42c9b67dbc8e1e25621085e0f699c52703a564378c"
-    },
-    {
-      "id": "3ec8a451-59dc-4e23-a06d-c2ffb48485ed",
-      "slug": "controlled-composting-biodegradation-by-co2-respirometry",
-      "title": "Controlled-Composting Biodegradation by CO2 Respirometry",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "512eefde98d905e0b6541c53cf6d4b4bbfcfb199dd7ab39d92eec8e3355ed444"
+      "content_hash": "d87b7725682065d0fb6ec965fad0e022e3eb821acdc9286ab3a51ef2e45d98d8"
     },
     {
       "id": "e094c3a7-3ee6-4185-a32a-1ed57a606840",
       "slug": "blow-moulding-parison-extrusion-programming-and-stretch-blow",
-      "title": "Blow Moulding Parison Extrusion Programming & Stretch-Blow Kinetics",
+      "title": "Blow Moulding: Parison Programming, Die Kinetics & Stretch-Blow Physics",
       "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "1efe827be070a5a5b018088d432b4f22784cd5326a77a775e2401f20a0ea9b5d"
+      "content_hash": "79ec780696bf1b74fe1729789c47c6a27b3a3dfced3f7d949ba2efdcd4a086a1"
     },
     {
       "id": "3b11a2a9-a1c6-47a9-97dd-b7be819413c6",
       "slug": "pultrusion-process-engineering-fiber-wet-out-die-heat-and-pull-force",
       "title": "Pultrusion Process Engineering: Fiber Wet-Out, Die Heat & Pull Force Physics",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "82fe5c5456bed87e50d334982f571a0499d13ceb3c7f0578653c62720f5e6463"
+      "content_hash": "e1eeb18f10421d3183b440acea12661f5543d8c3400090d9bd9f53a765b90acb"
     },
     {
-      "id": "b687a5a3-e1a0-4eb2-beea-c2d9dbf30be4",
-      "slug": "lifecycle-assessment-lca-of-polymers-iso-14040-methodology",
-      "title": "Life Cycle Assessment (LCA) of Polymers: ISO 14040 Methodology",
+      "id": "d2e52510-7878-403e-bec2-f6c8201092d8",
+      "slug": "rohs-reach-and-global-chemical-compliance-in-plastics",
+      "title": "RoHS, REACH & Global Chemical Compliance in Plastics: Regulated Substances & Testing Standards",
       "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "6d75ccc92b9302fdc18325a242d10b235977a2c76f5ce28fe9ee8544c7a124e0"
+      "content_hash": "2997f63c6e6cdc41289b4d320f19482eb431fac545329e129e0244628694d957"
+    },
+    {
+      "id": "3502b76a-8a12-4a68-a36e-f8e5738cbe40",
+      "slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
+      "title": "Ring-Opening Polymerization Mechanics: Industrial Nylon 6 & Polycaprolactone",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "2655a7a1e1c15a32553c231b7d341684a0d6dbf89137a9db969f51406ef2812a"
+    },
+    {
+      "id": "3ec8a451-59dc-4e23-a06d-c2ffb48485ed",
+      "slug": "controlled-composting-biodegradation-by-co2-respirometry",
+      "title": "Controlled-Composting Biodegradation by CO2 Respirometry: Kinetics, Standards & Testing",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "4a659053a9f091a67f5db3ce51602b1a02152ecba5c6b7a4bfc68fed70fa1310"
+    },
+    {
+      "id": "698dfe2f-4f89-43be-a63f-9e1b193a74b8",
+      "slug": "rubber-mixing-and-internal-mixer-process-control",
+      "title": "Rubber Mixing & Internal Mixer (Banbury) Process Control: Dispersion, Temperature & Dump Criteria",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "720c15add9075936065b843a97d543c2560e75d27b7e02ef5c212baa18f10c4e"
+    },
+    {
+      "id": "d8c9d6dc-19d0-4e9a-ac45-ab99e512494c",
+      "slug": "tyre-compound-design-silica-silane-reinforcement-and-rolling-resistance",
+      "title": "Tyre Compound Design: Silica-Silane Reinforcement, Rolling Resistance & Wet Grip",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "b8ccaf27bd03b2249f2365ec809ddd4030f4f909470811f6eab1f9dfa68a7fdd"
+    },
+    {
+      "id": "dc96a7fc-c338-423f-801d-b9a0cbf742b7",
+      "slug": "bacterial-pha-biosynthesis-fermentation-and-recovery",
+      "title": "Bacterial PHA Biosynthesis: Fermentation, Upstream & Downstream Recovery",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "9a244e8b683a29389fe56f93806cb6b1176eb8bee6a7face86c04b76141d2f49"
     },
     {
       "id": "bc6a26fd-51c1-46bc-a4c3-ba37fac09117",
@@ -700,200 +693,172 @@
       "content_hash": "27283844ada512718384016d80e232a75c3cd6a405b1502260ae763ab00bdaf5"
     },
     {
+      "id": "b687a5a3-e1a0-4eb2-beea-c2d9dbf30be4",
+      "slug": "lifecycle-assessment-lca-of-polymers-iso-14040-methodology",
+      "title": "Life Cycle Assessment (LCA) of Polymers: ISO 14040 Methodology",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "fff3a74001d9cf0e9e4c04aed115f068219ded4e33c4c7069b4881e35ab25c3b"
+    },
+    {
       "id": "789575e0-44da-40cf-894c-cf4e40380432",
       "slug": "dsc-thermal-analysis-tg-tm-hf-and-crystallinity",
       "title": "Differential Scanning Calorimetry (DSC): Tg, Tm, Hf & Crystallinity Kinetics",
       "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "a63b71979acafa0809cb60d4d7808580d35e677cdd97b853b8da7c259cfdd3bb"
-    },
-    {
-      "id": "d2e52510-7878-403e-bec2-f6c8201092d8",
-      "slug": "rohs-reach-and-global-chemical-compliance-in-plastics",
-      "title": "RoHS, REACH & Global Chemical Compliance in Plastics",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "2e09c513aa626c88871554066374944737cf08cfe4135e8d6b9e9f6ae7445cbf"
-    },
-    {
-      "id": "698dfe2f-4f89-43be-a63f-9e1b193a74b8",
-      "slug": "rubber-mixing-and-internal-mixer-process-control",
-      "title": "Rubber Mixing and Internal-Mixer Process Control",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "03e7bc562b7f47b2cd18a9e6dba72a148ce78455352cb5c09613d301d4d78d3d"
-    },
-    {
-      "id": "3502b76a-8a12-4a68-a36e-f8e5738cbe40",
-      "slug": "ring-opening-polymerization-nylon-6-and-polycaprolactone",
-      "title": "Ring-Opening Polymerization Mechanics: Industrial Nylon 6 & Polycaprolactone",
-      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
-      "content_hash": "a6582b7866fac630954795ac9ee56c97fd7ae35419d8762bc6f0954588dde829"
-    },
-    {
-      "id": "d8c9d6dc-19d0-4e9a-ac45-ab99e512494c",
-      "slug": "tyre-compound-design-silica-silane-reinforcement-and-rolling-resistance",
-      "title": "Tyre Compound Design: Silica-Silane Reinforcement, Rolling Resistance & Wet Grip",
-      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
-      "content_hash": "5e33414abb78de13a3ec3f5a9fe3d599bbf11ab90f12f2b370359f2dbf7278e6"
-    },
-    {
-      "id": "26417b9c-d874-40a8-9818-b97a07771869",
-      "slug": "thermoforming-process-physics-plug-assist-and-draw-ratios",
-      "title": "Thermoforming Process Physics: Plug-Assist & Draw Ratio Optimization",
-      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "2507d05b3c0b1e49409d28a10b796c3592f70e91530bc6e6e4d8855bc8d2a41c"
-    },
-    {
-      "id": "a51f7b5b-9be2-407f-8d9e-c3862216b042",
-      "slug": "hydrogel-drug-delivery-diffusion-swelling-and-release-kinetics",
-      "title": "Hydrogel Drug Delivery: Diffusion, Swelling & Release Kinetics",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "10901074eea9b66f6873f0ab62d6a581e1f146875d8a76861239f6f03274081b"
-    },
-    {
-      "id": "72064d1d-19bf-4d75-a10a-ff19c99a3bb9",
-      "slug": "undercut-release-mechanics-side-cores-slides-and-lifters",
-      "title": "Undercut Release Mechanics: Side Cores, Angular Cam Pins, Slides & Lifters",
-      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
-      "content_hash": "48bb20a69f19a1813de648a5682deaf4f7261a3d6d78e7a88b3d617153af90ec"
-    },
-    {
-      "id": "0136a3e3-7d5b-4d65-abf4-8f678afb3a59",
-      "slug": "advanced-chemical-recycling-pyrolysis-and-solvolysis-pathways",
-      "title": "Advanced Chemical Recycling: Pyrolysis & Solvolysis Pathways",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "ff48b12d26f0a1b59874a4b30cfe20a7824208cf53f91f0a9a51401ab9edd0fe"
+      "content_hash": "d550a982fd9438cbad6aa19bb51805ca1edd28e974695a4f11c203fe50195b0d"
     },
     {
       "id": "0fdc4b32-2b60-491c-9a5e-8aa53a6d273b",
       "slug": "filament-winding-mandrel-kinematics-winding-angles-and-cure",
-      "title": "Filament Winding Mandrel Kinematics, Winding Angles & Burst Pressure Physics",
+      "title": "Filament Winding: Mandrel Kinematics, Winding Angle & Burst Pressure Design",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "cb2914fab43699c42535828cab9c3d19d65575c0f4e60f761992921491a6c661"
+      "content_hash": "ff1639c18286c0433ef0c910cf1814f35cea770d59571cbeb0c8c1a571e15969"
     },
     {
-      "id": "9578ef12-9610-4b2c-b1b6-9e00d39c29b2",
-      "slug": "twin-screw-compounding-extrusion-screw-elements-and-mixing",
-      "title": "Twin-Screw Compounding Extrusion: Screw Elements & Specific Energy",
-      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "b4f7e0c2d5aabcb74ddc4cd890cc87f10395c66f8e4c8cd5bcedc376d1e40263"
-    },
-    {
-      "id": "e5610706-93b8-4db7-bc84-3a7d4f17fa38",
-      "slug": "bankable-dpr-preparation-dscr-and-project-appraisal",
-      "title": "Bankable DPR Preparation: DSCR, IRR & Plastics Project Appraisal",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "5d6f4851221be2e66a601a684228945c119f53a0eb0bc32e21100e3e1aad3917"
+      "id": "0136a3e3-7d5b-4d65-abf4-8f678afb3a59",
+      "slug": "advanced-chemical-recycling-pyrolysis-and-solvolysis-pathways",
+      "title": "Advanced Chemical Recycling: Pyrolysis & Solvolysis Depolymerisation Pathways",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "60045396c947cb0d2ba6ec6353f4787046c8841b7c65cf2cd852305539208985"
     },
     {
       "id": "5fee4226-9010-40da-bb2c-2bd0f793df05",
       "slug": "pressure-filter-value-for-pigment-and-filler-dispersion",
       "title": "Pressure Filter Value (FPV) for Pigment & Filler Dispersion",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "00045d48c2ee7e775cf7342e40984d4866c5a25e635b50ab87a39767e70853d8"
+      "content_hash": "e1e58a77c8bff85555eab3d458445177ebb8bf039c9a709858261f32ea51da8f"
     },
     {
-      "id": "ad6b5192-ef6a-4a51-9b98-6397beb51360",
-      "slug": "uv-stabilizers-hals-benzotriazoles",
-      "title": "UV Stabilizers — HALS, Benzophenones, and Benzotriazoles",
-      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "b302d5a1dd5f371f77dd56e0508c84241b48f0bc29570463ccc5773ce42bcfb7"
+      "id": "e5610706-93b8-4db7-bc84-3a7d4f17fa38",
+      "slug": "bankable-dpr-preparation-dscr-and-project-appraisal",
+      "title": "Bankable DPR Preparation: DSCR, IRR & Plastics Manufacturing Project Appraisal",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "fdd4db3fd7a9ead7e6674d12b0311a4fb62f5580234d8f1bf06ad94f3aa68278"
+    },
+    {
+      "id": "a51f7b5b-9be2-407f-8d9e-c3862216b042",
+      "slug": "hydrogel-drug-delivery-diffusion-swelling-and-release-kinetics",
+      "title": "Hydrogel Drug Delivery: Diffusion, Swelling & Controlled Release Kinetics",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "e32e54360c78000f35ff507bac1e318f76cc258e5ef7e310914cfb64dcbe870e"
+    },
+    {
+      "id": "72064d1d-19bf-4d75-a10a-ff19c99a3bb9",
+      "slug": "undercut-release-mechanics-side-cores-slides-and-lifters",
+      "title": "Undercut Release Mechanics: Side Cores, Angular Cam Pins, Slides & Lifters",
+      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
+      "content_hash": "5e1a3a22d10918ac05fe95c35b13c9db1144a96879be39191c2b9842ed043e9f"
+    },
+    {
+      "id": "26417b9c-d874-40a8-9818-b97a07771869",
+      "slug": "thermoforming-process-physics-plug-assist-and-draw-ratios",
+      "title": "Thermoforming Process Physics: Plug-Assist & Draw Ratio Optimization",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "e8bec2a1914c28f373e8a14097eda254b233cd3d76588720f02b19d714270ff8"
     },
     {
       "id": "d382d40d-ef33-4559-8cee-0e05fca3a4e8",
       "slug": "introduction-to-medical-plastics-why-this-sector-demands-a-different-standard",
       "title": "Introduction to Medical Plastics: Why This Sector Demands a Different Standard",
       "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "10dcd0cfccaeb39891692c8957d754d10033797d83d19563a306fec9a51e49a1"
+      "content_hash": "eb89257cf6d4edc33c391c9dfee3933574801038af57fba9b9e84198767da209"
     },
     {
       "id": "83b53214-8c4b-4888-9931-b8e29975a176",
       "slug": "flexible-packaging-films",
-      "title": "Flexible Packaging Films — LDPE, LLDPE, BOPP, PET, and PA Films",
+      "title": "Flexible Packaging Films: Materials, Extrusion Science & Orientation Physics",
       "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "1c8cbba376807d885e7dfb42329aee8d6b684c272edd3ba5f505057714cb23d8"
+      "content_hash": "b4af76f6d2ada32990f2c66810d44b11a03c37ffe3d6605fc6aacaa9a4ca5a7c"
     },
     {
       "id": "7040a0fa-595f-46e3-8871-76211a7f6d3e",
       "slug": "color-measurement-spectrophotometry-delta-e",
-      "title": "Color Measurement and Matching — Spectrophotometry and Delta E",
+      "title": "Color Measurement & Matching: Spectrophotometry & CIELAB Delta E Physics",
       "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "f1d14a8c540305ba237b9cad405be3040fce33e0d5fc666825760f6742975188"
+      "content_hash": "b2ab060f0c41716e9ede8c65d7b334f40fa81ae844cdd614e9bbfdb89a4b3ba5"
     },
     {
-      "id": "7419c736-e568-4095-9679-daf6e547b404",
-      "slug": "fiber-matrix-interfacial-shear-strength-and-single-fiber-fragmentation",
-      "title": "Fiber-Matrix Interfacial Shear Strength (IFSS) & Single Fiber Fragmentation",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "09c32678c5fb6229ac55eb4aed2d7e55052672c8afe055f5967f33c7103b2337"
+      "id": "9578ef12-9610-4b2c-b1b6-9e00d39c29b2",
+      "slug": "twin-screw-compounding-extrusion-screw-elements-and-mixing",
+      "title": "Twin-Screw Compounding Extrusion: Screw Elements, Mixing Zones & Specific Energy",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "71dfbb382a66bc302c712e22fed09285265bc8741b7d921bccc93728d7a19f54"
     },
     {
-      "id": "90daf6c3-6e69-432e-a76b-46a7932fb6fe",
-      "slug": "cfrp-autoclave-vacuum-consolidation-and-cure-control",
-      "title": "CFRP Autoclave Vacuum Consolidation & Cure Control",
-      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "45ee36d2a42391fc3fcf9f720d959c80decf02215b4878a1711b6ecc4082ea5a"
-    },
-    {
-      "id": "e5a21295-e5b4-47bd-825e-95beff85c761",
-      "slug": "antioxidant-synergy-primary-secondary-stabilization",
-      "title": "Antioxidant Synergy: Primary & Secondary Stabilization Kinetics",
+      "id": "ad6b5192-ef6a-4a51-9b98-6397beb51360",
+      "slug": "uv-stabilizers-hals-benzotriazoles",
+      "title": "UV Stabilizers: HALS, Benzophenones & Benzotriazoles Mechanics",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "c1a73ccafe8518a8c96eed6544cec5782cd07a91a05c6a1dde33dca131549e10"
-    },
-    {
-      "id": "d84772c9-dacb-4b5e-86db-90edc42e4e9b",
-      "slug": "barrier-packaging-kinetics-otr-and-wvtr",
-      "title": "Barrier Packaging Kinetics: Oxygen (OTR) & Water Vapor (WVTR) Permeation",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "6396828e533cf5473383e471b5a458e701b942c42308cda1a06eea75b1b594d6"
-    },
-    {
-      "id": "e4e5e420-f699-4e24-8877-35cb4c7d0c3c",
-      "slug": "flexible-barrier-packaging-co-extrusion-lamination-and-metallization",
-      "title": "Flexible Barrier Packaging: Co-extrusion, Lamination & Metallization",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "f00b7d9bdbf1b62e7485e648711b0120948b8b744ff6b917c1599122aac45afd"
-    },
-    {
-      "id": "de8c30a0-6758-46f4-9e54-f39ab22459c0",
-      "slug": "cielab-colour-matching-delta-e-and-formulation-control",
-      "title": "CIELAB Colour Matching, Delta E & Formulation Control",
-      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "2ba82a21c34eee377cabbff0cdd145c93201b1fad88222e4442e4b669f8ae78f"
+      "content_hash": "b1d6c5ec26a0cd7eae76dc15bc8aeae80da4978585e1b3c89ffe14522d3c4412"
     },
     {
       "id": "7cd6979f-62d4-40d6-8076-ebc003a89d4b",
       "slug": "special-effect-pigments-metallic-pearlescent-and-interference-systems",
       "title": "Special-Effect Pigments: Metallic, Pearlescent & Interference Systems",
       "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "4adb1700fb438256ef7d593a9339bfea3f96ba56813a6df3846b44f72f5ea80e"
+      "content_hash": "e798795dbe2101893b6c9911f21324c65069283b10e44c577ddcda4076ae1755"
+    },
+    {
+      "id": "de8c30a0-6758-46f4-9e54-f39ab22459c0",
+      "slug": "cielab-colour-matching-delta-e-and-formulation-control",
+      "title": "CIELAB Colour Matching, ΔE Tolerancing & Masterbatch Formulation Control",
+      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
+      "content_hash": "c9e52e43d7f213775f0ce6fece75edf1bbf385bd7376e479e9e4b37c5ae01cff"
+    },
+    {
+      "id": "d84772c9-dacb-4b5e-86db-90edc42e4e9b",
+      "slug": "barrier-packaging-kinetics-otr-and-wvtr",
+      "title": "Barrier Packaging Kinetics: Oxygen (OTR) & Water Vapor (WVTR) Permeation Theory",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "5570833c19381dfa44687f0d8a4886ad18c2d268395aa92d7067d21aa7f15500"
     },
     {
       "id": "fcec0437-db31-4ab6-995f-15d46a52fad4",
       "slug": "heat-deflection-temperature-hdt-and-vicat-softening-point",
       "title": "Heat Deflection Temperature (HDT) and Vicat Softening Point Testing",
       "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "67329add4548b575ed587be83497ed4c03a4e62b3b8e73cad234cd094975c5fa"
+      "content_hash": "dbd38bc65b6d667d8f9e1e1dcd4dc206d13677e91c44b0a8e849690036454be3"
+    },
+    {
+      "id": "90daf6c3-6e69-432e-a76b-46a7932fb6fe",
+      "slug": "cfrp-autoclave-vacuum-consolidation-and-cure-control",
+      "title": "CFRP Autoclave Vacuum Consolidation & Cure Control",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "ac62abb10c22cb14923235b9c36bcf996df789562576d6b25f461ebaeff174e4"
     },
     {
       "id": "82dd7c9f-64da-46c9-a871-6ac7e0d4be77",
       "slug": "iso-10993-cytotoxicity-testing-for-medical-polymers",
-      "title": "ISO 10993 Cytotoxicity Testing for Medical Polymers",
+      "title": "ISO 10993-5 Cytotoxicity Testing for Medical Polymers: Elution, Contact & Cell Viability",
       "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "6f259433715917de30671333e16735a1fcade826ec721328f778335fd93d51d0"
+      "content_hash": "249e195efe7fe7a0bdc4bdf608623f21fa635cc0d902a868c3461932716d7c0e"
     },
     {
-      "id": "0fd36259-85b7-4d7e-ae32-92fabf9e895e",
-      "slug": "working-capital-banking-cash-credit-lc-and-bill-discounting",
-      "title": "Working Capital Banking: Cash Credit (CC), LC & Bill Discounting",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "26b59678e7b562f5a39b589a73616c68d002857f19fbae46f5ae0f2f116322af"
+      "id": "fdb0cec5-d558-48a0-b516-73eaae73aac7",
+      "slug": "biobased-carbon-content-by-radiocarbon-analysis",
+      "title": "Biobased Carbon Content by Radiocarbon Analysis (ASTM D6866)",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "eb26c698c7aa5c851ee04c8eef968b54e07c62bdd4fda57426abb8bcd551078b"
+    },
+    {
+      "id": "e5a21295-e5b4-47bd-825e-95beff85c761",
+      "slug": "antioxidant-synergy-primary-secondary-stabilization",
+      "title": "Antioxidant Synergy: Primary & Secondary Stabilization Kinetics in Polyolefins",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "7cf41459f2c1fe9ac7fb16317e3a0bcdd851949348d350f858880c29fe32b2ba"
     },
     {
       "id": "102a309e-43b9-4d86-bf0f-38161041962e",
       "slug": "rigid-packaging-pet-hdpe-pp",
       "title": "Polyethylene Terephthalate (PET): Synthesis, Crystallization & Bottle Processing",
       "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "648523889ce6bf7fe5e2b15b7b3750bd7f80b673ffe30d75e203395174e65371"
+      "content_hash": "a4344713eb304733f027bcf53023c74199af6a7dc326c005fa347b45278df1fe"
+    },
+    {
+      "id": "0fd36259-85b7-4d7e-ae32-92fabf9e895e",
+      "slug": "working-capital-banking-cash-credit-lc-and-bill-discounting",
+      "title": "Working Capital Banking: Cash Credit (CC), LC & Bill Discounting",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "e35a67c29e47ba604a21575035638d656eeb689fec69cfc064c32ba3f96e36ee"
     },
     {
       "id": "596af2a7-da4d-4de7-ada3-511a1ed927f3",
@@ -903,32 +868,18 @@
       "content_hash": "39daefcb1c54afbfea85a05067fa0f8acf53e217d74c4fa8553c6342f91c5d63"
     },
     {
-      "id": "fdb0cec5-d558-48a0-b516-73eaae73aac7",
-      "slug": "biobased-carbon-content-by-radiocarbon-analysis",
-      "title": "Biobased Carbon Content by Radiocarbon Analysis (ASTM D6866)",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "33f2d3405c7f1115f8f090a321c83c22f75c18db53cb9ed3963d59a5a301d552"
-    },
-    {
-      "id": "36e70195-c40b-47b0-ad4d-4ff49250b5c6",
-      "slug": "extrusion-melt-fracture-sharkskin-stick-slip-and-gross-distortion",
-      "title": "Extrusion Melt Fracture: Sharkskin, Stick–Slip & Gross Distortion",
-      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
-      "content_hash": "41970dd49aaea390fd95807d123f2514060d1d676291bb7a5c95e932ca65bf2d"
-    },
-    {
-      "id": "9a93ae96-0f72-40cb-a22e-1a99acd4021a",
-      "slug": "e-waste-plastics-density-separation-and-flame-retardant-removal",
-      "title": "E-Waste Plastics: Density Separation & Flame-Retardant Removal",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "c857f55924f5e107f90d5b394b864a312c66de35fae4670c745a7b5070b67685"
+      "id": "e4e5e420-f699-4e24-8877-35cb4c7d0c3c",
+      "slug": "flexible-barrier-packaging-co-extrusion-lamination-and-metallization",
+      "title": "Flexible Barrier Packaging: Co-extrusion, Lamination & Metallization Engineering",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "a455811bef754ae51798debd07eee2b1c5206d09fe0590628b893b0676f2a976"
     },
     {
       "id": "74a1a844-0bc8-431f-b13a-d5f0900c47b5",
       "slug": "flame-retardants-in-polymers-organophosphorus-and-intumescent-systems",
       "title": "Flame Retardants in Polymers: Organophosphorus & Intumescent Systems",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "9a35ad29287c79f46c11d59b40f11d1f5f88ffb8dcb1f083a256485d30035639"
+      "content_hash": "aaaa425cf4e653448e43723ec1c83ddaaa60c108f1710a0cf079c38615d4eb6e"
     },
     {
       "id": "ef1a6503-0d78-4a98-80e1-3fde9fb442cc",
@@ -938,39 +889,11 @@
       "content_hash": "fc32b3fe58fce3cc321f369a4037122b687a4ef48c625211f252e8e4a606a18b"
     },
     {
-      "id": "c01863b8-a188-49ea-85d4-5f75109369d7",
-      "slug": "polymer-blends-and-composites-combining-materials-for-better-performance",
-      "title": "Polymer Blends, Composites & Micromechanics (Voigt Rule of Mixtures)",
-      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
-      "content_hash": "080723a9d825ed38a28b62b77300a4e9ca89b2caefc77860555e8b946f306878"
-    },
-    {
       "id": "d1514efd-c93b-4b82-a2ea-edf0b1cd89f8",
       "slug": "polymer-degradation-and-stabilization",
       "title": "Polymer Degradation Pathways, Kinetics & Antioxidant Stabilization",
       "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
       "content_hash": "ffa89941a1c106d646829faf71a3eaae97596fe4ee0e07bba6575d5dcb95ba76"
-    },
-    {
-      "id": "d25b4e17-4609-4629-91ed-12616dc13308",
-      "slug": "non-newtonian-rheology-power-law-and-carreau-models",
-      "title": "Non-Newtonian Rheology: Power-Law & Carreau Models",
-      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "dc03bf8eaac04966de1c11f7d0683be4ae88aaca9786e07a2d21ab6a66dec58a"
-    },
-    {
-      "id": "585e8e2c-14bd-487c-a4ca-9e7bc46b86a0",
-      "slug": "first-normal-stress-difference-recoverable-strain-and-melt-elasticity",
-      "title": "First Normal Stress Difference, Recoverable Strain & Melt Elasticity",
-      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "c1cb4f5ecc8ffa3d706fd6931e4d5a86527b12735a96d93c805eb5009806f8cc"
-    },
-    {
-      "id": "0f6de6fe-86ee-40d1-a0ab-8673dea543c0",
-      "slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
-      "title": "The Sustainable Plastics Landscape: Bio-based, Biodegradable, and Compostable",
-      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
-      "content_hash": "2dd4b69e236ab7a5838a56100ef97cc3f9c4acce3db81a93b7f9aa94382fa375"
     },
     {
       "id": "e89889e6-05ea-4c59-a48f-ae81b89bc335",
@@ -987,67 +910,102 @@
       "content_hash": "15d44de4c1f8ef79efb4f25a1824d0fa44148b6f13e1bbf7a64475f2f222dd0c"
     },
     {
+      "id": "9a93ae96-0f72-40cb-a22e-1a99acd4021a",
+      "slug": "e-waste-plastics-density-separation-and-flame-retardant-removal",
+      "title": "E-Waste Plastics: Density Separation & Flame-Retardant Removal",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "634fed527e91d6eb3a8c74b74447eacb2a839b214735ab09674492e913fda96e"
+    },
+    {
+      "id": "0f6de6fe-86ee-40d1-a0ab-8673dea543c0",
+      "slug": "the-sustainable-plastics-landscape-bio-based-biodegradable-and-compostable",
+      "title": "The Sustainable Plastics Landscape: Bio-based, Biodegradable, and Compostable",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "2dd4b69e236ab7a5838a56100ef97cc3f9c4acce3db81a93b7f9aa94382fa375"
+    },
+    {
+      "id": "36e70195-c40b-47b0-ad4d-4ff49250b5c6",
+      "slug": "extrusion-melt-fracture-sharkskin-stick-slip-and-gross-distortion",
+      "title": "Extrusion Melt Fracture: Sharkskin, Stick–Slip & Gross Distortion Mechanics",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "fd7b914f66cb9d639902d821e619367569a1bc80e7bc8f282ddb722103d83278"
+    },
+    {
+      "id": "c01863b8-a188-49ea-85d4-5f75109369d7",
+      "slug": "polymer-blends-and-composites-combining-materials-for-better-performance",
+      "title": "Polymer Blends, Composites & Micromechanics (Voigt Rule of Mixtures)",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "080723a9d825ed38a28b62b77300a4e9ca89b2caefc77860555e8b946f306878"
+    },
+    {
+      "id": "585e8e2c-14bd-487c-a4ca-9e7bc46b86a0",
+      "slug": "first-normal-stress-difference-recoverable-strain-and-melt-elasticity",
+      "title": "First Normal Stress Difference, Recoverable Strain & Polymer Melt Elasticity",
+      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
+      "content_hash": "ce670f317846726fdfac69338207a98e08ce02373d0ea7e54994cf7afc5f5d69"
+    },
+    {
+      "id": "d25b4e17-4609-4629-91ed-12616dc13308",
+      "slug": "non-newtonian-rheology-power-law-and-carreau-models",
+      "title": "Non-Newtonian Rheology: Power-Law & Carreau-Yasuda Models for Polymer Melts",
+      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
+      "content_hash": "3b912b98cbf887246a175bfbfe2c3f10748da15de2d9e43f7caa49508d4e7e4c"
+    },
+    {
       "id": "23846c80-07f3-4c2b-bdfd-cbdf0d3a0111",
       "slug": "active-and-intelligent-packaging-scavengers-indicators-and-shelf-life-control",
-      "title": "Active and Intelligent Packaging: Scavengers, Indicators & Shelf-Life Control",
+      "title": "Active & Intelligent Packaging: Oxygen Scavengers, Freshness Indicators & Shelf-Life Kinetics",
       "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "02e2fd911a313d3e2e4c8fc80937926754397555854bc4f6e41e749d872a8602"
+      "content_hash": "36f9942c9bc498dbdc8f3c074d8f1b9675a309678bf80502a7b86a29143347a6"
+    },
+    {
+      "id": "5cbe08ff-304c-43b2-81be-564b684f9d79",
+      "slug": "life-cycle-assessment-lca-and-the-circular-economy-framework",
+      "title": "Life Cycle Assessment (LCA) & Circular Economy Integration",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "481f1970264cb6eacd4d951ee720dfa844ba746e870d5d619fbe7831ce4295ea"
+    },
+    {
+      "id": "6be08f18-7387-4cec-a50b-fd127963a60d",
+      "slug": "introduction-lca-plastic-footprint",
+      "title": "Introduction to LCA: Measuring the True Cost of Plastic",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "bedf0af8f7b8c4b4935d9f110876f3070a0132bf5336a07bd4522a75f4137d6a"
+    },
+    {
+      "id": "7c0296ad-7adb-471f-95fe-7a540fde2795",
+      "slug": "special-effects-masterbatch-pearl-metallic",
+      "title": "Special Effects: Pearl, Metallic, Fluorescent, and Thermochromic Pigments",
+      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
+      "content_hash": "e1935a09c91112ac976cf53af9901103f8c72025b4b48fd8278cfef003bbdaea"
     },
     {
       "id": "1325dd8b-83e7-439d-bb69-86b78cd970d3",
       "slug": "melt-fracture-sharkskin-flow-instabilities",
-      "title": "Melt Fracture, Sharkskin, and Flow Instabilities",
+      "title": "Melt Fracture, Sharkskin, and Flow Instabilities: Physics, Diagnostics & Mitigation",
       "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "854239d5043a8c3ee07fc651c602f778b57eff479ec8069a9cc6977b68ec35b1"
+      "content_hash": "cd81a716db922dcf09b0642b4b84a052e2ad126a2327ab214acc9d4c305e0dc3"
+    },
+    {
+      "id": "08bd9966-236b-4b4f-8ca4-9f5f216056ff",
+      "slug": "barrier-properties-otr-wvtr",
+      "title": "Barrier Properties: Oxygen, Water Vapor & CO2 Transmission Kinetics",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "5e14a820c5edfa149641fcfe67811d6db8a3f4a3f173504c67620092dac39f1c"
     },
     {
       "id": "a360c2e7-0803-4c15-aeae-334d90798913",
       "slug": "natural-fibre-composites-jute-flax-coir-and-bamboo-reinforcement",
       "title": "Natural Fibre Composites: Jute, Flax, Coir, and Bamboo Reinforcement",
       "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
-      "content_hash": "0a2b93281776b0dcf66a110da1f391073583c82471a55b474eb1871d0b785506"
-    },
-    {
-      "id": "6be08f18-7387-4cec-a50b-fd127963a60d",
-      "slug": "introduction-lca-plastic-footprint",
-      "title": "Introduction to LCA — Measuring the True Cost of Plastic",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "41ffd1e4b1c92460625567c715a0492fe0de4e23b4f4627723693527f096dfd6"
-    },
-    {
-      "id": "7c0296ad-7adb-471f-95fe-7a540fde2795",
-      "slug": "special-effects-masterbatch-pearl-metallic",
-      "title": "Special Effects — Pearl, Metallic, Fluorescent, and Thermochromic",
-      "subject_id": "d4f2af9a-03a4-4771-8af8-9e1965c48182",
-      "content_hash": "cffcfe2f7636439be6e131f615cc2b341f66a2b8eb7a129048cf599f3b0ed57c"
-    },
-    {
-      "id": "5daa38cf-e58b-486f-9154-8e4265c2ca6a",
-      "slug": "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
-      "title": "Time–Temperature Superposition, WLF Shifts & Rheological Master Curves",
-      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
-      "content_hash": "c3efd9a62d64e5f308f0b326741d0167a52a5440d4749c4f3a15a6c18ac3bb8e"
+      "content_hash": "19555d265d8943886e4c646315739733fd462ddbf340572ec25994a63261b6c6"
     },
     {
       "id": "9d540ce5-d5e9-4f2d-b798-d5f6905604b7",
       "slug": "fillers-nucleating-agents-processing-aids",
-      "title": "Fillers, Nucleating Agents, and Processing Aids",
+      "title": "Fillers, Nucleating Agents, and Processing Aids: Physics & Formulations",
       "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
-      "content_hash": "ca375ef55141fd539ca16d1c348d507a8a9fab69e4979277df43444a8d3bca70"
-    },
-    {
-      "id": "08bd9966-236b-4b4f-8ca4-9f5f216056ff",
-      "slug": "barrier-properties-otr-wvtr",
-      "title": "Barrier Properties — OTR, WVTR, and CO2 Transmission",
-      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
-      "content_hash": "36ae6abedc832a865cfee6d54d48a50a2f79d53622eb8339e793f321442c4804"
-    },
-    {
-      "id": "6c5cbd16-3557-451e-855d-c75db0e05d7a",
-      "slug": "lca-practice-india-epr-esg",
-      "title": "LCA in Practice — How Indian Companies Use It for EPR and ESG Reporting",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "df475ba1953db2ddf34da6718433985b825cd51c342d5fd5abac4cefbd4db0b3"
+      "content_hash": "8801d987223ee95ab4feef2482801782e9f7603929c282e7c5c50710d7e86edb"
     },
     {
       "id": "8e5139c4-71b6-4060-9c76-fb9aa5214e77",
@@ -1057,32 +1015,25 @@
       "content_hash": "9a9a75f7b5aadd59918a1ee670f5226c641d92732e13a5817fea9b660041b649"
     },
     {
+      "id": "5daa38cf-e58b-486f-9154-8e4265c2ca6a",
+      "slug": "time-temperature-superposition-wlf-shifts-and-rheological-master-curves",
+      "title": "Time–Temperature Superposition, WLF Shifts & Rheological Master Curves",
+      "subject_id": "0c8e6afa-b2b8-44a4-80bf-e0f1300f8d39",
+      "content_hash": "66b41cf3d056c91adec9c9d411883bc3fceed612a5cc9c4358d812f049f3a863"
+    },
+    {
+      "id": "6c5cbd16-3557-451e-855d-c75db0e05d7a",
+      "slug": "lca-practice-india-epr-esg",
+      "title": "LCA in Practice — How Indian Companies Use It for EPR and ESG Reporting",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "df475ba1953db2ddf34da6718433985b825cd51c342d5fd5abac4cefbd4db0b3"
+    },
+    {
       "id": "5a82905c-60df-4894-b9af-71c8eeaaf078",
       "slug": "thermal-analysis-dsc-tga-and-hdt-testing",
       "title": "Thermal Analysis: DSC, TGA & HDT — Theory, Technique & Industrial Interpretation",
       "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
-      "content_hash": "fbe85bab04b0b7d3b347e934210a8423836ca7406100777d85289422e4598a4b"
-    },
-    {
-      "id": "5cbe08ff-304c-43b2-81be-564b684f9d79",
-      "slug": "life-cycle-assessment-lca-and-the-circular-economy-framework",
-      "title": "Life Cycle Assessment (LCA) and the Circular Economy Framework",
-      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "ae2676a7106d6957c44ad1fd68ed177ce70c330d8f83c02dc6290ec18f1ef0b0"
-    },
-    {
-      "id": "38911cf9-d7e1-42b2-9b8d-93a56929ab67",
-      "slug": "environmental-product-declaration-generation-and-verification",
-      "title": "Environmental Product Declaration (EPD) Generation & Verification",
-      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
-      "content_hash": "4b59b5458707ca70664585493976e29f3bc796ee2b4c37c977b2f415e28a6929"
-    },
-    {
-      "id": "8ba52746-9923-4b44-9dc8-7f4789be5f8a",
-      "slug": "25-75-lakh-growth-tier-higher-margin-technical-products",
-      "title": "₹25–75 Lakh Growth Tier: Higher-Margin Technical Plastics Manufacturing",
-      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "82def99c4b4ee917d8e27dbdd90e2f2d1b98bca58c84230b599c29055a4ad7bc"
+      "content_hash": "e6d4934390e52f25cba797d67a9dfda552888e609fba4ae770c20fa185e24d1a"
     },
     {
       "id": "b96e8691-dc3a-4d17-b021-5c03122112c7",
@@ -1092,39 +1043,515 @@
       "content_hash": "ec5ab2807b72397e27fbb074e83fb5d417df5c9cc23ca4d0aed31eddf7e5276d"
     },
     {
-      "id": "ad7796a0-10e4-4d40-81a8-ccfb9af02e7e",
-      "slug": "sterilization-methods-and-polymer-compatibility",
-      "title": "Sterilization Methods and Polymer Compatibility",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "3e9532a20bb2430729edf953db95470772c8dd5ee8ce1872ac71555ab0d152c4"
+      "id": "c84dad6d-094a-41d9-a2f6-8e03d454d553",
+      "slug": "75-lakh-2-crore-scale-tier-extrusion-plants-recycling-and-processing-lines",
+      "title": "₹75 Lakh–₹2 Crore Scale Recycling & Extrusion Plants: Project Economics & Working Capital",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "c10b3f07a13991abdda0e778b8f84f19673da40e98cf21a22eb3289a2e12e254"
     },
     {
-      "id": "fb9f1601-0b1b-4cf5-a426-136c236c8ea6",
-      "slug": "chemical-recycling-pyrolysis-depolymerization-and-solvolysis",
-      "title": "Chemical Recycling: Pyrolysis, Depolymerization, and Solvolysis",
-      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
-      "content_hash": "33fcae34cb2d9e440023a9e3e92fbe68be5b803588273b11f46ddd6cde49fd44"
-    },
-    {
-      "id": "57ae9727-7266-4303-91cc-4cb79a047d27",
-      "slug": "medical-device-sterilization-gamma-eto-and-validation-kinetics",
-      "title": "Medical Device Sterilization: Gamma, EtO & Validation Kinetics",
-      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
-      "content_hash": "a84e9816e40069e18bc03712e917f35c721d7aaa2b0a79855b110920983a66e2"
+      "id": "38911cf9-d7e1-42b2-9b8d-93a56929ab67",
+      "slug": "environmental-product-declaration-generation-and-verification",
+      "title": "Environmental Product Declarations (EPD): PCR Rules, ISO 14025 & Verification Protocols",
+      "subject_id": "cb4aeb63-104f-4427-9256-06ad9356e50f",
+      "content_hash": "5faf1cf096443877bf8294ff1fb66376f88299a811e65ea183ad96bd99ab1aec"
     },
     {
       "id": "21682e15-6272-4f4e-aced-942d47557862",
       "slug": "plastics-factory-layout-utilities-and-spcb-pcc-consent-management",
       "title": "Plastics Factory Layout, Utilities & SPCB/PCC Consent Management",
       "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "afb3eee095bb8f43f8e1260e4b04fe42fcff7f20cf03818f5c7346243bf4aa58"
+      "content_hash": "550fd23a71ed3342b23bca6e6f4cafbe011aa5f455c765f06c48d8d4d7e17433"
     },
     {
-      "id": "c84dad6d-094a-41d9-a2f6-8e03d454d553",
-      "slug": "75-lakh-2-crore-scale-tier-extrusion-plants-recycling-and-processing-lines",
-      "title": "₹75 Lakh–₹2 Crore Scale Recycling & Extrusion Plants: Project Economics & Working Capital",
+      "id": "9b5c8147-228d-4aed-99ce-99cfa8ea3db7",
+      "slug": "introduction-to-reinforced-polymer-composites",
+      "title": "Introduction to Reinforced Polymer Composites: Matrix, Reinforcement & Interface Chemistry",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "82f0894679d3525d7484741f48c7531b806303aec1f1af37167a8d51a29caabd"
+    },
+    {
+      "id": "161566a5-c027-4040-819b-3068ab5e9186",
+      "slug": "bioplastics-synthesis-compostability-and-standards",
+      "title": "Bioplastics: Synthesis, Compostability & Biodegradation Standards",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "5a3047cf3214ee90a453741785d598455741ef3dabe4c8145badd252c53ff777"
+    },
+    {
+      "id": "92ca5cb7-600a-4870-a0dd-b8aaa9499c87",
+      "slug": "natural-rubber-vs-synthetic-rubber-sources-and-selection",
+      "title": "Natural vs Synthetic Rubber: Molecular Structure, Properties & Selection Criteria",
+      "subject_id": "b9399968-d0df-4953-9bec-1f07d61de8ab",
+      "content_hash": "95032b6c7f43b65dc494403d15385a96ab0616fe8e11e3efbe867237641deaac"
+    },
+    {
+      "id": "4615e554-a06b-471e-817b-50cebcca54a4",
+      "slug": "controlled-radical-polymerization-atrp",
+      "title": "Controlled Radical Polymerization — ATRP",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "68b41d9d62f4b65ac0220d2416feebc015c8eaa522a01da49bb6f875777dc49d"
+    },
+    {
+      "id": "62e4ae71-02e1-474b-b485-7b767897caff",
+      "slug": "running-a-plastics-business-quality-compliance-bis-certification-and-export",
+      "title": "Running a Plastics Business: Quality, Compliance, BIS Certification & Exporting",
       "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
-      "content_hash": "c10b3f07a13991abdda0e778b8f84f19673da40e98cf21a22eb3289a2e12e254"
+      "content_hash": "66220d46c760dd87c1bd977667eb3dbf1e8b2cd517111ad7298e8629fe2a5efe"
+    },
+    {
+      "id": "8ba52746-9923-4b44-9dc8-7f4789be5f8a",
+      "slug": "25-75-lakh-growth-tier-higher-margin-technical-products",
+      "title": "₹25–75 Lakh Growth Tier: Higher-Margin Technical Plastics Manufacturing",
+      "subject_id": "eb5250fe-360a-4fc4-bd74-b5f65bebcea5",
+      "content_hash": "82def99c4b4ee917d8e27dbdd90e2f2d1b98bca58c84230b599c29055a4ad7bc"
+    },
+    {
+      "id": "57ae9727-7266-4303-91cc-4cb79a047d27",
+      "slug": "medical-device-sterilization-gamma-eto-and-validation-kinetics",
+      "title": "Medical Device Sterilization: Gamma, EtO & Validation Kinetics",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "dc100a0f3c3a73c07032cb3209844ea04f0c6454cdb48fc6312cc3551aaec697"
+    },
+    {
+      "id": "fb9f1601-0b1b-4cf5-a426-136c236c8ea6",
+      "slug": "chemical-recycling-pyrolysis-depolymerization-and-solvolysis",
+      "title": "Chemical Recycling: Pyrolysis, Depolymerisation & Solvolysis Pathways",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "22d4816438d3085cfd97bac604b79c8b621630a54c98b6e12b2f1094e60f8335"
+    },
+    {
+      "id": "25006c3c-9978-48a1-9680-992d24680fb2",
+      "slug": "gel-permeation-chromatography-gpc-principles-data-interpretation",
+      "title": "Gel Permeation Chromatography (GPC) — Principles & Data Interpretation",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "a6bcdc3c98cfb00dc8923c360a985be452b623d43ac85f0d4993a770b34cd996"
+    },
+    {
+      "id": "ad7796a0-10e4-4d40-81a8-ccfb9af02e7e",
+      "slug": "sterilization-methods-and-polymer-compatibility",
+      "title": "Sterilization Methods & Polymer Compatibility: EO, Radiation, Steam & Dry Heat",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "1819a0fd5366a508c95aa4a89b2bdc8c973dfb482c1b48847f20243a84c6f080"
+    },
+    {
+      "id": "caec9fd2-16de-4f7f-8ed7-7f28ea1d7d8c",
+      "slug": "introduction-to-the-plastics-recycling-landscape-why-it-matters-now",
+      "title": "Introduction to the Plastics Recycling Landscape: Why It Matters Now",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "579cc6eb562210cee9b77c1b13849be8547cb1ba642f38ff1fee0d4743bedcf6"
+    },
+    {
+      "id": "868a94d2-990e-4db9-8292-c5eac90fd845",
+      "slug": "food-contact-regulations-packaging",
+      "title": "Food Contact Regulations and Packaging Safety: Migration Limits & Compliance testing",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "7d7c54290fb7e15c354f553f6bffb1b33200228057dd2866cda61d1731efa39d"
+    },
+    {
+      "id": "848b05dd-8f18-4edb-ac0a-5bb36c2df655",
+      "slug": "rheology-of-concentrated-polymer-solutions",
+      "title": "Rheology of Concentrated Polymer Solutions",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "f25f6e52b656beeb28eacb77a2aeeff08856531fa8e917071ce699268f122776"
+    },
+    {
+      "id": "845623fc-f4a9-4417-ae94-3306a1dfd427",
+      "slug": "fourier-transform-infrared-ftir-polymer-identification",
+      "title": "Fourier Transform Infrared (FTIR) — Polymer Identification",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "0c20de10d73225f6e93e0d44776d6ff95dcec16d07da8b0bbc2cfd52654c4254"
+    },
+    {
+      "id": "768d3c04-567e-4db5-a176-1f364ef375c8",
+      "slug": "co-injection-molding-skin-core-structures",
+      "title": "Co-Injection Molding — Skin-Core Structures",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "3b76a89c95163f003dd85b86c496b1fc94b145f3c5c3d1d15f3abcdc7d3b8d12"
+    },
+    {
+      "id": "2904b205-30e0-4b8a-bba5-3d915daffd75",
+      "slug": "nuclear-magnetic-resonance-nmr-polymer-structure-analysis",
+      "title": "Nuclear Magnetic Resonance (NMR) — Polymer Structure Analysis",
+      "subject_id": "25503bc3-fb0e-4991-a226-1d7b464e2946",
+      "content_hash": "abb09be499e8d12c0de57ce8e40d716c1b23bf86ef024fa32f27dcac4df5cf33"
+    },
+    {
+      "id": "f4e97f29-64cd-452e-a5ca-4e1b9467cd5a",
+      "slug": "micro-injection-molding-process-applications",
+      "title": "Micro-Injection Molding — Process & Applications",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "988ed0c36542110ae632154874b3dec247cc2db9098da464412f00601ba2aaad"
+    },
+    {
+      "id": "b5a24d50-a466-4372-be60-7126feef9d10",
+      "slug": "conformal-cooling-design-principles-additive-manufacturing",
+      "title": "Conformal Cooling — Design Principles & Additive Manufacturing",
+      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
+      "content_hash": "546776924912c747821646d4511740b1dee0c2287d13751aa874bc403973d80e"
+    },
+    {
+      "id": "a58d1c11-e42f-4ace-ba48-078a7a88ce19",
+      "slug": "antimicrobial-additives-mechanisms-applications",
+      "title": "Antimicrobial Additives — Mechanisms & Applications",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "2ee21360d2f6ef1afb08ce6f0f5e4e2c18d59dccde749d6af6cc43bfbaf0a6f7"
+    },
+    {
+      "id": "f680e5ea-2260-4cd2-b91f-45bf190e024c",
+      "slug": "pha-production-economics-scale-up-commercialization",
+      "title": "PHA Production Economics — Scale-Up & Commercialization",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "02478a852e3bf0952d6c214ac217ebe2eb70dcd9dd0fb7bea97fe68cc1319bcf"
+    },
+    {
+      "id": "0326e325-979f-4479-9e60-1f74eb2cc448",
+      "slug": "drug-eluting-devices-polymers-controlled-release",
+      "title": "Drug-Eluting Devices — Polymers & Controlled Release",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "259a35d6a0e17e2301863dcb5b9c150b40b9bb3897c131a68c137c8b0df22321"
+    },
+    {
+      "id": "9e03615c-89d7-4869-aa52-cd15bda931cd",
+      "slug": "depolymerization-technologies-hydrolysis-methanolysis-glycolysis",
+      "title": "Depolymerization Technologies — Hydrolysis, Methanolysis, Glycolysis",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "12fc396be63931eec2809ab42a64b2283c79d27d0340776b4ddcd502dd36141d"
+    },
+    {
+      "id": "d6c43f26-fe92-4af3-a839-eca54d80b89e",
+      "slug": "robotics-in-injection-molding-pick-and-place-insert-loading",
+      "title": "Robotics in Injection Molding — Pick-and-Place, Insert Loading",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "f2c2bd7e30be002da9dc2ea13da13f4a18d8453445048fbda20b02aa834a560c"
+    },
+    {
+      "id": "3780b68c-435f-43e3-ad1e-c3ce8b78a96d",
+      "slug": "multi-component-injection-molding-overmolding-2-shot",
+      "title": "Multi-Component Injection Molding — Overmolding & 2-Shot",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "fa37b4b3e3b348791a661ce7a8e59ba420255787ca01910e08dea3647ede348d"
+    },
+    {
+      "id": "8c8243a3-b2aa-4709-af29-4951acff05b6",
+      "slug": "in-mold-labeling-iml-process-applications",
+      "title": "In-Mold Labeling (IML) — Process & Applications",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "9035eba625d731b49176bca69e9d6285cc1ae229184931d3e7fc439c17a9255f"
+    },
+    {
+      "id": "843c4462-6de8-43a4-a08f-86664f4e339a",
+      "slug": "advanced-process-control-in-injection-molding",
+      "title": "Advanced Process Control in Injection Molding",
+      "subject_id": "09931597-70cc-4cab-905c-336a4d6dde09",
+      "content_hash": "342b5b90666629eb20d6380489645111c866bda6b1bda0b0b47beda4ba2b5186"
+    },
+    {
+      "id": "d96b55d2-2614-4cdb-9575-2dd0200d974e",
+      "slug": "hot-runner-systems-design-thermal-management",
+      "title": "Hot Runner Systems — Design & Thermal Management",
+      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
+      "content_hash": "f236d278754c25269f27d377c16bbfedc7a0ebd10000f9a45ae1f47dc9b5260b"
+    },
+    {
+      "id": "97863385-94f2-4253-9313-00cf97dbac85",
+      "slug": "mold-flow-simulation-cae-using-moldex3d-moldflow",
+      "title": "Mold Flow Simulation (CAE) — Using Moldex3D & Moldflow",
+      "subject_id": "868f5116-d18d-4f4c-a0cc-109c87d09f3e",
+      "content_hash": "0fccd58003a69546802d634aac47f57bb64a872c62e82c1927b476d1a2bd58db"
+    },
+    {
+      "id": "ff53294c-82ff-4618-8c7a-735296aea9f8",
+      "slug": "antistatic-additives-types-mechanisms",
+      "title": "Antistatic Additives — Types & Mechanisms",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "46a08867ff54058ef04c95add1aa56e30b055b7617ecb8c2cc93cffb231fb352"
+    },
+    {
+      "id": "ce6e48e0-6c19-41df-9501-0fe860b30e3c",
+      "slug": "clarifiers-nucleating-agents-optical-properties",
+      "title": "Clarifiers & Nucleating Agents — Optical Properties",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "20da2a3dd693165adc2445d3a2a15c5fcc8b8732190bdee527b4aeb28432ecbb"
+    },
+    {
+      "id": "a4344629-e89a-4f7a-a7f9-7bb6a76ba00d",
+      "slug": "sustainable-additives-bio-based-plasticizers-stabilizers",
+      "title": "Sustainable Additives — Bio-based Plasticizers, Stabilizers",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "2c3258188df6aefb61cec39be8eae7c704900729bd20cd85f1b7ac4b958e6fda"
+    },
+    {
+      "id": "8f6bb979-d3f8-4f04-b40a-8f51fa6a03b4",
+      "slug": "specialty-additives-oxygen-scavengers-desiccants",
+      "title": "Specialty Additives — Oxygen Scavengers, Desiccants",
+      "subject_id": "3224e480-d92e-474f-90ba-2439596e0db9",
+      "content_hash": "57b71638c33f863ce42ef9a9b06a96779e266a4c50ac462f32e3696704d23ee6"
+    },
+    {
+      "id": "fe4b0d0f-95c5-46ae-94d3-d3905890aed0",
+      "slug": "economics-of-chemical-recycling-capex-opex-roi",
+      "title": "Economics of Chemical Recycling — CAPEX, OPEX, ROI",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "7a07f90fd97b9adb7e868fc7d37539f74a046e8632b61bea239e9e8fa44acb12"
+    },
+    {
+      "id": "f211a091-1ee0-4dc6-a569-eaaa1ed47e71",
+      "slug": "compostability-certification-en-13432-astm-d6400",
+      "title": "Compostability Certification — EN 13432, ASTM D6400",
+      "subject_id": "251160d3-705f-4563-9468-483a86bba730",
+      "content_hash": "18b34868a66ba452446fb8176c926d4e3c45369a9b151c951461c67f6c84c0fa"
+    },
+    {
+      "id": "e518bcde-2099-4ee2-bbce-0eb4f3997be5",
+      "slug": "automated-quality-inspection-vision-systems-ai-nir",
+      "title": "Automated Quality Inspection — Vision Systems, AI, NIR",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "9c64db1f6e0f1e33a5ffcd7e0ca886e5aa0139c437fd54c78c571ef2fac6d6eb"
+    },
+    {
+      "id": "29db828e-4c20-4192-9ad1-e865e9d2cf35",
+      "slug": "collaborative-robots-cobots-safety-applications",
+      "title": "Collaborative Robots (Cobots) — Safety, Applications",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "dcd33261e7f9d738a070ca89a899303a984f48b89cc3d6ed476f5e80adf5e563"
+    },
+    {
+      "id": "a073f8d3-4f5b-4e4f-a1c1-ac13c311dbec",
+      "slug": "robotic-assembly-packaging-palletizing-kitting",
+      "title": "Robotic Assembly & Packaging — Palletizing, Kitting",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "2cec7225cbfe7294ad116696e7a40bacd29da9ceca17fd23263093f1ba05c0e7"
+    },
+    {
+      "id": "8103f56d-a0de-4ba9-984d-5ad3c97fa4f7",
+      "slug": "robotics-maintenance-programming-plc-teach-pendants",
+      "title": "Robotics Maintenance & Programming — PLC, Teach Pendants",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "a5f907b01e1f60a1f99120f9c9cfcad63496b9ba5a3ca6e0859dc90f76fd9626"
+    },
+    {
+      "id": "ad32a844-9959-42db-96e1-2868060f79ed",
+      "slug": "introduction-to-digital-twins-concept-benefits-architecture",
+      "title": "Introduction to Digital Twins — Concept, Benefits, Architecture",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "7c4dc767320be9aa10d89f1a5cafcc0245fe2f053d1e0862c793794f1a655524"
+    },
+    {
+      "id": "45c717fb-4d98-4131-bbfc-e86b38b2708f",
+      "slug": "simulation-software-moldex3d-moldflow-ansys",
+      "title": "Simulation Software — Moldex3D, Moldflow, ANSYS",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "c1bcd63233bf7af5088d021799a03e6aaab22008cb6ab6d8d0a6533acd39ec4a"
+    },
+    {
+      "id": "832f8660-f1ae-48f9-89ac-03820579189f",
+      "slug": "predictive-maintenance-vibration-analysis-thermal-imaging-ml",
+      "title": "Predictive Maintenance — Vibration Analysis, Thermal Imaging, ML",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "7e5bcff065b5d9fe91c38926cf17d598453ec2097a9c8cac7484e4677aa03b02"
+    },
+    {
+      "id": "3c60b9c5-b8b0-46ff-a58b-4b01cdb44f64",
+      "slug": "industry-4-0-in-plastics-iiot-mes-scada",
+      "title": "Industry 4.0 in Plastics — IIoT, MES, SCADA",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "e0ebed1e79af144641e87dddc721ebf5f0106898f3e383c67ac6b152b18d975f"
+    },
+    {
+      "id": "2229ae11-ff3e-4a76-9674-106ceef0c8e9",
+      "slug": "machine-learning-in-injection-molding-quality-prediction",
+      "title": "Machine Learning in Injection Molding — Quality Prediction",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "50def8a3bd148c1caa48f425eb16ebdbbcce6d3b3061286e9c71fca3390523ed"
+    },
+    {
+      "id": "4089661f-3338-4e73-8d45-0c55b2dbcc0d",
+      "slug": "digital-twins-for-sustainability-energy-optimization-waste-reduction",
+      "title": "Digital Twins for Sustainability — Energy Optimization, Waste Reduction",
+      "subject_id": "83a25a4e-f326-46d8-ae24-dd24893bc916",
+      "content_hash": "ee4b851fc8434d195058270dd220de7504cfc2b42a63951673733ce154bf09ab"
+    },
+    {
+      "id": "2b9ff1cc-9653-4206-a839-12a1f534a697",
+      "slug": "upcycling-of-plastic-waste-value-added-products",
+      "title": "Upcycling of Plastic Waste — Value-Added Products",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "c7c523ad8821fac80e737816e144d77142b361dd70df0f1a3b0f565473f847a2"
+    },
+    {
+      "id": "9f52a7c7-c281-4ccc-be5d-c24efc99795c",
+      "slug": "ai-powered-plastic-waste-sorting-neural-networks-nir",
+      "title": "AI-Powered Plastic Waste Sorting — Neural Networks, NIR",
+      "subject_id": "12f8a381-2a68-47ea-bcc9-74cd4fe7ab8b",
+      "content_hash": "7496c94ea7ffc20c4852e37ead01a93278f428e6a86b662de2ce8393254e384b"
+    },
+    {
+      "id": "e588f0c3-ade5-406e-afcc-fe5c3758f5b2",
+      "slug": "tissue-engineering-scaffolds-design-biodegradability",
+      "title": "Tissue Engineering Scaffolds — Design & Biodegradability",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "2644466a77f913794fc9f8146af6afdb45929f248b8d04cd9ae391d0328fe5f4"
+    },
+    {
+      "id": "e62e6483-cc81-441b-a617-463e2af2aabb",
+      "slug": "regulatory-pathways-fda-ce-iso-13485",
+      "title": "Regulatory Pathways — FDA, CE, ISO 13485",
+      "subject_id": "9fad76f4-4c41-4719-9698-df3d2c9b39eb",
+      "content_hash": "4eb4d3c59f7e7a74b03bbbd5c9f6d9e9d1af2685009ba8079e19226cc572b004"
+    },
+    {
+      "id": "a71266f0-80f4-461a-abac-4d2796723e70",
+      "slug": "active-packaging-oxygen-scavengers-moisture-absorbers",
+      "title": "Active Packaging — Oxygen Scavengers, Moisture Absorbers",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "2f45bc8eb86393494722807d314f28ca3408df83b19633b9081ab2b71ac0c1a1"
+    },
+    {
+      "id": "d5a89c9f-82f8-42b0-b2f8-474e4520da0e",
+      "slug": "intelligent-packaging-freshness-indicators-rfid",
+      "title": "Intelligent Packaging — Freshness Indicators, RFID",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "0d814512049fea40510a50d4fb64284e7db1a66b333cd041c90a10cedd1045fb"
+    },
+    {
+      "id": "87692ff6-d805-44e1-bb63-bd4a3bcd325b",
+      "slug": "compostable-packaging-design-materials-certification",
+      "title": "Compostable Packaging Design — Materials & Certification",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "3ddf34222a705dded55aeea5634261659157d0b27837f1335ab6a77f64e1bbca"
+    },
+    {
+      "id": "624ed39b-c44f-414b-bd45-44ea825bda5a",
+      "slug": "barrier-coatings-pvdc-evoh-nanocomposites",
+      "title": "Barrier Coatings — PVDC, EVOH, Nanocomposites",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "54c3edec39b43a35635bd906a3d3299f39a975de778011adc59140a843562217"
+    },
+    {
+      "id": "afddf33f-b693-4f77-9dc9-00989d23602a",
+      "slug": "packaging-machinery-form-fill-seal-thermoforming",
+      "title": "Packaging Machinery — Form-Fill-Seal, Thermoforming",
+      "subject_id": "4b781aed-0252-411c-9e58-76a8155a1c74",
+      "content_hash": "22e3776ce8fe726f29e1a1f5d4db2b37dac34b84a835b9e3db2a8823233c0feb"
+    },
+    {
+      "id": "f531a0ca-db24-4a06-8d3d-36f84533a37f",
+      "slug": "high-performance-composites-peek-cf-polyimide-cf",
+      "title": "High-Performance Composites — PEEK-CF, Polyimide-CF",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "56e7809f1077931a0d02b1083f22f86570d000ee50a7e66ba0f58b1465742478"
+    },
+    {
+      "id": "e57ca15a-47ee-4202-a12e-a43428520587",
+      "slug": "nanocomposites-clay-cnt-graphene-in-polymers",
+      "title": "Nanocomposites — Clay, CNT, Graphene in Polymers",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "e09498d894d944bb2f00a514140d4c7021e74c109260a3ee0c99ba967eb77be9"
+    },
+    {
+      "id": "12944c5e-b68f-4bdf-8939-a344e5fc1a77",
+      "slug": "sandwich-structures-core-materials-skin-materials",
+      "title": "Sandwich Structures — Core Materials, Skin Materials",
+      "subject_id": "4b71f8bf-c3c9-4a27-8a18-7af831b9ec25",
+      "content_hash": "73203fe481229e56ae4e31533d19728470d0d3cb188b7d4beca296b4f79093e7"
+    },
+    {
+      "id": "16570b82-f49d-44d6-b70e-318eafcc53e5",
+      "slug": "introduction-to-polymer-nanotechnology-scale-properties-applications",
+      "title": "Introduction to Polymer Nanotechnology — Scale, Properties, Applications",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "b78b50700f73adfae05200d55e348d9e19e2c935134611898eb0b55194bd44b6"
+    },
+    {
+      "id": "004f9e46-6195-405c-86cf-7396decfafe7",
+      "slug": "carbon-nanotubes-synthesis-functionalization-polymer-composites",
+      "title": "Carbon Nanotubes — Synthesis, Functionalization, Polymer Composites",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "d528ab2e4f4a07c653964afb7cbbc7e6ff43c08d42977c112b4c74564e24843f"
+    },
+    {
+      "id": "7875fa9b-ce05-4f2b-b9ef-a9b67df5e537",
+      "slug": "graphene-and-graphene-oxide-polymer-composites-coatings",
+      "title": "Graphene and Graphene Oxide — Polymer Composites & Coatings",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "5b3d48053a992e4fb39d442c6387890262155b76a3309f3f64b891d62b41ed97"
+    },
+    {
+      "id": "fda642c0-03cf-4b3c-bd57-6ffd0820b631",
+      "slug": "quantum-dots-polymer-encapsulation-applications",
+      "title": "Quantum Dots — Polymer Encapsulation & Applications",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "d38d14a22cb600d6de5e37ff67e3131beb082f6b880d72ad1fa0ff4ca56db66e"
+    },
+    {
+      "id": "b7001b65-2583-403f-9603-64f2531d370d",
+      "slug": "nanoclays-polymer-layered-silicate-nanocomposites",
+      "title": "Nanoclays — Polymer Layered Silicate Nanocomposites",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "29b23dccc980c5b93126a6931bf8aba58e7f58b656e86cbff8f9ab6891e16b4d"
+    },
+    {
+      "id": "70902ebe-8592-4d3f-b657-03688c1ce368",
+      "slug": "characterization-of-nanocomposites-tem-sem-afm-xrd",
+      "title": "Characterization of Nanocomposites — TEM, SEM, AFM, XRD",
+      "subject_id": "6758c18f-6d57-466e-8c16-0f9c4575833c",
+      "content_hash": "f503a3c2da779c21597707b7691ca141ff4f4a2a4f260ef4fa128dc20ab8af99"
+    },
+    {
+      "id": "e7bbe884-a207-423a-9cdd-612ce61933fe",
+      "slug": "introduction-to-bioprocessing-principles-applications",
+      "title": "Introduction to Bioprocessing — Principles & Applications",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "acb8270549f52124aa698abec2187f3fef6b6e454c9bcbd77a237ba14d88e3a9"
+    },
+    {
+      "id": "074fc9ea-aee1-40f0-9947-fdd261085b71",
+      "slug": "pla-biosynthesis-fermentation-purification-polymerization",
+      "title": "PLA Biosynthesis — Fermentation, Purification, Polymerization",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "c7f31fded1aca1bf7297e796770e4f693ed3cef31d29d441a3402ffc776556e2"
+    },
+    {
+      "id": "61de6b70-ba26-4b89-a7b6-1a1cf28eff64",
+      "slug": "pha-production-bacterial-fermentation-recovery",
+      "title": "PHA Production — Bacterial Fermentation & Recovery",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "3c288acfc1152bacc98355b342ba920161c53365d4b7edc1e33846531ce977d9"
+    },
+    {
+      "id": "4047e882-7663-4b74-b2e5-0d0915bcc2aa",
+      "slug": "enzyme-design-for-polymer-degradation-petase-mhetase",
+      "title": "Enzyme Design for Polymer Degradation — PETase, MHETase",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "10ced417fe406ac6ebcef5e34196b834e15b67e6b9ab781b030ad8c83f01ca92"
+    },
+    {
+      "id": "d06323f1-179f-4db3-ab6c-ae7479bc336d",
+      "slug": "bioreactor-design-stirred-tank-air-lift-photobioreactors",
+      "title": "Bioreactor Design — Stirred Tank, Air-Lift, Photobioreactors",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "8e69b2704b3e2c632e7a8a907e811c3a7d52cd14ed955d163b06fb8de6da7191"
+    },
+    {
+      "id": "b9bf17d3-54e7-4583-8e86-876912ea1199",
+      "slug": "downstream-processing-purification-concentration-drying",
+      "title": "Downstream Processing — Purification, Concentration, Drying",
+      "subject_id": "aeca1092-46de-4ee4-ba29-888fb464850a",
+      "content_hash": "94269486687ac981116ec815fc392a82bcc9be283b62d926345d0cb050e7e904"
+    },
+    {
+      "id": "b7b8be28-8ca6-4872-9592-7970c6288953",
+      "slug": "introduction-to-industrial-robotics-types-payload-reach",
+      "title": "Introduction to Industrial Robotics — Types, Payload, Reach",
+      "subject_id": "55979284-fe40-4fbb-a8e1-f948579610d0",
+      "content_hash": "6ea87b1b2120265beb82799d65c5fe864cf292256012559b30d1dd50e45a6c52"
+    },
+    {
+      "id": "ea2e45fe-59bc-4568-8c41-eaa1856e07e2",
+      "slug": "rheological-testing-understanding-melt-flow-behavior",
+      "title": "Rheological Testing: MFR/MVR Limitations vs Rotational & Capillary Rheometry",
+      "subject_id": "256350b6-84d6-4ebe-b0ff-e951f00956db",
+      "content_hash": "38dc9605017021e000ead7256ee7dffd7b4d9c89d4c82cd7761e8ce8c02bb622"
     }
   ]
 }
