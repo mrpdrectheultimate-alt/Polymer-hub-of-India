@@ -1,7 +1,8 @@
-﻿'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database } from 'lucide-react'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
@@ -135,6 +136,9 @@ type Material = {
   top_applications: string[] | null
   indian_trade_names: string[] | null
   is_premium: boolean
+  molecular_image_url?: string | null
+  product_images?: { name: string; url: string }[] | null
+  processing_images?: { name: string; url: string }[] | null
 }
 
 const FAMILIES = ['All', 'Polyolefin', 'Vinyl', 'Styrenic', 'Engineering Thermoplastic', 'Polyester', 'Fluoropolymer', 'Elastomer', 'Bioplastic']
@@ -182,23 +186,35 @@ function MaterialRow({ material, expanded, onToggle }: {
       {/* Row header */}
       <button
         onClick={onToggle}
-        className="w-full text-left p-5 flex items-start md:items-center justify-between gap-4 hover:bg-slate-50 transition-colors"
+        className="w-full text-left p-5 flex items-start md:items-center justify-between gap-6 hover:bg-slate-50 transition-colors"
       >
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2.5 mb-2">
-            <h3 className="font-display font-black text-ink text-lg leading-tight">{material.name}</h3>
-            <span
-              className="text-[9px] font-mono font-black border px-2 py-0.5 uppercase tracking-wider"
-              style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
-            >
-              {material.family}
-            </span>
-          </div>
-          {/* Quick specs row */}
-          <div className="flex flex-wrap gap-4 text-[10px] text-ink/50 font-mono font-bold uppercase">
-            {material.density && <span>⚖️ Density: {material.density} g/cm3</span>}
-            {material.melt_temp && <span>🔥 Tm: {material.melt_temp}</span>}
-            {material.tensile_strength && <span>💪 Tensile: {material.tensile_strength}</span>}
+        <div className="flex items-center gap-4 flex-1 min-w-0">
+          {material.molecular_image_url && (
+            <div className="w-14 h-14 relative flex-shrink-0 bg-slate-50 border-2 border-ink rounded overflow-hidden p-1">
+              <Image
+                src={material.molecular_image_url}
+                alt={material.name}
+                fill
+                className="object-contain"
+              />
+            </div>
+          )}
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2.5 mb-2">
+              <h3 className="font-display font-black text-ink text-lg leading-tight">{material.name}</h3>
+              <span
+                className="text-[9px] font-mono font-black border px-2 py-0.5 uppercase tracking-wider"
+                style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
+              >
+                {material.family}
+              </span>
+            </div>
+            {/* Quick specs row */}
+            <div className="flex flex-wrap gap-4 text-[10px] text-ink/50 font-mono font-bold uppercase">
+              {material.density && <span>⚖️ Density: {material.density} g/cm3</span>}
+              {material.melt_temp && <span>🔥 Tm: {material.melt_temp}</span>}
+              {material.tensile_strength && <span>💪 Tensile: {material.tensile_strength}</span>}
+            </div>
           </div>
         </div>
         <div className="flex-shrink-0 border-2 border-ink p-1 bg-white">
@@ -208,52 +224,106 @@ function MaterialRow({ material, expanded, onToggle }: {
 
       {/* Expanded details */}
       {expanded && (
-        <div className="border-t-4 border-ink p-5 bg-slate-50/50 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
-          {/* Properties */}
-          <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Spec Constants"}</p>
-            <div className="space-y-2">
-              {([
-                ['Density', material.density ? `${material.density} g/cm3` : '-'],
-                ['Melt Temp', material.melt_temp ?? '-'],
-                ['Tensile Strength', material.tensile_strength ?? '-'],
-              ] as [string, string][]).map(([label, value]) => (
-                <div key={label} className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5 last:border-0 last:pb-0">
-                  <span className="text-xs text-ink/60 font-bold">{label}</span>
-                  <span className="text-xs font-mono font-black text-ink">{value}</span>
-                </div>
-              ))}
+        <div className="border-t-4 border-ink p-5 bg-slate-50/50 space-y-6 animate-fadeIn">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Properties */}
+            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Spec Constants"}</p>
+              <div className="space-y-2">
+                {([
+                  ['Density', material.density ? `${material.density} g/cm3` : '-'],
+                  ['Melt Temp', material.melt_temp ?? '-'],
+                  ['Tensile Strength', material.tensile_strength ?? '-'],
+                ] as [string, string][]).map(([label, value]) => (
+                  <div key={label} className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5 last:border-0 last:pb-0">
+                    <span className="text-xs text-ink/60 font-bold">{label}</span>
+                    <span className="text-xs font-mono font-black text-ink">{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Applications */}
+            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Applications"}</p>
+              <div className="space-y-1.5">
+                {(material.top_applications ?? []).map((app) => (
+                  <div key={app} className="flex items-start gap-2">
+                    <div className="w-1.5 h-1.5 rounded-none bg-ink mt-1.5 flex-shrink-0" />
+                    <span className="text-xs text-ink/80 font-bold">{app}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Indian trade names */}
+            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Indian Trade Brands"}</p>
+              <div className="flex flex-wrap gap-1.5">
+                {(material.indian_trade_names ?? []).map((tradeName) => (
+                  <span
+                    key={tradeName}
+                    className="text-xs px-2.5 py-1 border-2 border-ink font-mono font-black uppercase tracking-wider"
+                    style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
+                  >
+                    {tradeName}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Applications */}
-          <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Applications"}</p>
-            <div className="space-y-1.5">
-              {(material.top_applications ?? []).map((app) => (
-                <div key={app} className="flex items-start gap-2">
-                  <div className="w-1.5 h-1.5 rounded-none bg-ink mt-1.5 flex-shrink-0" />
-                  <span className="text-xs text-ink/80 font-bold">{app}</span>
+          {/* Product & Processing Visual Galleries */}
+          {((material.product_images && material.product_images.length > 0) || 
+            (material.processing_images && material.processing_images.length > 0)) && (
+            <div className="border-2 border-ink p-5 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] space-y-6">
+              {material.product_images && material.product_images.length > 0 && (
+                <div>
+                  <h4 className="font-display font-black text-ink text-xs uppercase tracking-wider mb-3">
+                    📸 Typical Polymer Products
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {material.product_images.map((img, idx) => (
+                      <div key={idx} className="aspect-square relative bg-slate-50 border-2 border-ink rounded-lg overflow-hidden">
+                        <Image
+                          src={img.url}
+                          alt={img.name}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-ink/75 text-white text-[9px] font-mono p-1 text-center font-bold">
+                          {img.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
+              )}
 
-          {/* Indian trade names */}
-          <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Indian Trade Brands"}</p>
-            <div className="flex flex-wrap gap-1.5">
-              {(material.indian_trade_names ?? []).map((tradeName) => (
-                <span
-                  key={tradeName}
-                  className="text-xs px-2.5 py-1 border-2 border-ink font-mono font-black uppercase tracking-wider"
-                  style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
-                >
-                  {tradeName}
-                </span>
-              ))}
+              {material.processing_images && material.processing_images.length > 0 && (
+                <div>
+                  <h4 className="font-display font-black text-ink text-xs uppercase tracking-wider mb-3">
+                    🏭 Manufacturing &amp; Processing
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {material.processing_images.map((img, idx) => (
+                      <div key={idx} className="aspect-square relative bg-slate-50 border-2 border-ink rounded-lg overflow-hidden">
+                        <Image
+                          src={img.url}
+                          alt={img.name}
+                          fill
+                          className="object-cover"
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 bg-ink/75 text-white text-[9px] font-mono p-1 text-center font-bold">
+                          {img.name}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

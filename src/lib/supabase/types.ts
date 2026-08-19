@@ -98,6 +98,11 @@ export interface Database {
           is_premium: boolean
           order_index: number
           created_at: string
+          hero_image_url: string | null
+          concept_images: Json | null
+          product_images: Json | null
+          machine_images: Json | null
+          formula_spacing: string | null
         }
         Insert: {
           id?: string
@@ -109,6 +114,11 @@ export interface Database {
           is_premium?: boolean
           order_index?: number
           created_at?: string
+          hero_image_url?: string | null
+          concept_images?: Json | null
+          product_images?: Json | null
+          machine_images?: Json | null
+          formula_spacing?: string | null
         }
         Update: {
           title?: string
@@ -117,6 +127,11 @@ export interface Database {
           summary?: string | null
           is_premium?: boolean
           order_index?: number
+          hero_image_url?: string | null
+          concept_images?: Json | null
+          product_images?: Json | null
+          machine_images?: Json | null
+          formula_spacing?: string | null
         }
       }
       lesson_embeddings: {

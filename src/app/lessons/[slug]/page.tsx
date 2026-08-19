@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 
@@ -8,6 +9,7 @@ import { LessonShareBar } from '@/components/WhatsAppShare'
 import DownloadNotes from '@/components/DownloadNotes'
 import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
 import { LessonNotes } from '@/components/LessonNotes'
+import { LESSON_IMAGES, LessonImage } from '@/lib/lesson_images'
 
 type UserProgressRow = {
   quiz_passed?: boolean | null
@@ -106,6 +108,22 @@ export default async function LessonPage({ params }: { params: { slug: string } 
 
   const isContentLocked = lesson.is_premium && !isPremium && !session
 
+  // Load images with fallback to static registry
+  const fallbackImages = LESSON_IMAGES[params.slug] || null;
+  const heroImageUrl = lesson.hero_image_url || fallbackImages?.hero || null;
+  const conceptImages = (lesson.concept_images && (lesson.concept_images as unknown as LessonImage[]).length > 0)
+    ? (lesson.concept_images as unknown as LessonImage[])
+    : (fallbackImages?.concepts || []);
+  const productImages = (lesson.product_images && (lesson.product_images as unknown as LessonImage[]).length > 0)
+    ? (lesson.product_images as unknown as LessonImage[])
+    : (fallbackImages?.products || []);
+  const machineImages = (lesson.machine_images && (lesson.machine_images as unknown as LessonImage[]).length > 0)
+    ? (lesson.machine_images as unknown as LessonImage[])
+    : (lesson.process_images && (lesson.process_images as unknown as LessonImage[]).length > 0)
+      ? (lesson.process_images as unknown as LessonImage[])
+      : (fallbackImages?.machines || []);
+
+
   // Adjacent lessons
   const { data: allLessons } = await supabase
     .from('lessons')
@@ -148,6 +166,18 @@ export default async function LessonPage({ params }: { params: { slug: string } 
 
           {/* ── MAIN CONTENT ─────────────────────────────── */}
           <article className="lg:col-span-3">
+
+            {/* Hero Image */}
+            {heroImageUrl && (
+              <div className="w-full h-64 relative mb-6 border-4 border-ink overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-slate-200">
+                <Image
+                  src={heroImageUrl}
+                  alt={lesson.title}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            )}
 
             {/* Lesson header */}
             <div className="border-4 border-ink p-6 md:p-8 mb-6 relative overflow-hidden" style={{ boxShadow: `6px 6px 0px 0px ${domain.color}` }}>
@@ -203,11 +233,39 @@ export default async function LessonPage({ params }: { params: { slug: string } 
               </div>
             )}
 
-            {/* Lesson content */}
             {!isContentLocked && (
               <>
+                {/* Concept Diagrams Gallery */}
+                {conceptImages.length > 0 && (
+                  <div className="mb-8">
+                    <h3 className="font-display text-xl font-bold mb-4 flex items-center gap-2">
+                      <span>📊</span> Scientific & Concept Diagrams
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {conceptImages.map((img: LessonImage, idx: number) => (
+                        <figure key={`concept-${idx}`} className="bg-white border-4 border-ink p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                          <div className="aspect-video relative bg-slate-100 border-2 border-ink overflow-hidden">
+                            <Image
+                              src={img.url}
+                              alt={img.caption || `Concept Diagram ${idx + 1}`}
+                              fill
+                              className="object-contain"
+                            />
+                          </div>
+                          {img.caption && (
+                            <figcaption className="mt-3 text-xs text-ink-muted text-center font-mono font-bold uppercase tracking-wider">
+                              {img.caption}
+                            </figcaption>
+                          )}
+                        </figure>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Main Lesson Body Text */}
                 <div
-                  className="border-4 border-ink p-6 md:p-8 bg-canvas mb-6 max-w-[72ch] mx-auto"
+                  className="border-4 border-ink p-6 md:p-8 bg-canvas mb-8 max-w-[72ch] mx-auto lesson-body"
                   style={{ boxShadow: `4px 4px 0px 0px ${domain.color}` }}
                 >
                   <TechnicalMarkdownRenderer
@@ -216,6 +274,62 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                     domainBg={domain.bg}
                   />
                 </div>
+
+                {/* Products & Applications Gallery */}
+                {productImages.length > 0 && (
+                  <div className="border-4 border-ink p-6 bg-white mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <h3 className="text-xl font-bold font-display mb-4 flex items-center gap-2">
+                      <span>🛠️</span> Products & Applications
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {productImages.map((img: LessonImage, idx: number) => (
+                        <div key={`product-${idx}`} className="bg-[#F8FAFC] border-2 border-ink p-3 hover:shadow-[4px_4px_0px_0px_#000] transition-all">
+                          <div className="relative aspect-square rounded-lg overflow-hidden border border-ink/20">
+                            <Image
+                              src={img.url}
+                              alt={img.caption || `Product ${idx + 1}`}
+                              fill
+                              className="object-cover animate-soft-fade"
+                            />
+                          </div>
+                          {img.caption && (
+                            <p className="text-xs text-slate-500 mt-2 text-center leading-tight">
+                              {img.caption}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Processing Equipment Gallery */}
+                {machineImages.length > 0 && (
+                  <div className="border-4 border-ink p-6 bg-white mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                    <h3 className="text-xl font-bold font-display mb-4 flex items-center gap-2">
+                      <span>⚙️</span> Processing Equipment
+                    </h3>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      {machineImages.map((img: LessonImage, idx: number) => (
+                        <div key={`machine-${idx}`} className="bg-[#F8FAFC] border-2 border-ink p-3 hover:shadow-[4px_4px_0px_0px_#000] transition-all">
+                          <div className="relative aspect-square rounded-lg overflow-hidden border border-ink/20">
+                            <Image
+                              src={img.url}
+                              alt={img.caption || `Machine ${idx + 1}`}
+                              fill
+                              className="object-cover animate-soft-fade"
+                            />
+                          </div>
+                          {img.caption && (
+                            <p className="text-xs text-slate-500 mt-2 text-center leading-tight">
+                              {img.caption}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* WhatsApp share */}
                 <div className="border-4 border-ink p-5 mb-6" style={{ backgroundColor: domain.bg }}>

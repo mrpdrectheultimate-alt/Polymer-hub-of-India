@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useParams, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Session } from '@supabase/supabase-js'
@@ -14,12 +15,15 @@ import 'katex/dist/katex.min.css'
 
 import { ReaderControls } from '@/components/ReaderControls'
 import { GlossaryPopover } from '@/components/GlossaryPopover'
+import { BOOK_IMAGES } from '@/lib/book_images'
 
 interface Book {
   id: string
   slug: string
   title: string
   authors: string
+  cover_image_url?: string
+  chapter_images?: Record<string, { url: string; caption: string }[]>
   category: 'original_guide' | 'open_access' | 'commercial'
   toc: { id: string; title: string }[]
   chapters: Record<string, string>
@@ -475,14 +479,26 @@ export default function ReadingRoomPage() {
               </button>
             </div>
 
-            {/* Book Title */}
-            <div>
-              <h2 className="font-extrabold text-xs uppercase text-blue-600 mb-1">
-                Reading Room
-              </h2>
-              <h1 className="font-extrabold text-sm tracking-tight line-clamp-2">
-                {book.title}
-              </h1>
+            {/* Book Title & Cover */}
+            <div className="flex gap-3">
+              {(book.cover_image_url || BOOK_IMAGES[book.slug]?.cover) && (
+                <div className="w-12 h-16 relative border-2 border-slate-900 rounded overflow-hidden flex-shrink-0 bg-slate-200">
+                  <Image
+                    src={book.cover_image_url || BOOK_IMAGES[book.slug]?.cover}
+                    alt={book.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="min-w-0">
+                <h2 className="font-extrabold text-[10px] uppercase text-blue-600 mb-0.5">
+                  Reading Room
+                </h2>
+                <h1 className="font-extrabold text-xs tracking-tight line-clamp-3">
+                  {book.title}
+                </h1>
+              </div>
             </div>
 
             {/* Chapters List */}
@@ -753,6 +769,29 @@ export default function ReadingRoomPage() {
             } ${
               theme === 'dark' ? 'prose-invert' : ''
             }`}>
+              {/* Chapter Images */}
+              {BOOK_IMAGES[book.slug]?.chapters?.[currentChapterId] && BOOK_IMAGES[book.slug].chapters[currentChapterId].length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 not-prose">
+                  {BOOK_IMAGES[book.slug].chapters[currentChapterId].map((img, idx) => (
+                    <figure key={idx} className="bg-white border-2 border-slate-900 rounded-xl p-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:bg-slate-900 dark:border-slate-800">
+                      <div className="aspect-video relative bg-slate-100 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-800 dark:bg-slate-950">
+                        <Image
+                          src={img.url}
+                          alt={img.caption || `Figure ${idx + 1}`}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                      {img.caption && (
+                        <figcaption className="mt-3 text-xs text-slate-500 dark:text-slate-400 text-center font-mono font-bold uppercase tracking-wide">
+                          {img.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  ))}
+                </div>
+              )}
+
               <ReactMarkdown
                 remarkPlugins={[remarkGfm, remarkMath]}
                 rehypePlugins={[rehypeKatex]}
