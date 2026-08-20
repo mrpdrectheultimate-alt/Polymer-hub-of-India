@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database } from 'lucide-react'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
+import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
 
 type LocalModel = {
   id: string
@@ -337,7 +338,7 @@ export default function MaterialsPage() {
   const [selectedFamily, setSelectedFamily] = useState('All')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   
-  const [viewMode, setViewMode] = useState<'table' | '3d'>('table')
+  const [viewMode, setViewMode] = useState<'table' | '3d' | 'commercial'>('table')
   const [modelSearch, setModelSearch] = useState('')
   const [modelCategory, setModelCategory] = useState('All')
 
@@ -447,6 +448,16 @@ export default function MaterialsPage() {
             }`}
           >
             📊 Specs Database Table
+          </button>
+          <button
+            onClick={() => setViewMode('commercial')}
+            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+              viewMode === 'commercial'
+                ? 'bg-blue text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
+                : 'bg-white text-ink hover:bg-slate-50'
+            }`}
+          >
+            🏭 Commercial Grades (CAMPUS TDS)
           </button>
           <button
             onClick={() => setViewMode('3d')}
@@ -597,6 +608,12 @@ export default function MaterialsPage() {
                 </div>
               )
             })}
+          </div>
+        )}
+
+        {viewMode === 'commercial' && (
+          <div className="pt-2">
+            <CommercialGradeComparator />
           </div>
         )}
 

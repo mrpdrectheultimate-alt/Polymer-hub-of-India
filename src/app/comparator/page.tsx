@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Scale, RotateCcw, ChevronDown, BookOpen, Brain } from 'lucide-react'
+import { Scale, RotateCcw, ChevronDown, BookOpen, Brain, Building2, Layers } from 'lucide-react'
+import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -155,6 +156,7 @@ function PolymerSelector({ label, selected, onChange, exclude }: {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function ComparatorPage() {
+  const [comparisonMode, setComparisonMode] = useState<'base' | 'commercial'>('base')
   const [polyA, setPolyA] = useState<Polymer | null>(null)
   const [polyB, setPolyB] = useState<Polymer | null>(null)
   const [showAll, setShowAll] = useState(false)
@@ -179,44 +181,71 @@ export default function ComparatorPage() {
               <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">Property Comparator</span>
             </div>
             <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none mb-3">
-              COMPARE ANY TWO<br />
-              <span className="text-yellow-bright italic">POLYMERS</span> — 16 PROPERTIES
+              COMPARE POLYMERS &<br />
+              <span className="text-yellow-bright italic">COMMERCIAL GRADES</span>
             </h1>
             <p className="text-white/60 max-w-lg text-sm leading-relaxed">
-              Property data from Brandrup Polymer Handbook + Chanda Plastics Technology Handbook. 13 polymers across 5 categories.
+              Compare base polymer families side-by-side or analyze real manufacturer technical datasheets (TDS) using the CAMPUS model.
             </p>
           </div>
           <div className="flex-shrink-0 text-right">
-            <div className="font-mono text-4xl font-black text-yellow-bright">13</div>
-            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Polymers available</div>
+            <div className="font-mono text-4xl font-black text-yellow-bright">25+</div>
+            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Commercial TDS Grades</div>
             <div className="font-mono text-4xl font-black text-yellow-bright mt-2">16</div>
-            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Properties each</div>
+            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Base Material Types</div>
           </div>
         </div>
       </section>
 
+      {/* Mode Switcher Tabs */}
+      <div className="border-b-4 border-ink bg-white px-6 md:px-12 py-3 flex items-center justify-start gap-4">
+        <button
+          onClick={() => setComparisonMode('base')}
+          className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+            comparisonMode === 'base'
+              ? 'border-ink bg-ink text-white'
+              : 'border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100'
+          }`}
+        >
+          <Layers className="w-4 h-4" /> Base Polymer Families
+        </button>
+        <button
+          onClick={() => setComparisonMode('commercial')}
+          className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
+            comparisonMode === 'commercial'
+              ? 'border-ink bg-blue text-white'
+              : 'border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100'
+          }`}
+        >
+          <Building2 className="w-4 h-4" /> Commercial Resin Grades (CAMPUS TDS)
+        </button>
+      </div>
+
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        {comparisonMode === 'commercial' ? (
+          <CommercialGradeComparator />
+        ) : (
+          <>
+            {/* Selectors */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <PolymerSelector label="Select Polymer A" selected={polyA} onChange={setPolyA} exclude={polyB?.id ?? null} />
+              <PolymerSelector label="Select Polymer B" selected={polyB} onChange={setPolyB} exclude={polyA?.id ?? null} />
+            </div>
 
-        {/* Selectors */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <PolymerSelector label="Select Polymer A" selected={polyA} onChange={setPolyA} exclude={polyB?.id ?? null} />
-          <PolymerSelector label="Select Polymer B" selected={polyB} onChange={setPolyB} exclude={polyA?.id ?? null} />
-        </div>
-
-        {/* Controls */}
-        {canCompare && (
-          <div className="flex items-center justify-between mb-5 border-b-4 border-ink pb-4">
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="cn-btn-black text-xs py-2 px-4"
-            >
-              {showAll ? 'Show Key Properties Only' : 'Show All 16 Properties'} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAll ? 'rotate-180' : ''}`} />
-            </button>
-            <button onClick={reset} className="border-2 border-ink px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-white transition-colors flex items-center gap-1.5">
-              <RotateCcw className="w-3.5 h-3.5" /> Reset
-            </button>
-          </div>
-        )}
+            {/* Controls */}
+            {canCompare && (
+              <div className="flex items-center justify-between mb-5 border-b-4 border-ink pb-4">
+                <button
+                  onClick={() => setShowAll(!showAll)}
+                  className="cn-btn-black text-xs py-2 px-4"
+                >
+                  {showAll ? 'Show Key Properties Only' : 'Show All 16 Properties'} <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showAll ? 'rotate-180' : ''}`} />
+                </button>
+                <button onClick={reset} className="border-2 border-ink px-4 py-2 font-mono text-xs font-bold uppercase tracking-wider hover:bg-ink hover:text-white transition-colors flex items-center gap-1.5">
+                  <RotateCcw className="w-3.5 h-3.5" /> Reset
+                </button>
+              </div>
+            )}
 
         {/* Comparison table */}
         {canCompare ? (
@@ -277,6 +306,8 @@ export default function ComparatorPage() {
             <div className="font-display text-2xl font-black text-ink mb-2">Select Two Polymers to Compare</div>
             <p className="font-mono text-xs text-ink/50 uppercase tracking-wider">13 materials · 16 properties each · Brandrup Handbook data</p>
           </div>
+        )}
+          </>
         )}
       </div>
 
