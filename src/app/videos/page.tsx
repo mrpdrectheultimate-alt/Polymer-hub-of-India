@@ -1,4 +1,4 @@
-﻿// src/app/videos/page.tsx
+// src/app/videos/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -11,6 +11,9 @@ import { createClient } from '@/lib/supabase/client'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
 import VideoCard, { VideoRecord } from '@/components/VideoCard'
 import { getFallbackVideoId } from '@/lib/youtube-replacement'
+import { screencasts, ScreencastItem } from '@/lib/screencasts'
+import { ScreencastPlayer } from '@/components/ScreencastPlayer'
+import { Calculator } from 'lucide-react'
 
 type PlaylistRecord = {
   id: string
@@ -146,13 +149,14 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
 }
 
 export default function VideoLibraryPage() {
-  const [activeView, setActiveView] = useState<'all' | 'playlists' | 'shorts'>('all')
+  const [activeView, setActiveView] = useState<'all' | 'screencasts' | 'playlists' | 'shorts'>('all')
   const [videosList, setVideosList] = useState<VideoRecord[]>([])
   const [playlistsList, setPlaylistsList] = useState<PlaylistRecord[]>([])
   const [watchlist, setWatchlist] = useState<string[]>([])
   const [progressMap, setProgressMap] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
   const [selectedVideo, setSelectedVideo] = useState<VideoRecord | null>(null)
+  const [activeScreencast, setActiveScreencast] = useState<ScreencastItem | null>(null)
   
   // Filters
   const [selectedSubject, setSelectedSubject] = useState('all')
@@ -304,9 +308,10 @@ export default function VideoLibraryPage() {
       </section>
 
       {/* Navigation tabs */}
-      <div className="border-b-4 border-ink bg-canvas px-6 py-2 flex items-center justify-start gap-4">
+      <div className="border-b-4 border-ink bg-canvas px-6 py-2 flex items-center justify-start gap-4 flex-wrap">
         {[
           { id: 'all', label: 'All Lectures', icon: Grid },
+          { id: 'screencasts', label: '🎓 Screencasts & Solvers', icon: Calculator },
           { id: 'playlists', label: 'Curated Playlists', icon: FolderOpen },
           { id: 'shorts', label: 'Quick Shorts (<10 Min)', icon: Clock }
         ].map(tab => {
@@ -315,7 +320,7 @@ export default function VideoLibraryPage() {
           return (
             <button
               key={tab.id}
-              onClick={() => setActiveView(tab.id as 'all' | 'playlists' | 'shorts')}
+              onClick={() => setActiveView(tab.id as 'all' | 'screencasts' | 'playlists' | 'shorts')}
               className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-colors ${
                 isActive
                   ? 'border-ink bg-ink text-white'
@@ -384,9 +389,9 @@ export default function VideoLibraryPage() {
       <div className="border-b-4 border-ink grid grid-cols-2 md:grid-cols-4 divide-x-4 divide-ink">
         {[
           { val: videosList.length, label: 'Audited Lectures', color: '#1D4ED8' },
+          { val: screencasts.length, label: 'Screencasts & Solvers', color: '#EA580C' },
           { val: playlistsList.length, label: 'Curated Playlists', color: '#7C3AED' },
-          { val: videosList.filter(v => v.source === 'Industry').length, label: 'Industry Demos', color: '#15803D' },
-          { val: subjects.length, label: 'Subjects Covered', color: '#EA580C' },
+          { val: subjects.length, label: 'Subjects Covered', color: '#15803D' },
         ].map(s => (
           <div key={s.label} className="p-4 text-center" style={{ backgroundColor: s.color + '10' }}>
             <div className="font-display text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
@@ -401,6 +406,69 @@ export default function VideoLibraryPage() {
           <div className="border-4 border-ink p-12 text-center flex flex-col items-center justify-center">
             <Loader2 className="w-8 h-8 text-blue animate-spin mb-3" />
             <p className="font-mono text-sm text-ink/60">Verifying video publication status...</p>
+          </div>
+        ) : activeView === 'screencasts' ? (
+          /* Screencasts & Problem Solvers Grid */
+          <div className="space-y-6">
+            <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-purple-500/10 border-4 border-ink p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-hard">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[9px] font-black uppercase bg-orange-600 text-white px-2 py-0.5 border-2 border-ink rounded">
+                    LearnChemE Interactive Model
+                  </span>
+                  <span className="font-mono text-[9px] font-bold text-ink/60 uppercase">12 Problem Walkthroughs</span>
+                </div>
+                <h2 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight text-ink">
+                  🎓 Interactive Screencasts & Problem Solvers
+                </h2>
+                <p className="text-xs text-ink/70 max-w-2xl leading-relaxed">
+                  High-yield 5–15 minute video explanations paired with live step-by-step calculation engines. Tweak inputs in real time to understand underlying polymer physics and engineering equations.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {screencasts.map((sc) => (
+                <div
+                  key={sc.id}
+                  onClick={() => setActiveScreencast(sc)}
+                  className="bg-white border-4 border-ink rounded-2xl p-5 shadow-hard hover:translate-y-[-2px] transition-all cursor-pointer flex flex-col justify-between group"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-mono text-[9px] font-black uppercase px-2 py-0.5 bg-blue-50 text-blue-800 border border-blue-900 rounded">
+                        {sc.subject}
+                      </span>
+                      <span className="font-mono text-[9px] font-bold text-ink/60 flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-ink/40" /> {sc.duration}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display text-base font-black text-ink leading-tight group-hover:text-blue transition-colors">
+                      {sc.title}
+                    </h3>
+
+                    <p className="text-xs text-ink/70 line-clamp-2 leading-relaxed">
+                      {sc.description}
+                    </p>
+
+                    <div className="bg-slate-50 border border-slate-300 rounded-lg p-2.5">
+                      <div className="text-[8px] font-mono font-bold uppercase text-slate-400">Formula</div>
+                      <div className="font-mono text-[11px] font-black text-blue truncate">{sc.formula}</div>
+                    </div>
+                  </div>
+
+                  <div className="border-t-2 border-ink pt-3 mt-4 flex items-center justify-between">
+                    <span className="font-mono text-[9px] font-bold uppercase text-amber-700 flex items-center gap-1">
+                      <Calculator className="w-3.5 h-3.5" /> Companion Solver
+                    </span>
+                    <span className="font-mono text-[9px] font-black uppercase text-ink bg-yellow-bright px-2.5 py-1 border-2 border-ink shadow-hard-xs group-hover:bg-ink group-hover:text-white transition-all">
+                      Open Solver &rarr;
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         ) : activeView === 'playlists' ? (
           /* Playlists Grid */
@@ -477,6 +545,7 @@ export default function VideoLibraryPage() {
       </div>
 
       {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
+      {activeScreencast && <ScreencastPlayer screencast={activeScreencast} onClose={() => setActiveScreencast(null)} />}
     </div>
   )
 }
