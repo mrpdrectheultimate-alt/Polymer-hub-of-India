@@ -23,6 +23,9 @@ import { SpheruliteCrystallizationSimulator } from '@/components/SpheruliteCryst
 import { PolymerChainFoldingAnimator } from '@/components/PolymerChainFoldingAnimator'
 import { ShearThinningVisualizer } from '@/components/ShearThinningVisualizer'
 import { InjectionMoldingFlowSimulator } from '@/components/InjectionMoldingFlowSimulator'
+import { ExtrusionDieSwellVisualizer } from '@/components/ExtrusionDieSwellVisualizer'
+import { RubberVulcanizationSimulator } from '@/components/RubberVulcanizationSimulator'
+import { GPCVisualizer } from '@/components/GPCVisualizer'
 import { 
   Award, 
   History, 
@@ -386,6 +389,51 @@ export default function SimulationsDashboardPage() {
                   </div>
                   <h3 className="font-display font-black text-xs uppercase">🏭 Mold Flow</h3>
                 </button>
+
+                <button
+                  onClick={() => setActiveLab('die-swell')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'die-swell' 
+                      ? 'bg-amber-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 5</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">🌀 Die Swell</h3>
+                </button>
+
+                <button
+                  onClick={() => setActiveLab('vulcanization')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'vulcanization' 
+                      ? 'bg-yellow-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 6</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">🔥 Rubber Cure</h3>
+                </button>
+
+                <button
+                  onClick={() => setActiveLab('gpc')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'gpc' 
+                      ? 'bg-sky-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 7</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">📈 GPC / SEC</h3>
+                </button>
              </div>
 
              {/* Active instrument/animation workspace rendering */}
@@ -443,6 +491,15 @@ export default function SimulationsDashboardPage() {
                )}
                {activeLab === 'mold-flow' && (
                  <InjectionMoldingFlowSimulator />
+               )}
+               {activeLab === 'die-swell' && (
+                 <ExtrusionDieSwellVisualizer />
+               )}
+               {activeLab === 'vulcanization' && (
+                 <RubberVulcanizationSimulator />
+               )}
+               {activeLab === 'gpc' && (
+                 <GPCVisualizer />
                )}
               </div>
 
