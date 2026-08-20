@@ -1,4 +1,4 @@
-﻿// src/app/careers/page.tsx
+// src/app/careers/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -16,8 +16,10 @@ import {
   Save,
   Loader2, 
   CheckCircle2, 
-  AlertCircle 
+  AlertCircle,
+  Award
 } from 'lucide-react'
+import { SPECareerExplorer } from '@/components/SPECareerExplorer'
 
 // Mock Interview questions database
 const MOCK_QUESTIONS = [
@@ -196,7 +198,7 @@ interface Project {
 
 export default function CareersHubPage() {
   const [session, setSession] = useState<Session | null>(null)
-  const [activeTab, setActiveTab] = useState<'tracks' | 'resume' | 'interview'>('tracks')
+  const [activeTab, setActiveTab] = useState<'spe' | 'tracks' | 'resume' | 'interview'>('spe')
   
   // Job Board States
   const [listings, setListings] = useState<JobListing[]>([])
@@ -375,6 +377,7 @@ export default function CareersHubPage() {
         {/* Workspace tabs */}
         <div className="border-4 border-slate-900 flex bg-white rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] mb-8">
           {([
+            { id: 'spe', label: '🎓 SPE Career Pathways', icon: Award },
             { id: 'tracks', label: 'Career Tracks & Jobs', icon: Briefcase },
             { id: 'resume', label: 'Resume Builder', icon: Printer },
             { id: 'interview', label: 'Technical Mock Interview', icon: Brain }
@@ -400,6 +403,11 @@ export default function CareersHubPage() {
 
         {/* TAB CONTENTS */}
         
+        {/* TAB 0: SPE CAREER PATHWAYS (PHASE 4) */}
+        {activeTab === 'spe' && (
+          <SPECareerExplorer />
+        )}
+
         {/* TAB 1: CAREER TRACKS & JOB BOARD */}
         {activeTab === 'tracks' && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
