@@ -19,6 +19,10 @@ import { VicatTester } from '@/components/VicatTester'
 import { HDTTester } from '@/components/HDTTester'
 import { PolymerizationAnimator } from '@/components/PolymerizationAnimator'
 import { InjectionMoldingAnimator } from '@/components/InjectionMoldingAnimator'
+import { SpheruliteCrystallizationSimulator } from '@/components/SpheruliteCrystallizationSimulator'
+import { PolymerChainFoldingAnimator } from '@/components/PolymerChainFoldingAnimator'
+import { ShearThinningVisualizer } from '@/components/ShearThinningVisualizer'
+import { InjectionMoldingFlowSimulator } from '@/components/InjectionMoldingFlowSimulator'
 import { 
   Award, 
   History, 
@@ -322,6 +326,66 @@ export default function SimulationsDashboardPage() {
                  </div>
                  <h3 className="font-display font-black text-xs uppercase">Injection Molding</h3>
                </button>
+
+               <button
+                  onClick={() => setActiveLab('crystallization')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'crystallization' 
+                      ? 'bg-green-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 1</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">🔬 Spherulite Cryst.</h3>
+                </button>
+
+               <button
+                  onClick={() => setActiveLab('chain-folding')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'chain-folding' 
+                      ? 'bg-violet-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 2</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">🧬 Chain Folding</h3>
+                </button>
+
+               <button
+                  onClick={() => setActiveLab('shear-thinning')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'shear-thinning' 
+                      ? 'bg-orange-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 3</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">📊 Shear Thinning</h3>
+                </button>
+
+               <button
+                  onClick={() => setActiveLab('mold-flow')}
+                  className={`border-4 border-slate-900 rounded-xl p-4 text-left shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all ${
+                    activeLab === 'mold-flow' 
+                      ? 'bg-red-700 text-white' 
+                      : 'bg-white hover:bg-slate-50'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <span className="font-mono text-[9px] uppercase font-black opacity-85">Micro-Sim 4</span>
+                    <ChevronRight className="w-4 h-4 shrink-0" />
+                  </div>
+                  <h3 className="font-display font-black text-xs uppercase">🏭 Mold Flow</h3>
+                </button>
              </div>
 
              {/* Active instrument/animation workspace rendering */}
@@ -367,6 +431,18 @@ export default function SimulationsDashboardPage() {
                )}
                {activeLab === 'molding' && (
                  <InjectionMoldingAnimator />
+               )}
+               {activeLab === 'crystallization' && (
+                 <SpheruliteCrystallizationSimulator />
+               )}
+               {activeLab === 'chain-folding' && (
+                 <PolymerChainFoldingAnimator />
+               )}
+               {activeLab === 'shear-thinning' && (
+                 <ShearThinningVisualizer />
+               )}
+               {activeLab === 'mold-flow' && (
+                 <InjectionMoldingFlowSimulator />
                )}
               </div>
 
