@@ -148,9 +148,52 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
   )
 }
 
+const CATEGORIES = [
+  { id: 'all', label: '🎬 All Videos', icon: '🎬' },
+  { id: 'lecture', label: '📚 Lectures', icon: '📚' },
+  { id: 'industry', label: '🏭 Industry Demos', icon: '🏭' },
+  { id: 'lab', label: '🔬 Lab Tests', icon: '🔬' },
+  { id: 'troubleshooting', label: '🔧 Troubleshooting', icon: '🔧' },
+  { id: 'career', label: '📈 Career', icon: '📈' },
+  { id: 'sustainability', label: '🌍 Sustainability', icon: '🌍' },
+  { id: 'research', label: '🚀 Research', icon: '🚀' },
+  { id: 'nptel', label: '🎓 NPTEL/IIT', icon: '🎓' },
+]
+
+function classifyCategory(title: string, channel: string): string {
+  const t = title.toLowerCase()
+  const c = channel.toLowerCase()
+  if (c.includes('nptel') || c.includes('iit') || t.includes('iit') || t.includes('nptel') || c.includes('mit') || t.includes('mit')) {
+    return 'nptel'
+  }
+  if (t.includes('recycle') || t.includes('bioplastic') || t.includes('circular economy') || t.includes('sustainable') || t.includes('epr') || t.includes('green') || c.includes('ellen macarthur')) {
+    return 'sustainability'
+  }
+  if (t.includes('career') || t.includes('startup') || t.includes('business') || t.includes('cipet') || c.includes('cipet') || t.includes('entrepreneurship')) {
+    return 'career'
+  }
+  if (t.includes('test') || t.includes('dsc') || t.includes('mfi') || t.includes('tga') || t.includes('izod') || t.includes('charpy') || c.includes('instron') || c.includes('ta instruments')) {
+    return 'lab'
+  }
+  if (t.includes('defect') || t.includes('trouble') || t.includes('sink mark') || t.includes('weld line') || t.includes('solve')) {
+    return 'troubleshooting'
+  }
+  if (t.includes('process') || t.includes('molding') || t.includes('extrusion') || t.includes('forming') || c.includes('paulson') || c.includes('routsis') || c.includes('coperion')) {
+    return 'industry'
+  }
+  if (t.includes('research') || t.includes('graphene') || t.includes('nano') || t.includes('smart polymer')) {
+    return 'research'
+  }
+  return 'lecture'
+}
+
+type VideoRecordWithCategory = VideoRecord & {
+  category: string
+}
+
 export default function VideoLibraryPage() {
   const [activeView, setActiveView] = useState<'all' | 'screencasts' | 'playlists' | 'shorts'>('all')
-  const [videosList, setVideosList] = useState<VideoRecord[]>([])
+  const [videosList, setVideosList] = useState<VideoRecordWithCategory[]>([])
   const [playlistsList, setPlaylistsList] = useState<PlaylistRecord[]>([])
   const [watchlist, setWatchlist] = useState<string[]>([])
   const [progressMap, setProgressMap] = useState<Record<string, number>>({})
@@ -159,10 +202,11 @@ export default function VideoLibraryPage() {
   const [activeScreencast, setActiveScreencast] = useState<ScreencastItem | null>(null)
   
   // Filters
+  const [selectedCategory, setSelectedCategory] = useState('all')
   const [selectedSubject, setSelectedSubject] = useState('all')
   const [selectedSource, setSelectedSource] = useState('all')
   const [search, setSearch] = useState('')
-
+  
   const supabase = createClient()
 
   useEffect(() => {
@@ -205,8 +249,8 @@ export default function VideoLibraryPage() {
         if (error) throw error
 
         if (vData) {
-          const mapped: VideoRecord[] = vData
-            .map((item: unknown): VideoRecord => {
+          const mapped: VideoRecordWithCategory[] = vData
+            .map((item: unknown): VideoRecordWithCategory => {
               const dbv = item as DBVideo
               const rawId = String(dbv.youtube_id || dbv.youtube_url || '')
               let cleanId = extractYouTubeVideoId(rawId)
@@ -215,6 +259,20 @@ export default function VideoLibraryPage() {
               // If ID is missing, invalid, or marked broken, resolve fallback ID to ensure playability
               if (!cleanId || isBroken) {
                 cleanId = getFallbackVideoId(cleanId || rawId, dbv.subject_slug, isBroken)
+              }
+
+              const channelName = String(dbv.channel || '').toLowerCase()
+              const titleStr = String(dbv.title || '').toLowerCase()
+
+              let resolvedSource: VideoRecord['source'] = 'Industry'
+              if (channelName.includes('nptel') || titleStr.includes('nptel')) {
+                resolvedSource = 'NPTEL'
+              } else if (channelName.includes('iit') || titleStr.includes('iit')) {
+                resolvedSource = 'IIT'
+              } else if (channelName.includes('mit') || titleStr.includes('mit')) {
+                resolvedSource = 'MIT'
+              } else if (['NPTEL', 'Industry', 'IIT', 'MIT'].includes(dbv.source)) {
+                resolvedSource = dbv.source as VideoRecord['source']
               }
 
               return {
@@ -227,12 +285,13 @@ export default function VideoLibraryPage() {
                 youtubeId: cleanId,
                 canonicalUrl: String(dbv.canonical_url || getYouTubeCanonicalUrl(cleanId)),
                 description: String(dbv.description || ''),
-                source: (['NPTEL', 'Industry', 'IIT', 'MIT'].includes(dbv.source) ? dbv.source : 'Industry') as VideoRecord['source'],
+                source: resolvedSource,
                 level: (['Foundation', 'Intermediate', 'Advanced'].includes(dbv.level || '') ? dbv.level : 'Foundation') as VideoRecord['level'],
                 learningRole: (dbv.learning_role as VideoRecord['learningRole']) || 'foundation',
                 lessonSlug: dbv.lesson_slug ? String(dbv.lesson_slug) : undefined,
                 status: 'published',
-                embedStatus: (dbv.embed_status === 'blocked') ? 'blocked' : (['invalid', 'private', 'restricted', 'removed', 'broken'].includes(dbv.embed_status || '') ? 'broken' : 'working')
+                embedStatus: (dbv.embed_status === 'blocked') ? 'blocked' : (['invalid', 'private', 'restricted', 'removed', 'broken'].includes(dbv.embed_status || '') ? 'broken' : 'working'),
+                category: classifyCategory(dbv.title || '', dbv.channel || '')
               }
             })
 
@@ -263,10 +322,11 @@ export default function VideoLibraryPage() {
     return base.filter(v => {
       const matchSubject = selectedSubject === 'all' || v.subject === selectedSubject
       const matchSource = selectedSource === 'all' || v.source === selectedSource
+      const matchCategory = selectedCategory === 'all' || v.category === selectedCategory
       const matchSearch = !search ||
         v.title.toLowerCase().includes(search.toLowerCase()) ||
         v.description.toLowerCase().includes(search.toLowerCase())
-      return matchSubject && matchSource && matchSearch
+      return matchSubject && matchSource && matchCategory && matchSearch
     })
   }
 
@@ -358,29 +418,50 @@ export default function VideoLibraryPage() {
 
       {/* Filters (Hide if playlists active) */}
       {activeView !== 'playlists' && (
-        <div className="border-b-4 border-ink px-6 md:px-10 py-4 flex flex-col sm:flex-row gap-3 sticky top-14 z-20 bg-canvas/95 backdrop-blur">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40" />
-            <input value={search} onChange={e => setSearch(e.target.value)}
-              className="w-full border-4 border-ink pl-10 pr-4 py-2 text-sm text-ink focus:outline-none focus:border-blue shadow-hard-sm"
-              placeholder="Search audited videos..." />
-          </div>
-          <select value={selectedSubject} onChange={e => setSelectedSubject(e.target.value)}
-            className="border-4 border-ink px-4 py-2 text-sm font-bold text-ink bg-canvas focus:outline-none shadow-hard-sm">
-            <option value="all">All Subjects</option>
-            {subjects.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <div className="flex gap-2 flex-wrap">
-            {['all', 'NPTEL', 'IIT', 'MIT', 'Industry'].map(src => {
-              const cfg = src !== 'all' ? SOURCE_COLORS[src] : { color: '#0A0A0A', bg: '#F9FAFB' }
+        <div className="border-b-4 border-ink px-6 md:px-10 py-4 space-y-4 sticky top-14 z-20 bg-canvas/95 backdrop-blur">
+          {/* Category Chips */}
+          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {CATEGORIES.map(cat => {
+              const isActive = selectedCategory === cat.id
               return (
-                <button key={src} onClick={() => setSelectedSource(src)}
-                  className="font-mono text-[9px] font-black border-4 border-ink px-3 py-2 uppercase transition-all"
-                  style={{ backgroundColor: selectedSource === src ? cfg.color : 'white', color: selectedSource === src ? 'white' : '#6B7280' }}>
-                  {src}
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`flex-shrink-0 font-mono text-[10px] font-black border-4 border-ink px-3 py-1.5 uppercase transition-all flex items-center gap-1.5 ${
+                    isActive ? 'bg-ink text-white shadow-none translate-x-[2px] translate-y-[2px]' : 'bg-white text-ink/75 hover:bg-slate-50 shadow-hard-xs'
+                  }`}
+                >
+                  <span>{cat.icon}</span>
+                  {cat.label}
                 </button>
               )
             })}
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40" />
+              <input value={search} onChange={e => setSearch(e.target.value)}
+                className="w-full border-4 border-ink pl-10 pr-4 py-2 text-sm text-ink focus:outline-none focus:border-blue shadow-hard-sm"
+                placeholder="Search audited videos..." />
+            </div>
+            <select value={selectedSubject} onChange={e => setSelectedSubject(e.target.value)}
+              className="border-4 border-ink px-4 py-2 text-sm font-bold text-ink bg-canvas focus:outline-none shadow-hard-sm">
+              <option value="all">All Subjects</option>
+              {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+            <div className="flex gap-2 flex-wrap">
+              {['all', 'NPTEL', 'IIT', 'MIT', 'Industry'].map(src => {
+                const cfg = src !== 'all' ? SOURCE_COLORS[src] : { color: '#0A0A0A', bg: '#F9FAFB' }
+                return (
+                  <button key={src} onClick={() => setSelectedSource(src)}
+                    className="font-mono text-[9px] font-black border-4 border-ink px-3 py-2 uppercase transition-all"
+                    style={{ backgroundColor: selectedSource === src ? cfg.color : 'white', color: selectedSource === src ? 'white' : '#6B7280' }}>
+                    {src}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
       )}
