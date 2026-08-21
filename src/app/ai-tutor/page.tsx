@@ -1,13 +1,29 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Session } from '@supabase/supabase-js'
 import Link from 'next/link'
-import { Send, Brain, BookOpen, ArrowRight, RotateCcw, User, Sparkles, AlertCircle, RefreshCw } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-
+import {
+  Send,
+  Sparkles,
+  Bot,
+  User,
+  Loader2,
+  Zap,
+  BookOpen,
+  Copy,
+  Check,
+  ThumbsUp,
+  ThumbsDown,
+  RotateCcw,
+  AlertCircle,
+  RefreshCw,
+  ArrowRight,
+  Brain,
+} from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -17,6 +33,7 @@ type Message = {
   content: string
   sources?: { title: string; slug: string }[]
   timestamp: Date
+  liked?: boolean | null
 }
 
 type QueryStatus = {
@@ -25,32 +42,53 @@ type QueryStatus = {
   isPremium: boolean
 }
 
+// ─── Starter Questions ────────────────────────────────────────────────────────
+
 const STARTER_QUESTIONS = [
-  'What is the difference between Tg and Tm?',
-  'How does vulcanization work in rubber?',
-  'Explain the Melt Flow Index and why it matters',
-  'What causes sink marks in injection moulding?',
-  'Compare PLA and PHA bioplastics',
-  'How does ISO 10993 biocompatibility testing work?',
-  'What is the EPR framework in India?',
-  'Explain carbon fibre reinforced polymer (CFRP)',
+  { icon: '🧪', text: 'What is the difference between Tg and Tm?' },
+  { icon: '🔬', text: 'How does vulcanization work in rubber?' },
+  { icon: '📊', text: 'Explain the Melt Flow Index and why it matters' },
+  { icon: '⚙️', text: 'What causes sink marks in injection moulding?' },
+  { icon: '♻️', text: 'Compare PLA and PHA bioplastics' },
+  { icon: '🏥', text: 'How does ISO 10993 biocompatibility testing work?' },
+  { icon: '🇮🇳', text: 'What is the EPR framework in India?' },
+  { icon: '🚀', text: 'Explain carbon fibre reinforced polymer (CFRP)' },
 ]
 
-// ─── Message Bubble ────────────────────────────────────────────────────────────
+// ─── Message Bubble ───────────────────────────────────────────────────────────
 
-function MessageBubble({ message }: { message: Message }) {
+function MessageBubble({
+  message,
+  onLike,
+  onCopy,
+}: {
+  message: Message
+  onLike: (id: string, val: boolean) => void
+  onCopy: (text: string) => void
+}) {
+  const [copied, setCopied] = useState(false)
   const isUser = message.role === 'user'
+
+  const handleCopy = () => {
+    onCopy(message.content)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   if (isUser) {
     return (
-      <div className="flex justify-end mb-4">
+      <div className="flex justify-end mb-5 animate-in slide-in-from-bottom-2 duration-300">
         <div className="max-w-[80%]">
-          <div className="border-4 border-ink p-4 bg-ink text-white" style={{ boxShadow: '3px 3px 0px 0px #1D4ED8' }}>
-            <p className="text-sm font-medium leading-relaxed">{message.content}</p>
+          <div className="flex items-start gap-2.5 flex-row-reverse">
+            <div className="w-8 h-8 rounded-xl bg-[#1D4ED8] flex items-center justify-center flex-shrink-0 shadow-md">
+              <User className="w-4 h-4 text-white" />
+            </div>
+            <div className="px-4 py-3 rounded-2xl rounded-tr-sm bg-[#1D4ED8] shadow-md">
+              <p className="text-sm leading-relaxed text-white font-medium">{message.content}</p>
+            </div>
           </div>
-          <div className="flex items-center justify-end gap-1 mt-1">
-            <User className="w-3 h-3 text-ink/30" />
-            <span className="font-mono text-[8px] text-ink/30 uppercase tracking-wider">
+          <div className="flex justify-end mt-1 pr-10">
+            <span className="text-[10px] text-slate-400 font-mono">
               {message.timestamp.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
             </span>
           </div>
@@ -60,45 +98,94 @@ function MessageBubble({ message }: { message: Message }) {
   }
 
   return (
-    <div className="flex justify-start mb-4">
+    <div className="flex justify-start mb-5 animate-in slide-in-from-bottom-2 duration-300">
       <div className="max-w-[90%] w-full">
-        <div className="border-4 border-ink bg-canvas overflow-hidden" style={{ boxShadow: '3px 3px 0px 0px #15803D' }}>
-          {/* Header */}
-          <div className="border-b-4 border-ink px-4 py-2 bg-green flex items-center gap-2">
-            <Brain className="w-3.5 h-3.5 text-white" />
-            <span className="font-mono text-[9px] font-black text-white uppercase tracking-widest">PolymerHub AI Tutor</span>
-            <Sparkles className="w-3 h-3 text-white/60 ml-auto" />
+        <div className="flex items-start gap-2.5">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-[#7C3AED] flex items-center justify-center flex-shrink-0 shadow-md mt-0.5">
+            <Bot className="w-4 h-4 text-white" />
           </div>
-
-          {/* Content */}
-          <div className="p-4">
-            <div className="text-sm text-ink leading-relaxed whitespace-pre-wrap">{message.content}</div>
-
-            {/* Sources */}
-            {message.sources && message.sources.length > 0 && (
-              <div className="mt-4 border-t-2 border-ink/10 pt-3">
-                <div className="font-mono text-[8px] text-ink/40 uppercase tracking-widest mb-2">Sources from your lessons</div>
-                <div className="flex flex-wrap gap-2">
-                  {message.sources.map((src) => (
-                    <Link
-                      key={src.slug}
-                      href={`/lessons/${src.slug}`}
-                      className="font-mono text-[9px] font-bold border-2 border-green/40 text-green px-2 py-1 hover:bg-green hover:text-white transition-colors flex items-center gap-1"
-                    >
-                      <BookOpen className="w-2.5 h-2.5" />
-                      {src.title.length > 40 ? src.title.slice(0, 40) + '...' : src.title}
-                    </Link>
-                  ))}
-                </div>
+          <div className="flex-1 bg-white border-2 border-slate-200 rounded-2xl rounded-tl-sm shadow-sm overflow-hidden">
+            {/* AI label bar */}
+            <div className="border-b border-slate-100 px-4 py-2 bg-gradient-to-r from-blue-50 to-violet-50 flex items-center gap-2">
+              <Sparkles className="w-3 h-3 text-violet-500" />
+              <span className="font-mono text-[9px] font-black text-violet-600 uppercase tracking-widest">
+                PolymerHub AI Tutor
+              </span>
+            </div>
+            {/* Content */}
+            <div className="px-4 py-3">
+              <div className="prose prose-sm max-w-none text-slate-800 leading-relaxed">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
               </div>
-            )}
+              {/* Sources */}
+              {message.sources && message.sources.length > 0 && (
+                <div className="mt-3 pt-3 border-t border-slate-100">
+                  <p className="text-[10px] text-slate-400 font-mono uppercase tracking-wide mb-1.5">
+                    📚 Grounded in your lessons:
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {message.sources.map((src) => (
+                      <Link
+                        key={src.slug}
+                        href={`/lessons/${src.slug}`}
+                        className="inline-flex items-center gap-1 text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-violet-50 text-violet-700 border border-violet-200 hover:bg-violet-100 transition-colors"
+                      >
+                        <BookOpen className="w-2.5 h-2.5" />
+                        {src.title.length > 38 ? src.title.slice(0, 38) + '…' : src.title}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
-        <div className="flex items-center gap-1 mt-1">
-          <Brain className="w-3 h-3 text-ink/30" />
-          <span className="font-mono text-[8px] text-ink/30 uppercase tracking-wider">
+        {/* Feedback row */}
+        <div className="flex items-center gap-3 mt-1.5 pl-10">
+          <span className="text-[10px] text-slate-400 font-mono">
             {message.timestamp.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
           </span>
+          <button
+            onClick={handleCopy}
+            className="text-slate-400 hover:text-[#1D4ED8] transition-colors"
+            title="Copy response"
+          >
+            {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
+          </button>
+          <button
+            onClick={() => onLike(message.id, true)}
+            className={`transition-colors ${message.liked === true ? 'text-green-500' : 'text-slate-400 hover:text-green-500'}`}
+            title="Helpful"
+          >
+            <ThumbsUp className="w-3.5 h-3.5" />
+          </button>
+          <button
+            onClick={() => onLike(message.id, false)}
+            className={`transition-colors ${message.liked === false ? 'text-red-500' : 'text-slate-400 hover:text-red-500'}`}
+            title="Not helpful"
+          >
+            <ThumbsDown className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Thinking Dots ────────────────────────────────────────────────────────────
+
+function ThinkingIndicator() {
+  return (
+    <div className="flex items-start gap-2.5 mb-5 animate-in fade-in duration-300">
+      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-[#7C3AED] flex items-center justify-center flex-shrink-0 shadow-md">
+        <Bot className="w-4 h-4 text-white" />
+      </div>
+      <div className="bg-white border-2 border-slate-200 rounded-2xl rounded-tl-sm px-4 py-3.5 shadow-sm">
+        <div className="flex items-center gap-1.5">
+          <div className="w-2.5 h-2.5 rounded-full bg-[#1D4ED8] animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#7C3AED] animate-bounce" style={{ animationDelay: '160ms' }} />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#EA580C] animate-bounce" style={{ animationDelay: '320ms' }} />
+          <span className="text-[10px] text-slate-400 font-mono ml-1 uppercase tracking-wide">Thinking…</span>
         </div>
       </div>
     </div>
@@ -115,23 +202,27 @@ export default function AITutorPage() {
   const [queryStatus, setQueryStatus] = useState<QueryStatus>({ used: 0, limit: 15, isPremium: false })
   const [session, setSession] = useState<Session | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-
-  // Phase 18 States
   const [activeTab, setActiveTab] = useState<'chat' | 'focus'>('chat')
   const [focusPlan, setFocusPlan] = useState<string | null>(null)
   const [focusLoading, setFocusLoading] = useState(false)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
+  // Scroll to bottom
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, loading])
+
+  // Auth + profile init
   useEffect(() => {
     const init = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setSession(session)
-      if (session) {
+      const { data: { session: s } } = await supabase.auth.getSession()
+      setSession(s)
+      if (s) {
         const { data: profile } = await supabase
           .from('profiles')
           .select('ai_queries_today, subscription_status')
-          .eq('id', session.user.id)
+          .eq('id', s.user.id)
           .single()
         if (profile) {
           const isPremium = profile.subscription_status === 'premium'
@@ -147,26 +238,34 @@ export default function AITutorPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // Fetch Focus Plan dynamically when tab changes
-  useEffect(() => {
-    if (activeTab === 'focus' && !focusPlan && session) {
-      setFocusLoading(true)
-      fetch('/api/ai-generator/focus-plan')
-        .then(res => res.json())
-        .then(data => {
-          if (data.plan) {
-            setFocusPlan(data.plan)
-          }
-        })
-        .catch(() => {})
-        .finally(() => setFocusLoading(false))
-    }
-  }, [activeTab, focusPlan, session])
+  // Load focus plan when tab switches
+  const loadFocusPlan = useCallback(() => {
+    if (!session || focusPlan || focusLoading) return
+    setFocusLoading(true)
+    fetch('/api/ai-generator/focus-plan')
+      .then((r) => r.json())
+      .then((d) => { if (d.plan) setFocusPlan(d.plan) })
+      .catch(() => {})
+      .finally(() => setFocusLoading(false))
+  }, [session, focusPlan, focusLoading])
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+    if (activeTab === 'focus') loadFocusPlan()
+  }, [activeTab, loadFocusPlan])
 
+  // Copy helper
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text).catch(() => {})
+  }
+
+  // Feedback helper
+  const handleLike = (id: string, val: boolean) => {
+    setMessages((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, liked: m.liked === val ? null : val } : m))
+    )
+  }
+
+  // Send message
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return
     setError(null)
@@ -176,7 +275,8 @@ export default function AITutorPage() {
       return
     }
 
-    if (!queryStatus.isPremium && queryStatus.used >= queryStatus.limit) {
+    const isAtLimit = !queryStatus.isPremium && queryStatus.used >= queryStatus.limit
+    if (isAtLimit) {
       setError('Daily query limit reached. Upgrade to Premium for unlimited queries.')
       return
     }
@@ -193,18 +293,12 @@ export default function AITutorPage() {
     setLoading(true)
 
     try {
-      const history = messages.slice(-6).map((m) => ({
-        role: m.role,
-        content: m.content,
-      }))
+      const history = messages.slice(-6).map((m) => ({ role: m.role, content: m.content }))
 
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: text.trim(),
-          history,
-        }),
+        body: JSON.stringify({ message: text.trim(), history }),
       })
 
       if (!response.ok) {
@@ -220,11 +314,11 @@ export default function AITutorPage() {
         content: data.answer,
         sources: data.sources ?? [],
         timestamp: new Date(),
+        liked: null,
       }
 
       setMessages((prev) => [...prev, assistantMessage])
       setQueryStatus((prev) => ({ ...prev, used: prev.used + 1 }))
-
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err)
       setError(errMsg || 'Something went wrong. Please try again.')
@@ -249,118 +343,121 @@ export default function AITutorPage() {
   const isAtLimit = !queryStatus.isPremium && queryStatus.used >= queryStatus.limit
 
   return (
-    <div className="min-h-screen bg-canvas flex flex-col">
-      <div className="h-2 bg-green" />
+    <div className="flex flex-col bg-[#F8FAFC]" style={{ height: 'calc(100vh - 68px)' }}>
 
-      {/* Header */}
-      <div className="border-b-4 border-ink bg-ink flex-shrink-0">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-green border-4 border-green flex items-center justify-center">
-              <Brain className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <div className="font-display text-base font-black text-white leading-tight">AI Tutor</div>
-              <div className="font-mono text-[8px] text-white/40 uppercase tracking-wider">Grounded in your 216 lessons · Gemini 2.5 Flash</div>
-            </div>
+      {/* ─── HEADER ─── */}
+      <div
+        className="flex-shrink-0 border-b-4 border-slate-900 px-4 sm:px-6 py-3 flex items-center justify-between"
+        style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(12px)' }}
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1D4ED8] to-[#7C3AED] flex items-center justify-center shadow-lg shadow-blue-500/25">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-
-          <div className="flex items-center gap-3">
-            {session && (
-              <div className="hidden sm:flex items-center gap-2 border-2 border-white/20 px-3 py-1.5">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: isAtLimit ? '#EA580C' : '#4ADE80' }} />
-                <span className="font-mono text-[9px] text-white/60 uppercase tracking-wider">
-                  {queryStatus.isPremium ? '∞ unlimited' : `${queriesLeft} left today`}
-                </span>
-              </div>
-            )}
-
-            {activeTab === 'chat' && messages.length > 0 && (
-              <button onClick={clearConversation} className="border-2 border-white/20 text-white/50 hover:text-white hover:border-white p-1.5 transition-colors">
-                <RotateCcw className="w-4 h-4" />
-              </button>
-            )}
-
-            {!session && (
-              <Link href="/login" className="cn-btn-yellow text-xs py-1.5">
-                Sign In to Ask
-              </Link>
-            )}
+          <div>
+            <h1 className="text-lg font-black font-display text-slate-900 leading-tight">AI Tutor</h1>
+            <p className="text-[10px] text-slate-500 font-mono">Grounded in 216 PPE lessons · Gemini 2.5 Flash</p>
           </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {session && (
+            <span className={`hidden sm:inline-flex items-center gap-1.5 text-[11px] font-mono font-bold px-3 py-1.5 rounded-full ${
+              isAtLimit
+                ? 'bg-orange-100 text-orange-700'
+                : 'bg-emerald-100 text-emerald-700'
+            }`}>
+              <span className={`w-1.5 h-1.5 rounded-full ${isAtLimit ? 'bg-orange-500' : 'bg-emerald-500 animate-pulse'}`} />
+              {queryStatus.isPremium ? '∞ Unlimited' : isAtLimit ? 'Limit reached' : `${queriesLeft} left today`}
+            </span>
+          )}
+          {messages.length > 0 && activeTab === 'chat' && (
+            <button
+              onClick={clearConversation}
+              className="p-2 rounded-lg border-2 border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-colors"
+              title="New conversation"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
+          {!session && (
+            <Link href="/login" className="px-4 py-2 bg-[#1D4ED8] text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-colors">
+              Sign In to Ask
+            </Link>
+          )}
         </div>
       </div>
 
-      {/* Navigation Sub-header */}
-      <div className="border-b-4 border-ink bg-white flex-shrink-0">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 flex gap-4">
-          <button
-            onClick={() => setActiveTab('chat')}
-            className={`py-3 px-4 font-display text-sm font-black border-r-4 border-ink transition-all ${
-              activeTab === 'chat' ? 'bg-green text-white' : 'text-slate-650 hover:bg-slate-50'
-            }`}
-          >
-            💬 AI Chat Tutor
-          </button>
-          <button
-            onClick={() => setActiveTab('focus')}
-            className={`py-3 px-4 font-display text-sm font-black border-r-4 border-ink transition-all ${
-              activeTab === 'focus' ? 'bg-purple-600 text-white' : 'text-slate-650 hover:bg-slate-50'
-            }`}
-          >
-            🎯 AI Focus & Career Plan
-          </button>
-        </div>
+      {/* ─── TABS ─── */}
+      <div className="flex-shrink-0 border-b-4 border-slate-900 bg-white flex">
+        <button
+          onClick={() => setActiveTab('chat')}
+          className={`px-5 py-2.5 font-display text-sm font-black border-r-4 border-slate-900 transition-all ${
+            activeTab === 'chat'
+              ? 'bg-gradient-to-r from-[#1D4ED8] to-[#7C3AED] text-white'
+              : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          💬 AI Chat Tutor
+        </button>
+        <button
+          onClick={() => setActiveTab('focus')}
+          className={`px-5 py-2.5 font-display text-sm font-black border-r-4 border-slate-900 transition-all ${
+            activeTab === 'focus'
+              ? 'bg-purple-600 text-white'
+              : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          🎯 AI Focus &amp; Career Plan
+        </button>
       </div>
 
-      {/* Main Area */}
+      {/* ─── CHAT TAB ─── */}
       {activeTab === 'chat' ? (
         <div className="flex-1 flex flex-col min-h-0">
+
           {/* Messages area */}
           <div className="flex-1 overflow-y-auto">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
 
-              {/* Empty state */}
+              {/* Empty State */}
               {messages.length === 0 && (
-                <div className="space-y-6">
-                  {/* Welcome */}
-                  <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: '4px 4px 0px 0px #15803D' }}>
-                    <div className="border-b-4 border-ink px-5 py-3 bg-green">
-                      <div className="flex items-center gap-2">
-                        <Brain className="w-5 h-5 text-white" />
-                        <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">PolymerHub AI Tutor</span>
-                      </div>
-                    </div>
-                    <div className="p-5 bg-canvas">
-                      <p className="font-display text-xl font-black text-ink mb-2">Ask me anything about polymer engineering.</p>
-                      <p className="text-sm text-ink/60 leading-relaxed mb-4">
-                        I&apos;m trained on all 216 lessons across your 19 subjects — using real pgvector similarity search to ground every answer in your actual curriculum. I remember our conversation context, so you can ask follow-up questions naturally.
-                      </p>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                        {[
-                          { label: '216 Lessons', color: '#1D4ED8' },
-                          { label: '19 Subjects', color: '#EA580C' },
-                          { label: 'Context Memory', color: '#15803D' },
-                          { label: 'Source Citations', color: '#7C3AED' },
-                        ].map((f) => (
-                          <div key={f.label} className="border-2 border-ink p-3 flex items-center justify-between" style={{ backgroundColor: `${f.color}10` }}>
-                            <span className="font-display text-sm font-black" style={{ color: f.color }}>{f.label}</span>
-                            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: f.color }} />
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                <div className="flex flex-col items-center text-center max-w-2xl mx-auto pt-4 pb-8">
+                  <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#1D4ED8] to-[#7C3AED] flex items-center justify-center shadow-2xl shadow-blue-500/20 mb-5">
+                    <Bot className="w-10 h-10 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-black font-display text-slate-900">
+                    Ask me anything about polymer engineering
+                  </h2>
+                  <p className="text-slate-500 text-sm mt-2 max-w-md leading-relaxed">
+                    Grounded in all <strong>216 lessons</strong> across 19 subjects — using pgvector similarity search to give you accurate, curriculum-grounded answers with source citations.
+                  </p>
+
+                  {/* Capability chips */}
+                  <div className="flex flex-wrap justify-center gap-2 mt-4">
+                    {[
+                      { label: '216 Lessons', color: 'bg-blue-100 text-blue-700' },
+                      { label: '19 Subjects', color: 'bg-orange-100 text-orange-700' },
+                      { label: 'Context Memory', color: 'bg-emerald-100 text-emerald-700' },
+                      { label: 'Source Citations', color: 'bg-violet-100 text-violet-700' },
+                    ].map((c) => (
+                      <span key={c.label} className={`text-[11px] font-mono font-bold px-3 py-1 rounded-full ${c.color}`}>
+                        {c.label}
+                      </span>
+                    ))}
                   </div>
 
-                  {/* Starter questions */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Suggested Questions Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-6 w-full">
                     {STARTER_QUESTIONS.map((q) => (
                       <button
-                        key={q}
-                        onClick={() => sendMessage(q)}
+                        key={q.text}
+                        onClick={() => sendMessage(q.text)}
                         disabled={!session || isAtLimit}
-                        className="border-4 border-ink p-4 text-left font-display text-xs font-black text-ink bg-canvas hover:bg-slate-50 transition-colors shadow-hard active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50"
+                        className="flex items-center gap-3 px-4 py-3 bg-white border-2 border-slate-200 rounded-xl hover:border-[#1D4ED8] hover:shadow-md transition-all text-sm text-left text-slate-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed group"
                       >
-                        {q}
+                        <span className="text-lg flex-shrink-0">{q.icon}</span>
+                        <span className="line-clamp-1 group-hover:text-[#1D4ED8] transition-colors">{q.text}</span>
                       </button>
                     ))}
                   </div>
@@ -369,60 +466,45 @@ export default function AITutorPage() {
 
               {/* Messages list */}
               {messages.map((msg) => (
-                <MessageBubble key={msg.id} message={msg} />
+                <MessageBubble
+                  key={msg.id}
+                  message={msg}
+                  onLike={handleLike}
+                  onCopy={handleCopy}
+                />
               ))}
 
-              {/* Loading */}
-              {loading && (
-                <div className="flex justify-start mb-4">
-                  <div className="border-4 border-ink overflow-hidden max-w-[150px] w-full" style={{ boxShadow: '3px 3px 0px 0px #15803D' }}>
-                    <div className="border-b-4 border-ink px-4 py-2 bg-green flex items-center gap-2">
-                      <Brain className="w-3.5 h-3.5 text-white" />
-                      <span className="font-mono text-[9px] font-black text-white uppercase tracking-widest">Thinking...</span>
-                    </div>
-                    <div className="px-5 py-4 flex items-center gap-3">
-                      {[0, 1, 2].map((i) => (
-                        <div
-                          key={i}
-                          className="w-3 h-3 border-2 border-ink animate-bounce"
-                          style={{ backgroundColor: '#15803D', animationDelay: `${i * 0.15}s` }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
+              {/* Thinking indicator */}
+              {loading && <ThinkingIndicator />}
 
               {/* Error */}
               {error && (
-                <div className="border-4 border-orange mb-4 overflow-hidden" style={{ boxShadow: '3px 3px 0px 0px #EA580C' }}>
-                  <div className="border-b-4 border-ink px-4 py-2 bg-orange flex items-center gap-2">
+                <div className="mb-4 border-2 border-orange-300 bg-orange-50 rounded-xl overflow-hidden">
+                  <div className="px-4 py-2 bg-orange-500 flex items-center gap-2">
                     <AlertCircle className="w-3.5 h-3.5 text-white" />
                     <span className="font-mono text-[9px] font-black text-white uppercase tracking-widest">Error</span>
                   </div>
-                  <div className="p-4 bg-orange/5 flex items-start justify-between gap-3">
-                    <p className="text-sm text-ink">{error}</p>
+                  <div className="px-4 py-3 flex items-center justify-between gap-3">
+                    <p className="text-sm text-orange-800">{error}</p>
                     {error.includes('limit') && (
-                      <Link href="/pricing" className="cn-btn-yellow text-xs flex-shrink-0">
-                        Upgrade
+                      <Link href="/pricing" className="flex-shrink-0 px-3 py-1.5 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-700 transition-colors flex items-center gap-1">
+                        Upgrade <ArrowRight className="w-3 h-3" />
                       </Link>
                     )}
                   </div>
                 </div>
               )}
 
-              {/* Limit warning */}
+              {/* Daily limit warning */}
               {isAtLimit && session && (
-                <div className="border-4 border-orange overflow-hidden mb-4" style={{ boxShadow: '4px 4px 0px 0px #EA580C' }}>
-                  <div className="p-5 flex items-center justify-between gap-4 flex-wrap" style={{ backgroundColor: '#FFF7ED' }}>
-                    <div>
-                      <div className="font-display text-lg font-black text-ink">Daily limit reached</div>
-                      <p className="text-sm text-ink/60">You&apos;ve used all 15 free queries today. Resets at midnight.</p>
-                    </div>
-                    <Link href="/pricing" className="cn-btn-black text-sm flex-shrink-0">
-                      Get Unlimited — ₹149/mo <ArrowRight className="w-4 h-4" />
-                    </Link>
+                <div className="mb-4 border-2 border-orange-300 bg-orange-50 rounded-xl p-4 flex items-center justify-between gap-4 flex-wrap">
+                  <div>
+                    <p className="font-display font-black text-slate-900">Daily limit reached</p>
+                    <p className="text-sm text-slate-600 mt-0.5">You&apos;ve used all 15 free queries. Resets at midnight.</p>
                   </div>
+                  <Link href="/pricing" className="flex-shrink-0 px-4 py-2 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-700 transition-colors flex items-center gap-1.5">
+                    Get Unlimited — ₹149/mo <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               )}
 
@@ -430,26 +512,25 @@ export default function AITutorPage() {
             </div>
           </div>
 
-          {/* Input area */}
-          <div className="border-t-4 border-ink bg-canvas flex-shrink-0">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-
-              {/* Query counter mobile */}
+          {/* ─── INPUT AREA ─── */}
+          <div className="flex-shrink-0 border-t-4 border-slate-900 bg-white px-4 sm:px-6 py-4">
+            <div className="max-w-4xl mx-auto">
+              {/* Mobile query counter */}
               {session && (
                 <div className="flex items-center justify-between mb-2 sm:hidden">
-                  <span className="font-mono text-[8px] text-ink/40 uppercase tracking-wider">
-                    {queryStatus.isPremium ? 'Unlimited queries' : `${queriesLeft} of ${queryStatus.limit} queries left today`}
+                  <span className="text-[10px] text-slate-400 font-mono uppercase">
+                    {queryStatus.isPremium ? 'Unlimited' : `${queriesLeft} / ${queryStatus.limit} queries left today`}
                   </span>
                   {messages.length > 0 && (
-                    <button onClick={clearConversation} className="font-mono text-[8px] text-ink/40 hover:text-ink uppercase tracking-wider flex items-center gap-1">
-                      <RotateCcw className="w-3.5 h-3.5" /> New chat
+                    <button onClick={clearConversation} className="text-[10px] text-slate-400 hover:text-slate-700 font-mono flex items-center gap-1 uppercase">
+                      <RotateCcw className="w-3 h-3" /> New chat
                     </button>
                   )}
                 </div>
               )}
 
-              <div className="flex gap-3 items-end">
-                <div className="flex-1 border-4 border-ink overflow-hidden" style={{ boxShadow: '3px 3px 0px 0px #0A0A0A' }}>
+              <div className="flex items-end gap-3">
+                <div className="flex-1 border-2 border-slate-200 rounded-2xl overflow-hidden focus-within:border-[#1D4ED8] focus-within:ring-2 focus-within:ring-blue-100 transition-all shadow-sm">
                   <textarea
                     ref={inputRef}
                     value={input}
@@ -457,67 +538,88 @@ export default function AITutorPage() {
                     onKeyDown={handleKeyDown}
                     placeholder={
                       !session
-                        ? 'Sign in to ask questions...'
+                        ? 'Sign in to ask questions…'
                         : isAtLimit
-                        ? 'Daily limit reached — upgrade for unlimited...'
-                        : 'Ask anything about polymer engineering... (Enter to send, Shift+Enter for new line)'
+                        ? 'Daily limit reached — upgrade for unlimited…'
+                        : 'Ask anything about polymer engineering… (Enter to send, Shift+Enter for new line)'
                     }
                     disabled={!session || isAtLimit || loading}
-                    className="w-full px-4 py-3 text-sm text-ink resize-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-canvas"
+                    className="w-full px-4 py-3 text-sm text-slate-900 resize-none focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed bg-white placeholder:text-slate-400"
                     rows={2}
                     style={{ minHeight: '56px', maxHeight: '120px' }}
                   />
+                  <div className="flex items-center justify-between px-4 py-1.5 border-t border-slate-100 bg-slate-50">
+                    <span className="text-[10px] text-slate-400 font-mono">{input.length}/1000</span>
+                    <span className="text-[10px] text-slate-400">Enter ↵ to send</span>
+                  </div>
                 </div>
+
                 <button
                   onClick={() => sendMessage(input)}
                   disabled={!input.trim() || loading || !session || isAtLimit}
-                  className="border-4 border-ink w-14 h-14 flex items-center justify-center flex-shrink-0 disabled:opacity-40 disabled:cursor-not-allowed transition-all hover:bg-green hover:border-green"
-                  style={{
-                    backgroundColor: input.trim() && !loading && session && !isAtLimit ? '#15803D' : '#F9FAFB',
-                    boxShadow: '3px 3px 0px 0px #0A0A0A',
-                  }}
+                  className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all shadow-md ${
+                    input.trim() && !loading && session && !isAtLimit
+                      ? 'bg-gradient-to-br from-[#1D4ED8] to-[#7C3AED] hover:shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5'
+                      : 'bg-slate-200 cursor-not-allowed'
+                  }`}
                 >
-                  <Send className={`w-5 h-5 ${input.trim() && !loading && session ? 'text-white' : 'text-ink/30'}`} />
+                  {loading ? (
+                    <Loader2 className="w-5 h-5 text-white animate-spin" />
+                  ) : (
+                    <Send className={`w-5 h-5 ${input.trim() && session ? 'text-white' : 'text-slate-400'}`} />
+                  )}
                 </button>
               </div>
-              <p className="font-mono text-[8px] text-ink/30 mt-2 text-center uppercase tracking-wider">
-                Answers grounded in your 216 lessons via Gemini 2.5 Flash + pgvector RAG
+
+              <p className="text-[10px] text-slate-400 font-mono text-center mt-2 flex items-center justify-center gap-1">
+                <Zap className="w-3 h-3" />
+                Powered by Gemini 2.5 Flash · Grounded in 216 PPE lessons via pgvector RAG
               </p>
             </div>
           </div>
         </div>
+
       ) : (
+        /* ─── FOCUS PLAN TAB ─── */
         <div className="flex-1 overflow-y-auto bg-slate-50">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
-            <div className="border-4 border-ink bg-purple-100 p-6 shadow-hard animate-in slide-in-from-bottom-2 duration-200">
+            <div className="border-4 border-slate-900 bg-purple-100 p-6 rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <div className="flex items-center gap-3">
-                <Brain className="w-8 h-8 text-purple-650 shrink-0" />
+                <Brain className="w-8 h-8 text-purple-700 flex-shrink-0" />
                 <div>
-                  <h2 className="text-xl font-black text-slate-900">AI Advisor Blueprint</h2>
-                  <p className="text-xs text-slate-600 font-bold mt-0.5">Analyses your lesson completions, quiz histories, and career goals to map a weekly focus guide.</p>
+                  <h2 className="text-xl font-black font-display text-slate-900">AI Advisor Blueprint</h2>
+                  <p className="text-xs text-slate-600 font-bold mt-0.5">
+                    Analyses your lesson completions, quiz histories, and career goals to map a weekly focus guide.
+                  </p>
                 </div>
               </div>
             </div>
 
             {focusLoading ? (
-              <div className="border-4 border-ink p-8 text-center bg-white shadow-hard animate-pulse">
+              <div className="border-4 border-slate-900 p-10 text-center bg-white rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] animate-pulse">
                 <RefreshCw className="w-8 h-8 mx-auto text-purple-600 animate-spin mb-3" />
-                <p className="font-display font-black text-slate-900">Analyzing study progress and running Gemini advisor planner...</p>
+                <p className="font-display font-black text-slate-900">Analysing study progress and running Gemini advisor planner…</p>
               </div>
             ) : !session ? (
-              <div className="border-4 border-ink p-8 text-center bg-white shadow-hard">
+              <div className="border-4 border-slate-900 p-10 text-center bg-white rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <p className="font-display text-lg font-black text-slate-900">Sign in to view your Focus Plan</p>
-                <Link href="/login" className="cn-btn-purple mt-4 inline-flex">Sign In</Link>
+                <Link href="/login" className="mt-4 inline-flex px-5 py-2.5 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition-colors">
+                  Sign In
+                </Link>
               </div>
             ) : focusPlan ? (
-              <div className="border-4 border-slate-900 bg-white p-6 shadow-hard prose max-w-none font-bold text-slate-900 leading-relaxed markdown-body">
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {focusPlan}
-                </ReactMarkdown>
+              <div className="border-4 border-slate-900 bg-white p-6 rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] prose max-w-none text-slate-900 leading-relaxed">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{focusPlan}</ReactMarkdown>
               </div>
             ) : (
-              <div className="border-4 border-ink p-8 text-center bg-white shadow-hard">
-                <p className="font-display font-black text-slate-900">Unable to generate focus plan.</p>
+              <div className="border-4 border-slate-900 p-10 text-center bg-white rounded-2xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <p className="font-display font-black text-slate-900">Unable to generate focus plan. Please try again.</p>
+                <button
+                  onClick={() => { setFocusPlan(null); loadFocusPlan() }}
+                  className="mt-4 inline-flex items-center gap-2 px-5 py-2.5 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition-colors"
+                >
+                  <RefreshCw className="w-4 h-4" /> Retry
+                </button>
               </div>
             )}
           </div>
