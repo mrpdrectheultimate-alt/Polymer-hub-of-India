@@ -625,4 +625,16 @@ select:focus-visible {
   box-shadow: 4px 4px 0px 0px #0A0A0A;
   transform: translate(-2px, -2px);
 }
+
+/* ── Floating Animations ── */
+@keyframes polymer-float {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(1.5deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.animate-float-slow {
+  animation: polymer-float 7s ease-in-out infinite;
+}
+
 

@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {
@@ -358,75 +359,240 @@ function SubjectCard({ subject }: { subject: typeof SUBJECTS[0] }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  // Animated polymer chain background
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    const resize = () => {
+      canvas.width = window.innerWidth
+      canvas.height = window.innerHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const particles: { x: number; y: number; vx: number; vy: number; radius: number; color: string; }[] = []
+    const colors = ['#1D4ED8', '#EA580C', '#15803D', '#7C3AED', '#CA8A04']
+
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.15,
+        vy: (Math.random() - 0.5) * 0.15,
+        radius: 2 + Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      })
+    }
+
+    let animationId: number
+
+    const draw = () => {
+      if (!ctx || !canvas) return
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      // Ambient radial dark gradient
+      const gradient = ctx.createRadialGradient(
+        canvas.width * 0.3, canvas.height * 0.2, 0,
+        canvas.width * 0.5, canvas.height * 0.5, canvas.width * 0.8
+      )
+      gradient.addColorStop(0, '#0E213A')
+      gradient.addColorStop(0.5, '#071120')
+      gradient.addColorStop(1, '#040912')
+      ctx.fillStyle = gradient
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // Draw connection lines
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)'
+      ctx.lineWidth = 0.5
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x
+          const dy = particles[i].y - particles[j].y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < 120) {
+            ctx.beginPath()
+            ctx.moveTo(particles[i].x, particles[i].y)
+            ctx.lineTo(particles[j].x, particles[j].y)
+            ctx.stroke()
+          }
+        }
+      }
+
+      // Draw particles
+      particles.forEach((p) => {
+        p.x += p.vx
+        p.y += p.vy
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1
+
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2)
+        ctx.fillStyle = p.color + '30'
+        ctx.fill()
+      })
+
+      animationId = requestAnimationFrame(draw)
+    }
+
+    draw()
+
+    return () => {
+      window.removeEventListener('resize', resize)
+      if (animationId) cancelAnimationFrame(animationId)
+    }
+  }, [])
+
+  const floatingPolymers = [
+    { label: 'PE', name: 'Polyethylene', x: '82%', y: '12%', color: '#3B82F6', delay: '0s' },
+    { label: 'PET', name: 'Polyethylene Terephthalate', x: '45%', y: '15%', color: '#F97316', delay: '1.5s' },
+    { label: 'PVC', name: 'Polyvinyl Chloride', x: '50%', y: '32%', color: '#22C55E', delay: '3.0s' },
+    { label: 'PP', name: 'Polypropylene', x: '74%', y: '24%', color: '#A855F7', delay: '4.5s' },
+    { label: 'PLA', name: 'Polylactic Acid', x: '42%', y: '48%', color: '#EAB308', delay: '6.0s' },
+    { label: 'PS', name: 'Polystyrene', x: '92%', y: '34%', color: '#EC4899', delay: '7.5s' },
+  ]
+
   return (
     <div className="min-h-screen bg-canvas">
 
       {/* ── HERO ─────────────────────────────────────────────── */}
-      <section className="relative min-h-[85vh] flex flex-col justify-end overflow-hidden border-b-4 border-ink animate-soft-fade">
+      <section className="relative min-h-[92vh] flex items-center overflow-hidden border-b-4 border-slate-900 bg-[#040912] py-16">
+        
+        {/* Animated Canvas Background */}
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
 
-        {/* Background image */}
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1530099486328-e021101a494a?w=1800&q=85"
-            alt="Colorful polymer pellets"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-ink/70" />
+        {/* Ambient Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#040912] via-[#040912]/80 to-transparent z-10" />
+
+        {/* Floating Hexagonal Polymer Badges */}
+        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden hidden md:block">
+          {floatingPolymers.map((p) => (
+            <div
+              key={p.label}
+              className="absolute animate-float-slow p-2.5 rounded-xl border-2 bg-slate-950/75 backdrop-blur-md flex flex-col items-center justify-center text-center shadow-2xl"
+              style={{
+                left: p.x,
+                top: p.y,
+                borderColor: `${p.color}40`,
+                animationDelay: p.delay,
+                transform: 'translate(-50%, -50%)',
+                minWidth: '100px'
+              }}
+            >
+              <span className="font-display font-black text-xs uppercase" style={{ color: p.color }}>{p.label}</span>
+              <span className="text-[8px] text-white/50 leading-none mt-0.5 tracking-tight font-medium max-w-[80px] truncate">{p.name}</span>
+            </div>
+          ))}
         </div>
 
-        {/* Floating domain blobs */}
-        <div className="absolute top-10 right-10 w-48 h-48 rounded-full opacity-20 animate-blob-pulse" style={{ backgroundColor: '#1D4ED8', filter: 'blur(40px)' }} />
-        <div className="absolute top-1/3 right-1/4 w-32 h-32 rounded-full opacity-20 animate-blob-pulse" style={{ backgroundColor: '#EA580C', filter: 'blur(30px)', animationDelay: '2s' }} />
-        <div className="absolute bottom-1/3 left-10 w-40 h-40 rounded-full opacity-15 animate-blob-pulse" style={{ backgroundColor: '#7C3AED', filter: 'blur(35px)', animationDelay: '4s' }} />
-
-        {/* Hero content */}
-        <div className="relative px-6 md:px-12 pb-12 pt-24 max-w-6xl mx-auto w-full">
-
-          {/* Official Brand Logo Badge in Hero */}
-          <div className="mb-6">
-            <div className="inline-block bg-white border-4 border-yellow-bright p-2" style={{ boxShadow: '4px 4px 0px 0px #FDE047' }}>
+        {/* Hero Content Grid */}
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center justify-between gap-10">
+          
+          {/* Left Column Content */}
+          <div className="max-w-3xl flex-1 space-y-6">
+            
+            {/* Brand Logo Badge */}
+            <div className="inline-block bg-white border-4 border-slate-900 p-2.5 rounded-xl shadow-[4px_4px_0px_0px_#EAB308]">
               <Image
                 src="/logo-vertical.jpg"
-                alt="Polymer Hub of India — Knowledge · Innovation · Future"
-                width={160}
-                height={120}
+                alt="Polymer Hub of India"
+                width={150}
+                height={100}
                 className="object-contain"
                 priority
               />
             </div>
+
+            {/* Sub-label Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+              <span className="text-[9px] font-black text-white/90 tracking-widest uppercase font-mono">
+                India&apos;s #1 Polymer Engineering Platform
+              </span>
+            </div>
+
+            {/* Headline */}
+            <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight uppercase">
+              Where
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500">
+                Polymer Science
+              </span>
+              <br />
+              Meets the Future
+            </h1>
+
+            {/* Sub-description */}
+            <p className="text-slate-300 text-sm md:text-base leading-relaxed max-w-xl font-light">
+              Learn the science. Understand the industry. Explore the materials, 
+              processes, and engineering technologies shaping the world of plastics.
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link
+                href="/subjects"
+                className="inline-flex items-center gap-2 bg-[#22C55E] hover:bg-[#16A34A] text-white border-2 border-slate-950 font-black px-6 py-3.5 rounded-xl transition-all hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 text-xs font-mono tracking-wider uppercase"
+              >
+                Start Learning Free <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/comparator"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white font-black px-6 py-3.5 rounded-xl transition-all hover:-translate-y-0.5 text-xs font-mono tracking-wider uppercase"
+              >
+                Compare Materials
+              </Link>
+            </div>
+
+            {/* Blockquote Quote */}
+            <div className="border-l-4 border-[#F97316] pl-4 py-1">
+              <p className="text-xs text-white/50 italic font-light">
+                &quot;The future isn&apos;t made from one material. It&apos;s engineered from many.&quot;
+              </p>
+            </div>
+
+            {/* Integrated Stats Row */}
+            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10 max-w-lg">
+              <div>
+                <p className="text-xl md:text-2xl font-black text-white">216+</p>
+                <p className="text-[9px] text-white/40 font-mono uppercase tracking-wider">Lessons Live</p>
+              </div>
+              <div>
+                <p className="text-xl md:text-2xl font-black text-white">357+</p>
+                <p className="text-[9px] text-white/40 font-mono uppercase tracking-wider">Videos Mapped</p>
+              </div>
+              <div>
+                <p className="text-xl md:text-2xl font-black text-white">50</p>
+                <p className="text-[9px] text-white/40 font-mono uppercase tracking-wider">Curated Books</p>
+              </div>
+            </div>
+
           </div>
 
-          {/* Label */}
-          <div className="inline-flex items-center gap-2 border-2 border-yellow-bright px-3 py-1 mb-6">
-            <span className="w-2 h-2 rounded-full bg-yellow-bright animate-pulse" />
-            <span className="font-mono text-xs font-bold text-yellow-bright uppercase tracking-widest">
-              India&apos;s #1 Polymer Engineering Platform
-            </span>
+          {/* Right Column Graphic */}
+          <div className="hidden lg:block w-[400px] h-[480px] relative z-10 flex-shrink-0">
+            <div className="absolute inset-0 border-4 border-slate-900 rounded-3xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(34,197,94,0.3)] bg-slate-950">
+              <Image
+                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+                alt="Engineering collaboration"
+                fill
+                sizes="400px"
+                className="object-cover object-center opacity-65 hover:opacity-90 transition-opacity duration-700"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#040912] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#040912]/40 via-transparent to-transparent" />
+            </div>
+            
+            {/* Glowing Accent Elements */}
+            <div className="absolute -top-4 -right-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl pointer-events-none" />
+            <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
           </div>
 
-          {/* Headline */}
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-black text-white leading-none mb-4 max-w-4xl">
-            THE WORLD{' '}
-            <span className="text-yellow-bright italic">RUNS</span>
-            {' '}ON PLASTIC.
-            <br />
-            <span className="text-blue-400">WE RUN</span> THE KNOWLEDGE.
-          </h1>
-
-          <p className="text-white/80 text-lg md:text-xl max-w-2xl mb-8 leading-relaxed font-medium">
-            216 world-class lessons. AI Tutor grounded in your syllabus. Real industry data updated daily.
-            Career clarity for every PPE student in India.
-          </p>
-
-          {/* CTAs */}
-          <div className="flex flex-wrap gap-4">
-            <Link href="/subjects" className="cn-btn-yellow text-base">
-              Start Learning Free <ArrowRight className="w-5 h-5" />
-            </Link>
-            <Link href="/world" className="cn-btn-white text-base">
-              Explore the World of Plastic
-            </Link>
-          </div>
         </div>
       </section>
 
