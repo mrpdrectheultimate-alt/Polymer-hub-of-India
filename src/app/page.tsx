@@ -704,242 +704,333 @@ export default function HomePage() {
       </section>
 
       {/* ── QUOTE BREAKER 1 ──────────────────────────────────── */}
-      <section className="cn-quote border-y-4 border-ink">
-        <div className="max-w-4xl mx-auto">
-          <p className="cn-quote-text text-yellow-bright mb-4">
-            &quot;Plastics are the workhorses of modern civilization — invisible, indispensable, misunderstood.&quot;
+      <section className="bg-[#0A1628] text-white py-16 px-6 md:px-12 border-y-2 border-slate-900 text-center relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)] pointer-events-none" />
+        <div className="relative z-10 max-w-4xl mx-auto space-y-3">
+          <p className="font-display text-2xl sm:text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-yellow-200 leading-tight">
+            &ldquo;Plastics are the workhorses of modern civilization — invisible, indispensable, misunderstood.&rdquo;
           </p>
-          <p className="font-mono text-sm text-white/50 uppercase tracking-widest">
-            — Industry Perspective · PolymerHub
+          <p className="font-mono text-xs text-slate-400 uppercase tracking-widest pt-2">
+            &mdash; Industry Perspective &middot; PolymerHub
           </p>
         </div>
       </section>
 
       {/* ── TOOLS SECTION ────────────────────────────────────── */}
-      <section className="border-b-4 border-ink">
-        <div className="border-b-4 border-ink px-6 md:px-12 py-5 bg-violet flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-canvas border-4 border-canvas flex items-center justify-center">
-              <Zap className="w-5 h-5 text-violet" />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="border-b-2 border-slate-900 pb-4 mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-md">
+              <Zap className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-display text-2xl font-black text-white uppercase tracking-tight">
-                Interactive Tools
+              <span className="text-xs font-mono font-bold text-blue-600 uppercase tracking-widest">Engineering Toolkit</span>
+              <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
+                Interactive Engineering Tools
               </h2>
-              <p className="font-mono text-xs text-white/60 uppercase tracking-wider">No textbook has these</p>
             </div>
           </div>
+          <span className="text-xs font-mono font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-full w-fit">
+            No textbook has these live calculators
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-0 border-ink">
-          {TOOLS.map((tool, i) => {
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {TOOLS.map((tool) => {
             const Icon = tool.icon
             return (
               <Link
                 key={tool.name}
                 href={tool.href}
-                className="group border-4 border-ink p-6 md:p-8 block"
-                style={{
-                  backgroundColor: tool.bg,
-                  borderColor: '#0A0A0A',
-                  marginTop: i < 2 ? 0 : '-4px',
-                  marginLeft: i % 2 === 1 ? '-4px' : 0,
-                }}
+                className="group border-2 border-slate-900 rounded-2xl p-6 sm:p-8 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between"
               >
-                <div
-                  className="w-12 h-12 border-4 border-ink flex items-center justify-center mb-4"
-                  style={{ backgroundColor: tool.color }}
-                >
-                  <Icon className="w-6 h-6 text-white" />
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center shadow-md text-white border border-white/20"
+                      style={{ backgroundColor: tool.color }}
+                    >
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-100">
+                      Live Tool
+                    </span>
+                  </div>
+                  <h3 className="font-display text-xl sm:text-2xl font-black text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                    {tool.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6 font-medium">
+                    {tool.desc}
+                  </p>
                 </div>
-                <h3 className="font-display text-xl font-black text-ink mb-2 group-hover:underline" style={{ textDecorationColor: tool.color }}>
-                  {tool.name}
-                </h3>
-                <p className="text-sm text-ink/70 leading-relaxed mb-4">{tool.desc}</p>
-                <span
-                  className="font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1 border-b-2 pb-0.5"
-                  style={{ color: tool.color, borderColor: tool.color }}
-                >
-                  Open Tool <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
+                  <span
+                    className="font-mono text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
+                    style={{ color: tool.color }}
+                  >
+                    Open Engineering Tool <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400">Free Access</span>
+                </div>
               </Link>
             )
           })}
         </div>
       </section>
 
-      {/* ── EXPLORE STRIP ────────────────────────────────────── */}
-      <section className="border-b-4 border-ink">
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y-4 md:divide-y-0 md:divide-x-4 divide-ink">
+      {/* ── EXPLORE STRIP (Full Image Visibility) ─────────────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
           {/* History */}
-          <Link href="/history" className="group relative overflow-hidden block border-ink" style={{ minHeight: '280px' }}>
+          <Link 
+            href="/history" 
+            className="group relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5" 
+            style={{ minHeight: '300px' }}
+          >
             <img
-              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80"
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"
               alt="History of plastics"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-blue/80" />
+            {/* Subtle Gradient Overlay — Image 100% visible */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
             <div className="relative p-6 h-full flex flex-col justify-end">
-              <div className="cn-label border-white text-white text-[10px] mb-3 w-fit">History</div>
-              <h3 className="font-display text-2xl font-black text-white leading-tight mb-2">
+              <span className="font-mono text-[10px] font-bold text-white bg-blue-600 px-2.5 py-1 rounded-md mb-3 w-fit uppercase tracking-widest shadow-md">
+                1907 &rarr; 2026
+              </span>
+              <h3 className="font-display text-xl sm:text-2xl font-black text-white leading-tight mb-2 drop-shadow-md">
                 162 Years of a Material That Remade Civilization
               </h3>
-              <span className="font-mono text-xs text-white/70 uppercase tracking-wider flex items-center gap-1">
+              <span className="font-mono text-xs font-bold text-blue-300 uppercase tracking-wider flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
                 Explore Timeline <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>
 
           {/* World */}
-          <Link href="/world" className="group relative overflow-hidden block" style={{ minHeight: '280px' }}>
+          <Link 
+            href="/world" 
+            className="group relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5" 
+            style={{ minHeight: '300px' }}
+          >
             <img
-              src="https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=600&q=80"
+              src="https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=800&q=80"
               alt="World of plastic"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-orange/80" />
+            {/* Subtle Gradient Overlay — Image 100% visible */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
             <div className="relative p-6 h-full flex flex-col justify-end">
-              <div className="cn-label border-white text-white text-[10px] mb-3 w-fit">World</div>
-              <h3 className="font-display text-2xl font-black text-white leading-tight mb-2">
+              <span className="font-mono text-[10px] font-bold text-white bg-orange-600 px-2.5 py-1 rounded-md mb-3 w-fit uppercase tracking-widest shadow-md">
+                7 Core Pillars
+              </span>
+              <h3 className="font-display text-xl sm:text-2xl font-black text-white leading-tight mb-2 drop-shadow-md">
                 Without Polymer Engineering, Modern Life Stops
               </h3>
-              <span className="font-mono text-xs text-white/70 uppercase tracking-wider flex items-center gap-1">
-                7 Industries <ArrowRight className="w-3.5 h-3.5" />
+              <span className="font-mono text-xs font-bold text-orange-300 uppercase tracking-wider flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                Explore 7 Industries <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>
 
           {/* Careers */}
-          <Link href="/careers" className="group relative overflow-hidden block" style={{ minHeight: '280px' }}>
+          <Link 
+            href="/careers" 
+            className="group relative overflow-hidden rounded-2xl border-2 border-slate-900 bg-slate-950 shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1.5" 
+            style={{ minHeight: '300px' }}
+          >
             <img
-              src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80"
+              src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80"
               alt="Careers in plastics"
-              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            <div className="absolute inset-0 bg-green/80" />
+            {/* Subtle Gradient Overlay — Image 100% visible */}
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
             <div className="relative p-6 h-full flex flex-col justify-end">
-              <div className="cn-label border-white text-white text-[10px] mb-3 w-fit">Careers</div>
-              <h3 className="font-display text-2xl font-black text-white leading-tight mb-2">
-                6 Career Tracks. ₹4–40 LPA Range. Your Choice.
+              <span className="font-mono text-[10px] font-bold text-white bg-emerald-600 px-2.5 py-1 rounded-md mb-3 w-fit uppercase tracking-widest shadow-md">
+                SPE Careers Hub
+              </span>
+              <h3 className="font-display text-xl sm:text-2xl font-black text-white leading-tight mb-2 drop-shadow-md">
+                4 Industry Tracks &middot; ₹4–28 LPA Indian Packages
               </h3>
-              <span className="font-mono text-xs text-white/70 uppercase tracking-wider flex items-center gap-1">
-                Career Hub <ArrowRight className="w-3.5 h-3.5" />
+              <span className="font-mono text-xs font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
+                Explore Career Tracks <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </div>
           </Link>
         </div>
       </section>
 
-      {/* ── AI TUTOR SECTION ─────────────────────────────────── */}
-      <section className="border-b-4 border-ink bg-green">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 py-12 md:py-16 flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="max-w-xl">
-            <div className="cn-label border-white text-white text-[10px] mb-4 w-fit bg-white/20">
-              AI Tutor — Powered by Gemini
-            </div>
-            <h2 className="font-display text-4xl md:text-5xl font-black text-white leading-tight mb-4">
-              Ask Anything.<br />Get Answers Grounded<br />in Your Lessons.
-            </h2>
-            <p className="text-white/80 text-base leading-relaxed mb-6">
-              Not a generic chatbot. The PolymerHub AI Tutor uses real pgvector similarity search across all 216 lessons — so every answer cites actual lesson content.
-            </p>
-            <div className="flex flex-wrap gap-2 mb-6">
-              {['What is the difference between Izod and Charpy testing?', 'How does vulcanization work?', 'Which career suits me?'].map((q) => (
-                <span key={q} className="font-mono text-xs border-2 border-white text-white px-3 py-1.5 bg-white/10">
-                  {q}
+      {/* ── AI TUTOR SECTION (Cinematic Glassmorphism) ───────────── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0A1628] via-[#0F284D] to-[#0A1628] border-2 border-slate-900 shadow-2xl p-8 sm:p-12 text-white">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left Info Column */}
+            <div className="lg:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1">
+                <Brain className="w-3.5 h-3.5 text-blue-400 animate-pulse" />
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-200">
+                  AI Tutor &middot; Grounded in 216 Lessons
                 </span>
-              ))}
-            </div>
-            <Link href="/ai-tutor" className="cn-btn bg-white text-green border-white font-black">
-              Ask the AI Tutor <ArrowRight className="w-5 h-5" />
-            </Link>
-          </div>
-          <div className="border-4 border-white bg-white/10 p-6 w-full md:w-80 flex-shrink-0">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-3 h-3 rounded-full bg-yellow-bright animate-pulse" />
-              <span className="font-mono text-xs font-bold text-white/80 uppercase tracking-wider">Live · 15 free queries/day</span>
-            </div>
-            <div className="space-y-3">
-              <div className="bg-white/20 border-2 border-white/30 p-3">
-                <p className="font-mono text-xs text-white/70 mb-1">Student asks:</p>
-                <p className="text-sm text-white font-medium">&quot;Why does PP become brittle after gamma sterilization?&quot;</p>
               </div>
-              <div className="bg-white border-2 border-white p-3">
-                <p className="font-mono text-xs text-green mb-1">AI Tutor answers from Lesson 4:</p>
-                <p className="text-sm text-ink">Standard PP undergoes chain scission under gamma radiation — radiation-stabilised grades with HALS antioxidants are required for medical devices...</p>
+              
+              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-black leading-tight">
+                Ask Anything. <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-200 to-orange-400">
+                  Get Rigorous Engineering Answers.
+                </span>
+              </h2>
+              
+              <p className="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl font-light">
+                Not a generic chatbot. PolymerHub AI Tutor uses real vector similarity search across all 216 lessons — citing actual equations, ASTM standards, and textbook data.
+              </p>
+              
+              {/* Question Pills */}
+              <div className="flex flex-wrap gap-2 pt-2">
+                {[
+                  'What is the difference between Izod & Charpy impact?',
+                  'How does vulcanization cure kinetics work?',
+                  'Calculate cooling time for 3mm PP wall'
+                ].map((q) => (
+                  <Link
+                    key={q}
+                    href={`/ai-tutor?prompt=${encodeURIComponent(q)}`}
+                    className="text-xs font-mono text-slate-300 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15 px-3 py-1.5 rounded-lg transition-all"
+                  >
+                    &ldquo;{q}&rdquo;
+                  </Link>
+                ))}
+              </div>
+
+              <div className="pt-4">
+                <Link 
+                  href="/ai-tutor" 
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase font-mono tracking-wider px-6 py-3.5 rounded-xl border border-blue-400 transition-all shadow-lg hover:shadow-blue-500/25"
+                >
+                  Launch AI Tutor <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
             </div>
+
+            {/* Right Live Simulation Bubble */}
+            <div className="lg:col-span-5 bg-slate-900/90 backdrop-blur-xl border border-white/15 rounded-2xl p-6 shadow-2xl space-y-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="font-mono text-xs font-bold text-slate-300">Live &middot; 15 Free Queries/Day</span>
+                </div>
+                <span className="text-[10px] font-mono text-blue-400 bg-blue-950/60 border border-blue-500/30 px-2 py-0.5 rounded">
+                  RAG Pipeline
+                </span>
+              </div>
+
+              <div className="space-y-3 text-xs">
+                <div className="bg-white/5 border border-white/10 p-3 rounded-xl">
+                  <p className="text-[10px] font-mono text-slate-400 mb-1">Student asked:</p>
+                  <p className="text-slate-200 font-medium">&ldquo;Why does PP become brittle after gamma sterilization?&rdquo;</p>
+                </div>
+                <div className="bg-blue-950/40 border border-blue-500/30 p-3.5 rounded-xl text-slate-300 leading-relaxed">
+                  <p className="text-[10px] font-mono text-emerald-400 mb-1 font-bold">AI Tutor (Citing Lesson 4: Medical Plastics):</p>
+                  <p className="text-slate-200">
+                    Standard PP undergoes free-radical chain scission under high-energy gamma radiation. Radiation-stabilised grades with specialized HALS antioxidants are required to prevent post-irradiation embrittlement.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* ── QUOTE BREAKER 2 ──────────────────────────────────── */}
-      <section className="cn-quote">
-        <div className="max-w-4xl mx-auto">
-          <p className="cn-quote-text text-orange mb-4">
-            &quot;The next great polymer solving ocean waste is being designed right now.&quot;
+      <section className="bg-[#0A1628] text-white py-16 px-6 md:px-12 border-y-2 border-slate-900 text-center relative overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-4">
+          <p className="font-display text-2xl sm:text-3xl md:text-4xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 leading-tight">
+            &ldquo;The next great polymer solving ocean waste is being designed right now.&rdquo;
           </p>
-          <p className="font-display text-3xl md:text-4xl font-black text-white mt-3">
+          <p className="font-display text-xl sm:text-2xl font-bold text-white">
             Will it be you?
           </p>
-          <div className="mt-8">
-            <Link href="/login" className="cn-btn-yellow text-base">
-              Start for Free — No Credit Card <ArrowRight className="w-5 h-5" />
+          <div className="pt-4">
+            <Link 
+              href="/subjects" 
+              className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase font-mono tracking-wider px-7 py-3.5 rounded-xl border-2 border-slate-900 transition-all shadow-[4px_4px_0px_0px_#000]"
+            >
+              Start for Free &mdash; No Credit Card <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* ── DAILY PULSE TEASER ───────────────────────────────── */}
-      <section className="border-b-4 border-ink">
-        <div className="border-b-4 border-ink px-6 md:px-12 py-5 bg-yellow-bright flex items-center justify-between">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="border-b-2 border-slate-900 pb-4 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <Newspaper className="w-6 h-6 text-ink" />
-            <h2 className="font-display text-2xl font-black text-ink uppercase">Daily Pulse</h2>
-            <span className="font-mono text-xs font-bold border-2 border-ink px-2 py-0.5 bg-ink text-yellow-bright">LIVE</span>
+            <div className="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-slate-950 font-bold shadow-md">
+              <Newspaper className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-xs font-mono font-bold text-amber-600 uppercase tracking-widest">Industry Feed</span>
+              <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">
+                Daily Pulse &middot; Live Industry Feed
+              </h2>
+            </div>
           </div>
-          <Link href="/today" className="cn-btn-black text-sm">
-            Full Feed <ArrowRight className="w-4 h-4" />
+          <Link 
+            href="/today" 
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl border border-slate-700 transition-colors w-fit"
+          >
+            View All 30 Updates <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 divide-y-4 md:divide-y-0 md:divide-x-4 divide-ink">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { tag: 'Research', color: '#1D4ED8', bg: '#EFF6FF', headline: 'MIT Engineers Synthesize Self-Healing Biopolymer From Marine Chitin', time: 'Today, 05:45 AM IST' },
             { tag: 'Market', color: '#EA580C', bg: '#FFF7ED', headline: 'Reliance Adjusts Repol PP Pricing Across Gujarat Distribution Hubs', time: 'Today, 08:15 AM IST' },
             { tag: 'Sustainability', color: '#15803D', bg: '#F0FDF4', headline: 'PETase Enzyme Trial Enters Pilot Scale at Carbios — PET Recycling Milestone', time: 'Today, 09:30 AM IST' },
           ].map((item) => (
-            <div key={item.headline} className="p-6 md:p-8" style={{ backgroundColor: item.bg }}>
-              <span
-                className="font-mono text-[10px] font-bold border-2 border-ink px-2 py-0.5 uppercase tracking-wider mb-3 inline-block"
-                style={{ borderColor: item.color, color: item.color }}
-              >
-                {item.tag}
-              </span>
-              <h3 className="font-display text-lg font-black text-ink leading-tight mb-3">
-                {item.headline}
-              </h3>
-              <p className="font-mono text-[10px] text-ink/50 uppercase tracking-wider">{item.time}</p>
+            <div 
+              key={item.headline} 
+              className="border-2 border-slate-900 rounded-2xl p-6 bg-white shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+            >
+              <div>
+                <span
+                  className="font-mono text-[10px] font-bold border px-2.5 py-0.5 rounded uppercase tracking-wider mb-3 inline-block"
+                  style={{ borderColor: item.color, color: item.color, backgroundColor: item.bg }}
+                >
+                  {item.tag}
+                </span>
+                <h3 className="font-display text-lg font-black text-slate-900 leading-snug mb-3">
+                  {item.headline}
+                </h3>
+              </div>
+              <p className="font-mono text-[11px] text-slate-400 uppercase tracking-wider pt-3 border-t border-slate-100">
+                {item.time}
+              </p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── FOOTER ───────────────────────────────────────────── */}
-      <footer className="bg-ink border-t-4 border-ink">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-            <div className="md:col-span-1">
-              {/* Official Brand Logo in Footer */}
-              <div className="mb-4">
-                <a href="/" aria-label="Polymer Hub of India">
+      <footer className="bg-[#0A1628] text-white border-t-2 border-slate-900">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+            <div className="md:col-span-1 space-y-4">
+              {/* Official Brand Logo */}
+              <div>
+                <Link href="/" aria-label="Polymer Hub of India">
                   <img
                     src="/logo-white.svg"
                     alt="Polymer Hub of India"
                     width={220}
                     height={50}
-                    style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
+                    style={{ height: '45px', width: 'auto', objectFit: 'contain' }}
                     loading="lazy"
                     onError={(e) => {
                       const t = e.currentTarget as HTMLImageElement
@@ -947,23 +1038,23 @@ export default function HomePage() {
                       t.style.filter = 'brightness(0) invert(1)'
                     }}
                   />
-                </a>
+                </Link>
               </div>
-              <p className="text-white/50 text-sm leading-relaxed">
-                India&apos;s first Plastic Polymer Engineering knowledge platform for B.Tech students.
+              <p className="text-slate-400 text-xs sm:text-sm leading-relaxed font-light">
+                India&apos;s first Plastic Polymer Engineering knowledge platform for B.Tech & Diploma students, faculty, and industry professionals.
               </p>
-              <div className="flex gap-3 mt-4">
-                <a href="https://twitter.com/polymerhub_" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="X (Twitter)">
+              <div className="flex gap-3 pt-2">
+                <a href="https://twitter.com/polymerhub_" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="X (Twitter)">
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                   </svg>
                 </a>
-                <a href="https://linkedin.com/in/lpk-naidu-3414153b2" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="LinkedIn">
+                <a href="https://linkedin.com/in/lpk-naidu-3414153b2" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="LinkedIn">
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                 </a>
-                <a href="https://t.me/PolymerHub" target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-white transition-colors" title="Telegram Channel">
+                <a href="https://t.me/PolymerHub" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-300 hover:text-white transition-colors" title="Telegram Channel">
                   <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                     <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                   </svg>
@@ -972,18 +1063,18 @@ export default function HomePage() {
             </div>
 
             {[
-              { title: 'Learn', links: [{ label: 'All Subjects', href: '/subjects' }, { label: 'Materials DB', href: '/materials' }, { label: 'AI Tutor', href: '/ai-tutor' }, { label: 'Reference Library', href: '/library' }] },
-              { title: 'Explore', links: [{ label: 'World of Plastic', href: '/world' }, { label: 'History', href: '/history' }, { label: 'Daily Pulse', href: '/today' }, { label: 'Careers', href: '/careers' }] },
-              { title: 'Tools', links: [{ label: 'Defect Troubleshooter', href: '/troubleshooter' }, { label: 'Property Comparator', href: '/comparator' }, { label: 'Pricing — ₹149/mo', href: '/pricing' }, { label: 'Sign In', href: '/login' }] },
+              { title: 'Learn', links: [{ label: 'All 19 Subjects', href: '/subjects' }, { label: '50 Materials Database', href: '/materials' }, { label: 'AI Polymer Tutor', href: '/ai-tutor' }, { label: '50 Reference Books', href: '/library' }] },
+              { title: 'Explore', links: [{ label: 'The World of Plastic', href: '/world' }, { label: '162 Years History', href: '/history' }, { label: 'Daily News Pulse', href: '/today' }, { label: 'SPE Career Tracks', href: '/careers' }] },
+              { title: 'Engineering Tools', links: [{ label: 'Defect Troubleshooter', href: '/troubleshooter' }, { label: 'Property Comparator', href: '/comparator' }, { label: '8 Live Calculators', href: '/calculators' }, { label: 'Virtual Simulations', href: '/simulations' }] },
             ].map((col) => (
               <div key={col.title}>
-                <h4 className="font-mono text-xs font-bold text-yellow-bright uppercase tracking-widest mb-4 border-b-2 border-yellow-bright pb-2">
+                <h4 className="font-mono text-xs font-bold text-amber-400 uppercase tracking-widest mb-4 border-b border-white/10 pb-2">
                   {col.title}
                 </h4>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {col.links.map((link) => (
                     <li key={link.label}>
-                      <Link href={link.href} className="text-sm text-white/60 hover:text-white hover:underline transition-colors font-medium">
+                      <Link href={link.href} className="text-xs sm:text-sm text-slate-400 hover:text-white transition-colors font-medium">
                         {link.label}
                       </Link>
                     </li>
@@ -993,13 +1084,13 @@ export default function HomePage() {
             ))}
           </div>
 
-          <div className="border-t-4 border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-xs text-white/40 uppercase tracking-wider">
-              © 2026 PolymerHub · India&apos;s First PPE Knowledge Platform
+          <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="font-mono text-xs text-slate-500 uppercase tracking-wider">
+              &copy; 2026 PolymerHub &middot; India&apos;s #1 Plastic Polymer Engineering Knowledge Platform
             </p>
-            <div className="flex gap-4">
-              {['#1D4ED8', '#EA580C', '#15803D', '#CA8A04', '#7C3AED'].map((c) => (
-                <div key={c} className="w-4 h-4 border-2 border-white/20" style={{ backgroundColor: c }} />
+            <div className="flex gap-2">
+              {['#2563EB', '#EA580C', '#15803D', '#CA8A04', '#7C3AED'].map((c) => (
+                <div key={c} className="w-3 h-3 rounded-full border border-white/20" style={{ backgroundColor: c }} />
               ))}
             </div>
           </div>
