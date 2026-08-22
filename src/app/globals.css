@@ -447,67 +447,162 @@ select:focus-visible {
    ============================================================ */
 
 /* KaTeX Display Block Spacing */
-.katex-display {
+/* ── Formula Display Blocks ── */
+.lesson-body .katex-display {
   margin: 2.5rem 0 !important;
   padding: 1.5rem !important;
   background-color: #F8FAFC;
   border-radius: 1rem;
   border: 2px solid #0A0A0A;
   overflow-x: auto;
+  box-shadow: 4px 4px 0px 0px rgba(10, 10, 10, 0.1);
 }
 
-.katex-display .katex {
-  font-size: 1.3em !important;
+.lesson-body .katex-display .katex {
+  font-size: 1.25em !important;
+  line-height: 2.2 !important;
 }
 
-.prose .katex-display {
-  margin: 2.5rem 0 !important;
+/* ── Inline Formulas ── */
+.lesson-body .katex {
+  background-color: #F1F5F9;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 1.05em;
+  line-height: 1.8;
 }
 
-/* Lesson Body Text */
-.lesson-body {
+/* ── Paragraphs with Formulas ── */
+.lesson-body p {
+  margin-bottom: 1.25rem;
   line-height: 1.9;
   font-size: 17px;
   color: #1A1C20;
 }
 
-.lesson-body h2,
-.lesson-body h3 {
-  font-family: var(--font-display);
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.lesson-body p {
-  margin-bottom: 1rem;
-}
-
-.lesson-body ul,
-.lesson-body ol {
-  margin: 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.lesson-body li {
-  margin-bottom: 0.25rem;
-}
-
-/* Formula Block */
+/* ── Formula Block Container ── */
 .formula-block {
   margin: 2rem 0;
-  padding: 1.5rem;
+  padding: 1.5rem 2rem;
   background: #F8FAFC;
   border: 2px solid #0A0A0A;
   border-radius: 1rem;
   text-align: center;
+  box-shadow: 4px 4px 0px 0px #0A0A0A;
 }
 
-/* Image Caption */
-.image-caption {
-  font-size: 0.875rem;
-  color: #4A4E56;
+.formula-block .katex-display {
+  margin: 0.5rem 0 !important;
+  padding: 0.5rem !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.formula-label {
+  display: block;
   text-align: center;
+  font-size: 0.8rem;
+  color: #4A4E56;
+  font-weight: 500;
+  letter-spacing: 0.05em;
   margin-top: 0.5rem;
+  font-family: var(--font-body);
+}
+
+/* ── Worked Example Container ── */
+.worked-example {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #EFF6FF;
+  border-left: 4px solid #1D4ED8;
+  border-radius: 0.5rem;
+}
+
+.worked-example .katex-display {
+  margin: 1.5rem 0 !important;
+  padding: 1rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: none !important;
+}
+
+/* ── Problem/Solution Layout ── */
+.problem-statement {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: #FFF7ED;
+  border-left: 4px solid #EA580C;
+  border-radius: 0.5rem;
+}
+
+.problem-statement .katex-display {
+  margin: 1rem 0 !important;
+  padding: 0.75rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: none !important;
+}
+
+.solution-step {
+  margin: 1rem 0;
+  padding: 1rem 1.5rem;
+  background: #F0FDF4;
+  border-left: 4px solid #15803D;
+  border-radius: 0.5rem;
+}
+
+.solution-step .katex-display {
+  margin: 0.75rem 0 !important;
+  padding: 0.75rem !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: none !important;
+}
+
+/* ── Math-heavy Text ── */
+.math-paragraph {
+  margin: 1.5rem 0;
+  padding: 0.5rem 1rem;
+  background: #F8FAFC;
+  border-radius: 0.5rem;
+  border: 1px solid #E5E7EB;
+}
+
+.math-paragraph .katex {
+  background-color: #FFFFFF;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.2rem;
+}
+
+/* ── Variable Definitions ── */
+.variable-definition {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.3rem 0;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.variable-definition .var-name {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: #1D4ED8;
+  min-width: 60px;
+}
+
+.variable-definition .var-desc {
+  color: #4A4E56;
+}
+
+/* ── Equation Numbering ── */
+.equation-number {
+  float: right;
+  color: #94A3B8;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding-left: 1rem;
 }
 
 /* Gallery Grid */

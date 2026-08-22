@@ -96,9 +96,15 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
             ),
 
             // ── Paragraphs ─────────────────────────────────────────────────────
-            p: ({ children }) => (
-              <p className="text-ink/80 leading-[1.8] mb-4 text-base">{children}</p>
-            ),
+            p: ({ children }) => {
+              const hasMath = React.Children.toArray(children).some(child => 
+                typeof child === 'string' && (child.includes('$') || child.includes('\\('))
+              )
+              if (hasMath) {
+                return <div className="math-paragraph">{children}</div>
+              }
+              return <p className="text-ink/80 leading-[1.8] mb-4 text-base">{children}</p>
+            },
 
             // ── Tables ─────────────────────────────────────────────────────────
             table: ({ children }) => (
@@ -144,6 +150,17 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
             code: ({ className, children, ...props }) => {
               const isBlock = className?.includes('language-')
               const rawCode = String(children).trim()
+              const isMath = className?.includes('math') || className?.includes('katex')
+
+              if (isMath) {
+                return (
+                  <div className="formula-block">
+                    <div className="katex-display-wrapper">
+                      {children}
+                    </div>
+                  </div>
+                )
+              }
 
               if (isBlock && className) {
                 const lang = className.replace('language-', '')
