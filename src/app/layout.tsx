@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import { DEFAULT_METADATA } from '@/lib/seo'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
+import CookieConsent from '@/components/CookieConsent'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -133,6 +134,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <FeedbackWidget />
+        <CookieConsent />
         <Toaster />
       </body>
     </html>
