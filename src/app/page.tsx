@@ -311,46 +311,46 @@ function SubjectCard({ subject }: { subject: typeof SUBJECTS[0] }) {
   return (
     <Link
       href={`/subjects/${subject.slug}`}
-      className="group block border-4 bg-canvas overflow-hidden"
-      style={{ borderColor: subject.border, boxShadow: subject.shadow, transition: 'transform 0.15s ease, box-shadow 0.15s ease' }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translate(-3px, -3px)'
-        el.style.boxShadow = subject.shadow.replace('4px 4px', '7px 7px')
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translate(0, 0)'
-        el.style.boxShadow = subject.shadow
-      }}
+      className="group block border-2 border-ink rounded-xl bg-white overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Image */}
+      {/* Image — Full Visibility with Subtle Bottom Gradient */}
       <div className="relative overflow-hidden" style={{ height: subject.wide ? '200px' : '160px' }}>
         <img
           src={subject.image}
           alt={subject.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0" style={{ background: `${subject.border}CC` }} />
+        {/* Subtle gradient only at bottom for text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+        
+        {/* Domain color accent top bar */}
+        <div className="absolute top-0 left-0 right-0 h-1" style={{ backgroundColor: subject.border }} />
+
         <div className="absolute top-3 left-3">
-          <span className="font-mono text-[10px] font-bold text-white border-2 border-white px-2 py-0.5 uppercase tracking-wider bg-transparent">
+          <span className="font-mono text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm border border-white/30 px-2 py-0.5 rounded uppercase tracking-wider">
             {subject.tag}
           </span>
         </div>
-        <div className="absolute bottom-3 right-3 font-mono text-[10px] font-bold text-white border-2 border-white px-2 py-0.5">
+        <div className="absolute top-3 right-3 font-mono text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm border border-white/30 px-2 py-0.5 rounded">
           {subject.lessons} LESSONS
+        </div>
+
+        <div className="absolute bottom-3 left-3 right-3">
+          <h3 className="font-display text-lg font-black text-white leading-tight drop-shadow-md">
+            {subject.name}
+          </h3>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4" style={{ backgroundColor: subject.bg }}>
-        <h3
-          className="font-display text-lg font-black text-ink mb-1 leading-tight group-hover:underline"
-          style={{ textDecorationColor: subject.border }}
-        >
-          {subject.name}
-        </h3>
-        <p className="text-xs text-ink/70 leading-relaxed">{subject.desc}</p>
+      <div className="p-4 bg-white">
+        <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">{subject.desc}</p>
+        <div className="mt-3 flex items-center justify-between pt-2 border-t border-slate-100">
+          <span className="text-[11px] font-mono font-semibold" style={{ color: subject.border }}>
+            Explore Syllabus &rarr;
+          </span>
+          <span className="text-[10px] text-slate-400 font-mono">B.Tech PPE</span>
+        </div>
       </div>
     </Link>
   )
@@ -519,7 +519,7 @@ export default function HomePage() {
             <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight uppercase">
               Where
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-orange-500">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
                 Polymer Science
               </span>
               <br />

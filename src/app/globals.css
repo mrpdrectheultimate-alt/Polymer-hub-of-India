@@ -33,16 +33,22 @@
     --input: 0 0% 88%;
     --ring: 224 71% 45%;
 
-    --radius: 0px;                     /* neobrutalism: sharp corners */
+    --radius: 0.75rem;
 
     --canvas: #FAF8F5;                 /* warm study-friendly canvas background */
-    --ink: #1A1C20;                    /* soft off-black for comfortable reading */
+    --ink: #111827;                    /* deep off-black */
     --ink-muted: #4A4E56;              /* medium study-friendly gray */
     --ink-soft: #7E8492;               /* light gray for secondary captions */
+
+    /* ── Refined Border & Shadow System ── */
+    --border-hero: 4px solid #0A0A0A;
+    --border-card: 2px solid #0A0A0A;
+    --border-input: 2px solid #0A0A0A;
+    
+    --shadow-card: 0 4px 20px rgba(0,0,0,0.06), 2px 2px 0px 0px rgba(10,10,10,0.04);
+    --shadow-hero: 6px 6px 0px 0px #0A0A0A;
+    --shadow-hover: 0 8px 30px rgba(0,0,0,0.10), 3px 3px 0px 0px rgba(10,10,10,0.06);
   }
-
-
-
 
   * {
     @apply border-border;
@@ -111,92 +117,115 @@
 }
 
 @layer components {
-  /* ─── Neobrutalist card base ─────────────────────────────── */
+  /* ─── Refined card base ─────────────────────────────── */
   .cn-card {
-    @apply border-4 border-ink bg-canvas;
-    box-shadow: 4px 4px 0px 0px #0A0A0A;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: var(--border-card);
+    border-radius: 0.75rem;
+    background-color: #FFFFFF;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   .cn-card:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .cn-card-hero {
+    border: var(--border-hero);
+    box-shadow: var(--shadow-hero);
   }
 
   /* ─── Domain color card variants ────────────────────────── */
   .cn-card-blue {
     @apply cn-card border-blue;
-    box-shadow: 4px 4px 0px 0px #1D4ED8;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.1), 2px 2px 0px 0px #2563EB;
   }
   .cn-card-blue:hover {
-    box-shadow: 6px 6px 0px 0px #1D4ED8;
+    box-shadow: 0 8px 24px rgba(37,99,235,0.15), 3px 3px 0px 0px #2563EB;
   }
 
   .cn-card-orange {
     @apply cn-card border-orange;
-    box-shadow: 4px 4px 0px 0px #EA580C;
+    box-shadow: 0 4px 16px rgba(234,88,12,0.1), 2px 2px 0px 0px #EA580C;
   }
   .cn-card-orange:hover {
-    box-shadow: 6px 6px 0px 0px #EA580C;
+    box-shadow: 0 8px 24px rgba(234,88,12,0.15), 3px 3px 0px 0px #EA580C;
   }
 
   .cn-card-green {
     @apply cn-card border-green;
-    box-shadow: 4px 4px 0px 0px #15803D;
+    box-shadow: 0 4px 16px rgba(21,128,61,0.1), 2px 2px 0px 0px #15803D;
   }
   .cn-card-green:hover {
-    box-shadow: 6px 6px 0px 0px #15803D;
+    box-shadow: 0 8px 24px rgba(21,128,61,0.15), 3px 3px 0px 0px #15803D;
   }
 
   .cn-card-violet {
     @apply cn-card border-violet;
-    box-shadow: 4px 4px 0px 0px #7C3AED;
+    box-shadow: 0 4px 16px rgba(124,58,237,0.1), 2px 2px 0px 0px #7C3AED;
   }
   .cn-card-violet:hover {
-    box-shadow: 6px 6px 0px 0px #7C3AED;
+    box-shadow: 0 8px 24px rgba(124,58,237,0.15), 3px 3px 0px 0px #7C3AED;
   }
 
   .cn-card-yellow {
     @apply cn-card border-yellow;
-    box-shadow: 4px 4px 0px 0px #CA8A04;
+    box-shadow: 0 4px 16px rgba(202,138,4,0.1), 2px 2px 0px 0px #CA8A04;
   }
   .cn-card-yellow:hover {
-    box-shadow: 6px 6px 0px 0px #CA8A04;
+    box-shadow: 0 8px 24px rgba(202,138,4,0.15), 3px 3px 0px 0px #CA8A04;
   }
 
-  /* ─── Neobrutalist button ────────────────────────────────── */
+  /* ─── Refined button system ────────────────────────────────── */
   .cn-btn {
-    @apply border-4 border-ink font-bold uppercase tracking-wider px-6 py-3 inline-flex items-center gap-2;
-    box-shadow: 4px 4px 0px 0px #0A0A0A;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    border: var(--border-input);
+    border-radius: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.625rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 2px 2px 0px 0px #0A0A0A;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
   }
 
   .cn-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px 0px #0A0A0A;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px 0px #0A0A0A;
   }
 
   .cn-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px 0px #0A0A0A;
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px 0px #0A0A0A;
   }
 
   .cn-btn-blue { @apply cn-btn bg-blue text-white; }
   .cn-btn-orange { @apply cn-btn bg-orange text-white; }
   .cn-btn-green { @apply cn-btn bg-green text-white; }
-  .cn-btn-yellow { @apply cn-btn bg-yellow-bright text-ink; }
+  .cn-btn-yellow { @apply cn-btn bg-[#F5C518] text-[#111827]; }
   .cn-btn-violet { @apply cn-btn bg-violet text-white; }
   .cn-btn-black { @apply cn-btn bg-ink text-white; }
   .cn-btn-white { @apply cn-btn bg-white text-ink; }
 
+  /* ─── Tricolor Indian Text Gradient ──────────────────────── */
+  .tricolor-gradient {
+    background: linear-gradient(to right, #FF8A00, #FFFFFF, #16A34A);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   /* ─── Section band ───────────────────────────────────────── */
   .cn-band {
-    @apply border-y-4 border-ink;
+    @apply border-y-2 border-ink;
   }
 
   /* ─── Quote breaker ──────────────────────────────────────── */
   .cn-quote {
-    @apply bg-ink text-canvas border-y-4 border-ink py-16 px-6 text-center;
+    @apply bg-ink text-canvas border-y-2 border-ink py-16 px-6 text-center;
   }
 
   .cn-quote-text {
@@ -206,7 +235,7 @@
 
   /* ─── Domain label pill ──────────────────────────────────── */
   .cn-label {
-    @apply border-2 border-ink font-mono text-xs font-bold uppercase tracking-widest px-3 py-1 inline-block;
+    @apply border-2 border-ink font-mono text-xs font-bold uppercase tracking-widest px-3 py-1 inline-block rounded-md;
   }
 }
 

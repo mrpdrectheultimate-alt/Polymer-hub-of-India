@@ -306,90 +306,79 @@ function SubjectCard({ subject, featured = false }: { subject: typeof SUBJECTS[0
   return (
     <Link
       href={`/subjects/${subject.slug}`}
-      className="group block border-4 border-ink bg-canvas overflow-hidden"
-      style={{
-        boxShadow: `4px 4px 0px 0px ${subject.color}`,
-        transition: 'transform 0.15s ease, box-shadow 0.15s ease',
-      }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translate(-3px, -3px)'
-        el.style.boxShadow = `7px 7px 0px 0px ${subject.color}`
-      }}
-      onMouseLeave={(e) => {
-        const el = e.currentTarget as HTMLElement
-        el.style.transform = 'translate(0, 0)'
-        el.style.boxShadow = `4px 4px 0px 0px ${subject.color}`
-      }}
+      className="group block border-2 border-ink rounded-xl bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
     >
-      {/* Image zone */}
-      <div className="relative overflow-hidden border-b-4 border-ink" style={{ height: featured ? '220px' : '160px' }}>
+      {/* Image zone — Full Visibility with Subtle Bottom Gradient */}
+      <div className="relative overflow-hidden border-b-2 border-ink/10" style={{ height: featured ? '220px' : '160px' }}>
         <img
           src={subject.image}
           alt={subject.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute inset-0" style={{ backgroundColor: subject.color + 'CC' }} />
+        {/* Subtle gradient ONLY at bottom for text contrast — Image remains 100% visible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+
+        {/* Domain color accent top strip */}
+        <div className="absolute top-0 left-0 right-0 h-1" style={{ backgroundColor: subject.color }} />
 
         {/* Tag */}
         <div className="absolute top-3 left-3">
-          <span className="font-mono text-[10px] font-black text-white border-2 border-white px-2 py-0.5 uppercase tracking-widest bg-transparent">
+          <span className="font-mono text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm border border-white/30 px-2 py-0.5 rounded uppercase tracking-widest">
             {subject.tag}
           </span>
         </div>
 
         {/* Lesson count */}
         <div className="absolute top-3 right-3">
-          <span className="font-mono text-[10px] font-black text-white border-2 border-white px-2 py-0.5">
+          <span className="font-mono text-[10px] font-bold text-white bg-black/50 backdrop-blur-sm border border-white/30 px-2 py-0.5 rounded">
             {subject.lessons} LESSONS
           </span>
         </div>
 
         {/* Subject name overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-4">
-          <h3 className="font-display text-xl font-black text-white leading-tight">
+          <h3 className="font-display text-lg sm:text-xl font-black text-white leading-tight drop-shadow-md">
             {subject.name}
           </h3>
         </div>
       </div>
 
       {/* Content zone */}
-      <div className="p-5" style={{ backgroundColor: subject.bg }}>
-        <p className="text-sm text-ink/70 leading-relaxed mb-4">{subject.desc}</p>
+      <div className="p-5 bg-white">
+        <p className="text-xs text-slate-600 leading-relaxed mb-4 line-clamp-2">{subject.desc}</p>
 
         {/* Topic pills */}
         <div className="flex flex-wrap gap-1.5 mb-4">
           {subject.topics.slice(0, 3).map((t) => (
             <span
               key={t}
-              className="font-mono text-[9px] font-bold border-2 px-2 py-0.5 uppercase tracking-wider"
-              style={{ borderColor: subject.color, color: subject.color }}
+              className="font-mono text-[9px] font-semibold border px-2 py-0.5 rounded uppercase tracking-wider bg-slate-50 text-slate-700 border-slate-200"
             >
               {t}
             </span>
           ))}
           {subject.topics.length > 3 && (
-            <span className="font-mono text-[9px] font-bold border-2 border-ink/30 text-ink/50 px-2 py-0.5 uppercase tracking-wider">
+            <span className="font-mono text-[9px] font-medium border border-slate-200 text-slate-400 px-2 py-0.5 rounded uppercase tracking-wider">
               +{subject.topics.length - 3} more
             </span>
           )}
         </div>
 
-        {/* Companies */}
-        <div className="flex items-center justify-between border-t-2 border-ink/10 pt-3">
+        {/* Companies & Action */}
+        <div className="flex items-center justify-between border-t border-slate-100 pt-3">
           <div className="flex gap-3">
-            <span className="font-mono text-[9px] text-ink/50 flex items-center gap-1">
+            <span className="font-mono text-[9px] text-slate-400 flex items-center gap-1">
               <span className="text-[10px]">🇮🇳</span> {subject.indianCompany}
             </span>
-            <span className="font-mono text-[9px] text-ink/50 flex items-center gap-1">
+            <span className="font-mono text-[9px] text-slate-400 flex items-center gap-1">
               <span className="text-[10px]">🌍</span> {subject.globalCompany}
             </span>
           </div>
           <span
-            className="font-mono text-[10px] font-black uppercase tracking-wider flex items-center gap-1 group-hover:underline"
-            style={{ color: subject.color, textDecorationColor: subject.color }}
+            className="font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-0.5 transition-transform"
+            style={{ color: subject.color }}
           >
-            Start <ArrowRight className="w-3 h-3" />
+            Start &rarr;
           </span>
         </div>
       </div>
