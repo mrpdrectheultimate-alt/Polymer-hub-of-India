@@ -1,6 +1,6 @@
-// public/sw.js
-const CACHE_NAME = 'polymerhub-v2';
-const ASSETS = [
+// public/sw.js — PolymerHub Modern Service Worker
+const CACHE_NAME = 'polymerhub-v3-master';
+const STATIC_ASSETS = [
   '/manifest.json',
   '/icons/icon-192x192.png',
   '/icons/icon-512x512.png'
@@ -8,7 +8,7 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
   );
   self.skipWaiting();
 });
@@ -16,32 +16,48 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => 
-      Promise.all(keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key)))
+      Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key)))
     )
   );
   self.clients.claim();
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests and skip internal supabase/api routes
+  // Only handle GET requests and skip internal APIs / Supabase / dynamic auth
   const url = new URL(event.request.url);
-  if (event.request.method !== 'GET' || url.pathname.startsWith('/api') || url.pathname.includes('/supabase/')) {
+  if (
+    event.request.method !== 'GET' || 
+    url.pathname.startsWith('/api') || 
+    url.pathname.includes('/supabase/') ||
+    url.pathname.startsWith('/auth')
+  ) {
     return;
   }
 
+  // Network-First Strategy for HTML pages and script chunks so updates appear instantly
   event.respondWith(
-    caches.match(event.request).then((cached) => 
-      cached || fetch(event.request).then((response) => {
-        // Cache static assets
-        if (response && response.status === 200 && (url.pathname.endsWith('.js') || url.pathname.endsWith('.css') || url.pathname.endsWith('.png') || url.pathname.endsWith('.woff2'))) {
-          const responseToCache = response.clone();
+    fetch(event.request)
+      .then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
+            cache.put(event.request, responseClone);
           });
         }
-        return response;
-      }).catch(() => caches.match('/'))
-    )
+        return networkResponse;
+      })
+      .catch(() => {
+        // Fallback to cache when offline
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          if (event.request.mode === 'navigate') {
+            return caches.match('/');
+          }
+          return new Response('Network error occurred', { status: 503, statusText: 'Service Unavailable' });
+        });
+      })
   );
 });
 
@@ -58,7 +74,7 @@ self.addEventListener('push', function(event) {
 
   const title = data.title || 'PolymerHub';
   const options = {
-    body: data.body || 'You have a new notification!',
+    body: data.body || 'You have a new update in PolymerHub!',
     icon: '/logo.png',
     badge: '/logo.png',
     data: {

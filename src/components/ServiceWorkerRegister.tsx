@@ -8,11 +8,21 @@ export default function ServiceWorkerRegister() {
       navigator.serviceWorker
         .register('/sw.js')
         .then((reg) => {
-          console.log('Service Worker registered successfully with scope:', reg.scope)
+          // Check for service worker updates immediately on page load
+          reg.update().catch(() => {})
         })
         .catch((err) => {
           console.error('Service Worker registration failed:', err)
         })
+
+      // When a new service worker takes over, reload to apply new assets
+      let refreshing = false
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true
+          window.location.reload()
+        }
+      })
     }
   }, [])
 
