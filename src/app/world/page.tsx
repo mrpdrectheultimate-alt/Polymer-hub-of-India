@@ -211,9 +211,14 @@ function IndustryCard({
 
         {/* Action Button */}
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5" style={{ color: industry.color }}>
+          <Link
+            href={`/world/${industry.id}`}
+            onClick={(e) => e.stopPropagation()}
+            className="font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 hover:underline" 
+            style={{ color: industry.color }}
+          >
             Explore Engineering Breakdown <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-          </span>
+          </Link>
           <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">
             {industry.subject.lessons} Lessons
           </span>
@@ -257,6 +262,16 @@ function IndustryModal({ industry, onClose }: { industry: typeof INDUSTRIES[0]; 
         {/* Modal Scrollable Body */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1">
           
+          {/* Direct Link to Full Deep Dive */}
+          <Link
+            href={`/world/${industry.id}`}
+            onClick={onClose}
+            className="flex items-center justify-between p-4 rounded-xl border-2 border-slate-900 bg-amber-400 text-slate-950 hover:bg-amber-300 transition-all font-mono font-bold text-xs uppercase shadow-[2px_2px_0px_0px_#000]"
+          >
+            <span>🚀 Open Full Technical Deep-Dive Hub (7 Tabs)</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
           {/* Engineering Facts */}
           <div>
             <h4 className="text-xs font-mono font-bold uppercase tracking-widest text-slate-500 mb-3 flex items-center gap-2">
