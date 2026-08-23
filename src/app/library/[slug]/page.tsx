@@ -6,6 +6,8 @@ import { useParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { BookOpen, ShieldCheck, Download, ExternalLink, ArrowLeft, Play, ListCollapse, Award } from 'lucide-react'
 
+import { getBookBySlug } from '@/lib/library_data'
+
 interface Book {
   id: string
   slug: string
@@ -30,18 +32,30 @@ export default function BookDetailPage() {
 
   useEffect(() => {
     async function loadBook() {
+      const fallbackBook = getBookBySlug(slug as string)
+
       try {
         const supabase = createClient()
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('library_books')
           .select('*')
           .eq('slug', slug)
           .single()
 
-        if (error) throw error
-        if (data) setBook(data as Book)
+        if (data) {
+          const b = data as Book
+          if (fallbackBook && !b.file_url && fallbackBook.file_url) {
+            b.file_url = fallbackBook.file_url
+          }
+          setBook(b)
+        } else if (fallbackBook) {
+          setBook(fallbackBook as unknown as Book)
+        }
       } catch (err) {
-        console.error('Failed to load book:', err)
+        console.error('Failed to load book from supabase, using fallback:', err)
+        if (fallbackBook) {
+          setBook(fallbackBook as unknown as Book)
+        }
       } finally {
         setLoading(false)
       }

@@ -15,6 +15,8 @@ import {
   BookMarked
 } from 'lucide-react'
 
+import { ALL_LIBRARY_BOOKS } from '@/lib/library_data'
+
 interface Book {
   id: string
   slug: string
@@ -32,8 +34,8 @@ interface Book {
 }
 
 function LibraryPageContent() {
-  const [books, setBooks] = useState<Book[]>([])
-  const [loading, setLoading] = useState(true)
+  const [books, setBooks] = useState<Book[]>(ALL_LIBRARY_BOOKS as unknown as Book[])
+  const [loading, setLoading] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all')
@@ -41,17 +43,19 @@ function LibraryPageContent() {
   useEffect(() => {
     async function loadBooks() {
       try {
+        setLoading(true)
         const supabase = createClient()
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from('library_books')
           .select('*')
           .order('category', { ascending: true })
           .order('title', { ascending: true })
 
-        if (error) throw error
-        if (data) setBooks(data as Book[])
+        if (data && data.length > 0) {
+          setBooks(data as Book[])
+        }
       } catch (err) {
-        console.error('Failed to load library books:', err)
+        console.error('Failed to load library books, using fallback:', err)
       } finally {
         setLoading(false)
       }
