@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
 import { 
-  FlaskConical, 
   Mail, 
   ArrowRight, 
   Sparkles, 
@@ -15,7 +15,9 @@ import {
   Database, 
   TrendingUp,
   Star,
-  Lock
+  Lock,
+  ChevronRight,
+  Shield
 } from 'lucide-react'
 
 export default function LoginPage() {
@@ -33,7 +35,7 @@ export default function LoginPage() {
     setLoading(true)
     setError('')
 
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error: authError } = await supabase.auth.signInWithOtp({
       email: email.trim().toLowerCase(),
       options: {
         emailRedirectTo: `${window.location.origin}/auth/callback`,
@@ -42,8 +44,8 @@ export default function LoginPage() {
 
     setLoading(false)
 
-    if (error) {
-      setError(error.message)
+    if (authError) {
+      setError(authError.message)
     } else {
       setSent(true)
     }
@@ -57,10 +59,13 @@ export default function LoginPage() {
         
         {/* Background Visual with Subtle Vignette */}
         <div className="absolute inset-0 pointer-events-none">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=1200&q=80"
             alt="Polymer Engineering Innovation"
-            className="w-full h-full object-cover opacity-25 filter grayscale contrast-125"
+            fill
+            sizes="50vw"
+            className="object-cover opacity-20 filter grayscale contrast-125"
+            priority
           />
           <div className="absolute inset-0 bg-gradient-to-tr from-[#0A1628] via-[#0A1628]/85 to-transparent" />
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
@@ -69,8 +74,8 @@ export default function LoginPage() {
         {/* Top Header / Logo */}
         <div className="relative z-10">
           <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-lg border border-white/20">
-              <FlaskConical className="w-6 h-6 text-slate-950" />
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-lg border border-white/20 text-[#0A1628] font-black text-2xl font-display">
+              P
             </div>
             <div>
               <span className="font-display font-black text-2xl tracking-tight text-white block">
@@ -103,29 +108,47 @@ export default function LoginPage() {
 
           {/* Social Proof Stats */}
           <div className="pt-4 flex items-center gap-6 border-t border-white/10">
-            <div>
-              <p className="font-display text-2xl font-black text-white">2,000+</p>
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Active Students</p>
+            <div className="flex items-center gap-3">
+              <div className="flex -space-x-2">
+                {['#2563EB', '#EA580C', '#16A34A', '#7C3AED'].map((color, i) => (
+                  <div
+                    key={i}
+                    className="w-8 h-8 rounded-full border-2 border-[#0A1628] flex items-center justify-center text-[10px] font-bold font-mono text-white shadow-sm"
+                    style={{ backgroundColor: color }}
+                  >
+                    {['IIT', 'CIPET', 'MIT', 'ICT'][i]}
+                  </div>
+                ))}
+              </div>
+              <div>
+                <p className="font-display text-xl font-bold text-white leading-none">5,000+</p>
+                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Engineers</p>
+              </div>
             </div>
             <div className="w-px h-8 bg-white/10" />
             <div>
-              <p className="font-display text-2xl font-black text-amber-400 flex items-center gap-1">
-                4.9 <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <p className="font-display text-xl font-bold text-amber-400 flex items-center gap-1 leading-none">
+                4.9 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
               </p>
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Platform Rating</p>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Rating</p>
             </div>
             <div className="w-px h-8 bg-white/10" />
             <div>
-              <p className="font-display text-2xl font-black text-emerald-400">19</p>
-              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">Core Subjects</p>
+              <p className="font-display text-xl font-bold text-emerald-400 leading-none">19</p>
+              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Subjects</p>
             </div>
           </div>
         </div>
 
         {/* Bottom Footnote */}
-        <div className="relative z-10 flex items-center gap-2 text-xs font-mono text-slate-400">
-          <Lock className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Passwordless · Zero credential leaks · DPDP 2023 Compliant</span>
+        <div className="relative z-10 flex items-center gap-4 text-xs font-mono text-slate-400">
+          <span className="flex items-center gap-1">
+            <Shield className="w-3.5 h-3.5 text-emerald-400" /> Passwordless
+          </span>
+          <span className="w-px h-3 bg-white/20" />
+          <span>Zero credential leaks</span>
+          <span className="w-px h-3 bg-white/20" />
+          <span className="text-emerald-400">DPDP 2023 Compliant</span>
         </div>
 
       </div>
@@ -136,10 +159,13 @@ export default function LoginPage() {
         {/* Mobile Header */}
         <div className="lg:hidden flex items-center gap-3 mb-8 self-start">
           <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-md">
-              <FlaskConical className="w-5 h-5 text-slate-950" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-md font-display font-black text-xl text-[#0A1628]">
+              P
             </div>
-            <span className="font-display font-black text-xl text-slate-900">PolymerHub</span>
+            <div>
+              <span className="font-display font-black text-xl text-slate-900 block leading-tight">PolymerHub</span>
+              <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">India&apos;s Knowledge Platform</span>
+            </div>
           </Link>
         </div>
 
@@ -152,7 +178,7 @@ export default function LoginPage() {
               {/* Card Header */}
               <div className="text-center space-y-2">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-mono font-bold uppercase tracking-wider">
-                  <Sparkles className="w-3 h-3 text-emerald-600" /> No Password Required
+                  <Sparkles className="w-3 h-3 text-emerald-600" /> Passwordless &middot; Instant OTP
                 </div>
                 <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
                   Sign In Securely
@@ -235,7 +261,7 @@ export default function LoginPage() {
               {/* Bottom Quick Links */}
               <div className="flex items-center justify-between text-xs text-slate-400 pt-2 font-medium">
                 <Link href="/subjects" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                  Browse syllabus &rarr;
+                  Browse syllabus <ChevronRight className="w-3 h-3" />
                 </Link>
                 <div className="flex items-center gap-3">
                   <span className="flex items-center gap-1 text-emerald-600 font-semibold">
