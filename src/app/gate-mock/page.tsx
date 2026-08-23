@@ -2,7 +2,19 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { Clock, Trophy, Brain, CheckCircle, XCircle, AlertTriangle, BookOpen } from 'lucide-react'
+import { 
+  Clock, 
+  Trophy, 
+  Brain, 
+  CheckCircle, 
+  XCircle, 
+  AlertTriangle, 
+  BookOpen, 
+  Sparkles, 
+  Compass, 
+  Flag,
+  PlayCircle
+} from 'lucide-react'
 
 // ─── GATE Questions (30 questions mapped to 155 lessons) ───────────────────────
 
@@ -99,298 +111,269 @@ const GATE_QUESTIONS = [
       'Rotational moulding (requires powder form)',
     ],
     correct: 1,
-    explanation: 'High MFI = low molecular weight = low viscosity = easy flow. MFI 30 PP flows easily, filling thin-wall moulds and drawing into fine fibres without excessive pressure. Pipe grades need MFI 0.3-0.8 (high MW for pressure resistance). Blow moulding needs MFI 0.5-3 (high melt strength to support the parison). The MFI selection is the first material selection decision in any PP processing application.',
+    explanation: 'High MFI (30 g/10min) indicates low molecular weight and low viscosity at 230°C — exactly what is needed to fill thin-walled containers (0.4-0.8 mm) at rapid cycle times without excessive injection pressure. Extrusion and blow moulding require low MFI (0.2-2.0 g/10min) for sufficient parison/melt strength to resist sagging.',
+    marks: 1,
+  },
+  {
+    id: 'pp4', subject: 'Polymer Processing', lessonSlug: 'blow-moulding-processes-extrusion-injection-and-stretch-blow',
+    question: 'In PET stretch blow moulding (ISBM), biaxial orientation improves bottle properties primarily by:',
+    options: [
+      'Increasing polymer density only',
+      'Inducing strain crystallization in both hoop and axial directions — increasing tensile strength and CO₂/O₂ barrier',
+      'Reducing the glass transition temperature',
+      'Decreasing wall thickness uniformity',
+    ],
+    correct: 1,
+    explanation: 'Biaxial stretch (stretch rod gives axial orientation; blow air gives hoop/radial orientation) stretches PET chains near Tg (~90-100°C), inducing strain crystallization (up to ~30%). This aligns chains in both planes — increasing tensile strength by 3-4× and dramatically reducing gas permeability (permeation path becomes tortuous). This is why lightweight PET bottles can hold 4-6 bar carbonation pressure.',
     marks: 2,
   },
   {
-    id: 'pp4', subject: 'Polymer Processing', lessonSlug: 'rheological-testing-understanding-melt-flow-behavior',
-    question: 'Most polymer melts exhibit pseudoplastic (shear-thinning) behavior. This means:',
+    id: 'pp5', subject: 'Polymer Processing', lessonSlug: 'thermoforming-techniques-and-applications',
+    question: 'In vacuum thermoforming, the maximum theoretical forming pressure available is:',
+    options: ['0.1 MPa (1 bar — atmospheric pressure)', '1.0 MPa (10 bar)', '10 MPa', 'Infinite with high-capacity pump'],
+    correct: 0,
+    explanation: 'Vacuum thermoforming works by evacuating air from between the heated sheet and the mold cavity — atmospheric pressure (1 bar / 0.1 MPa) then pushes the sheet against the mold. The maximum differential pressure cannot exceed 1 atmosphere (14.7 psi / 100 kPa), regardless of pump size. For deeper draws or fine detail, pressure forming uses compressed air (3-6 bar) on the upper sheet surface to exceed atmospheric limits.',
+    marks: 1,
+  },
+
+  // Testing & Characterization (5 questions)
+  {
+    id: 'pt1', subject: 'Polymer Testing', lessonSlug: 'tensile-testing-astm-d638-is-13360-stress-strain-curves-decoded',
+    question: 'In an ASTM D638 tensile test of an unreinforced thermoplastic, the point where stress reaches a local maximum and necking begins is called:',
+    options: ['Proportional limit', 'Yield point', 'Ultimate tensile strength', 'Fracture point'],
+    correct: 1,
+    explanation: 'The yield point on an engineering stress-strain curve marks the onset of plastic (permanent) deformation and localized cross-sectional reduction (necking). Beyond yield, polymer chains begin to slide past one another and align in the draw direction (strain hardening). Engineering yield strength is calculated as peak yield load divided by original cross-sectional area.',
+    marks: 1,
+  },
+  {
+    id: 'pt2', subject: 'Polymer Testing', lessonSlug: 'differential-scanning-calorimetry-dsc-thermal-fingerprints',
+    question: 'In a DSC thermogram of a semi-crystalline polymer, an exothermic peak observed during heating (between Tg and Tm) corresponds to:',
+    options: ['Melting', 'Glass transition', 'Cold crystallization', 'Thermal degradation'],
+    correct: 2,
+    explanation: 'Cold crystallization is an exothermic process (heat released) that occurs when amorphous chains quenched during rapid cooling gain sufficient thermal energy above Tg to reorganize into crystalline lamellae. Melting (Tm) is endothermic (heat absorbed) at higher temperature. Tg is a baseline shift (step change in heat capacity), not a peak.',
+    marks: 2,
+  },
+  {
+    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'impact-testing-izod-vs-charpy-energy-absorption-mechanisms',
+    question: 'The notch in an Izod or Charpy impact specimen serves primarily to:',
     options: [
-      'Viscosity increases with increasing shear rate',
-      'Viscosity is independent of shear rate (Newtonian)',
-      'Viscosity decreases with increasing shear rate — favorable for processing',
-      'Viscosity is time-dependent',
+      'Reduce the required pendulum energy',
+      'Create a severe stress concentration (triaxial stress state) that suppresses shear yielding and promotes brittle fracture',
+      'Measure the surface hardness of the specimen',
+      'Allow easy alignment in the specimen vice',
+    ],
+    correct: 1,
+    explanation: 'The standard V-notch (radius 0.25 mm) creates a triaxial tensile stress state at the notch root during high-rate impact loading. Triaxial tension suppresses shear yielding (which requires shear stress) and forces the material to dissipate energy via brittle crack propagation. Notched impact tests measure notch sensitivity — how vulnerable the polymer is to surface scratches, sharp corners, and weld lines in service.',
+    marks: 1,
+  },
+  {
+    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'thermogravimetric-analysis-tga-thermal-stability-and-composition',
+    question: 'TGA is used to determine the carbon black content in a filled polyolefin by heating:',
+    options: [
+      'In pure oxygen from 0°C to 1000°C',
+      'First in nitrogen to 600°C (pyrolyzes polymer), then switching to air/O₂ to 800°C (burns carbon black)',
+      'In helium only up to 400°C',
+      'In steam atmosphere to 500°C',
+    ],
+    correct: 1,
+    explanation: 'ASTM D6370 / E1131 two-atmosphere method: Under N₂ up to 600°C, the polymer pyrolyzes and volatilizes completely (weight loss 1 = polymer fraction). Switching to air/O₂ at 600°C combusts carbon black to CO₂ (weight loss 2 = carbon black fraction). Any remaining weight at 800°C is inorganic ash/filler (talc, CaCO₃, glass fibre). This is the standard compositional analysis method in masterbatch and compounding quality control.',
+    marks: 2,
+  },
+  {
+    id: 'pt5', subject: 'Polymer Testing', lessonSlug: 'heat-deflection-temperature-hdt-and-vicat-softening-point',
+    question: 'HDT (ASTM D648) measures the temperature at which a 3-point bend specimen deflects 0.25 mm under a specific fiber stress of:',
+    options: ['0.05 MPa only', '0.455 MPa or 1.82 MPa', '10.0 MPa', '50.0 MPa'],
+    correct: 1,
+    explanation: 'ASTM D648 specifies two standard fiber stress levels: 0.455 MPa (66 psi) for low-stress or unfilled materials, and 1.82 MPa (264 psi) for engineering resins and reinforced grades. HDT is the single most referenced thermal specification in automotive and appliance material datasheets for defining maximum short-term load-bearing temperature.',
+    marks: 1,
+  },
+
+  // Rubber Technology (4 questions)
+  {
+    id: 'rt1', subject: 'Rubber Technology', lessonSlug: 'natural-rubber-vs-synthetic-rubbers-chemistry-and-properties',
+    question: 'Natural rubber consists predominantly of:',
+    options: [
+      'trans-1,4-polyisoprene (gutta-percha)',
+      'cis-1,4-polyisoprene',
+      '1,2-polybutadiene',
+      'cis-1,4-polybutadiene',
+    ],
+    correct: 1,
+    explanation: 'Natural rubber is >99.9% cis-1,4-polyisoprene from Hevea brasiliensis latex. The all-cis configuration gives natural rubber its low Tg (−70°C), exceptional elasticity, and unique ability to undergo strain-induced crystallization (giving high gum tensile strength >25 MPa without fillers). Gutta-percha is trans-1,4-polyisoprene — crystalline and hard at room temperature.',
+    marks: 1,
+  },
+  {
+    id: 'rt2', subject: 'Rubber Technology', lessonSlug: 'vulcanization-chemistry-sulfur-peroxide-and-accelerators',
+    question: 'In sulfur vulcanization of unsaturated rubbers, zinc oxide (ZnO) and stearic acid act as:',
+    options: [
+      'Primary crosslinking agents (substitute for sulfur)',
+      'Activator system — reacting to form zinc stearate, which solubilizes zinc to accelerate polysulfide intermediate formation',
+      'Fillers to increase hardness only',
+      'Anti-degradants to prevent ozonolysis',
+    ],
+    correct: 1,
+    explanation: 'ZnO + stearic acid forms zinc stearate in the rubber matrix. Zinc ions coordinate with accelerators (e.g., CBS, TBBS) and sulfur rings, generating reactive sulfurating complexes that crosslink allylic positions on the rubber backbone rapidly at 140-160°C. Without the ZnO/stearic acid activator system, sulfur crosslinking is extremely slow (hours vs minutes) and gives inefficient polysulfidic crosslinks prone to reversion.',
+    marks: 2,
+  },
+  {
+    id: 'rt3', subject: 'Rubber Technology', lessonSlug: 'carbon-black-and-silica-reinforcement-in-elastomers',
+    question: 'Silica reinforcement in passenger car tire treads (the "green tire" concept) reduces rolling resistance while improving wet grip because:',
+    options: [
+      'Silica has lower density than carbon black',
+      'Silica/silane systems reduce hysteresis (tan δ at 60°C) while maintaining high hysteresis (tan δ at 0°C) for wet traction',
+      'Silica eliminates the need for vulcanization',
+      'Silica is cheaper than carbon black',
+    ],
+    correct: 1,
+    explanation: 'The "magic triangle" of tire performance (rolling resistance, wet grip, wear resistance) was traditionally conflicting. Precipitated silica coupled with bifunctional organosilanes (e.g., TESPT) decouples this: at 60°C (rolling frequency ~10-100 Hz), tan δ is low → lower fuel consumption; at 0°C (wet braking frequency ~10⁴-10⁶ Hz), tan δ is high → high energy dissipation on wet roads. Carbon black cannot match this dual-frequency response.',
+    marks: 2,
+  },
+  {
+    id: 'rt4', subject: 'Rubber Technology', lessonSlug: 'rheometer-cure-curves-ts2-tc90-and-scorch-safety',
+    question: 'On an MDR/ODR rheometer cure curve, tc90 represents:',
+    options: [
+      'The time to reach minimum torque (ML)',
+      'The scorch time (onset of vulcanization)',
+      'The optimum cure time — time to reach 90% of maximum crosslink density (MH − ML)',
+      'The total cycle time including demoulding',
     ],
     correct: 2,
-    explanation: 'Pseudoplastic (shear-thinning) behavior — viscosity decreases as shear rate increases — is beneficial for polymer processing. At the high shear rates in injection moulding gates and extruder screws, viscosity drops dramatically, allowing the polymer to flow with much less pressure than its low-shear viscosity would predict. This is why high-MW polymers (which have very high zero-shear viscosity) can still be processed on standard equipment at practical pressures.',
-    marks: 2,
-  },
-  {
-    id: 'pp5', subject: 'Polymer Processing', lessonSlug: 'thermoforming-rotational-moulding-and-compression-moulding',
-    question: 'In thermoforming, the minimum achievable wall thickness occurs at:',
-    options: [
-      'The top of the formed part (nearest the mould)',
-      'The corners and deep draw areas — where the sheet is stretched most',
-      'The centre of the part',
-      'The flange area',
-    ],
-    correct: 1,
-    explanation: 'During thermoforming, the sheet stretches biaxially as it conforms to the mould. The highest stretch ratio — and therefore the thinnest wall — occurs at corners, radii, and areas of deep draw where the sheet has traveled the greatest distance from its original plane. Parison programming in blow moulding and plug-assist in thermoforming both address this non-uniform wall thickness distribution.',
+    explanation: 'tc90 = time to reach ML + 0.90 × (MH − ML). In production moulding, parts are vulcanized to tc90 rather than tc100 (100% cure) to avoid overcure, minimize cycle time, and prevent reversion of polysulfidic crosslinks in thick parts. tc90 is the primary parameter for programming press cure times.',
     marks: 1,
   },
 
-  // Polymer Testing (4 questions)
+  // Recycling & Sustainability (5 questions)
   {
-    id: 'pt1', subject: 'Polymer Testing', lessonSlug: 'tensile-and-flexural-testing-measuring-mechanical-strength',
-    question: 'Young\'s modulus (elastic modulus) of a polymer is determined from the tensile stress-strain curve as:',
+    id: 'rc1', subject: 'Recycling Technology', lessonSlug: 'mechanical-recycling-sorting-washing-shredding-compounding',
+    question: 'In mechanical recycling of mixed plastics, PVC contamination in a PET stream must be kept below ~50 ppm because:',
     options: [
-      'Stress at break divided by strain at break',
-      'Slope of the linear (elastic) region of the stress-strain curve',
-      'Area under the entire stress-strain curve',
-      'Maximum stress divided by gauge length',
+      'PVC makes PET transparent',
+      'PVC degrades at PET processing temperatures (260-280°C), releasing HCl gas that accelerates PET hydrolytic degradation and corrodes machinery',
+      'PVC increases the melting point of PET',
+      'PVC prevents crystallisation of PET',
     ],
     correct: 1,
-    explanation: "Young's modulus = stress/strain in the initial linear (elastic) region where Hooke's law applies. It represents the material's stiffness — resistance to elastic deformation. The area under the entire curve = toughness (energy absorbed to fracture). Stress at break = ultimate tensile strength. These are three distinct and independently important material properties measured from a single tensile test.",
-    marks: 1,
-  },
-  {
-    id: 'pt2', subject: 'Polymer Testing', lessonSlug: 'thermal-analysis-dsc-tga-and-hdt-testing',
-    question: 'In TGA (Thermogravimetric Analysis) of a carbon black-filled EPDM rubber, the weight loss at ~500°C in nitrogen atmosphere represents:',
-    options: [
-      'Carbon black decomposition',
-      'Polymer (rubber) decomposition — the organic phase pyrolyzes',
-      'Water evaporation',
-      'Plasticizer volatilization',
-    ],
-    correct: 1,
-    explanation: 'TGA in nitrogen (inert atmosphere) decomposes organic materials but not carbon black. Weight loss sequence for carbon black-filled rubber: <150°C (moisture/volatiles), 300-550°C (polymer/rubber decomposition), residue = carbon black + inorganic fillers + ash. Switching to air after the polymer stage burns the carbon black, giving its weight fraction. This quantitative compositional analysis is the primary industrial use of TGA for rubber compounds.',
+    explanation: 'PET processes at 260-280°C; PVC begins dehydrochlorination (degradation) above 190°C. Even 50 ppm PVC in a PET melt stream generates HCl gas, which: (1) catalyzes hydrolytic/acid degradation of PET chains (IV drops drastically); (2) causes severe black specks and yellowing; (3) corrodes extruder screws, barrels, and blow moulds. Near-infrared (NIR) and optical sorting are critical to eliminate PVC flake from rPET.',
     marks: 2,
   },
   {
-    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'impact-testing-izod-charpy-and-drop-weight',
-    question: 'Notching a specimen before Izod/Charpy impact testing is done to:',
-    options: [
-      'Reduce the specimen size',
-      'Introduce a stress concentrator that ensures fracture initiates at a defined point — testing worst-case impact resistance',
-      'Increase the impact energy measurement accuracy',
-      'Prevent the specimen from slipping in the fixture',
-    ],
-    correct: 1,
-    explanation: 'The notch creates a controlled stress concentration that guarantees fracture initiates at the notch root rather than elsewhere. This gives reproducible results and represents the worst-case scenario (a pre-existing defect or sharp corner in a real part). Notch sensitivity is a critical material property — some materials (e.g., nylon, PC) have dramatically different notched vs unnotched impact values, which directly affects design decisions about sharp corners in moulded parts.',
-    marks: 1,
-  },
-  {
-    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'quality-control-bis-and-astm-standards-for-polymer-testing',
-    question: 'The IS 13360 series of standards specifies test methods for plastics in India. IS 13360 is technically equivalent to:',
-    options: ['ASTM D series', 'ISO 10350 series', 'ISO 527 / ISO 178 / ISO 179 (specific test standards)', 'DIN standards'],
+    id: 'rc2', subject: 'Sustainable Plastics', lessonSlug: 'biodegradable-polymers-pla-pha-pbs-and-starch-blends',
+    question: 'Industrial composting (EN 13432 / ISO 17088) requires biodegradable plastics to achieve 90% biodegradation within:',
+    options: ['30 days at room temperature', '90 days at 20°C', '180 days at 58°C (thermophilic composting)', '1 year in soil'],
     correct: 2,
-    explanation: 'IS 13360 is BIS\'s adoption of specific ISO test standards for plastics. For example: IS 13360 Part 5 Sec 4 = ISO 179 (Charpy impact); IS 13360 Part 4 Sec 1 = ISO 527 (tensile); IS 13360 Part 4 Sec 5 = ISO 178 (flexural). Understanding this equivalence is essential for QC engineers who must cite the correct standard in test reports for domestic (BIS) and export (ISO) markets.',
-    marks: 2,
-  },
-
-  // Rubber Technology (3 questions)
-  {
-    id: 'rt1', subject: 'Rubber Technology', lessonSlug: 'vulcanization-the-chemistry-that-made-rubber-useful',
-    question: 'The optimum cure time (t90) in a vulcanization rheometer (MDR) represents:',
-    options: [
-      'Time to reach maximum torque',
-      'Time to reach 90% of the maximum torque development — the standard cure specification point',
-      'Time for complete marching cure',
-      'Time for scorch (premature vulcanization)',
-    ],
-    correct: 1,
-    explanation: 'In a Moving Die Rheometer (MDR), torque increases as crosslinks form during cure. t90 = time to reach 90% of (maximum torque - minimum torque) + minimum torque. This is the standard industry specification for press cure time because it represents near-complete crosslink development while avoiding overcure (reversion in NR, marching cure in EPDM). ts2 (scorch time = 2 unit torque rise above minimum) specifies processing safety.',
-    marks: 2,
-  },
-  {
-    id: 'rt2', subject: 'Rubber Technology', lessonSlug: 'rubber-compounding-fillers-carbon-black-and-additives',
-    question: 'The primary reinforcing mechanism of carbon black in rubber is:',
-    options: [
-      'Increasing the density of the compound',
-      'Physical and chemical bonding between carbon black surface and rubber chains — restricting chain mobility and transferring stress to the rigid filler network',
-      'Reducing the crosslink density',
-      'Improving electrical insulation',
-    ],
-    correct: 1,
-    explanation: 'Carbon black reinforcement involves: (1) Physical adsorption of rubber chains onto the high-surface-area carbon black particle surface (bound rubber); (2) Filler-filler network formation above the percolation threshold; (3) Hydrodynamic effect (rigid particles increase effective viscosity). Together these give a 10-100× improvement in tensile strength and abrasion resistance over unfilled rubber. The aggregate structure (secondary particle shape) and surface area are the two most important carbon black parameters for reinforcement.',
-    marks: 2,
-  },
-  {
-    id: 'rt3', subject: 'Rubber Technology', lessonSlug: 'natural-rubber-vs-synthetic-rubbers-selection-guide',
-    question: 'NBR (Nitrile Butadiene Rubber) is preferred over NR for oil seals because:',
-    options: [
-      'NBR has higher tensile strength than NR',
-      'The polar acrylonitrile units in NBR resist swelling in non-polar oils — NR swells extensively in hydrocarbon oils',
-      'NBR has better low temperature flexibility',
-      'NBR is cheaper than NR',
-    ],
-    correct: 1,
-    explanation: '"Like dissolves like" — non-polar NR swells in non-polar hydrocarbon oils (fuel, lubricants), causing seal failure. NBR contains polar acrylonitrile groups (18-50% ACN content) in the backbone — the polarity difference between NBR and non-polar oil prevents swelling. Higher ACN content = better oil resistance but poorer low-temperature flexibility. This structure-property relationship directly determines material selection for automotive oil seals, fuel hoses, and hydraulic system seals.',
-    marks: 1,
-  },
-
-  // Recycling Technology (3 questions)
-  {
-    id: 'rcy1', subject: 'Recycling Technology', lessonSlug: 'mechanical-recycling-processes-sorting-washing-and-reprocessing',
-    question: 'The float-sink separation tank in PET bottle recycling separates PET from PE/PP caps because:',
-    options: [
-      'PET is magnetic, PE/PP are not',
-      'PET density (1.38 g/cm³) causes it to sink in water while PE (0.95) and PP (0.91) float',
-      'PET is soluble in water',
-      'PE/PP are colored while PET is clear',
-    ],
-    correct: 1,
-    explanation: 'Float-sink separation exploits density differences: PET (1.33-1.40 g/cm³) sinks in water (1.0 g/cm³); HDPE/LDPE/PP (0.91-0.97 g/cm³) float. This single-step physical separation removes all polyolefin contamination from PET flake after granulation — critical because even 50 ppm PE contamination causes crystallization defects in recycled PET melt. NIR sorting identifies and separates different polymer types in the whole-bottle form before granulation.',
+    explanation: 'EN 13432 specifies: ≥90% carbon conversion to CO₂ within 180 days at 58°C ± 2°C under active composting conditions with microbial presence. Disintegration (>90% passing through 2 mm sieve) must occur within 12 weeks. PLA meets industrial composting standards because 58°C is above its Tg (~55°C), enabling hydrolytic chain scission; in soil or ambient water (20°C, below Tg), PLA does not biodegrade rapidly.',
     marks: 1,
   },
   {
-    id: 'rcy2', subject: 'Recycling Technology', lessonSlug: 'chemical-recycling-pyrolysis-depolymerization-and-feedstock-recovery',
-    question: 'Depolymerization of PET by glycolysis produces:',
+    id: 'rc3', subject: 'Recycling Technology', lessonSlug: 'chemical-recycling-depolymerization-pyrolysis-and-gasification',
+    question: 'Glycolysis of PET waste involves reacting PET with excess ethylene glycol at 180-220°C in the presence of a catalyst to produce:',
     options: [
-      'Terephthalic acid (TPA) and ethylene glycol (EG)',
-      'Bis(2-hydroxyethyl) terephthalate (BHET) — a monomer/oligomer that can be repolymerized',
-      'Pyrolysis oil and syngas',
-      'Carbon black and methane',
+      'Terephthalic acid (TPA) and ethylene glycol',
+      'Bis(2-hydroxyethyl) terephthalate (BHET) monomer',
+      'Monomeric styrene',
+      'Pyrolysis oil / naphtha fraction',
     ],
     correct: 1,
-    explanation: 'Glycolysis reacts PET with excess ethylene glycol at 180-240°C with catalyst — the ester bonds are transesterified, not hydrolyzed, producing BHET (Bis-2-HydroxyEthyl Terephthalate). BHET is then repolymerized to virgin-quality PET. This is distinct from hydrolysis (which produces TPA + EG) and methanolysis (which produces DMT + EG). Glycolysis is the most commercially established chemical recycling route for PET — used by Loop Industries and others.',
+    explanation: 'PET + ethylene glycol (EG) → BHET monomer via transesterification of ester bonds. BHET is purified (filtered, decolorized, recrystallized) to food-grade quality and repolymerized into virgin-equivalent rPET. This chemical recycling route avoids the downcycling of mechanical recycling and processes colored, contaminated, or textile (polyester fiber) waste streams.',
     marks: 2,
   },
   {
-    id: 'rcy3', subject: 'Recycling Technology', lessonSlug: 'extended-producer-responsibility-epr-and-regulatory-frameworks',
-    question: 'Under India\'s PWM Rules 2022 (EPR framework), EPR certificates are:',
-    options: [
-      'Issued by BIS to certify recycled content',
-      'Tradeable credits generated by registered recyclers and purchased by brand owners (PIBOs) to offset their plastic footprint obligations',
-      'Import permits for recycled plastic',
-      'Quality certificates for recycled material',
-    ],
+    id: 'rc4', subject: 'Sustainable Plastics', lessonSlug: 'extended-producer-responsibility-epr-regulations-in-india',
+    question: 'Under the Indian Plastic Waste Management (PWM) Rules Amendment 2022, EPR Category I covers:',
+    options: ['Flexible plastic packaging', 'Rigid plastic packaging', 'Multi-layered plastic packaging (MLP)', 'Plastic carry bags below 120 microns'],
     correct: 1,
-    explanation: 'India\'s EPR framework creates a market mechanism: registered recyclers process plastic waste and generate EPR certificates on the CPCB portal (one certificate per tonne recycled). PIBOs who cannot meet their own recycling targets purchase these certificates to fulfill their regulatory obligations. This creates a financial incentive for recycling investment and a direct payment stream from brand owners to recyclers — the mechanism that makes plastic recycling economics viable at scale in India.',
-    marks: 2,
-  },
-
-  // Sustainable Plastics (2 questions)
-  {
-    id: 'sp1', subject: 'Sustainable Plastics', lessonSlug: 'polylactic-acid-pla-synthesis-properties-and-commercial-reality',
-    question: 'PLA (Polylactic Acid) is produced from lactic acid by:',
-    options: [
-      'Direct condensation polymerization only',
-      'Ring-opening polymerization (ROP) of lactide — the cyclic dimer of lactic acid — giving controlled MW and narrow PDI',
-      'Free radical polymerization',
-      'Ionic polymerization in water',
-    ],
-    correct: 1,
-    explanation: 'Direct condensation of lactic acid gives low MW PLA due to water removal limitations. Commercial high-MW PLA (NatureWorks Ingeo) uses a two-step process: (1) condensation of lactic acid to low-MW prepolymer + lactide (cyclic dimer) formation by depolymerization; (2) ring-opening polymerization of purified lactide with Sn(Oct)2 catalyst, giving high-MW PLA with controlled stereoregularity (L/D ratio determines Tm). This route enables the Mw >100,000 g/mol needed for commercial fiber and packaging applications.',
-    marks: 2,
-  },
-  {
-    id: 'sp2', subject: 'Sustainable Plastics', lessonSlug: 'microplastics-sources-impacts-and-the-remediation-frontier',
-    question: 'Primary microplastics differ from secondary microplastics in that:',
-    options: [
-      'Primary microplastics are larger than 5mm',
-      'Primary microplastics are manufactured at micro-scale (nurdles, microbeads, fibres) while secondary microplastics form by fragmentation of larger plastic items',
-      'Primary microplastics are biodegradable',
-      'Primary microplastics only come from packaging',
-    ],
-    correct: 1,
-    explanation: 'Primary microplastics are intentionally manufactured <5mm: resin pellets (nurdles) lost during transport, microbeads in personal care products (now banned in many countries), and synthetic textile fibres shed during washing. Secondary microplastics form when UV radiation, mechanical abrasion, and weathering fragment larger plastic items — this is the dominant source by mass in the environment. Tyre wear particles (secondary) are estimated to be the largest single source of microplastic pollution globally.',
-    marks: 1,
-  },
-
-  // Polymer Composites (3 questions)
-  {
-    id: 'pc1', subject: 'Polymer Composites', lessonSlug: 'introduction-to-polymer-composites-matrix-reinforcement-and-interface',
-    question: 'The critical fibre length (lc) in short fibre reinforced composites is the minimum length at which:',
-    options: [
-      'The fibre can be processed by injection moulding',
-      'Sufficient shear stress transfer from matrix to fibre occurs to load the fibre to its tensile strength — fibres shorter than lc are pulled out rather than fracturing',
-      'The fibre starts to break during compounding',
-      'The composite reaches maximum density',
-    ],
-    correct: 1,
-    explanation: 'Critical fibre length lc = (σf × d) / (2 × τi), where σf = fibre tensile strength, d = fibre diameter, τi = interfacial shear strength. Below lc, the matrix-fibre interface fails (pull-out) before the fibre fractures — the fibre is underutilized. Above lc, the fibre can be loaded to its full strength — maximum reinforcement efficiency. This is why aspect ratio (length/diameter) is the key parameter for short fibre reinforcement: glass fibre (10μm diameter) needs lc ~ 0.5-1mm in nylon.',
-    marks: 2,
-  },
-  {
-    id: 'pc2', subject: 'Polymer Composites', lessonSlug: 'glass-fibre-reinforced-plastics-gfrp-processing-and-applications',
-    question: 'E-glass fibre is coated with a silane coupling agent primarily to:',
-    options: [
-      'Improve the colour of the glass fibre',
-      'Create chemical bonds between the glass surface (Si-OH groups) and the polymer matrix — dramatically improving interfacial adhesion and wet strength retention',
-      'Reduce the density of the glass fibre',
-      'Increase the electrical conductivity',
-    ],
-    correct: 1,
-    explanation: 'Silane coupling agents (e.g., aminosilane for epoxy, vinylsilane for polyester) have dual functionality: the silane end (Si-OCH3 groups) reacts with Si-OH groups on the glass surface; the organic end is compatible with or reactive toward the polymer matrix. This creates a covalent bridge across the hydrophilic glass/hydrophobic polymer interface — improving dry strength by 20-40% and retaining strength in wet conditions where untreated glass fibre composites lose 50-60% strength due to moisture debonding.',
-    marks: 2,
-  },
-  {
-    id: 'pc3', subject: 'Polymer Composites', lessonSlug: 'composite-design-failure-modes-and-testing',
-    question: 'Delamination in carbon fibre reinforced polymer (CFRP) laminates is a failure mode that occurs:',
-    options: [
-      'When carbon fibres break in tension',
-      'When the resin matrix cracks between plies due to interlaminar shear or tensile stress — separating layers without fibre fracture',
-      'When the composite melts at high temperature',
-      'When carbon fibres debond from the matrix within a single ply',
-    ],
-    correct: 1,
-    explanation: 'Delamination (interlaminar separation) is the dominant failure mode in CFRP laminates under out-of-plane loading, impact, or fatigue. The interlaminar fracture toughness (GIc, GIIc) is very low in standard CFRP because the only material between plies is brittle epoxy resin — no fibre bridging. Solutions: toughened resin systems, interleaving, z-pinning, 3D woven architectures. This is why CFRP aircraft panels require regular NDT (non-destructive testing) inspection for impact-induced delamination.',
-    marks: 2,
-  },
-
-  // Medical Plastics (2 questions)
-  {
-    id: 'mp1', subject: 'Medical Plastics', lessonSlug: 'biocompatibility-iso-10993-and-the-science-of-safe-polymer-body-contact',
-    question: 'The Sterility Assurance Level (SAL) required for terminally sterilized medical devices is:',
-    options: ['10⁻³ (1 in 1,000 devices non-sterile)', '10⁻⁶ (1 in 1,000,000 devices non-sterile)', '10⁻⁹', '10⁰ (100% sterile)'],
-    correct: 1,
-    explanation: 'SAL 10⁻⁶ means the probability that any single device remains non-sterile after the validated sterilization process is ≤1 in 1,000,000. This is the internationally accepted standard for terminal sterilization of medical devices (ISO 11135 for EtO, ISO 11137 for radiation). It is validated by bioburden testing (pre-sterilization microbial load) and overkill or bioburden-based approaches to determine minimum dose. SAL 10⁻⁶ is a regulatory requirement in all major markets.',
+    explanation: 'India PWM EPR categorization: Category I = Rigid plastic packaging (bottles, containers, crates); Category II = Flexible plastic packaging (single layer/multi-layer polyolefin); Category III = Multi-layered plastic packaging (at least one non-plastic layer like aluminium foil); Category IV = Plastic sheets and carry bags. Each category carries distinct mandatory recycling percentages and end-of-life disposal targets.',
     marks: 1,
   },
   {
-    id: 'mp2', subject: 'Medical Plastics', lessonSlug: 'sterilization-methods-and-polymer-compatibility',
-    question: 'PEEK is stable under gamma radiation sterilization while standard PP becomes brittle. The fundamental reason is:',
+    id: 'rc5', subject: 'Sustainable Plastics', lessonSlug: 'life-cycle-assessment-lca-of-plastics-cradle-to-grave',
+    question: 'In a Cradle-to-Grave Life Cycle Assessment (LCA) of plastic packaging, the functional unit is:',
     options: [
-      'PEEK has higher molecular weight than PP',
-      'PEEK\'s aromatic backbone is radiation-stable — aromatic rings dissipate radical energy by resonance, while PP\'s aliphatic tertiary carbons are highly susceptible to chain scission',
-      'PEEK is crystalline while PP is amorphous',
-      'PEEK contains fluorine atoms that protect against radiation',
+      'The total weight of the plastic package (e.g., 25 g)',
+      'The quantified performance of a product system for use as a reference unit (e.g., "delivering 1 liter of beverage to consumer with shelf life of 6 months")',
+      'The total cost of production',
+      'The energy consumed during injection moulding only',
     ],
     correct: 1,
-    explanation: 'Aromatic rings in PEEK\'s backbone act as radical sinks — they can absorb and dissipate the energy of gamma-induced radicals without undergoing chain scission or crosslinking. In contrast, PP\'s tertiary C-H bonds (at every third carbon) are the weakest points in the chain — gamma radiation preferentially generates radicals here, leading to beta-scission (chain breaking) and MW reduction. This fundamental difference in backbone chemistry explains why aromatic engineering polymers (PEEK, PSU, PEI) are inherently radiation-stable while aliphatic polyolefins are not.',
-    marks: 2,
+    explanation: 'ISO 14040/14044 LCA requires comparison on a functional unit basis — not weight. Comparing a 25 g PET bottle to a 400 g glass bottle on a per-kg basis is invalid; comparing both on "packaging and protecting 1 liter of carbonated beverage from filling to consumption" captures the full lightweighting advantage, transport fuel savings, and recycling impact accurately.',
+    marks: 1,
   },
 
-  // Entrepreneurship (2 questions)
+  // Composites & Mould Design (5 questions)
   {
-    id: 'ep1', subject: 'Entrepreneurship', lessonSlug: 'funding-government-schemes-and-project-report-basics',
-    question: 'Under the PMEGP scheme, what is the maximum project cost eligible for subsidy for a manufacturing unit?',
-    options: ['₹10 lakh', '₹25 lakh', '₹50 lakh', '₹1 crore'],
+    id: 'cm1', subject: 'Polymer Composites', lessonSlug: 'fiber-matrix-interphase-sizing-and-coupling-agents',
+    question: 'In glass-fiber reinforced polypropylene (PP-GF), maleic anhydride grafted polypropylene (PP-g-MAH) is added to:',
+    options: [
+      'Reduce the compound price',
+      'Act as a compatibilizer — anhydride groups react with silane sizing on glass, while PP backbone entangles with the matrix, improving stress transfer',
+      'Increase the melt flow index',
+      'Prevent UV discoloration',
+    ],
+    correct: 1,
+    explanation: 'Polypropylene is non-polar and chemically inert; glass fibers are polar and hydrophilic. Without coupling, fiber-matrix adhesion is purely frictional and poor — tensile strength of PP-GF without compatibilizer is barely higher than neat PP. PP-g-MAH (typically 1-3%) provides chemical bonds: anhydride rings open and react with amine/hydroxy groups on the glass fiber silane sizing, while the PP polymer chains co-crystallize with the bulk PP matrix. Tensile strength doubles (35 → 80+ MPa).',
+    marks: 2,
+  },
+  {
+    id: 'cm2', subject: 'Mould Design', lessonSlug: 'runner-and-gating-systems-hot-vs-cold-runner-design',
+    question: 'In injection mould design, a "hot runner" system eliminates:',
+    options: [
+      'The need for mould cooling channels',
+      'Solidified runner scrap and the need for runner regrind, reducing material waste and cycle time',
+      'Clamping force requirements',
+      'The need for cavity venting',
+    ],
+    correct: 1,
+    explanation: 'Hot runner systems maintain polymer in a molten state inside manifold and nozzles up to the cavity gate. Only the part in the cavity solidifies — no cold runner or sprue is ejected. Benefits: (1) zero runner scrap (critical for high-volume automotive/packaging parts); (2) reduced cycle time (runner is often thicker than the part and governs cooling time); (3) lower injection pressure drops.',
+    marks: 1,
+  },
+  {
+    id: 'cm3', subject: 'Mould Design', lessonSlug: 'cooling-channel-design-conformal-cooling-and-cycle-time',
+    question: 'In injection moulding of a typical 2 mm polypropylene part, cooling time accounts for approximately what percentage of total cycle time?',
+    options: ['10-20%', '25-35%', '50-70% (the dominant portion of cycle time)', '90-95%'],
     correct: 2,
-    explanation: 'PMEGP (Prime Minister\'s Employment Generation Programme) covers manufacturing projects up to ₹50 lakh with a government subsidy of 15-35% of project cost (category and location dependent). The bank finances 55-75% as term loan and the promoter contributes 5-10% equity. For service sector, the maximum is ₹20 lakh. This makes PMEGP the most accessible startup financing scheme for polymer engineering graduates starting small-scale processing units.',
+    explanation: 'In thermoplastic injection moulding, cooling time is governed by Fourier heat conduction: t_cool ∝ s² / (π² · α), where s is wall thickness and α is thermal diffusivity. Because polymers have low thermal conductivity (k ~0.15-0.35 W/m·K), removing heat through the steel mould takes 50-70% of the total cycle time. Optimizing cooling channels (conformal cooling via 3D printing, beryllium-copper inserts) is the most profitable mould engineering optimization.',
     marks: 1,
   },
   {
-    id: 'ep2', subject: 'Entrepreneurship', lessonSlug: 'running-a-plastics-business-quality-compliance-bis-certification-and-export',
-    question: 'To export plastic products from India, the minimum mandatory registration required is:',
+    id: 'cm4', subject: 'Polymer Composites', lessonSlug: 'short-vs-continuous-fiber-composites-mechanics-and-processing',
+    question: 'The critical fiber length (l_c) in short-fiber composites is defined as:',
     options: [
-      'ISO 9001 certification',
-      'IEC (Import Export Code) from DGFT — a 10-digit code issued online, mandatory for any import or export transaction',
-      'BIS certification',
-      'PLEXCONCIL membership',
+      'The length of the fiber in the pellet before compounding',
+      'The minimum fiber length required for fiber stress to build up to the fiber ultimate tensile strength (l_c = σ_f · d / 2τ)',
+      'The diameter of the compounding extruder screw',
+      'The length of the runner channel in the mould',
     ],
     correct: 1,
-    explanation: 'IEC (Importer Exporter Code) from DGFT (Directorate General of Foreign Trade) is the only mandatory requirement for any import or export from India — issued online at dgft.gov.in within 1-2 working days, currently free of cost. RCMC (from export promotion council like PLEXCONCIL for plastics) is needed to claim export incentives but not for the transaction itself. ISO 9001 and BIS are quality certifications, not export authorizations.',
+    explanation: 'Kelly-Tyson shear lag model: l_c = (σ_f · d) / (2 · τ_y), where σ_f is fiber tensile strength, d is fiber diameter, and τ_y is interfacial shear strength. If actual fiber length l < l_c, the fiber pulls out of the matrix before reaching its breaking strength (inefficient reinforcement). If l > l_c, the fiber fractures in the middle and carries maximum load. Injection moulding typically degrades fiber length to 0.2-0.5 mm, which must remain above l_c (~0.15-0.3 mm for E-glass in PP) for effective reinforcement.',
+    marks: 2,
+  },
+  {
+    id: 'cm5', subject: 'Mould Design', lessonSlug: 'ejection-systems-pins-sleeves-stripper-plates-and-air-ejection',
+    question: 'Stripper plate ejection is preferred over ejector pins for:',
+    options: [
+      'Heavy automotive bumper mouldings',
+      'Thin-walled, circular, or cylindrical parts (e.g., cups, caps, closures) to distribute ejection force uniformly and prevent pin push-through marks',
+      'Moulds with side-core actions only',
+      'Thermoset compression moulds',
+    ],
+    correct: 1,
+    explanation: 'Ejector pins concentrate force on small contact areas (2-8 mm dia) and can punch through or distort thin-walled hot parts during ejection. A stripper plate acts on the entire perimeter of the part flange or rim, providing 360° uniform ejection force with zero pin witness marks. It is the standard ejection mechanism for beverage closures, thin-wall food containers, and medical syringes.',
     marks: 1,
   },
 ]
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 type QuizState = 'setup' | 'active' | 'submitted'
 type AnswerMap = Record<string, number>
 
 const SUBJECT_COLORS: Record<string, string> = {
-  'Polymer Chemistry': '#1D4ED8',
+  'Polymer Chemistry': '#2563EB',
   'Polymer Processing': '#EA580C',
   'Polymer Testing': '#7C3AED',
-  'Rubber Technology': '#EA580C',
-  'Recycling Technology': '#15803D',
-  'Sustainable Plastics': '#15803D',
-  'Polymer Composites': '#1D4ED8',
-  'Medical Plastics': '#7C3AED',
-  'Entrepreneurship': '#CA8A04',
+  'Rubber Technology': '#DC2626',
+  'Recycling Technology': '#16A34A',
+  'Sustainable Plastics': '#059669',
+  'Polymer Composites': '#D97706',
+  'Mould Design': '#4F46E5',
 }
 
 // ─── Timer Component ──────────────────────────────────────────────────────────
@@ -419,16 +402,19 @@ function Timer({ seconds, onTimeout }: { seconds: number; onTimeout: () => void 
 
   return (
     <div
-      className="flex items-center gap-2 border-4 border-ink px-4 py-2 font-mono font-black text-lg"
-      style={{ backgroundColor: isUrgent ? '#EA580C' : '#0A0A0A', color: isUrgent ? 'white' : '#FACC15' }}
+      className={`flex items-center gap-2 border-2 rounded-xl px-4 py-2 font-mono font-bold text-base ${
+        isUrgent 
+          ? 'border-red-500 bg-red-500 text-white animate-pulse' 
+          : 'border-slate-900 bg-slate-900 text-[#F5C518]'
+      }`}
     >
-      <Clock className="w-5 h-5" />
+      <Clock className="w-4 h-4" />
       {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
     </div>
   )
 }
 
-// ─── Score Report ─────────────────────────────────────────────────────────────
+// ─── Score Report Component ───────────────────────────────────────────────────
 
 function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: number }) {
   const totalMarks = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
@@ -444,18 +430,15 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
       scored += q.marks
       correct++
     } else {
-      // GATE has negative marking: -1/3 for 1-mark, -2/3 for 2-mark
+      // GATE negative marking: -1/3 for 1-mark, -2/3 for 2-mark
       scored -= q.marks / 3
       wrong++
     }
   })
 
-  const pct = Math.round((scored / totalMarks) * 100)
-  const color = pct >= 70 ? '#15803D' : pct >= 50 ? '#CA8A04' : '#EA580C'
   const mins = Math.floor(timeTaken / 60)
   const secs = timeTaken % 60
 
-  // Subject-wise breakdown
   const subjects = GATE_QUESTIONS.map(q => q.subject).filter((value, index, self) => self.indexOf(value) === index)
   const subjectBreakdown = subjects.map(sub => {
     const subQs = GATE_QUESTIONS.filter(q => q.subject === sub)
@@ -469,129 +452,160 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
   })
 
   return (
-    <div className="space-y-5 animate-fade-up">
-
-      {/* Main score */}
-      <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: `6px 6px 0px 0px ${color}` }}>
-        <div className="border-b-4 border-ink px-6 py-5 text-center" style={{ backgroundColor: color }}>
-          <div className="font-display text-6xl font-black text-white mb-1">
+    <div className="space-y-6">
+      {/* Main Score Banner */}
+      <div className="border-2 border-slate-900 rounded-2xl bg-white shadow-xl overflow-hidden">
+        <div className="bg-[#0A1628] text-white p-8 text-center space-y-2">
+          <span className="text-xs font-mono font-bold tracking-widest text-[#F5C518] uppercase">Official GATE Scoring Breakdown</span>
+          <div className="font-display text-5xl sm:text-6xl font-black">
             {Math.max(0, scored).toFixed(2)}
-            <span className="text-2xl text-white/50">/{totalMarks}</span>
+            <span className="text-2xl text-slate-400 font-light"> / {totalMarks} Marks</span>
           </div>
-          <div className="font-mono text-[10px] text-white/70 uppercase tracking-widest">GATE Score Estimate</div>
+          <p className="text-xs text-slate-300">
+            Negative marking included (&minus;1/3 mark per wrong 1-mark MCQ, &minus;2/3 mark per wrong 2-mark MCQ).
+          </p>
         </div>
-        <div className="p-5 bg-canvas">
-          <div className="grid grid-cols-4 gap-3 mb-5">
-            {[
-              { val: correct, label: 'Correct', color: '#15803D', bg: '#F0FDF4' },
-              { val: wrong, label: 'Wrong', color: '#EA580C', bg: '#FFF7ED' },
-              { val: unattempted, label: 'Unattempted', color: '#6B7280', bg: '#F9FAFB' },
-              { val: `${mins}m ${secs}s`, label: 'Time taken', color: '#1D4ED8', bg: '#EFF6FF' },
-            ].map(s => (
-              <div key={s.label} className="border-4 border-ink p-3 text-center shadow-hard-sm" style={{ backgroundColor: s.bg }}>
-                <div className="font-display text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
-                <div className="font-mono text-[8px] text-ink/50 uppercase tracking-wider mt-0.5">{s.label}</div>
-              </div>
-            ))}
+
+        <div className="p-6 space-y-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="p-4 bg-emerald-50 rounded-xl border border-emerald-200 text-center">
+              <div className="font-display text-2xl font-bold text-emerald-800">{correct}</div>
+              <div className="text-[10px] font-mono font-bold uppercase text-emerald-700 mt-1">Correct Answers</div>
+            </div>
+            <div className="p-4 bg-rose-50 rounded-xl border border-rose-200 text-center">
+              <div className="font-display text-2xl font-bold text-rose-800">{wrong}</div>
+              <div className="text-[10px] font-mono font-bold uppercase text-rose-700 mt-1">Wrong Answers</div>
+            </div>
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 text-center">
+              <div className="font-display text-2xl font-bold text-slate-800">{unattempted}</div>
+              <div className="text-[10px] font-mono font-bold uppercase text-slate-500 mt-1">Unattempted</div>
+            </div>
+            <div className="p-4 bg-blue-50 rounded-xl border border-blue-200 text-center">
+              <div className="font-display text-2xl font-bold text-blue-800">{mins}m {secs}s</div>
+              <div className="text-[10px] font-mono font-bold uppercase text-blue-700 mt-1">Time Elapsed</div>
+            </div>
           </div>
 
-          <div className="border-4 border-ink p-4 mb-4" style={{ backgroundColor: '#FEFCE8' }}>
-            <p className="font-mono text-[10px] text-ink/60 uppercase tracking-wider">
-              GATE uses negative marking: −1/3 mark for wrong 1-mark questions, −2/3 for wrong 2-mark questions. Unattempted questions carry zero penalty.
-            </p>
-          </div>
-
-          <div className="flex gap-3 flex-wrap">
-            <Link href="/practice" className="cn-btn-yellow text-sm flex-1 justify-center">
-              <Zap className="w-4 h-4" /> Practice More
+          <div className="flex flex-col sm:flex-row gap-3 pt-2">
+            <Link 
+              href="/practice" 
+              className="flex-1 py-3 text-center bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider rounded-xl border-2 border-slate-900 shadow-sm"
+            >
+              Practice More Challenges &rarr;
             </Link>
-            <Link href="/ai-tutor" className="cn-btn-black text-sm flex-1 justify-center">
-              <Brain className="w-4 h-4" /> Ask AI Tutor
+            <Link 
+              href="/ai-tutor?prompt=Explain%20how%20to%20improve%20GATE%20Polymer%20Science%20score%20and%20master%20free%20radical%20polymerization%20kinetics" 
+              className="flex-1 py-3 text-center bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl border-2 border-slate-900 shadow-sm"
+            >
+              <Brain className="w-3.5 h-3.5 inline mr-1.5" /> Ask AI GATE Coach
             </Link>
           </div>
         </div>
       </div>
 
-      {/* Subject breakdown */}
-      <div className="border-4 border-ink overflow-hidden shadow-hard">
-        <div className="border-b-4 border-ink px-5 py-3 bg-ink">
-          <span className="font-mono text-[10px] font-black text-yellow-bright uppercase tracking-widest">Subject-wise Performance</span>
-        </div>
-        <div className="divide-y-2 divide-ink/10">
-          {subjectBreakdown.map(s => {
-            const color = SUBJECT_COLORS[s.subject] ?? '#1D4ED8'
-            return (
-              <div key={s.subject} className="px-5 py-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-[10px] font-bold text-ink uppercase tracking-wide">{s.subject}</span>
-                  <span className="font-mono text-[10px] font-black" style={{ color }}>{s.scored}/{s.total} marks · {s.pct}%</span>
-                </div>
-                <div className="border-2 border-ink h-3 overflow-hidden">
-                  <div className="h-full" style={{ width: `${s.pct}%`, backgroundColor: color }} />
-                </div>
+      {/* Subject Breakdown */}
+      <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-xl space-y-4">
+        <h3 className="font-display font-bold text-base uppercase text-slate-900">
+          Subject-wise Score Analysis
+        </h3>
+
+        <div className="space-y-4">
+          {subjectBreakdown.map(s => (
+            <div key={s.subject} className="space-y-1.5">
+              <div className="flex justify-between text-xs font-mono font-bold">
+                <span className="text-slate-800">{s.subject}</span>
+                <span className="text-blue-700">{s.scored.toFixed(1)} / {s.total} Marks ({s.pct}%)</span>
               </div>
-            )
-          })}
+              <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+                <div 
+                  className="h-full bg-blue-600 rounded-full transition-all duration-500" 
+                  style={{ width: `${s.pct}%` }} 
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Answer review */}
-      <div className="space-y-3">
-        <div className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest border-b-4 border-ink pb-3">
-          Full Answer Review ({GATE_QUESTIONS.length} questions)
-        </div>
+      {/* Detailed Question Review */}
+      <div className="space-y-4">
+        <h3 className="font-display font-bold text-base uppercase text-slate-900">
+          Complete Answer Review ({GATE_QUESTIONS.length} Questions)
+        </h3>
+
         {GATE_QUESTIONS.map((q, idx) => {
           const userAnswer = answers[q.id]
           const isCorrect = userAnswer === q.correct
           const isUnattempted = userAnswer === undefined
-          const borderColor = isUnattempted ? '#D1D5DB' : isCorrect ? '#15803D' : '#EA580C'
-
 
           return (
-            <div key={q.id} className="border-4 border-ink overflow-hidden" style={{ boxShadow: `2px 2px 0px 0px ${borderColor}` }}>
-              <div className="border-b-4 border-ink px-4 py-2 flex items-center gap-3" style={{ backgroundColor: borderColor }}>
-                {isUnattempted
-                  ? <AlertTriangle className="w-4 h-4 text-white" />
-                  : isCorrect
-                  ? <CheckCircle className="w-4 h-4 text-white" />
-                  : <XCircle className="w-4 h-4 text-white" />}
-                <span className="font-mono text-[9px] font-black text-white uppercase">
-                  Q{idx + 1} · {q.marks} mark{q.marks > 1 ? 's' : ''} · {isUnattempted ? 'Not attempted' : isCorrect ? 'Correct' : `Wrong — Answer: ${q.options[q.correct].slice(0, 30)}`}
+            <article key={q.id} className="border-2 border-slate-900 rounded-2xl bg-white p-6 shadow-sm space-y-3">
+              <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2">
+                  {isUnattempted ? (
+                    <span className="inline-flex items-center gap-1 text-slate-500 font-mono text-xs font-bold">
+                      <AlertTriangle className="w-4 h-4 text-slate-400" /> Unattempted
+                    </span>
+                  ) : isCorrect ? (
+                    <span className="inline-flex items-center gap-1 text-emerald-700 font-mono text-xs font-bold">
+                      <CheckCircle className="w-4 h-4 text-emerald-600" /> Correct (+{q.marks})
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 text-rose-700 font-mono text-xs font-bold">
+                      <XCircle className="w-4 h-4 text-rose-600" /> Wrong (&minus;{(q.marks / 3).toFixed(2)})
+                    </span>
+                  )}
+                </div>
+                <span className="font-mono text-[10px] font-bold text-slate-500 uppercase bg-slate-100 px-2 py-0.5 rounded-full">
+                  {q.subject}
                 </span>
-                <span className="font-mono text-[8px] border border-white/40 text-white px-1.5 ml-auto uppercase">{q.subject}</span>
               </div>
-              <div className="p-4 bg-canvas">
-                <p className="font-bold text-sm text-ink mb-3">{q.question}</p>
-                <div className="space-y-1.5 mb-3">
-                  {q.options.map((opt, optIdx) => {
-                    const isCorrectOpt = optIdx === q.correct
-                    const isUserChoice = optIdx === userAnswer
-                    return (
-                      <div key={optIdx} className="flex items-center gap-2 px-3 py-2 border-2 text-sm"
-                        style={{
-                          borderColor: isCorrectOpt ? '#15803D' : isUserChoice ? '#EA580C' : '#E5E7EB',
-                          backgroundColor: isCorrectOpt ? '#F0FDF4' : isUserChoice ? '#FFF7ED' : 'white',
-                        }}
-                      >
-                        <span className="font-mono text-[9px] font-black w-4 flex-shrink-0" style={{ color: isCorrectOpt ? '#15803D' : isUserChoice ? '#EA580C' : '#9CA3AF' }}>
-                          {['A', 'B', 'C', 'D'][optIdx]}
-                        </span>
-                        <span className="flex-1 text-ink">{opt}</span>
-                        {isCorrectOpt && <CheckCircle className="w-3.5 h-3.5 text-green flex-shrink-0" />}
-                        {isUserChoice && !isCorrectOpt && <XCircle className="w-3.5 h-3.5 text-orange flex-shrink-0" />}
+
+              <p className="font-display font-bold text-sm sm:text-base text-slate-900 leading-snug">
+                Q{idx + 1}. {q.question}
+              </p>
+
+              <div className="space-y-2">
+                {q.options.map((opt, optIdx) => {
+                  const isCorrectOpt = optIdx === q.correct
+                  const isUserChoice = optIdx === userAnswer
+
+                  return (
+                    <div 
+                      key={optIdx} 
+                      className={`p-3 rounded-xl border-2 text-xs font-medium flex items-center justify-between gap-3 ${
+                        isCorrectOpt 
+                          ? 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold'
+                          : isUserChoice 
+                          ? 'border-rose-500 bg-rose-50 text-rose-950 font-bold'
+                          : 'border-slate-200 bg-slate-50 text-slate-700'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="font-mono font-bold w-5">{['A', 'B', 'C', 'D'][optIdx]}.</span>
+                        <span>{opt}</span>
                       </div>
-                    )
-                  })}
-                </div>
-                <div className="border-l-4 pl-3 py-1" style={{ borderColor, backgroundColor: isCorrect ? '#F0FDF4' : isUnattempted ? '#F9FAFB' : '#FFF7ED' }}>
-                  <p className="font-mono text-[9px] font-bold uppercase tracking-wider mb-1" style={{ color: borderColor }}>Explanation</p>
-                  <p className="text-sm text-ink leading-relaxed">{q.explanation}</p>
-                </div>
-                <Link href={`/lessons/${q.lessonSlug}`} className="font-mono text-[9px] text-ink/40 hover:text-ink mt-2 flex items-center gap-1 uppercase tracking-wider transition-colors">
-                  <BookOpen className="w-3 h-3" /> Related Lesson →
+                      {isCorrectOpt && <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0" />}
+                      {isUserChoice && !isCorrectOpt && <XCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />}
+                    </div>
+                  )
+                })}
+              </div>
+
+              <div className="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200 text-xs text-blue-950 space-y-1">
+                <span className="font-mono font-bold text-[10px] text-blue-800 uppercase tracking-wider block">Rationale &amp; Solution</span>
+                <p className="leading-relaxed">{q.explanation}</p>
+              </div>
+
+              <div className="pt-1">
+                <Link 
+                  href={`/lessons/${q.lessonSlug}`}
+                  className="font-mono text-xs font-bold text-blue-600 hover:text-blue-800 uppercase flex items-center gap-1"
+                >
+                  <BookOpen className="w-3.5 h-3.5" /> Read Lesson &rarr;
                 </Link>
               </div>
-            </div>
+            </article>
           )
         })}
       </div>
@@ -599,14 +613,7 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
   )
 }
 
-// Add missing Zap import
-const Zap = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-  </svg>
-)
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// ─── Main GATE Mock Page ──────────────────────────────────────────────────────
 
 export default function GATEMockPage() {
   const [state, setState] = useState<QuizState>('setup')
@@ -654,273 +661,317 @@ export default function GATEMockPage() {
   const isFlagged = flagged.has(currentQuestion?.id)
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-violet" />
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      {/* Header */}
-      <div className="border-b-4 border-ink bg-ink px-6 py-4 flex items-center justify-between flex-wrap gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-violet border-4 border-violet flex items-center justify-center">
-            <Trophy className="w-4 h-4 text-white" />
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Trophy className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              GATE 2026 Polymer Science &middot; Timed Mock Arena
+            </span>
           </div>
-          <div>
-            <div className="font-display text-lg font-black text-white">GATE Mock Test</div>
-            <div className="font-mono text-[9px] text-white/40 uppercase tracking-wider">
-              Polymer Science · 30 Questions · 60 Minutes · Negative Marking
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            GATE Polymer Science <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Mock Test Arena
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Full-length timed simulation strictly aligned with GATE (XE-F / CY / CH) syllabus. Includes authentic negative marking (&minus;1/3) and instant rationale breakdown.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">30</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">GATE Questions</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">35</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Total Marks</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">60 Min</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Continuous Timer</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-rose-400 block">&minus;1/3</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Negative Marking</span>
             </div>
           </div>
         </div>
-        {state === 'active' && (
-          <Timer seconds={TOTAL_TIME} onTimeout={handleSubmit} />
-        )}
-      </div>
+      </section>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
-
-        {/* Setup screen */}
+      {/* ── Main Workspace ── */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
+        {/* Setup Screen */}
         {state === 'setup' && (
-          <div className="space-y-5">
-            <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: '6px 6px 0px 0px #7C3AED' }}>
-              <div className="border-b-4 border-ink px-6 py-5 bg-violet">
-                <h1 className="font-display text-3xl font-black text-white mb-1">GATE Polymer Science Mock Test</h1>
-                <p className="font-mono text-[10px] text-white/60 uppercase tracking-wider">Simulated exam · Based on actual GATE syllabus</p>
-              </div>
-              <div className="p-6 bg-canvas">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
-                  {[
-                    { val: '30', label: 'Questions', color: '#7C3AED' },
-                    { val: '35', label: 'Total Marks', color: '#1D4ED8' },
-                    { val: '60', label: 'Minutes', color: '#EA580C' },
-                    { val: '−1/3', label: 'Negative Marking', color: '#CA8A04' },
-                  ].map(s => (
-                    <div key={s.label} className="border-4 border-ink p-4 text-center shadow-hard-sm" style={{ backgroundColor: s.color + '12' }}>
-                      <div className="font-display text-3xl font-black" style={{ color: s.color }}>{s.val}</div>
-                      <div className="font-mono text-[9px] text-ink/50 uppercase tracking-wider mt-1">{s.label}</div>
-                    </div>
-                  ))}
-                </div>
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+            <div>
+              <h2 className="font-display font-bold text-xl uppercase text-slate-900">
+                📋 Exam Protocol &amp; Instructions
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
+                Please read the official evaluation criteria before starting the mock session.
+              </p>
+            </div>
 
-                <div className="border-4 border-ink p-4 mb-6" style={{ backgroundColor: '#FFF7ED' }}>
-                  <p className="font-mono text-[9px] font-bold text-orange uppercase tracking-wider mb-2">Exam Rules</p>
-                  <ul className="space-y-1">
-                    {[
-                      'Each 1-mark wrong answer deducts 1/3 mark',
-                      'Each 2-mark wrong answer deducts 2/3 mark',
-                      'Unattempted questions carry zero penalty',
-                      'You can navigate between questions freely',
-                      'Flag questions to review before submitting',
-                      'Timer runs continuously — submit before 60 minutes',
-                    ].map(rule => (
-                      <li key={rule} className="text-sm text-ink flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 bg-orange rounded-full flex-shrink-0" />
-                        {rule}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+            <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
+              <span className="font-mono text-xs font-bold text-amber-900 uppercase tracking-wide block">Evaluation Rules</span>
+              <ul className="space-y-1.5 text-xs text-amber-950 font-medium">
+                <li>&bull; 1-Mark Questions: +1.0 for correct, &minus;0.33 for incorrect.</li>
+                <li>&bull; 2-Mark Questions: +2.0 for correct, &minus;0.67 for incorrect.</li>
+                <li>&bull; Unattempted questions carry zero penalty.</li>
+                <li>&bull; You can freely navigate, clear choices, or flag items for review.</li>
+                <li>&bull; The 60-minute timer runs continuously upon clicking Start.</li>
+              </ul>
+            </div>
 
-                <div className="mb-6">
-                  <p className="font-mono text-[9px] font-bold text-ink/50 uppercase tracking-wider mb-2">Subjects Covered</p>
-                  <div className="flex flex-wrap gap-2">
-                    {Object.entries(SUBJECT_COLORS).map(([sub, color]) => (
-                      <span key={sub} className="font-mono text-[9px] border-2 px-2 py-0.5 uppercase tracking-wider" style={{ borderColor: color, color }}>
-                        {sub.replace('Polymer ', '')}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <button onClick={handleStart} className="cn-btn-black w-full justify-center text-sm">
-                  <Trophy className="w-4 h-4" /> Start Mock Test — 60 Minutes
-                </button>
+            <div>
+              <span className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wide block mb-2">Subjects Tested</span>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(SUBJECT_COLORS).map(([sub]) => (
+                  <span key={sub} className="px-3 py-1 bg-slate-100 text-slate-800 text-xs font-mono font-bold rounded-lg border border-slate-200">
+                    {sub}
+                  </span>
+                ))}
               </div>
             </div>
+
+            <button
+              onClick={handleStart}
+              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-sm uppercase tracking-wider rounded-xl border-2 border-blue-700 shadow-md hover:translate-y-[-1px] transition-all flex items-center justify-center gap-2"
+            >
+              <PlayCircle className="w-5 h-5" /> Start GATE Mock Exam &mdash; 60 Minutes
+            </button>
           </div>
         )}
 
-        {/* Active exam */}
+        {/* Active Exam Mode */}
         {state === 'active' && currentQuestion && (
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-            {/* Question column */}
-            <div className="lg:col-span-3 space-y-6">
-              {/* Progress and indicators */}
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <span className="font-mono text-xs font-bold text-ink/50 uppercase tracking-wider">
+          <div className="space-y-6">
+            
+            {/* Top Toolbar with Timer & Flag */}
+            <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-5 shadow-xl flex items-center justify-between gap-4 flex-wrap">
+              <div className="flex items-center gap-3">
+                <span className="font-display font-bold text-base text-slate-900">
                   Question {currentQ + 1} of {GATE_QUESTIONS.length}
                 </span>
-                <span className="font-mono text-xs font-bold text-ink/50 uppercase tracking-wider">
-                  {answered}/{GATE_QUESTIONS.length} Answered
+                <span className="font-mono text-xs text-slate-500 font-bold">
+                  ({answered} answered)
                 </span>
               </div>
 
-              {/* Question card */}
-              <div className="border-4 border-ink bg-canvas shadow-hard overflow-hidden" style={{ borderColor: SUBJECT_COLORS[currentQuestion.subject] ?? '#7C3AED' }}>
-                <div className="border-b-4 border-ink px-5 py-3 bg-ink flex items-center justify-between flex-wrap gap-3">
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xs font-black text-yellow-bright">Q{currentQ + 1}</span>
-                    <span className="font-mono text-[9px] text-white/50 border border-white/20 px-2 py-0.5 uppercase tracking-wider">
-                      {currentQuestion.marks} Mark{currentQuestion.marks > 1 ? 's' : ''}
-                    </span>
-                    <span className="font-mono text-[9px] border px-2 py-0.5 uppercase tracking-wider" style={{ borderColor: SUBJECT_COLORS[currentQuestion.subject] ?? '#7C3AED', color: SUBJECT_COLORS[currentQuestion.subject] ?? '#7C3AED' }}>
-                      {currentQuestion.subject}
-                    </span>
-                  </div>
-                  <button
-                    onClick={toggleFlag}
-                    className="font-mono text-[9px] border-2 px-3 py-1 uppercase font-bold tracking-wider transition-colors"
-                    style={isFlagged ? { backgroundColor: '#CA8A04', borderColor: '#CA8A04', color: 'white' } : { borderColor: 'rgba(255,255,255,0.3)', color: 'rgba(255,255,255,0.5)' }}
-                  >
-                    {isFlagged ? '⚑ Flagged' : '⚐ Flag for Review'}
-                  </button>
-                </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={toggleFlag}
+                  className={`px-3 py-1.5 rounded-xl border-2 font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 ${
+                    isFlagged
+                      ? 'border-amber-500 bg-amber-50 text-amber-800'
+                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                  }`}
+                >
+                  <Flag className="w-3.5 h-3.5" />
+                  {isFlagged ? 'Flagged' : 'Flag Question'}
+                </button>
 
-                <div className="p-6">
-                  <p className="font-display text-lg md:text-xl font-black text-ink leading-snug mb-6">{currentQuestion.question}</p>
-                  <div className="space-y-3">
-                    {currentQuestion.options.map((opt, optIdx) => {
-                      const isSelected = currentAnswer === optIdx
-                      return (
-                        <button
-                          key={optIdx}
-                          onClick={() => handleSelect(optIdx)}
-                          className="w-full text-left border-4 border-ink p-4 flex items-center gap-4 transition-all"
-                          style={{
-                            backgroundColor: isSelected ? '#7C3AED' : 'white',
-                            color: isSelected ? 'white' : '#0A0A0A',
-                            boxShadow: isSelected ? '0px 0px 0px 0px #000' : '3px 3px 0px 0px #0A0A0A'
-                          }}
-                        >
-                          <span
-                            className="font-mono text-xs font-black border-2 border-ink w-6 h-6 flex items-center justify-center flex-shrink-0"
-                            style={{
-                              backgroundColor: isSelected ? 'white' : '#F3F4F6',
-                              color: '#0A0A0A',
-                            }}
-                          >
-                            {['A', 'B', 'C', 'D'][optIdx]}
-                          </span>
-                          <span className="text-sm font-bold leading-relaxed">{opt}</span>
-                        </button>
-                      )
-                    })}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex justify-between items-center gap-3 mt-8 pt-6 border-t-2 border-ink/10 flex-wrap">
-                    <button
-                      onClick={() => setAnswers(prev => {
-                        const copy = { ...prev }
-                        delete copy[currentQuestion.id]
-                        return copy
-                      })}
-                      className="border-4 border-ink px-4 py-2.5 bg-white text-ink hover:bg-gray-100 font-mono text-xs font-black uppercase tracking-wider"
-                    >
-                      Clear Response
-                    </button>
-                    <div className="flex gap-2">
-                      <button
-                        disabled={currentQ === 0}
-                        onClick={() => setCurrentQ(prev => prev - 1)}
-                        className="border-4 border-ink px-4 py-2.5 bg-white text-ink hover:bg-gray-100 disabled:opacity-50 font-mono text-xs font-black uppercase tracking-wider"
-                      >
-                        Previous
-                      </button>
-                      {currentQ < GATE_QUESTIONS.length - 1 ? (
-                        <button
-                          onClick={() => setCurrentQ(prev => prev + 1)}
-                          className="border-4 border-ink px-5 py-2.5 bg-ink text-yellow-bright hover:bg-ink/90 font-mono text-xs font-black uppercase tracking-wider"
-                        >
-                          Next
-                        </button>
-                      ) : (
-                        <button
-                          onClick={handleSubmit}
-                          className="border-4 border-ink px-5 py-2.5 bg-green text-white hover:opacity-90 font-mono text-xs font-black uppercase tracking-wider"
-                        >
-                          Submit Test
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                </div>
+                <Timer seconds={TOTAL_TIME} onTimeout={handleSubmit} />
               </div>
             </div>
 
-            {/* Sidebar Column */}
-            <div className="lg:col-span-1 space-y-4">
-              <div className="border-4 border-ink bg-canvas shadow-hard">
-                <div className="border-b-4 border-ink px-4 py-3 bg-ink">
-                  <span className="font-mono text-[10px] font-black text-yellow-bright uppercase tracking-widest">Question Palette</span>
+            {/* Question Workspace Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+              
+              {/* Question & Options (3 Columns) */}
+              <div className="lg:col-span-3 bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+                  <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-mono font-bold rounded-lg border border-blue-200">
+                    {currentQuestion.marks} Mark{currentQuestion.marks > 1 ? 's' : ''}
+                  </span>
+                  <span className="font-mono text-xs font-bold text-slate-500 uppercase">
+                    {currentQuestion.subject}
+                  </span>
                 </div>
-                <div className="p-4">
-                  <div className="grid grid-cols-5 gap-2">
-                    {GATE_QUESTIONS.map((q, idx) => {
-                      const isQAnswered = answers[q.id] !== undefined
-                      const isQFlagged = flagged.has(q.id)
-                      const isQCurrent = idx === currentQ
-                      
-                      let bg = 'white'
-                      let text = 'text-ink'
-                      
-                      if (isQCurrent) {
-                        bg = '#7C3AED'
-                        text = 'text-white'
-                      } else if (isQFlagged) {
-                        bg = '#CA8A04'
-                        text = 'text-white'
-                      } else if (isQAnswered) {
-                        bg = '#15803D'
-                        text = 'text-white'
-                      }
-                      
-                      return (
-                        <button
-                          key={q.id}
-                          onClick={() => setCurrentQ(idx)}
-                          className="w-10 h-10 border-4 border-ink flex items-center justify-center font-mono font-black text-xs transition-colors"
-                          style={{ backgroundColor: bg, color: text }}
-                        >
-                          {idx + 1}
-                        </button>
-                      )
-                    })}
-                  </div>
-                  
-                  <div className="mt-6 border-t-2 border-ink/10 pt-4 space-y-2">
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="w-4 h-4 border-2 border-ink bg-[#15803D]" />
-                      <span className="text-ink/75 font-medium">Answered ({answered})</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="w-4 h-4 border-2 border-ink bg-[#CA8A04]" />
-                      <span className="text-ink/75 font-medium">Flagged ({flagged.size})</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-xs">
-                      <span className="w-4 h-4 border-2 border-ink bg-white" />
-                      <span className="text-ink/75 font-medium">Not Attempted ({GATE_QUESTIONS.length - answered})</span>
-                    </div>
-                  </div>
-                  
+
+                <p className="font-display font-bold text-base sm:text-lg text-slate-900 leading-snug">
+                  {currentQuestion.question}
+                </p>
+
+                <div className="space-y-3">
+                  {currentQuestion.options.map((opt, optIdx) => {
+                    const isSelected = currentAnswer === optIdx
+                    return (
+                      <button
+                        key={optIdx}
+                        onClick={() => handleSelect(optIdx)}
+                        className={`w-full text-left p-4 rounded-xl border-2 transition-all flex items-center gap-3 ${
+                          isSelected
+                            ? 'border-blue-600 bg-blue-50 text-blue-950 font-bold shadow-sm'
+                            : 'border-slate-200 bg-slate-50 hover:bg-white text-slate-800'
+                        }`}
+                      >
+                        <span className={`w-6 h-6 rounded-lg font-mono text-xs font-bold flex items-center justify-center shrink-0 border ${
+                          isSelected ? 'bg-blue-600 text-white border-blue-700' : 'bg-white text-slate-700 border-slate-300'
+                        }`}>
+                          {['A', 'B', 'C', 'D'][optIdx]}
+                        </span>
+                        <span className="text-xs sm:text-sm">{opt}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {/* Actions Bottom Bar */}
+                <div className="flex justify-between items-center gap-3 pt-4 border-t border-slate-100 flex-wrap">
                   <button
-                    onClick={handleSubmit}
-                    className="w-full mt-6 border-4 border-ink bg-green text-white py-3 font-mono font-black text-xs uppercase tracking-widest hover:opacity-90 transition-opacity shadow-hard-sm"
+                    onClick={() => setAnswers(prev => {
+                      const copy = { ...prev }
+                      delete copy[currentQuestion.id]
+                      return copy
+                    })}
+                    className="px-3.5 py-2 border-2 border-slate-200 hover:border-slate-400 text-slate-600 font-mono text-xs font-bold uppercase rounded-xl transition-all"
                   >
-                    Submit Test
+                    Clear Choice
                   </button>
+
+                  <div className="flex gap-2">
+                    <button
+                      disabled={currentQ === 0}
+                      onClick={() => setCurrentQ(prev => prev - 1)}
+                      className="px-4 py-2 border-2 border-slate-200 text-slate-700 disabled:opacity-40 font-mono text-xs font-bold uppercase rounded-xl hover:bg-slate-50 transition-all"
+                    >
+                      &larr; Prev
+                    </button>
+                    {currentQ < GATE_QUESTIONS.length - 1 ? (
+                      <button
+                        onClick={() => setCurrentQ(prev => prev + 1)}
+                        className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all"
+                      >
+                        Next &rarr;
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handleSubmit}
+                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all"
+                      >
+                        Submit Test
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {/* Question Palette Sidebar (1 Column) */}
+              <div className="bg-white border-2 border-slate-900 rounded-2xl p-5 shadow-xl space-y-4">
+                <span className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider block border-b border-slate-100 pb-2">
+                  Question Palette
+                </span>
+
+                <div className="grid grid-cols-5 gap-1.5">
+                  {GATE_QUESTIONS.map((q, idx) => {
+                    const isQAnswered = answers[q.id] !== undefined
+                    const isQFlagged = flagged.has(q.id)
+                    const isQCurrent = idx === currentQ
+                    
+                    let bg = 'bg-slate-50 text-slate-700 border-slate-200'
+                    if (isQCurrent) {
+                      bg = 'bg-blue-600 text-white border-blue-700 font-black ring-2 ring-blue-300'
+                    } else if (isQFlagged) {
+                      bg = 'bg-amber-400 text-slate-950 border-amber-500 font-bold'
+                    } else if (isQAnswered) {
+                      bg = 'bg-emerald-600 text-white border-emerald-700 font-bold'
+                    }
+                    
+                    return (
+                      <button
+                        key={q.id}
+                        onClick={() => setCurrentQ(idx)}
+                        className={`h-8 rounded-lg border text-xs font-mono flex items-center justify-center transition-all ${bg}`}
+                      >
+                        {idx + 1}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <div className="space-y-1.5 pt-2 border-t border-slate-100 text-[11px] font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-emerald-600 rounded-sm" />
+                    <span>Answered ({answered})</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-amber-400 rounded-sm" />
+                    <span>Flagged ({flagged.size})</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 bg-slate-100 border border-slate-300 rounded-sm" />
+                    <span>Unattempted ({GATE_QUESTIONS.length - answered})</span>
+                  </div>
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-sm"
+                >
+                  Submit Exam
+                </button>
+              </div>
+
             </div>
 
           </div>
         )}
 
-        {/* Submitted state */}
+        {/* Submitted Score Summary */}
         {state === 'submitted' && (
           <ScoreReport answers={answers} timeTaken={timeTaken} />
         )}
+
       </div>
+
+      {/* ── BOTTOM AI GATE COUNSELOR CTA ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI GATE Coach &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need detailed problem walkthroughs? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI GATE Coach.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Review numerical formula steps for single screw output, Carothers equation degree of polymerization, or shear lag critical fiber length.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Explain%20how%20to%20solve%20Kelly-Tyson%20critical%20fiber%20length%20problems%20for%20GATE%20Polymer%20Engineering"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask GATE Coach &rarr;
+            </Link>
+
+            <Link
+              href="/practice"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> 19-Subject Quiz Engine
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }

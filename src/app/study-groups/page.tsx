@@ -1,8 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { Users, Plus, Star, X } from 'lucide-react'
+import { 
+  Users, 
+  Plus, 
+  Star, 
+  X, 
+  Sparkles, 
+  Brain, 
+  Compass
+} from 'lucide-react'
 
 type StudyGroup = {
   id: string
@@ -37,6 +46,7 @@ export default function StudyGroupsPage() {
   const [subjects, setSubjects] = useState<Subject[]>([])
   const [loading, setLoading] = useState(true)
   const [currentUser, setCurrentUser] = useState<string | null>(null)
+  const [selectedSubject, setSelectedSubject] = useState<string>('all')
   
   // Modal states
   const [createOpen, setCreateOpen] = useState(false)
@@ -100,9 +110,7 @@ export default function StudyGroupsPage() {
       })
       const json = await res.json()
       if (json.success) {
-        // Reload groups
         await loadGroups()
-        // If viewing details, update members list too
         if (detailsGroup?.id === group.id) {
           const updatedGroup = { ...group, is_member: !group.is_member, member_count: group.is_member ? group.member_count - 1 : group.member_count + 1 }
           setDetailsGroup(updatedGroup)
@@ -187,229 +195,325 @@ export default function StudyGroupsPage() {
     await fetchGroupMembers(group.id)
   }
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-canvas flex items-center justify-center">
-        <div className="border-4 border-ink p-8 shadow-hard font-display text-2xl font-black text-ink bg-white animate-pulse">
-          Loading study groups...
-        </div>
-      </div>
-    )
-  }
+  const filteredGroups = selectedSubject === 'all' 
+    ? groups 
+    : groups.filter(g => g.subject_id === selectedSubject)
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-blue-600" />
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      {/* Hero Header */}
-      <section className="border-b-4 border-ink bg-ink px-6 md:px-12 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-6xl mx-auto flex items-end justify-between gap-6 flex-wrap">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue-500 border-4 border-blue-500 flex items-center justify-center">
-                <Users className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-blue-400 border-2 border-blue-400 px-3 py-1 uppercase tracking-widest">Colleagues</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none mb-3">
-              STUDY <span className="text-blue-400 italic">GROUPS.</span>
-            </h1>
-            <p className="text-white/70 max-w-lg">Form groups, track collective goals, compare progress, and help each other ace the Plastics & Polymer Engineering curricula.</p>
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Users className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              Peer Learning &middot; 19 Subject Study Circles &middot; National Collaboration
+            </span>
           </div>
 
-          <button onClick={() => setCreateOpen(true)}
-            className="border-4 border-ink bg-yellow-bright hover:bg-yellow-400 font-mono text-xs font-black uppercase tracking-wider px-6 py-3 shadow-hard transition-all flex items-center gap-2">
-            <Plus className="w-4 h-4" /> Create Study Group
-          </button>
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Learn Together. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Grow Together.
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Form engineering circles, track collective curriculum goals, solve tough industrial case studies, and prepare together for campus placements.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">{groups.length || 12}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Active Circles</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">256+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Engineering Peers</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">19</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Subjects Covered</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">89%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Completion Rate</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Main Content Grid */}
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {groups.map(group => (
-            <div key={group.id} className="border-4 border-ink bg-white overflow-hidden shadow-hard flex flex-col">
-              <div className="border-b-4 border-ink px-4 py-3 bg-slate-50 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-[9px] font-black bg-blue-100 text-blue-800 border border-blue-400 px-2.5 py-0.5 rounded-full uppercase">
-                    {group.subject_name}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 font-mono text-[10px] font-black text-slate-400">
-                  <Users className="w-3.5 h-3.5" /> {group.member_count} members
-                </div>
-              </div>
-              
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="font-display text-xl font-black text-ink mb-2 leading-tight">{group.name}</h3>
-                  <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed mb-4">{group.description || 'No description provided.'}</p>
-                </div>
+      {/* ── Main Workspace ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
+        {/* Toolbar Bar */}
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col sm:flex-row gap-4 justify-between items-center">
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="w-full sm:w-auto border-2 border-slate-200 focus:border-blue-600 rounded-xl px-4 py-2.5 text-xs sm:text-sm font-bold text-slate-800 bg-white focus:outline-none"
+            >
+              <option value="all">All 19 Subjects</option>
+              {subjects.map(sub => (
+                <option key={sub.id} value={sub.id}>{sub.name}</option>
+              ))}
+            </select>
+          </div>
 
-                <div className="flex gap-2 border-t border-ink/10 pt-4 mt-auto">
-                  <button onClick={() => viewGroupDetails(group)}
-                    className="flex-1 border-2 border-ink py-1.5 font-mono text-[10px] font-black uppercase tracking-wider hover:bg-slate-100 transition-colors">
-                    View Progress
-                  </button>
-                  <button onClick={() => handleJoinLeave(group)}
-                    className={`px-4 py-1.5 border-4 border-ink font-mono text-[10px] font-black uppercase tracking-wider transition-all ${
-                      group.is_member ? 'bg-rose-100 hover:bg-rose-200 text-rose-800' : 'bg-blue-500 hover:bg-blue-600 text-white'
-                    }`}
-                    style={{ boxShadow: '2px 2px 0px 0px #0A0A0A' }}>
-                    {group.is_member ? 'Leave' : 'Join'}
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-
-          {groups.length === 0 && (
-            <div className="col-span-full border-4 border-dashed border-slate-300 p-12 text-center bg-white rounded-xl">
-              <Users className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-              <p className="font-display text-xl font-black text-slate-400 mb-1">No active study groups</p>
-              <p className="font-mono text-xs text-slate-400 uppercase tracking-wide mb-4">Be the first to create one!</p>
-              <button onClick={() => setCreateOpen(true)}
-                className="border-4 border-ink bg-blue-500 hover:bg-blue-600 text-white font-mono text-xs font-black uppercase px-6 py-2.5 shadow-hard transition-all inline-flex items-center gap-2">
-                <Plus className="w-4 h-4" /> Create Study Group
-              </button>
-            </div>
-          )}
+          <button 
+            onClick={() => setCreateOpen(true)}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-5 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+          >
+            <Plus className="w-4 h-4" /> Create Study Circle
+          </button>
         </div>
-      </main>
 
-      {/* CREATE GROUP DIALOG MODAL */}
+        {/* Groups Grid */}
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="border-2 border-slate-200 bg-white rounded-2xl p-6 animate-pulse space-y-4">
+                <div className="h-4 bg-slate-200 rounded w-1/3" />
+                <div className="h-6 bg-slate-200 rounded w-3/4" />
+                <div className="h-4 bg-slate-200 rounded w-full" />
+                <div className="h-10 bg-slate-200 rounded-xl w-full" />
+              </div>
+            ))}
+          </div>
+        ) : filteredGroups.length === 0 ? (
+          <div className="border-2 border-slate-900 bg-white p-12 text-center rounded-2xl shadow-sm space-y-2">
+            <Users className="w-12 h-12 text-slate-300 mx-auto" />
+            <h3 className="font-display font-bold text-lg text-slate-900">No study groups created in this subject yet</h3>
+            <p className="text-xs text-slate-500">Be the first to create a circle and invite your classmates!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredGroups.map(group => (
+              <article key={group.id} className="border-2 border-slate-900 bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 p-6 flex flex-col justify-between space-y-4">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-mono font-bold rounded-full uppercase border border-blue-200">
+                      {group.subject_name}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-slate-500 flex items-center gap-1">
+                      <Users className="w-3.5 h-3.5" /> {group.member_count} peers
+                    </span>
+                  </div>
+
+                  <h3 className="font-display font-bold text-lg text-slate-900 leading-snug">
+                    {group.name}
+                  </h3>
+
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium line-clamp-3">
+                    {group.description || 'Collaborative study and review circle focused on plastics engineering.'}
+                  </p>
+                </div>
+
+                <div className="space-y-2 pt-3 border-t border-slate-100">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => viewGroupDetails(group)}
+                      className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all"
+                    >
+                      View Roster
+                    </button>
+                    <button
+                      onClick={() => handleJoinLeave(group)}
+                      className={`flex-1 py-2.5 font-mono font-bold text-xs uppercase rounded-xl border-2 transition-all ${
+                        group.is_member
+                          ? 'border-rose-500 bg-rose-50 text-rose-700 hover:bg-rose-100'
+                          : 'border-slate-900 bg-slate-900 text-white hover:bg-blue-600 hover:border-blue-600'
+                      }`}
+                    >
+                      {group.is_member ? 'Leave Circle' : 'Join Circle'}
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+      </div>
+
+      {/* ── BOTTOM AI STUDY GROUP COUNSELOR CTA ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Study Coach &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need a weekly group study schedule? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Study Coach.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Generate an 8-week semester revision schedule tailored to your university curriculum, with prioritized lab problem sets.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Create%20an%208-week%20study%20circle%20curriculum%20schedule%20for%20Polymer%20Processing%20and%20Mould%20Design"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Study Coach &rarr;
+            </Link>
+
+            <Link
+              href="/community"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> Community Hub
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Create Group Modal ── */}
       {createOpen && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="border-4 border-ink bg-white max-w-md w-full shadow-hard overflow-hidden">
-            <div className="border-b-4 border-ink px-5 py-3 bg-ink text-white flex items-center justify-between">
-              <span className="font-mono text-xs font-black uppercase tracking-wider text-yellow-bright">New Study Group</span>
-              <button onClick={() => setCreateOpen(false)} className="text-white hover:text-yellow-bright">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white text-slate-900 border-2 border-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-display font-bold text-base uppercase tracking-wide">👥 Create Study Circle</h3>
+              <button onClick={() => setCreateOpen(false)} className="text-slate-400 hover:text-slate-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            
-            <form onSubmit={handleCreateGroup} className="p-5 space-y-4">
-              {formError && (
-                <div className="border-2 border-red-500 bg-red-50 text-red-700 p-3 font-mono text-xs font-bold leading-tight">
-                  ⚠️ {formError}
-                </div>
-              )}
 
-              <div className="space-y-1">
-                <label className="block font-mono text-[9px] font-black uppercase tracking-wider text-slate-400">Group Name *</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} required
-                  className="w-full border-2 border-ink p-2 font-mono text-xs focus:ring-0 focus:outline-none"
-                  placeholder="e.g. B.Tech Plastics 2026 Study Squad" />
+            {formError && (
+              <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold rounded-xl">
+                {formError}
+              </div>
+            )}
+
+            <form onSubmit={handleCreateGroup} className="space-y-4">
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Group Name</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Injection Moulding Troubleshooters"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium"
+                />
               </div>
 
-              <div className="space-y-1">
-                <label className="block font-mono text-[9px] font-black uppercase tracking-wider text-slate-400">Description</label>
-                <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3}
-                  className="w-full border-2 border-ink p-2 font-mono text-xs focus:ring-0 focus:outline-none"
-                  placeholder="What is this group focusing on? (e.g. Preparing for Mould Design test)" />
-              </div>
-
-              <div className="space-y-1">
-                <label className="block font-mono text-[9px] font-black uppercase tracking-wider text-slate-400">Subject Tag (Optional)</label>
-                <select value={subjectId} onChange={e => setSubjectId(e.target.value)}
-                  className="w-full border-2 border-ink p-2 bg-white font-mono text-xs focus:ring-0 focus:outline-none">
-                  <option value="">General / Multiple Subjects</option>
-                  {subjects.map(sub => (
-                    <option key={sub.id} value={sub.id}>{sub.name}</option>
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Subject Focus</label>
+                <select
+                  value={subjectId}
+                  onChange={(e) => setSubjectId(e.target.value)}
+                  className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-bold"
+                >
+                  <option value="">General / All Subjects</option>
+                  {subjects.map(s => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
                   ))}
                 </select>
               </div>
 
-              <button type="submit" disabled={submitting}
-                className="w-full border-4 border-ink bg-blue-500 hover:bg-blue-600 text-white font-mono text-xs font-black uppercase py-3 shadow-hard transition-all mt-2 disabled:opacity-50">
-                {submitting ? 'Creating...' : 'Create & Join Group'}
-              </button>
+              <div>
+                <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Description &amp; Goals</label>
+                <textarea
+                  rows={3}
+                  placeholder="What will this group focus on? (e.g., Weekly problem solving, GATE review, lab viva prep)"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium leading-relaxed"
+                />
+              </div>
+
+              <div className="flex gap-3 justify-end pt-2">
+                <button
+                  type="button"
+                  onClick={() => setCreateOpen(false)}
+                  className="px-4 py-2 border-2 border-slate-200 text-xs font-mono font-bold uppercase rounded-xl hover:bg-slate-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-sm"
+                >
+                  {submitting ? 'Creating...' : 'Create Circle'}
+                </button>
+              </div>
             </form>
           </div>
         </div>
       )}
 
-      {/* STUDY GROUP DETAILS MODAL */}
+      {/* ── View Details Roster Modal ── */}
       {detailsGroup && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-          <div className="border-4 border-ink bg-white max-w-xl w-full shadow-hard overflow-hidden">
-            <div className="border-b-4 border-ink px-5 py-3 bg-blue-500 text-white flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[9px] font-black bg-blue-700 text-white border border-blue-300 px-2 py-0.5 uppercase">
-                  {detailsGroup.subject_name}
-                </span>
-                <span className="font-mono text-xs font-black uppercase tracking-wider">Group Progress Dashboard</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white text-slate-900 border-2 border-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div>
+                <span className="text-[10px] font-mono font-bold text-blue-600 uppercase block">{detailsGroup.subject_name}</span>
+                <h3 className="font-display font-bold text-lg text-slate-900 leading-snug">{detailsGroup.name}</h3>
               </div>
-              <button onClick={() => setDetailsGroup(null)} className="text-white hover:text-yellow-bright">
+              <button onClick={() => setDetailsGroup(null)} className="text-slate-400 hover:text-slate-900">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="p-5 space-y-5 max-h-[80vh] overflow-y-auto">
-              <div>
-                <h2 className="font-display text-2xl font-black text-ink mb-1.5 leading-tight">{detailsGroup.name}</h2>
-                <p className="text-xs text-slate-600 leading-relaxed">{detailsGroup.description || 'No description provided.'}</p>
-              </div>
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+              {detailsGroup.description || 'No detailed description provided for this study circle.'}
+            </p>
 
-              {/* Group Milestones / Challenge card */}
-              <div className="border-2 border-ink p-3 bg-blue-50 rounded-lg flex items-center justify-between">
-                <div>
-                  <div className="font-mono text-[8px] text-blue-700 uppercase font-black tracking-wide">Weekly Group Challenge</div>
-                  <div className="font-bold text-xs text-ink mt-0.5">Reach 500 XP collectively this week</div>
-                </div>
-                <div className="text-right">
-                  <div className="font-display text-xl font-black text-blue-600">
-                    {groupMembers.reduce((sum, m) => sum + (m.xp_points % 100), 0)} / 500 XP
-                  </div>
-                  <div className="w-24 h-2 bg-slate-200 border border-ink overflow-hidden rounded-full mt-1 ml-auto">
-                    <div className="h-full bg-blue-500" style={{ width: `${Math.min(100, (groupMembers.reduce((sum, m) => sum + (m.xp_points % 100), 0) / 500) * 100)}%` }} />
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-2">
+              <span className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider block">
+                Enrolled Peers ({groupMembers.length})
+              </span>
 
-              {/* Members progress ranking list */}
-              <div className="space-y-2">
-                <h4 className="font-mono text-[9px] font-black text-slate-400 uppercase tracking-wider">Group Leaderboard</h4>
-                
-                {membersLoading ? (
-                  <div className="p-4 text-center font-mono text-xs animate-pulse">Loading members...</div>
-                ) : (
-                  <div className="border-2 border-ink divide-y-2 divide-ink/10 rounded-lg overflow-hidden max-h-[250px] overflow-y-auto">
-                    {groupMembers.map((member, index) => (
-                      <div key={member.id} className="flex items-center gap-3 px-3 py-2 bg-white">
-                        <span className="font-mono text-xs font-black text-slate-400 w-4 text-right">#{index + 1}</span>
-                        <div className="w-7 h-7 border border-ink bg-slate-100 flex items-center justify-center text-[10px] font-bold">
-                          {member.full_name ? member.full_name.substring(0,2).toUpperCase() : 'ST'}
+              {membersLoading ? (
+                <div className="py-6 text-center text-xs font-mono text-slate-400">Loading roster...</div>
+              ) : groupMembers.length === 0 ? (
+                <div className="py-6 text-center text-xs text-slate-400 italic">No peers enrolled yet. Be the first!</div>
+              ) : (
+                <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
+                  {groupMembers.map(m => (
+                    <div key={m.id} className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-slate-50">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">
+                          {m.full_name?.charAt(0) || 'S'}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-bold text-xs text-ink truncate leading-tight">{member.full_name || 'Student'}</div>
-                          {member.college_name && <div className="font-mono text-[8px] text-slate-400 truncate">{member.college_name}</div>}
-                        </div>
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                          <Star className="w-3 h-3 text-yellow-600" />
-                          <span className="font-mono text-[10px] font-black text-ink">{member.xp_points.toLocaleString()}</span>
+                        <div>
+                          <div className="font-bold text-xs text-slate-900">{m.full_name || 'Engineering Student'}</div>
+                          <div className="text-[10px] text-slate-400 font-mono">{m.college_name || 'Plastics Institute'}</div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                      <span className="font-mono text-xs font-bold text-amber-600 flex items-center gap-1">
+                        <Star className="w-3 h-3 text-amber-500 fill-amber-500" /> {m.xp_points.toLocaleString()} XP
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-              <div className="border-t border-ink/10 pt-4 flex items-center justify-between">
-                <span className="font-mono text-[9px] text-slate-400">Created on {new Date(detailsGroup.created_at).toLocaleDateString()}</span>
-                <button onClick={() => handleJoinLeave(detailsGroup)}
-                  className={`px-6 py-2 border-4 border-ink font-mono text-xs font-black uppercase tracking-wider transition-all ${
-                    detailsGroup.is_member ? 'bg-rose-100 hover:bg-rose-200 text-rose-800' : 'bg-blue-500 hover:bg-blue-600 text-white'
-                  }`}
-                  style={{ boxShadow: '2px 2px 0px 0px #0A0A0A' }}>
-                  {detailsGroup.is_member ? 'Leave Group' : 'Join Group'}
-                </button>
-              </div>
+            <div className="pt-2 border-t border-slate-100 flex justify-end">
+              <button
+                onClick={() => setDetailsGroup(null)}
+                className="px-5 py-2 bg-slate-900 text-white font-mono font-bold text-xs uppercase rounded-xl"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   )
 }
