@@ -1,46 +1,65 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowRight, ChevronLeft, ChevronRight, Brain } from 'lucide-react';
+import { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { ArrowRight, ChevronLeft, ChevronRight, Brain, Sparkles, Clock, BookOpen, Layers } from 'lucide-react'
 
-const ERAS = [
+interface MilestoneEvent {
+  year: string
+  text: string
+}
+
+interface Era {
+  id: string
+  year: string
+  title: string
+  icon: string
+  image: string
+  events: MilestoneEvent[]
+  summary: string
+  engineering_insight: string
+}
+
+const ERAS: Era[] = [
   {
     id: 'foundation',
     year: '1860s-1900',
     title: 'The Foundation of Polymer Science',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80', // vintage laboratory/factory
+    icon: '🧪',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&q=80',
     events: [
-      { year: '1839', text: 'Charles Goodyear discovers vulcanization — adding sulfur to natural rubber to form polyisoprene crosslinks, solving temperature sensitivity.' },
+      { year: '1839', text: 'Charles Goodyear discovers vulcanization — adding sulfur to natural rubber to form polyisoprene crosslinks, eliminating temperature sensitivity.' },
       { year: '1856', text: 'Alexander Parkes creates Parkesine (nitrocellulose modified with solvents), the first semi-synthetic man-made plastic.' },
       { year: '1869', text: 'John Wesley Hyatt combines cellulose nitrate with camphor to invent Celluloid — the first successful commercial thermoplastic.' },
       { year: '1872', text: 'John Wesley Hyatt patents the first primitive plunger injection molding machine.' },
       { year: '1872', text: 'German chemist Eugen Baumann accidentally synthesizes polyvinyl chloride (PVC) as a white powder.' },
     ],
-    summary: 'The birth of plastics arose from the quest to replace scarce natural materials like ivory and tortoiseshell. By modifying natural polymers (cellulose and rubber), early innovators proved that materials could be artificially processed, laying the foundation for modern manufacturing.',
-    engineering_insight: 'Vulcanization introduced the concept of chemical crosslinking, converting linear polymer chains into a three-dimensional elastomeric network. Celluloid demonstrated plasticization, showing that rigid polymers could be made processable using chemical additives like camphor.',
+    summary: 'The birth of plastics arose from the quest to replace scarce natural materials like ivory and tortoiseshell. By modifying natural polymers (cellulose and rubber), early innovators proved that materials could be artificially processed, laying the foundation for modern industrial manufacturing.',
+    engineering_insight: 'Vulcanization introduced the concept of chemical crosslinking, converting linear polymer chains into a three-dimensional elastomeric network. Celluloid demonstrated plasticization, proving that rigid polymers could be made processable using chemical additives like camphor.',
   },
   {
     id: 'bakelite',
     year: '1900-1929',
     title: 'Early Synthetics & The Birth of Bakelite',
-    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&q=80', // vintage electronics/bakelite
+    icon: '⚡',
+    image: 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1200&q=80',
     events: [
       { year: '1907', text: 'Leo Hendrik Baekeland patents Bakelite — the first fully synthetic thermosetting resin made from phenol and formaldehyde.' },
       { year: '1910', text: 'General Bakelite Company begins industrial manufacturing of electrical insulators and housings.' },
-      { year: '1920', text: 'Hermann Staudinger publishes his pioneering theory that polymers are long-chain macromolecules, not simple aggregates.' },
+      { year: '1920', text: 'Hermann Staudinger publishes his pioneering theory that polymers are long-chain macromolecules, not simple physical aggregates.' },
       { year: '1926', text: 'Eckert & Ziegler patent the first modern hydraulic-powered injection molding machine.' },
       { year: '1929', text: 'Siemens orders Bakelite moulding powder at scale for the iconic Type 29 telephone casing.' },
     ],
-    summary: 'Leo Baekeland proved that materials could be synthesized entirely from scratch rather than modifying natural feedstocks. Controlling the condensation reaction of phenol and formaldehyde unlocked a durable, heat-resistant, non-conductive thermoset that powered the electrical era.',
-    engineering_insight: 'Bakelite is a phenolic thermosetting resin. Heating initiates an irreversible condensation polymerization that forms a highly crosslinked network, making the cured material infusible and insoluble. Staudinger\'s macromolecular theory later provided the scientific framework for these structures.',
+    summary: 'Leo Baekeland proved that materials could be synthesized entirely from scratch rather than modifying natural feedstocks. Controlling the condensation reaction of phenol and formaldehyde unlocked a durable, heat-resistant, non-conductive thermoset that powered the global electrical era.',
+    engineering_insight: 'Bakelite is a phenolic thermosetting resin. Heating initiates an irreversible condensation polymerization that forms a highly crosslinked network, making the cured material infusible and insoluble. Staudinger\'s macromolecular theory provided the scientific foundation for modern polymer physics.',
   },
   {
     id: 'industry',
     year: '1930s',
-    title: 'Plastics as an Industry',
-    image: 'https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=1200&q=80', // industrial chemistry laboratory
+    title: 'Plastics as an Industrial Commodity',
+    icon: '🏭',
+    image: 'https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=1200&q=80',
     events: [
       { year: '1933', text: 'Eric Fawcett and Reginald Gibson at ICI accidentally discover polyethylene (LDPE) under extreme high pressure.' },
       { year: '1933', text: 'John Crawford at ICI develops a commercial synthesis route for poly(methyl methacrylate) (Perspex/acrylic).' },
@@ -48,29 +67,31 @@ const ERAS = [
       { year: '1937', text: 'BASF begins the first commercial production of polystyrene (PS).' },
       { year: '1938', text: 'Roy Plunkett at DuPont accidentally discovers polytetrafluoroethylene (PTFE/Teflon) inside a gas cylinder.' },
     ],
-    summary: 'The 1930s witnessed the discovery and commercialization of the foundational thermoplastics that dominate production today. From high-pressure polyolefins to synthetic fibers and transparent acrylics, the polymer industry emerged as a distinct discipline.',
-    engineering_insight: 'Wallace Carothers\' synthesis of Nylon was a landmark achievement in step-growth (condensation) polymerization, establishing clear relationships between monomer stoichiometry and molecular weight. Concurrently, high-pressure free-radical polymerization enabled chain-growth processing of ethylene.',
+    summary: 'The 1930s witnessed the discovery and commercialization of the foundational thermoplastics that dominate global production today. From high-pressure polyolefins to synthetic fibers and transparent acrylics, the polymer industry emerged as a distinct engineering discipline.',
+    engineering_insight: 'Wallace Carothers\' synthesis of Nylon was a landmark achievement in step-growth (condensation) polymerization, establishing fundamental relationships between monomer stoichiometry and molecular weight (Carothers Equation).',
   },
   {
     id: 'war',
     year: '1940s',
     title: 'Plastics in War & Strategic Production',
-    image: 'https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?w=1200&q=80', // historical aviation/military
+    icon: '🛡️',
+    image: 'https://images.unsplash.com/photo-1507608869274-d3177c8bb4c7?w=1200&q=80',
     events: [
-      { year: '1940', text: 'First commercial PVC production starts in the UK, immediately diverted for military cable insulation.' },
+      { year: '1940', text: 'First commercial PVC production starts in the UK, immediately diverted for military radar cable insulation.' },
       { year: '1942', text: 'Harry Coover at Eastman Kodak discovers cyanoacrylates (Super Glue) while researching transparent gun sights.' },
       { year: '1943', text: 'PTFE is deployed as a critical sealant for corrosive uranium hexafluoride in the Manhattan Project.' },
-      { year: '1945', text: 'Polyethylene production increases by orders of magnitude to insulate airborne radar cabling.' },
+      { year: '1945', text: 'Polyethylene production increases by orders of magnitude to insulate airborne microwave radar cabling.' },
       { year: '1948', text: 'ABS (acrylonitrile-butadiene-styrene) is patented, blending stiffness, toughness, and chemical resistance.' },
     ],
-    summary: 'World War II forced plastics into strategic military service. Polyethylene insulated radar cables, Perspex replaced glass in aircraft cockpits, and nylon replaced silk in parachutes. The U.S. plastics industry tripled its capacity during the war, transforming from novelty products to heavy industrial manufacturing.',
-    engineering_insight: 'The war years forced engineers to optimize mechanical properties under extreme conditions. Perspex (PMMA) offered a lightweight, shatterproof alternative to inorganic glass, while PTFE (Teflon) demonstrated unprecedented chemical inertness and temperature resistance due to the strength of the carbon-fluorine bond.',
+    summary: 'World War II forced plastics into strategic military service. Polyethylene insulated radar cables, Perspex replaced glass in aircraft cockpits, and nylon replaced silk in parachutes. The plastics industry tripled its capacity during the war, transforming from novelty products into heavy industrial manufacturing.',
+    engineering_insight: 'The war years forced engineers to optimize mechanical properties under extreme environments. Perspex (PMMA) offered a lightweight, shatterproof alternative to inorganic glass, while PTFE demonstrated unprecedented chemical inertness due to the extreme strength of the carbon-fluorine bond.',
   },
   {
     id: 'golden-age',
     year: '1950s-1960s',
     title: 'The Ziegler-Natta Catalyst & Polyolefin Boom',
-    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80', // manufacturing pipeline/extrusion
+    icon: '🔬',
+    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&q=80',
     events: [
       { year: '1953', text: 'Karl Ziegler discovers a catalyst system (titanium halides + organoaluminum compounds) to polymerize ethylene at low pressures.' },
       { year: '1954', text: 'Giulio Natta uses Ziegler\'s catalyst to polymerize propylene, creating stereoregular (isotactic) polypropylene.' },
@@ -84,21 +105,23 @@ const ERAS = [
     id: 'awareness',
     year: '1970s-1980s',
     title: 'Expansion, High-Performance & Ecology',
-    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1200&q=80', // environmental waste/plastics recycling
+    icon: '🌱',
+    image: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1200&q=80',
     events: [
       { year: '1970', text: 'The first Earth Day is celebrated; growing awareness of non-degradable municipal solid waste leads to environmental debates.' },
       { year: '1974', text: 'DuPont commercializes Kevlar (poly-paraphenylene terephthalamide), an ultra-high-strength aramid fiber.' },
       { year: '1980', text: 'Walter Kaminsky and Walter Sinn discover metallocene catalysts, allowing precise molecular weight distributions.' },
-      { year: '1988', text: 'The Society of the Plastics Industry introduces the Resin Identification Code (RIC) system to sort plastics.' },
+      { year: '1988', text: 'The Society of the Plastics Industry introduces the Resin Identification Code (RIC) system (1-7) to sort plastics.' },
     ],
     summary: 'While advanced polymers like Kevlar and metallocene-catalyzed polyolefins expanded engineering frontiers, this era also saw the birth of public environmental awareness. As plastic consumption surged, the industry turned its focus toward recycling, collection, and resource efficiency.',
-    engineering_insight: 'Kevlar achieves its high tensile strength due to the alignment of rigid aromatic rings and inter-chain hydrogen bonding. Metallocene catalysts introduced single-site polymerization, enabling narrow molecular weight distributions and highly uniform copolymer compositions.',
+    engineering_insight: 'Kevlar achieves its extreme tensile strength due to the alignment of rigid aromatic rings and inter-chain hydrogen bonding. Metallocene catalysts introduced single-site polymerization, enabling narrow molecular weight distributions and highly uniform copolymer architectures.',
   },
   {
     id: 'advanced',
     year: '1990s-2000s',
     title: 'Precision Polymers & Functional Systems',
-    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200&q=80', // advanced lab nanotechnology
+    icon: '⚙️',
+    image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200&q=80',
     events: [
       { year: '1994', text: 'Krzysztof Matyjaszewski develops Atom Transfer Radical Polymerization (ATRP) for controlled radical polymerization.' },
       { year: '2000', text: 'Alan Heeger, Alan MacDiarmid, and Hideki Shirakawa win the Nobel Prize for discovering conductive polyacetylene.' },
@@ -111,7 +134,8 @@ const ERAS = [
     id: 'sustainability',
     year: '2010s-2020s',
     title: 'The Circular Economy & Bio-Catalysis',
-    image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1200&q=80', // ocean plastics/enzymatic recycling
+    icon: '♻️',
+    image: 'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1200&q=80',
     events: [
       { year: '2016', text: 'Yoshikazu Yoshida and his team discover Ideonella sakaiensis, a bacterium expressing PETase to depolymerize PET.' },
       { year: '2019', text: 'The European Union passes the Single-Use Plastics Directive, mandating recycled content and collection targets.' },
@@ -125,100 +149,127 @@ const ERAS = [
     id: 'future',
     year: '2030s+',
     title: 'The Future — Molecular Circularity & Smart Materials',
-    image: 'https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?w=1200&q=80', // futuristic biotech/nanotech network
+    icon: '🚀',
+    image: 'https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?w=1200&q=80',
     events: [
-      { year: '2030s', text: 'Commercialization of self-healing polymers that seal micro-cracks under ambient conditions, preventing structural failure.' },
-      { year: '2030s', text: 'Depolymerizable-by-design plastics replace standard multi-layer packaging films to ensure 100% recyclability.' },
-      { year: '2040s', text: 'Highly radiation-resistant polymer nanocomposites enable long-duration space structures and lightweight shielding.' },
+      { year: '2030s', text: 'Commercialization of vitrimers and self-healing polymers that seal micro-cracks under ambient conditions, preventing structural failure.' },
+      { year: '2030s', text: 'Depolymerizable-by-design plastics replace standard multi-layer packaging films to ensure 100% closed-loop recyclability.' },
+      { year: '2040s', text: 'Highly radiation-resistant polymer nanocomposites enable long-duration space habitats and deep-space radiation shielding.' },
     ],
     summary: 'The next era of polymer science belongs to you. Future engineers will design materials with built-in end-of-life pathways, self-healing matrices, bio-integrated medical devices, and advanced composites designed to withstand space travel and extreme environments.',
-    engineering_insight: 'Designing for circularity requires synthesizing polymers with reversible covalent bonds (vitrimers) or dynamic networks. These materials exhibit thermoplastic processability while maintaining the performance of thermosets, enabling easy reuse and structural longevity.',
+    engineering_insight: 'Designing for circularity requires synthesizing polymers with reversible covalent bonds (vitrimers) or dynamic networks. These materials exhibit thermoplastic processability while maintaining the high mechanical performance of thermosets.',
   },
-];
+]
 
 export default function HistoryPage() {
-  const [active, setActive] = useState(4); // default: Ziegler-Natta/Boom era
-  const era = ERAS[active];
-  const fillPct = (active / (ERAS.length - 1)) * 100;
+  const [active, setActive] = useState(4) // default: Ziegler-Natta era
+  const era = ERAS[active]
+  const fillPct = (active / (ERAS.length - 1)) * 100
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="h-2 bg-[#1D4ED8]" />
-
-      {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="border-b-4 border-slate-900 bg-slate-900 px-6 md:px-12 py-12 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center gap-3 mb-5">
-            <span className="font-mono text-[10px] font-black text-yellow-400 border-2 border-yellow-400 px-3 py-1 uppercase tracking-widest">
-              Past · Present · Future
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+      
+      {/* ── Hero Section: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Clock className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              162 Years of Polymer Science &middot; Past &middot; Present &middot; Future
             </span>
           </div>
-          <h1 className="font-display text-4xl md:text-6xl font-black text-white leading-none mb-4 uppercase">
-            162 Years of a<br />
-            <span className="text-yellow-400 italic">Material That</span><br />
-            Remade Civilization
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            162 Years of a <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Material That Remade Civilization
+            </span>
           </h1>
-          <p className="text-slate-300 text-base md:text-lg max-w-2xl leading-relaxed">
-            Drag through the timeline. This is the story you are stepping into as a polymer engineer — and the part you could write next.
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Slide through the timeline. This is the industrial story you are stepping into as a polymer engineer &mdash; and the next chapters you will help design.
           </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">162</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Years of Innovation</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">9</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Historic Eras</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">216</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Lessons Connected</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* ── TIMELINE CONTROLLER ──────────────────────────── */}
-      <section className="border-b-4 border-slate-900 px-6 md:px-12 py-8 bg-white">
-        <div className="max-w-4xl mx-auto">
-          <div className="flex justify-between mb-2">
-            <span className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest">1860s — FOUNDATION</span>
-            <span className="font-mono text-[9px] font-bold text-emerald-600 uppercase tracking-widest">TODAY — CIRCULAR</span>
-            <span className="font-mono text-[9px] font-bold text-purple-600 uppercase tracking-widest">2030s+ — FUTURE</span>
+      {/* ── Interactive Timeline Controller ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 relative z-20">
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+          
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-mono font-bold">
+            <span className="text-slate-500 uppercase tracking-wider">1860s &mdash; Foundation</span>
+            <span className="text-emerald-700 uppercase tracking-wider">Today &mdash; Circularity</span>
+            <span className="text-purple-700 uppercase tracking-wider">2030s+ &mdash; Future</span>
           </div>
 
           {/* Slider track */}
-          <div className="relative h-2 bg-slate-100 border-2 border-slate-900 mb-6">
+          <div className="relative h-3 bg-slate-100 rounded-full border border-slate-300">
             <div
-              className="absolute top-0 left-0 h-full bg-[#1D4ED8] transition-all duration-300"
+              className="absolute top-0 left-0 h-full bg-blue-600 rounded-full transition-all duration-300"
               style={{ width: `${fillPct}%` }}
             />
             {ERAS.map((e, i) => {
-              const isActive = i === active;
-              const pos = (i / (ERAS.length - 1)) * 100;
+              const isActive = i === active
+              const pos = (i / (ERAS.length - 1)) * 100
               return (
                 <button
                   key={e.id}
                   onClick={() => setActive(i)}
-                  className={`absolute -top-3 w-7 h-7 border-4 border-slate-900 transition-all rounded-full flex items-center justify-center ${
-                    isActive ? 'bg-[#1D4ED8] scale-110' : 'bg-white hover:bg-slate-100'
+                  className={`absolute -top-2 w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center text-xs font-mono font-bold ${
+                    isActive
+                      ? 'bg-blue-600 text-white border-slate-900 scale-125 shadow-md'
+                      : 'bg-white text-slate-600 border-slate-300 hover:border-slate-900'
                   }`}
                   style={{
                     left: `${pos}%`,
                     transform: 'translateX(-50%)',
-                    boxShadow: isActive ? '2px 2px 0px 0px rgba(0,0,0,1)' : '1px 1px 0px 0px rgba(0,0,0,1)',
                   }}
                   title={e.title}
-                />
-              );
+                >
+                  {i + 1}
+                </button>
+              )
             })}
           </div>
 
-          {/* Prev/Next buttons */}
-          <div className="flex items-center justify-between">
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-between gap-3 pt-2">
             <button
               onClick={() => setActive(Math.max(0, active - 1))}
               disabled={active === 0}
-              className="border-4 border-slate-900 w-10 h-10 flex items-center justify-center bg-white text-slate-900 disabled:opacity-30 hover:bg-slate-50 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
+              className="px-3.5 py-2 rounded-xl border-2 border-slate-900 bg-white hover:bg-slate-50 disabled:opacity-30 transition-all font-mono text-xs font-bold flex items-center gap-1"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4" /> Prev
             </button>
-            
-            {/* Decade pill tags */}
-            <div className="flex gap-1.5 overflow-x-auto py-1 px-2 max-w-[60%] sm:max-w-none scrollbar-none">
+
+            {/* Decade Pill Tags */}
+            <div className="flex gap-1.5 overflow-x-auto py-1 px-2 scrollbar-none max-w-xl">
               {ERAS.map((eraItem, i) => (
                 <button
                   key={eraItem.id}
                   onClick={() => setActive(i)}
-                  className={`font-mono text-[9px] font-black border-2 border-slate-900 px-2 py-1 rounded transition-colors flex-shrink-0 ${
-                    i === active ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                  className={`font-mono text-[11px] font-bold px-3 py-1.5 rounded-xl border-2 transition-all flex-shrink-0 ${
+                    i === active
+                      ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-400'
                   }`}
                 >
                   {eraItem.year}
@@ -229,137 +280,163 @@ export default function HistoryPage() {
             <button
               onClick={() => setActive(Math.min(ERAS.length - 1, active + 1))}
               disabled={active === ERAS.length - 1}
-              className="border-4 border-slate-900 w-10 h-10 flex items-center justify-center bg-white text-slate-900 disabled:opacity-30 hover:bg-slate-50 transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5"
+              className="px-3.5 py-2 rounded-xl border-2 border-slate-900 bg-white hover:bg-slate-50 disabled:opacity-30 transition-all font-mono text-xs font-bold flex items-center gap-1"
             >
-              <ChevronRight className="w-5 h-5" />
+              Next <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+
         </div>
       </section>
 
-      {/* ── MAIN CONTENT DISPLAY ─────────────────────────── */}
-      <section className="px-6 md:px-12 py-10 max-w-5xl mx-auto">
-        <div className="border-4 border-slate-900 bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden transition-all duration-300">
-          {/* Image banner */}
-          <div className="relative w-full h-72 border-b-4 border-slate-900 bg-slate-900">
+      {/* ── Main Era Dossier Display ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+        <div className="bg-white border-2 border-slate-900 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
+          
+          {/* Image Showcase Banner */}
+          <div className="relative w-full h-80 sm:h-96 bg-slate-950 overflow-hidden border-b-2 border-slate-900">
             <Image
               src={era.image}
               alt={era.title}
               fill
               priority
-              className="object-cover opacity-85 transition-opacity duration-300"
-              sizes="(max-w-1024px) 100vw, 1024px"
+              className="object-cover transition-opacity duration-500"
+              sizes="(max-width: 1024px) 100vw, 1024px"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 text-white">
-              <span className="font-mono text-[9px] font-black text-yellow-400 bg-slate-900/60 border border-yellow-400/40 px-2 py-0.5 rounded uppercase tracking-wider">
-                {era.year}
-              </span>
-              <h2 className="font-display text-2xl md:text-3.5xl font-black mt-2 text-white leading-tight uppercase">
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0A1628] via-[#0A1628]/30 to-transparent" />
+            
+            <div className="absolute bottom-6 left-6 right-6 text-white space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{era.icon}</span>
+                <span className="font-mono text-xs font-bold text-amber-400 bg-black/40 backdrop-blur-md border border-amber-400/30 px-3 py-0.5 rounded-full uppercase tracking-wider">
+                  {era.year}
+                </span>
+              </div>
+              <h2 className="font-display text-2xl sm:text-4xl font-black text-white leading-tight">
                 {era.title}
               </h2>
             </div>
           </div>
 
-          {/* Description & Insight */}
-          <div className="p-6 md:p-8 space-y-6">
-            <div className="space-y-4">
-              <h3 className="font-mono text-[10px] font-black uppercase text-slate-400 tracking-wider">Historical Context</h3>
-              <p className="text-slate-700 leading-relaxed text-sm md:text-base">
+          {/* Dossier Content */}
+          <div className="p-6 sm:p-10 space-y-8">
+            
+            {/* Historical Context */}
+            <div className="space-y-2">
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <BookOpen className="w-4 h-4 text-blue-600" /> Historical Context
+              </h3>
+              <p className="text-slate-700 leading-relaxed text-sm sm:text-base font-medium">
                 {era.summary}
               </p>
             </div>
 
-            {/* Engineering insight note */}
-            <div className="border-l-4 border-[#1D4ED8] bg-blue-50/50 p-4 rounded-r-lg">
-              <h4 className="font-mono text-[9px] font-black text-[#1D4ED8] uppercase tracking-wider mb-1">
-                ⚙️ Polymer Engineering Insight
+            {/* Polymer Engineering Insight */}
+            <div className="bg-blue-50/70 border-2 border-blue-200 p-5 rounded-2xl space-y-1.5">
+              <h4 className="font-mono text-xs font-bold text-blue-900 uppercase tracking-wider flex items-center gap-1.5">
+                ⚙️ Polymer Chemistry &amp; Engineering Insight
               </h4>
-              <p className="text-slate-700 text-xs md:text-sm leading-relaxed font-medium">
+              <p className="text-slate-800 text-xs sm:text-sm leading-relaxed font-medium">
                 {era.engineering_insight}
               </p>
             </div>
 
-            {/* Milestones list */}
-            <div className="border-t-2 border-slate-100 pt-6">
-              <h3 className="font-mono text-[10px] font-black uppercase text-slate-400 tracking-wider mb-4">
-                🔑 Key Milestones &amp; Patents
+            {/* Key Milestones & Patents */}
+            <div className="space-y-4 pt-2">
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <Layers className="w-4 h-4 text-purple-600" /> Key Milestones &amp; Patents
               </h3>
-              <ul className="space-y-3.5">
+              
+              <div className="space-y-3">
                 {era.events.map((event, idx) => (
-                  <li key={idx} className="flex gap-4 items-start">
-                    <span className="font-mono text-[11px] font-black px-2 py-1 bg-slate-100 border border-slate-300 rounded text-slate-900 leading-none">
+                  <div key={idx} className="flex items-start gap-4 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                    <span className="font-mono text-xs font-bold px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-slate-900 flex-shrink-0 mt-0.5">
                       {event.year}
                     </span>
-                    <p className="text-slate-600 text-xs md:text-sm leading-relaxed">
+                    <p className="text-slate-700 text-xs sm:text-sm leading-relaxed font-medium">
                       {event.text}
                     </p>
-                  </li>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
+
           </div>
+
         </div>
       </section>
 
-      {/* ── BE PART OF IT CTA ────────────────────────────── */}
-      <section className="border-t-4 border-slate-900 px-6 md:px-12 py-14 bg-slate-950 text-white text-center">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="font-display text-3xl md:text-5xl font-black uppercase text-white mb-4">
-            How to Be <span className="text-yellow-400 italic">Part of It</span>
-          </h2>
-          <p className="text-slate-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed mb-10">
-            The next chapters — vitrimers, self-healing composite matrices, enzyme-driven circular loops — will be written by engineers starting exactly where you are today.
-          </p>
+      {/* ── Be Part of It Section ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-8">
+          
+          <div className="space-y-3 max-w-2xl mx-auto">
+            <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+              How to Be <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">Part of It</span>
+            </h2>
+            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-light">
+              The next chapters &mdash; vitrimers, self-healing composite matrices, and enzymatic recycling loops &mdash; will be written by engineers starting right here.
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 text-left">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
             {[
-              { title: 'Learn the Fundamentals', desc: 'Master polymer chemistry and processing basics.', href: '/subjects' },
-              { title: 'Explore Real Materials', desc: 'See CAMPUS-style grades driving manufacturing.', href: '/materials' },
-              { title: 'Ask AI Tutor', desc: 'Get RAG-grounded answers based on 216 lessons.', href: '/ai-tutor' },
+              { title: 'Learn Fundamentals', desc: 'Master polymer chemistry and processing basics.', href: '/subjects', label: '19 Subjects' },
+              { title: 'Explore Materials', desc: 'Inspect CAMPUS-style property datasheets.', href: '/materials', label: '50 Resins' },
+              { title: 'Ask AI Specialist', desc: 'Get RAG-grounded explanations of mechanisms.', href: '/ai-tutor', label: 'Gemini RAG' },
             ].map((item) => (
               <Link
                 key={item.title}
                 href={item.href}
-                className="border-4 p-5 rounded-xl border-slate-700 bg-slate-900/45 transition-all shadow-[4px_4px_0px_0px_rgba(255,255,255,0.05)] hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] hover:border-white flex flex-col justify-between"
-                style={{ textDecoration: 'none' }}
+                className="bg-slate-900/80 border-2 border-slate-700 hover:border-white p-5 rounded-2xl transition-all hover:-translate-y-1 flex flex-col justify-between group"
               >
                 <div>
-                  <h3 className="font-display text-base font-black text-white mb-2">{item.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed mb-4">{item.desc}</p>
+                  <span className="text-[10px] font-mono font-bold text-amber-400 uppercase tracking-widest">{item.label}</span>
+                  <h3 className="font-display text-base font-bold text-white mt-1 group-hover:text-amber-400 transition-colors">{item.title}</h3>
+                  <p className="text-xs text-slate-400 mt-1.5 leading-relaxed">{item.desc}</p>
                 </div>
-                <span className="font-mono text-[9px] font-bold text-yellow-400 uppercase tracking-wider flex items-center gap-1">
-                  Explore <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+                <div className="mt-4 pt-3 border-t border-slate-800 text-xs font-mono font-bold text-white flex items-center gap-1">
+                  Explore Now <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
               </Link>
             ))}
           </div>
 
-          <Link href="/login" className="px-6 py-3.5 bg-yellow-400 text-slate-900 font-display font-black text-sm uppercase rounded-xl border-4 border-slate-900 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-350 transition-all inline-flex items-center gap-2">
-            Start Your Journey Free <ArrowRight className="w-4 h-4" />
+          <div className="pt-2">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 transition-all shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5"
+            >
+              Start Your Journey Free &rarr;
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── AI Tutor RAG Quick CTA ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-8">
+        <div className="bg-gradient-to-r from-[#4A0E4E] via-[#2A0845] to-[#0A1628] text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="font-mono text-[10px] font-bold text-purple-300 uppercase tracking-widest flex items-center gap-1.5 justify-center sm:justify-start">
+              <Sparkles className="w-3.5 h-3.5 text-purple-300" /> AI Tutor &middot; Gemini RAG
+            </div>
+            <h3 className="font-display text-xl sm:text-2xl font-bold">
+              Curious how {era.title} chemistry works?
+            </h3>
+            <p className="text-purple-200 text-xs max-w-xl">
+              Ask PolymerHub AI &mdash; it is grounded in your 216 lessons and can break down the exact coordination polymerization equations.
+            </p>
+          </div>
+          <Link
+            href={`/ai-tutor?prompt=${encodeURIComponent(`Explain the chemical mechanism and industrial significance of ${era.title} (${era.year})`)}`}
+            className="inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-purple-950 font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border-2 border-slate-900 shadow-[3px_3px_0px_0px_#000] flex-shrink-0"
+          >
+            <Brain className="w-4 h-4 text-purple-900" /> Ask AI Tutor &rarr;
           </Link>
         </div>
       </section>
 
-      {/* AI Tutor RAG Quick CTA */}
-      <section className="border-t-4 border-slate-900 px-6 md:px-12 py-10 text-white" style={{ backgroundColor: '#581C87' }}>
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="font-mono text-[9px] font-bold text-purple-300 uppercase tracking-widest mb-1.5">
-              AI Tutor · Gemini RAG
-            </div>
-            <h3 className="font-display text-xl md:text-2.5xl font-black uppercase">
-              Curious how Ziegler-Natta chemistry works?
-            </h3>
-            <p className="text-purple-100 text-xs md:text-sm mt-1 max-w-2xl">
-              Ask PolymerHub AI — it is fully grounded in your 216 lessons and can explain the chemical mechanism behind every historical era.
-            </p>
-          </div>
-          <Link href="/ai-tutor" className="px-5 py-2.5 bg-white text-purple-900 font-bold text-xs uppercase rounded-lg border-2 border-purple-900 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-50 transition-all flex items-center gap-1.5 flex-shrink-0">
-            <Brain className="w-4 h-4" /> Ask AI Tutor
-          </Link>
-        </div>
-      </section>
     </div>
-  );
+  )
 }
