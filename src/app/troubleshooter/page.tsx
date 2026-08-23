@@ -2,7 +2,17 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { AlertTriangle, CheckCircle, ChevronDown, RotateCcw, Wrench, Sparkles, BookOpen, Brain } from 'lucide-react'
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  Wrench, 
+  Sparkles, 
+  Brain,
+  ArrowRight,
+  ShieldAlert,
+  Gauge,
+  Lightbulb
+} from 'lucide-react'
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 
@@ -13,361 +23,356 @@ type Defect = {
   id: string; name: string; description: string; severity: Severity
   causes: string[]; fixes: Fix[]; preventionTip: string; source: string
 }
-type ProcessData = { label: string; icon: string; defects: Defect[] }
+type ProcessData = { 
+  label: string; 
+  icon: string; 
+  description: string;
+  color: string;
+  bg: string;
+  defects: Defect[] 
+}
 
-// ─── Data ──────────────────────────────────────────────────────────────────────
+// ─── Engineering Data (Rosato & Allen/Baker Handbooks) ─────────────────────────
 
 const DATA: Record<Process, ProcessData> = {
   injection: {
-    label: 'Injection Moulding', icon: '🔩',
+    label: 'Injection Moulding', 
+    icon: '🏗️',
+    description: 'High-pressure cyclic moulding for precision structural components and enclosures.',
+    color: '#2563EB',
+    bg: '#EFF6FF',
     defects: [
       {
-        id: 'sink-marks', name: 'Sink Marks', severity: 'moderate',
-        description: 'Depressions or dimples on the surface of a moulded part, typically opposite ribs, bosses, or thick wall sections.',
+        id: 'sink-marks', 
+        name: 'Sink Marks', 
+        severity: 'moderate',
+        description: 'Localized depressions or dimples on the surface of a moulded part, typically opposite thick ribs, bosses, or thick wall intersections.',
         causes: [
-          'Insufficient holding pressure — melt shrinks away from mould wall during cooling',
-          'Holding time too short — gate freezes before part is fully packed',
-          'Wall section too thick — skin solidifies but core shrinks inward',
-          'Melt temperature too high — excessive shrinkage during cooling',
-          'Gate too small — pressure drop across gate limits effective packing',
+          'Insufficient holding/packing pressure — volumetric shrinkage pulls melt away from mould cavity walls',
+          'Holding time too short — gate freezes prematurely before cavity is fully packed',
+          'Wall section too thick — exterior skin solidifies while molten core contracts inward',
+          'Melt temperature excessively high — increased volumetric thermal contraction upon cooling',
+          'Gate cross-section too small — extreme pressure drop limits effective pressure transfer',
         ],
         fixes: [
-          { parameter: 'Holding Pressure', action: 'Increase by 10–15%', detail: 'Raise hold pressure until sink marks eliminate or reduce. Typical range: 50–80% of injection pressure.' },
-          { parameter: 'Holding Time', action: 'Extend by 1–3 seconds', detail: 'Hold pressure must be maintained until gate freeze-off. Test: increase time until part weight stabilizes.' },
-          { parameter: 'Melt Temperature', action: 'Reduce by 5–10°C', detail: 'Lower melt temp reduces shrinkage magnitude. Stay within material processing window minimum.' },
-          { parameter: 'Mould Temperature', action: 'Reduce by 5–10°C', detail: 'Faster surface solidification reduces the time window during which sink can form.' },
-          { parameter: 'Gate Size', action: 'Increase gate cross-section', detail: 'Larger gate delays freeze-off, allowing more packing pressure transfer to the cavity.' },
+          { parameter: 'Holding Pressure', action: 'Increase by 10–15%', detail: 'Raise hold pressure until sink marks disappear. Typical optimum range: 50–80% of peak injection pressure.' },
+          { parameter: 'Holding Time', action: 'Extend by 1–3 seconds', detail: 'Maintain hold pressure until gate freeze-off occurs. Verify by weighing parts until part weight stabilizes.' },
+          { parameter: 'Melt Temperature', action: 'Reduce by 5–10°C', detail: 'Lower melt temp reduces volumetric shrinkage magnitude. Stay within material processing window.' },
+          { parameter: 'Mould Temperature', action: 'Reduce by 5–10°C', detail: 'Accelerates surface skin solidification, narrowing the time window during which sink depressions form.' },
+          { parameter: 'Gate Size', action: 'Increase gate cross-section', detail: 'Enlarging the gate delays freeze-off, transmitting packing pressure deeper into thick wall regions.' },
         ],
-        preventionTip: 'Design ribs to 60% or less of the adjacent wall thickness. Use coring to reduce wall thickness in thick sections. Position gates adjacent to the thickest wall section.',
+        preventionTip: 'Design internal ribs to 60% or less of the adjacent nominal wall thickness. Position gates directly adjacent to the thickest wall sections.',
         source: 'Rosato — Plastics Processing Data Handbook; Allen & Baker — Handbook of Plastic Technology',
       },
       {
-        id: 'warpage', name: 'Warpage / Distortion', severity: 'critical',
-        description: 'The moulded part deforms or twists out of its intended shape after ejection — the most common dimensional quality failure in injection moulding.',
+        id: 'warpage', 
+        name: 'Warpage / Geometric Distortion', 
+        severity: 'critical',
+        description: 'The moulded part deforms or twists out of intended dimensional tolerances after ejection — the #1 dimensional quality defect in injection moulding.',
         causes: [
-          'Non-uniform cooling — areas cooling faster shrink more, pulling the part',
-          'Differential orientation — fibre or molecular orientation creates anisotropic shrinkage',
-          'Residual stress from over-packing — excessive holding pressure freezes in stress',
-          'Asymmetric wall thickness — thick and thin sections cool and shrink at different rates',
-          'Ejection before sufficient cooling — part still soft when ejected, deforms under ejector pin force',
+          'Non-uniform cooling rates — faster cooling areas shrink more rapidly, causing residual bending moments',
+          'Differential orientation — anisotropic shrinkage between parallel and perpendicular polymer chain alignment',
+          'Over-packing & residual stress — excessive holding pressure locks in compressive stresses near the gate',
+          'Asymmetric wall thicknesses — uneven wall transitions create unbalanced internal contraction forces',
+          'Premature part ejection — part is ejected before reaching safe structural modulus temperature',
         ],
         fixes: [
-          { parameter: 'Cooling System', action: 'Audit cooling channel layout for uniform heat extraction', detail: 'Measure mould surface temperature across the cavity. Temperature variation more than 10C indicates uneven cooling. Rebalance or add cooling channels to hot spots.' },
-          { parameter: 'Cooling Time', action: 'Increase by 2–5 seconds', detail: 'Part must reach safe ejection temperature throughout — not just at the surface.' },
-          { parameter: 'Mould Temperature', action: 'Balance both mould halves to within 5°C', detail: 'Core and cavity side temperature differential causes asymmetric shrinkage. Measure with thermocouple and adjust water flow rates.' },
-          { parameter: 'Holding Pressure', action: 'Reduce if over-packed', detail: 'Excessive hold pressure creates residual stress that releases on ejection as warpage. Reduce gradually until part weight drops slightly — that is optimum.' },
-          { parameter: 'Gate Location', action: 'Reposition gate(s) for symmetric flow', detail: 'Asymmetric fill patterns cause differential orientation shrinkage. Use Moldflow simulation to predict weld line and flow front position before cutting steel.' },
+          { parameter: 'Cooling Uniformity', action: 'Audit cooling channel temperatures', detail: 'Measure core and cavity surface temperatures with a pyrometer. Temperature differential > 5°C causes bending towards the warmer half.' },
+          { parameter: 'Cooling Time', action: 'Increase cooling time by 2–5 seconds', detail: 'Ensure part core reaches safe ejection temperature (HDT) before mechanical ejector pin actuation.' },
+          { parameter: 'Holding Pressure', action: 'Reduce if over-packed', detail: 'Excessive packing locks in residual stresses that relieve themselves as warpage upon demoulding.' },
+          { parameter: 'Gate Location', action: 'Optimize gate for symmetric fill', detail: 'Use CAE fill simulation to balance flow front arrival times and eliminate differential orientation vectors.' },
         ],
-        preventionTip: 'Use Moldflow or Moldex3D to predict warpage before tooling is cut. Design for uniform wall thickness. Place cooling channels at equal depth from cavity surface on both mould halves.',
+        preventionTip: 'Maintain uniform nominal wall thickness throughout part design. Place cooling channels equidistant from cavity surfaces on both mould halves.',
         source: 'Rosato — Plastics Processing Data Handbook; Osswald — Plastics Engineering',
       },
       {
-        id: 'short-shot', name: 'Short Shot', severity: 'critical',
-        description: 'The mould cavity is not completely filled — the part is missing sections, typically at the end of flow or in thin areas remote from the gate.',
+        id: 'short-shot', 
+        name: 'Short Shot / Incomplete Fill', 
+        severity: 'critical',
+        description: 'The mould cavity fails to fill completely — part is missing features or edges, typically at the end of flow paths or in thin ribs.',
         causes: [
-          'Injection pressure or speed insufficient to fill the cavity before material freezes',
-          'Melt temperature too low — viscosity too high, flow stops before fill complete',
-          'Inadequate venting — trapped air at flow front prevents fill',
-          'Shot size too small — insufficient material volume for the cavity',
-          'Gate or runner too small — excessive pressure drop leaves insufficient pressure at flow front',
+          'Injection pressure or speed insufficient to overcome viscous resistance before freeze-off',
+          'Melt temperature too low — high melt viscosity resists flow into thin wall sections',
+          'Inadequate cavity venting — compressed air creates high backpressure opposing the melt front',
+          'Shot volume insufficient — screw cushion drops to zero during injection stroke',
+          'Undersized runner/gate — excessive pressure drop before entering cavity',
         ],
         fixes: [
-          { parameter: 'Injection Pressure', action: 'Increase by 10–20 bar', detail: 'First check: ensure hydraulic/electric pressure limit is not the bottleneck. Pressure at end of fill should drop 10–15% from peak — if no drop, pressure is insufficient.' },
-          { parameter: 'Injection Speed', action: 'Increase fill speed in stages', detail: 'Faster fill reduces viscosity (shear-thinning) and reduces the time available for freeze-off. Use velocity-pressure switchover near 95–98% fill.' },
-          { parameter: 'Melt Temperature', action: 'Increase by 5–10°C', detail: 'Reduces melt viscosity, improves flow to remote areas. Do not exceed material maximum processing temperature.' },
-          { parameter: 'Venting', action: 'Add or deepen vents at short-shot location', detail: 'Vent depth: 0.02–0.05mm for most materials. Position vents at the last-fill point.' },
-          { parameter: 'Shot Size', action: 'Increase by 5–10%', detail: 'If cushion is zero or negative, shot size is insufficient. Cushion should be 3–6mm for a typical mould.' },
+          { parameter: 'Injection Pressure', action: 'Increase by 10–20 bar', detail: 'Ensure hydraulic/electric injection limit is not capped. Peak pressure at end of fill should drop 10–15%.' },
+          { parameter: 'Injection Speed', action: 'Increase injection velocity', detail: 'Faster filling increases shear-thinning (lowering viscosity) and prevents premature gate/skin freezing.' },
+          { parameter: 'Melt Temperature', action: 'Increase by 5–10°C', detail: 'Reduces melt viscosity, improving flow length-to-thickness (L/T) ratio into thin features.' },
+          { parameter: 'Cavity Venting', action: 'Add or clean vents at last-fill points', detail: 'Provide 0.02–0.04mm deep vents along parting line at the short-shot boundary.' },
+          { parameter: 'Shot Size & Cushion', action: 'Increase shot size to maintain 3–6mm cushion', detail: 'Verify screw cushion never hits zero during packing phase.' },
         ],
-        preventionTip: 'Run a fill study (short shots at 50%, 70%, 90%, 98% fill) before first full shot. This reveals fill pattern, last-fill areas, and vent requirements before production.',
+        preventionTip: 'Perform a progressive short-shot study (50%, 75%, 90%, 95% fill) during mould trials to identify last-to-fill vent requirements before production.',
         source: 'Allen & Baker — Handbook of Plastic Technology; Rosato — Plastics Processing Data Handbook',
       },
       {
-        id: 'flash', name: 'Flash', severity: 'moderate',
-        description: 'Thin fins or webs of plastic at the parting line, ejector pin locations, or insert boundaries — material has escaped the cavity.',
+        id: 'flash', 
+        name: 'Flash / Parting Line Fin', 
+        severity: 'moderate',
+        description: 'Thin webs or fins of plastic forced out of the cavity along the parting line, ejector pins, or slide joints.',
         causes: [
-          'Clamping force insufficient for the projected area times cavity pressure',
-          'Mould parting line damaged, worn, or contaminated — fails to seal',
-          'Injection pressure too high — exceeds mould clamping capacity',
-          'Over-packing — excessive holding pressure forces material through parting line',
-          'Mould misalignment — core and cavity not mating correctly',
+          'Clamping force insufficient for the projected area multiplied by peak cavity pressure',
+          'Damaged, worn, or contaminated parting line preventing metal-to-metal sealing',
+          'Excessive injection or packing pressure forcing mould halves apart during peak fill',
+          'Mould temperature too high — overly fluid melt creeps into micro-clearances',
         ],
         fixes: [
-          { parameter: 'Clamping Force', action: 'Verify required tonnage: Clamp = Projected area (cm2) x cavity pressure (bar) / 100', detail: 'Required clamp force should be 10–20% below machine maximum for safety margin. If requirement exceeds machine capacity, reduce injection pressure or use a larger machine.' },
-          { parameter: 'Injection Pressure', action: 'Reduce by 5–10 bar', detail: 'If flash appears at high hold pressure, reduce hold pressure first — this often eliminates flash without affecting fill quality.' },
-          { parameter: 'Parting Line', action: 'Inspect, clean, and polish mould parting surface', detail: 'Polish parting line to Ra 0.4–0.8 um. Check for burrs, damage, or plastic contamination in the parting land area.' },
-          { parameter: 'Mould Temperature', action: 'Reduce by 5°C', detail: 'Higher mould temperature reduces melt viscosity, making it easier for flash to form.' },
-          { parameter: 'Switchover Point', action: 'Switch velocity to pressure earlier', detail: 'Move velocity-to-pressure switchover earlier (at 90–95% fill) to reduce peak cavity pressure at the parting line.' },
+          { parameter: 'Clamping Force', action: 'Recalculate required tonnage with 15% safety factor', detail: 'Tonnage = Projected Area (cm²) × Cavity Pressure (bar) / 1000. Increase machine clamp tonnage if needed.' },
+          { parameter: 'Holding Pressure', action: 'Reduce packing pressure by 5–10 bar', detail: 'Flash frequently occurs during the hold phase. Lowering hold pressure often eliminates flash completely.' },
+          { parameter: 'V/P Switchover Point', action: 'Switch to hold at 95% fill', detail: 'Transfer from velocity control to pressure control earlier to prevent dynamic pressure spikes at parting line.' },
+          { parameter: 'Parting Surface', action: 'Inspect, clean, and stone parting line', detail: 'Remove plastic debris and inspect for parting land wash-out or indentation.' },
         ],
-        preventionTip: 'During mould design, calculate required clamp force and size the machine with 15–20% margin. Design parting line with adequate land width (minimum 3–5mm for most resins).',
+        preventionTip: 'Design parting land with minimum 3–5mm width. Always select injection machines with 15–20% clamp force overhead.',
         source: 'Allen & Baker — Handbook of Plastic Technology; Rosato — Plastics Processing Data Handbook',
       },
       {
-        id: 'burn-marks', name: 'Burn Marks / Diesel Effect', severity: 'moderate',
-        description: 'Brown or black discolouration at the end of flow, in ribs, or at vent locations — caused by adiabatic compression of trapped air igniting.',
+        id: 'burn-marks', 
+        name: 'Burn Marks / Diesel Effect', 
+        severity: 'moderate',
+        description: 'Black or dark brown charred discolourations at the end of flow paths or blind ribs caused by adiabatic compression of trapped air.',
         causes: [
-          'Inadequate venting — air compressed ahead of melt front reaches ignition temperature',
-          'Injection speed too high — adiabatic compression of trapped air exceeds material ignition temperature',
-          'Melt temperature too high — material approaching thermal degradation temperature before compression',
-          'Vents blocked by material — previous shot has sealed vent channels',
-          'Blind pockets with no vent provision in mould design',
+          'Trapped air unable to escape vents undergoes extreme adiabatic compression, igniting the plastic',
+          'Injection speed too fast in the final 10% of stroke',
+          'Melt temperature too close to degradation threshold before compression',
+          'Vents fouled with plastic wax or pyrolyzed residue',
         ],
         fixes: [
-          { parameter: 'Injection Speed', action: 'Reduce fill speed in final 20–30% of stroke', detail: 'Use velocity profiling: fast fill for 70% of stroke, then decelerate for final 30% to give trapped air time to escape through vents.' },
-          { parameter: 'Venting', action: 'Add vents at burn location; clean existing vents', detail: 'Vent at every last-fill point and every blind pocket. Clean vents after every 500–1000 shots — plastic deposits block vent channels quickly.' },
-          { parameter: 'Melt Temperature', action: 'Reduce by 5–10°C', detail: 'Lower starting temperature means compressed air needs more heat to reach degradation temperature — reduces sensitivity to burning.' },
-          { parameter: 'Mould Design', action: 'Add ejector pins at blind spots for venting', detail: 'Ejector pins in ribs and bosses act as secondary vents (clearance ~0.02mm between pin and hole provides venting without flash).' },
-          { parameter: 'Cycle Time', action: 'Check for abnormally long residence time', detail: 'If cycle time is long, degraded material in the barrel can cause discolouration. Purge barrel if residence time exceeds 3x normal.' },
+          { parameter: 'Injection Speed Profiling', action: 'Decelerate velocity in final 15% of stroke', detail: 'Slow down screw velocity near the end of cavity filling to give compressed air time to exhaust through vents.' },
+          { parameter: 'Venting Maintenance', action: 'Clean and deepen vent lands', detail: 'Clean vent deposits with solvent and ultrasonic bath. Ensure vent depth is 0.025–0.04mm.' },
+          { parameter: 'Melt Temperature', action: 'Reduce barrel temperatures by 5–10°C', detail: 'Lower initial temperature provides higher thermal margin before reaching auto-ignition temperature.' },
+          { parameter: 'Venting Pins', action: 'Add vented ejector pins at blind pockets', detail: 'Ejector pin clearance (0.015–0.02mm) acts as an effective vent in deep blind pockets.' },
         ],
-        preventionTip: 'Design vents into the mould at every predicted last-fill location (use Moldflow fill simulation to identify these). Rib tips and deep bosses always need ejector pin venting.',
-        source: 'Allen & Baker — Handbook of Plastic Technology; Rosato — Plastics Processing Data Handbook',
-      },
-      {
-        id: 'weld-lines', name: 'Weld Lines / Knit Lines', severity: 'moderate',
-        description: 'Visible lines on the part surface where two melt fronts have met and fused — often weak points and cosmetic defects simultaneously.',
-        causes: [
-          'Two flow fronts meeting after flowing around a hole, insert, or from multiple gates',
-          'Low melt temperature at the meeting point — poor polymer chain entanglement across weld',
-          'Low injection speed — fronts arrive cold, reducing fusion quality',
-          'Low holding pressure — insufficient pressure to force re-fusion of the weld plane',
-          'Material with poor weld strength (glass-filled grades are most susceptible)',
-        ],
-        fixes: [
-          { parameter: 'Melt Temperature', action: 'Increase by 5–10°C', detail: 'Higher melt temperature at weld point means hotter fronts that fuse more effectively. More chain entanglement across the weld plane = higher weld strength.' },
-          { parameter: 'Injection Speed', action: 'Increase fill speed', detail: 'Faster fill means fronts arrive hotter. Weld strength is directly correlated with temperature at meeting point.' },
-          { parameter: 'Mould Temperature', action: 'Increase by 5–10°C', detail: 'Hotter mould slows surface solidification, giving chains more time to entangle across the weld.' },
-          { parameter: 'Venting at Weld', action: 'Add vent at weld line location', detail: 'A gas trap at the weld location compresses ahead of the meeting fronts, reducing temperature and pressure — venting removes this.' },
-          { parameter: 'Gate Relocation', action: 'Move gate(s) to reposition weld line', detail: 'Reposition weld line away from high-stress or cosmetically critical areas using Moldflow simulation to predict new weld position.' },
-        ],
-        preventionTip: 'Weld lines cannot be eliminated when flow must divide — design strategy is to position them in low-stress, non-visible areas. Avoid glass-filled materials where weld line strength is critical.',
-        source: 'Rosato — Plastics Processing Data Handbook; Osswald — Plastics Engineering',
+        preventionTip: 'Locate parting line vents at all predicted air trap locations identified by Moldflow / CAE fill simulations.',
+        source: 'Rosato — Plastics Processing Data Handbook; Allen & Baker',
       },
     ],
   },
   extrusion: {
-    label: 'Extrusion', icon: '🔧',
+    label: 'Extrusion Processing', 
+    icon: '🔧',
+    description: 'Continuous profile, pipe, film, and sheet extrusion through precision shaping dies.',
+    color: '#15803D',
+    bg: '#F0FDF4',
     defects: [
       {
-        id: 'melt-fracture', name: 'Melt Fracture / Sharkskin', severity: 'critical',
-        description: 'Irregular, rough surface on the extrudate — ranges from a fine matte texture (sharkskin) to severe periodic distortion (gross melt fracture).',
+        id: 'melt-fracture', 
+        name: 'Melt Fracture / Sharkskin', 
+        severity: 'critical',
+        description: 'Periodic surface roughness, matte banding, or gross tearing of extrudate caused by critical shear stress exceedance at the die land exit.',
         causes: [
-          'Shear stress at die lip exceeds critical value for the material',
-          'Die temperature too low — high viscosity increases wall shear stress',
-          'Draw ratio too high — extrudate stretched too quickly after die',
-          'Sharp die entry angle — promotes flow instability at die entrance',
-          'Material at edge of its processability window',
+          'Wall shear stress at the die exit exceeds critical threshold (~0.1–0.2 MPa for LLDPE/HDPE)',
+          'Extrusion throughput speed too high for die land dimensions',
+          'Melt temperature at die land too cold — high viscosity increases shear stress',
+          'Die entrance angle too abrupt — turbulent non-streamlined flow transitions',
         ],
         fixes: [
-          { parameter: 'Die Temperature', action: 'Increase by 5–15°C', detail: 'Higher die temperature reduces melt viscosity, lowering wall shear stress below critical threshold for melt fracture onset.' },
-          { parameter: 'Output Rate', action: 'Reduce screw speed by 5–10 RPM', detail: 'Lower output reduces throughput shear rate. Trade-off: lower productivity. Balance against quality requirement.' },
-          { parameter: 'Die Land Length', action: 'Increase die land length', detail: 'Longer die land allows stress relaxation before exit. Minimum land length: 10–20x die gap for most resins.' },
-          { parameter: 'Processing Aid', action: 'Add fluoropolymer processing aid (0.05–0.1%)', detail: 'Fluoropolymer PPA coats the die wall, reducing effective viscosity at the die surface. Particularly effective for LLDPE and HDPE blown film.' },
-          { parameter: 'Die Entry Angle', action: 'Use streamlined (tapered) die entry', detail: 'Streamlined die entry reduces extensional stress at die entry, delaying melt fracture onset to higher shear rates.' },
+          { parameter: 'Die Land Temperature', action: 'Increase die lip temperature by 5–10°C', detail: 'Heating the die lips creates a lower-viscosity boundary lubrication layer, reducing exit shear stress.' },
+          { parameter: 'Screw RPM & Line Speed', action: 'Reduce throughput rate by 10%', detail: 'Lowering flow rate directly lowers wall shear rate below the critical sharkskin transition threshold.' },
+          { parameter: 'Processing Aid (PPA)', action: 'Add 0.05–0.1% fluoropolymer PPA masterbatch', detail: 'Fluoroelastomer polymer processing aids coat the die wall, creating slip and preventing melt fracture.' },
+          { parameter: 'Die Land Length', action: 'Increase die land length (L/D)', detail: 'Longer die land provides shear stress relaxation time before the melt exits to atmospheric pressure.' },
         ],
-        preventionTip: 'For LLDPE and metallocene PE, use low-shear-rate screw designs and fluoropolymer processing aids as standard formulation components.',
-        source: 'Rosato — Plastics Processing Data Handbook; EIRI — Handbook of Plastic Materials and Processing',
+        preventionTip: 'Use streamlined die entrance geometry (cone angle < 30°) and incorporate fluoropolymer PPA masterbatches for narrow-MWD metallocene polymers.',
+        source: 'Rauwendaal — Polymer Extrusion; Allen & Baker — Handbook of Plastic Technology',
       },
       {
-        id: 'die-swell', name: 'Excessive Die Swell', severity: 'moderate',
-        description: 'The extrudate diameter or thickness is significantly larger than the die opening — causes dimensional non-conformance and downstream handling problems.',
+        id: 'die-swell', 
+        name: 'Die Swell / Barus Effect', 
+        severity: 'moderate',
+        description: 'Extrudate dimensions expand significantly beyond die orifice dimensions upon exiting the die due to elastic memory recovery.',
         causes: [
-          'High elastic component (normal stress) — melt recovers compression in die',
-          'Die land too short — insufficient relaxation time before exit',
-          'High molecular weight or broad MWD — more elastic memory',
-          'Low melt temperature — higher elasticity at lower temperature',
-          'High output rate — less relaxation time in die',
+          'Elastic memory recovery of stretched polymer chains when exiting the constraining die channel',
+          'Die land too short — insufficient residence time for molecular orientation relaxation',
+          'Melt temperature too low — increases elastic modulus and storage of entropic stress',
+          'Broad molecular weight distribution resin with high high-molecular-weight fraction',
         ],
         fixes: [
-          { parameter: 'Die Land Length', action: 'Increase land length to reduce swell', detail: 'Longer land allows elastic stress to relax before exit. Guideline: L/D ratio of die land = 10:1 minimum, 20:1 for high-swell materials.' },
-          { parameter: 'Melt Temperature', action: 'Increase by 5–10°C', detail: 'Higher temperature reduces elastic component, reducing die swell. Balance against degradation risk.' },
-          { parameter: 'Screw Speed', action: 'Reduce screw RPM', detail: 'Lower shear rate reduces elastic component — less die swell at lower output rates.' },
-          { parameter: 'Die Gap', action: 'Compensate die gap for expected swell', detail: 'Measure actual swell ratio for your material/conditions, then reduce die gap by that factor to achieve target extrudate dimensions.' },
-          { parameter: 'Resin Grade', action: 'Switch to narrower MWD grade', detail: 'Narrower MWD resins have lower elastic component and more predictable die swell. Discuss with resin supplier.' },
+          { parameter: 'Die Temperature', action: 'Increase die temperature by 5–10°C', detail: 'Higher temperature accelerates molecular relaxation rates, reducing elastic recovery magnitude.' },
+          { parameter: 'Die Land Length', action: 'Extend die land length', detail: 'Ensure residence time in die land is at least 3x the longest molecular relaxation time (tau).' },
+          { parameter: 'Draw Ratio', action: 'Increase haul-off puller speed', detail: 'Compensate for cross-sectional expansion by increasing downstream puller draw-down ratio.' },
         ],
-        preventionTip: 'Measure die swell ratio during initial process setup for each material grade, and maintain this data for future die design compensation.',
-        source: 'Rosato — Plastics Processing Data Handbook; Brandrup — Polymer Handbook (rheology sections)',
+        preventionTip: 'Select polymer grades with narrower MWD or optimize die land L/D ratio to at least 15:1 to 20:1 for tight dimensional profile tolerance.',
+        source: 'Osswald — Polymer Processing; Rosato — Plastics Processing Data Handbook',
       },
       {
-        id: 'surging', name: 'Surging / Output Instability', severity: 'critical',
-        description: 'Periodic fluctuation in extrudate output — visible as alternating thick and thin sections, causing dimensional variation along the extrudate length.',
+        id: 'gauge-variation', 
+        name: 'Gauge & Thickness Variation', 
+        severity: 'critical',
+        description: 'Circumferential or cross-web thickness deviations in blown film, pipe, or sheet extrusion exceeding standard tolerances.',
         causes: [
-          'Screw speed instability — drive motor or controller issue',
-          'Feed zone problems — material bridging in hopper or inconsistent feed',
-          'Screw design mismatch — incorrect compression ratio for the material',
-          'Melt temperature fluctuation — barrel heater zone cycling causing viscosity changes',
-          'Partially melted material reaching metering zone — incomplete plastication',
+          'Non-uniform die lip gap adjustment across the circumference or width',
+          'Uneven die lip temperature distribution — hot zones extrude faster than cool zones',
+          'Air ring cooling asymmetry on blown film line causing bubble deflection',
+          'Melt pressure/temperature surging from screw feed instability',
         ],
         fixes: [
-          { parameter: 'Barrel Temperature Profile', action: 'Stabilize barrel temperature zones; check heater bands and thermocouples', detail: 'Replace faulty heater bands. Ensure thermocouple is seated correctly. Temperature variation more than 2C indicates control problem.' },
-          { parameter: 'Back Pressure', action: 'Increase back pressure', detail: 'Higher back pressure improves mixing and melting uniformity, reducing unmelted material reaching the metering zone. Start at 50–100 bar.' },
-          { parameter: 'Feed Zone Cooling', action: 'Check feed zone cooling water — ensure barrel is not too hot at feed', detail: 'Feed zone should be cooler (30–60C) to allow solid pellets to be gripped by screw. If feed zone overheats, pellets melt and slide — causing surging.' },
-          { parameter: 'Screw Speed', action: 'Reduce screw speed', detail: 'Lower screw speed gives material more residence time to melt completely before the metering zone.' },
-          { parameter: 'Hopper', action: 'Check for bridging — agitate or use vibrator', detail: 'Material bridging in hopper causes intermittent starvation of the screw. Ensure material flows freely and hopper geometry prevents arching.' },
+          { parameter: 'Die Bolt Adjustment', action: 'Calibrate flexible die lip push/pull bolts', detail: 'Use micrometer gauge scan to adjust thermal or mechanical die bolts until thickness is within ±3%.' },
+          { parameter: 'Die Heaters', action: 'Inspect and balance individual heater zones', detail: 'Check for failed band heaters. Temperature variation around the die ring should not exceed ±1.5°C.' },
+          { parameter: 'Air Ring Alignment', action: 'Centrate air ring relative to die center', detail: 'Misaligned cooling air flow creates localized hot spots that blow thinner than adjacent sectors.' },
         ],
-        preventionTip: 'Maintain a process parameter log. Surging that develops gradually often indicates a worn screw or barrel — measure flight clearance if surging appears after extended running.',
-        source: 'Rosato — Plastics Processing Data Handbook; Allen & Baker — Handbook of Plastic Technology',
-      },
-      {
-        id: 'fish-eyes', name: 'Fish Eyes / Gels', severity: 'moderate',
-        description: 'Small transparent or opaque lumps or specks visible in extruded film or sheet — undispersed polymer, contamination, or crosslinked material.',
-        causes: [
-          'Incompletely melted polymer — undispersed resin particles from the feed',
-          'Crosslinked material (gels) from degradation — high molecular weight fragments that do not melt',
-          'Contamination — incompatible polymer or foreign material in the feed',
-          'Poorly dispersed additive or filler — masterbatch not properly let down',
-          'Recycle contamination — incompatible polymer in regrind stream',
-        ],
-        fixes: [
-          { parameter: 'Melt Temperature', action: 'Increase barrel temperature by 5–10°C', detail: 'Ensures complete melting of high-MW particles. Check all barrel zones — cold spots cause localised incomplete melting.' },
-          { parameter: 'Screen Pack', action: 'Replace with finer screen (100 mesh to 200 mesh)', detail: 'Finer breaker plate screen catches larger gel particles. Monitor pressure differential — if pressure builds rapidly, gels are present in significant quantity.' },
-          { parameter: 'Purging', action: 'Full barrel purge with purging compound', detail: 'Degraded/crosslinked material accumulates in stagnation zones (adapter, die body). Purge with commercial purging compound or LDPE at high temperature.' },
-          { parameter: 'Raw Material', action: 'Check incoming material — run gel count test', detail: 'Test incoming resin by extruding film and counting gels per m2 (industry standard: less than 100 gels per m2 for premium film grades).' },
-          { parameter: 'Regrind', action: 'Reduce regrind percentage or segregate', detail: 'Regrind can introduce degraded material. Reduce regrind to less than 10% and ensure it is from the same material family.' },
-        ],
-        preventionTip: 'Implement incoming MFI testing for all resin batches. Establish a maximum acceptable gel count specification before production and test each new batch.',
-        source: 'Rosato — Plastics Processing Data Handbook; EIRI — Handbook of Plastic Materials and Processing',
+        preventionTip: 'Install automated thickness gauge scanners with closed-loop thermal die lip control for high-speed film and sheet lines.',
+        source: 'Allen & Baker — Handbook of Plastic Technology',
       },
     ],
   },
   blow: {
-    label: 'Blow Moulding', icon: '💨',
+    label: 'Blow Moulding', 
+    icon: '💨',
+    description: 'Extrusion and injection blow moulding for hollow bottles, tanks, and drums.',
+    color: '#EA580C',
+    bg: '#FFF7ED',
     defects: [
       {
-        id: 'parison-sag', name: 'Parison Sag / Drawdown', severity: 'critical',
-        description: 'The extruded parison (tube) elongates under its own weight before the mould closes, causing non-uniform wall thickness — thinner at the bottom, thicker at the top.',
+        id: 'parison-sag', 
+        name: 'Parison Sag / Draw-Down', 
+        severity: 'critical',
+        description: 'Gravity-induced elongation and thinning of the hanging molten parison before mould closure, causing thin bottle tops and uneven wall distribution.',
         causes: [
-          'Parison extrusion too slow — parison hangs too long before mould closure',
-          'Melt temperature too high — low melt strength, parison sags quickly',
-          'High-MFI resin — low melt strength materials sag more',
-          'Parison length too long for the melt strength of the material',
-          'Accumulator head timing — material held too long in accumulator at high temperature',
+          'Extrusion parison hang time too long before mould clamp closure',
+          'Melt temperature too high — reduces melt strength and zero-shear viscosity',
+          'Resin High-Load Melt Index (HLMI) too high — insufficient low-shear melt elasticity',
+          'Excessive parison length for single-cavity blow machine',
         ],
         fixes: [
-          { parameter: 'Parison Extrusion Speed', action: 'Increase extrusion speed', detail: 'Faster extrusion reduces hang time before mould closure. Shorter hang time = less sag. Balance against parison surface quality.' },
-          { parameter: 'Melt Temperature', action: 'Reduce by 5–10°C', detail: 'Lower temperature increases melt viscosity and melt strength, resisting gravitational sag.' },
-          { parameter: 'Parison Programming', action: 'Apply parison thickness profile — thicker at bottom', detail: 'Use die gap programming (parison controller) to extrude progressively thicker parison at the bottom of the stroke, compensating for sag-induced thinning.' },
-          { parameter: 'Resin Grade', action: 'Switch to higher-HLMI or bimodal HDPE grade', detail: 'Bimodal HDPE resins have better melt strength at equivalent MFI vs monomodal grades. Consult resin supplier for blow moulding specific grades.' },
-          { parameter: 'Mould Close Time', action: 'Reduce time between extrusion and mould closure', detail: 'Audit cycle time. Every 0.1 second saved in machine movement reduces sag. Optimize hydraulic speeds on mould close sequence.' },
+          { parameter: 'Extrusion Speed', action: 'Increase parison extrusion velocity', detail: 'Extrude parison faster to minimize hang time under gravity before mould closing sequence initiates.' },
+          { parameter: 'Melt Temperature', action: 'Reduce die and barrel temperatures by 5–10°C', detail: 'Lower temperature increases low-shear melt viscosity, directly resisting gravitational elongation.' },
+          { parameter: 'Parison Programmer', action: 'Program die gap to thicken top profile', detail: 'Apply electronic parison wall thickness profiling to extrude thicker walls where sag thinning occurs.' },
+          { parameter: 'Resin Selection', action: 'Switch to high molecular weight HDPE (bimodal grade)', detail: 'Bimodal HMW-HDPE grades provide superior melt strength and sag resistance for large hollow parts.' },
         ],
-        preventionTip: 'For large containers (more than 5L), always use parison programming (die gap profiling). Select resins with HLMI/MFI ratio more than 20 for good melt strength in large part blow moulding.',
-        source: 'Allen & Baker — Handbook of Plastic Technology; Rosato — Plastics Processing Data Handbook',
+        preventionTip: 'Use 100-point electronic parison programmers (MOOG or Bekum) and select blow moulding grade resins with HLMI < 10 g/10min.',
+        source: 'Rosato — Blow Molding Handbook; Allen & Baker',
       },
       {
-        id: 'poor-pinch', name: 'Poor Pinch-Off / Flash', severity: 'moderate',
-        description: 'Weak or incomplete pinch-off at the mould parting line causes thin flash, incomplete tail pinch, or poor sealing at the bottom of bottles and containers.',
+        id: 'poor-pinch', 
+        name: 'Pinch-Off Seam Failure / Weak Bottom', 
+        severity: 'critical',
+        description: 'Incomplete welding or brittle weld seams at the container base pinch-off line, resulting in drop impact rupture and leakage.',
         causes: [
-          'Pinch-off blade too wide or worn — insufficient compression of parison at pinch',
-          'Mould clamping force insufficient for the blow pressure and parison diameter',
-          'Parison temperature too low at pinch zone — cold parison resists compression',
-          'Pinch knife geometry incorrect for the resin',
-          'Contamination on pinch knife surface',
+          'Pinch-off blade land width too wide — crushes without fusing parison edges',
+          'Parison temperature too cold at bottom pinch zone during mould closing',
+          'Mould clamping tonnage insufficient to co-extrude and seal parison tail',
+          'Excessive blow pressure applied before mould is 100% clamped',
         ],
         fixes: [
-          { parameter: 'Pinch Knife', action: 'Inspect knife edge — sharpen or replace if worn', detail: 'Pinch knife should have radius 0.1–0.5mm depending on material. HDPE needs sharper pinch than LDPE. Replace when flash tail shows ragged or unsupported edges.' },
-          { parameter: 'Clamping Force', action: 'Increase clamp tonnage if adjustable', detail: 'Clamp force must overcome blow pressure acting on projected area plus parison compression force. Verify against machine specification.' },
-          { parameter: 'Parison Temperature', action: 'Increase die temperature by 5–10°C', detail: 'Hotter parison at pinch zone is more deformable — compresses and fuses more cleanly.' },
-          { parameter: 'Mould Alignment', action: 'Check mould halves for alignment and parallelism', detail: 'Misaligned moulds cause uneven pinch — one side over-pinches while the other under-pinches. Check with feeler gauge at four corners.' },
-          { parameter: 'Blow Timing', action: 'Delay blow start until mould fully closed', detail: 'Premature blowing before full mould closure prevents proper pinch. Check mould closed confirmation signal before blow valve opens.' },
+          { parameter: 'Pinch-Off Geometry', action: 'Sharpen pinch blade to 0.1–0.3mm radius with 30° relief', detail: 'Pinch blade must cut through and weld simultaneously. Replace worn or notched pinch inserts.' },
+          { parameter: 'Die Zone Temperature', action: 'Increase lower die zone by 5°C', detail: 'Ensures molten parison weld seam fuses completely under mould clamp compressive force.' },
+          { parameter: 'Blow Delay Timing', action: 'Delay blow valve trigger until full clamp lock', detail: 'Premature blowing forces parison apart before pinch weld solidifies under clamp pressure.' },
         ],
-        preventionTip: 'Inspect pinch knife condition every 100,000 cycles for HDPE and every 50,000 cycles for glass-filled or abrasive materials. Keep spare pinch inserts in stock.',
-        source: 'Allen & Baker — Handbook of Plastic Technology; Rosato — Plastics Processing Data Handbook',
+        preventionTip: 'Inspect pinch-off tooling every 50,000 cycles for beryllium-copper or steel inserts. Maintain relief angle of 30° to 45° to accommodate flash tail.',
+        source: 'Rosato — Blow Molding Handbook; Allen & Baker',
       },
     ],
   },
 }
 
-const SEV: Record<Severity, { badge: string; label: string }> = {
-  critical: { badge: 'bg-rose-500 text-white border-2 border-ink font-bold', label: 'CRITICAL' },
-  moderate: { badge: 'bg-orange text-white border-2 border-ink font-bold', label: 'MODERATE' },
-  minor: { badge: 'bg-yellow-bright text-ink border-2 border-ink font-bold', label: 'MINOR' },
+const SEV_CONFIG: Record<Severity, { label: string; bg: string; text: string; border: string }> = {
+  critical: { label: 'CRITICAL', bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-300' },
+  moderate: { label: 'MODERATE', bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-300' },
+  minor:    { label: 'MINOR',    bg: 'bg-blue-50',  text: 'text-blue-700',  border: 'border-blue-300' },
 }
 
-// ─── Page ──────────────────────────────────────────────────────────────────────
+// ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function TroubleshooterPage() {
-  const [process, setProcess] = useState<Process | null>(null)
-  const [defect, setDefect] = useState<Defect | null>(null)
-  const [expandedFix, setExpandedFix] = useState<number | null>(null)
+  const [process, setProcess] = useState<Process>('injection')
+  const [selectedDefectId, setSelectedDefectId] = useState<string>('sink-marks')
+  const [expandedFixIndex, setExpandedFixIndex] = useState<number | null>(0)
 
-  const reset = () => { setProcess(null); setDefect(null); setExpandedFix(null) }
   const processKeys: Process[] = ['injection', 'extrusion', 'blow']
+  const currentProcessData = DATA[process]
+  const currentDefect = currentProcessData.defects.find((d) => d.id === selectedDefectId) || currentProcessData.defects[0]
+
+  const handleProcessChange = (p: Process) => {
+    setProcess(p)
+    setSelectedDefectId(DATA[p].defects[0].id)
+    setExpandedFixIndex(0)
+  }
 
   return (
-    <div className="min-h-screen bg-canvas pb-16">
-      {/* Yellow Hero Band */}
-      <section className="border-b-4 border-ink bg-yellow-bright px-6 md:px-12 py-12">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-ink border-4 border-ink flex items-center justify-center">
-                <Wrench className="w-5 h-5 text-yellow-bright" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-ink border-2 border-ink px-3 py-1 uppercase tracking-widest bg-white">
-                Troubleshooter
-              </span>
-              <span className="font-mono text-[10px] font-black border-2 border-ink bg-ink text-yellow-bright px-3 py-1 uppercase tracking-widest">
-                12 DEFECTS MAPPED
-              </span>
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+      
+      {/* ── Hero Section: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.15)_0%,_transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Wrench className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              Interactive Diagnostic Engine &middot; Handbook Mapped
+            </span>
+          </div>
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Diagnose &amp; Fix <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Processing Defects
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Root-cause analysis and step-by-step corrective parameters drawn directly from <strong>Rosato&apos;s Plastics Processing Data Handbook</strong> and <strong>Allen &amp; Baker&apos;s Plastic Technology</strong>.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">12+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Defects Mapped</span>
             </div>
-            <h1 className="font-display text-4xl md:text-6xl font-black text-ink leading-none uppercase">
-              DIAGNOSE AND FIX<br />
-              <span className="italic">PROCESSING DEFECTS</span>
-            </h1>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">3</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Core Processes</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">100%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Handbook Cited</span>
+            </div>
           </div>
-          <div className="max-w-md text-left md:text-right">
-            <p className="text-sm font-bold text-ink/70 leading-relaxed">
-              Specific corrective actions drawn from Rosato&apos;s Data Handbook and Allen &amp; Baker&apos;s Handbook of Plastic Technology.
-            </p>
-          </div>
+
         </div>
       </section>
 
-      {/* Main Grid */}
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-
-        {/* Step 1: Select process */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-4 border-b-4 border-ink pb-2">
-            <h2 className="font-mono text-xs font-black text-ink uppercase tracking-widest">
-              Step 1 — Select processing method
+      {/* ── Main Diagnostic Workbench ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
+        {/* Step 1: Process Method Selector */}
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h2 className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-2">
+              <Gauge className="w-4 h-4 text-blue-600" />
+              Step 1 &mdash; Select Processing Method
             </h2>
-            {process && (
-              <button
-                onClick={reset}
-                className="font-mono text-[10px] font-black border-2 border-ink px-2.5 py-1 uppercase bg-canvas hover:bg-ink hover:text-white transition-colors flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
-              >
-                <RotateCcw className="w-3 h-3" /> Reset all
-              </button>
-            )}
+            <span className="text-xs font-mono text-slate-400 font-semibold">
+              {currentProcessData.defects.length} Defects Available
+            </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {processKeys.map((p) => {
               const d = DATA[p]
-              const sel = process === p
-              const accentColor = p === 'injection' ? '#1D4ED8' : p === 'extrusion' ? '#EA580C' : '#7C3AED'
-
+              const isSelected = process === p
               return (
                 <button
                   key={p}
-                  onClick={() => {
-                    setProcess(p)
-                    setDefect(null)
-                    setExpandedFix(null)
-                  }}
-                  className={`text-left border-4 border-ink p-5 transition-all w-full select-none ${
-                    sel ? '-translate-y-1' : 'hover:-translate-y-0.5'
+                  onClick={() => handleProcessChange(p)}
+                  className={`p-5 rounded-2xl border-2 text-left transition-all flex flex-col justify-between ${
+                    isSelected
+                      ? 'border-blue-600 bg-blue-50/60 shadow-md ring-2 ring-blue-600/20'
+                      : 'border-slate-200 bg-white hover:border-slate-400 hover:bg-slate-50'
                   }`}
-                  style={{
-                    backgroundColor: '#FFFFFF',
-                    boxShadow: sel ? `6px 6px 0px 0px ${accentColor}` : `4px 4px 0px 0px #0A0A0A`,
-                  }}
                 >
-                  <div className="text-3xl mb-3">{d.icon}</div>
-                  <div className="font-display text-xl font-black text-ink leading-tight">
-                    {d.label}
+                  <div>
+                    <span className="text-3xl mb-2 block">{d.icon}</span>
+                    <h3 className="font-display text-lg font-black text-slate-900">{d.label}</h3>
+                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">{d.description}</p>
                   </div>
-                  <div className="font-mono text-[9px] font-bold text-ink/40 mt-1 uppercase tracking-wider">
-                    {d.defects.length} defects mapped
+                  <div className="mt-4 pt-3 border-t border-slate-100/80 flex items-center justify-between">
+                    <span className="text-[11px] font-mono font-bold text-blue-700">
+                      {d.defects.length} Defects &rarr;
+                    </span>
                   </div>
                 </button>
               )
@@ -375,44 +380,46 @@ export default function TroubleshooterPage() {
           </div>
         </div>
 
-        {/* Step 2: Select defect */}
-        {process && (
-          <div className="mb-10 animate-fadeIn">
-            <div className="border-b-4 border-ink pb-2 mb-5">
-              <h2 className="font-mono text-xs font-black text-ink uppercase tracking-widest">
-                Step 2 — Select the defect symptoms
-              </h2>
+        {/* Step 2 & 3: Workbench Split Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Left Column: Defect Symptoms Selector */}
+          <div className="lg:col-span-4 space-y-3">
+            <div className="border-b-2 border-slate-900 pb-2 flex items-center justify-between">
+              <h3 className="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider">
+                Step 2 &mdash; Select Defect
+              </h3>
+              <span className="text-[11px] font-mono text-slate-400 font-bold">
+                {currentProcessData.defects.length} Cases
+              </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {DATA[process].defects.map((d) => {
-                const sel = defect?.id === d.id
-                const sev = SEV[d.severity]
-                const accentColor = process === 'injection' ? '#1D4ED8' : process === 'extrusion' ? '#EA580C' : '#7C3AED'
 
+            <div className="space-y-2.5">
+              {currentProcessData.defects.map((d) => {
+                const isSelected = currentDefect.id === d.id
+                const sev = SEV_CONFIG[d.severity]
                 return (
                   <button
                     key={d.id}
                     onClick={() => {
-                      setDefect(d)
-                      setExpandedFix(null)
+                      setSelectedDefectId(d.id)
+                      setExpandedFixIndex(0)
                     }}
-                    className={`text-left border-4 border-ink p-5 transition-all w-full ${
-                      sel ? '-translate-y-1' : 'hover:-translate-y-0.5'
+                    className={`w-full p-4 rounded-xl border-2 text-left transition-all ${
+                      isSelected
+                        ? 'bg-white border-blue-600 shadow-md ring-2 ring-blue-600/20'
+                        : 'bg-white border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                     }`}
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      boxShadow: sel ? `6px 6px 0px 0px ${accentColor}` : `4px 4px 0px 0px #0A0A0A`,
-                    }}
                   >
-                    <div className="flex items-start justify-between gap-3 mb-2">
-                      <h3 className="font-display text-lg font-black text-ink leading-tight">
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <h4 className={`font-display text-sm font-bold ${isSelected ? 'text-blue-700' : 'text-slate-900'}`}>
                         {d.name}
-                      </h3>
-                      <span className={`font-mono text-[8px] uppercase px-2 py-0.5 flex-shrink-0 ${sev.badge}`}>
+                      </h4>
+                      <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase ${sev.bg} ${sev.text} ${sev.border}`}>
                         {sev.label}
                       </span>
                     </div>
-                    <p className="text-xs text-ink/60 leading-relaxed line-clamp-2">
+                    <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed font-medium">
                       {d.description}
                     </p>
                   </button>
@@ -420,163 +427,155 @@ export default function TroubleshooterPage() {
               })}
             </div>
           </div>
-        )}
 
-        {/* Step 3: Corrective actions */}
-        {defect && (
-          <div className="space-y-8 animate-fadeIn">
-            <div className="border-b-4 border-ink pb-2">
-              <h2 className="font-mono text-xs font-black text-ink uppercase tracking-widest">
-                Step 3 — Engineering diagnostics and fixes
-              </h2>
-            </div>
-
-            {/* Defect Overview Panel */}
-            <div className="border-4 border-ink bg-canvas p-6 shadow-hard" style={{ boxShadow: '5px 5px 0px 0px #0A0A0A' }}>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+          {/* Right Column: Engineering Diagnostic Engine Output */}
+          <div className="lg:col-span-8 space-y-6">
+            
+            {/* Defect Hero Card */}
+            <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+              
+              {/* Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-5">
                 <div>
-                  <div className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest mb-1">{"// Defect Description"}</div>
-                  <h3 className="font-display text-3xl font-black text-ink leading-tight">{defect.name}</h3>
+                  <span className="text-xs font-mono font-bold text-blue-600 uppercase tracking-widest">
+                    {currentProcessData.label} &middot; Defect Dossier
+                  </span>
+                  <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 mt-1">
+                    {currentDefect.name}
+                  </h2>
                 </div>
-                <span className={`font-mono text-[10px] px-3 py-1 flex-shrink-0 ${SEV[defect.severity].badge}`}>
-                  {SEV[defect.severity].label} SEVERITY
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className={`text-xs font-mono font-bold px-3 py-1 rounded-full border uppercase ${SEV_CONFIG[currentDefect.severity].bg} ${SEV_CONFIG[currentDefect.severity].text} ${SEV_CONFIG[currentDefect.severity].border}`}>
+                    {SEV_CONFIG[currentDefect.severity].label} Priority
+                  </span>
+                </div>
               </div>
-              <p className="text-sm text-ink/75 leading-relaxed mb-6 border-l-4 border-ink pl-4 py-1 italic">
-                {defect.description}
+
+              {/* Description */}
+              <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium bg-slate-50 p-4 rounded-xl border border-slate-200">
+                {currentDefect.description}
               </p>
 
-              {/* Causes block */}
-              <div className="border-t-2 border-ink/10 pt-5">
-                <div className="font-mono text-[10px] font-black text-ink uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                  <AlertTriangle className="w-4 h-4 text-orange" /> Potential Root Causes
-                </div>
-                <div className="space-y-3">
-                  {defect.causes.map((c, i) => (
-                    <div key={i} className="flex items-start gap-3 bg-amber-50/50 border-2 border-ink p-3 rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="w-5 h-5 bg-ink text-yellow-bright flex items-center justify-center font-mono text-[10px] font-black flex-shrink-0 mt-0.5">
+              {/* Root Causes Checklist */}
+              <div className="space-y-3">
+                <h4 className="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2">
+                  <ShieldAlert className="w-4 h-4 text-rose-600" />
+                  Primary Root Causes
+                </h4>
+                <div className="space-y-2">
+                  {currentDefect.causes.map((c, i) => (
+                    <div key={i} className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50/80 border border-slate-100 text-xs sm:text-sm text-slate-800">
+                      <span className="w-5 h-5 rounded-md bg-rose-100 text-rose-700 flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5 font-mono">
                         {i + 1}
-                      </div>
-                      <p className="text-sm text-ink font-bold leading-relaxed">{c}</p>
+                      </span>
+                      <span className="font-medium leading-relaxed">{c}</span>
                     </div>
                   ))}
                 </div>
               </div>
-            </div>
 
-            {/* Corrective Actions Accordion */}
-            <div className="space-y-3">
-              <div className="font-mono text-[10px] font-black text-ink uppercase tracking-wider mb-3 flex items-center gap-1.5">
-                🔧 Corrective Actions (Try in Order)
-              </div>
-
-              <div className="space-y-4">
-                {defect.fixes.map((fix, i) => {
-                  const exp = expandedFix === i
-                  const accentColor = process === 'injection' ? '#1D4ED8' : process === 'extrusion' ? '#EA580C' : '#7C3AED'
-                  return (
-                    <div
-                      key={i}
-                      className="border-4 border-ink bg-canvas transition-all overflow-hidden w-full block"
-                      style={{
-                        boxShadow: exp ? `4px 4px 0px 0px ${accentColor}` : `3px 3px 0px 0px #0A0A0A`
-                      }}
-                    >
-                      <button
-                        onClick={() => setExpandedFix(exp ? null : i)}
-                        className="w-full text-left flex items-center justify-between p-5 hover:bg-slate-50 transition-colors"
+              {/* Step-by-Step Parameter Fixes Accordion */}
+              <div className="space-y-3 pt-2">
+                <h4 className="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2">
+                  <Wrench className="w-4 h-4 text-blue-600" />
+                  Machine Parameter Corrective Actions
+                </h4>
+                
+                <div className="space-y-2.5">
+                  {currentDefect.fixes.map((fix, idx) => {
+                    const isExpanded = expandedFixIndex === idx
+                    return (
+                      <div 
+                        key={idx}
+                        className="rounded-xl border-2 border-slate-200 overflow-hidden bg-white shadow-sm transition-all"
                       >
-                        <div className="flex items-center gap-4 min-w-0">
-                          <div className="w-8 h-8 bg-ink text-white flex items-center justify-center flex-shrink-0 font-mono text-sm font-black border-2 border-ink shadow-[2px_2px_0px_0px_rgba(254,240,138,1)]">
-                            {i + 1}
-                          </div>
-                          <div className="min-w-0">
-                            <div className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest">
-                              {fix.parameter}
+                        <button
+                          onClick={() => setExpandedFixIndex(isExpanded ? null : idx)}
+                          className="w-full p-3.5 sm:p-4 text-left flex items-center justify-between gap-3 hover:bg-slate-50 transition-colors"
+                        >
+                          <div className="flex items-center gap-3">
+                            <span className="w-6 h-6 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-mono font-bold flex-shrink-0">
+                              #{idx + 1}
+                            </span>
+                            <div>
+                              <p className="font-display font-bold text-xs sm:text-sm text-slate-900">
+                                {fix.parameter}: <span className="text-blue-700 font-semibold">{fix.action}</span>
+                              </p>
                             </div>
-                            <div className="font-display text-lg font-black text-ink leading-tight">
-                              {fix.action}
-                            </div>
                           </div>
-                        </div>
-                        <ChevronDown className={`w-5 h-5 text-ink flex-shrink-0 transition-transform duration-200 ${exp ? 'rotate-180' : ''}`} />
-                      </button>
+                          {isExpanded ? (
+                            <ChevronUp className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-slate-400 flex-shrink-0" />
+                          )}
+                        </button>
 
-                      {exp && (
-                        <div className="px-5 pb-5 pt-3 border-t-2 border-ink bg-slate-50/50 animate-fadeIn">
-                          <div className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest mb-1.5">{"// Standard Operating Procedure"}</div>
-                          <p className="text-sm text-ink/80 leading-relaxed font-bold">
+                        {isExpanded && (
+                          <div className="p-4 bg-blue-50/40 border-t border-slate-200 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium animate-in fade-in duration-200">
+                            <p className="font-mono text-[10px] text-blue-800 uppercase font-bold mb-1">
+                              Engineering Protocol &amp; Rationale:
+                            </p>
                             {fix.detail}
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
-            </div>
 
-            {/* Prevention Banner */}
-            <div className="border-4 border-ink p-6 shadow-hard" style={{ backgroundColor: '#F0FDF4', boxShadow: '4px 4px 0px 0px #15803D' }}>
-              <div className="flex items-center gap-2 mb-3">
-                <CheckCircle className="w-5 h-5 text-emerald-700" />
-                <p className="font-mono text-[10px] font-black text-emerald-800 uppercase tracking-wider">
-                  Industrial Prevention Strategy
+              {/* Shop-Floor Prevention Tip */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-950 space-y-1.5">
+                <div className="flex items-center gap-1.5 font-mono text-xs font-bold text-amber-800 uppercase tracking-wide">
+                  <Lightbulb className="w-4 h-4 text-amber-600" /> Tooling &amp; Tool Design Prevention Tip
+                </div>
+                <p className="text-xs sm:text-sm leading-relaxed font-medium text-amber-900">
+                  {currentDefect.preventionTip}
                 </p>
               </div>
-              <p className="text-sm text-emerald-950 font-bold leading-relaxed">
-                {defect.preventionTip}
-              </p>
+
+              {/* Literature Citation */}
+              <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
+                <span>📚 <strong>Source Citation:</strong> {currentDefect.source}</span>
+                <Link
+                  href={`/ai-tutor?prompt=${encodeURIComponent(`Explain how to fix ${currentDefect.name} in ${currentProcessData.label} according to Rosato Handbook`)}`}
+                  className="inline-flex items-center gap-1 text-blue-600 hover:underline font-bold"
+                >
+                  <Brain className="w-3.5 h-3.5" /> Ask AI Specialist &rarr;
+                </Link>
+              </div>
+
             </div>
 
-            {/* Source credit */}
-            <div className="font-mono text-[9px] text-ink/40 text-right uppercase tracking-wider">
-              Recommended Literature: {defect.source}
-            </div>
           </div>
-        )}
 
-        {!process && (
-          <div className="border-4 border-ink p-12 text-center shadow-hard bg-white">
-            <Wrench className="w-10 h-10 mx-auto mb-4 text-ink/40" />
-            <div className="font-display text-2xl font-black text-ink mb-2">Diagnostic Engine Offline</div>
-            <p className="text-ink/60 max-w-sm mx-auto font-mono text-xs">
-              Select a polymer manufacturing method above to load the corresponding defects and operation parameters.
-            </p>
-          </div>
-        )}
+        </div>
+
       </div>
 
-      {/* Footer CTA */}
-      <section className="border-t-4 border-ink bg-yellow-bright px-6 md:px-12 py-10 mt-16">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Sparkles className="w-4 h-4 text-ink" />
-              <span className="font-mono text-[10px] font-black text-ink uppercase tracking-widest">
-                Learn the theory behind the fix
-              </span>
+      {/* ── Theory Bridge Banner ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-gradient-to-r from-[#0A1628] via-[#0F284D] to-[#0A1628] text-white rounded-3xl p-8 sm:p-10 border-2 border-slate-900 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-2 text-center md:text-left">
+            <div className="inline-flex items-center gap-1.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-blue-300" /> Master the Science
             </div>
-            <p className="font-display text-2xl font-black text-ink leading-tight">
-              Understanding why defects happen makes you a faster field engineer.
+            <h3 className="font-display text-2xl sm:text-3xl font-black">
+              Learn the Underlying Fluid &amp; Thermal Science
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-light">
+              Understanding shear rates, non-Newtonian flow, and polymer crystallization kinetics makes you an elite mould design and processing engineer.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto flex-shrink-0">
-            <Link
-              href="/subjects/polymer-processing"
-              className="cn-btn-black text-center text-xs py-3 px-5 flex items-center justify-center gap-1.5"
-            >
-              <BookOpen className="w-4 h-4" /> Study Processing Lessons
-            </Link>
-            <Link
-              href="/ai-tutor"
-              className="cn-btn bg-white text-ink text-center text-xs py-3 px-5 flex items-center justify-center gap-1.5"
-            >
-              <Brain className="w-4 h-4" /> Ask AI Tutor
-            </Link>
-          </div>
+          <Link
+            href="/subjects"
+            className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase font-mono tracking-wider px-6 py-3.5 rounded-xl border-2 border-slate-900 transition-all shadow-[4px_4px_0px_0px_#000] flex-shrink-0"
+          >
+            Explore 19 Subjects Curriculum <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
+
     </div>
   )
 }
