@@ -1,339 +1,290 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { createClient } from '@/lib/supabase/client'
 import { 
-  Mail, 
   ArrowRight, 
-  Sparkles, 
-  CheckCircle2, 
-  ShieldCheck, 
-  BookOpen, 
-  Brain, 
-  Database, 
+  Mail, 
+  Shield, 
+  CheckCircle, 
+  Sparkles,
+  BookOpen,
+  Brain,
+  Database,
   TrendingUp,
-  Star,
-  Lock,
-  ChevronRight,
-  Shield
+  Lock
 } from 'lucide-react'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [error, setError] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
 
   const supabase = createClient()
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email.trim()) return
 
-    setLoading(true)
+    setIsLoading(true)
     setError('')
 
-    const { error: authError } = await supabase.auth.signInWithOtp({
-      email: email.trim().toLowerCase(),
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    })
+    try {
+      const { error: authError } = await supabase.auth.signInWithOtp({
+        email: email.trim().toLowerCase(),
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      })
 
-    setLoading(false)
-
-    if (authError) {
-      setError(authError.message)
-    } else {
-      setSent(true)
+      if (authError) {
+        setError(authError.message)
+      } else {
+        setSent(true)
+      }
+    } catch {
+      setError('An unexpected error occurred. Please try again.')
+    } finally {
+      setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-[#FAF8F5]">
+    <div className="min-h-screen bg-[#070B14] flex items-center justify-center p-4 sm:p-6 relative overflow-hidden text-slate-100">
       
-      {/* ── LEFT: Cinematic Split-Screen Brand Story (Desktop) ── */}
-      <div className="hidden lg:flex lg:w-1/2 relative bg-[#0A1628] text-white overflow-hidden flex-col justify-between p-12 lg:p-16 border-r-2 border-slate-900">
-        
-        {/* Background Visual with Subtle Vignette */}
-        <div className="absolute inset-0 pointer-events-none">
-          <Image
-            src="https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=1200&q=80"
-            alt="Polymer Engineering Innovation"
-            fill
-            sizes="50vw"
-            className="object-cover opacity-20 filter grayscale contrast-125"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-tr from-[#0A1628] via-[#0A1628]/85 to-transparent" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        </div>
+      {/* ── Subtle Background Polymer Chain Canvas Grid ── */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        <svg className="w-full h-full" viewBox="0 0 1000 800" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="chainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#FF7722" />
+              <stop offset="50%" stopColor="#4F8FFF" />
+              <stop offset="100%" stopColor="#10B981" />
+            </linearGradient>
+          </defs>
+          {[...Array(8)].map((_, row) => (
+            <g key={row} transform={`translate(0, ${row * 110 + 40})`}>
+              {[...Array(10)].map((_, col) => (
+                <g key={col} transform={`translate(${col * 110 + 35}, 0)`}>
+                  <circle cx="0" cy="0" r="5" fill="url(#chainGrad)" opacity="0.8" />
+                  <line x1="0" y1="0" x2="0" y2="45" stroke="url(#chainGrad)" strokeWidth="1.5" opacity="0.4" />
+                  <circle cx="0" cy="45" r="5" fill="url(#chainGrad)" opacity="0.8" />
+                  <line x1="0" y1="45" x2="55" y2="45" stroke="url(#chainGrad)" strokeWidth="1.5" opacity="0.4" />
+                </g>
+              ))}
+            </g>
+          ))}
+        </svg>
+      </div>
 
-        {/* Top Header / Logo */}
-        <div className="relative z-10">
-          <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-lg border border-white/20 text-[#0A1628] font-black text-2xl font-display">
+      {/* Ambient Radial Glow Halos */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* ── Main Centered Standout Glass Card ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+        className="w-full max-w-lg bg-slate-900/80 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] p-7 sm:p-9 relative z-10"
+      >
+        {/* Brand Mark & Title */}
+        <div className="text-center mb-5">
+          <Link href="/" className="inline-flex flex-col items-center group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#FF7722] via-white to-[#10B981] flex items-center justify-center text-2xl font-black text-[#0B172A] shadow-xl mb-3 border border-white/20 transition-transform group-hover:scale-105">
               P
             </div>
-            <div>
-              <span className="font-display font-black text-2xl tracking-tight text-white block">
-                PolymerHub
-              </span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">
-                India&apos;s Knowledge Platform
-              </span>
-            </div>
+            <h1 className="text-2xl font-display font-black text-white tracking-tight">PolymerHub</h1>
+            <p className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mt-0.5">
+              India&apos;s Knowledge Platform
+            </p>
           </Link>
         </div>
 
-        {/* Middle Value Proposition */}
-        <div className="relative z-10 max-w-lg space-y-6 my-auto py-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-white/90 text-xs font-mono font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+        {/* Top Eyebrow Badge */}
+        <div className="flex justify-center mb-5">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-400/25 text-blue-300 text-xs font-medium tracking-wide">
+            <Sparkles className="h-3.5 w-3.5 text-amber-400 animate-pulse" />
             India&apos;s Premier Polymer Engineering Hub
-          </div>
+          </span>
+        </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl font-black leading-tight tracking-tight text-white uppercase">
+        {/* Headline */}
+        <div className="text-center mb-6">
+          <h2 className="text-2xl sm:text-3xl font-display font-black text-white leading-tight uppercase">
             Welcome to the <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7722] via-[#FFFFFF] to-[#10B981]">
               Polymer Revolution
             </span>
-          </h1>
-
-          <p className="text-slate-300 text-base leading-relaxed font-light">
-            Master 19 subjects, test with 225+ practice questions, query our RAG AI Specialist, and access the 50 Materials Database — all from one unified student portal.
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 mt-1.5">
+            Sign in to access 19 subjects, AI tutor, and lab simulations
           </p>
+        </div>
 
-          {/* Social Proof Stats */}
-          <div className="pt-4 flex items-center gap-6 border-t border-white/10">
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {['#2563EB', '#EA580C', '#16A34A', '#7C3AED'].map((color, i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 rounded-full border-2 border-[#0A1628] flex items-center justify-center text-[10px] font-bold font-mono text-white shadow-sm"
-                    style={{ backgroundColor: color }}
-                  >
-                    {['IIT', 'CIPET', 'MIT', 'ICT'][i]}
-                  </div>
-                ))}
-              </div>
-              <div>
-                <p className="font-display text-xl font-bold text-white leading-none">5,000+</p>
-                <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Engineers</p>
-              </div>
+        {/* Quick Social Proof Stats */}
+        <div className="flex items-center justify-center gap-6 sm:gap-8 mb-6 py-3 px-4 rounded-2xl bg-white/[0.04] border border-white/5">
+          {[
+            { value: '5,000+', label: 'Engineers' },
+            { value: '4.9 ★', label: 'Rating' },
+            { value: '19', label: 'Subjects' },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center">
+              <p className="text-base sm:text-lg font-display font-bold text-white leading-tight">{stat.value}</p>
+              <p className="text-[10px] font-mono uppercase text-slate-400">{stat.label}</p>
             </div>
-            <div className="w-px h-8 bg-white/10" />
-            <div>
-              <p className="font-display text-xl font-bold text-amber-400 flex items-center gap-1 leading-none">
-                4.9 <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              </p>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Rating</p>
-            </div>
-            <div className="w-px h-8 bg-white/10" />
-            <div>
-              <p className="font-display text-xl font-bold text-emerald-400 leading-none">19</p>
-              <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mt-0.5">Subjects</p>
-            </div>
+          ))}
+        </div>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="mb-5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2">
+            <Lock className="w-4 h-4 shrink-0 text-red-400" />
+            <span>{error}</span>
           </div>
-        </div>
+        )}
 
-        {/* Bottom Footnote */}
-        <div className="relative z-10 flex items-center gap-4 text-xs font-mono text-slate-400">
-          <span className="flex items-center gap-1">
-            <Shield className="w-3.5 h-3.5 text-emerald-400" /> Passwordless
-          </span>
-          <span className="w-px h-3 bg-white/20" />
-          <span>Zero credential leaks</span>
-          <span className="w-px h-3 bg-white/20" />
-          <span className="text-emerald-400">DPDP 2023 Compliant</span>
-        </div>
-
-      </div>
-
-      {/* ── RIGHT: Interactive Sign-In Card Container ── */}
-      <div className="flex-1 flex flex-col justify-center items-center p-6 sm:p-12 lg:p-16">
-        
-        {/* Mobile Header */}
-        <div className="lg:hidden flex items-center gap-3 mb-8 self-start">
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF8A00] via-white to-[#16A34A] flex items-center justify-center shadow-md font-display font-black text-xl text-[#0A1628]">
-              P
+        {/* Magic Link Sent State */}
+        {sent ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3 mb-6"
+          >
+            <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+              <CheckCircle className="w-6 h-6" />
             </div>
+            <h3 className="font-display font-bold text-lg text-white">Check Your Inbox</h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              We have sent an encrypted magic sign-in link to <span className="font-mono text-emerald-300 font-bold">{email}</span>. Click the link in your email to log in instantly.
+            </p>
+            <button
+              onClick={() => setSent(false)}
+              className="text-xs font-bold text-slate-400 hover:text-white underline pt-2"
+            >
+              Use a different email address
+            </button>
+          </motion.div>
+        ) : (
+          /* Sign-in Form */
+          <form onSubmit={handleSubmit} className="space-y-4 mb-6">
             <div>
-              <span className="font-display font-black text-xl text-slate-900 block leading-tight">PolymerHub</span>
-              <span className="text-[9px] font-mono text-slate-500 uppercase tracking-wider">India&apos;s Knowledge Platform</span>
-            </div>
-          </Link>
-        </div>
-
-        <div className="w-full max-w-md">
-          
-          {!sent ? (
-            /* ── Sign-in Form Card ── */
-            <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-xl p-8 sm:p-10 space-y-6">
-              
-              {/* Card Header */}
-              <div className="text-center space-y-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-mono font-bold uppercase tracking-wider">
-                  <Sparkles className="w-3 h-3 text-emerald-600" /> Passwordless &middot; Instant OTP
-                </div>
-                <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-                  Sign In Securely
-                </h2>
-                <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                  Enter your email to receive a secure instant magic link
-                </p>
+              <label className="block text-xs font-mono font-bold text-slate-300 uppercase tracking-wider mb-1.5">
+                Email Address
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@college.edu.in"
+                  className="w-full pl-10 pr-4 py-3.5 border border-white/15 rounded-xl bg-slate-950/60 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all text-white placeholder:text-slate-500 text-sm outline-none font-medium"
+                  required
+                />
               </div>
+              <p className="text-[11px] text-slate-400 mt-1.5 flex items-center gap-1.5">
+                <Shield className="h-3 w-3 text-emerald-400 shrink-0" />
+                We&apos;ll send an encrypted one-time magic link. No passwords needed.
+              </p>
+            </div>
 
-              {/* Form */}
-              <form onSubmit={handleLogin} className="space-y-4">
-                <div>
-                  <label htmlFor="email" className="block font-mono text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@college.edu.in"
-                      required
-                      className="w-full pl-10 pr-4 py-3.5 border-2 border-slate-900 rounded-xl text-slate-900 font-medium placeholder:text-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all bg-white shadow-sm"
-                    />
-                  </div>
-                  <p className="text-[11px] text-slate-400 font-mono mt-1.5 flex items-center gap-1">
-                    <Lock className="w-3 h-3 text-slate-400" /> We&apos;ll send an encrypted one-time login link
-                  </p>
-                </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className={`
+                w-full py-3.5 rounded-xl font-display font-bold text-white text-sm transition-all flex items-center justify-center gap-2 shadow-lg
+                ${isLoading 
+                  ? 'bg-blue-600/50 cursor-not-allowed' 
+                  : 'bg-blue-600 hover:bg-blue-500 active:scale-[0.99] shadow-blue-500/25 hover:shadow-blue-500/40'
+                }
+              `}
+            >
+              {isLoading ? (
+                <span className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Sending Magic Link...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  Send Magic Link <ArrowRight className="w-4 h-4" />
+                </span>
+              )}
+            </button>
+          </form>
+        )}
 
-                {error && (
-                  <div className="bg-rose-50 border-2 border-rose-300 rounded-xl p-3 text-xs text-rose-800 font-medium">
-                    {error}
-                  </div>
-                )}
-
-                <button
-                  type="submit"
-                  disabled={loading || !email.trim()}
-                  className="w-full py-4 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-slate-900 transition-all shadow-[4px_4px_0px_0px_#0A1628] hover:shadow-[2px_2px_0px_0px_#0A1628] hover:translate-x-0.5 hover:translate-y-0.5 flex items-center justify-center gap-2"
+        {/* Features Grid */}
+        <div className="pt-5 border-t border-white/10">
+          <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest mb-3 text-center">
+            Included Free with PolymerHub
+          </p>
+          <div className="grid grid-cols-2 gap-2">
+            {[
+              { icon: BookOpen, text: 'All 19 Subjects', color: 'text-blue-400' },
+              { icon: Brain, text: '15 AI Queries/Day', color: 'text-purple-400' },
+              { icon: Database, text: '50 Materials DB', color: 'text-emerald-400' },
+              { icon: TrendingUp, text: 'GATE Analytics', color: 'text-amber-400' },
+            ].map((item) => {
+              const Icon = item.icon
+              return (
+                <div 
+                  key={item.text} 
+                  className="flex items-center gap-2.5 p-2.5 bg-white/[0.03] rounded-xl border border-white/5"
                 >
-                  {loading ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Sending Magic Link...
-                    </>
-                  ) : (
-                    <>
-                      Send Magic Link <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {/* What You Get Features Grid */}
-              <div className="pt-6 border-t border-slate-100">
-                <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest text-center mb-3">
-                  Included Free with PolymerHub
-                </p>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {[
-                    { icon: BookOpen, text: 'All 19 Subjects', color: '#2563EB' },
-                    { icon: Brain, text: '15 AI Queries/Day', color: '#EA580C' },
-                    { icon: Database, text: '50 Materials DB', color: '#15803D' },
-                    { icon: TrendingUp, text: 'GATE Analytics', color: '#7C3AED' },
-                  ].map((item) => {
-                    const Icon = item.icon
-                    return (
-                      <div key={item.text} className="flex items-center gap-2 p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                        <Icon className="w-4 h-4 flex-shrink-0" style={{ color: item.color }} />
-                        <span className="text-xs font-bold text-slate-800">{item.text}</span>
-                      </div>
-                    )
-                  })}
+                  <Icon className={`w-4 h-4 ${item.color}`} />
+                  <span className="text-xs font-medium text-slate-200">{item.text}</span>
                 </div>
-              </div>
-
-              {/* Bottom Quick Links */}
-              <div className="flex items-center justify-between text-xs text-slate-400 pt-2 font-medium">
-                <Link href="/subjects" className="hover:text-blue-600 transition-colors flex items-center gap-1">
-                  Browse syllabus <ChevronRight className="w-3 h-3" />
-                </Link>
-                <div className="flex items-center gap-3">
-                  <span className="flex items-center gap-1 text-emerald-600 font-semibold">
-                    <CheckCircle2 className="w-3.5 h-3.5" /> 1-Click
-                  </span>
-                  <span className="w-px h-3 bg-slate-200" />
-                  <Link href="/privacy" className="hover:text-blue-600 transition-colors">
-                    Privacy
-                  </Link>
-                </div>
-              </div>
-
-            </div>
-          ) : (
-            /* ── Success State Card ── */
-            <div className="bg-white rounded-2xl border-2 border-slate-900 shadow-xl p-8 sm:p-10 text-center space-y-5">
-              <div className="w-16 h-16 bg-emerald-50 border-2 border-emerald-500 rounded-2xl flex items-center justify-center mx-auto text-emerald-600 shadow-md">
-                <CheckCircle2 className="w-8 h-8" />
-              </div>
-              
-              <div>
-                <h2 className="font-display font-black text-2xl text-slate-900 tracking-tight mb-1">
-                  Check Your Inbox
-                </h2>
-                <p className="text-xs text-slate-500 font-medium">
-                  We sent an encrypted sign-in link to:
-                </p>
-                <div className="mt-2 font-mono font-bold text-sm text-slate-900 bg-amber-100 border border-amber-300 px-3 py-1.5 rounded-lg inline-block">
-                  {email}
-                </div>
-              </div>
-
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                Click the magic link in your email to sign in instantly. The link remains valid for 1 hour.
-              </p>
-
-              {/* Promotion Banner */}
-              <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 text-left space-y-1">
-                <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-blue-700 uppercase tracking-wide">
-                  <Sparkles className="w-3.5 h-3.5" /> First 50 Signups Perk
-                </div>
-                <p className="text-xs text-slate-700 leading-relaxed font-medium">
-                  Enter coupon code <span className="font-mono font-bold bg-white px-1.5 py-0.5 rounded border border-blue-300 text-blue-800">PIIU2025</span> at checkout for 3 months complimentary Premium access.
-                </p>
-              </div>
-
-              <button
-                onClick={() => { setSent(false); setEmail('') }}
-                className="font-mono text-xs font-bold text-slate-600 hover:text-slate-900 border border-slate-300 hover:border-slate-500 px-4 py-2 rounded-xl transition-colors"
-              >
-                Use a different email address
-              </button>
-            </div>
-          )}
-
-          {/* Trust Footnote */}
-          <div className="mt-6 text-center">
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm text-[11px] font-mono font-semibold text-slate-600">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> DPDP 2023
-              </span>
-              <span className="w-px h-3 bg-slate-200" />
-              <span>🔒 AES-256</span>
-              <span className="w-px h-3 bg-slate-200" />
-              <span>🇮🇳 Made in India</span>
-            </div>
+              )
+            })}
           </div>
-
         </div>
 
-      </div>
+        {/* Footer Navigation */}
+        <div className="mt-5 flex items-center justify-between text-xs text-slate-400 pt-3 border-t border-white/5">
+          <Link href="/subjects" className="hover:text-blue-400 transition-colors flex items-center gap-1">
+            Browse syllabus <ArrowRight className="h-3 w-3" />
+          </Link>
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1 text-emerald-400 font-medium">
+              <CheckCircle className="h-3 w-3" /> 1-Click
+            </span>
+            <span className="w-px h-3 bg-white/10" />
+            <Link href="/privacy" className="hover:text-blue-400 transition-colors">
+              Privacy Policy
+            </Link>
+          </div>
+        </div>
 
+        {/* Security & DPDP Compliance Trust Badges */}
+        <div className="mt-5 pt-4 border-t border-white/10">
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-[11px] text-slate-400">
+            <span className="flex items-center gap-1">
+              <Shield className="h-3 w-3 text-slate-300" /> Passwordless
+            </span>
+            <span className="text-white/20">&middot;</span>
+            <span className="flex items-center gap-1 text-emerald-400">
+              <CheckCircle className="h-3 w-3" /> Zero leaks
+            </span>
+            <span className="text-white/20">&middot;</span>
+            <span className="text-emerald-400 font-medium">
+              🇮🇳 DPDP 2023
+            </span>
+            <span className="text-white/20">&middot;</span>
+            <span>🔐 AES-256</span>
+            <span className="text-white/20">&middot;</span>
+            <span>🇮🇳 Made in India</span>
+          </div>
+        </div>
+      </motion.div>
     </div>
   )
 }
