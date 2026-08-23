@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Scale, RotateCcw, ChevronDown, BookOpen, Brain, Building2, Layers } from 'lucide-react'
+import { Scale, RotateCcw, ChevronDown, Brain, Building2, Layers, Sparkles, Compass } from 'lucide-react'
 import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -166,59 +166,77 @@ export default function ComparatorPage() {
   const visibleProps = showAll ? COMPARE_PROPS : COMPARE_PROPS.filter((p) => p.highlight)
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-blue" />
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      {/* Hero */}
-      <section className="border-b-4 border-ink bg-ink px-6 md:px-12 py-10 md:py-12 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue border-2 border-blue flex items-center justify-center">
-                <Scale className="w-5 h-5 text-white" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">Property Comparator</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none mb-3">
-              COMPARE POLYMERS &<br />
-              <span className="text-yellow-bright italic">COMMERCIAL GRADES</span>
-            </h1>
-            <p className="text-white/60 max-w-lg text-sm leading-relaxed">
-              Compare base polymer families side-by-side or analyze real manufacturer technical datasheets (TDS) using the CAMPUS model.
-            </p>
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Scale className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              16 Base Polymer Families &middot; 25+ Commercial CAMPUS Grades &middot; Side-by-Side Analytics
+            </span>
           </div>
-          <div className="flex-shrink-0 text-right">
-            <div className="font-mono text-4xl font-black text-yellow-bright">25+</div>
-            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Commercial TDS Grades</div>
-            <div className="font-mono text-4xl font-black text-yellow-bright mt-2">16</div>
-            <div className="font-mono text-[10px] text-white/40 uppercase tracking-wider">Base Material Types</div>
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Compare Polymers &amp; <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Make Informed Choices.
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Compare base polymer families side-by-side or analyze real manufacturer technical datasheets (TDS) using the standardized CAMPUS model.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">16</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Base Material Types</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">25+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Commercial TDS Grades</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">16</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Properties Each</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">100%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Brandrup Handbook</span>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Mode Switcher Tabs */}
-      <div className="border-b-4 border-ink bg-white px-6 md:px-12 py-3 flex items-center justify-start gap-4">
-        <button
-          onClick={() => setComparisonMode('base')}
-          className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
-            comparisonMode === 'base'
-              ? 'border-ink bg-ink text-white'
-              : 'border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100'
-          }`}
-        >
-          <Layers className="w-4 h-4" /> Base Polymer Families
-        </button>
-        <button
-          onClick={() => setComparisonMode('commercial')}
-          className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-all shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${
-            comparisonMode === 'commercial'
-              ? 'border-ink bg-blue text-white'
-              : 'border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100'
-          }`}
-        >
-          <Building2 className="w-4 h-4" /> Commercial Resin Grades (CAMPUS TDS)
-        </button>
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 -mt-8 relative z-20">
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-2 shadow-xl flex flex-col sm:flex-row gap-2">
+          <button
+            onClick={() => setComparisonMode('base')}
+            className={`flex-1 font-mono text-xs font-bold uppercase tracking-wider py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+              comparisonMode === 'base'
+                ? 'bg-slate-900 text-white shadow-md'
+                : 'bg-transparent text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+            }`}
+          >
+            <Layers className="w-4 h-4" /> Base Polymer Families
+          </button>
+          <button
+            onClick={() => setComparisonMode('commercial')}
+            className={`flex-1 font-mono text-xs font-bold uppercase tracking-wider py-3 px-4 rounded-xl flex items-center justify-center gap-2 transition-all ${
+              comparisonMode === 'commercial'
+                ? 'bg-slate-900 text-white shadow-md'
+                : 'bg-transparent text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+            }`}
+          >
+            <Building2 className="w-4 h-4" /> Commercial Resin Grades (CAMPUS TDS)
+          </button>
+        </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
@@ -311,23 +329,42 @@ export default function ComparatorPage() {
         )}
       </div>
 
-      {/* Footer */}
-      <section className="border-t-4 border-ink bg-blue px-6 md:px-12 py-10">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <div className="font-mono text-[9px] font-bold text-white/50 uppercase tracking-widest mb-1">Learn the science behind the numbers</div>
-            <h3 className="font-display text-2xl font-black text-white">Understand why properties differ</h3>
+      {/* ── BOTTOM AI COMPARATOR SPECIALIST CTA ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Comparator Specialist &middot; Gemini RAG
           </div>
-          <div className="flex gap-3 flex-shrink-0">
-            <Link href="/subjects/polymer-chemistry" className="cn-btn bg-white text-blue border-white text-sm">
-              <BookOpen className="w-4 h-4" /> Polymer Chemistry
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need in-depth engineering tradeoff analysis? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Comparator.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Analyze why HDT differs between semicrystalline PP and amorphous PS, evaluate environmental stress cracking resistance (ESCR), or simulate mould shrinkages.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Compare%20HDPE%20and%20Polypropylene%20for%20underground%20water%20pipe%20extrusion%20in%20terms%20of%20long-term%20hydrostatic%20strength%20and%20environmental%20stress%20cracking"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Comparator Specialist &rarr;
             </Link>
-            <Link href="/ai-tutor" className="cn-btn bg-yellow-bright text-ink border-yellow-bright text-sm">
-              <Brain className="w-4 h-4" /> Ask AI Tutor
+
+            <Link
+              href="/materials"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> Materials Database
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   )
 }

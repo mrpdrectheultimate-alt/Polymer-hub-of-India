@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database } from 'lucide-react'
+import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database, Sparkles, Brain, Compass } from 'lucide-react'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
 import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
 
@@ -378,30 +378,47 @@ export default function MaterialsPage() {
   return (
     <div className="min-h-screen bg-canvas pb-16">
 
-      {/* Hero */}
-      <section className="border-b-4 border-ink bg-yellow-bright px-6 md:px-12 py-12">
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-ink border-2 border-ink flex items-center justify-center">
-                <Database className="w-5 h-5 text-yellow-bright" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-ink border-2 border-ink px-3 py-1 uppercase tracking-widest bg-white">
-                Materials
-              </span>
-              <span className="font-mono text-[10px] font-black border-2 border-ink bg-ink text-yellow-bright px-3 py-1 uppercase tracking-widest">
-                DATABASE
-              </span>
-            </div>
-            <h1 className="font-display text-4xl md:text-6xl font-black text-ink leading-none uppercase">
-              POLYMER MATERIALS<br />
-              <span className="italic">SPECIFICATIONS AND BRANDS</span>
-            </h1>
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Database className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              35+ Base Polymers &middot; 100+ 3D Interactive Models &middot; Indian Trade Names
+            </span>
           </div>
-          <div className="max-w-md text-left md:text-right">
-            <p className="text-sm font-bold text-ink/70 leading-relaxed">
-              Properties, applications, and Indian trade names for {materials.length}+ polymers. The only database built for Indian PPE students.
-            </p>
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Polymer Materials <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Specifications &amp; Brands
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Comprehensive property profiles, ASTM testing standards, interactive 3D crystal structures, and Indian commercial brand equivalents (Reliance, GAIL, Supreme, SRF).
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">35+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Polymers</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">100+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">3D Models</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">16</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">CAMPUS Attributes</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">100%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Indian Brand Mappings</span>
+            </div>
           </div>
         </div>
       </section>
@@ -618,22 +635,22 @@ export default function MaterialsPage() {
         )}
 
         {/* Premium Upgrade alert */}
-        <div className="mt-10 border-2 border-ink p-6 shadow-hard" style={{ backgroundColor: '#FEFCE8', boxShadow: '2px 2px 0px 0px #EA580C' }}>
+        <div className="mt-10 border-2 border-slate-900 bg-amber-50 p-6 rounded-2xl shadow-md">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
             <div className="flex items-start gap-4">
-              <Lock className="w-6 h-6 text-orange flex-shrink-0 mt-0.5" />
+              <Lock className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-display font-black text-ink text-lg uppercase tracking-tight mb-1">
+                <h3 className="font-display font-black text-slate-900 text-lg uppercase tracking-tight mb-1">
                   Unlock Chemical Resistance and Processing Data
                 </h3>
-                <p className="text-xs text-ink/60 leading-relaxed font-bold">
+                <p className="text-xs text-slate-600 leading-relaxed font-medium">
                   Premium membership includes complete chemical resistance tables, processing parameters, and trade details for specialized materials (PTFE, PEEK, elastomers, biopolymers).
                 </p>
               </div>
             </div>
             <Link
               href="/pricing"
-              className="cn-btn-orange text-center text-xs py-3 px-6 flex items-center justify-center gap-1.5 flex-shrink-0"
+              className="bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-6 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] flex items-center justify-center gap-1.5 flex-shrink-0 transition-all"
             >
               Unlock Premium <ArrowRight className="w-4 h-4" />
             </Link>
@@ -641,6 +658,43 @@ export default function MaterialsPage() {
         </div>
 
       </div>
+
+      {/* ── BOTTOM AI MATERIALS SPECIALIST CTA ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Materials Specialist &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need resin substitution or technical datasheet analysis? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Materials Specialist.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Query comparative tensile modulus, moisture absorption kinetics, processing shrinkage differences, or Indian petrochemical supplier trade names.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Compare%20polycarbonate%20and%20PMMA%20for%20automotive%20headlamp%20lens%20applications%20including%20refractive%20index%20and%20impact%20strength"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Materials Specialist &rarr;
+            </Link>
+
+            <Link
+              href="/comparator"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> Side-by-Side Comparator
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
