@@ -1065,7 +1065,7 @@ export default function HomePage() {
             {[
               { title: 'Learn', links: [{ label: 'All 19 Subjects', href: '/subjects' }, { label: '50 Materials Database', href: '/materials' }, { label: 'AI Polymer Tutor', href: '/ai-tutor' }, { label: '50 Reference Books', href: '/library' }] },
               { title: 'Explore', links: [{ label: 'The World of Plastic', href: '/world' }, { label: '162 Years History', href: '/history' }, { label: 'Daily News Pulse', href: '/today' }, { label: 'SPE Career Tracks', href: '/careers' }] },
-              { title: 'Engineering Tools', links: [{ label: 'Defect Troubleshooter', href: '/troubleshooter' }, { label: 'Property Comparator', href: '/comparator' }, { label: '8 Live Calculators', href: '/calculators' }, { label: 'Virtual Simulations', href: '/simulations' }] },
+              { title: 'Tools & Legal', links: [{ label: 'Defect Troubleshooter', href: '/troubleshooter' }, { label: 'Property Comparator', href: '/comparator' }, { label: 'Privacy Policy', href: '/privacy' }, { label: 'Terms of Service', href: '/terms' }] },
             ].map((col) => (
               <div key={col.title}>
                 <h4 className="font-mono text-xs font-bold text-amber-400 uppercase tracking-widest mb-4 border-b border-white/10 pb-2">
@@ -1085,9 +1085,16 @@ export default function HomePage() {
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="font-mono text-xs text-slate-500 uppercase tracking-wider">
-              &copy; 2026 PolymerHub &middot; India&apos;s #1 Plastic Polymer Engineering Knowledge Platform
-            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-center md:text-left">
+              <p className="font-mono text-xs text-slate-500 uppercase tracking-wider">
+                &copy; 2026 PolymerHub &middot; India&apos;s #1 Plastic Polymer Engineering Knowledge Platform
+              </p>
+              <div className="flex items-center gap-3 text-xs font-mono text-slate-400">
+                <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+                <span>&middot;</span>
+                <Link href="/terms" className="hover:text-white transition-colors">Terms</Link>
+              </div>
+            </div>
             <div className="flex gap-2">
               {['#2563EB', '#EA580C', '#15803D', '#CA8A04', '#7C3AED'].map((c) => (
                 <div key={c} className="w-3 h-3 rounded-full border border-white/20" style={{ backgroundColor: c }} />
