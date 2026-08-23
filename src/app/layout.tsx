@@ -72,14 +72,14 @@ export default function RootLayout({
                   hasOfferCatalog: {
                     '@type': 'OfferCatalog',
                     name: 'Polymer Engineering Courses',
-                    numberOfItems: 15,
+                    numberOfItems: 19,
                   },
                 },
                 {
                   '@type': 'Course',
                   '@id': 'https://polymer-hub-six.vercel.app/#course',
                   name: 'Complete B.Tech Plastic Polymer Engineering Curriculum',
-                  description: '155 world-class lessons across 15 subjects: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, and Entrepreneurship',
+                  description: '216 world-class lessons across 19 subjects: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, Rheology, Additives, Packaging, LCA, Masterbatches, Nanotechnology, Bioprocessing, Robotics, Digital Twins, and Entrepreneurship',
                   provider: {
                     '@type': 'Organization',
                     name: 'PolymerHub',
@@ -91,7 +91,7 @@ export default function RootLayout({
                   hasCourseInstance: {
                     '@type': 'CourseInstance',
                     courseMode: 'online',
-                    courseWorkload: 'PT155H',
+                    courseWorkload: 'PT216H',
                   },
                   offers: {
                     '@type': 'Offer',
@@ -101,7 +101,7 @@ export default function RootLayout({
                     availability: 'https://schema.org/InStock',
                     url: 'https://polymer-hub-six.vercel.app/pricing',
                   },
-                  numberOfCredits: 155,
+                  numberOfCredits: 216,
                   teaches: [
                     'Polymer Chemistry and Polymerization Mechanisms',
                     'Injection Moulding and Extrusion Processing',
@@ -112,6 +112,15 @@ export default function RootLayout({
                     'Sustainable Plastics and Bioplastics',
                     'Polymer Composites and CFRP',
                     'Medical Plastics and ISO 10993 Biocompatibility',
+                    'Polymer Rheology and Viscoelasticity',
+                    'Additives, Fillers & Compounding',
+                    'Plastic Packaging Engineering',
+                    'Life Cycle Assessment & Circularity',
+                    'Color Science & Masterbatches',
+                    'Polymer Nanotechnology',
+                    'Bioprocessing & Fermentation of PHA/PLA',
+                    'Robotics & Automation in Plastics',
+                    'Digital Twins in Polymer Processing Plants',
                     'Entrepreneurship in the Plastics Sector',
                   ],
                 },

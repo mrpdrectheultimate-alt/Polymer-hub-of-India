@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { CheckCircle, XCircle, ArrowRight, Brain, BookOpen, RotateCcw, Trophy, Zap } from 'lucide-react'
+import { CheckCircle2, XCircle, ArrowRight, Brain, RotateCcw, Trophy, Zap, Sparkles, Filter } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -38,24 +38,6 @@ const DIFFICULTY_CONFIG = {
   hard:   { color: '#EA580C', bg: '#FFF7ED', label: 'Hard' },
 }
 
-const SUBJECT_COLORS: Record<string, { color: string; bg: string }> = {
-  'polymer-chemistry':        { color: '#1D4ED8', bg: '#EFF6FF' },
-  'polymer-processing':       { color: '#EA580C', bg: '#FFF7ED' },
-  'mould-design':             { color: '#EA580C', bg: '#FFF7ED' },
-  'polymer-testing':          { color: '#7C3AED', bg: '#F5F3FF' },
-  'rubber-technology':        { color: '#EA580C', bg: '#FFF7ED' },
-  'recycling-technology':     { color: '#15803D', bg: '#F0FDF4' },
-  'sustainable-plastics':     { color: '#15803D', bg: '#F0FDF4' },
-  'polymer-composites':       { color: '#1D4ED8', bg: '#EFF6FF' },
-  'entrepreneurship-plastics':{ color: '#CA8A04', bg: '#FEFCE8' },
-  'medical-plastics':         { color: '#7C3AED', bg: '#F5F3FF' },
-  'polymer-rheology':         { color: '#EA580C', bg: '#FFF7ED' },
-  'additives-compounding':    { color: '#1D4ED8', bg: '#EFF6FF' },
-  'plastic-packaging-engineering': { color: '#15803D', bg: '#F0FDF4' },
-  'life-cycle-assessment':    { color: '#15803D', bg: '#F0FDF4' },
-  'color-science-masterbatches': { color: '#CA8A04', bg: '#FEFCE8' },
-}
-
 // ─── Score Card ───────────────────────────────────────────────────────────────
 
 function ScoreCard({ score, total, onRetry, onNext }: {
@@ -63,240 +45,281 @@ function ScoreCard({ score, total, onRetry, onNext }: {
 }) {
   const pct = Math.round((score / total) * 100)
   const color = pct >= 80 ? '#15803D' : pct >= 50 ? '#CA8A04' : '#EA580C'
-  const grade = pct >= 80 ? 'Excellent' : pct >= 60 ? 'Good' : pct >= 40 ? 'Keep Practising' : 'Review the Lessons'
+  const grade = pct >= 80 ? 'Excellent Mastery' : pct >= 60 ? 'Good Progress' : pct >= 40 ? 'Keep Practising' : 'Review Core Lessons'
 
   return (
-    <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: `6px 6px 0px 0px ${color}` }}>
-      <div className="border-b-4 border-ink px-6 py-4" style={{ backgroundColor: color }}>
-        <div className="flex items-center gap-3">
-          <Trophy className="w-6 h-6 text-white" />
-          <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Quiz Complete</span>
+    <div className="border-2 border-slate-900 rounded-2xl overflow-hidden bg-white shadow-xl">
+      <div className="p-6 text-white text-center" style={{ backgroundColor: color }}>
+        <div className="inline-flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider mb-3">
+          <Trophy className="w-4 h-4 text-yellow-300" /> Assessment Complete
         </div>
-      </div>
-      <div className="p-8 text-center bg-canvas">
-        <div className="font-display text-7xl font-black mb-2" style={{ color }}>
+        <div className="font-display text-6xl sm:text-7xl font-black mb-1">
           {pct}%
         </div>
-        <div className="font-display text-2xl font-black text-ink mb-1">{grade}</div>
-        <div className="font-mono text-sm text-ink/50 mb-6">{score} correct out of {total} questions</div>
+        <div className="font-display text-2xl font-bold">{grade}</div>
+        <div className="text-xs font-mono text-white/80 mt-1">{score} correct out of {total} questions</div>
+      </div>
 
+      <div className="p-6 sm:p-8 space-y-6">
         {/* Score bar */}
-        <div className="border-4 border-ink h-4 mb-8 overflow-hidden">
-          <div className="h-full transition-all duration-1000" style={{ width: `${pct}%`, backgroundColor: color }} />
+        <div className="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden border border-slate-200">
+          <div className="h-full rounded-full transition-all duration-1000" style={{ width: `${pct}%`, backgroundColor: color }} />
         </div>
 
         {pct < 80 && (
-          <div className="border-4 border-ink p-4 mb-6 text-left" style={{ backgroundColor: color + '15' }}>
-            <p className="font-mono text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color }}>Recommendation</p>
-            <p className="text-sm text-ink">
-              {pct < 40
-                ? 'Review the lesson content before attempting again. The AI Tutor can explain any concept you found difficult.'
-                : 'You\'re getting there. Focus on the questions you got wrong — the explanations show exactly where the concept is applied.'}
-            </p>
+          <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+            <p className="font-mono text-xs font-bold uppercase tracking-wider mb-1" style={{ color }}>Learning Recommendation</p>
+            {pct < 40
+              ? 'Review the relevant subject modules before reattempting. You can ask our AI Tutor to clarify any tricky thermodynamic or rheology formulas.'
+              : 'You are close! Focus specifically on the wrong answers below — the detailed explanations break down the underlying chemistry and standards.'}
           </div>
         )}
 
-        <div className="flex flex-wrap gap-3 justify-center">
-          <button onClick={onRetry} className="cn-btn-black text-sm">
+        <div className="flex flex-wrap gap-3 justify-center pt-2">
+          <button 
+            onClick={onRetry} 
+            className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-colors shadow-md"
+          >
             <RotateCcw className="w-4 h-4" /> Try Again
           </button>
-          <button onClick={onNext} className="cn-btn text-sm bg-white border-ink text-ink">
-            Change Filters
+          <button 
+            onClick={onNext} 
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-colors shadow-md shadow-blue-900/30"
+          >
+            Choose Another Subject <ArrowRight className="w-4 h-4" />
           </button>
-          <Link href="/ai-tutor" className="cn-btn-yellow text-sm">
-            <Brain className="w-4 h-4" /> Ask AI Tutor
-          </Link>
         </div>
       </div>
     </div>
   )
 }
 
-// ─── Question Card ─────────────────────────────────────────────────────────────
+// ─── Question Card ────────────────────────────────────────────────────────────
 
 function QuestionCard({
-  question, index, total, answerState, onAnswer, onReveal
+  question,
+  index,
+  total,
+  answerState,
+  onAnswer,
+  onReveal,
 }: {
   question: Question
   index: number
   total: number
   answerState: AnswerState
-  onAnswer: (answer: string) => void
+  onAnswer: (val: string) => void
   onReveal: () => void
 }) {
-  const diff = DIFFICULTY_CONFIG[question.difficulty]
+  const [typedAnswer, setTypedAnswer] = useState('')
+  const isSelected = !!answerState.selected
+  const isRevealed = answerState.revealed
+
+  const difficultyConf = DIFFICULTY_CONFIG[question.difficulty] ?? DIFFICULTY_CONFIG.medium
 
   return (
-    <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: '4px 4px 0px 0px #0A0A0A' }}>
-      {/* Card header */}
-      <div className="border-b-4 border-ink px-5 py-3 flex items-center justify-between bg-ink">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-xs font-black text-yellow-bright">Q{index + 1}/{total}</span>
-          <span className="font-mono text-[9px] font-black border border-yellow-bright text-yellow-bright px-2 py-0.5 uppercase tracking-wider">
-            {question.type.toUpperCase()}
+    <div className="border-2 border-slate-900 rounded-2xl bg-white shadow-sm overflow-hidden animate-in fade-in duration-200">
+      
+      {/* Header Badges */}
+      <div className="p-4 sm:p-5 border-b border-slate-100 flex flex-wrap items-center justify-between gap-2 bg-slate-50">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-xs font-bold bg-slate-900 text-white px-2.5 py-1 rounded-md uppercase tracking-wider">
+            Q{index + 1} / {total}
+          </span>
+          <span
+            className="font-mono text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider border"
+            style={{ backgroundColor: difficultyConf.bg, color: difficultyConf.color, borderColor: difficultyConf.color + '40' }}
+          >
+            {difficultyConf.label}
           </span>
           {question.is_gate_relevant && (
-            <span className="font-mono text-[9px] font-black border border-violet-600 text-violet-400 px-2 py-0.5 uppercase tracking-wider">
-              GATE
+            <span className="font-mono text-[10px] font-bold bg-purple-100 text-purple-700 border border-purple-300 px-2 py-0.5 rounded uppercase">
+              🎯 GATE Relevant
             </span>
           )}
         </div>
-        <span
-          className="font-mono text-[9px] font-black border-2 px-2 py-0.5 uppercase tracking-wider"
-          style={{ borderColor: diff.color, color: diff.color, backgroundColor: diff.bg }}
-        >
-          {diff.label}
-        </span>
+        {question.topic && (
+          <span className="text-[11px] font-mono font-medium text-slate-500 bg-white border border-slate-200 px-2.5 py-0.5 rounded-full">
+            {question.topic}
+          </span>
+        )}
       </div>
 
-      {/* Question */}
-      <div className="p-6 bg-canvas">
-        {question.topic && (
-          <div className="font-mono text-[9px] text-ink/40 uppercase tracking-widest mb-2">{question.topic}</div>
-        )}
-        <p className="font-display text-lg font-black text-ink leading-snug mb-5">{question.question}</p>
+      {/* Question Body */}
+      <div className="p-6 sm:p-8 space-y-6">
+        <h3 className="font-display text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+          {question.question}
+        </h3>
 
-        {/* MCQ Options */}
+        {/* Options: MCQ */}
         {question.type === 'mcq' && question.options && (
-          <div className="space-y-2">
-            {question.options.map((option, i) => {
-              const letter = ['A', 'B', 'C', 'D'][i]
-              const isSelected = answerState.selected === letter
-              const isCorrect = answerState.revealed && letter === question.correct_answer
-              const isWrong = answerState.revealed && isSelected && letter !== question.correct_answer
+          <div className="space-y-3">
+            {question.options.map((opt, i) => {
+              const optKey = ['A', 'B', 'C', 'D'][i] || String(i + 1)
+              const isOptionSelected = answerState.selected === opt
+              const isCorrectOption = opt === question.correct_answer
 
-              let borderColor = '#0A0A0A'
-              let bgColor = '#FFFFFF'
-
-              if (isCorrect) { borderColor = '#15803D'; bgColor = '#F0FDF4' }
-              else if (isWrong) { borderColor = '#EA580C'; bgColor = '#FFF7ED' }
-              else if (isSelected && !answerState.revealed) { borderColor = '#1D4ED8'; bgColor = '#EFF6FF' }
+              let buttonStyle = 'bg-white border-slate-200 text-slate-800 hover:border-slate-400 hover:bg-slate-50'
+              if (isRevealed) {
+                if (isCorrectOption) {
+                  buttonStyle = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-bold'
+                } else if (isOptionSelected && !isCorrectOption) {
+                  buttonStyle = 'bg-rose-50 border-rose-400 text-rose-950 line-through'
+                } else {
+                  buttonStyle = 'bg-slate-50 border-slate-200 text-slate-400 opacity-60'
+                }
+              } else if (isOptionSelected) {
+                buttonStyle = 'bg-blue-50 border-blue-600 text-blue-900 font-bold shadow-sm'
+              }
 
               return (
                 <button
-                  key={letter}
-                  onClick={() => !answerState.revealed && onAnswer(letter)}
-                  disabled={answerState.revealed}
-                  className="w-full text-left border-4 p-3 flex items-start gap-3 transition-all disabled:cursor-default"
-                  style={{
-                    borderColor,
-                    backgroundColor: bgColor,
-                    boxShadow: isSelected || isCorrect ? `3px 3px 0px 0px ${borderColor}` : '2px 2px 0px 0px #0A0A0A',
-                  }}
+                  key={i}
+                  disabled={isRevealed}
+                  onClick={() => onAnswer(opt)}
+                  className={`w-full text-left p-4 rounded-xl border-2 transition-all flex items-start gap-3.5 ${buttonStyle}`}
                 >
-                  <span
-                    className="font-mono text-xs font-black w-7 h-7 flex-shrink-0 flex items-center justify-center border-2"
-                    style={{ borderColor, color: isSelected || isCorrect ? 'white' : borderColor, backgroundColor: isSelected || isCorrect ? borderColor : 'transparent' }}
-                  >
-                    {letter}
+                  <span className={`w-6 h-6 rounded-lg flex items-center justify-center font-mono text-xs font-bold flex-shrink-0 mt-0.5 ${
+                    isOptionSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'
+                  }`}>
+                    {optKey}
                   </span>
-                  <span className="text-sm text-ink font-medium leading-relaxed pt-0.5">
-                    {option.replace(/^[A-D]\) /, '')}
-                  </span>
-                  {isCorrect && <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5 ml-auto" />}
-                  {isWrong && <XCircle className="w-4 h-4 text-rose-600 flex-shrink-0 mt-0.5 ml-auto" />}
+                  <span className="text-xs sm:text-sm font-medium leading-relaxed">{opt}</span>
+                  {isRevealed && isCorrectOption && (
+                    <CheckCircle2 className="w-5 h-5 text-emerald-600 ml-auto flex-shrink-0 mt-0.5" />
+                  )}
+                  {isRevealed && isOptionSelected && !isCorrectOption && (
+                    <XCircle className="w-5 h-5 text-rose-600 ml-auto flex-shrink-0 mt-0.5" />
+                  )}
                 </button>
               )
             })}
           </div>
         )}
 
-        {/* Reveal button */}
-        {answerState.selected && !answerState.revealed && (
-          <button onClick={onReveal} className="cn-btn-black w-full justify-center mt-4 text-sm">
-            Check Answer
+        {/* Short / Numerical Answer */}
+        {question.type !== 'mcq' && (
+          <div className="space-y-3">
+            <input
+              type="text"
+              disabled={isRevealed}
+              value={typedAnswer}
+              onChange={(e) => {
+                setTypedAnswer(e.target.value)
+                onAnswer(e.target.value)
+              }}
+              placeholder="Type your numerical or short answer..."
+              className="w-full p-4 border-2 border-slate-900 rounded-xl font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
+            />
+          </div>
+        )}
+
+        {/* Check Answer CTA */}
+        {!isRevealed && (
+          <button
+            onClick={onReveal}
+            disabled={!isSelected}
+            className="w-full py-3.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed transition-all shadow-md flex items-center justify-center gap-2"
+          >
+            <Zap className="w-4 h-4" /> Check Answer
           </button>
         )}
 
-        {/* Explanation */}
-        {answerState.revealed && (
-          <div className="mt-4 border-l-4 pl-4 py-3 animate-fade-up"
-            style={{ borderColor: answerState.correct ? '#15803D' : '#EA580C', backgroundColor: answerState.correct ? '#F0FDF4' : '#FFF7ED' }}>
-            <div className="flex items-center gap-2 mb-2">
-              {answerState.correct
-                ? <CheckCircle className="w-4 h-4 text-green-700" />
-                : <XCircle className="w-4 h-4 text-rose-700" />}
-              <span className="font-mono text-[10px] font-black uppercase tracking-wider"
-                style={{ color: answerState.correct ? '#15803D' : '#EA580C' }}>
-                {answerState.correct ? 'Correct!' : `Incorrect — Correct answer: ${question.correct_answer}`}
-              </span>
+        {/* Answer Explanation Box */}
+        {isRevealed && (
+          <div className={`p-4 sm:p-5 rounded-xl border-2 space-y-2 animate-in fade-in duration-300 ${
+            answerState.correct ? 'bg-emerald-50/70 border-emerald-300' : 'bg-rose-50/70 border-rose-300'
+          }`}>
+            <div className="flex items-center gap-2">
+              {answerState.correct ? (
+                <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-emerald-800 uppercase">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Correct Answer
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-rose-800 uppercase">
+                  <XCircle className="w-4 h-4 text-rose-600" /> Incorrect Answer
+                </span>
+              )}
             </div>
-            <p className="text-sm text-ink leading-relaxed">{question.explanation}</p>
+            <p className="font-mono text-xs text-slate-800 font-bold">
+              Correct: <span className="text-emerald-700 bg-white px-2 py-0.5 rounded border border-emerald-200">{question.correct_answer}</span>
+            </p>
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium pt-1 border-t border-slate-200/60">
+              {question.explanation}
+            </p>
           </div>
         )}
+
       </div>
+
     </div>
   )
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+// ─── Main Practice Page ───────────────────────────────────────────────────────
 
 export default function PracticePage() {
-  const supabase = createClient()
   const [subjects, setSubjects] = useState<Subject[]>([])
-  const [questions, setQuestions] = useState<Question[]>([])
-  const [selectedSubject, setSelectedSubject] = useState<string>('all')
+  const [selectedSubject, setSelectedSubject] = useState('all')
+  const [difficulty, setDifficulty] = useState('all')
   const [gateOnly, setGateOnly] = useState(false)
-  const [difficulty, setDifficulty] = useState<string>('all')
-  const [loading, setLoading] = useState(false)
-  const [started, setStarted] = useState(false)
+
+  const [questions, setQuestions] = useState<Question[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [answers, setAnswers] = useState<AnswerState[]>([])
+  const [started, setStarted] = useState(false)
   const [quizComplete, setQuizComplete] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const supabase = createClient()
 
   useEffect(() => {
-    const loadSubjects = async () => {
-      const { data } = await supabase.from('subjects').select('id, name, slug').order('order_index')
+    async function loadSubjects() {
+      const { data } = await supabase
+        .from('subjects')
+        .select('id, name, slug')
+        .order('order_index', { ascending: true })
       if (data) setSubjects(data)
     }
     loadSubjects()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const loadQuestions = async () => {
     setLoading(true)
-    let query = supabase
-      .from('practice_questions')
-      .select('*')
-      .eq('is_active', true)
-      .limit(10)
+    let query = supabase.from('practice_questions').select('*')
 
     if (selectedSubject !== 'all') {
-      const subject = subjects.find((s) => s.slug === selectedSubject)
-      if (subject) query = query.eq('subject_id', subject.id)
+      const sub = subjects.find((s) => s.slug === selectedSubject)
+      if (sub) query = query.eq('subject_id', sub.id)
     }
-    if (gateOnly) query = query.eq('is_gate_relevant', true)
-    if (difficulty !== 'all') query = query.eq('difficulty', difficulty)
 
-    const { data } = await query.order('order_index')
-    
-    // Parse options if they are stored as JSONB
-    const parsedQuestions: Question[] = (data ?? []).map((q) => {
-      let opts = q.options
-      if (typeof opts === 'string') {
-        try {
-          opts = JSON.parse(opts)
-        } catch {
-          opts = []
-        }
-      }
-      return {
-        ...q,
-        options: opts,
-      }
-    })
+    if (difficulty !== 'all') {
+      query = query.eq('difficulty', difficulty)
+    }
 
-    const shuffled = parsedQuestions.sort(() => Math.random() - 0.5)
-    setQuestions(shuffled)
-    setAnswers(shuffled.map(() => ({ selected: null, revealed: false, correct: null })))
-    setCurrentIndex(0)
-    setQuizComplete(false)
-    setStarted(true)
+    if (gateOnly) {
+      query = query.eq('is_gate_relevant', true)
+    }
+
+    const { data } = await query.limit(20)
+
+    if (data && data.length > 0) {
+      const shuffled = [...data].sort(() => Math.random() - 0.5)
+      setQuestions(shuffled)
+      setAnswers(shuffled.map(() => ({ selected: null, revealed: false, correct: null })))
+      setCurrentIndex(0)
+      setStarted(true)
+      setQuizComplete(false)
+    } else {
+      setQuestions([])
+      setStarted(true)
+      setQuizComplete(false)
+    }
     setLoading(false)
   }
 
-  const handleAnswer = (answer: string) => {
-    setAnswers((prev) => prev.map((a, i) => i === currentIndex ? { ...a, selected: answer } : a))
+  const handleAnswer = (val: string) => {
+    setAnswers((prev) => prev.map((a, i) => i === currentIndex ? { ...a, selected: val } : a))
   }
 
   const handleReveal = () => {
@@ -321,190 +344,224 @@ export default function PracticePage() {
 
   const score = answers.filter((a) => a.correct === true).length
   const currentAnswer = answers[currentIndex]
-  const currentSubjectSlug = started && questions[currentIndex]
-    ? subjects.find((s) => s.id === questions[currentIndex].subject_id)?.slug ?? ''
-    : ''
-  const domainColor = SUBJECT_COLORS[currentSubjectSlug]?.color ?? '#1D4ED8'
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2" style={{ backgroundColor: domainColor }} />
-
-      {/* Hero */}
-      <section className="border-b-4 border-ink bg-ink px-6 md:px-12 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-4xl mx-auto">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-yellow-bright border-4 border-yellow-bright flex items-center justify-center">
-              <Zap className="w-5 h-5 text-ink" />
-            </div>
-            <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">
-              Practice Questions
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-16">
+      
+      {/* ── Hero Section with Indian Tricolor Gradient ── */}
+      <section className="bg-[#0A1628] text-white py-16 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Zap className="w-4 h-4 text-amber-400 animate-pulse" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              GATE 2026 Preparation &middot; 19 Subjects
             </span>
           </div>
-          <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none mb-3">
-            TEST YOURSELF.<br />
-            <span className="text-yellow-bright italic">GATE-READY QUESTIONS</span><br />
-            ACROSS ALL 15 SUBJECTS.
+
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight uppercase">
+            Test Yourself. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              GATE-Ready Questions
+            </span>
+            <br />
+            Across All 19 Subjects.
           </h1>
-          <p className="text-white/70 max-w-xl leading-relaxed">
-            MCQ questions mapped to your lessons. Each wrong answer shows exactly why — tied back to the concept in the lesson.
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            MCQ, MSQ, and numerical practice questions mapped directly to your lessons. Every wrong answer breaks down the exact polymer chemistry or processing equation.
           </p>
+
         </div>
       </section>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
-
+      {/* ── Main Interactive Assessment Container ── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
         {/* Setup panel */}
         {!started && (
-          <div className="space-y-4">
-            <div className="border-4 border-ink overflow-hidden shadow-hard">
-              <div className="border-b-4 border-ink px-5 py-3 bg-yellow-bright">
-                <h2 className="font-display text-xl font-black text-ink uppercase">Configure Your Quiz</h2>
-              </div>
-              <div className="p-5 space-y-5 bg-canvas">
-
-                {/* Subject */}
-                <div>
-                  <div className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest mb-2">Subject</div>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    <button
-                      onClick={() => setSelectedSubject('all')}
-                      className="border-4 border-ink p-3 text-left transition-all"
-                      style={{
-                        backgroundColor: selectedSubject === 'all' ? '#0A0A0A' : 'white',
-                        color: selectedSubject === 'all' ? 'white' : '#0A0A0A',
-                        boxShadow: '2px 2px 0px 0px #0A0A0A',
-                      }}
-                    >
-                      <div className="font-mono text-[9px] font-black uppercase tracking-wider">All Subjects</div>
-                    </button>
-                    {subjects.map((s) => {
-                      const dc = SUBJECT_COLORS[s.slug] ?? { color: '#1D4ED8', bg: '#EFF6FF' }
-                      const isActive = selectedSubject === s.slug
-                      return (
-                        <button
-                          key={s.id}
-                          onClick={() => setSelectedSubject(s.slug)}
-                          className="border-4 border-ink p-3 text-left transition-all"
-                          style={{
-                            backgroundColor: isActive ? dc.color : 'white',
-                            color: isActive ? 'white' : '#0A0A0A',
-                            boxShadow: `2px 2px 0px 0px ${dc.color}`,
-                          }}
-                        >
-                          <div className="font-mono text-[9px] font-black uppercase tracking-wider leading-snug">
-                            {s.name.replace('Polymer ', '').replace(' & Bioplastics', '').replace(' in Plastics', '')}
-                          </div>
-                        </button>
-                      )
-                    })}
+          <div className="space-y-6">
+            
+            {/* Filter Configuration Card */}
+            <div className="bg-white border-2 border-slate-900 rounded-2xl shadow-xl overflow-hidden p-6 sm:p-8 space-y-6">
+              
+              <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center">
+                    <Filter className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-xl font-black text-slate-900">Configure Your Quiz</h2>
+                    <p className="text-xs text-slate-500 font-medium">Select subject, difficulty, or GATE filter</p>
                   </div>
                 </div>
+                <span className="text-xs font-mono font-bold bg-slate-100 text-slate-700 px-3 py-1 rounded-full">
+                  {subjects.length || 19} Subjects Available
+                </span>
+              </div>
 
-                {/* Difficulty */}
+              {/* Subject Selection Pills */}
+              <div>
+                <div className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5">
+                  1. Select Subject (19 Available)
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                  <button
+                    onClick={() => setSelectedSubject('all')}
+                    className={`p-2.5 rounded-xl border-2 font-mono text-xs font-bold uppercase tracking-wider text-left transition-all ${
+                      selectedSubject === 'all'
+                        ? 'bg-slate-900 text-white border-slate-900 shadow-sm'
+                        : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                    }`}
+                  >
+                    All 19 Subjects
+                  </button>
+                  {subjects.map((s) => {
+                    const isActive = selectedSubject === s.slug
+                    return (
+                      <button
+                        key={s.id}
+                        onClick={() => setSelectedSubject(s.slug)}
+                        className={`p-2.5 rounded-xl border-2 font-mono text-[11px] font-bold text-left transition-all truncate ${
+                          isActive
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                            : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                        }`}
+                        title={s.name}
+                      >
+                        {s.name.replace('Polymer ', '').replace('Plastic ', '')}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+
+              {/* Difficulty & GATE Filter */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                
                 <div>
-                  <div className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest mb-2">Difficulty</div>
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    2. Difficulty Level
+                  </div>
+                  <div className="flex gap-2">
                     {['all', 'easy', 'medium', 'hard'].map((d) => {
-                      const dc = d === 'all' 
-                        ? { color: '#0A0A0A', bg: '#F9FAFB', label: 'All Levels' } 
-                        : DIFFICULTY_CONFIG[d as keyof typeof DIFFICULTY_CONFIG]
                       const isActive = difficulty === d
                       return (
                         <button
                           key={d}
                           onClick={() => setDifficulty(d)}
-                          className="font-mono text-[10px] font-black border-4 border-ink px-4 py-2 uppercase tracking-wider transition-all"
-                          style={{
-                            backgroundColor: isActive ? dc.color : 'white',
-                            color: isActive ? 'white' : '#0A0A0A',
-                            boxShadow: `2px 2px 0px 0px ${dc.color}`,
-                          }}
+                          className={`flex-1 py-2 rounded-xl font-mono text-xs font-bold uppercase tracking-wider border-2 transition-all ${
+                            isActive
+                              ? 'bg-slate-900 text-white border-slate-900'
+                              : 'bg-white text-slate-700 border-slate-200 hover:border-slate-400'
+                          }`}
                         >
-                          {dc.label}
+                          {d}
                         </button>
                       )
                     })}
                   </div>
                 </div>
 
-                {/* GATE filter */}
-                <label className="flex items-center gap-3 border-4 border-ink p-4 cursor-pointer hover:bg-violet-600/5 transition-colors">
-                  <input
-                    type="checkbox"
-                    checked={gateOnly}
-                    onChange={(e) => setGateOnly(e.target.checked)}
-                    className="w-5 h-5"
-                  />
-                  <div>
-                    <div className="font-mono text-xs font-black text-ink uppercase tracking-wider">GATE-Relevant Questions Only</div>
-                    <div className="font-mono text-[9px] text-ink/50 mt-0.5">Filter to questions mapped to GATE Polymer Science paper</div>
+                <div>
+                  <div className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">
+                    3. Exam Focus
                   </div>
-                  <span className="font-mono text-[9px] font-black border-2 border-violet-600 text-violet-600 px-2 py-0.5 ml-auto uppercase">GATE</span>
-                </label>
+                  <label className="flex items-center gap-2.5 p-2.5 rounded-xl border-2 border-slate-200 bg-slate-50 hover:bg-slate-100 cursor-pointer transition-colors">
+                    <input
+                      type="checkbox"
+                      checked={gateOnly}
+                      onChange={(e) => setGateOnly(e.target.checked)}
+                      className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
+                    />
+                    <span className="text-xs font-bold text-slate-800">
+                      🎯 GATE Polymer Science Questions Only
+                    </span>
+                  </label>
+                </div>
 
-                <button
-                  onClick={loadQuestions}
-                  disabled={loading}
-                  className="cn-btn-black w-full justify-center text-sm disabled:opacity-50"
-                >
-                  {loading ? 'Loading questions...' : <><Zap className="w-4 h-4" /> Start Practice Quiz</>}
-                </button>
               </div>
+
+              {/* Start Quiz CTA */}
+              <button
+                onClick={loadQuestions}
+                disabled={loading}
+                className="w-full py-4 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 disabled:opacity-50 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0A1628] hover:shadow-[2px_2px_0px_0px_#0A1628] hover:translate-x-0.5 hover:translate-y-0.5 transition-all flex items-center justify-center gap-2"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Loading Questions...
+                  </>
+                ) : (
+                  <>
+                    <Zap className="w-4 h-4" /> Start Practice Quiz &rarr;
+                  </>
+                )}
+              </button>
+
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-3">
+            {/* Stats Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { val: '50+', label: 'Questions', color: '#1D4ED8' },
-                { val: '15', label: 'Subjects', color: '#EA580C' },
-                { val: 'GATE', label: 'Mapped', color: '#7C3AED' },
+                { val: '225+', label: 'Practice Questions', sub: 'Across all modules', color: '#2563EB' },
+                { val: '19', label: 'Subjects Covered', sub: 'Complete B.Tech syllabus', color: '#15803D' },
+                { val: 'GATE', label: 'Pattern Matched', sub: 'Calculators & numericals', color: '#7C3AED' },
               ].map((s) => (
-                <div key={s.label} className="border-4 border-ink p-4 text-center shadow-hard-sm" style={{ backgroundColor: s.color + '12' }}>
-                  <div className="font-display text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
-                  <div className="font-mono text-[9px] text-ink/50 uppercase tracking-wider mt-1">{s.label}</div>
+                <div key={s.label} className="bg-white border-2 border-slate-900 rounded-2xl p-5 shadow-sm text-center">
+                  <div className="font-display text-3xl font-black" style={{ color: s.color }}>{s.val}</div>
+                  <div className="font-mono text-xs font-bold text-slate-800 uppercase tracking-wider mt-1">{s.label}</div>
+                  <p className="text-[11px] text-slate-500 mt-0.5">{s.sub}</p>
                 </div>
               ))}
             </div>
 
             {/* Sponsored Challenges Promo */}
-            <div className="border-4 border-ink bg-blue-50/50 p-5 shadow-hard flex flex-col sm:flex-row items-center gap-4 justify-between" style={{ borderColor: '#2563EB' }}>
-              <div className="space-y-1">
-                <div className="flex items-center gap-1.5 text-blue-700">
-                  <Trophy className="w-4 h-4" />
-                  <span className="font-mono text-[9px] font-black uppercase tracking-wider">Industry Sponsored Challenges</span>
+            <div className="bg-gradient-to-r from-[#0A1628] to-[#142642] text-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col sm:flex-row items-center gap-6 justify-between">
+              <div className="space-y-1.5 text-center sm:text-left">
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">
+                  <Trophy className="w-4 h-4" /> Industry Challenges
                 </div>
-                <h3 className="font-display text-base font-black text-ink">Solve Industry Cases & Earn Up to +250 XP</h3>
-                <p className="font-mono text-[9px] text-slate-400">Get hired directly by companies like Reliance & Supreme.</p>
+                <h3 className="font-display text-xl sm:text-2xl font-black text-white">
+                  Solve Real Polymer Industrial Problems &amp; Earn XP
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-light">
+                  Direct recruitment radar from Reliance, Supreme Industries, and Astral Pipes.
+                </p>
               </div>
-              <Link href="/practice/challenges"
-                className="border-4 border-ink bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 font-mono text-[9px] font-black uppercase shadow-hard-sm transition-all flex items-center gap-1 flex-shrink-0">
-                View Challenges <ArrowRight className="w-3.5 h-3.5" />
+              <Link 
+                href="/practice/challenges"
+                className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border-2 border-slate-900 transition-all shadow-[3px_3px_0px_0px_#000] flex-shrink-0"
+              >
+                View Challenges <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
+
           </div>
         )}
 
-        {/* Quiz in progress */}
+        {/* Quiz In Progress */}
         {started && !quizComplete && questions.length > 0 && (
-          <div className="space-y-4">
-            {/* Progress bar */}
-            <div className="border-4 border-ink h-3 overflow-hidden">
-              <div
-                className="h-full transition-all duration-500"
-                style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, backgroundColor: domainColor }}
-              />
-            </div>
-
-            {/* Score tracker */}
-            <div className="flex items-center justify-between font-mono text-[10px] text-ink/50 uppercase tracking-wider">
-              <span>Question {currentIndex + 1} of {questions.length}</span>
-              <span className="flex items-center gap-2">
-                <span className="text-green-700 font-black">{answers.filter((a) => a.correct === true).length} correct</span>
-                <span>·</span>
-                <span className="text-rose-700 font-black">{answers.filter((a) => a.correct === false).length} wrong</span>
-              </span>
+          <div className="space-y-6">
+            
+            {/* Progress & Tracker Bar */}
+            <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 shadow-sm space-y-2">
+              <div className="flex items-center justify-between font-mono text-xs font-bold text-slate-600">
+                <span>Question {currentIndex + 1} of {questions.length}</span>
+                <span className="flex items-center gap-3">
+                  <span className="text-emerald-600 font-bold">{answers.filter((a) => a.correct === true).length} Correct</span>
+                  <span>&middot;</span>
+                  <span className="text-rose-600 font-bold">{answers.filter((a) => a.correct === false).length} Wrong</span>
+                </span>
+              </div>
+              <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                <div
+                  className="h-full bg-blue-600 rounded-full transition-all duration-300"
+                  style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
+                />
+              </div>
             </div>
 
             <QuestionCard
@@ -516,44 +573,50 @@ export default function PracticePage() {
               onReveal={handleReveal}
             />
 
-            {/* Next button */}
+            {/* Next / Result Action Button */}
             {currentAnswer.revealed && (
               <button
                 onClick={handleNext}
-                className="cn-btn-black w-full justify-center text-sm animate-fade-up"
+                className="w-full py-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-all shadow-md flex items-center justify-center gap-2"
               >
                 {currentIndex < questions.length - 1 ? (
                   <>Next Question <ArrowRight className="w-4 h-4" /></>
                 ) : (
-                  <>See Results <Trophy className="w-4 h-4" /></>
+                  <>See Final Score &amp; Analysis <Trophy className="w-4 h-4" /></>
                 )}
               </button>
             )}
 
-            {/* Exit */}
+            {/* Exit Option */}
             <button
               onClick={() => setStarted(false)}
-              className="w-full font-mono text-[10px] text-ink/40 hover:text-ink uppercase tracking-wider text-center py-2 transition-colors"
+              className="w-full font-mono text-xs text-slate-500 hover:text-slate-900 uppercase tracking-wider text-center py-2 transition-colors"
             >
-              ← Change Subject / Filters
+              &larr; Exit to Subject Configuration
             </button>
+
           </div>
         )}
 
-        {/* No questions found */}
+        {/* No Questions Found Fallback */}
         {started && !quizComplete && questions.length === 0 && (
-          <div className="border-4 border-ink p-12 text-center shadow-hard">
-            <div className="font-display text-2xl font-black text-ink mb-2">No questions found</div>
-            <p className="text-ink/60 text-sm mb-4">Try different filters — more questions are being added regularly.</p>
-            <button onClick={() => setStarted(false)} className="cn-btn-black text-sm">
-              Change Filters
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-12 text-center shadow-xl space-y-4">
+            <h3 className="font-display text-2xl font-black text-slate-900">No Questions Found</h3>
+            <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
+              No questions matched your exact filter combination. Try resetting the GATE filter or selecting &quot;All 19 Subjects&quot;.
+            </p>
+            <button 
+              onClick={() => setStarted(false)} 
+              className="bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl"
+            >
+              Reset Filters
             </button>
           </div>
         )}
 
-        {/* Results */}
+        {/* Results Screen */}
         {quizComplete && (
-          <div className="animate-fade-up">
+          <div className="space-y-6">
             <ScoreCard
               score={score}
               total={questions.length}
@@ -561,25 +624,29 @@ export default function PracticePage() {
               onNext={() => setStarted(false)}
             />
 
-            {/* Wrong answers review */}
+            {/* Wrong Answers Detailed Review */}
             {answers.some((a) => a.correct === false) && (
-              <div className="mt-6 space-y-3">
-                <div className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest border-b-4 border-ink pb-2">
-                  Review — Questions You Got Wrong
-                </div>
+              <div className="space-y-4">
+                <h4 className="font-mono text-xs font-bold text-slate-500 uppercase tracking-widest border-b border-slate-200 pb-2">
+                  Review &middot; Questions You Got Wrong
+                </h4>
                 {questions.map((q, i) => {
                   if (answers[i].correct !== false) return null
                   return (
-                    <div key={q.id} className="border-4 border-ink overflow-hidden shadow-hard-sm" style={{ borderColor: '#EA580C' }}>
-                      <div className="border-b-4 border-ink px-4 py-2 bg-orange-600 text-white font-mono text-[9px] font-black uppercase">
-                        Q{i + 1} — {q.topic || 'General'}
+                    <div key={q.id} className="bg-white border-2 border-rose-300 rounded-2xl p-6 shadow-sm space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-[10px] font-bold bg-rose-100 text-rose-800 px-2.5 py-0.5 rounded uppercase">
+                          Q{i + 1} &middot; {q.topic || 'General'}
+                        </span>
                       </div>
-                      <div className="p-4 bg-canvas">
-                        <p className="font-bold text-sm text-ink mb-3">{q.question}</p>
-                        <div className="border-l-4 border-green-600 pl-3 py-1" style={{ backgroundColor: '#F0FDF4' }}>
-                          <p className="font-mono text-[9px] text-green-700 font-black uppercase mb-1">Correct answer: {q.correct_answer}</p>
-                          <p className="text-xs text-ink leading-relaxed">{q.explanation}</p>
-                        </div>
+                      <p className="font-display font-bold text-sm text-slate-900">{q.question}</p>
+                      <div className="bg-emerald-50 border border-emerald-200 p-3.5 rounded-xl space-y-1">
+                        <p className="font-mono text-xs font-bold text-emerald-800 uppercase">
+                          Correct Answer: {q.correct_answer}
+                        </p>
+                        <p className="text-xs text-slate-700 leading-relaxed font-medium">
+                          {q.explanation}
+                        </p>
                       </div>
                     </div>
                   )
@@ -588,25 +655,34 @@ export default function PracticePage() {
             )}
           </div>
         )}
+
       </div>
 
-      {/* Footer */}
-      <section className="border-t-4 border-ink bg-ink px-6 md:px-12 py-10 mt-8">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      {/* ── AI Tutor Footer Banner ── */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-2xl border-2 border-slate-900 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
           <div>
-            <div className="font-mono text-[9px] text-yellow-bright uppercase tracking-widest mb-1">Go deeper</div>
-            <p className="font-display text-xl font-black text-white">The AI Tutor explains any concept you&apos;re struggling with.</p>
+            <div className="font-mono text-[10px] text-amber-400 uppercase tracking-widest mb-1 flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Grounded in 216 Lessons
+            </div>
+            <h3 className="font-display text-xl font-bold text-white">
+              Struggling with a difficult question or equation?
+            </h3>
+            <p className="text-xs text-slate-400 mt-1">
+              Ask our RAG AI Tutor for instant step-by-step mathematical derivations.
+            </p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
-            <Link href="/ai-tutor" className="cn-btn-yellow text-sm">
+            <Link 
+              href="/ai-tutor" 
+              className="inline-flex items-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl border-2 border-slate-900 transition-all shadow-[3px_3px_0px_0px_#000]"
+            >
               <Brain className="w-4 h-4" /> Ask AI Tutor
-            </Link>
-            <Link href="/subjects" className="cn-btn-white text-sm">
-              <BookOpen className="w-4 h-4" /> Study Lessons
             </Link>
           </div>
         </div>
       </section>
+
     </div>
   )
 }
