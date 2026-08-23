@@ -5,7 +5,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { 
   BookOpen, Search, Plus, ArrowRight, User, Award, 
-  Clock, CheckCircle2, FolderOpen, Heart, Target, Wrench, ShieldCheck 
+  Clock, CheckCircle2, FolderOpen, Heart, Target, Wrench,
+  Sparkles, Brain, Compass
 } from 'lucide-react'
 import { PREDEFINED_PROJECTS, PredefinedProject } from '@/lib/predefined_projects'
 
@@ -274,54 +275,86 @@ export default function StudentProjectsHub() {
   })
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      {/* Hero Header Banner */}
-      <div className="bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 text-white py-16 px-4 md:px-8 border-b-4 border-blue-600 shadow-md relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-600/30 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold text-blue-300 mb-4">
-            <ShieldCheck className="w-3.5 h-3.5" /> Mapped to 2026 Global Engineering Guidelines
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+      
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <FolderOpen className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              50+ Curriculum Projects &middot; 4 Difficulty Tiers &middot; Student Showcase
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4 uppercase">
-            Student Projects Hub
-          </h1>
-          <p className="text-lg md:text-xl text-blue-100 max-w-3xl leading-relaxed">
-            Enhance your curriculum learning with 50 curated industry-aligned engineering projects or view case studies and portfolios submitted by students.
-          </p>
-        </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mt-10">
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Build. Create. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Innovate.
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            50+ curated industry-aligned engineering projects across 6 categories. Find your next project, track milestone progress, and build your engineering portfolio.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">50+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Projects</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">6</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Domains</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">4 Tiers</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Foundation to Expert</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">89%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Completion Rate</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
         {/* Navigation Tabs */}
-        <div className="flex border-b-2 border-slate-200 mb-8 gap-6 justify-between items-center">
-          <div className="flex gap-6">
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col sm:flex-row gap-4 justify-between items-center">
+          <div className="flex gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('curriculum')}
-              className={`pb-3 font-black text-base border-b-4 transition-all ${
+              className={`flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'curriculum'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-slate-400 hover:text-slate-600'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950'
               }`}
             >
-              🚀 2026 Curriculum Projects (50)
+              🚀 Curriculum Projects (50)
             </button>
             <button
               onClick={() => setActiveTab('portfolio')}
-              className={`pb-3 font-black text-base border-b-4 transition-all ${
+              className={`flex-1 sm:flex-none px-6 py-2.5 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-2 ${
                 activeTab === 'portfolio'
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-slate-400 hover:text-slate-600'
+                  ? 'bg-slate-900 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950'
               }`}
             >
-              💼 Student Portfolios & Showcase
+              💼 Student Showcase &amp; Portfolios
             </button>
           </div>
+
           {activeTab === 'portfolio' && (
             <Link
               href="/projects/new"
-              className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-4 py-2 rounded-lg transition-colors shadow-sm mb-2"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-5 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <Plus className="w-3.5 h-3.5" /> Submit Portfolio
+              <Plus className="w-4 h-4" /> Submit Portfolio
             </Link>
           )}
         </div>
@@ -572,6 +605,42 @@ export default function StudentProjectsHub() {
           </>
         )}
       </div>
+
+      {/* ── BOTTOM AI PROJECT ADVISOR CTA ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Project Advisor &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need guidance choosing or designing your capstone project? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Project Advisor.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Generate custom literature review topics, project scope definitions, testing protocols, and lab equipment requisition templates.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Help%20me%20plan%20a%20final%20year%20engineering%20capstone%20project%20on%20recycled%20PET%20composites%20or%20biodegradable%20polymer%20blends"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Project Advisor &rarr;
+            </Link>
+
+            <Link
+              href="/research"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> Research &amp; Patent Hub
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Predefined Project Lightbox Detail Modal */}
       {selectedProject && (

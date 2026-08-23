@@ -1,10 +1,19 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import {
-  Trophy, AlertTriangle, ArrowLeft, Clock, CheckCircle, XCircle
+  Trophy, 
+  AlertTriangle, 
+  ArrowLeft, 
+  Clock, 
+  CheckCircle, 
+  XCircle, 
+  Building2, 
+  Sparkles, 
+  Brain, 
+  Briefcase
 } from 'lucide-react'
 
 type Challenge = {
@@ -37,7 +46,7 @@ export default function StudentChallengesPage() {
   const [submitting, setSubmitting] = useState(false)
   const [viewDetails, setViewDetails] = useState<Challenge | null>(null)
 
-  const loadChallenges = async () => {
+  const loadChallenges = useCallback(async () => {
     setLoading(true)
     try {
       const { data: { session } } = await supabase.auth.getSession()
@@ -53,11 +62,11 @@ export default function StudentChallengesPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [supabase])
 
   useEffect(() => {
     loadChallenges()
-  }, [])
+  }, [loadChallenges])
 
   const handleSubmitSolution = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,11 +87,11 @@ export default function StudentChallengesPage() {
       if (data.error) {
         alert(data.error)
       } else {
-        alert(`✅ Solution submitted! +50 XP has been added to your profile immediately.`)
+        alert('✅ Solution submitted! +50 XP has been added to your profile immediately.')
         setSelectedChallenge(null)
         setSolutionText('')
         setSolutionUrl('')
-        loadChallenges() // Reload status
+        loadChallenges()
       }
     } catch {
       alert('Failed to submit solution')
@@ -93,164 +102,257 @@ export default function StudentChallengesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="font-mono text-xs uppercase tracking-widest text-ink animate-pulse">Loading challenges...</div>
+      <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center p-6">
+        <div className="font-mono text-xs uppercase tracking-widest text-slate-500 animate-pulse">Loading sponsored challenges...</div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-canvas pb-12">
-      {/* Hero Header */}
-      <div className="border-b-4 border-ink bg-ink text-white px-6 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-4xl mx-auto space-y-3">
-          <Link href="/practice" className="flex items-center gap-1 font-mono text-[9px] text-yellow-bright uppercase tracking-widest hover:opacity-80 mb-2">
-            <ArrowLeft className="w-3 h-3" /> Back to Practice
-          </Link>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-yellow-bright border-4 border-yellow-bright flex items-center justify-center">
-              <Trophy className="w-4 h-4 text-ink" />
-            </div>
-            <span className="font-mono text-[9px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest">Sponsored Challenges</span>
-          </div>
-          <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none">
-            SOLVE PROBLEMS.<br />
-            GET HIRED BY <span className="text-yellow-bright">TOP COMPANIES</span>.
-          </h1>
-          <p className="text-white/70 max-w-xl leading-relaxed text-sm">
-            Solve real-world industrial polymer challenges posted directly by companies like Reliance and Supreme. Earn **+50 XP** on submission, and **+200 XP** if accepted!
-          </p>
-        </div>
-      </div>
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <Link href="/practice" className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest mb-2 transition-colors">
+            <ArrowLeft className="w-3.5 h-3.5" /> Back to Practice Arena
+          </Link>
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Solve Problems. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Get Hired.
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Solve real-world industrial polymer challenges posted directly by companies like Reliance, Supreme, and Tata. 
+            Earn <strong className="text-amber-400 font-bold">+50 XP</strong> on submission, and <strong className="text-amber-400 font-bold">+200 XP</strong> if accepted!
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">{challenges.length || 12}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Active Challenges</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">&#8377;5L+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Total Prize Pool</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">+200 XP</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Accepted Reward</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">Top Tier</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Direct Interviews</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Main Workspace ── */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
         {!sessionUser && (
-          <div className="border-4 border-ink p-5 bg-amber-50 shadow-hard flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
-            <p className="font-mono text-xs text-amber-900 leading-normal">
-              You must be logged in to submit solutions and track review statuses. <Link href="/login" className="underline font-bold">Log in here</Link>.
-            </p>
+          <div className="bg-white border-2 border-amber-300 rounded-2xl p-4 sm:p-5 shadow-xl flex items-center justify-between gap-4 flex-wrap bg-amber-50/50">
+            <div className="flex items-center gap-3">
+              <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+              <p className="text-xs sm:text-sm text-amber-950 font-medium">
+                You must be logged in to submit engineering solutions and earn XP bonuses.
+              </p>
+            </div>
+            <Link 
+              href="/login" 
+              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-sm"
+            >
+              Sign In to Submit &rarr;
+            </Link>
           </div>
         )}
 
         {/* Challenges Grid */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {challenges.length === 0 && (
-            <div className="col-span-2 border-4 border-ink p-12 text-center bg-white shadow-hard">
-              <p className="font-display text-xl font-black text-slate-300 mb-1">No Active Challenges</p>
-              <p className="font-mono text-[9px] text-slate-400 uppercase">Check back soon for sponsored entries</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {challenges.length === 0 ? (
+            <div className="col-span-2 bg-white border-2 border-slate-900 rounded-2xl p-12 text-center shadow-xl space-y-2">
+              <Trophy className="w-12 h-12 text-slate-300 mx-auto" />
+              <h3 className="font-display font-bold text-base text-slate-900">No Active Sponsored Challenges</h3>
+              <p className="text-xs text-slate-500">Check back soon for new corporate challenges from industry sponsors.</p>
             </div>
-          )}
+          ) : (
+            challenges.map(challenge => {
+              const hasSubmitted = !!challenge.submission
+              const status = challenge.submission?.status
 
-          {challenges.map(challenge => {
-            const hasSubmitted = !!challenge.submission
-            const status = challenge.submission?.status
-
-            return (
-              <div key={challenge.id} className="border-4 border-ink bg-white p-5 shadow-hard flex flex-col justify-between space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between items-start gap-2">
-                    <span className="font-mono text-[9px] text-blue-600 font-bold uppercase">{challenge.company_name}</span>
-                    <span className={`font-mono text-[8px] font-black px-2 py-0.5 border-2 ${
-                      challenge.difficulty === 'Hard' ? 'border-red-500 text-red-600 bg-red-50' : 'border-orange-400 text-orange-600 bg-orange-50'
-                    }`}>
-                      {challenge.difficulty}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display text-lg font-black text-ink leading-tight">{challenge.title}</h3>
-                  <p className="text-xs text-ink/70 leading-relaxed line-clamp-3">{challenge.description}</p>
-                </div>
-
-                <div className="space-y-3 pt-3 border-t-2 border-slate-100">
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Prize Pool:</span>
-                    <span className="font-black text-yellow-600">💰 {challenge.prize_pool}</span>
-                  </div>
-
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Deadline:</span>
-                    <span className="text-ink font-bold flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {new Date(challenge.deadline).toLocaleDateString()}</span>
-                  </div>
-
-                  {/* Submission status feedback */}
-                  {hasSubmitted && (
-                    <div className="border-2 border-ink p-3 bg-slate-50 flex items-center justify-between">
-                      <div>
-                        <span className="font-mono text-[8px] text-slate-400 uppercase block">Submission Status</span>
-                        <span className="text-xs font-bold text-ink uppercase flex items-center gap-1 mt-0.5">
-                          {status === 'accepted' ? <CheckCircle className="w-4 h-4 text-green-600" /> : status === 'rejected' ? <XCircle className="w-4 h-4 text-red-600" /> : <Clock className="w-4 h-4 text-amber-500" />}
-                          {status}
-                        </span>
-                      </div>
-                      <button onClick={() => setViewDetails(challenge)}
-                        className="font-mono text-[9px] font-black uppercase text-blue-600 hover:underline">
-                        Feedback →
-                      </button>
+              return (
+                <article 
+                  key={challenge.id} 
+                  className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-4"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-mono font-bold rounded-full uppercase border border-blue-200 flex items-center gap-1">
+                        <Building2 className="w-3 h-3" /> {challenge.company_name}
+                      </span>
+                      <span className={`px-2.5 py-0.5 text-[10px] font-mono font-bold rounded-full uppercase border ${
+                        challenge.difficulty === 'Hard' 
+                          ? 'bg-rose-50 text-rose-700 border-rose-200' 
+                          : 'bg-amber-50 text-amber-700 border-amber-200'
+                      }`}>
+                        {challenge.difficulty}
+                      </span>
                     </div>
-                  )}
 
-                  <div className="flex gap-2">
-                    <button onClick={() => setViewDetails(challenge)}
-                      className="flex-1 border-2 border-ink bg-white text-ink py-2 font-mono text-[10px] font-black uppercase tracking-wider hover:bg-slate-50 transition-colors">
-                      View Criteria
-                    </button>
+                    <h3 className="font-display font-bold text-lg text-slate-900 leading-snug">
+                      {challenge.title}
+                    </h3>
 
-                    {sessionUser && !hasSubmitted && (
-                      <button onClick={() => setSelectedChallenge(challenge)}
-                        className="flex-1 border-4 border-ink bg-blue-600 text-white py-1.5 font-mono text-[10px] font-black uppercase tracking-wider shadow-hard-sm hover:translate-x-[-1px] hover:translate-y-[-1px] transition-transform">
-                        Submit Solution
-                      </button>
-                    )}
+                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 font-medium">
+                      {challenge.description}
+                    </p>
                   </div>
-                </div>
-              </div>
-            )
-          })}
+
+                  <div className="space-y-3 pt-3 border-t border-slate-100 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400 font-mono">Prize Pool:</span>
+                      <span className="font-display font-bold text-amber-600 text-sm">💰 {challenge.prize_pool}</span>
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-slate-400 font-mono">Submission Deadline:</span>
+                      <span className="font-mono font-bold text-slate-700 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-slate-400" /> {new Date(challenge.deadline).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                    </div>
+
+                    {/* Submission status feedback */}
+                    {hasSubmitted && (
+                      <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <div>
+                          <span className="text-[9px] font-mono font-bold text-slate-400 uppercase block">Submission Status</span>
+                          <span className="text-xs font-bold uppercase flex items-center gap-1 mt-0.5">
+                            {status === 'accepted' ? <CheckCircle className="w-3.5 h-3.5 text-emerald-600" /> : status === 'rejected' ? <XCircle className="w-3.5 h-3.5 text-rose-600" /> : <Clock className="w-3.5 h-3.5 text-amber-500" />}
+                            {status}
+                          </span>
+                        </div>
+                        <button 
+                          onClick={() => setViewDetails(challenge)}
+                          className="font-mono text-[10px] font-bold text-blue-600 hover:text-blue-800 uppercase"
+                        >
+                          Feedback &rarr;
+                        </button>
+                      </div>
+                    )}
+
+                    <div className="flex gap-2 pt-1">
+                      <button 
+                        onClick={() => setViewDetails(challenge)}
+                        className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all"
+                      >
+                        View Criteria
+                      </button>
+
+                      {sessionUser && !hasSubmitted && (
+                        <button 
+                          onClick={() => setSelectedChallenge(challenge)}
+                          className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-sm flex items-center justify-center gap-1"
+                        >
+                          Submit (+50 XP)
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </article>
+              )
+            })
+          )}
         </div>
+
       </div>
+
+      {/* ── BOTTOM AI CHALLENGE COACH CTA ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Challenge Coach &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need guidance structuring your technical solution? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Challenge Coach.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Review compounding formulations, Moldflow cooling analysis setups, or ISO test standards required to submit winning entries.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=How%20should%20I%20structure%20a%20technical%20solution%20for%20an%20industrial%20plasticizer%20or%20injection%20moulding%20challenge"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Challenge Coach &rarr;
+            </Link>
+
+            <Link
+              href="/careers"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Briefcase className="w-4 h-4" /> Career Hub &amp; Jobs
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* ── MODAL: Detail Viewer ── */}
       {viewDetails && (
-        <div className="fixed inset-0 bg-ink/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="max-w-lg w-full border-4 border-ink bg-white shadow-hard flex flex-col max-h-[90vh]">
-            <div className="border-b-4 border-ink px-6 py-4 bg-ink text-white flex justify-between items-center">
+        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="max-w-lg w-full bg-white text-slate-900 border-2 border-slate-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+            <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
               <div>
-                <span className="font-mono text-[8px] text-yellow-bright uppercase block">{viewDetails.company_name}</span>
-                <span className="font-display text-base font-black uppercase">{viewDetails.title}</span>
+                <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">{viewDetails.company_name}</span>
+                <h3 className="font-display font-bold text-base text-slate-900 leading-snug">{viewDetails.title}</h3>
               </div>
-              <button onClick={() => setViewDetails(null)} className="font-mono font-black text-sm uppercase text-yellow-bright">✕ Close</button>
+              <button onClick={() => setViewDetails(null)} className="text-slate-400 hover:text-slate-900 font-bold">
+                ✕
+              </button>
             </div>
 
-            <div className="p-6 overflow-y-auto space-y-4 flex-1">
+            <div className="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
               <div>
-                <span className="font-mono text-[9px] text-slate-400 uppercase block font-bold">Challenge Details</span>
-                <p className="text-xs text-ink leading-relaxed font-mono">{viewDetails.description}</p>
+                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Challenge Brief</span>
+                <p className="text-slate-700 leading-relaxed font-medium">{viewDetails.description}</p>
               </div>
 
               <div>
-                <span className="font-mono text-[9px] text-slate-400 uppercase block font-bold">Evaluation Criteria</span>
-                <p className="text-xs text-ink leading-relaxed font-mono bg-blue-50/50 p-3 border-2 border-blue-100">{viewDetails.criteria}</p>
+                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Evaluation Criteria</span>
+                <p className="text-blue-950 leading-relaxed font-medium bg-blue-50/70 p-3.5 rounded-xl border border-blue-200">{viewDetails.criteria}</p>
               </div>
 
               <div>
-                <span className="font-mono text-[9px] text-slate-400 uppercase block font-bold">Prize Pool & Rewards</span>
-                <p className="text-sm font-black text-yellow-600 font-mono">💰 {viewDetails.prize_pool}</p>
+                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Prize Pool &amp; Placement</span>
+                <p className="text-amber-700 font-display font-bold text-base">💰 {viewDetails.prize_pool}</p>
               </div>
 
               {viewDetails.submission?.review_feedback && (
-                <div className="border-4 border-ink p-4 bg-yellow-50">
-                  <span className="font-mono text-[9px] text-yellow-800 uppercase block font-black mb-1">Company Feedback</span>
-                  <p className="text-xs text-ink leading-relaxed font-mono">{viewDetails.submission.review_feedback}</p>
+                <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                  <span className="font-mono text-[10px] text-amber-800 uppercase block font-bold mb-1">Recruiter Feedback</span>
+                  <p className="text-amber-950 leading-relaxed font-medium">{viewDetails.submission.review_feedback}</p>
                 </div>
               )}
             </div>
 
-            <div className="border-t-4 border-ink p-4 bg-slate-50 flex justify-end">
-              <button onClick={() => setViewDetails(null)}
-                className="border-4 border-ink bg-white px-4 py-2 font-mono text-xs font-black uppercase shadow-hard-sm transition-all hover:translate-x-[-1px]">
-                Got it
+            <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end">
+              <button 
+                onClick={() => setViewDetails(null)}
+                className="px-5 py-2 bg-slate-900 text-white font-mono text-xs font-bold uppercase rounded-xl"
+              >
+                Got It
               </button>
             </div>
           </div>
@@ -259,60 +361,68 @@ export default function StudentChallengesPage() {
 
       {/* ── MODAL: Solution Submission Form ── */}
       {selectedChallenge && (
-        <div className="fixed inset-0 bg-ink/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <form onSubmit={handleSubmitSolution} className="max-w-lg w-full border-4 border-ink bg-white shadow-hard flex flex-col max-h-[90vh]">
-            <div className="border-b-4 border-ink px-6 py-4 bg-blue-600 text-white flex justify-between items-center">
+        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <form onSubmit={handleSubmitSolution} className="max-w-lg w-full bg-white text-slate-900 border-2 border-slate-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+            <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
               <div>
-                <span className="font-mono text-[9px] text-blue-200 uppercase block">Submit Solution</span>
-                <span className="font-display text-base font-black uppercase">{selectedChallenge.title}</span>
+                <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">Submit Solution</span>
+                <h3 className="font-display font-bold text-base text-slate-900 leading-snug">{selectedChallenge.title}</h3>
               </div>
-              <button type="button" onClick={() => setSelectedChallenge(null)} className="font-mono font-black text-sm uppercase">✕ Close</button>
+              <button type="button" onClick={() => setSelectedChallenge(null)} className="text-slate-400 hover:text-slate-900 font-bold">✕</button>
             </div>
 
-            <div className="p-6 overflow-y-auto space-y-4 flex-1">
-              <div className="border-2 border-yellow-200 bg-yellow-50 p-4">
-                <p className="font-mono text-[9px] font-black text-yellow-800 uppercase mb-1">🎁 XP Incentives</p>
-                <p className="text-xs text-yellow-900 leading-normal">
+            <div className="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
+              <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
+                <p className="font-mono text-[10px] font-bold text-amber-800 uppercase mb-1">🎁 XP Incentives</p>
+                <p className="text-amber-950 leading-normal font-medium">
                   Uploading your solution awards **+50 XP** base immediately. If the engineering recruiter accepts your design, you earn a **+200 XP** bonus milestone!
                 </p>
               </div>
 
               <div>
-                <label className="font-mono text-[9px] text-slate-500 uppercase tracking-wide block font-black mb-1">Solution Description / Text Calculations</label>
+                <label className="font-mono text-[10px] text-slate-500 uppercase tracking-wide block font-bold mb-1.5">Solution Description / Technical Calculations</label>
                 <textarea
                   required
+                  rows={6}
                   value={solutionText}
                   onChange={e => setSolutionText(e.target.value)}
-                  placeholder="Explain your approach, polymer pathways, compounding steps, and formulas..."
-                  className="w-full border-2 border-ink p-2 font-mono text-xs focus:outline-none min-h-[150px]"
+                  placeholder="Explain your approach, polymer selection, processing window, compounding steps, and formulas..."
+                  className="w-full p-3 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium leading-relaxed"
                 />
               </div>
 
               <div>
-                <label className="font-mono text-[9px] text-slate-500 uppercase tracking-wide block font-black mb-1">Link to Repository / PDF (Optional)</label>
+                <label className="font-mono text-[10px] text-slate-500 uppercase tracking-wide block font-bold mb-1.5">Link to Repository / CAD / PDF (Optional)</label>
                 <input
                   type="url"
                   value={solutionUrl}
                   onChange={e => setSolutionUrl(e.target.value)}
-                  placeholder="e.g. https://github.com/your-username/ bumper-molding"
-                  className="w-full border-2 border-ink p-2 font-mono text-xs focus:outline-none bg-white"
+                  placeholder="e.g. https://github.com/your-username/bumper-molding"
+                  className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium"
                 />
               </div>
             </div>
 
-            <div className="border-t-4 border-ink p-4 bg-slate-50 flex gap-3 justify-end">
-              <button type="button" onClick={() => setSelectedChallenge(null)}
-                className="border-2 border-ink bg-white px-4 py-2 font-mono text-xs font-black uppercase transition-colors">
+            <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex gap-3 justify-end">
+              <button 
+                type="button" 
+                onClick={() => setSelectedChallenge(null)}
+                className="px-4 py-2 border-2 border-slate-200 text-slate-600 font-mono text-xs font-bold uppercase rounded-xl hover:bg-slate-100"
+              >
                 Cancel
               </button>
-              <button type="submit" disabled={submitting}
-                className="border-4 border-ink bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 font-mono text-xs font-black uppercase shadow-hard-xs transition-all">
+              <button 
+                type="submit" 
+                disabled={submitting}
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-sm"
+              >
                 {submitting ? 'Submitting...' : 'Upload Solution (+50 XP)'}
               </button>
             </div>
           </form>
         </div>
       )}
+
     </div>
   )
 }

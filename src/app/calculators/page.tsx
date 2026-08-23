@@ -644,99 +644,176 @@ export default function CalculatorsPage() {
   const Icon = current.icon
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
-      <div className="h-2 w-full" style={{ backgroundColor: current.color }} />
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      {/* Hero Glassmorphism / Neobrutalist Header */}
-      <section className="border-b-4 border-slate-900 bg-slate-900 px-6 md:px-12 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 border-4 border-yellow-400 bg-yellow-400 flex items-center justify-center">
-                <Calculator className="w-5 h-5 text-slate-950" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-yellow-400 border-2 border-yellow-400 px-3 py-1 uppercase tracking-widest">Engineering Tools</span>
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Calculator className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              8 Industrial Calculators &middot; ASTM / ISO Formulas &middot; Instant Spec Sheets
+            </span>
+          </div>
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Calculate. Not Guess. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Engineering Precision.
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            8 industrial-grade calculators for polymer processing engineers. Clamping force, cooling, shrinkage, cycle times, screw shear rate &mdash; all dynamically calculated.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">8</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Calculators</span>
             </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none uppercase">
-              Calculate.<br />
-              <span className="text-yellow-400 italic">Not Guess.</span>
-            </h1>
-            <p className="text-slate-350 text-sm md:text-base max-w-xl leading-relaxed text-slate-300">
-              8 industrial-grade calculators for polymer processing engineers. Clamping force, cooling, shrinkage, cycle times, screw shear rate — all dynamically calculated.
-            </p>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">12+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Formulas</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">100%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Dynamic Engine</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">1-Click</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Spec Copies</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Main Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-6">
+      {/* ── Main Workspace ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
 
-        {/* Sidebar Selector */}
-        <div className="lg:col-span-1 space-y-2.5">
-          <div className="font-mono text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-1 px-1">Select Calculator</div>
-          <div className="space-y-2">
-            {CALCS.map(c => {
-              const CalcIcon = c.icon
-              const isActive = active === c.id
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => setActive(c.id)}
-                  className={`w-full text-left border-4 border-slate-900 p-3 flex items-center gap-3.5 transition-all rounded-xl ${
-                    isActive
-                      ? 'bg-slate-900 text-white shadow-none translate-x-[2px] translate-y-[2px]'
-                      : 'bg-white text-slate-800 hover:bg-slate-50 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
-                  }`}
-                >
-                  <div className={`w-7 h-7 rounded-lg border-2 border-slate-900 flex items-center justify-center flex-shrink-0 ${
-                    isActive ? 'bg-white/20 text-white border-white/20' : 'bg-slate-50 text-slate-600'
-                  }`}>
-                    <CalcIcon className="w-4 h-4" />
-                  </div>
-                  <span className="font-mono text-[10px] font-black uppercase tracking-wide leading-snug">{c.label}</span>
-                </button>
-              )
-            })}
+          {/* Sidebar Selector */}
+          <div className="lg:col-span-1 bg-white border-2 border-slate-900 rounded-2xl p-4 shadow-xl space-y-2 sticky top-24">
+            <span className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider block px-2 pb-1 border-b border-slate-100">
+              Select Calculator
+            </span>
+
+            <div className="space-y-1.5 pt-1">
+              {CALCS.map(c => {
+                const CalcIcon = c.icon
+                const isActive = active === c.id
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => setActive(c.id)}
+                    className={`w-full text-left p-3 rounded-xl border-2 transition-all flex items-center gap-3 ${
+                      isActive
+                        ? 'border-blue-600 bg-blue-50 text-blue-950 font-bold shadow-sm'
+                        : 'border-transparent hover:bg-slate-50 text-slate-700 font-medium'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border ${
+                      isActive 
+                        ? 'bg-blue-600 text-white border-blue-700' 
+                        : 'bg-slate-100 text-slate-600 border-slate-200'
+                    }`}>
+                      <CalcIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-xs leading-tight">{c.label}</div>
+                      <div className="text-[9px] font-mono text-slate-400 mt-0.5">{c.subject}</div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
           </div>
-        </div>
 
-        {/* Dynamic Calculator Workspace */}
-        <div className="lg:col-span-3">
-          <div className="border-4 border-slate-900 overflow-hidden rounded-2xl bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
-            {/* Component header */}
-            <div className="border-b-4 border-slate-900 px-5 py-4 flex items-center justify-between flex-wrap gap-4" style={{ backgroundColor: current.bg }}>
-              <div className="flex items-center gap-3.5">
+          {/* Dynamic Calculator Workspace */}
+          <div className="lg:col-span-3 bg-white border-2 border-slate-900 rounded-2xl shadow-xl overflow-hidden">
+            
+            {/* Workspace Header */}
+            <div className="border-b-2 border-slate-100 p-5 bg-slate-50 flex items-center justify-between flex-wrap gap-4">
+              <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl border-2 border-slate-900 flex items-center justify-center bg-white" style={{ color: current.color }}>
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg md:text-xl font-black text-slate-900 leading-none">{current.label}</h2>
+                  <h2 className="font-display text-lg sm:text-xl font-black text-slate-900 leading-none">
+                    {current.label}
+                  </h2>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                    <span className="font-mono text-[9px] text-slate-500 font-bold uppercase tracking-wider">{current.subject}</span>
-                    <Link href={`/lessons/${current.lessonSlug}`}
-                      className="font-mono text-[9px] font-black flex items-center gap-1 hover:underline uppercase"
-                      style={{ color: current.color }}>
-                      <BookOpen className="w-2.5 h-2.5" /> Related Lesson →
+                    <span className="font-mono text-[10px] text-slate-500 font-bold uppercase tracking-wider">{current.subject}</span>
+                    <span className="text-slate-300">&bull;</span>
+                    <Link 
+                      href={`/lessons/${current.lessonSlug}`}
+                      className="font-mono text-[10px] font-bold flex items-center gap-1 hover:underline text-blue-600"
+                    >
+                      <BookOpen className="w-3 h-3" /> Related Lesson &rarr;
                     </Link>
                   </div>
                 </div>
               </div>
               
-              <Link href="/ai-tutor" className="font-mono text-[9px] font-black border-2 px-3 py-1.5 rounded-lg flex items-center gap-1.5 uppercase hover:opacity-85 bg-white shadow-sm"
-                style={{ borderColor: current.color, color: current.color }}>
-                <Brain className="w-3.5 h-3.5" /> Ask AI
+              <Link 
+                href={`/ai-tutor?prompt=Explain%20the%20engineering%20formula%20and%20derivation%20for%20${encodeURIComponent(current.label)}`}
+                className="px-3.5 py-1.5 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase rounded-xl flex items-center gap-1.5 transition-all"
+              >
+                <Brain className="w-3.5 h-3.5 text-amber-400" /> Ask AI Specialist
               </Link>
             </div>
 
-            {/* Active Calculator Component Output */}
-            <div className="p-6 bg-white">
+            {/* Active Calculator Content */}
+            <div className="p-6">
               {CALC_COMPONENTS[active]}
             </div>
+
           </div>
+
         </div>
 
       </div>
+
+      {/* ── BOTTOM AI CALCULATOR SPECIALIST CTA ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Calculator className="w-3.5 h-3.5 text-amber-400" /> AI Calculation Specialist &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Need custom formula derivations or mold sizing? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Calculation Specialist.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Derive custom Fourier cooling curves, non-Newtonian Power Law shear rate equations, or runner pressure drop calculations step-by-step.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Derive%20the%20injection%20moulding%20cooling%20time%20formula%20using%20Fourier%20heat%20conduction%20equation"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Calculation Specialist &rarr;
+            </Link>
+
+            <Link
+              href="/simulations"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Gauge className="w-4 h-4" /> 12 ASTM Testing Benches
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }

@@ -3,7 +3,17 @@
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { BookOpen, Search, ShieldCheck, Download, ExternalLink, ArrowRight } from 'lucide-react'
+import { 
+  BookOpen, 
+  Search, 
+  Download, 
+  ExternalLink, 
+  ArrowRight, 
+  Sparkles, 
+  Brain, 
+  Compass,
+  BookMarked
+} from 'lucide-react'
 
 interface Book {
   id: string
@@ -61,91 +71,99 @@ function LibraryPageContent() {
   })
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 pb-20">
-      {/* Hero Header */}
-      <div className="bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 text-white py-16 px-4 md:px-8 border-b-4 border-blue-600 shadow-lg relative overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="inline-flex items-center gap-2 bg-blue-600/30 border border-blue-500/30 px-3 py-1 rounded-full text-xs font-semibold text-blue-300 mb-4">
-            <ShieldCheck className="w-3.5 h-3.5" /> 100% Legal & Academically Audited
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <BookMarked className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              Digital Library &middot; 100% Verified Standards &middot; Commercial Reference Guides
+            </span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-            PolymerHub Reading Room
+
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            PolymerHub <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Reading Room
+            </span>
           </h1>
-          <p className="text-lg md:text-xl text-blue-100 max-w-3xl leading-relaxed">
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
             Access our digital library of original guides, verified open-access standards, and structured profiles of classic commercial textbooks mapped directly to your curriculum.
           </p>
-        </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 mt-10">
-        {/* Filters and Search Bar */}
-        <div className="bg-white rounded-xl border-2 border-slate-200 p-6 shadow-sm mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">{books.length || 24}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Curated Titles</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">3</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Resource Tiers</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">100%</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Academically Audited</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">19</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Subjects Mapped</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Main Workspace ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
+        
+        {/* Search and Filters Toolbar */}
+        <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row gap-4 justify-between items-center">
           <div className="relative w-full md:w-96">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-slate-400" />
-            </span>
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
               placeholder="Search by title, author, or topics..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2.5 border-2 border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 sm:text-sm bg-slate-50 transition-colors"
+              className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs sm:text-sm font-medium text-slate-800 bg-white outline-none"
             />
           </div>
 
-          <div className="flex flex-wrap gap-3 w-full md:w-auto">
-            {/* Category Filter */}
-            <div className="flex items-center gap-1.5 bg-slate-100 border border-slate-200 p-1 rounded-lg">
-              <button
-                onClick={() => setSelectedCategory('all')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  selectedCategory === 'all'
-                    ? 'bg-white shadow text-blue-700'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                All
-              </button>
-              <button
-                onClick={() => setSelectedCategory('original_guide')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  selectedCategory === 'original_guide'
-                    ? 'bg-white shadow text-blue-700'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Original Guides
-              </button>
-              <button
-                onClick={() => setSelectedCategory('open_access')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  selectedCategory === 'open_access'
-                    ? 'bg-white shadow text-blue-700'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Open Access
-              </button>
-              <button
-                onClick={() => setSelectedCategory('commercial')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition-all ${
-                  selectedCategory === 'commercial'
-                    ? 'bg-white shadow text-blue-700'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
-              >
-                Commercial
-              </button>
+          <div className="flex flex-wrap gap-2 w-full md:w-auto items-center">
+            {/* Category Filter Pills */}
+            <div className="flex border-2 border-slate-200 rounded-xl p-1 bg-slate-50 overflow-hidden">
+              {[
+                { id: 'all', label: 'All Titles' },
+                { id: 'original_guide', label: 'Original Guides' },
+                { id: 'open_access', label: 'Open Access' },
+                { id: 'commercial', label: 'Commercial' },
+              ].map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all ${
+                    selectedCategory === cat.id
+                      ? 'bg-slate-900 text-white shadow-sm'
+                      : 'text-slate-600 hover:text-slate-950'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
 
             {/* Difficulty Filter */}
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="border-2 border-slate-200 rounded-lg px-3 py-2 text-xs font-semibold text-slate-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="border-2 border-slate-200 focus:border-blue-600 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 bg-white"
             >
-              <option value="all">All Levels</option>
+              <option value="all">All Difficulty Levels</option>
               <option value="Foundational">Foundational</option>
               <option value="Intermediate">Intermediate</option>
               <option value="Advanced">Advanced</option>
@@ -154,96 +172,101 @@ function LibraryPageContent() {
           </div>
         </div>
 
-        {/* Loading Spinner */}
+        {/* Loading / Bookshelf Grid */}
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-slate-500 font-medium">Entering the reading room...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="border-2 border-slate-200 bg-white rounded-2xl p-6 animate-pulse space-y-4">
+                <div className="h-28 bg-slate-200 rounded-xl w-full" />
+                <div className="h-5 bg-slate-200 rounded w-3/4" />
+                <div className="h-4 bg-slate-200 rounded w-full" />
+              </div>
+            ))}
           </div>
         ) : filteredBooks.length === 0 ? (
-          <div className="bg-white rounded-xl border-2 border-dashed border-slate-300 p-12 text-center">
-            <BookOpen className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-slate-800 mb-1">No books found</h3>
-            <p className="text-slate-500 max-w-md mx-auto">
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-12 text-center shadow-xl space-y-2">
+            <BookOpen className="w-12 h-12 text-slate-300 mx-auto" />
+            <h3 className="font-display font-bold text-base text-slate-900">No books found</h3>
+            <p className="text-xs text-slate-500 max-w-md mx-auto">
               We could not find any resources matching your search query or selected filters. Try broadening your keywords.
             </p>
           </div>
         ) : (
-          /* Bookshelf Grid */
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredBooks.map((book) => {
               const isOriginal = book.category === 'original_guide'
               const isOpenAccess = book.category === 'open_access'
               
-              let tagColor = 'bg-amber-100 text-amber-800 border-amber-200'
+              let tagColor = 'bg-amber-50 text-amber-800 border-amber-200'
               let label = 'Commercial Reference'
               if (isOriginal) {
-                tagColor = 'bg-blue-100 text-blue-800 border-blue-200'
+                tagColor = 'bg-blue-50 text-blue-800 border-blue-200'
                 label = 'Original Guide'
               } else if (isOpenAccess) {
-                tagColor = 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                tagColor = 'bg-emerald-50 text-emerald-800 border-emerald-200'
                 label = 'Open Access'
               }
 
               const isFree = isOriginal || isOpenAccess
 
               return (
-                <div
+                <article
                   key={book.id}
-                  className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col hover:-translate-y-0.5"
+                  className="bg-white border-2 border-slate-900 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden flex flex-col justify-between"
                 >
-                  {/* Book Cover */}
-                  <div className="h-44 bg-gradient-to-br from-slate-800 to-slate-950 relative p-6 flex flex-col justify-between text-white border-b-2 border-slate-200">
-                    <div className="flex justify-between items-center w-full">
-                      <span className={`text-[10px] uppercase font-black tracking-widest px-2 py-0.5 rounded border ${tagColor}`}>
+                  {/* Book Header Visual Banner */}
+                  <div className="bg-[#0A1628] text-white p-5 border-b-2 border-slate-900 relative flex flex-col justify-between min-h-[140px]">
+                    <div className="flex justify-between items-center w-full mb-2">
+                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${tagColor}`}>
                         {label}
                       </span>
                       {isFree && (
-                        <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded bg-green-500 text-white border border-green-600 shadow-sm">
+                        <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500 text-white shadow-sm">
                           FREE
                         </span>
                       )}
                     </div>
+                    
                     <div>
-                      <h3 className="font-extrabold text-lg leading-snug line-clamp-2">
+                      <h3 className="font-display font-bold text-base text-white leading-snug line-clamp-2">
                         {book.title}
                       </h3>
-                      <p className="text-xs text-slate-400 mt-1">by {book.authors}</p>
+                      <p className="text-xs text-slate-300 mt-1 font-mono">by {book.authors}</p>
                     </div>
-                    {/* Visual pattern */}
-                    <div className="absolute right-4 bottom-4 w-12 h-12 bg-white/5 rounded-full flex items-center justify-center border border-white/10 pointer-events-none">
-                      <BookOpen className="w-5 h-5 text-white/20" />
+
+                    <div className="absolute right-4 bottom-4 opacity-10 pointer-events-none">
+                      <BookOpen className="w-12 h-12 text-white" />
                     </div>
                   </div>
 
-                  {/* Book Content Summary */}
-                  <div className="p-6 flex-1 flex flex-col justify-between">
-                    <div>
-                      <div className="flex gap-2 mb-3">
-                        <span className="text-[10px] bg-slate-100 border border-slate-200 px-2 py-0.5 rounded font-bold text-slate-600">
+                  {/* Book Description & Details */}
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex gap-2">
+                        <span className="text-[10px] font-mono font-bold bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md text-slate-700 uppercase">
                           {book.difficulty}
                         </span>
                       </div>
-                      <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed mb-4">
+                      <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed font-medium">
                         {book.focus}
                       </p>
                     </div>
 
-                    <div>
+                    <div className="space-y-3 pt-2 border-t border-slate-100">
                       {/* Careers mapping */}
-                      <div className="flex flex-wrap gap-1.5 mb-5">
+                      <div className="flex flex-wrap gap-1.5">
                         {book.careers.slice(0, 2).map((c, idx) => (
-                          <span key={idx} className="text-[10px] bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded font-medium text-indigo-700">
+                          <span key={idx} className="text-[10px] font-mono font-medium bg-blue-50 border border-blue-100 px-2 py-0.5 rounded text-blue-700">
                             {c}
                           </span>
                         ))}
                       </div>
 
                       {/* Action buttons */}
-                      <div className="border-t border-slate-100 pt-4 flex gap-2">
+                      <div className="flex gap-2 pt-1">
                         <Link
                           href={`/library/${book.slug}`}
-                          className="w-full inline-flex items-center justify-center gap-1 bg-slate-800 text-white font-bold text-xs px-4 py-2.5 rounded-lg hover:bg-slate-700 transition-colors"
+                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase px-4 py-2.5 rounded-xl transition-all shadow-sm"
                         >
                           View Details <ArrowRight className="w-3.5 h-3.5" />
                         </Link>
@@ -252,7 +275,7 @@ function LibraryPageContent() {
                             href={book.file_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center p-2.5 rounded-lg border-2 border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
+                            className="inline-flex items-center justify-center p-2.5 rounded-xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
                             title="Download PDF"
                           >
                             <Download className="w-4 h-4" />
@@ -263,7 +286,7 @@ function LibraryPageContent() {
                             href={book.purchase_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center p-2.5 rounded-lg border-2 border-slate-200 hover:bg-slate-50 text-slate-600 transition-colors"
+                            className="inline-flex items-center justify-center p-2.5 rounded-xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
                             title="Buy Reference Book"
                           >
                             <ExternalLink className="w-4 h-4" />
@@ -272,12 +295,50 @@ function LibraryPageContent() {
                       </div>
                     </div>
                   </div>
-                </div>
+                </article>
               )
             })}
           </div>
         )}
+
       </div>
+
+      {/* ── BOTTOM AI READING ASSISTANT CTA ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Literature Specialist &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Looking for a specific polymer reference or textbook chapter? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Literature Specialist.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Search chapter summaries, standard citations, or find which textbook contains the most comprehensive breakdown of your research topic.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Which%20classic%20textbook%20or%20standard%20in%20the%20reading%20room%20best%20explains%20Ziegler-Natta%20catalysis%20and%20polymer%20rheology"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask Literature Specialist &rarr;
+            </Link>
+
+            <Link
+              href="/subjects"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> 19 Subjects Curriculum
+            </Link>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }
@@ -285,9 +346,9 @@ function LibraryPageContent() {
 export default function LibraryHubPage() {
   return (
     <Suspense fallback={
-      <div className="flex flex-col items-center justify-center py-20 min-h-screen">
-        <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-slate-500 font-medium">Entering the reading room...</p>
+      <div className="flex flex-col items-center justify-center py-20 min-h-screen bg-[#FAF8F5]">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
+        <p className="text-slate-500 font-mono text-xs uppercase tracking-wider">Entering the reading room...</p>
       </div>
     }>
       <LibraryPageContent />
