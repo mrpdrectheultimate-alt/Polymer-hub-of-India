@@ -29,18 +29,21 @@ const TICKER_ITEMS = [
   'Brent Crude $78.42/bbl ▲1.1%',
   'SABIC PC ₹218/kg ▲0.3%',
   'JBF PET ₹92/kg ▼0.5%',
+  'GAIL LLDPE ₹98.75/kg ▲0.6%',
+  'Indian EPR Credit ₹1,850/ton ▲1.2%',
 ]
 
 function LiveTicker() {
   return (
-    <div className="bg-slate-900 border-b-4 border-slate-900 overflow-hidden h-10 flex items-center select-none">
-      <div className="bg-yellow-400 text-slate-900 font-mono text-[10px] font-black px-4 h-full flex items-center flex-shrink-0 border-r-4 border-slate-900 uppercase tracking-widest">
-        Live
+    <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
+      <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest">
+        <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
+        Live Indices
       </div>
       <div className="overflow-hidden flex-1">
         <div className="flex animate-ticker whitespace-nowrap">
           {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span key={i} className="font-mono text-[10px] text-white/70 px-8 border-r border-white/10">
+            <span key={i} className="font-mono text-xs text-slate-300 font-medium px-8 border-r border-white/10">
               {item}
             </span>
           ))}
@@ -53,7 +56,7 @@ function LiveTicker() {
 export default async function TodayPage() {
   const supabase = createClient()
 
-  // Fetch all daily updates that are published (we filter dynamically on the client)
+  // Fetch all daily updates that are published
   const { data: updatesData } = await supabase
     .from('daily_updates')
     .select('*')
@@ -82,40 +85,52 @@ export default async function TodayPage() {
   }).toUpperCase()
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
       <LiveTicker />
 
-      {/* Hero Header */}
-      <section className="border-b-4 border-slate-900 bg-yellow-400 px-6 md:px-12 py-10 shadow-md">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-slate-900 border-4 border-slate-900 flex items-center justify-center rounded">
-                <Newspaper className="w-5 h-5 text-yellow-400" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-slate-900 border-2 border-slate-900 px-3 py-1 uppercase tracking-widest rounded bg-white">
-                Daily Pulse
-              </span>
-              <span className="font-mono text-[10px] font-black border-2 border-slate-900 bg-slate-900 text-yellow-400 px-3 py-1 uppercase tracking-widest rounded">
-                {items.length} STORIES LIVE
+      {/* ── Hero Header: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-14 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-3xl">
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1">
+              <Newspaper className="w-4 h-4 text-amber-400" />
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+                Daily Polymer Intelligence &middot; {dateStr}
               </span>
             </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-slate-950 leading-none">
-              WHAT HAPPENED<br />
-              <span className="italic text-slate-900">TODAY IN PLASTICS</span>
+
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">
+              What Happened Today in <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+                Plastics &amp; Polymers
+              </span>
             </h1>
+
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-light">
+              Curated daily breakthroughs in Indian manufacturing, EPR policies, biopolymer patents, and global research &mdash; connected directly to your B.Tech syllabus.
+            </p>
           </div>
-          <div className="flex-shrink-0 text-right">
-            <div className="font-mono text-[10px] font-bold text-slate-700 mb-1 uppercase tracking-wider">Edition</div>
-            <div className="font-mono text-sm font-black text-slate-900">{dateStr}</div>
+
+          {/* Quick Metrics */}
+          <div className="flex items-center gap-3 self-stretch md:self-end">
+            <div className="bg-white/10 border border-white/15 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial">
+              <span className="font-display text-2xl font-bold text-amber-400 block">{items.length}</span>
+              <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider">Stories Live</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial">
+              <span className="font-display text-2xl font-bold text-emerald-400 block">24/7</span>
+              <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider">Verified News</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Main Feed Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      {/* ── Main Dashboard Content ── */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-20">
         <TodayDashboard initialItems={items} />
-      </div>
+      </main>
     </div>
   )
 }
