@@ -4,8 +4,9 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
-  Play, BookOpen, ExternalLink, Search, Loader2, ShieldCheck,
-  Heart, Flame, Clock, Grid, Sparkles, FolderOpen
+  Play, BookOpen, ExternalLink, Search, Loader2,
+  Heart, Flame, Clock, Grid, Sparkles, FolderOpen, Calculator,
+  Compass, Brain, LayoutGrid, List
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
@@ -13,7 +14,6 @@ import VideoCard, { VideoRecord } from '@/components/VideoCard'
 import { getFallbackVideoId } from '@/lib/youtube-replacement'
 import { screencasts, ScreencastItem } from '@/lib/screencasts'
 import { ScreencastPlayer } from '@/components/ScreencastPlayer'
-import { Calculator } from 'lucide-react'
 
 type PlaylistRecord = {
   id: string
@@ -81,10 +81,10 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
   const subColor = SUBJECT_COLORS[video.subjectSlug] ?? '#1D4ED8'
 
   return (
-    <div className="fixed inset-0 bg-ink/80 z-50 flex items-center justify-center p-4">
-      <div className="bg-canvas w-full max-w-3xl border-4 border-ink shadow-hard-xl max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-white w-full max-w-3xl border-2 border-slate-900 rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto overflow-hidden">
         {/* Video embed */}
-        <div className="aspect-video bg-ink">
+        <div className="aspect-video bg-black">
           <iframe
             src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
             className="w-full h-full"
@@ -93,52 +93,66 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
           />
         </div>
         {/* Details */}
-        <div className="border-t-4 border-ink p-5">
-          <div className="flex items-start justify-between gap-4 mb-4">
-            <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2 flex-wrap">
-                <span className="font-mono text-[9px] font-black px-2 py-0.5 border-2 uppercase"
-                  style={{ backgroundColor: src.bg, borderColor: src.color, color: src.color }}>
+        <div className="p-6 space-y-4">
+          <div className="flex items-start justify-between gap-4">
+            <div className="space-y-1.5 flex-1">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span
+                  className="font-mono text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase border"
+                  style={{ backgroundColor: src.bg, borderColor: src.color, color: src.color }}
+                >
                   {video.source === 'Industry' ? 'Industry Demonstration' : video.source}
                 </span>
-                <span className="font-mono text-[9px] border-2 px-2 py-0.5 uppercase font-bold" style={{ borderColor: subColor, color: subColor }}>
+                <span
+                  className="font-mono text-[9px] border px-2.5 py-0.5 rounded-full uppercase font-bold"
+                  style={{ borderColor: subColor, color: subColor }}
+                >
                   {video.subject}
                 </span>
                 {video.learningRole && (
-                  <span className={`font-mono text-[9px] border-2 px-2 py-0.5 uppercase font-bold text-white ${video.learningRole === 'foundation' ? 'bg-blue-600 border-blue-800' : 'bg-emerald-600 border-emerald-800'}`}>
-                    {video.learningRole} role
+                  <span className={`font-mono text-[9px] px-2.5 py-0.5 rounded-full uppercase font-bold text-white ${video.learningRole === 'foundation' ? 'bg-blue-600' : 'bg-emerald-600'}`}>
+                    {video.learningRole}
                   </span>
                 )}
-                <span className="font-mono text-[9px] border-2 border-ink/20 text-ink/60 px-2 py-0.5 uppercase">{video.level}</span>
-                {video.academicReviewStatus === 'approved_with_caveat' ? (
-                  <span className="font-mono text-[9px] border-2 border-amber-600 bg-amber-50 text-amber-900 px-2 py-0.5 uppercase font-bold flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-600" /> Approved with Caveat
-                  </span>
-                ) : (
-                  <span className="font-mono text-[9px] border-2 border-emerald-600 bg-emerald-50 text-emerald-700 px-2 py-0.5 uppercase font-bold flex items-center gap-1">
-                    <ShieldCheck className="w-3.5 h-3.5" /> Academically Approved
-                  </span>
-                )}
+                <span className="font-mono text-[9px] border border-slate-300 text-slate-600 px-2 py-0.5 rounded-full uppercase font-medium">
+                  {video.level}
+                </span>
               </div>
-              <h2 className="font-display text-xl font-black text-ink leading-tight mb-1">{video.title}</h2>
-              <p className="font-mono text-[10px] text-ink/60">{video.channel} · {video.duration}</p>
+              <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                {video.title}
+              </h2>
+              <p className="font-mono text-xs text-slate-400 font-medium">
+                {video.channel} &middot; {video.duration}
+              </p>
             </div>
-            <button onClick={onClose} className="border-4 border-ink px-3 py-2 font-mono text-[10px] font-black uppercase hover:bg-ink hover:text-white transition-colors flex-shrink-0">
+            <button
+              onClick={onClose}
+              className="px-3.5 py-1.5 rounded-xl border-2 border-slate-900 font-mono text-xs font-bold hover:bg-slate-100 transition-colors flex-shrink-0"
+            >
               ✕ Close
             </button>
           </div>
 
-          <p className="text-sm text-ink/80 leading-relaxed mb-4">{video.description}</p>
+          <p className="text-sm text-slate-600 leading-relaxed font-medium">
+            {video.description}
+          </p>
 
-          <div className="flex gap-3 flex-wrap">
+          <div className="flex gap-3 flex-wrap pt-2 border-t border-slate-100">
             {video.lessonSlug && (
-              <Link href={`/lessons/${video.lessonSlug}`} onClick={onClose}
-                className="cn-btn-black text-xs flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5" /> Related Lesson
+              <Link
+                href={`/lessons/${video.lessonSlug}`}
+                onClick={onClose}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-mono font-bold hover:bg-slate-800 transition-all"
+              >
+                <BookOpen className="w-3.5 h-3.5" /> Read Related Lesson
               </Link>
             )}
-            <a href={video.canonicalUrl} target="_blank" rel="noopener noreferrer"
-              className="border-4 border-ink px-4 py-2 font-mono text-[10px] font-black uppercase hover:bg-ink hover:text-white transition-colors flex items-center gap-1.5">
+            <a
+              href={video.canonicalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 border-2 border-slate-900 rounded-xl text-xs font-mono font-bold text-slate-900 hover:bg-slate-50 transition-all"
+            >
               <ExternalLink className="w-3.5 h-3.5" /> Watch on YouTube
             </a>
           </div>
@@ -149,15 +163,14 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
 }
 
 const CATEGORIES = [
-  { id: 'all', label: '🎬 All Videos', icon: '🎬' },
-  { id: 'lecture', label: '📚 Lectures', icon: '📚' },
-  { id: 'industry', label: '🏭 Industry Demos', icon: '🏭' },
-  { id: 'lab', label: '🔬 Lab Tests', icon: '🔬' },
-  { id: 'troubleshooting', label: '🔧 Troubleshooting', icon: '🔧' },
-  { id: 'career', label: '📈 Career', icon: '📈' },
-  { id: 'sustainability', label: '🌍 Sustainability', icon: '🌍' },
-  { id: 'research', label: '🚀 Research', icon: '🚀' },
-  { id: 'nptel', label: '🎓 NPTEL/IIT', icon: '🎓' },
+  { id: 'all', label: 'All Videos', icon: '🎬' },
+  { id: 'nptel', label: 'NPTEL / IIT Courses', icon: '🎓' },
+  { id: 'industry', label: 'Industry & Processing', icon: '🏭' },
+  { id: 'lab', label: 'Lab & Polymer Testing', icon: '🔬' },
+  { id: 'troubleshooting', label: 'Defect Diagnostics', icon: '🔧' },
+  { id: 'career', label: 'Career & Entrepreneurship', icon: '📈' },
+  { id: 'sustainability', label: 'Recycling & Bio-Plastics', icon: '♻️' },
+  { id: 'research', label: 'Nanotech & Research', icon: '🚀' },
 ]
 
 function classifyCategory(title: string, channel: string): string {
@@ -184,7 +197,7 @@ function classifyCategory(title: string, channel: string): string {
   if (t.includes('research') || t.includes('graphene') || t.includes('nano') || t.includes('smart polymer')) {
     return 'research'
   }
-  return 'lecture'
+  return 'industry'
 }
 
 type VideoRecordWithCategory = VideoRecord & {
@@ -193,6 +206,7 @@ type VideoRecordWithCategory = VideoRecord & {
 
 export default function VideoLibraryPage() {
   const [activeView, setActiveView] = useState<'all' | 'screencasts' | 'playlists' | 'shorts'>('all')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [videosList, setVideosList] = useState<VideoRecordWithCategory[]>([])
   const [playlistsList, setPlaylistsList] = useState<PlaylistRecord[]>([])
   const [watchlist, setWatchlist] = useState<string[]>([])
@@ -256,7 +270,6 @@ export default function VideoLibraryPage() {
               let cleanId = extractYouTubeVideoId(rawId)
               const isBroken = ['invalid', 'private', 'restricted', 'removed', 'broken'].includes(dbv.embed_status || '')
               
-              // If ID is missing, invalid, or marked broken, resolve fallback ID to ensure playability
               if (!cleanId || isBroken) {
                 cleanId = getFallbackVideoId(cleanId || rawId, dbv.subject_slug, isBroken)
               }
@@ -331,77 +344,195 @@ export default function VideoLibraryPage() {
   }
 
   const filteredVideos = getFilteredVideos()
-  const trendingVideos = [...videosList].slice(0, 3) // Mock top 3 as trending
+  const trendingVideos = [...videosList].slice(0, 3)
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-blue" />
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
 
-      {/* Hero */}
-      <section className="border-b-4 border-ink bg-ink px-6 md:px-12 py-10 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-        <div className="relative max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue border-4 border-blue flex items-center justify-center">
-                <Play className="w-5 h-5 text-white fill-white" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-yellow-bright border-2 border-yellow-bright px-3 py-1 uppercase tracking-widest flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5" /> Audited Video Library 3.0
-              </span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-white leading-none">
-              SEE IT.<br />
-              <span className="text-yellow-bright italic">UNDERSTAND IT.</span>
-            </h1>
-            <p className="text-white/70 max-w-xl leading-relaxed">
-              Video Library 3.0 — 283+ Curated lectures, NPTEL course sequences, and industrial processing demonstrations mapped to Indian polymer engineering syllabi.
-            </p>
+      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
+            <Play className="w-4 h-4 text-amber-400 fill-amber-400" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+              Video Library 3.0 &middot; Audited NPTEL &middot; IITs &middot; Industry Demos
+            </span>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <Link href="/videos/watchlist" className="font-mono text-xs font-black border-4 border-white bg-white text-ink px-4 py-2.5 uppercase text-center shadow-hard-xs flex items-center justify-center gap-2">
-              <Heart className="w-4 h-4 text-red-500 fill-red-500" /> Watchlist
-            </Link>
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+            Learn From <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              357+ Curated Video Lectures
+            </span>
+          </h1>
+
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+            Full-semester NPTEL university sequences, industrial factory extrusion lines, and companion calculation engines mapped directly to your curriculum.
+          </p>
+
+          {/* Quick Metrics */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-white block">357+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Audited Lectures</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-amber-400 block">{screencasts.length}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Companion Solvers</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-emerald-400 block">{playlistsList.length || 42}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Curated Playlists</span>
+            </div>
+            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+              <span className="font-display text-xl font-bold text-blue-400 block">19</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Subjects Covered</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Navigation tabs */}
-      <div className="border-b-4 border-ink bg-canvas px-6 py-2 flex items-center justify-start gap-4 flex-wrap">
-        {[
-          { id: 'all', label: 'All Lectures', icon: Grid },
-          { id: 'screencasts', label: '🎓 Screencasts & Solvers', icon: Calculator },
-          { id: 'playlists', label: 'Curated Playlists', icon: FolderOpen },
-          { id: 'shorts', label: 'Quick Shorts (<10 Min)', icon: Clock }
-        ].map(tab => {
-          const Icon = tab.icon
-          const isActive = activeView === tab.id
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveView(tab.id as 'all' | 'screencasts' | 'playlists' | 'shorts')}
-              className={`font-mono text-xs font-black px-4 py-2 border-2 uppercase tracking-wide flex items-center gap-2 transition-colors ${
-                isActive
-                  ? 'border-ink bg-ink text-white'
-                  : 'border-transparent hover:border-ink/20 text-ink/60'
-              }`}
-            >
-              <Icon className="w-4 h-4" /> {tab.label}
-            </button>
-          )
-        })}
-      </div>
+      {/* ── VIEW TABS BAR ── */}
+      <section className="bg-white border-b-2 border-slate-900 px-4 sm:px-8 py-3 sticky top-14 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-none py-1">
+            {[
+              { id: 'all', label: 'All Lectures', icon: Grid },
+              { id: 'screencasts', label: '🎓 Interactive Solvers', icon: Calculator },
+              { id: 'playlists', label: 'Curated Courses', icon: FolderOpen },
+              { id: 'shorts', label: 'Shorts (<10 min)', icon: Clock }
+            ].map(tab => {
+              const Icon = tab.icon
+              const isActive = activeView === tab.id
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveView(tab.id as 'all' | 'screencasts' | 'playlists' | 'shorts')}
+                  className={`font-mono text-xs font-bold px-4 py-2 rounded-xl border-2 transition-all flex items-center gap-2 flex-shrink-0 ${
+                    isActive
+                      ? 'border-slate-900 bg-slate-900 text-white shadow-sm'
+                      : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-400'
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5" /> {tab.label}
+                </button>
+              )
+            })}
+          </div>
 
-      {/* Trending panel (Only show on Main View) */}
-      {activeView === 'all' && !search && selectedSubject === 'all' && selectedSource === 'all' && trendingVideos.length > 0 && (
-        <section className="border-b-4 border-ink p-6 bg-slate-50">
-          <div className="max-w-7xl mx-auto space-y-4">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/videos/watchlist"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border-2 border-slate-900 bg-white hover:bg-slate-50 font-mono text-xs font-bold text-slate-900 transition-all shadow-sm"
+            >
+              <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" /> Watchlist ({watchlist.length})
+            </Link>
+
+            {/* Grid / List View Toggle */}
+            <div className="hidden sm:flex items-center bg-slate-100 border border-slate-300 rounded-xl p-0.5">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'grid' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
+                title="Grid view"
+              >
+                <LayoutGrid className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-lg transition-colors ${viewMode === 'list' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'}`}
+                title="List view"
+              >
+                <List className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── SEARCH & CATEGORY FILTER TOOLBAR ── */}
+      {activeView !== 'playlists' && activeView !== 'screencasts' && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 space-y-4">
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-sm space-y-4">
+            
+            {/* Category Pills */}
+            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+              {CATEGORIES.map(cat => {
+                const isActive = selectedCategory === cat.id
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setSelectedCategory(cat.id)}
+                    className={`flex-shrink-0 font-mono text-xs font-bold px-3.5 py-1.5 rounded-xl border-2 transition-all flex items-center gap-1.5 ${
+                      isActive
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
+                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-400'
+                    }`}
+                  >
+                    <span>{cat.icon}</span>
+                    {cat.label}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Search + Subject + Source Filter Bar */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  className="w-full border-2 border-slate-200 focus:border-blue-600 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm font-medium text-slate-900 focus:outline-none transition-all"
+                  placeholder="Search 357+ videos by topic, equation, or speaker..."
+                />
+              </div>
+
+              <select
+                value={selectedSubject}
+                onChange={e => setSelectedSubject(e.target.value)}
+                className="border-2 border-slate-200 focus:border-blue-600 rounded-xl px-3 py-2 text-xs sm:text-sm font-bold text-slate-800 bg-white focus:outline-none"
+              >
+                <option value="all">All 19 Subjects</option>
+                {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
+
+              <div className="flex gap-1.5 flex-wrap">
+                {['all', 'NPTEL', 'IIT', 'MIT', 'Industry'].map(src => {
+                  const isActive = selectedSource === src
+                  return (
+                    <button
+                      key={src}
+                      onClick={() => setSelectedSource(src)}
+                      className={`font-mono text-[11px] font-bold border-2 rounded-xl px-3 py-2 uppercase transition-all ${
+                        isActive
+                          ? 'border-slate-900 bg-slate-900 text-white'
+                          : 'border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-400'
+                      }`}
+                    >
+                      {src}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+          </div>
+        </section>
+      )}
+
+      {/* ── TRENDING PANEL (Only on main view without active query) ── */}
+      {activeView === 'all' && !search && selectedSubject === 'all' && selectedCategory === 'all' && trendingVideos.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+          <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-transparent border-2 border-slate-900 rounded-2xl p-5 sm:p-6 space-y-4">
             <div className="flex items-center gap-2">
               <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />
-              <h2 className="font-display text-lg font-black text-ink uppercase tracking-wide">Trending Polymer Tutorials</h2>
+              <h2 className="font-display text-base sm:text-lg font-bold text-slate-900 uppercase tracking-wide">
+                🔥 Trending Polymer Masterclasses
+              </h2>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
               {trendingVideos.map(video => (
                 <VideoCard
                   key={`trending-${video.id}`}
@@ -416,94 +547,28 @@ export default function VideoLibraryPage() {
         </section>
       )}
 
-      {/* Filters (Hide if playlists active) */}
-      {activeView !== 'playlists' && (
-        <div className="border-b-4 border-ink px-6 md:px-10 py-4 space-y-4 sticky top-14 z-20 bg-canvas/95 backdrop-blur">
-          {/* Category Chips */}
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
-            {CATEGORIES.map(cat => {
-              const isActive = selectedCategory === cat.id
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex-shrink-0 font-mono text-[10px] font-black border-4 border-ink px-3 py-1.5 uppercase transition-all flex items-center gap-1.5 ${
-                    isActive ? 'bg-ink text-white shadow-none translate-x-[2px] translate-y-[2px]' : 'bg-white text-ink/75 hover:bg-slate-50 shadow-hard-xs'
-                  }`}
-                >
-                  <span>{cat.icon}</span>
-                  {cat.label}
-                </button>
-              )
-            })}
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/40" />
-              <input value={search} onChange={e => setSearch(e.target.value)}
-                className="w-full border-4 border-ink pl-10 pr-4 py-2 text-sm text-ink focus:outline-none focus:border-blue shadow-hard-sm"
-                placeholder="Search audited videos..." />
-            </div>
-            <select value={selectedSubject} onChange={e => setSelectedSubject(e.target.value)}
-              className="border-4 border-ink px-4 py-2 text-sm font-bold text-ink bg-canvas focus:outline-none shadow-hard-sm">
-              <option value="all">All Subjects</option>
-              {subjects.map(s => <option key={s} value={s}>{s}</option>)}
-            </select>
-            <div className="flex gap-2 flex-wrap">
-              {['all', 'NPTEL', 'IIT', 'MIT', 'Industry'].map(src => {
-                const cfg = src !== 'all' ? SOURCE_COLORS[src] : { color: '#0A0A0A', bg: '#F9FAFB' }
-                return (
-                  <button key={src} onClick={() => setSelectedSource(src)}
-                    className="font-mono text-[9px] font-black border-4 border-ink px-3 py-2 uppercase transition-all"
-                    style={{ backgroundColor: selectedSource === src ? cfg.color : 'white', color: selectedSource === src ? 'white' : '#6B7280' }}>
-                    {src}
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Stats strip */}
-      <div className="border-b-4 border-ink grid grid-cols-2 md:grid-cols-4 divide-x-4 divide-ink">
-        {[
-          { val: videosList.length, label: 'Audited Lectures', color: '#1D4ED8' },
-          { val: screencasts.length, label: 'Screencasts & Solvers', color: '#EA580C' },
-          { val: playlistsList.length, label: 'Curated Playlists', color: '#7C3AED' },
-          { val: subjects.length, label: 'Subjects Covered', color: '#15803D' },
-        ].map(s => (
-          <div key={s.label} className="p-4 text-center" style={{ backgroundColor: s.color + '10' }}>
-            <div className="font-display text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
-            <div className="font-mono text-[8px] text-ink/60 uppercase tracking-wider mt-0.5">{s.label}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Main content grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      {/* ── MAIN CONTENT DISPLAY ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         {loading ? (
-          <div className="border-4 border-ink p-12 text-center flex flex-col items-center justify-center">
-            <Loader2 className="w-8 h-8 text-blue animate-spin mb-3" />
-            <p className="font-mono text-sm text-ink/60">Verifying video publication status...</p>
+          <div className="border-2 border-slate-900 bg-white rounded-2xl p-16 text-center flex flex-col items-center justify-center space-y-3 shadow-md">
+            <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+            <p className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Auditing 357+ Video Embed Statuses...
+            </p>
           </div>
         ) : activeView === 'screencasts' ? (
-          /* Screencasts & Problem Solvers Grid */
+          /* Screencasts & Companion Solvers */
           <div className="space-y-6">
-            <div className="bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-purple-500/10 border-4 border-ink p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-hard">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-[9px] font-black uppercase bg-orange-600 text-white px-2 py-0.5 border-2 border-ink rounded">
-                    LearnChemE Interactive Model
-                  </span>
-                  <span className="font-mono text-[9px] font-bold text-ink/60 uppercase">12 Problem Walkthroughs</span>
-                </div>
-                <h2 className="text-xl md:text-2xl font-black font-display uppercase tracking-tight text-ink">
-                  🎓 Interactive Screencasts & Problem Solvers
+            <div className="bg-gradient-to-r from-blue-900 to-indigo-950 text-white border-2 border-slate-900 p-6 sm:p-8 rounded-2xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              <div className="space-y-2">
+                <span className="font-mono text-[10px] font-bold uppercase bg-white/20 text-white px-3 py-1 rounded-full">
+                  LearnChemE Interactive Companion
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight">
+                  🎓 Interactive Screencasts &amp; Problem Solvers
                 </h2>
-                <p className="text-xs text-ink/70 max-w-2xl leading-relaxed">
-                  High-yield 5–15 minute video explanations paired with live step-by-step calculation engines. Tweak inputs in real time to understand underlying polymer physics and engineering equations.
+                <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed font-light">
+                  5–15 minute video walkthroughs paired with live calculation engines. Tweak polymer parameters in real time to master the math.
                 </p>
               </div>
             </div>
@@ -513,37 +578,37 @@ export default function VideoLibraryPage() {
                 <div
                   key={sc.id}
                   onClick={() => setActiveScreencast(sc)}
-                  className="bg-white border-4 border-ink rounded-2xl p-5 shadow-hard hover:translate-y-[-2px] transition-all cursor-pointer flex flex-col justify-between group"
+                  className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer flex flex-col justify-between group select-none"
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-[9px] font-black uppercase px-2 py-0.5 bg-blue-50 text-blue-800 border border-blue-900 rounded">
+                      <span className="font-mono text-[10px] font-bold uppercase px-2.5 py-0.5 bg-blue-50 text-blue-800 border border-blue-200 rounded-full">
                         {sc.subject}
                       </span>
-                      <span className="font-mono text-[9px] font-bold text-ink/60 flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-ink/40" /> {sc.duration}
+                      <span className="font-mono text-xs font-bold text-slate-400 flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" /> {sc.duration}
                       </span>
                     </div>
 
-                    <h3 className="font-display text-base font-black text-ink leading-tight group-hover:text-blue transition-colors">
+                    <h3 className="font-display text-base sm:text-lg font-bold text-slate-900 leading-tight group-hover:text-blue-600 transition-colors">
                       {sc.title}
                     </h3>
 
-                    <p className="text-xs text-ink/70 line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-medium">
                       {sc.description}
                     </p>
 
-                    <div className="bg-slate-50 border border-slate-300 rounded-lg p-2.5">
-                      <div className="text-[8px] font-mono font-bold uppercase text-slate-400">Formula</div>
-                      <div className="font-mono text-[11px] font-black text-blue truncate">{sc.formula}</div>
+                    <div className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                      <div className="text-[9px] font-mono font-bold uppercase text-slate-400">Core Equation</div>
+                      <div className="font-mono text-xs font-bold text-blue-700 truncate">{sc.formula}</div>
                     </div>
                   </div>
 
-                  <div className="border-t-2 border-ink pt-3 mt-4 flex items-center justify-between">
-                    <span className="font-mono text-[9px] font-bold uppercase text-amber-700 flex items-center gap-1">
+                  <div className="border-t border-slate-100 pt-4 mt-4 flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-amber-700 flex items-center gap-1">
                       <Calculator className="w-3.5 h-3.5" /> Companion Solver
                     </span>
-                    <span className="font-mono text-[9px] font-black uppercase text-ink bg-yellow-bright px-2.5 py-1 border-2 border-ink shadow-hard-xs group-hover:bg-ink group-hover:text-white transition-all">
+                    <span className="font-mono text-xs font-bold uppercase text-slate-950 bg-[#F5C518] hover:bg-amber-400 px-3 py-1.5 rounded-lg border border-slate-900 shadow-sm transition-all">
                       Open Solver &rarr;
                     </span>
                   </div>
@@ -552,65 +617,62 @@ export default function VideoLibraryPage() {
             </div>
           </div>
         ) : activeView === 'playlists' ? (
-          /* Playlists Grid */
-          playlistsList.length === 0 ? (
-            <div className="border-4 border-ink border-dashed p-12 text-center bg-canvas">
-              <p className="font-display text-2xl font-black text-ink/30 mb-2">No playlists available</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {playlistsList.map(playlist => (
-                <Link
-                  key={playlist.id}
-                  href={`/videos/playlist/${playlist.slug}`}
-                  className="border-4 border-ink p-5 bg-canvas flex flex-col justify-between shadow-hard hover:translate-y-[-2px] transition-all"
-                  style={{ textDecoration: 'none' }}
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[9px] border-2 border-blue px-2 py-0.5 font-bold uppercase text-blue">
-                        {playlist.subject_slug.replace('-', ' ')}
+          /* Curated Courses & Playlists Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {playlistsList.map(playlist => (
+              <Link
+                key={playlist.id}
+                href={`/videos/playlist/${playlist.slug}`}
+                className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between group"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-bold uppercase text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-full">
+                      {playlist.subject_slug.replace('-', ' ')}
+                    </span>
+                    {playlist.is_featured && (
+                      <span className="font-mono text-[10px] bg-[#F5C518] border border-slate-900 px-2.5 py-0.5 rounded-full font-bold text-slate-900 flex items-center gap-1">
+                        <Sparkles className="w-3 h-3 fill-slate-900" /> Featured
                       </span>
-                      {playlist.is_featured && (
-                        <span className="font-mono text-[9px] bg-yellow-bright border-2 border-ink px-2 py-0.5 font-bold uppercase text-ink flex items-center gap-1">
-                          <Sparkles className="w-3 h-3 fill-ink" /> Featured
-                        </span>
-                      )}
-                    </div>
-                    <h3 className="font-display text-lg font-black text-ink leading-tight">
-                      {playlist.title}
-                    </h3>
-                    <p className="font-mono text-xs text-ink/60 line-clamp-3">
-                      {playlist.description}
-                    </p>
+                    )}
                   </div>
-                  <div className="border-t border-ink/10 pt-4 mt-4 flex items-center justify-between">
-                    <span className="font-mono text-[10px] text-ink/50 uppercase">
-                      {playlist.video_count} lectures
-                    </span>
-                    <span className="font-mono text-[10px] text-blue font-black uppercase flex items-center gap-1 hover:underline">
-                      Start Course →
-                    </span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )
+                  <h3 className="font-display text-lg font-bold text-slate-900 leading-tight group-hover:text-blue-600 transition-colors">
+                    {playlist.title}
+                  </h3>
+                  <p className="text-xs text-slate-600 font-medium line-clamp-3 leading-relaxed">
+                    {playlist.description}
+                  </p>
+                </div>
+
+                <div className="border-t border-slate-100 pt-4 mt-4 flex items-center justify-between">
+                  <span className="font-mono text-xs text-slate-400 font-bold uppercase">
+                    {playlist.video_count} lectures
+                  </span>
+                  <span className="font-mono text-xs text-blue-600 font-bold uppercase flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                    Start Course &rarr;
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
         ) : (
-          /* Videos Grid */
+          /* All Audited Videos Grid */
           filteredVideos.length === 0 ? (
-            <div className="border-4 border-ink border-dashed p-12 text-center bg-canvas">
-              <p className="font-display text-2xl font-black text-ink/30 mb-2">No audited videos match your filter</p>
-              <p className="font-mono text-xs text-ink/50 max-w-md mx-auto mb-4">
-                All entries pass strict verification before publication. Reset your filters or select another domain.
+            <div className="border-2 border-slate-900 bg-white rounded-2xl p-16 text-center shadow-sm space-y-4">
+              <span className="text-4xl block">🔍</span>
+              <h3 className="font-display text-xl font-bold text-slate-900">No videos match your filter</h3>
+              <p className="text-xs text-slate-500 max-w-md mx-auto">
+                Try resetting your search term or select another category from the toolbar above.
               </p>
-              <button onClick={() => { setSelectedSubject('all'); setSelectedSource('all'); setSearch(''); }}
-                className="cn-btn-blue text-xs">
-                Reset Filters
+              <button
+                onClick={() => { setSelectedSubject('all'); setSelectedSource('all'); setSelectedCategory('all'); setSearch(''); }}
+                className="px-6 py-2.5 rounded-xl bg-blue-600 text-white font-mono text-xs font-bold uppercase hover:bg-blue-700 transition-all shadow-sm"
+              >
+                Reset All Filters
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={`grid gap-6 ${viewMode === 'grid' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1'}`}>
               {filteredVideos.map(video => (
                 <VideoCard
                   key={video.id}
@@ -624,6 +686,42 @@ export default function VideoLibraryPage() {
           )
         )}
       </div>
+
+      {/* ── BOTTOM AI TUTOR CTA ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-8">
+        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Video Assistant &middot; Gemini RAG
+          </div>
+
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+            Confused by an equation in a video? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+              Ask the AI Tutor.
+            </span>
+          </h2>
+
+          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+            Ask for step-by-step derivations, industrial significance, or GATE practice problems grounded in all 216 syllabus lessons.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href="/ai-tutor?prompt=Explain%20the%20mathematical%20derivation%20of%20the%20Carothers%20Equation%20from%20the%20polymer%20chemistry%20video%20lecture"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            >
+              <Brain className="w-4 h-4" /> Ask AI Specialist &rarr;
+            </Link>
+
+            <Link
+              href="/subjects"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+            >
+              <Compass className="w-4 h-4" /> Explore 19 Subjects
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {selectedVideo && <VideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
       {activeScreencast && <ScreencastPlayer screencast={activeScreencast} onClose={() => setActiveScreencast(null)} />}

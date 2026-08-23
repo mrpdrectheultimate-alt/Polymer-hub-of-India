@@ -1,8 +1,8 @@
-﻿// src/components/VideoCard.tsx
+// src/components/VideoCard.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Play, ExternalLink, Heart } from 'lucide-react'
+import { Play, ExternalLink, Heart, Clock } from 'lucide-react'
 import { getYouTubeThumbnailUrl } from '@/lib/youtube'
 import { toast } from '@/hooks/use-toast'
 import { getFallbackVideoId } from '@/lib/youtube-replacement'
@@ -34,29 +34,25 @@ export type VideoRecord = {
   academicReviewNotes?: string
 }
 
-const SOURCE_COLORS: Record<string, { color: string; bg: string }> = {
-  NPTEL:    { color: '#1D4ED8', bg: '#EFF6FF' },
-  IIT:      { color: '#7C3AED', bg: '#F5F3FF' },
-  MIT:      { color: '#EA580C', bg: '#FFF7ED' },
-  Industry: { color: '#15803D', bg: '#F0FDF4' },
+const SOURCE_STYLES: Record<string, { bg: string; text: string; border: string }> = {
+  NPTEL:    { bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-300' },
+  IIT:      { bg: 'bg-purple-100', text: 'text-purple-800', border: 'border-purple-300' },
+  MIT:      { bg: 'bg-orange-100', text: 'text-orange-800', border: 'border-orange-300' },
+  Industry: { bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-300' },
 }
 
-const SUBJECT_COLORS: Record<string, string> = {
-  'polymer-chemistry': '#1D4ED8',
-  'polymer-processing': '#EA580C',
-  'mould-design': '#EA580C',
-  'polymer-testing': '#7C3AED',
-  'polymer-rheology': '#2563EB',
-  'polymer-composites': '#0284C7',
-  'additives-compounding': '#D97706',
-  'rubber-technology': '#DC2626',
-  'medical-plastics-biomaterials': '#059669',
-  'recycling-technology': '#16A34A',
-  'sustainable-plastics-bioplastics': '#15803D',
-  'plastic-packaging-engineering': '#9333EA',
-  'life-cycle-assessment': '#4F46E5',
-  'entrepreneurship-in-plastics': '#CA8A04',
-  'color-science-masterbatches': '#DB2777'
+const DEFAULT_SUBJECT_IMAGES: Record<string, string> = {
+  'polymer-chemistry': 'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=600&q=80',
+  'polymer-processing': 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=80',
+  'mould-design': 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=600&q=80',
+  'polymer-testing': 'https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=600&q=80',
+  'rubber-technology': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80',
+  'recycling-technology': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=600&q=80',
+  'sustainable-plastics-bioplastics': 'https://images.unsplash.com/photo-1569427830807-c1429cbabed9?w=600&q=80',
+  'polymer-composites': 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=80',
+  'medical-plastics-biomaterials': 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&q=80',
+  'plastic-packaging-engineering': 'https://images.unsplash.com/photo-1605600659908-0ef719419d41?w=600&q=80',
+  'default': 'https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=600&q=80',
 }
 
 interface VideoCardProps {
@@ -75,19 +71,25 @@ export default function VideoCard({
   watchedPercent = 0
 }: VideoCardProps) {
   const [saved, setSaved] = useState(isSaved)
+  const [imgSrc, setImgSrc] = useState<string>('')
   
+  const isBroken = video.embedStatus === 'broken'
+  const activeYoutubeId = getFallbackVideoId(video.youtubeId, video.subjectSlug, isBroken)
+  const canEmbed = (video.embedStatus === 'working' || video.embedStatus === 'broken') && Boolean(activeYoutubeId)
+
   useEffect(() => {
     setSaved(isSaved)
   }, [isSaved])
 
-  const src = SOURCE_COLORS[video.source] || SOURCE_COLORS.Industry
-  const subColor = SUBJECT_COLORS[video.subjectSlug] ?? '#1D4ED8'
-  
-  const isBroken = video.embedStatus === 'broken'
-  // Resolve active YouTube ID to fallback if database contains broken/mock ID references
-  const activeYoutubeId = getFallbackVideoId(video.youtubeId, video.subjectSlug, isBroken)
-  const canEmbed = (video.embedStatus === 'working' || video.embedStatus === 'broken') && Boolean(activeYoutubeId)
-  const thumbnailUrl = getYouTubeThumbnailUrl(activeYoutubeId)
+  useEffect(() => {
+    if (activeYoutubeId) {
+      setImgSrc(getYouTubeThumbnailUrl(activeYoutubeId))
+    } else {
+      setImgSrc(DEFAULT_SUBJECT_IMAGES[video.subjectSlug] || DEFAULT_SUBJECT_IMAGES.default)
+    }
+  }, [activeYoutubeId, video.subjectSlug])
+
+  const srcBadge = SOURCE_STYLES[video.source] || SOURCE_STYLES.Industry
 
   async function handleWatchlistClick(e: React.MouseEvent) {
     e.stopPropagation()
@@ -108,7 +110,7 @@ export default function VideoCard({
         }
         toast({
           title: nextSaved ? '❤️ Saved' : 'Removed',
-          description: nextSaved ? 'Video added to watchlist.' : 'Video removed from watchlist.'
+          description: nextSaved ? 'Video added to your watchlist.' : 'Video removed from watchlist.'
         })
       } else {
         toast({
@@ -122,138 +124,108 @@ export default function VideoCard({
     }
   }
 
-  const CardWrapper = ({ children }: { children: React.ReactNode }) => {
-    if (!canEmbed) {
-      return (
-        <a
-          href={video.canonicalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-full text-left border-4 border-ink overflow-hidden group transition-all bg-canvas flex flex-col justify-between"
-          style={{ boxShadow: `3px 3px 0px 0px ${subColor}` }}
-        >
-          {children}
-        </a>
-      )
-    }
-    return (
-      <button
-        onClick={onClick}
-        className="w-full text-left border-4 border-ink overflow-hidden group transition-all bg-canvas flex flex-col justify-between relative"
-        style={{ boxShadow: `3px 3px 0px 0px ${subColor}` }}
-        onMouseEnter={e => {
-          const el = e.currentTarget as HTMLElement
-          el.style.transform = 'translate(-2px,-2px)'
-          el.style.boxShadow = `5px 5px 0px 0px ${subColor}`
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget as HTMLElement
-          el.style.transform = 'translate(0,0)'
-          el.style.boxShadow = `3px 3px 0px 0px ${subColor}`
-        }}
-      >
-        {children}
-      </button>
-    )
+  const handleImageError = () => {
+    // Fallback to crisp domain Unsplash photo if YouTube thumbnail fails to load
+    setImgSrc(DEFAULT_SUBJECT_IMAGES[video.subjectSlug] || DEFAULT_SUBJECT_IMAGES.default)
   }
 
   return (
-    <CardWrapper>
-      {/* Thumbnail */}
-      <div className="relative bg-ink/90 aspect-video flex items-center justify-center overflow-hidden w-full">
+    <div
+      onClick={canEmbed ? onClick : undefined}
+      className="group flex flex-col h-full bg-white border-2 border-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer select-none"
+    >
+      {/* ── Video Thumbnail Header ── */}
+      <div className="relative aspect-video bg-slate-950 overflow-hidden border-b-2 border-slate-200">
         <img
-          src={thumbnailUrl}
+          src={imgSrc || DEFAULT_SUBJECT_IMAGES[video.subjectSlug] || DEFAULT_SUBJECT_IMAGES.default}
           alt={video.title}
-          className="w-full h-full object-cover absolute inset-0 opacity-80 group-hover:scale-105 transition-transform duration-300"
+          onError={handleImageError}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
-        {/* Watchlist Heart Button */}
-        <button
-          onClick={handleWatchlistClick}
-          className="absolute top-2 right-2 z-10 w-7 h-7 bg-white border-2 border-ink flex items-center justify-center hover:scale-110 transition-transform shadow-hard-xs"
-          title={saved ? 'Remove from watchlist' : 'Add to watchlist'}
-        >
-          <Heart className={`w-3.5 h-3.5 ${saved ? 'fill-red-500 text-red-500' : 'text-ink'}`} />
-        </button>
+        {/* Subtle Dark Vignette */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
 
-        {canEmbed ? (
-          <div className="relative w-12 h-12 border-4 border-white bg-black/40 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-            <Play className="w-5 h-5 text-white fill-white ml-0.5" />
-          </div>
-        ) : (
-          <div className="relative border-2 border-white bg-black/70 px-3 py-1.5 font-mono text-[9px] font-bold text-white flex items-center gap-1.5">
-            <ExternalLink className="w-3.5 h-3.5" /> Watch on YouTube
-          </div>
-        )}
-
-        <div className="absolute bottom-2 right-2 bg-ink/90 font-mono text-[9px] text-white px-2 py-0.5 font-bold border border-white/20">
-          {video.duration}
-        </div>
-        
-        <div className="absolute top-2 left-2 flex gap-1 flex-wrap">
-          <span
-            className="font-mono text-[8px] font-black px-2 py-0.5 border-2 uppercase"
-            style={{ backgroundColor: src.bg, borderColor: src.color, color: src.color }}
-          >
+        {/* Source & Subject Badges */}
+        <div className="absolute top-2.5 left-2.5 flex gap-1.5 flex-wrap z-10">
+          <span className={`font-mono text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase border shadow-sm ${srcBadge.bg} ${srcBadge.text} ${srcBadge.border}`}>
             {video.source === 'Industry' ? 'Industry Demo' : video.source}
           </span>
           {video.learningRole && (
-            <span
-              className={`font-mono text-[8px] font-black px-2 py-0.5 border-2 uppercase ${
-                video.learningRole === 'foundation'
-                  ? 'bg-blue-600 text-white border-blue-800'
-                  : 'bg-emerald-600 text-white border-emerald-800'
-              }`}
-            >
+            <span className="font-mono text-[9px] font-bold px-2 py-0.5 rounded-full uppercase bg-slate-900/80 text-white border border-white/20 shadow-sm">
               {video.learningRole}
             </span>
           )}
         </div>
-      </div>
 
-      {/* Info */}
-      <div className="p-4 bg-canvas border-t-2 border-ink flex-1 flex flex-col justify-between w-full">
-        <div>
-          <div className="flex items-center gap-1.5 mb-2 flex-wrap">
-            <span
-              className="font-mono text-[8px] border-2 px-1.5 py-0.5 uppercase font-bold"
-              style={{ borderColor: subColor, color: subColor }}
-            >
-              {video.subject.replace('Polymer ', '')}
-            </span>
-            <span className="font-mono text-[8px] border-2 border-ink/20 text-ink/60 px-1.5 py-0.5 uppercase">
-              {video.level}
-            </span>
-            {!canEmbed && (
-              <span className="font-mono text-[8px] border-2 border-yellow-bright bg-yellow-bright/10 text-yellow-800 px-1.5 py-0.5 uppercase font-bold">
-                External Only
-              </span>
-            )}
+        {/* Watchlist Heart Button */}
+        <button
+          onClick={handleWatchlistClick}
+          className="absolute top-2.5 right-2.5 z-10 w-7 h-7 bg-white/90 backdrop-blur-md rounded-full border border-slate-300 flex items-center justify-center hover:scale-110 hover:bg-white transition-all shadow-sm"
+          title={saved ? 'Remove from watchlist' : 'Add to watchlist'}
+        >
+          <Heart className={`w-3.5 h-3.5 ${saved ? 'fill-red-500 text-red-500' : 'text-slate-700'}`} />
+        </button>
+
+        {/* Center Play Button Icon Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-11 h-11 rounded-full bg-slate-950/70 backdrop-blur-sm border-2 border-white/80 flex items-center justify-center group-hover:scale-115 group-hover:bg-blue-600 group-hover:border-blue-600 transition-all shadow-lg">
+            <Play className="w-4 h-4 text-white fill-white ml-0.5" />
           </div>
-          <h3
-            className="font-display text-sm font-black text-ink leading-tight mb-1 group-hover:underline"
-            style={{ textDecorationColor: subColor }}
-          >
-            {video.title}
-          </h3>
-          <p className="font-mono text-[9px] text-ink/60 mb-2">{video.channel}</p>
         </div>
 
-        {/* Progress indicator */}
-        {watchedPercent > 0 && (
-          <div className="mt-3 w-full bg-slate-100 h-2 border border-ink/10 relative overflow-hidden">
-            <div
-              className={`h-full ${watchedPercent >= 100 ? 'bg-emerald-500' : 'bg-blue'}`}
-              style={{ width: `${Math.min(watchedPercent, 100)}%` }}
-            />
-            {watchedPercent >= 100 && (
-              <span className="absolute right-1 top-0 font-mono text-[7px] text-emerald-800 font-bold">
-                WATCHED
-              </span>
-            )}
-          </div>
-        )}
+        {/* Duration Badge */}
+        <div className="absolute bottom-2.5 right-2.5 bg-slate-950/90 backdrop-blur-sm font-mono text-[10px] text-white px-2 py-0.5 rounded-md font-bold border border-white/20 flex items-center gap-1">
+          <Clock className="w-2.5 h-2.5" />
+          {video.duration || '10:00'}
+        </div>
       </div>
-    </CardWrapper>
+
+      {/* ── Card Content & Metadata ── */}
+      <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between bg-white space-y-3">
+        
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-slate-500 font-bold">
+            <span className="text-blue-700 uppercase">{video.subject.replace('Polymer ', '')}</span>
+            <span>&middot;</span>
+            <span className="uppercase text-slate-400">{video.level}</span>
+          </div>
+
+          <h3 className="font-display text-sm sm:text-base font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
+            {video.title}
+          </h3>
+
+          <p className="text-[11px] font-mono text-slate-400 font-medium truncate">
+            {video.channel}
+          </p>
+        </div>
+
+        {/* Footer Actions & Progress Bar */}
+        <div className="mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          {canEmbed ? (
+            <span className="font-mono text-xs font-bold text-blue-600 uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              Watch Lecture &rarr;
+            </span>
+          ) : (
+            <a
+              href={video.canonicalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-slate-700 hover:text-slate-950 uppercase"
+            >
+              YouTube Link <ExternalLink className="w-3 h-3" />
+            </a>
+          )}
+
+          {watchedPercent > 0 && (
+            <span className="text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              {watchedPercent >= 100 ? 'Watched' : `${Math.round(watchedPercent)}%`}
+            </span>
+          )}
+        </div>
+
+      </div>
+    </div>
   )
 }
