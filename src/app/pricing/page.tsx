@@ -1,377 +1,446 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Check, 
   Shield, 
-  CreditCard,
-  HelpCircle,
-  ChevronDown,
+  Sparkles, 
+  ChevronDown, 
   ChevronUp,
-  Sparkles
+  BookOpen,
+  Cpu,
+  Zap,
+  Lock,
+  CreditCard,
+  Building2,
+  Award,
+  Crown,
+  Users,
+  FileText,
+  Database,
+  Calculator,
+  FlaskConical,
+  Mail,
+  TrendingUp,
+  Download,
+  Layers
 } from 'lucide-react'
 import RazorpayCheckout from '@/components/RazorpayCheckout'
+import Footer from '@/components/Footer'
 
-const FAQS = [
+// ==================== DATA ====================
+
+const PLANS = [
   {
-    question: 'How does payment work?',
-    answer: 'Click "Upgrade to Premium" to checkout securely with Razorpay. You can pay via UPI, Credit/Debit cards, Net Banking, or mobile wallets. Premium is activated immediately upon successful payment.',
+    id: 'free',
+    name: 'Free Forever',
+    monthlyPrice: 0,
+    period: '/ FOREVER',
+    tagline: 'Essential study tools and fundamental syllabus.',
+    bestFor: 'Students exploring PolymerHub',
+    badge: null,
+    icon: BookOpen,
+    color: '#64748B',
+    features: [
+      { icon: BookOpen, text: 'All 19 core subjects (216+ lessons)' },
+      { icon: Sparkles, text: '15 AI tutor queries per day' },
+      { icon: Database, text: 'Polymer materials database (basic)' },
+      { icon: Layers, text: 'Shop-floor defect troubleshooting' },
+      { icon: Download, text: 'Mobile PWA offline access' },
+    ],
+    cta: 'Start Learning Free',
+    ctaLink: '/signup',
+    popular: false,
   },
   {
-    question: 'Can I cancel anytime?',
-    answer: 'Yes. Premium is month-to-month with no lock-in. You can pause or cancel renewal anytime from your profile settings.',
+    id: 'premium',
+    name: 'Premium Engineer',
+    monthlyPrice: 149,
+    period: '/ MONTH',
+    tagline: 'The complete polymer engineering suite & unlimited RAG AI.',
+    bestFor: 'Engineers serious about polymer science',
+    badge: '⭐ Most Popular',
+    icon: Crown,
+    color: '#2563EB',
+    features: [
+      { icon: Sparkles, text: 'Everything in Free tier' },
+      { icon: Cpu, text: 'Unlimited AI tutor queries' },
+      { icon: Database, text: 'Advanced material properties database (1,000+ TDS)' },
+      { icon: FileText, text: 'Chemical resistance & processing tables' },
+      { icon: Download, text: 'PDF lesson downloads with LaTeX math' },
+      { icon: Calculator, text: '8 Industrial engineering calculators' },
+      { icon: FlaskConical, text: 'ASTM virtual testing lab access' },
+      { icon: Mail, text: 'Priority email engineering support' },
+    ],
+    cta: 'Upgrade to Premium',
+    popular: true,
   },
   {
-    question: 'Is the free plan really free forever?',
-    answer: 'Yes. All core lessons across 19 subjects, basic materials database, and 15 daily AI tutor queries are completely free forever.',
-  },
-  {
-    question: 'What if I have a complex industrial calculation or question?',
-    answer: 'Premium users unlock unlimited AI tutor queries and priority email support with responses from polymer engineers within 24 hours.',
-  },
-  {
-    question: 'Is this useful for GATE Polymer Science & Engineering?',
-    answer: 'Yes. Our curriculum covers all GATE XE-F syllabus topics, formulas, rationale engines, and timed mock tests with negative marking.',
+    id: 'institutional',
+    name: 'Institutional Campus',
+    monthlyPrice: 99,
+    period: '/ SEAT / MO',
+    tagline: 'For colleges, universities, CIPET centers & departments.',
+    bestFor: 'Departments & colleges',
+    badge: '🏛️ For Colleges',
+    icon: Building2,
+    color: '#10B981',
+    features: [
+      { icon: Crown, text: 'Everything in Premium plan' },
+      { icon: Users, text: 'HOD seat allocator dashboard' },
+      { icon: TrendingUp, text: 'Student performance & quiz analytics' },
+      { icon: Award, text: 'College leaderboard ranking' },
+      { icon: Users, text: 'Minimum 30 seats (₹2,970/mo minimum)' },
+      { icon: BookOpen, text: 'Custom regional syllabus mapping' },
+    ],
+    cta: 'Request Campus Demo',
+    ctaLink: '/enterprise',
+    popular: false,
   },
 ]
 
+const FAQS = [
+  {
+    q: 'How does payment work?',
+    a: "Click 'Upgrade to Premium' to checkout securely with Razorpay. You can pay via UPI (Google Pay, PhonePe, Paytm), Credit/Debit cards, Net Banking, or wallets. Premium is activated immediately upon successful payment."
+  },
+  {
+    q: "What's the minimum order for Institutional plans?",
+    a: 'Institutional plans require a minimum of 30 seats. That means the minimum monthly commitment is ₹2,970/month (₹99 × 30 seats). For campus-wide deployments above 200 seats, we offer additional volume tiering.'
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Yes. Premium is month-to-month with no long-term lock-in. You can pause or cancel anytime from your profile settings.'
+  },
+  {
+    q: 'Is the free plan really free forever?',
+    a: 'Yes. All core lessons across 19 subjects (216+ lessons), basic materials database, and 15 AI queries/day are free forever with no credit card required.'
+  },
+  {
+    q: 'What if I have a complex industrial calculation?',
+    a: 'Premium users get access to 8 industrial engineering calculators (clamping tonnage, cooling cycle, shrinkage, runner pressure drop) and priority email support within 24 hours.'
+  },
+  {
+    q: 'Is this useful for GATE Polymer Science & Engineering (XE-F)?',
+    a: 'Yes. Our curriculum covers all GATE XE-F topics, mathematical derivations, formula cheat-sheets, and simulated computer-based mock tests with negative marking.'
+  },
+]
+
+const TRUST_BADGES = [
+  { icon: Shield, label: 'Secured by Razorpay', color: '#2563EB' },
+  { icon: CreditCard, label: 'UPI · Cards · Net Banking', color: '#16A34A' },
+  { icon: Zap, label: 'Cancel Anytime', color: '#F5C518' },
+  { icon: Award, label: 'Made in India', color: '#FF8A00' },
+]
+
+const SOCIAL_PROOF = {
+  students: '12,000+',
+  colleges: '150+',
+  label: 'engineering students across India'
+}
+
 export default function PricingPage() {
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>('monthly')
-  const [openFaq, setOpenFaq] = useState<number | null>(null)
-  const [demoRequested, setDemoRequested] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [])
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC]">
+    <div className="min-h-screen bg-[#F8FAFC] overflow-x-hidden text-slate-900">
       
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="relative bg-[#0B172A] overflow-hidden text-white border-b-2 border-slate-900">
+      {/* ===== HERO: Midnight Navy with Tricolor Gradient ===== */}
+      <section className="relative bg-[#0B172A] overflow-hidden py-16 lg:py-24 text-white">
         <div className="absolute inset-0 pointer-events-none">
           <Image
-            src="https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=1600&q=80"
-            alt="PolymerHub Pricing"
+            src="/images/hero/students-polymer-lab.jpg"
+            alt="PolymerHub pricing"
             fill
-            sizes="100vw"
             className="object-cover opacity-15 filter grayscale contrast-125"
             priority
+            sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B172A] via-[#0B172A]/85 to-transparent" />
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0B172A] via-[#0B172A]/90 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F8FAFC] to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-4xl mx-auto px-4 py-20 lg:py-24 text-center">
+        {/* Ambient Radial Energy */}
+        <div className="absolute top-10 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={isLoaded ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
           >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-mono font-bold tracking-wider uppercase mb-4 shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <Sparkles className="h-3.5 w-3.5 text-[#F5C518]" />
               Simple, Transparent Pricing &middot; Zero Hidden Fees
             </div>
 
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight uppercase tracking-tight">
-              Choose Your <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF7722] via-[#FFFFFF] to-[#10B981]">
-                Learning Path
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+              Choose How You
+              <span className="block bg-gradient-to-r from-[#FF9933] via-white to-[#138808] bg-clip-text text-transparent">
+                Learn Polymer Engineering
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 mt-4 max-w-2xl mx-auto leading-relaxed font-light">
-              Core B.Tech syllabus lessons and interactive tools are free forever. Upgrade to Premium to unlock advanced engineering databases, PDF downloads, and unlimited AI tutoring.
+            <p className="text-sm sm:text-base md:text-lg text-slate-300 mt-4 max-w-2xl mx-auto leading-relaxed font-light">
+              Core B.Tech syllabus lessons and interactive tools are free forever. Upgrade to Premium 
+              to unlock advanced engineering databases, PDF downloads, and unlimited AI tutoring.
             </p>
 
-            {/* Billing Frequency Toggle */}
+            {/* Billing Toggle */}
             <div className="flex items-center justify-center gap-3 mt-8">
-              <span className={`text-sm font-semibold transition-colors ${billingPeriod === 'monthly' ? 'text-white' : 'text-white/40'}`}>
+              <span className={`text-xs sm:text-sm font-semibold transition-colors ${billingPeriod === 'monthly' ? 'text-white' : 'text-white/40'}`}>
                 Monthly
               </span>
               <button
                 type="button"
-                aria-label="Toggle Billing Frequency"
                 onClick={() => setBillingPeriod(billingPeriod === 'monthly' ? 'annual' : 'monthly')}
-                className="relative w-14 h-7 rounded-full bg-white/20 p-1 transition-colors border border-white/20"
+                className="relative w-14 h-7 rounded-full bg-white/20 p-1 transition-colors border border-white/20 focus:outline-none"
               >
                 <motion.div
                   className="w-5 h-5 rounded-full bg-white shadow-md"
-                  animate={{ x: billingPeriod === 'annual' ? 26 : 0 }}
+                  animate={{ x: billingPeriod === 'annual' ? 28 : 0 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 />
               </button>
-              <span className={`text-sm font-semibold flex items-center gap-1.5 transition-colors ${billingPeriod === 'annual' ? 'text-white' : 'text-white/40'}`}>
+              <span className={`text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors ${billingPeriod === 'annual' ? 'text-white' : 'text-white/40'}`}>
                 Annual
-                <span className="px-2 py-0.5 rounded-full bg-amber-400/20 border border-amber-400/30 text-amber-300 text-[10px] font-mono font-bold uppercase">
+                <span className="px-2 py-0.5 rounded-full bg-[#F5C518]/20 text-[#F5C518] text-[10px] font-mono font-bold">
                   Save 20%
                 </span>
               </span>
             </div>
+
+            {/* Social Proof */}
+            <div className="flex items-center justify-center gap-1.5 mt-5 text-xs text-white/50 font-mono">
+              <span className="font-bold text-white">{SOCIAL_PROOF.students}</span>
+              <span>students across</span>
+              <span className="font-bold text-white">{SOCIAL_PROOF.colleges}</span>
+              <span>colleges trust PolymerHub</span>
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* ── PRICING CARDS ── */}
+      {/* ===== PRICING CARDS ===== */}
       <section className="max-w-7xl mx-auto px-4 -mt-10 relative z-20 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 items-stretch">
-          
-          {/* 1. Free Plan */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.05 }}
-            className="bg-white rounded-3xl border-2 border-slate-200 p-7 lg:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl p-2.5 rounded-2xl bg-slate-100 border border-slate-200">📚</span>
-                <div>
-                  <h3 className="text-xl font-display font-black text-slate-900 uppercase">Free Tier</h3>
-                  <p className="text-xs text-slate-500 font-medium">Essential study tools to get started.</p>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {PLANS.map((plan, index) => {
+            const isAnnual = billingPeriod === 'annual' && plan.id === 'premium'
+            const displayPrice = isAnnual ? '₹119' : `₹${plan.monthlyPrice}`
+            const displayPeriod = isAnnual ? '/ MO (BILLED ANNUALLY)' : plan.period
 
-              <div className="mb-6 pt-2 pb-4 border-b border-slate-100">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-display font-black text-slate-900">₹0</span>
-                  <span className="text-xs font-mono font-bold text-slate-400 uppercase">/ forever</span>
-                </div>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {[
-                  'All 19 core subjects (216+ lessons)',
-                  '15 AI tutor queries per day',
-                  'Polymer materials database (basic)',
-                  'Shop-floor defect troubleshooter',
-                  'Mobile PWA offline access',
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs text-slate-600 font-medium">
-                    <Check className="h-4 w-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <Link
-              href="/login"
-              className="w-full py-3 rounded-xl font-display font-bold text-xs uppercase tracking-wider text-slate-800 bg-slate-100 hover:bg-slate-200 text-center transition-all block border border-slate-200 active:scale-[0.98]"
-            >
-              Get Started Free →
-            </Link>
-          </motion.div>
-
-          {/* 2. Premium Plan (Highlighted) */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="bg-white rounded-3xl border-2 border-blue-600 p-7 lg:p-8 shadow-[0_10px_35px_rgba(37,99,235,0.15)] hover:shadow-2xl hover:-translate-y-1 transition-all relative flex flex-col justify-between"
-          >
-            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xs font-mono font-bold uppercase tracking-wider shadow-md flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" /> Most Popular
-            </div>
-
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl p-2.5 rounded-2xl bg-blue-50 border border-blue-100">⭐</span>
-                <div>
-                  <h3 className="text-xl font-display font-black text-slate-900 uppercase">Premium Tier</h3>
-                  <p className="text-xs text-blue-600 font-medium">Complete platform unlock. Cancel anytime.</p>
-                </div>
-              </div>
-
-              <div className="mb-6 pt-2 pb-4 border-b border-slate-100">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-display font-black text-slate-900">
-                    {billingPeriod === 'annual' ? '₹119' : '₹149'}
-                  </span>
-                  <span className="text-xs font-mono font-bold text-blue-600 uppercase">
-                    {billingPeriod === 'annual' ? '/ mo (billed annually)' : '/ month'}
-                  </span>
-                </div>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {[
-                  'Everything in Free tier',
-                  'Unlimited Gemini AI tutor queries',
-                  'Advanced CAMPUS material properties',
-                  'Chemical resistance & processing tables',
-                  'PDF lesson downloads with LaTeX math',
-                  '8 Industrial engineering calculators',
-                  'ASTM virtual testing lab benches',
-                  'Priority email engineering support',
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs text-slate-700 font-medium">
-                    <Check className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <RazorpayCheckout
-              buttonText="Upgrade to Premium →"
-              buttonClass="w-full py-3.5 rounded-xl font-display font-bold text-xs uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 hover:shadow-[0_4px_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2 active:scale-[0.98] shadow-md"
-            />
-          </motion.div>
-
-          {/* 3. Institutional Plan */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="bg-white rounded-3xl border-2 border-slate-200 p-7 lg:p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between"
-          >
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-3xl p-2.5 rounded-2xl bg-purple-50 border border-purple-100">🏛️</span>
-                <div>
-                  <h3 className="text-xl font-display font-black text-slate-900 uppercase">Institutional</h3>
-                  <p className="text-xs text-purple-600 font-medium">For colleges, universities & departments.</p>
-                </div>
-              </div>
-
-              <div className="mb-6 pt-2 pb-4 border-b border-slate-100">
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-display font-black text-slate-900">₹99</span>
-                  <span className="text-xs font-mono font-bold text-purple-600 uppercase">/ seat / mo</span>
-                </div>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {[
-                  'Everything in Premium plan for all students',
-                  'College-wide HOD seat allocator dashboard',
-                  'Student performance & quiz analytics tracking',
-                  'Collective college leaderboard ranking',
-                  'Minimum 30 seats batch deployment',
-                  'Custom regional university syllabus mapping',
-                ].map((feature, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-xs text-slate-600 font-medium">
-                    <Check className="h-4 w-4 text-purple-600 mt-0.5 flex-shrink-0" />
-                    <span>{feature}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {demoRequested ? (
-              <div className="rounded-xl border border-purple-200 bg-purple-50 p-3.5 text-center text-xs font-medium text-purple-800 leading-snug">
-                📨 Demo request received! Our B2B onboarding team will contact your department within 12 hours.
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setDemoRequested(true)}
-                className="w-full py-3 rounded-xl font-display font-bold text-xs uppercase tracking-wider text-purple-900 bg-purple-50 hover:bg-purple-100 border border-purple-200 text-center transition-all block active:scale-[0.98]"
+            return (
+              <motion.div
+                key={plan.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.1 * index + 0.15 }}
+                className={`
+                  bg-white rounded-3xl border-2 p-6 sm:p-8 relative flex flex-col justify-between transition-all
+                  ${plan.popular 
+                    ? 'border-[#2563EB] shadow-[0_8px_30px_rgba(37,99,235,0.14)] md:-translate-y-3' 
+                    : 'border-[#E2E8F0] shadow-[0_4px_20px_rgba(0,0,0,0.04)]'
+                  }
+                  hover:-translate-y-2 hover:shadow-2xl duration-300
+                `}
               >
-                Request B2B Demo →
-              </button>
-            )}
-          </motion.div>
+                {plan.badge && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#2563EB] text-white text-xs font-mono font-bold shadow-md">
+                    {plan.badge}
+                  </div>
+                )}
+
+                <div>
+                  {/* Target Audience Label */}
+                  <div className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider mb-2">
+                    {plan.bestFor}
+                  </div>
+
+                  {/* Header */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <div 
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm"
+                      style={{ backgroundColor: `${plan.color}15` }}
+                    >
+                      <plan.icon className="h-6 w-6" style={{ color: plan.color }} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-[#111827]">{plan.name}</h3>
+                      <p className="text-xs text-[#64748B] mt-0.5">{plan.tagline}</p>
+                    </div>
+                  </div>
+
+                  {/* Pricing Box */}
+                  <div className="mb-6 p-4 rounded-2xl bg-[#F8FAFC] border border-[#E2E8F0]">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-extrabold text-[#111827] tracking-tight">{displayPrice}</span>
+                      <span className="text-xs font-mono text-[#64748B] uppercase"> {displayPeriod}</span>
+                    </div>
+                    
+                    {isAnnual && (
+                      <div className="text-xs text-[#16A34A] font-semibold mt-1 font-mono">
+                        ✓ Save ₹360/year vs monthly billing
+                      </div>
+                    )}
+                    {plan.id === 'institutional' && (
+                      <div className="text-xs text-[#64748B] font-mono mt-1">
+                        Minimum 30 seats (₹2,970/mo commit)
+                      </div>
+                    )}
+                    {plan.id === 'premium' && (
+                      <div className="text-xs text-[#16A34A] font-semibold mt-1 font-mono">
+                        ≈ ₹4 to ₹5 / day &middot; Cancel anytime
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Features List */}
+                  <ul className="space-y-3 mb-8">
+                    {plan.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-[#475569]">
+                        <feature.icon className="h-4 w-4 text-[#16A34A] mt-0.5 shrink-0" />
+                        <span>{feature.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Action CTA */}
+                <div>
+                  {plan.id === 'premium' ? (
+                    <div>
+                      <RazorpayCheckout 
+                        buttonText={isAnnual ? 'Start Annual Premium — ₹1,430/yr' : 'Start Premium — ₹149/mo'}
+                        buttonClass="w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] hover:shadow-[0_4px_24px_rgba(37,99,235,0.4)] transition-all text-sm flex items-center justify-center gap-2"
+                      />
+                      <div className="mt-3 text-center text-[11px] text-[#94A3B8] font-mono flex items-center justify-center gap-1">
+                        <Lock className="h-3 w-3 text-emerald-600" />
+                        Secured by Razorpay &middot; UPI &middot; Cards &middot; Net Banking
+                      </div>
+                    </div>
+                  ) : (
+                    <Link
+                      href={plan.ctaLink || '/signup'}
+                      className={`
+                        w-full py-3.5 rounded-xl font-bold text-center transition-all block text-sm
+                        ${plan.id === 'institutional' 
+                          ? 'bg-[#10B981] text-white hover:bg-emerald-700 shadow-md' 
+                          : 'bg-[#F1F5F9] text-[#111827] hover:bg-[#E2E8F0]'
+                        }
+                      `}
+                    >
+                      {plan.cta}
+                    </Link>
+                  )}
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
 
-        {/* ── PROMO CODE BANNER ── */}
+        {/* ===== PROMO CODE BANNER ===== */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="mt-8 p-5 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-amber-500/10 rounded-2xl border-2 border-amber-400/30 text-center flex flex-col sm:flex-row items-center justify-between gap-4 max-w-4xl mx-auto shadow-sm"
+          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.45 }}
+          className="mt-8 p-4 sm:p-5 bg-gradient-to-r from-[#F5C518]/15 via-amber-50 to-[#F5C518]/15 rounded-2xl border-2 border-[#F5C518]/40 text-center shadow-sm"
         >
-          <div className="flex items-center gap-3 text-left">
-            <span className="text-2xl">🎉</span>
-            <div>
-              <p className="text-sm font-bold text-slate-900">
-                3 Months Free Engineering Promotion
-              </p>
-              <p className="text-xs text-slate-600">
-                Use coupon code when verifying payment to unlock immediate trial credits.
-              </p>
-            </div>
-          </div>
-          <code className="px-3.5 py-1.5 rounded-xl bg-amber-400/20 border border-amber-400/40 text-amber-900 font-mono font-bold text-sm tracking-wider select-all shadow-inner">
-            PIIU2025
-          </code>
+          <p className="text-xs sm:text-sm font-medium text-[#111827]">
+            🎉 <span className="font-bold">Student Campus Launch Offer:</span> Get your first 3 months of Premium free &mdash; Use code{' '}
+            <code className="px-2.5 py-1 rounded-md bg-[#F5C518]/30 text-amber-900 font-mono font-bold text-xs tracking-wider">
+              PIIU2025
+            </code>{' '}
+            during checkout.
+          </p>
         </motion.div>
       </section>
 
-      {/* ── FAQ SECTION ── */}
+      {/* ===== FAQ SECTION ===== */}
       <section className="max-w-3xl mx-auto px-4 pb-20">
-        <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-            <HelpCircle className="w-3.5 h-3.5 text-blue-600" /> FAQ
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <div className="text-center mb-8">
+            <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Help &amp; Support</span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#111827] mt-1">Frequently Asked Questions</h2>
+            <p className="text-xs sm:text-sm text-[#64748B] mt-0.5">Everything you need to know before getting started</p>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 uppercase">
-            Common Questions
-          </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Everything you need to know about our plans, payments, and syllabus coverage
-          </p>
-        </div>
 
-        <div className="space-y-3">
-          {FAQS.map((faq, index) => {
-            const isOpen = openFaq === index
-            return (
-              <div
+          <div className="space-y-3">
+            {FAQS.map((faq, index) => (
+              <motion.div
                 key={index}
-                className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:border-blue-300 transition-colors shadow-sm"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="border-2 border-[#E2E8F0] rounded-2xl overflow-hidden bg-white hover:border-[#2563EB]/40 transition-all shadow-2xs"
               >
                 <button
                   type="button"
-                  onClick={() => setOpenFaq(isOpen ? null : index)}
-                  className="w-full px-5 py-4 flex items-center justify-between hover:bg-slate-50 transition-colors text-left"
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-5 py-4 flex items-center justify-between hover:bg-[#F8FAFC] transition-colors text-left"
                 >
-                  <span className="font-semibold text-slate-800 text-sm flex items-center gap-2.5">
-                    <HelpCircle className="h-4 w-4 text-blue-600 shrink-0" />
-                    {faq.question}
+                  <span className="font-bold text-[#111827] text-sm flex items-center gap-2">
+                    <span className="text-[#2563EB] font-mono">{index + 1}.</span>
+                    {faq.q}
                   </span>
-                  {isOpen ? (
-                    <ChevronUp className="h-4 w-4 text-slate-400 shrink-0" />
+                  {openFaq === index ? (
+                    <ChevronUp className="h-4 w-4 text-[#94A3B8] shrink-0" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-slate-400 shrink-0" />
+                    <ChevronDown className="h-4 w-4 text-[#94A3B8] shrink-0" />
                   )}
                 </button>
                 <AnimatePresence>
-                  {isOpen && (
+                  {openFaq === index && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-5 pb-4 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 font-normal"
+                      transition={{ duration: 0.25 }}
+                      className="px-5 pb-5 pt-1"
                     >
-                      {faq.answer}
+                      <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed border-t border-[#F1F5F9] pt-3">{faq.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-            )
-          })}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ===== TRUST BADGES BAR ===== */}
+      <section className="bg-white border-t border-[#F1F5F9] py-8">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs font-mono font-medium text-[#64748B]">
+            {TRUST_BADGES.map((badge, i) => (
+              <span
+                key={i}
+                className="flex items-center gap-1.5"
+              >
+                <badge.icon className="h-4 w-4" style={{ color: badge.color }} />
+                {badge.label}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* ── TRUST SIGNALS FOOTER ── */}
-      <section className="max-w-7xl mx-auto px-4 pb-12 border-t border-slate-200 pt-8">
-        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs font-medium text-slate-500">
-          <span className="flex items-center gap-1.5">
-            <Shield className="h-4 w-4 text-emerald-600" /> Secured by Razorpay
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span className="flex items-center gap-1.5">
-            <CreditCard className="h-4 w-4 text-blue-600" /> UPI &middot; Credit/Debit Cards &middot; Net Banking
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span className="flex items-center gap-1.5">
-            <Check className="h-4 w-4 text-emerald-600" /> Cancel Anytime
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span>🇮🇳 Made in India for Indian Engineers</span>
-        </div>
-      </section>
+      {/* ===== GLOBAL FOOTER ===== */}
+      <Footer />
+
     </div>
   )
 }
