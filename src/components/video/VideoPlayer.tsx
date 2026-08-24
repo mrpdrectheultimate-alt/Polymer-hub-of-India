@@ -1,13 +1,14 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { AlertCircle, RefreshCw, ExternalLink, ShieldCheck } from 'lucide-react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { AlertCircle, RefreshCw, ExternalLink, ShieldCheck, Video } from 'lucide-react'
 import { getFallbackVideo } from '@/lib/youtube-replacement'
 
 export interface VideoSourceItem {
   type: 'youtube' | 'vimeo' | 'direct' | 'archive'
   url: string
   embedUrl: string
+  label?: string
   priority?: number
 }
 
@@ -31,21 +32,30 @@ interface VideoPlayerProps {
 }
 
 export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPlayerProps) {
-  // Generate sources array if not already defined
-  const baseSources: VideoSourceItem[] = video.sources && video.sources.length > 0 
-    ? video.sources 
-    : [
-        {
-          type: 'youtube',
-          url: `https://www.youtube.com/watch?v=${video.youtubeId || 'RMjtmsr3CqA'}`,
-          embedUrl: `https://www.youtube.com/embed/${video.youtubeId || 'RMjtmsr3CqA'}?autoplay=${autoplay ? 1 : 0}&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`
-        },
-        {
-          type: 'youtube',
-          url: `https://www.youtube.com/watch?v=${getFallbackVideo(video.youtubeId || '', video.lessonSlug, video.subjectSlug)}`,
-          embedUrl: `https://www.youtube.com/embed/${getFallbackVideo(video.youtubeId || '', video.lessonSlug, video.subjectSlug)}?autoplay=1`
-        }
-      ]
+  const primaryId = video.youtubeId || 'RMjtmsr3CqA'
+  const fallbackId = getFallbackVideo(primaryId, video.lessonSlug, video.subjectSlug)
+
+  // Build high-compatibility sources array
+  const sources: VideoSourceItem[] = [
+    {
+      type: 'youtube',
+      url: `https://www.youtube.com/watch?v=${primaryId}`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${primaryId}?autoplay=${autoplay ? 1 : 0}&enablejsapi=1&rel=0&modestbranding=1`,
+      label: 'Primary HD Stream'
+    },
+    {
+      type: 'youtube',
+      url: `https://www.youtube.com/watch?v=${fallbackId}`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${fallbackId}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1`,
+      label: 'Verified Academic Mirror'
+    },
+    {
+      type: 'youtube',
+      url: `https://www.youtube.com/watch?v=RMjtmsr3CqA`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/RMjtmsr3CqA?autoplay=1&enablejsapi=1&rel=0&modestbranding=1`,
+      label: 'Polymer Engineering Core'
+    }
+  ]
 
   const [currentSourceIndex, setCurrentSourceIndex] = useState(0)
   const [isLoading, setIsLoading] = useState(true)
@@ -53,7 +63,7 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
   const [errorMessage, setErrorMessage] = useState('')
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const currentSource = baseSources[currentSourceIndex] || baseSources[0]
+  const currentSource = sources[currentSourceIndex] || sources[0]
 
   useEffect(() => {
     setCurrentSourceIndex(0)
@@ -62,17 +72,39 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
     setErrorMessage('')
   }, [video.id, video.youtubeId])
 
-  const handleIframeError = () => {
-    setHasError(true)
-    if (currentSourceIndex < baseSources.length - 1) {
-      setTimeout(() => {
-        setCurrentSourceIndex((prev) => prev + 1)
-        setHasError(false)
-        setIsLoading(true)
-      }, 800)
+  const switchToNextSource = useCallback(() => {
+    if (currentSourceIndex < sources.length - 1) {
+      setCurrentSourceIndex(prev => prev + 1)
+      setIsLoading(true)
+      setHasError(false)
     } else {
-      setErrorMessage('Direct embed restricted by provider. Click below to view officially on YouTube or alternative mirror.')
+      setHasError(true)
+      setErrorMessage('Direct embed restricted by provider. Click below to view officially on YouTube.')
     }
+  }, [currentSourceIndex, sources.length])
+
+  // Listen for YouTube Iframe API error events sent via postMessage
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        if (typeof event.data === 'string') {
+          const data = JSON.parse(event.data)
+          // YouTube postMessage error codes: 2, 5, 100, 101, 150
+          if (data.event === 'onError' || (data.info && [2, 5, 100, 101, 150].includes(data.info))) {
+            switchToNextSource()
+          }
+        }
+      } catch {
+        // Non-JSON message from other extensions, ignore
+      }
+    }
+
+    window.addEventListener('message', handleMessage)
+    return () => window.removeEventListener('message', handleMessage)
+  }, [switchToNextSource])
+
+  const handleIframeError = () => {
+    switchToNextSource()
   }
 
   const handleRetry = () => {
@@ -89,7 +121,7 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
   return (
     <div className={`relative bg-slate-950 rounded-2xl overflow-hidden shadow-2xl border border-slate-800 ${className}`}>
       
-      {/* Loading State */}
+      {/* Loading Spinner */}
       {isLoading && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 backdrop-blur-sm z-10">
           <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -129,10 +161,11 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
         </div>
       )}
 
-      {/* Video Iframe with security attributes */}
+      {/* Video Iframe with security and privacy parameters */}
       <div className="aspect-video w-full bg-black">
         <iframe
           ref={iframeRef}
+          key={currentSource?.embedUrl}
           src={currentSource?.embedUrl}
           className="w-full h-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -143,19 +176,31 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
         />
       </div>
 
-      {/* Verified Education Badge */}
-      <div className="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
-        <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
-          <ShieldCheck className="w-4 h-4" /> Verified Academic Source
+      {/* Verified Education Badge & Stream Selector */}
+      <div className="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400 flex-wrap gap-2">
+        <span className="flex items-center gap-1.5 text-emerald-400 font-medium font-mono text-[11px]">
+          <ShieldCheck className="w-4 h-4" /> Verified Academic Source &middot; {currentSource.label}
         </span>
-        <a
-          href={currentSource.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:text-blue-400 transition-colors flex items-center gap-1 text-[11px]"
-        >
-          Open External <ExternalLink className="w-3 h-3" />
-        </a>
+        <div className="flex items-center gap-3">
+          {sources.length > 1 && (
+            <button
+              type="button"
+              onClick={switchToNextSource}
+              className="text-slate-400 hover:text-white font-mono text-[10px] uppercase flex items-center gap-1 transition-colors"
+              title="Switch to backup stream"
+            >
+              <Video className="w-3 h-3 text-amber-400" /> Switch Mirror
+            </button>
+          )}
+          <a
+            href={currentSource.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-blue-400 transition-colors flex items-center gap-1 text-[11px]"
+          >
+            Open YouTube <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
       </div>
     </div>
   )
