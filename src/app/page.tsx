@@ -92,68 +92,33 @@ export default function HomePage() {
     <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden">
       
       {/* ============================================================ */}
-      {/* HERO SECTION: CINEMATIC WITH 3 STUDENTS IN LAB */}
+      {/* HERO SECTION — FULL IMAGE VISIBILITY & CLEAN WHITE THEME */}
       {/* ============================================================ */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[#0B172A]">
-        {/* Background Image with 3D Depth */}
-        <motion.div 
-          className="absolute inset-0"
-          initial={{ scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.8, ease: 'easeOut' }}
-        >
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
+        {/* Background Image — FULLY VISIBLE & VIBRANT */}
+        <div className="absolute inset-0">
           <Image
             src="/images/hero/students-polymer-lab.jpg"
-            alt="Students innovating with polymers in state-of-the-art laboratory"
+            alt="Students innovating with polymers in a modern laboratory"
             fill
-            className="object-cover object-center opacity-35"
+            className="object-cover object-center opacity-85"
             priority
             sizes="100vw"
           />
-          {/* Sophisticated Dual Gradient Scrim */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B172A] via-[#0B172A]/85 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B172A] via-transparent to-black/40" />
-          {/* Seamless Bottom Fade */}
-          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
-        </motion.div>
-
-        {/* Ambient Radial Energy */}
-        <div className="absolute top-20 right-20 w-80 h-80 bg-[#2563EB]/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-20 left-20 w-80 h-80 bg-[#16A34A]/15 rounded-full blur-3xl pointer-events-none" />
-
-        {/* Molecular Particulate Flow */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1.5 h-1.5 rounded-full"
-              style={{
-                background: i % 3 === 0 ? '#2563EB' : i % 3 === 1 ? '#F5C518' : '#16A34A',
-                opacity: 0.15,
-                left: `${(i * 19) % 100}%`,
-                top: `${(i * 23) % 100}%`,
-              }}
-              animate={{
-                y: [0, -30, 0],
-                opacity: [0.08, 0.25, 0.08],
-              }}
-              transition={{
-                duration: 6 + (i % 5),
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: i * 0.2,
-              }}
-            />
-          ))}
+          {/* Subtle White Gradient for Ultra-High Readability without Dimming the Lab */}
+          <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/70 to-white/35" />
+          {/* Smooth Bottom Transition */}
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
         </div>
 
+        {/* Content — Clean White / Dark Ink High-Contrast Theme */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-24">
           <motion.div
             initial="hidden"
             animate={isLoaded ? 'visible' : 'hidden'}
             variants={{
               hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } }
+              visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } }
             }}
             className="max-w-3xl"
           >
@@ -164,22 +129,22 @@ export default function HomePage() {
                 visible: { opacity: 1, y: 0, scale: 1 }
               }}
               transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 backdrop-blur-md text-white/90 text-xs sm:text-sm font-mono font-bold mb-6"
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E2E8F0] text-[#2563EB] text-xs sm:text-sm font-mono font-bold mb-6 shadow-sm"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
-              🔬 India&apos;s Premier Polymer Engineering Platform
+              🇮🇳 India&apos;s Premier Polymer Engineering Learning Platform
             </motion.div>
 
-            {/* Headline — Sharp & Commanding */}
+            {/* Headline — High Contrast Dark Typography with Tricolor Gradient */}
             <motion.h1
               variants={{
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-white leading-[1.05] tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#111827] leading-[1.05] tracking-tight"
             >
               Master Polymer Engineering.
-              <span className="block bg-gradient-to-r from-[#FF9933] via-[#FFFFFF] to-[#138808] bg-clip-text text-transparent drop-shadow-sm">
+              <span className="block bg-gradient-to-r from-[#FF8A00] via-[#2563EB] to-[#16A34A] bg-clip-text text-transparent">
                 From Molecules to Manufacturing.
               </span>
             </motion.h1>
@@ -190,13 +155,13 @@ export default function HomePage() {
                 hidden: { opacity: 0, y: 20 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mt-4 leading-relaxed font-light"
+              className="text-base sm:text-lg md:text-xl text-[#334155] max-w-2xl mt-4 leading-relaxed font-normal"
             >
               Learn polymer chemistry, processing, testing, mould design, composites, and 
               sustainable materials through structured lessons, engineering tools, and AI-powered learning.
             </motion.p>
 
-            {/* Stats Grid */}
+            {/* Stats Cards with Glassmorphism */}
             <motion.div
               variants={{
                 hidden: { opacity: 0, y: 20 },
@@ -207,14 +172,14 @@ export default function HomePage() {
               {STATS.map((stat, i) => (
                 <motion.div
                   key={stat.label}
-                  className="bg-white/5 border border-white/10 backdrop-blur-md p-4 rounded-xl shadow-sm"
+                  className="bg-white/95 backdrop-blur-md border border-[#E2E8F0] p-4 rounded-xl shadow-sm"
                   animate={{
                     y: [0, -4, 0],
                   }}
                   transition={{ duration: 3, delay: i * 0.25, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <div className="text-2xl sm:text-3xl font-bold" style={{ color: stat.color }}>{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-slate-300 mt-0.5 font-mono">{stat.label}</div>
+                  <div className="text-2xl sm:text-3xl font-bold text-[#111827]">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-[#64748B] mt-0.5 font-mono">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
@@ -228,26 +193,26 @@ export default function HomePage() {
               className="flex flex-wrap gap-4 mt-8"
             >
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.96 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
                 <Link
                   href="/login"
-                  className="px-8 py-3.5 rounded-xl font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_24px_rgba(37,99,235,0.4)] transition-all flex items-center gap-2 text-sm"
+                  className="px-8 py-3.5 rounded-xl font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_20px_rgba(37,99,235,0.35)] transition-all flex items-center gap-2 text-sm"
                 >
                   Start Learning Free
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </motion.div>
               <motion.div
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.04, y: -2 }}
+                whileTap={{ scale: 0.96 }}
                 transition={{ type: 'spring', stiffness: 400, damping: 17 }}
               >
                 <Link
                   href="/subjects"
-                  className="px-8 py-3.5 rounded-xl font-semibold text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/20 transition-all flex items-center gap-2 text-sm"
+                  className="px-8 py-3.5 rounded-xl font-semibold text-[#111827] bg-white/90 backdrop-blur-md hover:bg-white border border-[#CBD5E1] transition-all flex items-center gap-2 text-sm shadow-sm"
                 >
                   Explore 19 Subjects
                   <ChevronRight className="h-4 w-4" />
@@ -255,31 +220,44 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Trust Signals */}
+            {/* Trust Pills */}
             <motion.div
               variants={{
                 hidden: { opacity: 0 },
                 visible: { opacity: 1 }
               }}
-              className="flex flex-wrap items-center gap-4 sm:gap-6 mt-8 text-xs text-white/60 font-medium"
+              className="flex flex-wrap items-center gap-3 mt-6 text-xs text-[#475569] font-medium"
             >
-              <span className="flex items-center gap-1.5">
+              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs">
                 <CheckCircle className="h-3.5 w-3.5 text-[#16A34A]" />
-                Built in India &middot; CIPET &amp; IIT Aligned
+                Built in India
               </span>
-              <span className="w-px h-3.5 bg-white/20" />
-              <span className="flex items-center gap-1.5">
-                <BookOpen className="h-3.5 w-3.5 text-[#F5C518]" />
-                216+ Rigorous Engineering Lessons
+              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs">
+                <BookOpen className="h-3.5 w-3.5 text-[#2563EB]" />
+                CIPET &amp; IIT Aligned
               </span>
-              <span className="w-px h-3.5 bg-white/20" />
-              <span className="flex items-center gap-1.5">
-                <Cpu className="h-3.5 w-3.5 text-[#38BDF8]" />
-                Gemini RAG AI Powered
+              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs">
+                <Cpu className="h-3.5 w-3.5 text-[#F5C518]" />
+                Gemini AI Powered
               </span>
             </motion.div>
           </motion.div>
         </div>
+
+        {/* Minimal Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#94A3B8] z-20 pointer-events-none"
+        >
+          <span className="text-[9px] font-mono uppercase tracking-widest">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-0.5 h-5 bg-[#94A3B8]/60 rounded-full"
+          />
+        </motion.div>
       </section>
 
       {/* ============================================================ */}
