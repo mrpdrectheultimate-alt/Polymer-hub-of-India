@@ -12,9 +12,9 @@ import {
   ChevronRight, 
   Shield, 
   Sparkles, 
-  Award, 
-  CheckCircle 
+  Award
 } from 'lucide-react'
+import Footer from '@/components/Footer'
 
 // 19 Subjects with clean colors
 const SUBJECTS = [
@@ -569,29 +569,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ==================== FOOTER TRUST ==================== */}
-      <section className="bg-white py-8 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-[#94A3B8] font-medium">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle className="h-4 w-4 text-[#16A34A]" />
-              DPDP 2023 Compliant
-            </span>
-            <span className="w-px h-3 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <CheckCircle className="h-4 w-4 text-[#16A34A]" />
-              AES-256 Encrypted
-            </span>
-            <span className="w-px h-3 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Award className="h-4 w-4 text-[#F5C518]" />
-              100% Legal &amp; Academically Audited
-            </span>
-            <span className="w-px h-3 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
-          </div>
-        </div>
-      </section>
+      {/* ==================== FOOTER ==================== */}
+      <Footer />
     </div>
   )
 }
