@@ -1,56 +1,57 @@
-import * as React from "react"
-import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
+'use client'
 
-import { cn } from "@/lib/utils"
+import React, { ReactNode } from 'react'
+import { motion, HTMLMotionProps } from 'framer-motion'
+import { cn } from '@/lib/utils'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  'inline-flex items-center justify-center font-mono font-bold text-xs uppercase tracking-wider transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2',
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        primary: 'bg-[#2563EB] text-white hover:bg-[#1D4ED8] hover:-translate-y-0.5 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0A1628]',
+        secondary: 'bg-white text-slate-900 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0A1628] hover:bg-slate-900 hover:text-white hover:-translate-y-0.5',
+        premium: 'bg-[#F5C518] text-slate-950 border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0A1628] hover:bg-amber-400 hover:-translate-y-0.5',
+        emerald: 'bg-[#16A34A] text-white border-2 border-slate-900 shadow-[4px_4px_0px_0px_#0A1628] hover:bg-emerald-700 hover:-translate-y-0.5',
+        glass: 'bg-white/10 backdrop-blur-md text-white border border-white/20 hover:bg-white/20 hover:border-white/40',
+        ghost: 'hover:bg-slate-100 text-slate-900 hover:text-blue-600 border border-transparent',
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        sm: 'px-4 py-2 text-[10px]',
+        md: 'px-6 py-3 text-xs',
+        lg: 'px-8 py-3.5 text-sm',
       },
     },
     defaultVariants: {
-      variant: "default",
-      size: "default",
+      variant: 'primary',
+      size: 'md',
     },
   }
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+  extends Omit<HTMLMotionProps<'button'>, 'children'>,
     VariantProps<typeof buttonVariants> {
-  asChild?: boolean
+  children: ReactNode
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button"
-    return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Button.displayName = "Button"
-
-export { Button, buttonVariants }
+export const Button: React.FC<ButtonProps> = ({ 
+  className, 
+  variant, 
+  size, 
+  children, 
+  ...props 
+}) => {
+  return (
+    <motion.button
+      className={cn(buttonVariants({ variant, size, className }))}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.96 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+      {...props}
+    >
+      {children}
+    </motion.button>
+  )
+}
