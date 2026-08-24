@@ -644,15 +644,37 @@ export default function CalculatorsPage() {
   const Icon = current.icon
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#ECFEFF] text-slate-900 pb-20">
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      {/* ── Top Header Bar: Cyan ── */}
+      <div className="bg-[#0891B2] border-b-4 border-[#06B6D4]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#A5F3FC] text-xs font-mono font-bold uppercase tracking-wider">Calculators</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>8 <span className="text-[#A5F3FC]">Tools</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>12+ <span className="text-[#A5F3FC]">Formulas</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>99% <span className="text-[#A5F3FC]">Precision</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#A5F3FC] text-xs font-mono font-bold">Dynamic Engine</p>
+              <p className="text-white/60 text-[10px] font-mono">Real-time Shop-Floor Results</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── HERO SECTION: Cyan Gradient ── */}
+      <section className="bg-gradient-to-br from-[#0891B2] via-[#0E7490] to-[#155E75] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Calculator className="w-4 h-4 text-amber-400" />
+            <Calculator className="w-4 h-4 text-cyan-200" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               8 Industrial Calculators &middot; ASTM / ISO Formulas &middot; Instant Spec Sheets
             </span>
@@ -660,12 +682,12 @@ export default function CalculatorsPage() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Calculate. Not Guess. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#A5F3FC] via-[#FFFFFF] to-[#67E8F9]">
               Engineering Precision.
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-cyan-100 max-w-2xl mx-auto leading-relaxed font-light">
             8 industrial-grade calculators for polymer processing engineers. Clamping force, cooling, shrinkage, cycle times, screw shear rate &mdash; all dynamically calculated.
           </p>
 
@@ -673,19 +695,19 @@ export default function CalculatorsPage() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-white block">8</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Calculators</span>
+              <span className="text-[10px] font-mono text-cyan-200 uppercase tracking-wider">Calculators</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">12+</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Formulas</span>
+              <span className="font-display text-xl font-bold text-amber-300 block">12+</span>
+              <span className="text-[10px] font-mono text-cyan-200 uppercase tracking-wider">Formulas</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-emerald-400 block">100%</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Dynamic Engine</span>
+              <span className="font-display text-xl font-bold text-white block">100%</span>
+              <span className="text-[10px] font-mono text-cyan-200 uppercase tracking-wider">Dynamic Engine</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">1-Click</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Spec Copies</span>
+              <span className="font-display text-xl font-bold text-cyan-200 block">1-Click</span>
+              <span className="text-[10px] font-mono text-cyan-200 uppercase tracking-wider">Spec Copies</span>
             </div>
           </div>
         </div>

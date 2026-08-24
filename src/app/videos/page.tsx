@@ -353,15 +353,37 @@ export default function VideoLibraryPage() {
   const trendingVideos = [...videosList].slice(0, 3)
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#F5F3FF] text-slate-900 pb-20">
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      {/* ── Top Header Bar: Purple with Pink Accent ── */}
+      <div className="bg-[#7C3AED] border-b-4 border-[#EC4899]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#FBCFE8] text-xs font-mono font-bold uppercase tracking-wider">Video Library</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>357+ <span className="text-[#FBCFE8]">Videos</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>42 <span className="text-[#FBCFE8]">Playlists</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>8 <span className="text-[#FBCFE8]">Categories</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#FBCFE8] text-xs font-mono font-bold">4.9 ★</p>
+              <p className="text-white/60 text-[10px] font-mono">283+ Curated Lectures</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── HERO SECTION: Purple Gradient ── */}
+      <section className="bg-gradient-to-br from-[#7C3AED] via-[#6D28D9] to-[#4C1D95] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#EC4899]/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Play className="w-4 h-4 text-amber-400 fill-amber-400" />
+            <Play className="w-4 h-4 text-pink-300 fill-pink-300" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               Video Library 3.0 &middot; Audited NPTEL &middot; IITs &middot; Industry Demos
             </span>
@@ -369,12 +391,12 @@ export default function VideoLibraryPage() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Learn From <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#C084FC] via-[#FFFFFF] to-[#EC4899]">
               357+ Curated Video Lectures
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-purple-100 max-w-2xl mx-auto leading-relaxed font-light">
             Full-semester NPTEL university sequences, industrial factory extrusion lines, and companion calculation engines mapped directly to your curriculum.
           </p>
 
@@ -382,19 +404,19 @@ export default function VideoLibraryPage() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-white block">357+</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Audited Lectures</span>
+              <span className="text-[10px] font-mono text-purple-200 uppercase tracking-wider">Audited Lectures</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">{screencasts.length}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Companion Solvers</span>
+              <span className="font-display text-xl font-bold text-pink-300 block">{screencasts.length}</span>
+              <span className="text-[10px] font-mono text-purple-200 uppercase tracking-wider">Companion Solvers</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-emerald-400 block">{playlistsList.length || 42}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Curated Playlists</span>
+              <span className="font-display text-xl font-bold text-white block">{playlistsList.length || 42}</span>
+              <span className="text-[10px] font-mono text-purple-200 uppercase tracking-wider">Curated Playlists</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">19</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Subjects Covered</span>
+              <span className="font-display text-xl font-bold text-purple-200 block">19</span>
+              <span className="text-[10px] font-mono text-purple-200 uppercase tracking-wider">Subjects Covered</span>
             </div>
           </div>
         </div>

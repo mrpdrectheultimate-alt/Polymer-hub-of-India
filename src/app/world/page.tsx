@@ -330,28 +330,50 @@ export default function WorldPage() {
   const [selected, setSelected] = useState<typeof INDUSTRIES[0] | null>(null)
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900">
+    <div className="min-h-screen bg-[#F0FDFA] text-slate-900">
       
-      {/* ─── Hero Section: Deep Midnight & Indian Tricolor ─── */}
-      <section className="relative bg-[#0A1628] text-white py-16 md:py-24 px-4 sm:px-6 overflow-hidden border-b-2 border-slate-900">
+      {/* ─── Top Header Bar: Teal ─── */}
+      <div className="bg-[#0D9488] border-b-4 border-[#14B8A6]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#99F6E4] text-xs font-mono font-bold uppercase tracking-wider">World Atlas</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>7 <span className="text-[#99F6E4]">Industries</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>20+ <span className="text-[#99F6E4]">Enterprises</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>India <span className="text-[#99F6E4]">Focus</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#99F6E4] text-xs font-mono font-bold">₹4.2L Cr</p>
+              <p className="text-white/60 text-[10px] font-mono">Market Size</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── Hero Section: Teal Gradient ─── */}
+      <section className="relative bg-gradient-to-br from-[#0D9488] via-[#0F766E] to-[#115E59] text-white py-16 md:py-24 px-4 sm:px-6 overflow-hidden">
         
         {/* Background Ambient Glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/40 via-[#0A1628] to-[#0A1628] pointer-events-none" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center">
           
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-6">
-            <Globe className="w-4 h-4 text-emerald-400 animate-spin" style={{ animationDuration: '20s' }} />
+            <Globe className="w-4 h-4 text-teal-200 animate-spin" style={{ animationDuration: '20s' }} />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               The World of Plastic &middot; 7 Core Pillars
             </span>
           </div>
 
-          {/* Headline with Tricolor Gradient */}
+          {/* Headline with Teal Gradient */}
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight uppercase mb-6">
             Without <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#99F6E4] via-[#FFFFFF] to-[#5EEAD4]">
               Polymer Engineering,
             </span>
             <br />
@@ -359,7 +381,7 @@ export default function WorldPage() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed font-light mb-8">
+          <p className="text-base sm:text-lg md:text-xl text-teal-100 max-w-2xl mx-auto leading-relaxed font-light mb-8">
             Packaging. Healthcare. Rockets. Automotive. Electronics. Textiles. Construction. 
             Tap any industry below to explore the exact chemistry and machines keeping modern civilization alive.
           </p>
@@ -368,7 +390,7 @@ export default function WorldPage() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <a 
               href="#industries"
-              className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs uppercase font-mono tracking-wider px-6 py-3 rounded-xl border border-blue-400 transition-all shadow-lg hover:shadow-blue-500/25"
+              className="inline-flex items-center gap-2 bg-white text-[#0F766E] hover:bg-teal-50 font-bold text-xs uppercase font-mono tracking-wider px-6 py-3 rounded-xl border border-white/30 transition-all shadow-lg"
             >
               Explore 7 Industries <ArrowRight className="w-4 h-4" />
             </a>

@@ -75,15 +75,37 @@ function LibraryPageContent() {
   })
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#F7FEE7] text-slate-900 pb-20">
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      {/* ── Top Header Bar: Sage Green ── */}
+      <div className="bg-[#65A30D] border-b-4 border-[#84CC16]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#D9F99D] text-xs font-mono font-bold uppercase tracking-wider">Reading Room</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>{books.length || 24} <span className="text-[#D9F99D]">Books</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>3 <span className="text-[#D9F99D]">Tiers</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>19 <span className="text-[#D9F99D]">Subjects</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#D9F99D] text-xs font-mono font-bold">100% Verified</p>
+              <p className="text-white/60 text-[10px] font-mono">Academically Audited</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── HERO SECTION: Sage Gradient ── */}
+      <section className="bg-gradient-to-br from-[#65A30D] via-[#4D7C0F] to-[#365314] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <BookMarked className="w-4 h-4 text-amber-400" />
+            <BookMarked className="w-4 h-4 text-lime-200" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               Digital Library &middot; 100% Verified Standards &middot; Commercial Reference Guides
             </span>
@@ -91,12 +113,12 @@ function LibraryPageContent() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             PolymerHub <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D9F99D] via-[#FFFFFF] to-[#BEF264]">
               Reading Room
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-lime-100 max-w-2xl mx-auto leading-relaxed font-light">
             Access our digital library of original guides, verified open-access standards, and structured profiles of classic commercial textbooks mapped directly to your curriculum.
           </p>
 
@@ -104,19 +126,19 @@ function LibraryPageContent() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-white block">{books.length || 24}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Curated Titles</span>
+              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Curated Titles</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">3</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Resource Tiers</span>
+              <span className="font-display text-xl font-bold text-amber-300 block">3</span>
+              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Resource Tiers</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-emerald-400 block">100%</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Academically Audited</span>
+              <span className="font-display text-xl font-bold text-white block">100%</span>
+              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Academically Audited</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">19</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Subjects Mapped</span>
+              <span className="font-display text-xl font-bold text-lime-200 block">19</span>
+              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Subjects Mapped</span>
             </div>
           </div>
         </div>

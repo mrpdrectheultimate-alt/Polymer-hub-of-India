@@ -346,15 +346,37 @@ export default function PracticePage() {
   const currentAnswer = answers[currentIndex]
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-16">
-      
-      {/* ── Hero Section with Indian Tricolor Gradient ── */}
-      <section className="bg-[#0A1628] text-white py-16 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+    <div className="min-h-screen bg-[#FFFBEB] text-slate-900 pb-20">
+
+      {/* ── Top Header Bar: Orange ── */}
+      <div className="bg-[#D97706] border-b-4 border-[#F59E0B]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#FEF08A] text-xs font-mono font-bold uppercase tracking-wider">Practice Engine</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>{questions.length || '225+'} <span className="text-[#FEF08A]">Questions</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>19 <span className="text-[#FEF08A]">Subjects</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>GATE <span className="text-[#FEF08A]">Pattern</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#FEF08A] text-xs font-mono font-bold">30 Q &middot; 60 Min</p>
+              <p className="text-white/60 text-[10px] font-mono">-1/3 Negative Marking</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Hero Section: Orange Gradient ── */}
+      <section className="bg-gradient-to-br from-[#F59E0B] via-[#D97706] to-[#B45309] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
           
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Zap className="w-4 h-4 text-amber-400 animate-pulse" />
+            <Zap className="w-4 h-4 text-yellow-200 animate-pulse" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               GATE 2026 Preparation &middot; 19 Subjects
             </span>
@@ -362,7 +384,7 @@ export default function PracticePage() {
 
           <h1 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight uppercase">
             Test Yourself. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FEF08A] via-[#FFFFFF] to-[#FDE047]">
               GATE-Ready Questions
             </span>
             <br />

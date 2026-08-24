@@ -167,28 +167,50 @@ export default function HistoryPage() {
   const fillPct = (active / (ERAS.length - 1)) * 100
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#FDF8F0] text-slate-900 pb-20">
       
-      {/* ── Hero Section: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      {/* ── Top Header Bar: Amber / Gold ── */}
+      <div className="bg-[#8B6914] border-b-4 border-[#C9A84C]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#FDE68A] text-xs font-mono font-bold uppercase tracking-wider">162 Years of Innovation</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>1862 <span className="text-[#FDE68A]">Parkesine</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>1907 <span className="text-[#FDE68A]">Bakelite</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>1935 <span className="text-[#FDE68A]">Nylon</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#FDE68A] text-xs font-mono font-bold">9 Eras</p>
+              <p className="text-white/60 text-[10px] font-mono">162 Years of Science</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Hero Section: Amber Gradient ── */}
+      <section className="bg-gradient-to-br from-[#8B6914] via-[#C9A84C] to-[#684C0B] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Clock className="w-4 h-4 text-amber-400" />
+            <Clock className="w-4 h-4 text-amber-200" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               162 Years of Polymer Science &middot; Past &middot; Present &middot; Future
             </span>
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
+          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase font-serif">
             162 Years of a <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FDE68A] via-[#FFFFFF] to-[#FCD34D]">
               Material That Remade Civilization
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
+          <p className="text-sm sm:text-base md:text-lg text-amber-100 max-w-2xl mx-auto leading-relaxed font-light">
             Slide through the timeline. This is the industrial story you are stepping into as a polymer engineer &mdash; and the next chapters you will help design.
           </p>
 
@@ -196,15 +218,15 @@ export default function HistoryPage() {
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-white block">162</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Years of Innovation</span>
+              <span className="text-[10px] font-mono text-amber-200 uppercase tracking-wider">Years of Innovation</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">9</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Historic Eras</span>
+              <span className="font-display text-xl font-bold text-amber-200 block">9</span>
+              <span className="text-[10px] font-mono text-amber-200 uppercase tracking-wider">Historic Eras</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-emerald-400 block">216</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Lessons Connected</span>
+              <span className="font-display text-xl font-bold text-white block">216</span>
+              <span className="text-[10px] font-mono text-amber-200 uppercase tracking-wider">Lessons Connected</span>
             </div>
           </div>
         </div>

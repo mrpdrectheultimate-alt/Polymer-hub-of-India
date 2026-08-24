@@ -109,46 +109,68 @@ export default function StudentChallengesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#0F172A] text-slate-100 pb-20">
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      {/* ── Top Header Bar: Gold & Black ── */}
+      <div className="bg-[#111827] border-b-4 border-[#F5C518]">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-[#F5C518] text-xs font-mono font-bold uppercase tracking-wider">Industry Bounties</span>
+              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
+                <span>{challenges.length || 12} <span className="text-[#F5C518]">Active</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>₹5L+ <span className="text-[#F5C518]">Prize Pool</span></span>
+                <span className="w-px h-3 bg-white/20" />
+                <span>+200 <span className="text-[#F5C518]">XP Bonus</span></span>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-[#F5C518] text-xs font-mono font-bold">Recruiter Backed</p>
+              <p className="text-white/60 text-[10px] font-mono">Direct Technical Interviews</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── HERO SECTION: Gold / Black Gradient ── */}
+      <section className="bg-gradient-to-br from-[#111827] via-[#1E293B] to-[#0A0F1D] text-white py-16 px-4 sm:px-6 relative overflow-hidden border-b-2 border-slate-800">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#F5C518]/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
-          <Link href="/practice" className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-amber-400 hover:text-amber-300 uppercase tracking-widest mb-2 transition-colors">
+          <Link href="/practice" className="inline-flex items-center gap-1.5 font-mono text-xs font-bold text-[#F5C518] hover:text-amber-300 uppercase tracking-widest mb-2 transition-colors">
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Practice Arena
           </Link>
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Solve Problems. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FCD34D] via-[#F5C518] to-[#F59E0B]">
               Get Hired.
             </span>
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
             Solve real-world industrial polymer challenges posted directly by companies like Reliance, Supreme, and Tata. 
-            Earn <strong className="text-amber-400 font-bold">+50 XP</strong> on submission, and <strong className="text-amber-400 font-bold">+200 XP</strong> if accepted!
+            Earn <strong className="text-[#F5C518] font-bold">+50 XP</strong> on submission, and <strong className="text-[#F5C518] font-bold">+200 XP</strong> if accepted!
           </p>
 
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-white block">{challenges.length || 12}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Active Challenges</span>
+              <span className="text-[10px] font-mono text-[#F5C518] uppercase tracking-wider">Active Challenges</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">&#8377;5L+</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Total Prize Pool</span>
+              <span className="font-display text-xl font-bold text-amber-300 block">₹5L+</span>
+              <span className="text-[10px] font-mono text-[#F5C518] uppercase tracking-wider">Total Prize Pool</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-emerald-400 block">+200 XP</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Accepted Reward</span>
+              <span className="text-[10px] font-mono text-[#F5C518] uppercase tracking-wider">Accepted Reward</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">Top Tier</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Direct Interviews</span>
+              <span className="font-display text-xl font-bold text-white block">Top Tier</span>
+              <span className="text-[10px] font-mono text-[#F5C518] uppercase tracking-wider">Direct Interviews</span>
             </div>
           </div>
         </div>
