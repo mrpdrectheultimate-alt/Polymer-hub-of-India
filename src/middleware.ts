@@ -54,13 +54,29 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getSession()
+  const pathname = request.nextUrl.pathname
+
+  // Fast-path: Only refresh session on authenticated / protected routes or API routes
+  if (
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/profile') ||
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/hod') ||
+    pathname.startsWith('/api')
+  ) {
+    await supabase.auth.getSession()
+  }
+
+  // Security & Performance Headers
+  response.headers.set('X-Content-Type-Options', 'nosniff')
+  response.headers.set('X-Frame-Options', 'SAMEORIGIN')
+  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
 
   return response
 }
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|manifest.json|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|avif|woff|woff2)$).*)',
   ],
 }

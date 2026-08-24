@@ -7,6 +7,7 @@ import FeedbackWidget from '@/components/FeedbackWidget'
 import { DEFAULT_METADATA } from '@/lib/seo'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import CookieConsent from '@/components/CookieConsent'
+import { PerformanceMonitor } from '@/components/PerformanceMonitor'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -139,6 +140,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="bg-canvas text-ink antialiased font-sans">
+        <PerformanceMonitor />
         <ServiceWorkerRegister />
         <Navbar />
         <main>{children}</main>
