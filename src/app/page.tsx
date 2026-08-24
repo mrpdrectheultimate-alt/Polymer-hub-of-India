@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { 
   ArrowRight, 
@@ -247,55 +248,87 @@ export default function HomePage() {
     <div className="min-h-screen bg-white text-slate-900">
       
       {/* ==================== HERO ==================== */}
-      <section className="relative bg-white py-20 lg:py-28 overflow-hidden">
-        {/* Subtle background elements */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#2563EB]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#F5C518]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-[#E2E8F0] rounded-full opacity-20 pointer-events-none" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden">
+        {/* Background Image: 3 Students in Polymer Lab */}
+        <div className="absolute inset-0">
+          <Image
+            src="/images/hero/students-polymer-lab.jpg"
+            alt="Students innovating with polymers in state-of-the-art laboratory"
+            fill
+            className="object-cover object-center"
+            priority
+          />
+          {/* High-legibility Dark Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/75 to-black/50" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-black/50" />
+          {/* Smooth bottom blend */}
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#FAFAFA] to-transparent" />
+        </div>
+
+        {/* Subtle Ambient Radial Glows */}
+        <div className="absolute top-20 right-20 w-80 h-80 bg-[#2563EB]/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-20 left-20 w-80 h-80 bg-[#16A34A]/15 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full py-20 lg:py-28">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto text-center"
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-3xl"
           >
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#2563EB]/10 border border-[#2563EB]/20 text-[#2563EB] text-xs sm:text-sm font-mono font-bold mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={isLoaded ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-xs sm:text-sm font-mono font-bold mb-6"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
               🔬 India&apos;s Premier Polymer Education Platform
-            </div>
+            </motion.div>
 
             {/* Headline */}
-            <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-bold text-[#111827] leading-[1.1] tracking-tight">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-4xl sm:text-6xl lg:text-7xl font-display font-black text-white leading-[1.1] tracking-tight"
+            >
               Where Polymers{' '}
-              <span className="block bg-gradient-to-r from-[#2563EB] via-[#16A34A] to-[#F5C518] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#FF8A00] via-white to-[#16A34A] bg-clip-text text-transparent">
                 Shape Tomorrow
               </span>
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-[#64748B] mt-4 max-w-2xl mx-auto leading-relaxed font-normal">
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.5 }}
+              className="text-base sm:text-lg md:text-xl text-white/85 mt-4 max-w-2xl leading-relaxed font-light"
+            >
               Master the molecular science, shop-floor manufacturing parameters, and global trade dynamics 
               of plastics, elastomers, and composites — crafted for India&apos;s next generation of engineers.
-            </p>
+            </motion.p>
 
             {/* Stats */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 }}
-              className="flex flex-wrap justify-center gap-6 sm:gap-10 mt-8 py-3 px-6 rounded-2xl bg-slate-50 border border-slate-200/80 max-w-2xl mx-auto shadow-sm"
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-wrap gap-4 sm:gap-6 mt-8"
             >
               {STATS.map((stat) => {
                 const Icon = stat.icon
                 return (
-                  <div key={stat.label} className="flex items-center gap-3">
-                    <span className="text-[#2563EB]">
+                  <div key={stat.label} className="flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-xl px-4 py-2.5 border border-white/15 shadow-sm">
+                    <span className="text-amber-400">
                       <Icon className="h-5 w-5" />
                     </span>
-                    <div className="text-left">
-                      <p className="text-xl font-bold text-[#111827]">{stat.value}</p>
-                      <p className="text-xs text-[#94A3B8] font-mono">{stat.label}</p>
+                    <div>
+                      <p className="text-white font-bold text-lg">{stat.value}</p>
+                      <p className="text-white/60 text-xs font-mono">{stat.label}</p>
                     </div>
                   </div>
                 )
@@ -306,44 +339,50 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap justify-center gap-4 mt-8"
+              transition={{ duration: 0.6, delay: 0.7 }}
+              className="flex flex-wrap gap-4 mt-8"
             >
               <Link
                 href="/login"
-                className="px-8 py-3.5 rounded-xl font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(37,99,235,0.3)] transition-all flex items-center gap-2 text-sm"
+                className="px-8 py-3.5 rounded-xl font-semibold text-white bg-[#2563EB] hover:bg-[#1D4ED8] hover:-translate-y-0.5 shadow-[0_4px_20px_rgba(37,99,235,0.4)] transition-all flex items-center gap-2 text-sm"
               >
                 Start Learning Now
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/subjects"
-                className="px-8 py-3.5 rounded-xl font-semibold text-[#111827] bg-[#F1F5F9] hover:bg-[#E2E8F0] transition-all flex items-center gap-2 border border-[#E2E8F0] text-sm"
+                className="px-8 py-3.5 rounded-xl font-semibold text-white bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/25 transition-all flex items-center gap-2 text-sm"
               >
                 Explore 19 Subjects
                 <ChevronRight className="h-4 w-4" />
               </Link>
             </motion.div>
 
-            {/* Trust Signals */}
-            <div className="flex flex-wrap justify-center gap-6 mt-8 text-xs text-[#94A3B8] font-medium">
+            {/* Trust Badges */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={isLoaded ? { opacity: 1 } : {}}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="flex flex-wrap items-center gap-4 sm:gap-6 mt-8 text-xs text-white/70 font-medium"
+            >
               <span className="flex items-center gap-1.5">
                 <Shield className="h-3.5 w-3.5 text-[#16A34A]" />
                 DPDP 2023 Compliant
               </span>
-              <span className="w-px h-3 bg-[#E2E8F0]" />
+              <span className="w-px h-3.5 bg-white/20" />
               <span className="flex items-center gap-1.5">
                 <Shield className="h-3.5 w-3.5 text-[#16A34A]" />
                 AES-256 Encrypted
               </span>
-              <span className="w-px h-3 bg-[#E2E8F0]" />
+              <span className="w-px h-3.5 bg-white/20" />
               <span className="flex items-center gap-1.5">
                 <Award className="h-3.5 w-3.5 text-[#F5C518]" />
                 100% Legal &amp; Audited
               </span>
-              <span className="w-px h-3 bg-[#E2E8F0]" />
+              <span className="w-px h-3.5 bg-white/20" />
               <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
-            </div>
+            </motion.div>
+
           </motion.div>
         </div>
       </section>
