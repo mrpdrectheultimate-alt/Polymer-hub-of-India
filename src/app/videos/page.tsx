@@ -14,6 +14,7 @@ import VideoCard, { VideoRecord } from '@/components/VideoCard'
 import { getFallbackVideoId } from '@/lib/youtube-replacement'
 import { screencasts, ScreencastItem } from '@/lib/screencasts'
 import { ScreencastPlayer } from '@/components/ScreencastPlayer'
+import { VideoPlayer } from '@/components/video/VideoPlayer'
 
 type PlaylistRecord = {
   id: string
@@ -83,15 +84,20 @@ function VideoModal({ video, onClose }: { video: VideoRecord; onClose: () => voi
   return (
     <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
       <div className="bg-white w-full max-w-3xl border-2 border-slate-900 rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto overflow-hidden">
-        {/* Video embed */}
-        <div className="aspect-video bg-black">
-          <iframe
-            src={`https://www.youtube.com/embed/${video.youtubeId}?autoplay=1`}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
+        {/* Upgraded Multi-Source Cascade Video Player */}
+        <VideoPlayer
+          video={{
+            id: video.id,
+            title: video.title,
+            youtubeId: video.youtubeId,
+            channel: video.channel,
+            duration: video.duration,
+            level: video.level,
+            subjectSlug: video.subjectSlug,
+            lessonSlug: video.lessonSlug
+          }}
+          autoplay={true}
+        />
         {/* Details */}
         <div className="p-6 space-y-4">
           <div className="flex items-start justify-between gap-4">

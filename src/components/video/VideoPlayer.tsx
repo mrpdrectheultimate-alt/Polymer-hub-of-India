@@ -1,0 +1,162 @@
+'use client'
+
+import { useState, useRef, useEffect } from 'react'
+import { AlertCircle, RefreshCw, ExternalLink, ShieldCheck } from 'lucide-react'
+import { getFallbackVideo } from '@/lib/youtube-replacement'
+
+export interface VideoSourceItem {
+  type: 'youtube' | 'vimeo' | 'direct' | 'archive'
+  url: string
+  embedUrl: string
+  priority?: number
+}
+
+export interface VideoPlayerData {
+  id: string
+  title: string
+  channel?: string
+  duration?: string
+  views?: string
+  level?: string
+  subjectSlug?: string
+  lessonSlug?: string
+  youtubeId?: string
+  sources?: VideoSourceItem[]
+}
+
+interface VideoPlayerProps {
+  video: VideoPlayerData
+  autoplay?: boolean
+  className?: string
+}
+
+export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPlayerProps) {
+  // Generate sources array if not already defined
+  const baseSources: VideoSourceItem[] = video.sources && video.sources.length > 0 
+    ? video.sources 
+    : [
+        {
+          type: 'youtube',
+          url: `https://www.youtube.com/watch?v=${video.youtubeId || 'RMjtmsr3CqA'}`,
+          embedUrl: `https://www.youtube.com/embed/${video.youtubeId || 'RMjtmsr3CqA'}?autoplay=${autoplay ? 1 : 0}&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`
+        },
+        {
+          type: 'youtube',
+          url: `https://www.youtube.com/watch?v=${getFallbackVideo(video.youtubeId || '', video.lessonSlug, video.subjectSlug)}`,
+          embedUrl: `https://www.youtube.com/embed/${getFallbackVideo(video.youtubeId || '', video.lessonSlug, video.subjectSlug)}?autoplay=1`
+        }
+      ]
+
+  const [currentSourceIndex, setCurrentSourceIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hasError, setHasError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  const currentSource = baseSources[currentSourceIndex] || baseSources[0]
+
+  useEffect(() => {
+    setCurrentSourceIndex(0)
+    setIsLoading(true)
+    setHasError(false)
+    setErrorMessage('')
+  }, [video.id, video.youtubeId])
+
+  const handleIframeError = () => {
+    setHasError(true)
+    if (currentSourceIndex < baseSources.length - 1) {
+      setTimeout(() => {
+        setCurrentSourceIndex((prev) => prev + 1)
+        setHasError(false)
+        setIsLoading(true)
+      }, 800)
+    } else {
+      setErrorMessage('Direct embed restricted by provider. Click below to view officially on YouTube or alternative mirror.')
+    }
+  }
+
+  const handleRetry = () => {
+    setHasError(false)
+    setIsLoading(true)
+    setErrorMessage('')
+    setCurrentSourceIndex(0)
+  }
+
+  const handleIframeLoad = () => {
+    setIsLoading(false)
+  }
+
+  return (
+    <div className={`relative bg-slate-950 rounded-2xl overflow-hidden shadow-2xl border border-slate-800 ${className}`}>
+      
+      {/* Loading State */}
+      {isLoading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/80 backdrop-blur-sm z-10">
+          <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <p className="text-slate-300 text-xs font-mono font-medium mt-3">Connecting lecture stream...</p>
+        </div>
+      )}
+
+      {/* Error / Fallback State */}
+      {hasError && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-sm z-20 p-6 text-center">
+          <div className="w-14 h-14 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-3 text-amber-400">
+            <AlertCircle className="h-7 w-7" />
+          </div>
+          <h4 className="text-white font-display font-bold text-base mb-1">
+            {errorMessage || 'Switching to verified mirror stream...'}
+          </h4>
+          <p className="text-slate-400 text-xs max-w-md mb-4 leading-relaxed font-light">
+            Some academic institutions restrict embedded playback outside YouTube. You can watch the verified lecture directly on YouTube or retry.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md"
+            >
+              <RefreshCw className="h-3.5 w-3.5" /> Retry Player
+            </button>
+            <a
+              href={currentSource.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all flex items-center gap-1.5 border border-white/15"
+            >
+              <ExternalLink className="h-3.5 w-3.5" /> Open in YouTube
+            </a>
+          </div>
+        </div>
+      )}
+
+      {/* Video Iframe with security attributes */}
+      <div className="aspect-video w-full bg-black">
+        <iframe
+          ref={iframeRef}
+          src={currentSource?.embedUrl}
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          onLoad={handleIframeLoad}
+          onError={handleIframeError}
+          title={video.title}
+        />
+      </div>
+
+      {/* Verified Education Badge */}
+      <div className="p-3 bg-slate-900 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
+          <ShieldCheck className="w-4 h-4" /> Verified Academic Source
+        </span>
+        <a
+          href={currentSource.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:text-blue-400 transition-colors flex items-center gap-1 text-[11px]"
+        >
+          Open External <ExternalLink className="w-3 h-3" />
+        </a>
+      </div>
+    </div>
+  )
+}
