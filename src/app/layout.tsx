@@ -4,6 +4,7 @@ import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
 import FeedbackWidget from '@/components/FeedbackWidget'
+import Footer from '@/components/Footer'
 import { DEFAULT_METADATA } from '@/lib/seo'
 import ServiceWorkerRegister from '@/components/ServiceWorkerRegister'
 import CookieConsent from '@/components/CookieConsent'
@@ -142,6 +143,7 @@ export default function RootLayout({
         <ServiceWorkerRegister />
         <Navbar />
         <main>{children}</main>
+        <Footer />
         <FeedbackWidget />
         <CookieConsent />
         <Toaster />

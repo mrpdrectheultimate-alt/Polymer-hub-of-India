@@ -11,9 +11,11 @@ import {
   Users, 
   Play,
   ChevronRight,
-  Shield,
   Sparkles,
-  Award
+  Flame,
+  Globe,
+  Hourglass,
+  CheckCircle2
 } from 'lucide-react'
 
 // 19 Subjects with unique colors, images, and routes
@@ -248,6 +250,33 @@ const TOOLS = [
   },
 ]
 
+const INDUSTRY_SECTORS = [
+  {
+    title: 'Automotive & EV Lightweighting',
+    icon: '🚗',
+    desc: 'Under-the-hood PA66, bumper PP compounds, and battery enclosure flame-retardant PC/ABS blends.',
+    href: '/world/automotive'
+  },
+  {
+    title: 'Medical Devices & Cleanrooms',
+    icon: '🏥',
+    desc: 'ISO 10993 biocompatible PEEK implants, PVC IV tubing, and gamma-sterilized surgical syringes.',
+    href: '/world/medical'
+  },
+  {
+    title: 'Circular & Barrier Packaging',
+    icon: '📦',
+    desc: '7-layer co-extrusion films, EVOH high barrier pouches, and 100% rPET preform bottle blowing.',
+    href: '/world/packaging'
+  },
+  {
+    title: 'Aerospace Carbon Composites',
+    icon: '🚀',
+    desc: 'Autoclave-cured carbon fibre epoxy prepregs for ISRO rocket fairings and aircraft fuselage structures.',
+    href: '/world/aerospace'
+  }
+]
+
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -258,8 +287,29 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-slate-900">
       
+      {/* ── LIVE INDUSTRY TICKER ── */}
+      <div className="bg-[#0A0E1A] text-slate-300 py-2.5 px-4 border-b border-slate-800 text-xs font-mono overflow-hidden">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-amber-400 font-bold uppercase tracking-wider text-[11px] shrink-0">
+            <span className="w-2 h-2 rounded-full bg-amber-400 animate-ping" />
+            <Flame className="w-3.5 h-3.5" /> Live Industry Pulse:
+          </div>
+          <div className="overflow-x-auto scrollbar-none whitespace-nowrap text-slate-300 space-x-6 text-[11px]">
+            <span className="inline-block">🔥 Reliance Repol PP: ₹94.50/kg ▲0.8%</span>
+            <span className="text-slate-600">&bull;</span>
+            <span className="inline-block">🏭 India processes 20M+ tonnes of polymer annually</span>
+            <span className="text-slate-600">&bull;</span>
+            <span className="inline-block">🚀 ISRO PSLV relies on CFRP high-modulus composite fairings</span>
+            <span className="text-slate-600">&bull;</span>
+            <span className="inline-block">♻️ Carbios pilots world&apos;s first enzymatic PET recycling plant</span>
+            <span className="text-slate-600">&bull;</span>
+            <span className="inline-block">🇮🇳 India Medical Device market growing at 15.2% CAGR</span>
+          </div>
+        </div>
+      </div>
+
       {/* ── HERO SECTION: Clean Gradient with Tricolor Accent ── */}
-      <section className="relative bg-gradient-to-b from-[#F8FAFC] via-white to-white py-20 lg:py-28 overflow-hidden border-b border-slate-100">
+      <section className="relative bg-gradient-to-b from-[#F8FAFC] via-white to-white py-16 lg:py-24 overflow-hidden border-b border-slate-100">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#2563EB]/5 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#FF8A00]/5 rounded-full blur-3xl pointer-events-none" />
         
@@ -465,8 +515,108 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── AI TUTOR BANNER ── */}
+      {/* ── THE WORLD OF PLASTICS: INDUSTRY SPOTLIGHT ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <span className="text-xs font-mono font-bold text-emerald-600 uppercase tracking-widest">Applied Engineering</span>
+            <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 uppercase">The World of Plastics</h2>
+            <p className="text-slate-500 text-xs sm:text-sm mt-0.5">Explore how polymer grades are formulated and deployed across key global industries</p>
+          </div>
+          <Link href="/world" className="text-xs font-mono font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 uppercase tracking-wider">
+            Explore All Sectors <Globe className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {INDUSTRY_SECTORS.map((sector, idx) => (
+            <Link key={idx} href={sector.href}>
+              <div className="p-6 bg-white border border-slate-200 rounded-2xl hover:border-emerald-500 hover:shadow-lg transition-all h-full flex flex-col justify-between group">
+                <div>
+                  <span className="text-3xl block mb-3">{sector.icon}</span>
+                  <h3 className="font-display font-bold text-slate-900 text-base mb-1.5 group-hover:text-emerald-600 transition-colors">
+                    {sector.title}
+                  </h3>
+                  <p className="text-xs text-slate-500 leading-relaxed font-normal">
+                    {sector.desc}
+                  </p>
+                </div>
+                <div className="mt-4 pt-2 border-t border-slate-100 flex items-center text-xs font-mono font-bold text-emerald-600">
+                  <span>View Case Studies &rarr;</span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ── GATE XE-F & 162 YEARS TIMELINE SPLIT BANNER ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {/* GATE Prep Banner */}
+          <div className="p-8 rounded-3xl bg-gradient-to-br from-slate-900 to-blue-950 text-white flex flex-col justify-between shadow-md">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 text-xs font-mono font-bold uppercase mb-3">
+                <Hourglass className="w-3.5 h-3.5" /> GATE XE-F Exam Readiness
+              </div>
+              <h3 className="font-display font-bold text-2xl uppercase mb-2 text-white">
+                Polymer Science &amp; Engineering Mock Exams
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-4">
+                Timed 65-question tests with official GATE marking schemes (+1 / +2 with -0.33 / -0.66 negative marking), real formula rationale, and live percentile benchmarking.
+              </p>
+              <div className="space-y-1.5 text-xs text-slate-300 font-mono mb-6">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Complete XE-F Syllabus Coverage
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Instant Rationale &amp; Rank Breakdown
+                </div>
+              </div>
+            </div>
+            <Link
+              href="/gate-mock"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-display font-bold text-xs uppercase tracking-wider transition-all"
+            >
+              Launch GATE Mock Test &rarr;
+            </Link>
+          </div>
+
+          {/* 162 Years History Banner */}
+          <div className="p-8 rounded-3xl bg-gradient-to-br from-amber-900 to-slate-900 text-white flex flex-col justify-between shadow-md">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-mono font-bold uppercase mb-3">
+                <Hourglass className="w-3.5 h-3.5" /> 162 Years of Innovation
+              </div>
+              <h3 className="font-display font-bold text-2xl uppercase mb-2 text-white">
+                From Parkesine 1862 to Vitrimers 2026
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light mb-4">
+                Follow Alexander Parkes, Leo Baekeland, Karl Ziegler, and modern circular vitrimer pioneers across an interactive timeline of breakthroughs that transformed human manufacturing.
+              </p>
+              <div className="space-y-1.5 text-xs text-slate-300 font-mono mb-6">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400" /> 14 Transformative Eras Documented
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400" /> Interactive Patent &amp; Chemical Milestones
+                </div>
+              </div>
+            </div>
+            <Link
+              href="/history"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-display font-bold text-xs uppercase tracking-wider transition-all"
+            >
+              Explore 162 Years History &rarr;
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── AI TUTOR BANNER ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -513,27 +663,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── TRUST SIGNALS FOOTER ── */}
-      <section className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 font-medium">
-          <span className="flex items-center gap-1.5">
-            <Shield className="h-4 w-4 text-emerald-600" />
-            DPDP 2023 Compliant
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span className="flex items-center gap-1.5">
-            <Shield className="h-4 w-4 text-emerald-600" />
-            AES-256 Encrypted
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span className="flex items-center gap-1.5">
-            <Award className="h-4 w-4 text-blue-600" />
-            100% Legal &amp; Academically Audited
-          </span>
-          <span className="w-px h-3 bg-slate-300" />
-          <span>🇮🇳 Made in India for Indian Engineers</span>
-        </div>
-      </section>
     </div>
   )
 }
