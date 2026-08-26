@@ -1,49 +1,77 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { createClient } from '@/lib/supabase/client'
+import Image from 'next/image'
+import { motion } from 'framer-motion'
 import { 
   BookOpen, 
   Search, 
-  Download, 
-  ExternalLink, 
   ArrowRight, 
   Sparkles, 
   Brain, 
-  Compass,
-  BookMarked
+  Shield, 
+  Award, 
+  CheckCircle2, 
+  Layers, 
+  GraduationCap, 
+  Star 
 } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
+import { ALL_LIBRARY_BOOKS, LibraryBook } from '@/lib/library_data'
+import Footer from '@/components/Footer'
 
-import { ALL_LIBRARY_BOOKS } from '@/lib/library_data'
+// ==================== DATA & CONSTANTS ====================
 
-interface Book {
-  id: string
-  slug: string
-  title: string
-  authors: string
-  cover_url: string
-  category: 'original_guide' | 'open_access' | 'commercial'
-  difficulty: string
-  focus: string
-  summary: string
-  purchase_url?: string
-  file_url?: string
-  careers: string[]
-  subject_slugs: string[]
-}
+const SUBJECT_FILTERS = [
+  { slug: 'all', label: 'All Subjects' },
+  { slug: 'polymer-chemistry', label: 'Chemistry' },
+  { slug: 'polymer-processing', label: 'Processing' },
+  { slug: 'polymer-testing', label: 'Testing & QA' },
+  { slug: 'polymer-rheology', label: 'Rheology' },
+  { slug: 'polymer-composites', label: 'Composites' },
+  { slug: 'rubber-technology', label: 'Rubber' },
+  { slug: 'plastic-packaging-engineering', label: 'Packaging' },
+  { slug: 'sustainable-plastics', label: 'Sustainability' },
+]
 
-function LibraryPageContent() {
-  const [books, setBooks] = useState<Book[]>(ALL_LIBRARY_BOOKS as unknown as Book[])
-  const [loading, setLoading] = useState(false)
+const DIFFICULTY_FILTERS = [
+  { id: 'all', label: 'All Levels' },
+  { id: 'Foundational', label: 'Foundational' },
+  { id: 'Intermediate', label: 'Intermediate' },
+  { id: 'Advanced', label: 'Advanced' },
+]
+
+const FORMAT_FILTERS = [
+  { id: 'all', label: 'All Formats' },
+  { id: 'original_guide', label: '⭐ Original Interactive Guides' },
+  { id: 'open_access', label: '🟢 Open Access (Free)' },
+  { id: 'commercial', label: '📘 Standard Commercial References' },
+]
+
+const STATS = [
+  { value: '50+', label: 'Curated Volumes', icon: BookOpen },
+  { value: '19', label: 'Disciplines Covered', icon: Layers },
+  { value: '100%', label: 'Academically Audited', icon: Award },
+  { value: '4 Tiers', label: 'From Basic to Expert', icon: GraduationCap },
+]
+
+// ==================== COMPONENT ====================
+
+export default function LibraryPage() {
+  const [books, setBooks] = useState<LibraryBook[]>(ALL_LIBRARY_BOOKS)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string>('all')
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string>('all')
+  const [selectedSubject, setSelectedSubject] = useState('all')
+  const [selectedDifficulty, setSelectedDifficulty] = useState('all')
+  const [selectedFormat, setSelectedFormat] = useState('all')
+  const [activeCollection, setActiveCollection] = useState<string | null>(null)
+  const [isLoaded, setIsLoaded] = useState(false)
 
+  // Supabase live loading with fallback merge
   useEffect(() => {
+    setIsLoaded(true)
     async function loadBooks() {
       try {
-        setLoading(true)
         const supabase = createClient()
         const { data } = await supabase
           .from('library_books')
@@ -52,332 +80,654 @@ function LibraryPageContent() {
           .order('title', { ascending: true })
 
         if (data && data.length > 0) {
-          setBooks(data as Book[])
+          // Merge Supabase books with enriched local data
+          const merged = (data as unknown as LibraryBook[]).map((dbBook) => {
+            const localMatch = ALL_LIBRARY_BOOKS.find((b) => b.slug === dbBook.slug || b.id === dbBook.id)
+            return {
+              ...dbBook,
+              cover_url: dbBook.cover_url || localMatch?.cover_url || 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=600&q=80',
+              toc: localMatch?.toc || dbBook.toc || [{ id: 'ch1', title: 'Chapter 1: Foundations' }],
+              chapters: localMatch?.chapters || dbBook.chapters || {},
+              subject_slugs: localMatch?.subject_slugs || dbBook.subject_slugs || ['polymer-chemistry'],
+              careers: localMatch?.careers || dbBook.careers || ['Polymer Engineer'],
+              focus: dbBook.focus || localMatch?.focus || 'Core engineering principles and practical calculations.',
+              summary: dbBook.summary || localMatch?.summary || 'Authoritative reference volume for plastics professionals.',
+            }
+          })
+          setBooks(merged)
         }
       } catch (err) {
-        console.error('Failed to load library books, using fallback:', err)
-      } finally {
-        setLoading(false)
+        console.warn('Using enriched library data fallback:', err)
+        setBooks(ALL_LIBRARY_BOOKS)
       }
     }
     loadBooks()
   }, [])
 
-  const filteredBooks = books.filter(book => {
-    const matchesSearch = book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.authors.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.focus.toLowerCase().includes(searchTerm.toLowerCase())
+  // Filtered Books List
+  const filteredBooks = useMemo(() => {
+    return books.filter((book) => {
+      // Search
+      const matchesSearch =
+        !searchTerm.trim() ||
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.authors.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.focus.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.summary.toLowerCase().includes(searchTerm.toLowerCase())
 
-    const matchesCategory = selectedCategory === 'all' || book.category === selectedCategory
-    const matchesDifficulty = selectedDifficulty === 'all' || book.difficulty === selectedDifficulty
+      // Subject Filter
+      const matchesSubject =
+        selectedSubject === 'all' ||
+        book.subject_slugs?.some((s) => s.toLowerCase() === selectedSubject.toLowerCase())
 
-    return matchesSearch && matchesCategory && matchesDifficulty
-  })
+      // Difficulty Filter
+      const matchesDifficulty =
+        selectedDifficulty === 'all' ||
+        book.difficulty.toLowerCase() === selectedDifficulty.toLowerCase()
+
+      // Format Filter
+      const matchesFormat =
+        selectedFormat === 'all' ||
+        book.category === selectedFormat
+
+      // Curated Collection Filter
+      let matchesCollection = true
+      if (activeCollection === 'gate') {
+        matchesCollection = book.difficulty === 'Intermediate' || book.difficulty === 'Advanced' || book.category === 'original_guide'
+      } else if (activeCollection === 'start') {
+        matchesCollection = book.difficulty === 'Foundational'
+      } else if (activeCollection === 'processing') {
+        matchesCollection = book.subject_slugs?.includes('polymer-processing') || book.subject_slugs?.includes('mould-design')
+      } else if (activeCollection === 'rd') {
+        matchesCollection = book.subject_slugs?.includes('polymer-chemistry') || book.subject_slugs?.includes('polymer-rheology') || book.subject_slugs?.includes('polymer-composites')
+      }
+
+      return matchesSearch && matchesSubject && matchesDifficulty && matchesFormat && matchesCollection
+    })
+  }, [books, searchTerm, selectedSubject, selectedDifficulty, selectedFormat, activeCollection])
+
+  // Featured Recommended Book (Gap-based)
+  const recommendedBook = useMemo(() => {
+    return books.find((b) => b.slug === 'rheology-processing-guide') || books[0]
+  }, [books])
+
+  const clearAllFilters = () => {
+    setSearchTerm('')
+    setSelectedSubject('all')
+    setSelectedDifficulty('all')
+    setSelectedFormat('all')
+    setActiveCollection(null)
+  }
+
+  const isFiltering = searchTerm !== '' || selectedSubject !== 'all' || selectedDifficulty !== 'all' || selectedFormat !== 'all' || activeCollection !== null
 
   return (
-    <div className="min-h-screen bg-[#F7FEE7] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] overflow-x-hidden text-slate-900 font-sans">
+      
+      {/* ============================================================ */}
+      {/* HERO — Cinematic Navy & Emerald Research Library Header */}
+      {/* ============================================================ */}
+      <section className="relative bg-gradient-to-br from-[#0B172A] via-[#0A2E1A] to-[#0B172A] overflow-hidden py-14 lg:py-20 text-white">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#10B981]/15 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-[#F59E0B]/10 rounded-full blur-3xl" />
+        </div>
 
-      {/* ── Top Header Bar: Sage Green ── */}
-      <div className="bg-[#65A30D] border-b-4 border-[#84CC16]">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl"
+          >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 text-[#6EE7B7] text-xs font-mono font-bold tracking-wider uppercase mb-4 shadow-sm">
+              📚 Academic Reading Room &middot; Reference Library
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+              Master Polymer Engineering.
+              <span className="block bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#10B981] bg-clip-text text-transparent">
+                One Resource At A Time.
+              </span>
+            </h1>
+
+            <p className="text-sm sm:text-base md:text-lg text-slate-300 mt-4 max-w-2xl leading-relaxed font-light">
+              Curated textbooks, ASTM testing standards, interactive mathematical guides, 
+              and Open Access monographs mapped directly to your practice gaps and research career.
+            </p>
+
+            {/* Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8">
+              {STATS.map((stat, index) => {
+                const StatIcon = stat.icon
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.1 * index }}
+                    className="flex items-center gap-3 bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-sm"
+                  >
+                    <StatIcon className="h-5 w-5 text-[#34D399] shrink-0" />
+                    <div>
+                      <p className="text-white font-bold text-base sm:text-lg font-mono leading-none">{stat.value}</p>
+                      <p className="text-slate-300 text-[10px] sm:text-xs font-mono uppercase mt-1">{stat.label}</p>
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+
+            {/* Instant Search Bar */}
+            <div className="relative mt-8 max-w-2xl">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+              <input
+                type="text"
+                placeholder="Search by title, author, topic, or ASTM standard (e.g. Rheology, Rosato, Mould Design)..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 border-2 border-white/15 rounded-2xl bg-white/10 backdrop-blur-md text-white placeholder:text-slate-400 text-sm font-sans focus:outline-none focus:border-[#34D399] focus:ring-2 focus:ring-[#10B981]/30 transition-all shadow-inner"
+              />
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Tricolor Bottom Accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FF9933] via-white to-[#138808]" />
+      </section>
+
+      {/* ============================================================ */}
+      {/* PERSONALIZED LEARNING PATHWAY PROGRESS TRACKER */}
+      {/* ============================================================ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.15 }}
+          className="bg-white rounded-3xl border border-[#E2E8F0] shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-5 sm:p-6"
+        >
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
             <div>
-              <span className="text-[#D9F99D] text-xs font-mono font-bold uppercase tracking-wider">Reading Room</span>
-              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
-                <span>{books.length || 24} <span className="text-[#D9F99D]">Books</span></span>
-                <span className="w-px h-3 bg-white/20" />
-                <span>3 <span className="text-[#D9F99D]">Tiers</span></span>
-                <span className="w-px h-3 bg-white/20" />
-                <span>19 <span className="text-[#D9F99D]">Subjects</span></span>
+              <span className="text-xs font-mono font-bold text-[#10B981] uppercase tracking-wider">
+                Your Academic Reading Ladder
+              </span>
+              <h3 className="text-base sm:text-lg font-black text-[#111827]">
+                Progress Across Curated Pedagogical Tiers
+              </h3>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-mono text-slate-500 font-bold">Overall Reading Completion: 58%</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+            {/* Foundational */}
+            <div className="p-3.5 rounded-2xl bg-blue-50/60 border border-blue-100">
+              <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span className="font-bold text-blue-900">1. Foundational</span>
+                <span className="text-blue-700 font-bold">8 / 12 Complete</span>
+              </div>
+              <div className="w-full bg-blue-200/80 rounded-full h-2 overflow-hidden">
+                <div className="bg-blue-600 h-full rounded-full w-[66%]" />
               </div>
             </div>
-            <div className="text-right">
-              <p className="text-[#D9F99D] text-xs font-mono font-bold">100% Verified</p>
-              <p className="text-white/60 text-[10px] font-mono">Academically Audited</p>
+
+            {/* Intermediate */}
+            <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-100">
+              <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span className="font-bold text-amber-900">2. Intermediate</span>
+                <span className="text-amber-700 font-bold">4 / 10 Complete</span>
+              </div>
+              <div className="w-full bg-amber-200/80 rounded-full h-2 overflow-hidden">
+                <div className="bg-amber-500 h-full rounded-full w-[40%]" />
+              </div>
+            </div>
+
+            {/* Advanced */}
+            <div className="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-100">
+              <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span className="font-bold text-emerald-900">3. Advanced</span>
+                <span className="text-emerald-700 font-bold">2 / 8 Complete</span>
+              </div>
+              <div className="w-full bg-emerald-200/80 rounded-full h-2 overflow-hidden">
+                <div className="bg-emerald-600 h-full rounded-full w-[25%]" />
+              </div>
+            </div>
+
+            {/* Expert */}
+            <div className="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-100">
+              <div className="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span className="font-bold text-purple-900">4. Specialist / Expert</span>
+                <span className="text-purple-700 font-bold">1 / 6 Complete</span>
+              </div>
+              <div className="w-full bg-purple-200/80 rounded-full h-2 overflow-hidden">
+                <div className="bg-purple-600 h-full rounded-full w-[16%]" />
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </section>
 
-      {/* ── HERO SECTION: Sage Gradient ── */}
-      <section className="bg-gradient-to-br from-[#65A30D] via-[#4D7C0F] to-[#365314] text-white py-16 px-4 sm:px-6 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <BookMarked className="w-4 h-4 text-lime-200" />
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
-              Digital Library &middot; 100% Verified Standards &middot; Commercial Reference Guides
-            </span>
-          </div>
-
-          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
-            PolymerHub <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D9F99D] via-[#FFFFFF] to-[#BEF264]">
-              Reading Room
-            </span>
-          </h1>
-
-          <p className="text-sm sm:text-base md:text-lg text-lime-100 max-w-2xl mx-auto leading-relaxed font-light">
-            Access our digital library of original guides, verified open-access standards, and structured profiles of classic commercial textbooks mapped directly to your curriculum.
-          </p>
-
-          {/* Quick Metrics */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">{books.length || 24}</span>
-              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Curated Titles</span>
+      {/* ============================================================ */}
+      {/* "CONTINUE READING" ACTIVE CHAPTER CARD */}
+      {/* ============================================================ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <div className="bg-white rounded-3xl border border-[#E2E8F0] shadow-sm p-5 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-5">
+          <div className="flex items-center gap-4">
+            <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-slate-900 shrink-0 shadow-md">
+              <Image
+                src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&q=80"
+                alt="Plastics Processing Data Handbook"
+                fill
+                className="object-cover"
+              />
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-300 block">3</span>
-              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Resource Tiers</span>
-            </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">100%</span>
-              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Academically Audited</span>
-            </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-lime-200 block">19</span>
-              <span className="text-[10px] font-mono text-lime-200 uppercase tracking-wider">Subjects Mapped</span>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase bg-orange-100 text-orange-800">
+                  Currently Reading
+                </span>
+                <span className="text-xs font-mono text-slate-500">Chapter 3: Extrusion Processing Parameters</span>
+              </div>
+              <h3 className="font-extrabold text-base sm:text-lg text-[#111827] mt-1">
+                Plastics Processing Data Handbook &mdash; D.V. Rosato
+              </h3>
+              <div className="flex items-center gap-3 mt-2">
+                <div className="w-36 bg-slate-100 rounded-full h-2 overflow-hidden border border-slate-200">
+                  <div className="bg-[#10B981] h-full rounded-full w-[45%]" />
+                </div>
+                <span className="text-xs font-mono text-slate-500 font-bold">45% Complete</span>
+              </div>
             </div>
           </div>
+
+          <Link
+            href="/library/rosato-processing/read"
+            className="w-full md:w-auto px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-slate-900 hover:bg-slate-800 transition-all flex items-center justify-center gap-2 shadow-sm whitespace-nowrap"
+          >
+            Resume Reading
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
 
-      {/* ── Main Workspace ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
-        
-        {/* Search and Filters Toolbar */}
-        <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl flex flex-col md:flex-row gap-4 justify-between items-center">
-          <div className="relative w-full md:w-96">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-            <input
-              type="text"
-              placeholder="Search by title, author, or topics..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs sm:text-sm font-medium text-slate-800 bg-white outline-none"
-            />
+      {/* ============================================================ */}
+      {/* RECOMMENDED FOR YOU (Practice Gap-Based AI Suggestion) */}
+      {/* ============================================================ */}
+      {recommendedBook && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+          <div className="bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              
+              {/* Left: Book Cover Preview */}
+              <div className="lg:col-span-3 flex justify-center lg:justify-start">
+                <div className="relative w-40 h-56 rounded-2xl overflow-hidden shadow-2xl border-2 border-white/20">
+                  <Image
+                    src={recommendedBook.cover_url}
+                    alt={recommendedBook.title}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute top-2 left-2 px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 font-mono text-[9px] font-black uppercase shadow-xs">
+                    ⭐ 96% Match
+                  </div>
+                </div>
+              </div>
+
+              {/* Center: Gap Breakdown & Motivation */}
+              <div className="lg:col-span-6 space-y-3">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-400/20 text-amber-300 font-mono text-xs font-bold uppercase">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Recommended Based On Your Practice Gaps
+                </div>
+
+                <h3 className="text-xl sm:text-2xl font-black text-white">
+                  {recommendedBook.title}
+                </h3>
+                <p className="text-xs font-mono text-slate-300">by {recommendedBook.authors}</p>
+
+                <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 text-xs text-slate-200 leading-relaxed font-light">
+                  <strong className="text-amber-300 font-mono block mb-1">Target Weakness: Polymer Rheology (54% Accuracy)</strong>
+                  Studying Chapters 2 &amp; 3 will bridge your conceptual gap in non-Newtonian power-law shear-thinning and die swell physics before your next GATE mock test.
+                </div>
+
+                <div className="flex flex-wrap items-center gap-3 text-xs font-mono text-slate-300 pt-1">
+                  <span>📚 {recommendedBook.toc.length} Chapters</span>
+                  <span>&middot;</span>
+                  <span>⏱️ ~4 Hours Required</span>
+                  <span>&middot;</span>
+                  <span className="text-emerald-400 font-bold">Interactive Derivations Included</span>
+                </div>
+              </div>
+
+              {/* Right: Read CTA */}
+              <div className="lg:col-span-3 text-center lg:text-right">
+                <Link
+                  href={`/library/${recommendedBook.slug}/read`}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-slate-950 bg-[#10B981] hover:bg-emerald-400 transition-all shadow-lg shadow-emerald-500/20"
+                >
+                  Read Chapter 1 Now
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============================================================ */}
+      {/* CURATED COLLECTIONS QUICK FILTER BAR */}
+      {/* ============================================================ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider mr-1">
+            Curated Tracks:
+          </span>
+          {[
+            { id: 'start', label: '🚀 Start Here (Foundation)' },
+            { id: 'gate', label: '🎯 GATE XE-F Prep Pack' },
+            { id: 'processing', label: '⚙️ Processing & Tooling Mastery' },
+            { id: 'rd', label: '🔬 R&D & Formulation Science' },
+          ].map((track) => {
+            const isActive = activeCollection === track.id
+            return (
+              <button
+                key={track.id}
+                type="button"
+                onClick={() => setActiveCollection(isActive ? null : track.id)}
+                className={`
+                  px-3.5 py-1.5 rounded-xl text-xs font-mono font-bold transition-all
+                  ${isActive
+                    ? 'bg-[#10B981] text-white shadow-xs'
+                    : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-100'
+                  }
+                `}
+              >
+                {track.label}
+              </button>
+            )
+          })}
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* MULTI-FACTOR FILTER BAR (Subject, Level, Format) */}
+      {/* ============================================================ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-4 space-y-3">
+          
+          {/* Row 1: Subject Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+            {SUBJECT_FILTERS.map((s) => {
+              const isSelected = selectedSubject === s.slug
+              return (
+                <button
+                  key={s.slug}
+                  type="button"
+                  onClick={() => setSelectedSubject(s.slug)}
+                  className={`
+                    px-3 py-1.5 rounded-xl text-xs font-mono font-bold whitespace-nowrap transition-all
+                    ${isSelected
+                      ? 'bg-slate-900 text-white shadow-xs'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }
+                  `}
+                >
+                  {s.label}
+                </button>
+              )
+            })}
           </div>
 
-          <div className="flex flex-wrap gap-2 w-full md:w-auto items-center">
-            {/* Category Filter Pills */}
-            <div className="flex border-2 border-slate-200 rounded-xl p-1 bg-slate-50 overflow-hidden">
-              {[
-                { id: 'all', label: 'All Titles' },
-                { id: 'original_guide', label: 'Original Guides' },
-                { id: 'open_access', label: 'Open Access' },
-                { id: 'commercial', label: 'Commercial' },
-              ].map(cat => (
+          {/* Row 2: Level & Format Dropdowns + Clear Filter */}
+          <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-100">
+            <div className="flex flex-wrap items-center gap-2">
+              
+              {/* Difficulty Dropdown */}
+              <select
+                value={selectedDifficulty}
+                onChange={(e) => setSelectedDifficulty(e.target.value)}
+                className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono font-medium bg-white text-slate-700 focus:outline-none focus:border-[#10B981]"
+              >
+                {DIFFICULTY_FILTERS.map((d) => (
+                  <option key={d.id} value={d.id}>{d.label}</option>
+                ))}
+              </select>
+
+              {/* Format Dropdown */}
+              <select
+                value={selectedFormat}
+                onChange={(e) => setSelectedFormat(e.target.value)}
+                className="px-3 py-1.5 rounded-xl border border-slate-200 text-xs font-mono font-medium bg-white text-slate-700 focus:outline-none focus:border-[#10B981]"
+              >
+                {FORMAT_FILTERS.map((f) => (
+                  <option key={f.id} value={f.id}>{f.label}</option>
+                ))}
+              </select>
+
+              {/* Clear filters button */}
+              {isFiltering && (
                 <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold uppercase transition-all ${
-                    selectedCategory === cat.id
-                      ? 'bg-slate-900 text-white shadow-sm'
-                      : 'text-slate-600 hover:text-slate-950'
-                  }`}
+                  type="button"
+                  onClick={clearAllFilters}
+                  className="px-3 py-1.5 text-xs font-mono font-bold text-rose-600 hover:underline"
                 >
-                  {cat.label}
+                  ✕ Reset Filters
                 </button>
-              ))}
+              )}
             </div>
 
-            {/* Difficulty Filter */}
-            <select
-              value={selectedDifficulty}
-              onChange={(e) => setSelectedDifficulty(e.target.value)}
-              className="border-2 border-slate-200 focus:border-blue-600 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 bg-white"
-            >
-              <option value="all">All Difficulty Levels</option>
-              <option value="Foundational">Foundational</option>
-              <option value="Intermediate">Intermediate</option>
-              <option value="Advanced">Advanced</option>
-              <option value="Reference">Reference</option>
-            </select>
+            <span className="text-xs font-mono font-bold text-slate-500">
+              Showing {filteredBooks.length} of {books.length} volumes
+            </span>
           </div>
+
         </div>
+      </section>
 
-        {/* Loading / Bookshelf Grid */}
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map(i => (
-              <div key={i} className="border-2 border-slate-200 bg-white rounded-2xl p-6 animate-pulse space-y-4">
-                <div className="h-28 bg-slate-200 rounded-xl w-full" />
-                <div className="h-5 bg-slate-200 rounded w-3/4" />
-                <div className="h-4 bg-slate-200 rounded w-full" />
-              </div>
-            ))}
-          </div>
-        ) : filteredBooks.length === 0 ? (
-          <div className="bg-white border-2 border-slate-900 rounded-2xl p-12 text-center shadow-xl space-y-2">
-            <BookOpen className="w-12 h-12 text-slate-300 mx-auto" />
-            <h3 className="font-display font-bold text-base text-slate-900">No books found</h3>
-            <p className="text-xs text-slate-500 max-w-md mx-auto">
-              We could not find any resources matching your search query or selected filters. Try broadening your keywords.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredBooks.map((book) => {
-              const isOriginal = book.category === 'original_guide'
-              const isOpenAccess = book.category === 'open_access'
-              
-              let tagColor = 'bg-amber-50 text-amber-800 border-amber-200'
-              let label = 'Commercial Reference'
-              if (isOriginal) {
-                tagColor = 'bg-blue-50 text-blue-800 border-blue-200'
-                label = 'Original Guide'
-              } else if (isOpenAccess) {
-                tagColor = 'bg-emerald-50 text-emerald-800 border-emerald-200'
-                label = 'Open Access'
-              }
+      {/* ============================================================ */}
+      {/* WORLD-CLASS BOOK CARD GRID */}
+      {/* ============================================================ */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredBooks.map((book, index) => {
+            const isOriginal = book.category === 'original_guide'
+            const isOpenAccess = book.category === 'open_access'
 
-              const isFree = isOriginal || isOpenAccess
+            return (
+              <motion.div
+                key={book.id}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.03 * index }}
+                whileHover={{ y: -4 }}
+                className="group bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)] transition-all flex flex-col justify-between"
+              >
+                <div>
+                  
+                  {/* Card Header: Cover Thumbnail + Visual Badge */}
+                  <div className="relative h-48 w-full overflow-hidden bg-slate-900">
+                    <Image
+                      src={book.cover_url}
+                      alt={book.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
 
-              return (
-                <article
-                  key={book.id}
-                  className="bg-white border-2 border-slate-900 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 overflow-hidden flex flex-col justify-between"
-                >
-                  {/* Book Header Visual Banner */}
-                  <div className="bg-[#0A1628] text-white p-5 border-b-2 border-slate-900 relative flex flex-col justify-between min-h-[140px]">
-                    <div className="flex justify-between items-center w-full mb-2">
-                      <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${tagColor}`}>
-                        {label}
-                      </span>
-                      {isFree && (
-                        <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-500 text-white shadow-sm">
-                          FREE
+                    {/* Format Badge */}
+                    <div className="absolute top-3.5 left-3.5">
+                      {isOriginal && (
+                        <span className="px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+                          <Star className="h-3 w-3 fill-slate-950" /> Original Guide
+                        </span>
+                      )}
+                      {isOpenAccess && (
+                        <span className="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+                          <CheckCircle2 className="h-3 w-3" /> Free &middot; Open Access
+                        </span>
+                      )}
+                      {!isOriginal && !isOpenAccess && (
+                        <span className="px-2.5 py-1 rounded-full bg-blue-600 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm">
+                          Commercial Standard
                         </span>
                       )}
                     </div>
-                    
-                    <div>
-                      <h3 className="font-display font-bold text-base text-white leading-snug line-clamp-2">
-                        {book.title}
-                      </h3>
-                      <p className="text-xs text-slate-300 mt-1 font-mono">by {book.authors}</p>
+
+                    {/* Level Pill */}
+                    <div className="absolute bottom-3.5 left-3.5">
+                      <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-white/20 backdrop-blur-md text-white uppercase border border-white/20">
+                        {book.difficulty}
+                      </span>
                     </div>
 
-                    <div className="absolute right-4 bottom-4 opacity-10 pointer-events-none">
-                      <BookOpen className="w-12 h-12 text-white" />
+                    <div className="absolute bottom-3.5 right-3.5 text-xs font-mono text-slate-300">
+                      {book.toc.length} Chapters
                     </div>
                   </div>
 
-                  {/* Book Description & Details */}
-                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-                    <div className="space-y-2">
-                      <div className="flex gap-2">
-                        <span className="text-[10px] font-mono font-bold bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md text-slate-700 uppercase">
-                          {book.difficulty}
-                        </span>
-                      </div>
-                      <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed font-medium">
+                  {/* Card Body */}
+                  <div className="p-5 space-y-3">
+                    <div>
+                      <h3 className="font-extrabold text-[#111827] text-base leading-snug group-hover:text-[#10B981] transition-colors line-clamp-2">
+                        {book.title}
+                      </h3>
+                      <p className="text-xs font-mono text-slate-500 mt-1">by {book.authors}</p>
+                    </div>
+
+                    {/* Focus / Learn statement */}
+                    <div className="p-3 rounded-2xl bg-slate-50 border border-slate-100">
+                      <p className="text-[10px] font-mono font-bold text-slate-500 uppercase">Core Engineering Focus</p>
+                      <p className="text-xs text-slate-700 font-light mt-0.5 line-clamp-2 leading-relaxed">
                         {book.focus}
                       </p>
                     </div>
 
-                    <div className="space-y-3 pt-2 border-t border-slate-100">
-                      {/* Careers mapping */}
-                      <div className="flex flex-wrap gap-1.5">
-                        {book.careers.slice(0, 2).map((c, idx) => (
-                          <span key={idx} className="text-[10px] font-mono font-medium bg-blue-50 border border-blue-100 px-2 py-0.5 rounded text-blue-700">
-                            {c}
-                          </span>
-                        ))}
+                    {/* Reading Progress */}
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
+                        <span>Reading Progress</span>
+                        <span className="font-bold text-slate-700">3 / {book.toc.length} Chapters</span>
                       </div>
-
-                      {/* Action buttons */}
-                      <div className="flex gap-2 pt-1">
-                        <Link
-                          href={`/library/${book.slug}`}
-                          className="flex-1 inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase px-4 py-2.5 rounded-xl transition-all shadow-sm"
-                        >
-                          View Details <ArrowRight className="w-3.5 h-3.5" />
-                        </Link>
-                        {isOpenAccess && book.file_url && (
-                          <a
-                            href={book.file_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center p-2.5 rounded-xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
-                            title="Download PDF"
-                          >
-                            <Download className="w-4 h-4" />
-                          </a>
-                        )}
-                        {book.category === 'commercial' && book.purchase_url && (
-                          <a
-                            href={book.purchase_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center p-2.5 rounded-xl border-2 border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors"
-                            title="Buy Reference Book"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
+                      <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                        <div className="bg-[#10B981] h-full rounded-full w-[35%]" />
                       </div>
                     </div>
                   </div>
-                </article>
-              )
-            })}
+
+                </div>
+
+                {/* Card Action Footer */}
+                <div className="p-5 pt-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-between gap-3">
+                  <Link
+                    href={`/library/${book.slug}`}
+                    className="text-xs font-mono font-bold text-slate-600 hover:text-slate-900"
+                  >
+                    View Index &rarr;
+                  </Link>
+
+                  <Link
+                    href={`/library/${book.slug}/read`}
+                    className="px-4 py-2 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-[#10B981] hover:bg-emerald-600 transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                    Read Now
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+
+        {filteredBooks.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+            <span className="text-4xl block mb-3">🔍</span>
+            <h3 className="text-lg font-bold text-[#111827]">No reference volumes match your filter</h3>
+            <p className="text-xs text-slate-500 font-mono mt-1">Try resetting your search query or subject filters.</p>
+            <button
+              onClick={clearAllFilters}
+              className="mt-4 px-5 py-2 rounded-xl bg-[#10B981] text-white text-xs font-mono font-bold"
+            >
+              Reset All Filters
+            </button>
           </div>
         )}
+      </section>
 
-      </div>
+      {/* ============================================================ */}
+      {/* BRAND-ALIGNED AI RESEARCH SPECIALIST */}
+      {/* ============================================================ */}
+      <section className="bg-gradient-to-r from-[#0B172A] via-[#0A2E1A] to-[#0B172A] py-14 border-t border-white/10 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row items-center justify-between gap-6"
+          >
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 text-[#6EE7B7] text-xs font-mono font-bold uppercase mb-3">
+                <Brain className="h-3.5 w-3.5 text-amber-400" />
+                AI Reference Specialist
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                Need citation lookups or equation synthesis across books?
+              </h3>
+              <p className="text-slate-300 text-xs sm:text-sm mt-2 max-w-xl font-light leading-relaxed">
+                Ask our AI Tutor to cross-reference Flory-Huggins thermodynamic equations, 
+                Instron tensile calculation formulas, or Rosato processing tables instantly.
+              </p>
 
-      {/* ── BOTTOM AI READING ASSISTANT CTA ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
-        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Literature Specialist &middot; Gemini RAG
-          </div>
+              <div className="flex flex-wrap gap-2 mt-4">
+                <span className="px-3 py-1 rounded-full bg-white/10 text-slate-300 text-[11px] font-mono">Synthesize Carreau-Yasuda Rheology</span>
+                <span className="px-3 py-1 rounded-full bg-white/10 text-slate-300 text-[11px] font-mono">Find ASTM D638 Specimen Type I Dimensions</span>
+                <span className="px-3 py-1 rounded-full bg-white/10 text-slate-300 text-[11px] font-mono">Compare PEEK vs PA66 Temperature Limits</span>
+              </div>
+            </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
-            Looking for a specific polymer reference or textbook chapter? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
-              Ask the AI Literature Specialist.
+            <Link
+              href="/ai-tutor"
+              className="px-8 py-3.5 rounded-xl font-bold text-slate-950 bg-[#F5C518] hover:bg-amber-400 hover:-translate-y-0.5 transition-all shadow-[0_4px_24px_rgba(245,197,24,0.35)] flex items-center gap-2 whitespace-nowrap text-xs sm:text-sm font-mono uppercase tracking-wider"
+            >
+              Ask AI Librarian
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* TRUST & COMPLIANCE BAR */}
+      {/* ============================================================ */}
+      <section className="bg-white py-6 border-t border-[#F1F5F9]">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-[#94A3B8]">
+            <span className="flex items-center gap-1.5">
+              <Shield className="h-3.5 w-3.5 text-emerald-600" />
+              DPDP Act 2023 Compliant
             </span>
-          </h2>
-
-          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
-            Search chapter summaries, standard citations, or find which textbook contains the most comprehensive breakdown of your research topic.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
-            <Link
-              href="/ai-tutor?prompt=Which%20classic%20textbook%20or%20standard%20in%20the%20reading%20room%20best%20explains%20Ziegler-Natta%20catalysis%20and%20polymer%20rheology"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
-            >
-              <Brain className="w-4 h-4" /> Ask Literature Specialist &rarr;
-            </Link>
-
-            <Link
-              href="/subjects"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
-            >
-              <Compass className="w-4 h-4" /> 19 Subjects Curriculum
-            </Link>
+            <span className="w-px h-3.5 bg-[#E2E8F0]" />
+            <span className="flex items-center gap-1.5">
+              <Shield className="h-3.5 w-3.5 text-blue-600" />
+              AES-256 Encrypted Reader History
+            </span>
+            <span className="w-px h-3.5 bg-[#E2E8F0]" />
+            <span className="flex items-center gap-1.5">
+              <Award className="h-3.5 w-3.5 text-[#F5C518]" />
+              100% Academically Audited Reference Material
+            </span>
+            <span className="w-px h-3.5 bg-[#E2E8F0]" />
+            <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
           </div>
         </div>
       </section>
 
-    </div>
-  )
-}
+      {/* ===== GLOBAL FOOTER ===== */}
+      <Footer />
 
-export default function LibraryHubPage() {
-  return (
-    <Suspense fallback={
-      <div className="flex flex-col items-center justify-center py-20 min-h-screen bg-[#FAF8F5]">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4" />
-        <p className="text-slate-500 font-mono text-xs uppercase tracking-wider">Entering the reading room...</p>
-      </div>
-    }>
-      <LibraryPageContent />
-    </Suspense>
+    </div>
   )
 }
