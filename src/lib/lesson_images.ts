@@ -1948,17 +1948,17 @@ export const LESSON_IMAGES: Record<string, LessonImages> = {
     ]
   },
   'multi-cavity-runner-balancing-kinetics-and-pressure-drop': {
-    hero: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&auto=format&fit=crop&q=80',
+    hero: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1200&auto=format&fit=crop&q=80',
     concepts: [
       { url: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600', caption: 'Figure 1: CAD blueprint illustrating core, cavity, parting line, and side actions.' },
       { url: 'https://images.unsplash.com/photo-1537462715879-360eeb61a0bc?w=600', caption: 'Figure 2: Mould venting channels and ejector pin layout schematic.' }
     ],
     products: [
       { url: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400', caption: 'High-tolerance plastic casing produced from hardened steel tooling.' },
-      { url: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400', caption: 'High-tolerance plastic casing produced from hardened steel tooling.' }
+      { url: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400', caption: 'Precision multi-cavity injection molded components.' }
     ],
     machines: [
-      { url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=400', caption: 'CNC tooling center machining an injection mould core block.' }
+      { url: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=400', caption: 'CNC tooling center machining an injection mould core block.' }
     ]
   },
   'multi-component-injection-molding-overmolding-2-shot': {

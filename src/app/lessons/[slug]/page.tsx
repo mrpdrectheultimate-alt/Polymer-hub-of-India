@@ -9,6 +9,7 @@ import { LessonShareBar } from '@/components/WhatsAppShare'
 import DownloadNotes from '@/components/DownloadNotes'
 import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
 import { LessonNotes } from '@/components/LessonNotes'
+import InteractiveRunnerSimulator from '@/components/InteractiveRunnerSimulator'
 import { LESSON_IMAGES, LessonImage } from '@/lib/lesson_images'
 
 type UserProgressRow = {
@@ -260,6 +261,13 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                         </figure>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* Interactive Injection Mold Runner Simulation Lab */}
+                {(params.slug.includes('runner') || params.slug.includes('mould') || lesson.title.toLowerCase().includes('runner') || lesson.title.toLowerCase().includes('cavity')) && (
+                  <div className="mb-8">
+                    <InteractiveRunnerSimulator />
                   </div>
                 )}
 

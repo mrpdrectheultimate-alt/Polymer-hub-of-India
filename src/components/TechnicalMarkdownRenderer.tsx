@@ -44,6 +44,13 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
     setTimeout(() => setCopied(false), 2000)
   }
 
+  // Sanitize raw leaked debug/HTML wrapper tags that damage rendering
+  const sanitizedContent = (content || '')
+    .replace(/<div className=["']problem-statement["']>/gi, '')
+    .replace(/<div class=["']problem-statement["']>/gi, '')
+    .replace(/<div className=["'][^"']*["']>/gi, '')
+    .replace(/<\/div>/gi, '')
+
   return (
     <div className="lesson-content">
       {/* Copy button */}
@@ -487,7 +494,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#1D4
             ),
           }}
         >
-          {content}
+          {sanitizedContent}
         </ReactMarkdown>
       </div>
 
