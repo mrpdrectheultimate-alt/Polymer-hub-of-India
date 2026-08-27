@@ -27,17 +27,17 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     )
   }
 
-  // Full logo — use SVG for perfect scaling; fall back to JPG on error
-  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-banner.jpg'
+  // Full logo — use official horizontal logo
+  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-horizontal.jpg'
 
   return (
     <Link href="/" className={`flex items-center flex-shrink-0 ${className}`} aria-label="Polymer Hub of India — Home">
       <Image
         src={src}
         alt="Polymer Hub of India"
-        width={220}
-        height={48}
-        className="h-11 w-auto object-contain"
+        width={240}
+        height={54}
+        className="h-11 md:h-12 w-auto object-contain"
         priority
       />
     </Link>

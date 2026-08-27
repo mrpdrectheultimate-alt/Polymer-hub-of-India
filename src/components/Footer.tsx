@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Shield, Globe, GraduationCap } from 'lucide-react'
+import { Logo } from './Logo'
 
 export default function Footer() {
   return (
@@ -20,7 +21,7 @@ export default function Footer() {
           </div>
           <div className="flex items-center gap-2 text-[#CA8A04] font-medium">
             <GraduationCap className="w-3.5 h-3.5" />
-            <span>19 Subjects &middot; 216 Lessons Mapped</span>
+            <span>19 Subjects &middot; 218 Lessons Mapped</span>
           </div>
           <div className="flex items-center gap-1.5 text-[#111827] font-medium">
             <span>🇮🇳 Made in India for Global Engineers</span>
@@ -34,11 +35,9 @@ export default function Footer() {
           
           {/* Brand & Description Column (2 cols wide on md+) */}
           <div className="md:col-span-2 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-1">
-              <span className="font-display font-black text-2xl text-[#111827] tracking-tight">
-                Polymer<span className="text-[#2563EB]">Hub</span>
-              </span>
-            </Link>
+            <div className="mb-2">
+              <Logo variant="full" theme="light" />
+            </div>
             <p className="text-[#64748B] text-xs leading-relaxed max-w-sm font-normal">
               India&apos;s first Plastic Polymer Engineering knowledge platform for B.Tech &amp; Diploma students, faculty, and industry professionals.
             </p>

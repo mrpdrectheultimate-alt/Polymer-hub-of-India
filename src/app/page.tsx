@@ -51,7 +51,7 @@ const ALL_SUBJECTS = [
 ]
 
 const STATS = [
-  { value: '216+', label: 'Lessons', icon: <BookOpen className="h-5 w-5" />, color: '#38BDF8' },
+  { value: '218+', label: 'Lessons', icon: <BookOpen className="h-5 w-5" />, color: '#38BDF8' },
   { value: '19', label: 'Subjects', icon: <GraduationCap className="h-5 w-5" />, color: '#F5C518' },
   { value: '357+', label: 'Videos', icon: <Play className="h-5 w-5" />, color: '#4ADE80' },
   { value: '5,000+', label: 'Engineers', icon: <Users className="h-5 w-5" />, color: '#F472B6' },
@@ -238,7 +238,7 @@ export default function HomePage() {
               </span>
               <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs">
                 <Cpu className="h-3.5 w-3.5 text-[#F5C518]" />
-                Gemini AI Powered
+                Polymer AI Copilot
               </span>
             </motion.div>
           </motion.div>
