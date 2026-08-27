@@ -82,14 +82,24 @@ export default function WatchlistPage() {
             const rawYtId = v.youtube_id || extractYouTubeVideoId(v.youtube_url || '') || ''
             const resolvedYtId = getFallbackVideoId(rawYtId, v.subject_slug, isBroken)
 
+            const cleanTitle = (v.display_title || v.title || '')
+              .replace(/â€”/g, '—')
+              .replace(/â€“/g, '–')
+              .replace(/â€™/g, "'")
+              .replace(/â€œ/g, '"')
+              .replace(/â€ /g, '"')
+              .replace(/Ã—/g, '×')
+              .replace(/Â/g, '')
+              .trim()
+
             return {
               id: v.id,
-              title: v.display_title || v.title,
+              title: cleanTitle,
               youtubeId: resolvedYtId,
               canonicalUrl: v.canonical_url || getYouTubeCanonicalUrl(resolvedYtId),
               channel: v.channel || 'NPTEL / Industry',
               duration: v.duration || '15:00',
-              description: v.description || '',
+              description: (v.description || '').replace(/â€”/g, '—').replace(/â€“/g, '–'),
               level: (['Foundation', 'Intermediate', 'Advanced'].includes(v.level || '') ? v.level : 'Foundation') as VideoRecord['level'],
               subject: v.subject_name || 'Polymer Engineering',
               subjectSlug: v.subject_slug || 'polymer-chemistry',

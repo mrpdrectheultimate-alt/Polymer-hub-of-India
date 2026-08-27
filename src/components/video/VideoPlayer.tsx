@@ -89,8 +89,8 @@ export function VideoPlayer({ video, autoplay = true, className = '' }: VideoPla
       try {
         if (typeof event.data === 'string') {
           const data = JSON.parse(event.data)
-          // YouTube postMessage error codes: 2, 5, 100, 101, 150
-          if (data.event === 'onError' || (data.info && [2, 5, 100, 101, 150].includes(data.info))) {
+          // Only switch source if explicit onError event occurs
+          if (data.event === 'onError' || data.type === 'error') {
             switchToNextSource()
           }
         }

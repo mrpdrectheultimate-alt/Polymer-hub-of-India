@@ -26,8 +26,8 @@ export const SUBJECT_FALLBACKS: Record<string, string> = {
   'sustainable-plastics-bioplastics': 'wZa5aHeqDFU',
   'plastic-packaging-engineering': 'j5WFzNHHO8w', // Blown Film Extrusion
   'life-cycle-assessment': 'yOl3jpqUdVA', // LCA ISO 14040
-  'entrepreneurship-plastics': '59ry_5sdwnU', // Factory Case Study
-  'entrepreneurship-in-plastics': '59ry_5sdwnU',
+  'entrepreneurship-plastics': 'VaMvl8SXCk0', // Polymer Manufacturing Setup
+  'entrepreneurship-in-plastics': 'VaMvl8SXCk0',
   'color-science-masterbatches': 'gs4ZZvyeSzo', // Masterbatch Production
   'polymer-nanotechnology': '67l5JeCjNuE',
   'bioprocessing-fermentation': 'wZa5aHeqDFU',

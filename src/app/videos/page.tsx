@@ -319,20 +319,38 @@ export default function VideoLibraryPage() {
               ? dbv.level
               : 'Intermediate') as VideoRecord['level']
 
+            const rawTitle = String(dbv.display_title || dbv.title || 'Polymer Engineering Lecture')
+            const cleanTitle = rawTitle
+              .replace(/â€”/g, '—')
+              .replace(/â€“/g, '–')
+              .replace(/â€™/g, "'")
+              .replace(/â€œ/g, '"')
+              .replace(/â€ /g, '"')
+              .replace(/Ã—/g, '×')
+              .replace(/Â/g, '')
+              .trim()
+
+            const thumbUrl = cleanId && cleanId.length === 11
+              ? `https://img.youtube.com/vi/${cleanId}/hqdefault.jpg`
+              : `https://images.unsplash.com/photo-${1581092580497 + (idx % 10)}?w=800&q=80`
+
             return {
               id: String(dbv.id || `db-vid-${idx}`),
-              title: String(dbv.display_title || dbv.title || 'Polymer Engineering Lecture'),
+              title: cleanTitle,
               channel: String(dbv.channel || 'NPTEL / Industry'),
               duration: String(dbv.duration || '15:00'),
               subject: String(dbv.subject_name || 'Polymer Engineering'),
               subjectSlug: String(dbv.subject_slug || 'polymer-chemistry'),
               youtubeId: cleanId,
               canonicalUrl: String(dbv.canonical_url || getYouTubeCanonicalUrl(cleanId)),
-              description: String(dbv.description || 'Curated polymer engineering video tutorial and breakdown.'),
+              description: String(dbv.description || 'Curated polymer engineering video tutorial and breakdown.')
+                .replace(/â€”/g, '—')
+                .replace(/â€“/g, '–')
+                .replace(/â€™/g, "'"),
               source: resolvedSource,
               level: parsedLevel,
               category: classifyCategory(dbv.title || '', dbv.channel || '', dbv.subject_slug),
-              thumbnail: `https://images.unsplash.com/photo-${1581092580497 + (idx % 10)}?w=800&q=80`,
+              thumbnail: thumbUrl,
               views: `${(Math.floor(Math.random() * 25) + 5)}.${Math.floor(Math.random() * 9)}K`,
               trending: idx < 4,
               featured: idx === 0,

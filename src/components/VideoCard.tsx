@@ -192,7 +192,12 @@ export default function VideoCard({
           </div>
 
           <h3 className="font-display text-sm sm:text-base font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
-            {video.title}
+            {(video.title || '')
+              .replace(/â€”/g, '—')
+              .replace(/â€“/g, '–')
+              .replace(/â€™/g, "'")
+              .replace(/â€œ/g, '"')
+              .replace(/â€ /g, '"')}
           </h3>
 
           <p className="text-[11px] font-mono text-slate-400 font-medium truncate">
