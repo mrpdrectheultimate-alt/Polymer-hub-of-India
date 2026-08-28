@@ -14,6 +14,7 @@ import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css'
 import { Copy, Check, BookOpen, Target, Calculator, FlaskConical, Lightbulb, Award, FileText, AlertTriangle } from 'lucide-react'
+import { VisualMechanismDispatcher } from '@/components/VisualMechanismPrimitives'
 
 type Props = {
   content: string
@@ -268,6 +269,11 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                       </figcaption>
                     </figure>
                   )
+                }
+
+                // Mechanism & Chemical SVGs
+                if (lang.startsWith('mechanism') || lang.startsWith('diagram') || lang.startsWith('primitive')) {
+                  return <VisualMechanismDispatcher mechanism={lang} />
                 }
 
                 return (
