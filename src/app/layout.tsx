@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import { Inter, Lexend, JetBrains_Mono } from 'next/font/google'
+import { Inter, Lexend, JetBrains_Mono, Lora } from 'next/font/google'
+import 'katex/dist/katex.min.css'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
@@ -27,6 +28,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
+const lora = Lora({
+  subsets: ['latin'],
+  variable: '--font-lora',
+  display: 'swap',
+  style: ['normal', 'italic'],
+})
+
 export const metadata: Metadata = {
   ...DEFAULT_METADATA,
 }
@@ -37,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${lexend.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${lexend.variable} ${jetbrainsMono.variable} ${lora.variable}`}>
       <head>
         {/* JSON-LD Structured Data — helps Google understand the site */}
         <script

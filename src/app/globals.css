@@ -35,6 +35,11 @@
 
     --radius: 0.75rem;
 
+    /* ── Typography Aliases ── */
+    --font-body: var(--font-inter);
+    --font-mono: var(--font-jetbrains-mono);
+    --font-display: var(--font-lexend);
+
     --canvas: #FAF8F5;                 /* warm study-friendly canvas background */
     --ink: #111827;                    /* deep off-black */
     --ink-muted: #4A4E56;              /* medium study-friendly gray */
