@@ -525,6 +525,8 @@ export default async function LessonPage({ params }: { params: { slug: string } 
   )
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }: { params: { slug: string } }) {
   const supabase = createClient()
   const { data: lesson } = await supabase

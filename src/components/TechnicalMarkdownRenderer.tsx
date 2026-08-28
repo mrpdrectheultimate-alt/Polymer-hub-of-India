@@ -15,6 +15,7 @@ import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css'
 import { Copy, Check, BookOpen, Target, Calculator, FlaskConical, Lightbulb, Award, FileText, AlertTriangle } from 'lucide-react'
 import { VisualMechanismDispatcher } from '@/components/VisualMechanismPrimitives'
+import { InteractiveStressStrainGraph, InteractiveRheologyGraph } from '@/components/InteractiveEngineeringGraphs'
 
 type Props = {
   content: string
@@ -176,53 +177,16 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               if (isBlock && className) {
                 const lang = className.replace('language-', '')
 
-                // Stress-Strain Curve Graph
+                // Interactive Stress-Strain Laboratory Graph (ASTM D638 / ISO 527)
                 if (lang === 'graph-stress-strain') {
                   const parts = rawCode.split('|')
                   const material = parts[0] || 'Semi-Crystalline Polymer (PP/HDPE)'
-                  return (
-                    <figure className="my-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-                      <div className="font-mono text-xs font-bold uppercase text-slate-800 tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full" />
-                        Stress-Strain Curve (ASTM D638 / ISO 527)
-                      </div>
-                      <svg viewBox="0 0 600 400" className="w-full h-auto font-sans">
-                        <g stroke="#F1F5F9" strokeWidth="1.5">
-                          {[40, 80, 120, 160, 200, 240, 280, 320, 360].map(y => (
-                            <line key={y} x1="55" y1={y} x2="560" y2={y} />
-                          ))}
-                          {[120, 185, 250, 315, 380, 445, 510].map(x => (
-                            <line key={x} x1={x} y1="30" x2={x} y2="360" />
-                          ))}
-                        </g>
-                        <g stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round">
-                          <line x1="55" y1="360" x2="565" y2="360" />
-                          <line x1="55" y1="25" x2="55" y2="360" />
-                        </g>
-                        <text x="310" y="390" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" letterSpacing="1">STRAIN &epsilon; (%)</text>
-                        <text x="20" y="195" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" letterSpacing="1" transform="rotate(-90, 20, 195)">STRESS &sigma; (MPa)</text>
-                        <line x1="120" y1="30" x2="120" y2="360" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="4,4" />
-                        <line x1="250" y1="30" x2="250" y2="360" stroke="#CBD5E1" strokeWidth="1.5" strokeDasharray="4,4" />
-                        <text x="87" y="45" textAnchor="middle" fontSize="9" fontWeight="600" fill="#64748B">Elastic Region</text>
-                        <text x="185" y="45" textAnchor="middle" fontSize="9" fontWeight="600" fill="#64748B">Necking / Drawing</text>
-                        <text x="380" y="45" textAnchor="middle" fontSize="9" fontWeight="600" fill="#64748B">Strain Hardening</text>
-                        <path
-                          d="M 55,360 Q 90,160 120,150 T 200,210 T 350,210 Q 480,180 520,110"
-                          fill="none"
-                          stroke="#2563EB"
-                          strokeWidth="3.5"
-                          strokeLinecap="round"
-                        />
-                        <circle cx="120" cy="150" r="5" fill="#EA580C" stroke="#FFF" strokeWidth="2" />
-                        <text x="128" y="145" fontSize="10" fontWeight="bold" fill="#EA580C">Yield Point (&sigma;y)</text>
-                        <circle cx="520" cy="110" r="5" fill="#15803D" stroke="#FFF" strokeWidth="2" />
-                        <text x="400" y="105" fontSize="10" fontWeight="bold" fill="#15803D">Ultimate Strength (&sigma;uts)</text>
-                      </svg>
-                      <figcaption className="mt-3 text-xs font-mono text-slate-500 text-center">
-                        Material: <strong>{material}</strong> | Stress-Strain behaviour under uniaxial tensile load.
-                      </figcaption>
-                    </figure>
-                  )
+                  return <InteractiveStressStrainGraph material={material} />
+                }
+
+                // Interactive Melt Rheology Graph
+                if (lang === 'graph-viscosity' || lang === 'graph-rheology') {
+                  return <InteractiveRheologyGraph />
                 }
 
                 // DSC Thermogram Graph
