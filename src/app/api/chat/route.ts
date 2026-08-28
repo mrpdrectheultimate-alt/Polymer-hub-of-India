@@ -16,34 +16,51 @@ export async function POST(req: NextRequest) {
     const supabase = createClient()
     const { data: { session } } = await supabase.auth.getSession()
 
+    let isGuest = false
+    let isPremium = false
+    let guestQueriesUsed = 0
+    let userQueriesToday = 0
+
     if (!session) {
-      return NextResponse.json({ error: 'Sign in to use the AI Tutor.' }, { status: 401 })
-    }
+      isGuest = true
+      const guestCookie = req.cookies.get('ph_guest_ai_count')?.value
+      guestQueriesUsed = guestCookie ? parseInt(guestCookie, 10) : 0
+      if (isNaN(guestQueriesUsed)) guestQueriesUsed = 0
 
-    // ── Check + enforce query limit ──────────────────────────────────────────
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('ai_queries_today, ai_queries_reset_at, subscription_status')
-      .eq('id', session.user.id)
-      .single()
-
-    const isPremium = profile?.subscription_status === 'premium'
-
-    if (!isPremium) {
-      const now = new Date()
-      const resetAt = profile?.ai_queries_reset_at ? new Date(profile.ai_queries_reset_at) : null
-      const needsReset = !resetAt || now.toDateString() !== resetAt.toDateString()
-
-      if (needsReset) {
-        await supabase.from('profiles').update({
-          ai_queries_today: 0,
-          ai_queries_reset_at: now.toISOString(),
-        }).eq('id', session.user.id)
-      } else if ((profile?.ai_queries_today ?? 0) >= 15) {
+      if (guestQueriesUsed >= 3) {
         return NextResponse.json(
-          { error: 'Daily limit of 15 queries reached. Upgrade to Premium for unlimited queries.' },
-          { status: 429 }
+          { error: 'You have used your 3 free guest queries. Create a free account to continue asking questions.', guestLimitReached: true },
+          { status: 403 }
         )
+      }
+    } else {
+      // ── Check + enforce logged-in user query limit ───────────────────────────
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('ai_queries_today, ai_queries_reset_at, subscription_status')
+        .eq('id', session.user.id)
+        .single()
+
+      isPremium = profile?.subscription_status === 'premium'
+      userQueriesToday = profile?.ai_queries_today ?? 0
+
+      if (!isPremium) {
+        const now = new Date()
+        const resetAt = profile?.ai_queries_reset_at ? new Date(profile.ai_queries_reset_at) : null
+        const needsReset = !resetAt || now.toDateString() !== resetAt.toDateString()
+
+        if (needsReset) {
+          userQueriesToday = 0
+          await supabase.from('profiles').update({
+            ai_queries_today: 0,
+            ai_queries_reset_at: now.toISOString(),
+          }).eq('id', session.user.id)
+        } else if (userQueriesToday >= 15) {
+          return NextResponse.json(
+            { error: 'Daily limit of 15 queries reached. Upgrade to Premium for unlimited queries.' },
+            { status: 429 }
+          )
+        }
       }
     }
 
@@ -211,13 +228,30 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
     }
 
     // ── Update query count ────────────────────────────────────────────────────
-    if (!isPremium) {
+    if (session && !isPremium) {
       await supabase.from('profiles')
-        .update({ ai_queries_today: (profile?.ai_queries_today ?? 0) + 1 })
+        .update({ ai_queries_today: userQueriesToday + 1 })
         .eq('id', session.user.id)
     }
 
-    return NextResponse.json({ answer, sources })
+    const res = NextResponse.json({
+      answer,
+      sources,
+      isGuest,
+      guestQueriesUsed: isGuest ? guestQueriesUsed + 1 : undefined,
+      guestQueriesLeft: isGuest ? Math.max(0, 3 - (guestQueriesUsed + 1)) : undefined,
+    })
+
+    if (isGuest) {
+      res.cookies.set('ph_guest_ai_count', String(guestQueriesUsed + 1), {
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+      })
+    }
+
+    return res
 
   } catch (error) {
     console.error('Chat API error:', error)
