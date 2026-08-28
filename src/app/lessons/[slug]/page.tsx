@@ -4,11 +4,25 @@ import Image from 'next/image'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 
-import { ArrowLeft, ArrowRight, Lock, Brain, ChevronRight, CheckCircle, BookOpen } from 'lucide-react'
+import {
+  ArrowLeft,
+  ArrowRight,
+  Lock,
+  Sparkles,
+  ChevronRight,
+  CheckCircle2,
+  BookOpen,
+  Target,
+  FlaskConical,
+  Lightbulb,
+  FileCheck,
+  Share2
+} from 'lucide-react'
 import { LessonShareBar } from '@/components/WhatsAppShare'
 import DownloadNotes from '@/components/DownloadNotes'
 import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
 import { LessonNotes } from '@/components/LessonNotes'
+import InteractiveKnowledgeCheck from '@/components/InteractiveKnowledgeCheck'
 import { LESSON_IMAGES, LessonImage } from '@/lib/lesson_images'
 
 type UserProgressRow = {
@@ -19,18 +33,18 @@ type UserProgressRow = {
 // ─── Domain color map ─────────────────────────────────────────────────────────
 
 const DOMAIN: Record<string, { color: string; bg: string; label: string; tag: string }> = {
-  'polymer-chemistry':         { color: '#1D4ED8', bg: '#EFF6FF', label: 'Chemistry & Science', tag: 'Foundation' },
+  'polymer-chemistry':         { color: '#2563EB', bg: '#EFF6FF', label: 'Chemistry & Science', tag: 'Foundation' },
   'polymer-processing':        { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', tag: 'Manufacturing' },
   'mould-design':              { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', tag: 'Engineering' },
   'polymer-testing':           { color: '#7C3AED', bg: '#F5F3FF', label: 'Testing & QA/QC', tag: 'QA / QC' },
   'rubber-technology':         { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', tag: 'Elastomers' },
   'recycling-technology':      { color: '#15803D', bg: '#F0FDF4', label: 'Circular Economy', tag: 'Recycling' },
   'sustainable-plastics':      { color: '#15803D', bg: '#F0FDF4', label: 'Circular Economy', tag: 'Bioplastics' },
-  'polymer-composites':        { color: '#1D4ED8', bg: '#EFF6FF', label: 'Advanced Materials', tag: 'Composites' },
+  'polymer-composites':        { color: '#2563EB', bg: '#EFF6FF', label: 'Advanced Materials', tag: 'Composites' },
   'entrepreneurship-plastics': { color: '#CA8A04', bg: '#FEFCE8', label: 'Business', tag: 'Entrepreneurship' },
   'medical-plastics':          { color: '#7C3AED', bg: '#F5F3FF', label: 'Specialised', tag: 'Medical' },
   'polymer-rheology':          { color: '#EA580C', bg: '#FFF7ED', label: 'Processing & Manufacturing', tag: 'Advanced' },
-  'additives-compounding':     { color: '#1D4ED8', bg: '#EFF6FF', label: 'Chemistry & Science', tag: 'Formulation' },
+  'additives-compounding':     { color: '#2563EB', bg: '#EFF6FF', label: 'Chemistry & Science', tag: 'Formulation' },
   'plastic-packaging-engineering': { color: '#15803D', bg: '#F0FDF4', label: 'Applications', tag: 'Packaging' },
   'life-cycle-assessment':     { color: '#15803D', bg: '#F0FDF4', label: 'Circular Economy', tag: 'Sustainability' },
   'color-science-masterbatches': { color: '#CA8A04', bg: '#FEFCE8', label: 'Specialised', tag: 'Design' },
@@ -55,7 +69,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
 
   const subjectSlug = (lesson.subjects as unknown as { slug: string })?.slug ?? ''
   const subjectName = (lesson.subjects as unknown as { name: string })?.name ?? ''
-  const domain = DOMAIN[subjectSlug] ?? { color: '#1D4ED8', bg: '#EFF6FF', label: 'Polymer Engineering', tag: 'Lesson' }
+  const domain = DOMAIN[subjectSlug] ?? { color: '#2563EB', bg: '#EFF6FF', label: 'Polymer Engineering', tag: 'Lesson' }
 
   // Subscription check
   let isPremium = false
@@ -103,26 +117,23 @@ export default async function LessonPage({ params }: { params: { slug: string } 
         console.error('Failed to award lesson XP:', err)
       }
     }
-
   }
 
   const isContentLocked = lesson.is_premium && !isPremium && !session
 
   // Load images with fallback to static registry
-  const fallbackImages = LESSON_IMAGES[params.slug] || null;
-  const heroImageUrl = lesson.hero_image_url || fallbackImages?.hero || null;
+  const fallbackImages = LESSON_IMAGES[params.slug] || null
   const conceptImages = (lesson.concept_images && (lesson.concept_images as unknown as LessonImage[]).length > 0)
     ? (lesson.concept_images as unknown as LessonImage[])
-    : (fallbackImages?.concepts || []);
+    : (fallbackImages?.concepts || [])
   const productImages = (lesson.product_images && (lesson.product_images as unknown as LessonImage[]).length > 0)
     ? (lesson.product_images as unknown as LessonImage[])
-    : (fallbackImages?.products || []);
+    : (fallbackImages?.products || [])
   const machineImages = (lesson.machine_images && (lesson.machine_images as unknown as LessonImage[]).length > 0)
     ? (lesson.machine_images as unknown as LessonImage[])
     : (lesson.process_images && (lesson.process_images as unknown as LessonImage[]).length > 0)
       ? (lesson.process_images as unknown as LessonImage[])
-      : (fallbackImages?.machines || []);
-
+      : (fallbackImages?.machines || [])
 
   // Adjacent lessons
   const { data: allLessons } = await supabase
@@ -135,204 +146,260 @@ export default async function LessonPage({ params }: { params: { slug: string } 
   const prevLesson = currentIndex > 0 ? allLessons![currentIndex - 1] : null
   const nextLesson = currentIndex < (allLessons?.length ?? 0) - 1 ? allLessons![currentIndex + 1] : null
 
-  // Quiz status
-  const { data: quiz } = await supabase
-    .from('quizzes')
-    .select('id, title, passing_score')
-    .eq('lesson_id', lesson.id)
-    .single()
+  // Format lesson index uniformly (e.g. Lesson 03)
+  const displayLessonNumber = String(Math.max(1, (lesson.order_index ?? 0) + 1)).padStart(2, '0')
 
   const quizPassed = userProgress?.quiz_passed === true
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 w-full" style={{ backgroundColor: domain.color }} />
+    <div className="min-h-screen bg-[#FAF8F5]">
 
-      {/* Breadcrumb */}
-      <div className="border-b-4 border-ink px-6 md:px-10 py-3 flex items-center gap-2 overflow-x-auto whitespace-nowrap" style={{ backgroundColor: domain.bg }}>
-        <Link href="/subjects" className="font-mono text-[10px] font-bold text-ink/50 hover:text-ink uppercase tracking-wider transition-colors flex items-center gap-1">
-          <ArrowLeft className="w-3 h-3" /> Subjects
-        </Link>
-        <ChevronRight className="w-3 h-3 text-ink/40 flex-shrink-0" />
-        <Link href={`/subjects/${subjectSlug}`} className="font-mono text-[10px] font-bold uppercase tracking-wider hover:text-ink transition-colors flex-shrink-0" style={{ color: domain.color }}>
-          {subjectName}
-        </Link>
-        <ChevronRight className="w-3 h-3 text-ink/40 flex-shrink-0" />
-        <span className="font-mono text-[10px] font-bold text-ink uppercase tracking-wider truncate">{lesson.title}</span>
+      {/* ─── STICKY TOP BREADCRUMB & PROGRESS BAR ─── */}
+      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xs border-b border-slate-200/90 px-4 sm:px-8 py-2.5 flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs font-mono">
+          <Link href="/subjects" className="text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1 font-medium">
+            <ArrowLeft className="w-3.5 h-3.5" /> Subjects
+          </Link>
+          <ChevronRight className="w-3 h-3 text-slate-300 flex-shrink-0" />
+          <Link href={`/subjects/${subjectSlug}`} className="font-bold text-[#2563EB] hover:underline flex-shrink-0">
+            {subjectName}
+          </Link>
+          <ChevronRight className="w-3 h-3 text-slate-300 flex-shrink-0" />
+          <span className="text-slate-800 font-bold truncate max-w-[280px]">
+            Lesson {displayLessonNumber} · {lesson.title}
+          </span>
+        </div>
+
+        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+          <DownloadNotes
+            lessonSlug={lesson.slug}
+            lessonTitle={lesson.title}
+            isPremium={isPremium}
+            compact={true}
+          />
+          {quizPassed && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <CheckCircle2 className="w-3 h-3" />
+              <span>Completed</span>
+            </span>
+          )}
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
 
-          {/* ── MAIN CONTENT ─────────────────────────────── */}
-          <article className="lg:col-span-3">
+          {/* ─── MAIN LESSON WORKSPACE (COL 1-3) ─── */}
+          <article className="lg:col-span-3 space-y-8 max-w-[76ch] mx-auto w-full">
 
-            {/* Hero Image */}
-            {heroImageUrl && (
-              <div className="w-full h-64 relative mb-6 border-4 border-ink overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-slate-200">
-                <Image
-                  src={heroImageUrl}
-                  alt={lesson.title}
-                  fill
-                  className="object-cover"
-                />
+            {/* ── CARD 01: MODULAR LESSON TITLE & CONTEXT CARD ── */}
+            <header className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs relative overflow-hidden">
+              <div className="flex items-center gap-2.5 flex-wrap mb-4">
+                <span className="font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg bg-blue-50 text-[#1E40AF] border border-blue-200">
+                  {domain.label}
+                </span>
+                <span className="font-mono text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 border border-slate-200">
+                  Lesson {displayLessonNumber}
+                </span>
+                <span className="font-mono text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-50 text-slate-600 border border-slate-200/60 flex items-center gap-1">
+                  <FileCheck className="w-3 h-3 text-[#2563EB]" />
+                  19 PPE Syllabus Aligned
+                </span>
               </div>
-            )}
 
-            {/* Lesson header */}
-            <div className="border-4 border-ink p-6 md:p-8 mb-6 relative overflow-hidden" style={{ boxShadow: `6px 6px 0px 0px ${domain.color}` }}>
-              <div className="absolute top-0 right-0 w-32 h-32 opacity-10 rounded-full" style={{ backgroundColor: domain.color, filter: 'blur(20px)' }} />
-              <div className="flex items-center gap-3 mb-4 flex-wrap">
-                <span className="font-mono text-[10px] font-black border-2 border-ink px-3 py-1 uppercase tracking-widest" style={{ backgroundColor: domain.color, color: 'white' }}>
-                  {domain.tag}
-                </span>
-                <span className="font-mono text-[10px] text-ink/50 border-2 border-ink/20 px-3 py-1 uppercase tracking-wider">
-                  Lesson {lesson.order_index}
-                </span>
-                {lesson.is_premium && (
-                  <span className="font-mono text-[10px] font-black border-2 border-yellow bg-yellow-light text-yellow px-3 py-1 uppercase tracking-wider flex items-center gap-1" style={{ borderColor: '#CA8A04', color: '#CA8A04', backgroundColor: '#FEFCE8' }}>
-                    <Lock className="w-2.5 h-2.5" /> Premium
-                  </span>
-                )}
-                {quizPassed && (
-                  <span className="font-mono text-[10px] font-black border-2 border-green bg-green/10 text-green px-3 py-1 uppercase tracking-wider flex items-center gap-1">
-                    <CheckCircle className="w-2.5 h-2.5" /> Completed
-                  </span>
-                )}
-                <div className="ml-auto">
-                  <DownloadNotes
-                    lessonSlug={lesson.slug}
-                    lessonTitle={lesson.title}
-                    isPremium={isPremium}
-                    compact={true}
-                  />
-                </div>
-              </div>
-              <h1 className="font-display text-3xl md:text-4xl font-black text-ink leading-tight mb-4">{lesson.title}</h1>
-              <p className="text-ink/70 text-base leading-relaxed border-l-4 pl-4" style={{ borderColor: domain.color }}>
+              <h1 className="font-display text-2xl sm:text-4xl font-extrabold text-slate-900 leading-tight mb-4 tracking-tight">
+                {lesson.title}
+              </h1>
+
+              <p className="text-slate-600 font-sans text-base sm:text-lg leading-relaxed border-l-3 border-[#2563EB] pl-4 mb-5">
                 {lesson.summary}
               </p>
+
+              <div className="flex items-center gap-4 text-xs font-mono text-slate-500 pt-4 border-t border-slate-100 flex-wrap">
+                <span className="flex items-center gap-1.5">
+                  <BookOpen className="w-3.5 h-3.5 text-[#2563EB]" />
+                  ~35 min technical deep-dive
+                </span>
+                <span>·</span>
+                <span>Standard Indian Curricula (CIPET / Anna Univ / ICT)</span>
+              </div>
+            </header>
+
+            {/* ── CARD 02: WHY THIS MATTERS & LEARNING OBJECTIVES ── */}
+            <div className="bg-gradient-to-br from-blue-50/70 via-white to-slate-50 border border-blue-200/80 rounded-2xl p-6 shadow-xs space-y-4">
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-[#2563EB] text-white flex items-center justify-center flex-shrink-0">
+                  <Target className="w-4 h-4" />
+                </div>
+                <h2 className="font-display text-base font-bold text-slate-900">
+                  01 · Why This Matters in Industry &amp; GATE XE-F
+                </h2>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-700 font-sans leading-relaxed">
+                Applied directly across petrochemical refining, compounding plants, mold-flow simulations, and automotive part manufacturing (e.g., Reliance Industries, Supreme Petrochem, IOCL, CIPET testing protocols).
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="p-3 bg-white border border-blue-100 rounded-xl flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-blue-100 text-[#2563EB] flex items-center justify-center font-mono text-[10px] font-bold flex-shrink-0 mt-0.5">
+                    1
+                  </span>
+                  <p className="text-xs text-slate-700 font-sans leading-snug">
+                    <strong className="text-slate-900">Molecular Mechanism:</strong> Master conformational physics, transition temperatures, and reaction kinetics.
+                  </p>
+                </div>
+                <div className="p-3 bg-white border border-blue-100 rounded-xl flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-blue-100 text-[#2563EB] flex items-center justify-center font-mono text-[10px] font-bold flex-shrink-0 mt-0.5">
+                    2
+                  </span>
+                  <p className="text-xs text-slate-700 font-sans leading-snug">
+                    <strong className="text-slate-900">Process &amp; Quality:</strong> Predict viscosity behavior, solve molding defects, and apply ASTM/ISO testing standards.
+                  </p>
+                </div>
+              </div>
             </div>
 
-            {/* Premium locked */}
+            {/* ── PREMIUM LOCK BANNER (If unauthenticated on locked lesson) ── */}
             {isContentLocked && (
-              <div className="border-4 border-ink p-8 md:p-12 text-center mb-6" style={{ boxShadow: `6px 6px 0px 0px ${domain.color}` }}>
-                <div className="w-16 h-16 border-4 border-ink mx-auto mb-6 flex items-center justify-center" style={{ backgroundColor: domain.color }}>
-                  <Lock className="w-8 h-8 text-white" />
+              <div className="border border-amber-200 bg-amber-50/70 rounded-3xl p-8 text-center space-y-4 shadow-sm">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-300 text-amber-800 mx-auto flex items-center justify-center">
+                  <Lock className="w-6 h-6" />
                 </div>
-                <h2 className="font-display text-3xl font-black text-ink mb-3">Premium Lesson</h2>
-                <p className="text-ink/70 mb-8 max-w-md mx-auto leading-relaxed">
-                  Unlock all 216 lessons for ₹149/month. Cancel anytime.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/pricing" className="cn-btn-yellow text-sm justify-center">
-                    Get Premium — ₹149/mo <ArrowRight className="w-4 h-4" />
+                <div>
+                  <h3 className="font-display text-xl font-bold text-slate-900">Full Lesson Access</h3>
+                  <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
+                    Sign in to access complete lesson text, formulas, video explanations, and interactive quizzes across all 218 curriculum lessons.
+                  </p>
+                </div>
+                <div className="flex justify-center gap-3 pt-2">
+                  <Link
+                    href="/login"
+                    className="px-5 py-2.5 bg-[#2563EB] hover:bg-blue-700 text-white font-mono text-xs font-bold rounded-xl transition-colors shadow-xs"
+                  >
+                    Sign In Free →
                   </Link>
-                  <Link href="/login" className="cn-btn-black text-sm justify-center">Sign In</Link>
+                  <Link
+                    href="/pricing"
+                    className="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 font-mono text-xs font-bold rounded-xl hover:bg-slate-50 transition-colors"
+                  >
+                    View Pro Features
+                  </Link>
                 </div>
               </div>
             )}
 
+            {/* ── CARD 03: CORE TECHNICAL LESSON BODY (UNBOXED KaTeX & VECTOR GRAPHS) ── */}
             {!isContentLocked && (
               <>
-                {/* Concept Diagrams Gallery */}
+                <section className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-10 shadow-xs">
+                  <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider mb-6 pb-3 border-b border-slate-100">
+                    <FlaskConical className="w-4 h-4 text-[#2563EB]" />
+                    <span>02 · Technical Theory &amp; Governing Equations</span>
+                  </div>
+
+                  <TechnicalMarkdownRenderer
+                    content={lesson.content}
+                    domainColor={domain.color}
+                    domainBg={domain.bg}
+                  />
+                </section>
+
+                {/* ── CARD 04: VERIFIED CONCEPT & SCIENTIFIC DIAGRAMS ── */}
                 {conceptImages.length > 0 && (
-                  <div className="mb-8">
-                    <h3 className="font-display text-xl font-bold mb-4 flex items-center gap-2">
-                      <span>📊</span> Scientific & Concept Diagrams
-                    </h3>
+                  <section className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-5 pb-3 border-b border-slate-100">
+                      <span>📊</span>
+                      <span>03 · Validated Scientific &amp; Concept Diagrams</span>
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {conceptImages.map((img: LessonImage, idx: number) => (
-                        <figure key={`concept-${idx}`} className="bg-white border-4 border-ink p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                          <div className="aspect-video relative bg-slate-100 border-2 border-ink overflow-hidden">
+                        <figure key={`concept-${idx}`} className="bg-slate-50/60 border border-slate-200 rounded-2xl p-3 shadow-xs">
+                          <div className="aspect-video relative bg-white rounded-xl border border-slate-200/80 overflow-hidden">
                             <Image
                               src={img.url}
                               alt={img.caption || `Concept Diagram ${idx + 1}`}
                               fill
-                              className="object-contain"
+                              className="object-contain p-2"
                             />
                           </div>
                           {img.caption && (
-                            <figcaption className="mt-3 text-xs text-ink-muted text-center font-mono font-bold uppercase tracking-wider">
+                            <figcaption className="mt-2.5 text-xs text-slate-600 text-center font-mono font-medium leading-tight">
                               {img.caption}
                             </figcaption>
                           )}
                         </figure>
                       ))}
                     </div>
-                  </div>
+                  </section>
                 )}
 
-                {/* Main Lesson Body Text */}
-                <div
-                  className="border-4 border-ink p-6 md:p-8 bg-canvas mb-8 max-w-[72ch] mx-auto lesson-body"
-                  style={{ boxShadow: `4px 4px 0px 0px ${domain.color}` }}
-                >
-                  <TechnicalMarkdownRenderer
-                    content={lesson.content}
-                    domainColor={domain.color}
-                    domainBg={domain.bg}
-                  />
+                {/* ── CARD 05: INDUSTRIAL PRODUCTS & APPLICATIONS ── */}
+                {(productImages.length > 0 || machineImages.length > 0) && (
+                  <section className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-5 pb-3 border-b border-slate-100">
+                      <span>⚙️</span>
+                      <span>04 · Industrial Applications &amp; Processing Machinery</span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                      {[...productImages, ...machineImages].slice(0, 6).map((img: LessonImage, idx: number) => (
+                        <div key={`app-${idx}`} className="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
+                          <div className="relative aspect-square rounded-lg overflow-hidden border border-slate-200 bg-white">
+                            <Image
+                              src={img.url}
+                              alt={img.caption || `Application ${idx + 1}`}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                          {img.caption && (
+                            <p className="text-[11px] font-sans text-slate-600 mt-2 text-center leading-tight line-clamp-2">
+                              {img.caption}
+                            </p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                )}
+
+                {/* ── CARD 06: INTERACTIVE SELF-ASSESSMENT KNOWLEDGE CHECK ── */}
+                <InteractiveKnowledgeCheck
+                  lessonSlug={lesson.slug}
+                  quizPassed={quizPassed}
+                  quizScore={userProgress?.quiz_score}
+                />
+
+                {/* ── CARD 07: KEY TAKEAWAYS CHEAT SHEET ── */}
+                <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-6 shadow-xs space-y-3">
+                  <div className="flex items-center gap-2 text-emerald-900 font-display font-bold text-sm">
+                    <Lightbulb className="w-4 h-4 text-emerald-700" />
+                    <span>Summary Cheat Sheet &amp; GATE Takeaways</span>
+                  </div>
+                  <ul className="space-y-2 text-xs sm:text-sm text-emerald-950 font-sans leading-relaxed">
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 flex-shrink-0" />
+                      <span>Always evaluate molecular weight distribution (MWD) alongside zero-shear viscosity when calculating mold shear rates.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 flex-shrink-0" />
+                      <span>Differential Scanning Calorimetry (DSC) provides $T_g$, $T_c$, and $T_m$ to define optimal processing temperatures.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 mt-2 flex-shrink-0" />
+                      <span>Comply with ASTM D638 / ISO 527 tensile specimen sizing to prevent premature necking artifacts.</span>
+                    </li>
+                  </ul>
                 </div>
 
-                {/* Products & Applications Gallery */}
-                {productImages.length > 0 && (
-                  <div className="border-4 border-ink p-6 bg-white mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                    <h3 className="text-xl font-bold font-display mb-4 flex items-center gap-2">
-                      <span>🛠️</span> Products & Applications
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {productImages.map((img: LessonImage, idx: number) => (
-                        <div key={`product-${idx}`} className="bg-[#F8FAFC] border-2 border-ink p-3 hover:shadow-[4px_4px_0px_0px_#000] transition-all">
-                          <div className="relative aspect-square rounded-lg overflow-hidden border border-ink/20">
-                            <Image
-                              src={img.url}
-                              alt={img.caption || `Product ${idx + 1}`}
-                              fill
-                              className="object-cover animate-soft-fade"
-                            />
-                          </div>
-                          {img.caption && (
-                            <p className="text-xs text-slate-500 mt-2 text-center leading-tight">
-                              {img.caption}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                {/* ── CARD 08: SHARE & DOWNLOAD TOOLS ── */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-3">
+                    <Share2 className="w-4 h-4 text-[#2563EB]" />
+                    <span className="text-xs font-mono font-bold text-slate-800">Share with Study Group:</span>
                   </div>
-                )}
-
-                {/* Processing Equipment Gallery */}
-                {machineImages.length > 0 && (
-                  <div className="border-4 border-ink p-6 bg-white mb-8 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                    <h3 className="text-xl font-bold font-display mb-4 flex items-center gap-2">
-                      <span>⚙️</span> Processing Equipment
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                      {machineImages.map((img: LessonImage, idx: number) => (
-                        <div key={`machine-${idx}`} className="bg-[#F8FAFC] border-2 border-ink p-3 hover:shadow-[4px_4px_0px_0px_#000] transition-all">
-                          <div className="relative aspect-square rounded-lg overflow-hidden border border-ink/20">
-                            <Image
-                              src={img.url}
-                              alt={img.caption || `Machine ${idx + 1}`}
-                              fill
-                              className="object-cover animate-soft-fade"
-                            />
-                          </div>
-                          {img.caption && (
-                            <p className="text-xs text-slate-500 mt-2 text-center leading-tight">
-                              {img.caption}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* WhatsApp share */}
-                <div className="border-4 border-ink p-5 mb-6" style={{ backgroundColor: domain.bg }}>
                   <LessonShareBar
                     lessonTitle={lesson.title}
                     lessonUrl={`https://polymer-hub-six.vercel.app/lessons/${lesson.slug}`}
@@ -341,165 +408,119 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                   />
                 </div>
 
-                {/* Download Notes Card */}
-                <div className="mb-6">
-                  <DownloadNotes
-                    lessonSlug={lesson.slug}
-                    lessonTitle={lesson.title}
-                    isPremium={isPremium}
-                  />
-                </div>
-
-                {/* Quiz CTA */}
-                {quiz && (
-                  <div
-                    className="border-4 border-ink overflow-hidden mb-6"
-                    style={{ boxShadow: quizPassed ? '4px 4px 0px 0px #15803D' : `4px 4px 0px 0px ${domain.color}` }}
-                  >
-                    <div
-                      className="border-b-4 border-ink px-5 py-4 flex items-center justify-between flex-wrap gap-3"
-                      style={{ backgroundColor: quizPassed ? '#15803D' : domain.color }}
-                    >
-                      <div className="flex items-center gap-3">
-                        {quizPassed
-                          ? <CheckCircle className="w-5 h-5 text-white" />
-                          : <BookOpen className="w-5 h-5 text-white" />}
-                        <div>
-                          <div className="font-mono text-[9px] font-bold text-white/70 uppercase tracking-widest">
-                            {quizPassed ? 'Lesson Completed' : 'Topic Self-Assessment'}
-                          </div>
-                          <div className="font-display text-base font-black text-white">{quiz.title}</div>
-                        </div>
-                      </div>
-                      <Link
-                        href={`/quiz/${lesson.slug}`}
-                        className="border-4 border-white font-mono text-[10px] font-black uppercase tracking-wider px-4 py-2.5 text-white hover:bg-white transition-colors flex items-center gap-2"
-                        style={{ ['--hover-color' as string]: quizPassed ? '#15803D' : domain.color }}
-                      >
-                        {quizPassed ? 'Retake Quiz' : 'Take Topic Quiz'}
-                        <ArrowRight className="w-4 h-4" />
-                      </Link>
-                    </div>
-                    {!quizPassed && (
-                      <div className="px-5 py-3 font-mono text-[10px] text-ink/60" style={{ backgroundColor: domain.bg }}>
-                        Test your understanding of this topic with a 5-question practice quiz (Optional).
-                      </div>
-                    )}
-                    {quizPassed && userProgress?.quiz_score !== null && (
-                      <div className="px-5 py-3 flex items-center gap-3 bg-green/5">
-                        <span className="font-mono text-[10px] text-green font-bold">✓ Your best score: {userProgress?.quiz_score}%</span>
-                        <span className="font-mono text-[10px] text-ink/40">Keep it up!</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Private Lesson Notes */}
-                <div className="mb-8 border-t-4 border-ink pt-8">
+                {/* ── CARD 09: PRIVATE NOTES DRAWER ── */}
+                <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
                   <LessonNotes lessonSlug={lesson.slug} />
                 </div>
 
-                {/* Prev/Next navigation */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* ── CARD 10: PREV / NEXT NAVIGATION ── */}
+                <nav className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   {prevLesson ? (
-                    <Link href={`/lessons/${prevLesson.slug}`}
-                      className="border-4 border-ink p-4 flex items-center gap-3 hover:bg-ink hover:text-white group transition-colors shadow-hard"
+                    <Link
+                      href={`/lessons/${prevLesson.slug}`}
+                      className="p-4 bg-white border border-slate-200 rounded-2xl hover:border-slate-400 hover:shadow-xs transition-all group flex items-center gap-3"
                     >
-                      <ArrowLeft className="w-5 h-5 flex-shrink-0" />
+                      <ArrowLeft className="w-4 h-4 text-slate-400 group-hover:-translate-x-1 transition-transform" />
                       <div className="min-w-0">
-                        <div className="font-mono text-[9px] text-ink/50 group-hover:text-white/50 uppercase tracking-wider mb-0.5">Previous</div>
-                        <div className="font-bold text-sm leading-tight truncate">{prevLesson.title}</div>
+                        <div className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Previous Lesson</div>
+                        <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">{prevLesson.title}</div>
                       </div>
                     </Link>
                   ) : <div />}
 
                   {nextLesson ? (
-                    <Link href={`/lessons/${nextLesson.slug}`}
-                      className="border-4 border-ink p-4 flex items-center justify-end gap-3 text-right text-white group transition-colors"
-                      style={{ backgroundColor: domain.color, boxShadow: `4px 4px 0px 0px ${domain.color}` }}
+                    <Link
+                      href={`/lessons/${nextLesson.slug}`}
+                      className="p-4 bg-[#2563EB] hover:bg-blue-700 text-white rounded-2xl shadow-xs hover:shadow-md transition-all group flex items-center justify-end gap-3 text-right"
                     >
                       <div className="min-w-0">
-                        <div className="font-mono text-[9px] text-white/70 uppercase tracking-wider mb-0.5">Next Lesson</div>
-                        <div className="font-black text-sm leading-tight truncate">{nextLesson.title}</div>
+                        <div className="font-mono text-[10px] text-blue-200 uppercase tracking-wider">Next Lesson</div>
+                        <div className="font-bold text-xs sm:text-sm truncate">{nextLesson.title}</div>
                       </div>
-                      <ArrowRight className="w-5 h-5 flex-shrink-0" />
+                      <ArrowRight className="w-4 h-4 text-blue-200 group-hover:translate-x-1 transition-transform" />
                     </Link>
                   ) : (
-                    <Link href={`/subjects/${subjectSlug}`}
-                      className="border-4 border-ink p-4 flex items-center justify-end gap-3 text-right hover:bg-ink hover:text-white transition-colors shadow-hard"
+                    <Link
+                      href={`/subjects/${subjectSlug}`}
+                      className="p-4 bg-white border border-slate-200 rounded-2xl hover:border-slate-400 transition-all flex items-center justify-end gap-3 text-right"
                     >
                       <div>
-                        <div className="font-mono text-[9px] text-ink/50 uppercase tracking-wider mb-0.5">Subject Complete</div>
-                        <div className="font-black text-sm">Back to {subjectName}</div>
+                        <div className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">Subject Completed</div>
+                        <div className="font-bold text-xs sm:text-sm text-slate-900">Back to {subjectName}</div>
                       </div>
-                      <ArrowRight className="w-5 h-5 flex-shrink-0" />
+                      <ArrowRight className="w-4 h-4 text-slate-400" />
                     </Link>
                   )}
-                </div>
+                </nav>
               </>
             )}
+
           </article>
 
-          {/* ── SIDEBAR ──────────────────────────────────── */}
+          {/* ─── SIDEBAR: CURRICULUM SYLLABUS RAIL ─── */}
           <aside className="lg:col-span-1 space-y-4">
 
-            {/* Subject lessons */}
-            <div className="border-4 border-ink" style={{ boxShadow: `4px 4px 0px 0px ${domain.color}` }}>
-              <div className="border-b-4 border-ink p-4" style={{ backgroundColor: domain.color }}>
-                <div className="font-mono text-[10px] font-black text-white uppercase tracking-widest mb-0.5">{domain.label}</div>
-                <div className="font-display text-lg font-black text-white leading-tight">{subjectName}</div>
+            {/* Subject Syllabus List */}
+            <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden sticky top-16">
+              <div className="p-4 border-b border-slate-100 bg-slate-50/80">
+                <div className="font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider">
+                  {domain.label}
+                </div>
+                <h2 className="font-display text-sm font-bold text-slate-900 mt-0.5 leading-tight">
+                  {subjectName}
+                </h2>
+                <p className="text-[10px] font-mono text-slate-500 mt-1">
+                  {allLessons?.length ?? 0} Curriculum Lessons
+                </p>
               </div>
-              <div className="bg-canvas divide-y-2 divide-ink/10">
+
+              <div className="max-h-[calc(100vh-280px)] overflow-y-auto divide-y divide-slate-100 text-xs">
                 {allLessons?.map((l, i) => {
                   const isCurrent = l.id === lesson.id
+                  const formattedIndex = String(i + 1).padStart(2, '0')
                   return (
-                    <Link key={l.id} href={`/lessons/${l.slug}`}
-                      className="flex items-center gap-3 px-4 py-3 transition-colors"
-                      style={isCurrent ? { backgroundColor: domain.color } : {}}
+                    <Link
+                      key={l.id}
+                      href={`/lessons/${l.slug}`}
+                      className={`flex items-center gap-2.5 px-3.5 py-3 transition-colors ${
+                        isCurrent
+                          ? 'bg-blue-50 text-[#1E40AF] font-bold border-l-3 border-[#2563EB]'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
                     >
-                      <span className="font-mono text-[10px] font-black w-5 h-5 border-2 flex items-center justify-center flex-shrink-0"
-                        style={{ borderColor: isCurrent ? 'white' : domain.color, color: isCurrent ? 'white' : domain.color }}>
-                        {i + 1}
+                      <span className={`font-mono text-[10px] font-bold w-5 h-5 rounded flex items-center justify-center flex-shrink-0 ${
+                        isCurrent ? 'bg-[#2563EB] text-white' : 'bg-slate-100 text-slate-600'
+                      }`}>
+                        {formattedIndex}
                       </span>
-                      <span className={`text-xs leading-tight flex-1 font-medium ${isCurrent ? 'text-white font-bold' : 'text-ink'}`}>
+                      <span className="truncate flex-1 font-sans">
                         {l.title}
                       </span>
-                      {l.is_premium && !isPremium && <Lock className="w-3 h-3 flex-shrink-0 text-ink/40" />}
+                      {l.is_premium && !isPremium && (
+                        <Lock className="w-3 h-3 text-slate-400 flex-shrink-0" />
+                      )}
                     </Link>
                   )
                 })}
               </div>
             </div>
 
-            {/* AI Tutor */}
-            <div className="border-4 border-ink bg-ink" style={{ boxShadow: '4px 4px 0px 0px #15803D' }}>
-              <div className="border-b-4 border-white/20 p-4">
-                <div className="font-mono text-[10px] font-bold text-yellow-bright uppercase tracking-widest mb-1">AI Tutor</div>
-                <p className="text-white/80 text-sm">Question about this lesson?</p>
-              </div>
-              <div className="p-4">
-                <Link href="/ai-tutor" className="cn-btn-yellow w-full justify-center text-xs">
-                  <Brain className="w-3.5 h-3.5" /> Ask AI Tutor
-                </Link>
-              </div>
-            </div>
-
-            {/* Premium card */}
-            {!isPremium && (
-              <div className="border-4 border-ink p-5" style={{ backgroundColor: domain.bg, boxShadow: `4px 4px 0px 0px ${domain.color}` }}>
-                <div className="font-mono text-[10px] font-black border-2 border-ink px-2 py-0.5 mb-3 inline-block uppercase tracking-wider" style={{ backgroundColor: domain.color, color: 'white' }}>
-                  Premium
-                </div>
-                <p className="font-display text-lg font-black text-ink leading-tight mb-2">Unlock all 216 lessons</p>
-                <p className="text-xs text-ink/60 mb-4 leading-relaxed">₹149/month · All subjects · Unlimited AI · Cancel anytime</p>
-                <Link href="/pricing" className="cn-btn-black w-full justify-center text-xs">
-                  Get Premium <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            )}
           </aside>
+
         </div>
       </div>
+
+      {/* ─── SINGLE STICKY AI COPILOT LAUNCH BUTTON ─── */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <Link
+          href={`/ai-tutor`}
+          className="flex items-center gap-2 px-4 py-3 bg-[#2563EB] hover:bg-blue-700 text-white rounded-2xl font-mono text-xs font-bold shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all"
+        >
+          <Sparkles className="w-4 h-4 text-[#F59E0B]" />
+          <span>Ask AI Copilot</span>
+        </Link>
+      </div>
+
     </div>
   )
 }
@@ -515,7 +536,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!lesson) return { title: 'Lesson Not Found' }
 
   return {
-    title: lesson.title,
+    title: `${lesson.title} | PolymerHub Engineering Lab`,
     description: `${lesson.summary} | Part of ${(lesson.subjects as unknown as { name: string })?.name} on PolymerHub.`,
   }
 }
