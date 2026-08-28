@@ -35,10 +35,35 @@
 
     --radius: 0.75rem;
 
-    /* ── Typography Aliases ── */
-    --font-body: var(--font-inter);
-    --font-mono: var(--font-jetbrains-mono);
-    --font-display: var(--font-lexend);
+    /* ─── WORLD-CLASS ENGINEERING TYPOGRAPHY SYSTEM ─────────────────── */
+    /* FONT FAMILIES (3-Font Stack + Multilingual Indian Layer) */
+    --font-body: var(--font-body), var(--font-hindi), system-ui, -apple-system, sans-serif;
+    --font-display: var(--font-display), var(--font-hindi), sans-serif;
+    --font-mono: var(--font-mono), monospace;
+
+    /* FLUID TYPE SCALE (Responsive clamp scaling) */
+    --text-display-xl: clamp(3rem, 6vw, 5.5rem);
+    --text-display-lg: clamp(2.5rem, 5vw, 4.5rem);
+    --text-h1: clamp(2rem, 3vw, 3rem);
+    --text-h2: clamp(1.5rem, 2vw, 2.25rem);
+    --text-h3: 1.375rem;
+    --text-body-lg: 1.125rem;
+    --text-body-md: 1rem;       /* Accessible 16px minimum for readable UI */
+    --text-body-sm: 0.875rem;
+    --text-caption: 0.75rem;
+    --text-tech: 0.8125rem;     /* 13px for precision engineering telemetry */
+
+    /* LINE HEIGHT TOKENS */
+    --leading-display: 1.0;
+    --leading-heading: 1.15;
+    --leading-body: 1.7;
+    --leading-ui: 1.5;
+
+    /* TRACKING TOKENS */
+    --tracking-display: -0.035em;
+    --tracking-heading: -0.025em;
+    --tracking-label: 0.06em;
+    --tracking-mono: 0.05em;
 
     --canvas: #FAF8F5;                 /* warm study-friendly canvas background */
     --ink: #111827;                    /* deep off-black */
@@ -66,48 +91,53 @@
   body {
     background-color: var(--canvas);
     color: var(--ink);
-    font-family: var(--font-inter), 'Inter', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: var(--text-body-md);
+    line-height: var(--leading-body);
+    overflow-wrap: break-word;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1 {
-    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
-    font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h1);
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
   }
 
   h2 {
-    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+    letter-spacing: var(--tracking-heading);
   }
 
   h3 {
-    font-family: var(--font-lexend), 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    line-height: 1.2;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--text-h3);
+    line-height: 1.3;
     letter-spacing: -0.015em;
   }
 
   /* Professional Tables and Spacing */
   .tech-table th {
-    font-family: var(--font-inter), sans-serif;
+    font-family: var(--font-body);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.75rem;
+    letter-spacing: var(--tracking-label);
+    font-size: var(--text-caption);
     padding: 0.75rem 1.25rem;
   }
 
   .tech-table td {
-    font-family: var(--font-inter), sans-serif;
+    font-family: var(--font-body);
     padding: 0.875rem 1.25rem;
     line-height: 1.6;
+    font-variant-numeric: tabular-nums;
   }
 
   .tech-table tr:nth-child(even) {
@@ -234,13 +264,16 @@
   }
 
   .cn-quote-text {
-    font-family: var(--font-lora), 'Lora', Georgia, serif;
-    @apply text-4xl md:text-5xl font-black italic leading-tight;
+    font-family: var(--font-display);
+    @apply text-3xl md:text-5xl font-bold italic leading-tight;
+    letter-spacing: var(--tracking-heading);
   }
 
   /* ─── Domain label pill ──────────────────────────────────── */
   .cn-label {
     @apply border-2 border-ink font-mono text-xs font-bold uppercase tracking-widest px-3 py-1 inline-block rounded-md;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
   }
 }
 
@@ -265,55 +298,57 @@
     animation: fadeUp 0.4s ease-out both;
   }
 
-  /* ─── Fraunces display headline helper ───────────────────── */
+  /* ─── Space Grotesk display headline helper ──────────────── */
   .font-display {
-    font-family: 'Space Grotesk', sans-serif !important;
+    font-family: var(--font-display) !important;
   }
 
   .font-mono,
   code, pre,
   [class*="font-mono"] {
-    font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+    font-family: var(--font-mono) !important;
+    font-variant-numeric: tabular-nums;
   }
 
   .text-hero {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 900;
-    line-height: 1.0;
-    letter-spacing: -0.03em;
+    font-family: var(--font-display);
+    font-size: var(--text-display-xl);
+    font-weight: 700;
+    line-height: var(--leading-display);
+    letter-spacing: var(--tracking-display);
   }
 
   .text-display {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.75rem, 3.5vw, 3rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.025em;
+    font-family: var(--font-display);
+    font-size: var(--text-display-lg);
+    font-weight: 700;
+    line-height: var(--leading-heading);
+    letter-spacing: var(--tracking-heading);
   }
 
   .text-heading {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
     font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+    line-height: var(--leading-heading);
+    letter-spacing: var(--tracking-heading);
   }
 
   .lesson-body {
-    font-family: 'Inter', sans-serif;
-    font-size: 17px;
-    line-height: 1.75;
-    color: rgba(10, 10, 10, 0.85);
+    font-family: var(--font-body);
+    font-size: var(--text-body-lg);
+    line-height: var(--leading-body);
+    color: rgba(10, 10, 10, 0.88);
     max-width: 72ch;
   }
 
   .label-mono {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
+    font-family: var(--font-mono);
+    font-size: var(--text-tech);
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: var(--tracking-mono);
+    font-variant-numeric: tabular-nums;
   }
 
   /* ─── Hard shadow utilities ──────────────────────────────── */

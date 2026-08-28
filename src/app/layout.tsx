@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Lexend, JetBrains_Mono, Lora } from 'next/font/google'
-import 'katex/dist/katex.min.css'
+import { Inter, Space_Grotesk, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
@@ -12,27 +11,30 @@ import { PerformanceMonitor } from '@/components/PerformanceMonitor'
 
 const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-inter',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-body',
   display: 'swap',
 })
 
-const lexend = Lexend({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  variable: '--font-lexend',
+  weight: ['500', '700'],
+  variable: '--font-display',
   display: 'swap',
 })
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
+  weight: ['400', '700'],
+  variable: '--font-mono',
   display: 'swap',
 })
 
-const lora = Lora({
-  subsets: ['latin'],
-  variable: '--font-lora',
+const notoDevanagari = Noto_Sans_Devanagari({
+  subsets: ['devanagari'],
+  weight: ['400', '700'],
+  variable: '--font-hindi',
   display: 'swap',
-  style: ['normal', 'italic'],
 })
 
 export const metadata: Metadata = {
@@ -45,7 +47,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${lexend.variable} ${jetbrainsMono.variable} ${lora.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoDevanagari.variable}`}>
       <head>
         {/* JSON-LD Structured Data — helps Google understand the site */}
         <script

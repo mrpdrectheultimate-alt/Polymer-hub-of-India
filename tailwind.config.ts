@@ -11,9 +11,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-lexend)', 'sans-serif'],
-        sans:    ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-jetbrains-mono)', 'monospace'],
+        display: ['var(--font-display)', 'var(--font-hindi)', 'sans-serif'],
+        sans:    ['var(--font-body)', 'var(--font-hindi)', 'system-ui', 'sans-serif'],
+        mono:    ['var(--font-mono)', 'monospace'],
       },
       colors: {
         // ─── PolymerHub v3 — Bold CN-Industrial Palette ──────────────────
