@@ -1,8 +1,8 @@
-﻿// src/components/MeltFlowIndexer.tsx
+// src/components/MeltFlowIndexer.tsx
 'use client'
 
 import { useState } from 'react'
-import { Play, Loader2, Info, CheckCircle } from 'lucide-react'
+import { Play, Loader2, CheckCircle2, Flame, Weight, Clock, Gauge, Award } from 'lucide-react'
 
 interface MfiProp {
   name: string
@@ -28,7 +28,7 @@ const MFI_DATA: Record<string, MfiProp> = {
     }
   },
   'pp': { 
-    name: 'PP (Polypropylene)', 
+    name: 'PP (Polypropylene Homopolymer)', 
     densities: { 190: 0.75, 230: 0.73 },
     meltIndex: {
       190: { 2.16: 1.5, 5.0: 4.0, 10.0: 10.0 },
@@ -36,7 +36,7 @@ const MFI_DATA: Record<string, MfiProp> = {
     }
   },
   'ps': { 
-    name: 'PS (Polystyrene)', 
+    name: 'PS (General Purpose Polystyrene)', 
     densities: { 190: 0.94, 230: 0.92 },
     meltIndex: {
       190: { 2.16: 7.0, 5.0: 20.0, 10.0: 45.0 },
@@ -61,61 +61,54 @@ interface Results {
 }
 
 export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
-  const [materialKey, setMaterialKey] = useState('ldpe')
-  const [temperature, setTemperature] = useState(190) // °C
-  const [load, setLoad] = useState(2.16) // kg
-  const [cutDuration, setCutDuration] = useState(2) // mins
-
-  const [running, setRunning] = useState(false)
-  const [results, setResults] = useState<Results | null>(null)
+  const [materialKey, setMaterialKey] = useState('pp')
+  const [temperature, setTemperature] = useState(230)
+  const [load, setLoad] = useState(2.16)
+  const [cutDuration, setCutDuration] = useState(2) // in minutes
   
-  // Animation state
-  const [pistonPosition, setPistonPosition] = useState(10) // top offset %
+  const [running, setRunning] = useState(false)
+  const [pistonPosition, setPistonPosition] = useState(10) // percentage
   const [extrudedDrops, setExtrudedDrops] = useState(0)
+  const [results, setResults] = useState<Results | null>(null)
   const [xpAwarded, setXpAwarded] = useState(false)
 
-  const handleRunTest = () => {
+  const handleStartTest = () => {
     setRunning(true)
-    setXpAwarded(false)
     setResults(null)
     setPistonPosition(10)
     setExtrudedDrops(0)
 
-    const mfi = MFI_DATA[materialKey]?.meltIndex[temperature]?.[load] || 1.0
-    const density = MFI_DATA[materialKey]?.densities[temperature] || 0.75
-    
-    // Simulate volumetric displacement step intervals
-    const steps = 40
     let step = 0
+    const steps = 40
 
     const interval = setInterval(() => {
       if (step >= steps) {
         clearInterval(interval)
-        
-        // Output calculations
-        const massExtruded = (mfi * cutDuration) / 10
-        // Viscosity estimate (roughly inversely proportional to MFI)
-        const estimatedViscosity = Math.round(12000 / mfi)
-        
-        const finalResults: Results = {
-          mfi,
-          mass: Number(massExtruded.toFixed(3)),
-          meltDensity: density,
-          viscosity: estimatedViscosity
-        }
-        setResults(finalResults)
         setRunning(false)
+        
+        // Calculate physics
+        const mat = MFI_DATA[materialKey]
+        const tempObj = mat.meltIndex[temperature] || mat.meltIndex[190] || { 2.16: 2.0 }
+        const trueMfi = tempObj[load] || 2.0
+        
+        // mass extruded = (MFI / 10 min) * cutDuration
+        const massExtruded = (trueMfi / 10) * cutDuration
+        const meltDensity = mat.densities[temperature] || 0.75
+        const estViscosity = Math.round(15000 / (trueMfi + 0.1))
 
-        // Log session & award +15 XP
-        fetch('/api/simulations/sessions', {
+        setResults({
+          mfi: Number(trueMfi.toFixed(2)),
+          mass: Number(massExtruded.toFixed(3)),
+          meltDensity,
+          viscosity: estViscosity
+        })
+
+        // Award XP
+        fetch('/api/xp/award', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            lab_id: 'mfi-astm-d1238',
-            parameters: { material: materialKey, temperature, load, cutDuration },
-            results: finalResults
-          })
-        }).then((res) => {
+          body: JSON.stringify({ action: 'simulation_run', simulationId: 'mfi_tester' })
+        }).then(res => {
           if (res.ok) {
             setXpAwarded(true)
             if (onComplete) onComplete()
@@ -130,26 +123,45 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
         setExtrudedDrops(prev => prev + 1)
       }
       step++
-    }, 100) // 4 seconds total extrusion timer
+    }, 100)
   }
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+    <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-6">
       <div className="space-y-4">
-        <div>
-          <span className="font-mono text-[9px] font-bold text-orange-600 uppercase tracking-wider block mb-1">Standard flow evaluation</span>
-          <h2 className="font-display font-black text-sm uppercase leading-tight">🔥 Melt Flow Indexer (ASTM D1238)</h2>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-orange-50 border border-orange-200 flex items-center justify-center text-[#EA580C]">
+              <Gauge className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase text-[#EA580C] tracking-wider block">
+                Standard Rheological Evaluation (ASTM D1238 / ISO 1133)
+              </span>
+              <h3 className="font-display font-bold text-sm sm:text-base text-slate-900">
+                Melt Flow Indexer (MFI / MFR) Virtual Bench
+              </h3>
+            </div>
+          </div>
+          {xpAwarded && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" /> +25 XP Earned
+            </span>
+          )}
         </div>
 
         {/* Inputs */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="col-span-2">
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Polymer Material</label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
+          <div className="sm:col-span-2">
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1">
+              Polymer Material
+            </label>
             <select
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
               {Object.entries(MFI_DATA).map(([k, val]) => (
                 <option key={k} value={k}>{val.name}</option>
@@ -158,161 +170,159 @@ export function MeltFlowIndexer({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Heating Temperature</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Flame className="w-3 h-3 text-orange-500" /> Heating Temp
+            </label>
             <select
               disabled={running}
               value={temperature}
               onChange={(e) => setTemperature(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
-              <option value={190}>190 °C</option>
+              <option value={190}>190 °C (Standard PE)</option>
               <option value={230}>230 °C (Standard PP)</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Piston Load Weight</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Weight className="w-3 h-3 text-blue-500" /> Test Dead Load
+            </label>
             <select
               disabled={running}
               value={load}
               onChange={(e) => setLoad(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
-              <option value={2.16}>2.16 kg (Standard)</option>
+              <option value={2.16}>2.16 kg (Standard ASTM)</option>
               <option value={5.0}>5.0 kg</option>
-              <option value={10.0}>10.0 kg</option>
+              <option value={10.0}>10.0 kg (High Load / HL-MFR)</option>
             </select>
           </div>
 
-          <div className="col-span-2">
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Extrudate Cut Interval (Minutes)</label>
+          <div className="sm:col-span-2">
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Clock className="w-3 h-3 text-slate-500" /> Extrudate Cut Interval
+            </label>
             <select
               disabled={running}
               value={cutDuration}
               onChange={(e) => setCutDuration(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
               <option value={1}>1 Minute</option>
-              <option value={2}>2 Minutes (Recommended)</option>
+              <option value={2}>2 Minutes (Standard Cut)</option>
               <option value={5}>5 Minutes</option>
-              <option value={10}>10 Minutes</option>
+              <option value={10}>10 Minutes (Direct MFI)</option>
             </select>
           </div>
         </div>
 
-        {/* Visual Extruder instrument diagram */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex justify-around items-center">
-          
+        {/* Visual Extruder Instrument Bench */}
+        <div className="border border-slate-200 rounded-2xl bg-slate-900 p-5 flex justify-around items-center text-white">
           {/* Cylinder drawing */}
-          <div className="relative w-28 h-40 flex flex-col items-center">
+          <div className="relative w-32 h-44 flex flex-col items-center">
             {/* Load Weight block */}
-            <div className="w-16 h-8 bg-slate-700 border-2 border-slate-800 rounded flex items-center justify-center text-[10px] text-white font-mono font-bold transition-all"
-                 style={{ transform: `translateY(${pistonPosition / 2}px)` }}
+            <div
+              className="w-18 h-8 bg-blue-600 border border-blue-400 rounded-lg flex items-center justify-center text-xs text-white font-mono font-bold transition-all shadow-md"
+              style={{ transform: `translateY(${pistonPosition / 2}px)` }}
             >
               {load} kg
             </div>
 
             {/* Piston shaft */}
-            <div className="w-2 bg-slate-500 transition-all" 
-                 style={{ height: '40px', transform: `translateY(${pistonPosition / 2}px)` }}
+            <div
+              className="w-2.5 bg-slate-400 transition-all rounded"
+              style={{ height: '40px', transform: `translateY(${pistonPosition / 2}px)` }}
             />
 
             {/* Heated Barrel */}
-            <div className="w-12 h-20 bg-slate-350 border-x-4 border-slate-900 relative flex flex-col items-center py-1">
-              <div className="absolute inset-0 bg-orange-600/10 animate-pulse" />
+            <div className="w-20 h-24 bg-slate-800 border-2 border-slate-700 rounded-b-xl relative flex flex-col items-center justify-between p-1 shadow-inner">
+              <span className="text-[9px] font-mono text-orange-400 font-bold">{temperature}°C</span>
               
-              {/* Molten polymer volume */}
-              <div className="w-8 bg-orange-500/80 rounded-sm absolute bottom-1 transition-all"
-                   style={{ height: `${80 - pistonPosition}%`, backgroundColor: running ? '#EA580C' : '#94A3B8' }}
+              {/* Molten Core */}
+              <div
+                className="w-14 bg-gradient-to-b from-amber-500 to-orange-600 rounded transition-all"
+                style={{ height: `${Math.max(10, 70 - pistonPosition * 0.7)}px` }}
               />
+
+              {/* Standard Die Orifice (2.095 mm) */}
+              <div className="w-4 h-2 bg-slate-600 rounded-b" />
             </div>
 
-            {/* Extrusion Die Orifice */}
-            <div className="w-4 h-2 bg-slate-900" />
-            
-            {/* Melting Extrudate Drops */}
-            <div className="h-10 relative w-full flex justify-center items-start pt-1">
-              {running && (
-                <div className="w-1 bg-orange-600 animate-bounce rounded-full" style={{ height: '14px' }} />
-              )}
-              {extrudedDrops > 0 && (
-                <div className="absolute top-4 flex flex-col items-center gap-1">
-                  {[...Array(Math.min(3, extrudedDrops))].map((_, i) => (
-                    <div key={i} className="w-2 h-2 bg-orange-500 rounded-full animate-pulse" />
-                  ))}
-                </div>
-              )}
-            </div>
-
+            {/* Extruded Strand */}
+            <div className="w-1.5 bg-orange-400 rounded transition-all mt-1 animate-pulse"
+                 style={{ height: `${extrudedDrops * 6}px` }}
+            />
           </div>
 
-          <div className="text-right space-y-1">
-            <span className="font-mono text-[8px] uppercase font-bold text-slate-400 block">Heated Barrel</span>
-            <div className="text-xs font-mono font-bold text-orange-600 border border-orange-600 px-2 py-0.5 rounded bg-orange-50/10">
-              {temperature} °C
+          {/* Telemetry Display */}
+          <div className="space-y-2 text-right font-mono">
+            <div>
+              <span className="text-[10px] text-slate-400 uppercase block">Piston Displacement</span>
+              <span className="text-base font-bold text-blue-400">{Math.round(pistonPosition)}%</span>
             </div>
-            <span className="font-mono text-[8px] uppercase font-bold text-slate-400 block">Piston Feed</span>
+            <div>
+              <span className="text-[10px] text-slate-400 uppercase block">Barrel Temp</span>
+              <span className="text-base font-bold text-amber-400">{temperature}.0 °C</span>
+            </div>
+            <div>
+              <span className="text-[10px] text-slate-400 uppercase block">Standard Orifice</span>
+              <span className="text-xs text-slate-300">&Oslash; 2.095 mm &times; 8.0 mm</span>
+            </div>
           </div>
-
         </div>
 
-        <button
-          disabled={running}
-          onClick={handleRunTest}
-          className="w-full bg-orange-600 text-white font-mono text-xs font-black uppercase tracking-wider py-3 border-2 border-slate-900 shadow-hard hover:bg-orange-700 disabled:opacity-60 flex items-center justify-center gap-1.5"
-        >
-          {running ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Extruding polymer melt...
-            </>
-          ) : (
-            <>
-              <Play className="w-4 h-4" /> Start Extrusion
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Volumetric Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
-        {results ? (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
-              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Extrusions cut successfully
-              </span>
-              {xpAwarded && (
-                <span className="font-mono text-[8px] font-black uppercase bg-green-600 text-white px-2 py-0.5 rounded shadow-sm">
-                  +15 XP Earned
-                </span>
-              )}
+        {/* Results Box */}
+        {results && (
+          <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 space-y-3 animate-in fade-in-50">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-blue-900">
+              <Award className="w-4 h-4 text-blue-700" />
+              <span>OFFICIAL ASTM D1238 TEST CERTIFICATE</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Melt Flow Index</span>
-                <strong className="text-xs text-orange-600">{results.mfi} g/10 min</strong>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+              <div className="p-2 bg-white rounded-xl border border-blue-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Calculated MFI</span>
+                <span className="font-mono text-base font-bold text-[#2563EB]">{results.mfi} g/10 min</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Extrudate Mass</span>
-                <strong className="text-xs text-slate-800">{results.mass} grams</strong>
+              <div className="p-2 bg-white rounded-xl border border-blue-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Cut Mass</span>
+                <span className="font-mono text-base font-bold text-slate-800">{results.mass} g</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Melt Density</span>
-                <strong className="text-xs text-slate-800">{results.meltDensity} g/cm³</strong>
+              <div className="p-2 bg-white rounded-xl border border-blue-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Melt Density</span>
+                <span className="font-mono text-base font-bold text-slate-800">{results.meltDensity} g/cm&sup3;</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Estimated Viscosity</span>
-                <strong className="text-xs text-slate-800">{results.viscosity} Pa·s</strong>
+              <div className="p-2 bg-white rounded-xl border border-blue-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Est. Viscosity</span>
+                <span className="font-mono text-base font-bold text-emerald-700">{results.viscosity} Pa&bull;s</span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
-            <Info className="w-4 h-4 text-slate-300" /> Start cylinder extrusion test to get Melt Flow calculation sheet.
           </div>
         )}
       </div>
+
+      {/* Action Button */}
+      <button
+        disabled={running}
+        onClick={handleStartTest}
+        className="w-full py-3 bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+      >
+        {running ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Extruding Specimen ({Math.round(pistonPosition)}%)…</span>
+          </>
+        ) : (
+          <>
+            <Play className="w-4 h-4 fill-current" />
+            <span>Run ASTM D1238 Extrusion Test</span>
+          </>
+        )}
+      </button>
     </div>
   )
 }
+
+export default MeltFlowIndexer
