@@ -51,55 +51,34 @@ type Answer = {
   profiles?: { full_name: string | null; avatar_url: string | null }
 }
 
-// ─── Realistic Avatar & Timestamp Engine (Kills Bot Farm & 6d ago Lie) ────────
+// ─── Honest Author & Timestamp Resolution ─────────────────────────────────────
 
-const DIVERSE_AUTHORS = [
-  { name: 'Ananya Sharma', title: 'CIPET Ahmedabad · 3rd Year', color: 'bg-blue-100 text-blue-800 border-blue-200' },
-  { name: 'Priya Kulkarni', title: 'ICT Mumbai · B.Tech Polymer', color: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-  { name: 'Siddharth Sen', title: 'Anna University · PPE Final Year', color: 'bg-amber-100 text-amber-800 border-amber-200' },
-  { name: 'Vikram Nair', title: 'Reliance Industries · Mould Tech', color: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
-  { name: 'Rahul Ghosh', title: 'IIT Kharagpur · Materials Science', color: 'bg-teal-100 text-teal-800 border-teal-200' },
-  { name: 'Meera Krishnan', title: 'CIPET Chennai · Tooling Lab', color: 'bg-rose-100 text-rose-800 border-rose-200' },
-  { name: 'Tanmay Dave', title: 'MIT World Peace Univ · PPE', color: 'bg-cyan-100 text-cyan-800 border-cyan-200' },
-]
-
-function getRealisticAuthor(id: string, originalName?: string | null) {
+function getAuthorInfo(originalName?: string | null) {
   if (originalName && originalName !== 'Student' && originalName.trim() !== '') {
     const initials = originalName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-    return { name: originalName, title: 'PolymerHub Member', initials, color: 'bg-blue-100 text-[#2563EB] border-blue-200' }
+    return { name: originalName, title: 'PolymerHub Contributor', initials, color: 'bg-blue-50 text-[#2563EB] border-blue-200' }
   }
-  let hash = 0
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) % DIVERSE_AUTHORS.length
-  const author = DIVERSE_AUTHORS[Math.abs(hash)]
-  const initials = author.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-  return { ...author, initials }
+  return { name: 'Community Member', title: 'Polymer Engineering Forum', initials: 'CM', color: 'bg-slate-100 text-slate-700 border-slate-200' }
 }
 
-function getStaggeredTimeAgo(dateStr: string, id: string): string {
-  const parsed = new Date(dateStr).getTime()
-  const now = Date.now()
-  const diffSec = Math.floor((now - parsed) / 1000)
+function formatForumTime(dateStr: string): string {
+  try {
+    const parsed = new Date(dateStr).getTime()
+    const now = Date.now()
+    const diffSec = Math.floor((now - parsed) / 1000)
 
-  // If timestamps are all identical seed records (> 2 days old), compute natural deterministic offsets
-  if (diffSec > 86400 * 2) {
-    let hash = 0
-    for (let i = 0; i < id.length; i++) hash = (hash * 17 + id.charCodeAt(i)) % 100
-    if (hash < 15) return '2h ago'
-    if (hash < 35) return '5h ago'
-    if (hash < 55) return '1d ago'
-    if (hash < 75) return '2d ago'
-    if (hash < 90) return '3d ago'
-    return '5d ago'
+    if (diffSec < 60) return 'Just now'
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
+    if (diffSec < 86400 * 7) return `${Math.floor(diffSec / 86400)}d ago`
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  } catch {
+    return 'Recently'
   }
-
-  if (diffSec < 60) return 'just now'
-  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
-  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
-  return `${Math.floor(diffSec / 86400)}d ago`
 }
 
-function EngineeringAvatar({ name, avatarUrl, id, size = 'md' }: { name: string | null; avatarUrl: string | null; id: string; size?: 'sm' | 'md' | 'lg' }) {
-  const author = getRealisticAuthor(id, name)
+function EngineeringAvatar({ name, avatarUrl, size = 'md' }: { name: string | null; avatarUrl: string | null; id?: string; size?: 'sm' | 'md' | 'lg' }) {
+  const author = getAuthorInfo(name)
   const sizeMap = {
     sm: 'w-6 h-6 text-[10px]',
     md: 'w-8 h-8 text-xs',
@@ -278,8 +257,8 @@ function QuestionDetail({
   const [submitting, setSubmitting] = useState(false)
   const [userUpvotes, setUserUpvotes] = useState<Set<string>>(new Set())
 
-  const author = getRealisticAuthor(question.id, question.profiles?.full_name)
-  const timeDisplay = getStaggeredTimeAgo(question.created_at, question.id)
+  const author = getAuthorInfo(question.profiles?.full_name)
+  const timeDisplay = formatForumTime(question.created_at)
 
   const loadAnswers = useCallback(async () => {
     const { data: rawAnswers } = await supabase
@@ -419,8 +398,8 @@ function QuestionDetail({
         </div>
 
         {answers.map((ans) => {
-          const ansAuthor = getRealisticAuthor(ans.id, ans.profiles?.full_name)
-          const ansTime = getStaggeredTimeAgo(ans.created_at, ans.id)
+          const ansAuthor = getAuthorInfo(ans.profiles?.full_name)
+          const ansTime = formatForumTime(ans.created_at)
 
           return (
             <div
@@ -747,8 +726,8 @@ export default function ForumPage() {
               </div>
             ) : (
               questions.map((q) => {
-                const author = getRealisticAuthor(q.id, q.profiles?.full_name)
-                const timeDisplay = getStaggeredTimeAgo(q.created_at, q.id)
+                const author = getAuthorInfo(q.profiles?.full_name)
+                const timeDisplay = formatForumTime(q.created_at)
 
                 return (
                   <button

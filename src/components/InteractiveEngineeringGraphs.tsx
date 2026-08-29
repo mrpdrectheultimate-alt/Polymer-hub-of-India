@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import { Sliders, RotateCcw, Activity, Gauge, Flame } from 'lucide-react'
+import { Sliders, RotateCcw, Activity, Gauge, Flame, Shield } from 'lucide-react'
 
 // ─── 1. Interactive Stress-Strain Laboratory Graph ────────────────────────────
 
@@ -259,6 +259,15 @@ export function InteractiveStressStrainGraph({
           <span className="font-sans text-xs font-bold text-slate-800 line-clamp-1">{telemetry.mode}</span>
         </div>
       </div>
+
+      {/* Educational Engineering Disclaimer */}
+      <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500 flex-wrap gap-2">
+        <span className="flex items-center gap-1.5">
+          <Shield className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+          <span>Educational constitutive model approximation. Not for certified laboratory sign-off or structural compliance.</span>
+        </span>
+        <span className="font-bold text-slate-400">ASTM D638 / ISO 527 Reference</span>
+      </div>
     </div>
   )
 }
@@ -363,6 +372,15 @@ export function InteractiveRheologyGraph() {
           <span className="text-[10px] font-mono font-bold uppercase text-blue-800 block">Viscosity at Injection Gate (1000 s&macr;&sup1;)</span>
           <span className="font-mono text-lg font-bold text-blue-950">{etaInjection.toLocaleString()} Pa&bull;s</span>
         </div>
+      </div>
+
+      {/* Educational Engineering Disclaimer */}
+      <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono text-slate-500 flex-wrap gap-2">
+        <span className="flex items-center gap-1.5">
+          <Shield className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
+          <span>Educational pseudoplastic rheological model. Not for certified laboratory compliance.</span>
+        </span>
+        <span className="font-bold text-slate-400">Carreau-Yasuda Reference</span>
       </div>
     </div>
   )

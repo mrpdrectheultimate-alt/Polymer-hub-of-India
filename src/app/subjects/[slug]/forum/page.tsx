@@ -72,45 +72,30 @@ interface ForumAnswer {
   author: Author
 }
 
-const DIVERSE_AUTHORS = [
-  { name: 'Ananya Sharma', title: 'CIPET Ahmedabad · 3rd Year', color: 'bg-blue-100 text-blue-800 border-blue-200' },
-  { name: 'Priya Kulkarni', title: 'ICT Mumbai · B.Tech Polymer', color: 'bg-emerald-100 text-emerald-800 border-emerald-200' },
-  { name: 'Siddharth Sen', title: 'Anna University · PPE Final Year', color: 'bg-amber-100 text-amber-800 border-amber-200' },
-  { name: 'Vikram Nair', title: 'Reliance Industries · Mould Tech', color: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
-  { name: 'Rahul Ghosh', title: 'IIT Kharagpur · Materials Science', color: 'bg-teal-100 text-teal-800 border-teal-200' },
-  { name: 'Meera Krishnan', title: 'CIPET Chennai · Tooling Lab', color: 'bg-rose-100 text-rose-800 border-rose-200' },
-]
+// ─── Honest Author & Timestamp Resolution ─────────────────────────────────────
 
-function getRealisticAuthor(id: string, originalName?: string | null) {
+function getAuthorInfo(originalName?: string | null) {
   if (originalName && originalName !== 'Student' && originalName !== 'Anonymous Student' && originalName.trim() !== '') {
     const initials = originalName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-    return { name: originalName, title: 'PolymerHub Member', initials, color: 'bg-blue-100 text-[#2563EB] border-blue-200' }
+    return { name: originalName, title: 'PolymerHub Contributor', initials, color: 'bg-blue-50 text-[#2563EB] border-blue-200' }
   }
-  let hash = 0
-  for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) % DIVERSE_AUTHORS.length
-  const author = DIVERSE_AUTHORS[Math.abs(hash)]
-  const initials = author.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
-  return { ...author, initials }
+  return { name: 'Community Member', title: 'Polymer Engineering Forum', initials: 'CM', color: 'bg-slate-100 text-slate-700 border-slate-200' }
 }
 
-function getStaggeredTimeAgo(dateStr: string, id: string): string {
-  const parsed = new Date(dateStr).getTime()
-  const now = Date.now()
-  const diffSec = Math.floor((now - parsed) / 1000)
+function formatForumTime(dateStr: string): string {
+  try {
+    const parsed = new Date(dateStr).getTime()
+    const now = Date.now()
+    const diffSec = Math.floor((now - parsed) / 1000)
 
-  if (diffSec > 86400 * 2) {
-    let hash = 0
-    for (let i = 0; i < id.length; i++) hash = (hash * 17 + id.charCodeAt(i)) % 100
-    if (hash < 20) return '3h ago'
-    if (hash < 45) return '6h ago'
-    if (hash < 70) return '1d ago'
-    return '3d ago'
+    if (diffSec < 60) return 'Just now'
+    if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
+    if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
+    if (diffSec < 86400 * 7) return `${Math.floor(diffSec / 86400)}d ago`
+    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  } catch {
+    return 'Recently'
   }
-
-  if (diffSec < 60) return 'just now'
-  if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`
-  if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`
-  return `${Math.floor(diffSec / 86400)}d ago`
 }
 
 export default function SubjectForumPage() {
@@ -445,8 +430,8 @@ export default function SubjectForumPage() {
               ) : (
                 filteredQuestions.map((q) => {
                   const isActive = q.id === activeQuestionId
-                  const author = getRealisticAuthor(q.id, q.author?.full_name)
-                  const timeAgo = getStaggeredTimeAgo(q.created_at, q.id)
+                  const author = getAuthorInfo(q.author?.full_name)
+                  const timeAgo = formatForumTime(q.created_at)
 
                   return (
                     <div
@@ -596,7 +581,7 @@ export default function SubjectForumPage() {
                       {subject?.name}
                     </span>
                     <span className="text-slate-400">
-                      {getStaggeredTimeAgo(activeQuestion.created_at, activeQuestion.id)}
+                      {formatForumTime(activeQuestion.created_at)}
                     </span>
                   </div>
 
@@ -611,14 +596,14 @@ export default function SubjectForumPage() {
                   <div className="pt-4 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center font-mono font-bold text-xs text-[#2563EB]">
-                        {getRealisticAuthor(activeQuestion.id, activeQuestion.author?.full_name).initials}
+                        {getAuthorInfo(activeQuestion.author?.full_name).initials}
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-900 leading-none">
-                          {getRealisticAuthor(activeQuestion.id, activeQuestion.author?.full_name).name}
+                          {getAuthorInfo(activeQuestion.author?.full_name).name}
                         </p>
                         <p className="text-[10px] font-mono text-slate-400 mt-0.5">
-                          {getRealisticAuthor(activeQuestion.id, activeQuestion.author?.full_name).title}
+                          {getAuthorInfo(activeQuestion.author?.full_name).title}
                         </p>
                       </div>
                     </div>
@@ -651,8 +636,8 @@ export default function SubjectForumPage() {
                     </div>
                   ) : (
                     answers.map((ans) => {
-                      const ansAuthor = getRealisticAuthor(ans.id, ans.author?.full_name)
-                      const ansTime = getStaggeredTimeAgo(ans.created_at, ans.id)
+                      const ansAuthor = getAuthorInfo(ans.author?.full_name)
+                      const ansTime = formatForumTime(ans.created_at)
 
                       return (
                         <div
