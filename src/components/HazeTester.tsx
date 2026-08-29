@@ -1,8 +1,8 @@
-﻿// src/components/HazeTester.tsx
+// src/components/HazeTester.tsx
 'use client'
 
 import { useState } from 'react'
-import { Play, Loader2, HelpCircle, CheckCircle } from 'lucide-react'
+import { Play, Loader2, CheckCircle2, Award, Sun, Shield } from 'lucide-react'
 
 interface MaterialProp {
   name: string
@@ -11,11 +11,11 @@ interface MaterialProp {
 }
 
 const MATERIALS: Record<string, MaterialProp> = {
-  'ldpe': { name: 'LDPE (Low-Density Polyethylene)', baseHaze: 15, baseTransmittance: 85 },
-  'pp': { name: 'PP (Polypropylene Homopolymer)', baseHaze: 25, baseTransmittance: 75 },
-  'pc': { name: 'PC (Polycarbonate)', baseHaze: 5, baseTransmittance: 90 },
-  'pet': { name: 'PET (Polyethylene Terephthalate)', baseHaze: 3, baseTransmittance: 92 },
-  'pmma': { name: 'PMMA (Acrylic Glass)', baseHaze: 2, baseTransmittance: 93 },
+  'ldpe': { name: 'LDPE (Low-Density Polyethylene Film)', baseHaze: 15, baseTransmittance: 85 },
+  'pp': { name: 'PP (Polypropylene Cast Film)', baseHaze: 25, baseTransmittance: 75 },
+  'pc': { name: 'PC (Polycarbonate Optical Sheet)', baseHaze: 5, baseTransmittance: 90 },
+  'pet': { name: 'PET (Polyethylene Terephthalate Glass Clear)', baseHaze: 3, baseTransmittance: 92 },
+  'pmma': { name: 'PMMA (Acrylic Optical Grade)', baseHaze: 2, baseTransmittance: 93 },
 }
 
 interface RunResults {
@@ -40,7 +40,6 @@ export function HazeTester({ onComplete }: { onComplete?: () => void }) {
     setLaserIntensity(0)
 
     const m = MATERIALS[materialKey]
-    // Haze scales linearly with thickness. Transmittance falls exponentially due to absorption Beer-Lambert
     const finalHaze = Math.min(99.9, m.baseHaze * thickness)
     const finalTransmittance = Math.max(5.0, m.baseTransmittance * Math.exp(-0.04 * (thickness - 1.0)))
 
@@ -60,15 +59,11 @@ export function HazeTester({ onComplete }: { onComplete?: () => void }) {
         setResults(finalResults)
         setRunning(false)
 
-        fetch('/api/simulations/sessions', {
+        fetch('/api/xp/award', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            lab_id: 'haze-astm-d1003',
-            parameters: { material: materialKey, thickness },
-            results: finalResults
-          })
-        }).then((res) => {
+          body: JSON.stringify({ action: 'simulation_run', simulationId: 'haze_tester' })
+        }).then(res => {
           if (res.ok) {
             setXpAwarded(true)
             if (onComplete) onComplete()
@@ -79,30 +74,48 @@ export function HazeTester({ onComplete }: { onComplete?: () => void }) {
       }
 
       setLaserIntensity(step / steps)
-    }, 45)
+    }, 40)
   }
 
-  // Laser transparency stroke widths/opacities based on current test state
   const laserOpacity = running ? laserIntensity : results ? 1 : 0
-  const scatterCount = results ? Math.min(8, Math.floor(results.haze / 3)) : 0
+  const scatterCount = results ? Math.max(2, Math.round(results.haze / 10)) : 0
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+    <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-6">
       <div className="space-y-4">
-        <div>
-          <span className="font-mono text-[9px] font-bold text-blue-600 uppercase tracking-wider block mb-1">Standard Optical Photometry</span>
-          <h2 className="font-display font-black text-sm uppercase leading-tight">💡 Haze & Transmittance — ASTM D1003</h2>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+              <Sun className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase text-amber-600 tracking-wider block">
+                Optical Clarity &amp; Wide-Angle Light Scatter (ASTM D1003 / ISO 14782)
+              </span>
+              <h3 className="font-display font-bold text-sm sm:text-base text-slate-900">
+                Haze &amp; Luminous Transmittance Photometer Bench
+              </h3>
+            </div>
+          </div>
+          {xpAwarded && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" /> +25 XP Earned
+            </span>
+          )}
         </div>
 
         {/* Controls */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Polymer Material Film</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1">
+              Polymer Material Film / Sheet
+            </label>
             <select
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
               {Object.entries(MATERIALS).map(([k, m]) => (
                 <option key={k} value={k}>{m.name}</option>
@@ -111,7 +124,9 @@ export function HazeTester({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Thickness (mm)</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Shield className="w-3 h-3 text-blue-500" /> Specimen Thickness (mm)
+            </label>
             <input
               type="number"
               disabled={running}
@@ -120,128 +135,123 @@ export function HazeTester({ onComplete }: { onComplete?: () => void }) {
               max="5.0"
               value={thickness}
               onChange={(e) => setThickness(Number(e.target.value))}
-              className="w-full p-1.5 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             />
           </div>
         </div>
 
-        {/* Light path animation view */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex flex-col items-center justify-center">
-          <svg width="240" height="120" viewBox="0 0 240 120" className="overflow-visible bg-white border border-slate-200 rounded-lg">
-            
+        {/* Light path animation view Bench */}
+        <div className="border border-slate-200 rounded-2xl bg-slate-900 p-5 flex flex-col items-center justify-center text-white">
+          <svg width="260" height="130" viewBox="0 0 260 130" className="overflow-visible font-mono">
             {/* Light emitter source */}
-            <rect x="10" y="45" width="25" height="30" fill="#475569" rx="1" />
-            <circle cx="35" cy="60" r="4" fill="#E2E8F0" />
+            <rect x="10" y="45" width="28" height="36" rx="4" fill="#1E293B" stroke="#475569" />
+            <circle cx="38" cy="63" r="5" fill="#F59E0B" />
+            <text x="24" y="93" textAnchor="middle" fill="#94A3B8" fontSize="7">CIE Illuminant C</text>
 
             {/* Film specimen sample block */}
             <rect 
-              x="105" 
-              y="30" 
-              width={`${8 + thickness * 4}`} 
-              height="60" 
-              fill="rgba(148, 163, 184, 0.2)" 
-              stroke="#64748B" 
+              x="110" 
+              y="25" 
+              width={`${6 + thickness * 4}`} 
+              height="76" 
+              rx="2"
+              fill="rgba(56, 189, 248, 0.2)" 
+              stroke="#38BDF8" 
               strokeWidth="1.5" 
             />
-            <text x="110" y="25" className="fill-slate-400 font-mono text-[6px]">Sample</text>
+            <text x="115" y="18" textAnchor="middle" fill="#38BDF8" fontSize="8" fontWeight="bold">Sample ({thickness}mm)</text>
 
-            {/* Photometer Integrator Receiver sphere */}
-            <circle cx="205" cy="60" r="18" fill="#F8FAFC" stroke="#475569" strokeWidth="2.5" />
-            <rect x="202" y="52" width="6" height="16" fill="#334155" />
+            {/* Integrating Sphere Photometer */}
+            <circle cx="215" cy="63" r="22" fill="#1E293B" stroke="#64748B" strokeWidth="2.5" />
+            <circle cx="215" cy="63" r="8" fill="#0F172A" />
+            <text x="215" y="96" textAnchor="middle" fill="#94A3B8" fontSize="7">Integrating Sphere</text>
 
-            {/* Direct Incident Laser beam */}
+            {/* Incident Light Beam */}
             <line 
-              x1="35" 
-              y1="60" 
-              x2="105" 
-              y2="60" 
+              x1="38" 
+              y1="63" 
+              x2="110" 
+              y2="63" 
               stroke="#F59E0B" 
-              strokeWidth="3.5" 
+              strokeWidth="4" 
               style={{ opacity: laserOpacity, transition: 'opacity 0.1s' }} 
             />
 
-            {/* Transmitted Laser beam inside sphere */}
+            {/* Transmitted Direct Beam */}
             {results && (
               <line 
-                x1="115" 
-                y1="60" 
-                x2="187" 
-                y2="60" 
+                x1="118" 
+                y1="63" 
+                x2="195" 
+                y2="63" 
                 stroke="#F59E0B" 
-                strokeWidth={`${3.5 * (results.transmittance / 100)}`} 
+                strokeWidth={`${Math.max(1, 4 * (results.transmittance / 100))}`} 
                 style={{ opacity: laserOpacity }} 
               />
             )}
 
-            {/* Scattered Haze ray lines */}
+            {/* Scattered Haze Ray Lines (>2.5° deviation) */}
             {results && Array.from({ length: scatterCount }).map((_, i) => {
-              const spread = -15 + (i / (scatterCount - 1 || 1)) * 30
+              const spread = -18 + (i / (scatterCount - 1 || 1)) * 36
               return (
                 <line 
                   key={i}
-                  x1="115" 
-                  y1="60" 
-                  x2="160" 
-                  y2={`${60 + spread}`} 
-                  stroke="#FBBF24" 
+                  x1="118" 
+                  y1="63" 
+                  x2="180" 
+                  y2={`${63 + spread}`} 
+                  stroke="#FDE68A" 
                   strokeWidth="1.2" 
                   strokeDasharray="2 2"
-                  style={{ opacity: laserOpacity * 0.7 }}
+                  style={{ opacity: laserOpacity * 0.8 }}
                 />
               )
             })}
           </svg>
         </div>
 
-        <button
-          disabled={running}
-          onClick={handleRunTest}
-          className="w-full bg-blue-700 text-white font-mono text-xs font-black uppercase tracking-wider py-3 border-2 border-slate-900 shadow-hard hover:bg-blue-800 disabled:opacity-60 flex items-center justify-center gap-1.5"
-        >
-          {running ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Emitting collimated light...
-            </>
-          ) : (
-            <>
-              <Play className="w-4 h-4" /> Measure Haze & Transmittance
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
-        {results ? (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
-              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Optical analysis resolved
-              </span>
-              {xpAwarded && (
-                <span className="font-mono text-[8px] font-black uppercase bg-green-600 text-white px-2 py-0.5 rounded shadow-sm">
-                  +15 XP Earned
-                </span>
-              )}
+        {/* Results Certificate */}
+        {results && (
+          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-3 animate-in fade-in-50">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-900">
+              <Award className="w-4 h-4 text-amber-700" />
+              <span>OFFICIAL ASTM D1003 HAZE &amp; TRANSMITTANCE REPORT</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Haze Value</span>
-                <strong className="text-xs text-slate-800">{results.haze}%</strong>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-center">
+              <div className="p-2 bg-white rounded-xl border border-amber-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Wide-Angle Haze (%)</span>
+                <span className="font-mono text-base font-bold text-amber-700">{results.haze}%</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Total Transmittance</span>
-                <strong className="text-xs text-slate-800">{results.transmittance}%</strong>
+              <div className="p-2 bg-white rounded-xl border border-amber-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Total Luminous Transmittance (Tt)</span>
+                <span className="font-mono text-base font-bold text-blue-700">{results.transmittance}%</span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
-            <HelpCircle className="w-4 h-4 text-slate-300" /> Start optical scan to evaluate specimen light-scattering characteristics.
           </div>
         )}
       </div>
+
+      {/* Action Button */}
+      <button
+        disabled={running}
+        onClick={handleRunTest}
+        className="w-full py-3 bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+      >
+        {running ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Measuring Light Scatter ({Math.round(laserIntensity * 100)}%)…</span>
+          </>
+        ) : (
+          <>
+            <Play className="w-4 h-4 fill-current" />
+            <span>Measure Haze &amp; Transmittance (ASTM D1003)</span>
+          </>
+        )}
+      </button>
     </div>
   )
 }
+
+export default HazeTester

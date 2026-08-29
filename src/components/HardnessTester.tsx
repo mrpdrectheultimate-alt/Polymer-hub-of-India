@@ -1,8 +1,8 @@
-﻿// src/components/HardnessTester.tsx
+// src/components/HardnessTester.tsx
 'use client'
 
 import { useState } from 'react'
-import { Play, Loader2, HelpCircle, CheckCircle } from 'lucide-react'
+import { Play, Loader2, CheckCircle2, Award, Gauge, Shield } from 'lucide-react'
 
 interface MaterialProp {
   name: string
@@ -15,9 +15,9 @@ const MATERIALS: Record<string, MaterialProp> = {
   'hdpe': { name: 'HDPE (High-Density Polyethylene)', hardness: 65, scale: 'Shore D' },
   'pp': { name: 'PP (Polypropylene Homopolymer)', hardness: 70, scale: 'Shore D' },
   'abs': { name: 'ABS (Acrylonitrile Butadiene Styrene)', hardness: 85, scale: 'Shore D' },
-  'pc': { name: 'PC (Polycarbonate)', hardness: 90, scale: 'Shore D' },
-  'silicone': { name: 'Silicone Rubber (PDMS)', hardness: 30, scale: 'Shore A' },
-  'rubber': { name: 'Natural Rubber', hardness: 40, scale: 'Shore A' },
+  'pc': { name: 'PC (Polycarbonate High Rigidity)', hardness: 90, scale: 'Shore D' },
+  'silicone': { name: 'Silicone Rubber (PDMS Elastomer)', hardness: 30, scale: 'Shore A' },
+  'rubber': { name: 'Natural Vulcanized Rubber', hardness: 40, scale: 'Shore A' },
 }
 
 interface RunResults {
@@ -27,7 +27,7 @@ interface RunResults {
 
 export function HardnessTester({ onComplete }: { onComplete?: () => void }) {
   const [materialKey, setMaterialKey] = useState('pp')
-  const [scale, setScale] = useState('Shore D')
+  const [scale, setScale] = useState<'Shore A' | 'Shore D'>('Shore D')
   
   const [running, setRunning] = useState(false)
   const [dialValue, setDialValue] = useState(0)
@@ -41,13 +41,12 @@ export function HardnessTester({ onComplete }: { onComplete?: () => void }) {
     setDialValue(0)
 
     const m = MATERIALS[materialKey]
-    // If user selects wrong scale (A for hard plastic, D for soft rubber), adjust value or give zero
     let targetHardness = m.hardness
     if (scale !== m.scale) {
       if (scale === 'Shore D' && m.scale === 'Shore A') {
-        targetHardness = Math.max(5, m.hardness - 30) // Soft materials have very low Shore D
+        targetHardness = Math.max(5, m.hardness - 30)
       } else if (scale === 'Shore A' && m.scale === 'Shore D') {
-        targetHardness = 95 // Hard materials peg Shore A at max
+        targetHardness = 95
       }
     }
 
@@ -66,15 +65,11 @@ export function HardnessTester({ onComplete }: { onComplete?: () => void }) {
         setResults(finalResults)
         setRunning(false)
 
-        fetch('/api/simulations/sessions', {
+        fetch('/api/xp/award', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            lab_id: 'hardness-shore-ad',
-            parameters: { material: materialKey, scale },
-            results: finalResults
-          })
-        }).then((res) => {
+          body: JSON.stringify({ action: 'simulation_run', simulationId: 'hardness_tester' })
+        }).then(res => {
           if (res.ok) {
             setXpAwarded(true)
             if (onComplete) onComplete()
@@ -84,32 +79,48 @@ export function HardnessTester({ onComplete }: { onComplete?: () => void }) {
         return
       }
 
-      // Animate dial needle jumping up to target
-      const t = step / steps
-      setDialValue(targetHardness * Math.sin(t * Math.PI / 2))
-    }, 40)
+      setDialValue(Math.round((step / steps) * targetHardness))
+    }, 35)
   }
 
-  // Calculate needle angle on the dial (from -135 deg to 135 deg for 0-100 scale)
   const needleAngle = -135 + (dialValue / 100) * 270
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+    <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-6">
       <div className="space-y-4">
-        <div>
-          <span className="font-mono text-[9px] font-bold text-green-600 uppercase tracking-wider block mb-1">Standard Durometer Test</span>
-          <h2 className="font-display font-black text-sm uppercase leading-tight">📏 Hardness Testing — Shore A/D</h2>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+              <Gauge className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase text-emerald-600 tracking-wider block">
+                Durometer Indentation Hardness (ASTM D2240 / ISO 868)
+              </span>
+              <h3 className="font-display font-bold text-sm sm:text-base text-slate-900">
+                Shore Durometer Hardness Bench (Type A &amp; D)
+              </h3>
+            </div>
+          </div>
+          {xpAwarded && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" /> +25 XP Earned
+            </span>
+          )}
         </div>
 
         {/* Controls */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Polymer Material</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1">
+              Polymer Material
+            </label>
             <select
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
               {Object.entries(MATERIALS).map(([k, m]) => (
                 <option key={k} value={k}>{m.name}</option>
@@ -118,101 +129,99 @@ export function HardnessTester({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Durometer Scale</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Shield className="w-3 h-3 text-blue-500" /> Durometer Scale Type
+            </label>
             <select
               disabled={running}
               value={scale}
-              onChange={(e) => setScale(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              onChange={(e) => setScale(e.target.value as 'Shore A' | 'Shore D')}
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
-              <option value="Shore A">Shore A (Soft / Elastomeric)</option>
-              <option value="Shore D">Shore D (Hard / Rigid Polymers)</option>
+              <option value="Shore A">Shore A (Blunt Cone - Rubbers &amp; Elastomers)</option>
+              <option value="Shore D">Shore D (Sharp Pin - Rigid Thermoplastics)</option>
             </select>
           </div>
         </div>
 
-        {/* Durometer needle dial SVG */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex flex-col items-center justify-center">
-          <svg width="200" height="160" viewBox="0 0 200 160" className="overflow-visible bg-white border border-slate-200 rounded-lg">
-            
-            {/* Durometer Circular Dial face */}
-            <circle cx="100" cy="80" r="50" fill="none" stroke="#64748B" strokeWidth="6" />
-            <circle cx="100" cy="80" r="47" fill="none" stroke="#CBD5E1" strokeWidth="1" />
+        {/* Durometer needle dial SVG Bench */}
+        <div className="border border-slate-200 rounded-2xl bg-slate-900 p-5 flex flex-col items-center justify-center text-white">
+          <svg width="220" height="170" viewBox="0 0 220 170" className="overflow-visible font-mono">
+            {/* Outer dial housing */}
+            <circle cx="110" cy="85" r="60" fill="#1E293B" stroke="#334155" strokeWidth="6" />
+            <circle cx="110" cy="85" r="54" fill="#0F172A" stroke="#475569" strokeWidth="1" />
 
-            {/* Dial Tick marks */}
+            {/* Dial Tick Marks */}
             {[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map(val => {
               const angle = -135 + (val / 100) * 270
               const rad = (angle * Math.PI) / 180
-              const x1 = 100 + Math.cos(rad) * 40
-              const y1 = 80 + Math.sin(rad) * 40
-              const x2 = 100 + Math.cos(rad) * 45
-              const y2 = 80 + Math.sin(rad) * 45
+              const x1 = 110 + Math.cos(rad) * 44
+              const y1 = 85 + Math.sin(rad) * 44
+              const x2 = 110 + Math.cos(rad) * 50
+              const y2 = 85 + Math.sin(rad) * 50
               return (
-                <line key={val} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#475569" strokeWidth="1.5" />
+                <line key={val} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#94A3B8" strokeWidth="1.5" />
               )
             })}
 
-            {/* Scale label text */}
-            <text x="100" y="60" textAnchor="middle" className="fill-slate-400 font-mono text-[7px] font-bold">{scale}</text>
-            <text x="100" y="115" textAnchor="middle" className="fill-slate-800 font-mono text-[10px] font-black">{Math.round(dialValue)}</text>
+            {/* Scale Label */}
+            <text x="110" y="62" textAnchor="middle" fill="#38BDF8" fontSize="8" fontWeight="bold">
+              {scale}
+            </text>
+            <text x="110" y="125" textAnchor="middle" fill="#F8FAFC" fontSize="13" fontWeight="bold">
+              {Math.round(dialValue)}
+            </text>
 
-            {/* Needle indicator pointer */}
-            <g style={{ transform: `rotate(${needleAngle}deg)`, transformOrigin: '100px 80px', transition: 'transform 0.1s ease-out' }}>
-              <line x1="100" y1="80" x2="100" y2="40" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
-              <circle cx="100" cy="80" r="4" fill="#EF4444" />
+            {/* Needle Pointer */}
+            <g style={{ transform: `rotate(${needleAngle}deg)`, transformOrigin: '110px 85px', transition: 'transform 0.1s ease-out' }}>
+              <line x1="110" y1="85" x2="110" y2="40" stroke="#EF4444" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="110" cy="85" r="4.5" fill="#EF4444" stroke="#F87171" />
             </g>
           </svg>
         </div>
 
-        <button
-          disabled={running}
-          onClick={handleRunTest}
-          className="w-full bg-green-700 text-white font-mono text-xs font-black uppercase tracking-wider py-3 border-2 border-slate-900 shadow-hard hover:bg-green-800 disabled:opacity-60 flex items-center justify-center gap-1.5"
-        >
-          {running ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Pressing indenter tip...
-            </>
-          ) : (
-            <>
-              <Play className="w-4 h-4" /> Measure Hardness
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
-        {results ? (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
-              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Measurement logged
-              </span>
-              {xpAwarded && (
-                <span className="font-mono text-[8px] font-black uppercase bg-green-600 text-white px-2 py-0.5 rounded shadow-sm">
-                  +15 XP Earned
-                </span>
-              )}
+        {/* Results Certificate */}
+        {results && (
+          <div className="p-4 rounded-2xl bg-emerald-50/80 border border-emerald-200 space-y-3 animate-in fade-in-50">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-900">
+              <Award className="w-4 h-4 text-emerald-700" />
+              <span>OFFICIAL ASTM D2240 DUROMETER CERTIFICATE</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Hardness Value</span>
-                <strong className="text-xs text-slate-800">{results.hardness} {results.scale}</strong>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-center">
+              <div className="p-2 bg-white rounded-xl border border-emerald-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Indentation Hardness</span>
+                <span className="font-mono text-base font-bold text-emerald-700">{results.hardness}</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Durometer Calibration</span>
-                <strong className="text-xs text-slate-800">ASTM D2240 Compliant</strong>
+              <div className="p-2 bg-white rounded-xl border border-emerald-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Official Durometer Scale</span>
+                <span className="font-mono text-base font-bold text-slate-800">{results.scale}</span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
-            <HelpCircle className="w-4 h-4 text-slate-300" /> Apply durometer tip to material to resolve indentation resistance.
           </div>
         )}
       </div>
+
+      {/* Action Button */}
+      <button
+        disabled={running}
+        onClick={handleRunTest}
+        className="w-full py-3 bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+      >
+        {running ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Pressing Indenter Tip ({dialValue})…</span>
+          </>
+        ) : (
+          <>
+            <Play className="w-4 h-4 fill-current" />
+            <span>Measure Durometer Hardness (ASTM D2240)</span>
+          </>
+        )}
+      </button>
     </div>
   )
 }
+
+export default HardnessTester
