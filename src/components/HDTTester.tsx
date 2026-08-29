@@ -1,8 +1,8 @@
-﻿// src/components/HDTTester.tsx
+// src/components/HDTTester.tsx
 'use client'
 
 import { useState } from 'react'
-import { Play, Loader2, HelpCircle, CheckCircle } from 'lucide-react'
+import { Play, Loader2, CheckCircle2, Flame, Weight, Award, Gauge } from 'lucide-react'
 
 interface MaterialProp {
   name: string
@@ -12,9 +12,9 @@ interface MaterialProp {
 const MATERIALS: Record<string, MaterialProp> = {
   'pp': { name: 'PP (Polypropylene Homopolymer)', baseHdt: 100 },
   'hdpe': { name: 'HDPE (High-Density Polyethylene)', baseHdt: 75 },
-  'abs': { name: 'ABS (Acrylonitrile Butadiene)', baseHdt: 95 },
-  'pc': { name: 'PC (Polycarbonate)', baseHdt: 135 },
-  'nylon': { name: 'Nylon (Polyamide)', baseHdt: 160 },
+  'abs': { name: 'ABS (Acrylonitrile Butadiene Styrene)', baseHdt: 95 },
+  'pc': { name: 'PC (Polycarbonate Optical Grade)', baseHdt: 135 },
+  'nylon': { name: 'Nylon 6,6 (Polyamide)', baseHdt: 160 },
   'pmma': { name: 'PMMA (Acrylic Glass)', baseHdt: 90 },
 }
 
@@ -43,7 +43,6 @@ export function HDTTester({ onComplete }: { onComplete?: () => void }) {
     setCurrentTemp(25)
 
     const m = MATERIALS[materialKey]
-    // HDT drops with higher stress and increases with faster heating rate
     const stressFactor = stress === 1.82 ? 0.85 : 1.0
     const rateFactor = heatingRate === 120 ? 1.02 : 1.0
     const finalHdt = m.baseHdt * stressFactor * rateFactor
@@ -60,20 +59,16 @@ export function HDTTester({ onComplete }: { onComplete?: () => void }) {
         const finalResults: RunResults = {
           hdtTemp: Number(finalHdt.toFixed(1)),
           stress,
-          heatingRate
+          heatingRate,
         }
         setResults(finalResults)
         setRunning(false)
 
-        fetch('/api/simulations/sessions', {
+        fetch('/api/xp/award', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            lab_id: 'hdt-astm-d648',
-            parameters: { material: materialKey, stress, heatingRate },
-            results: finalResults
-          })
-        }).then((res) => {
+          body: JSON.stringify({ action: 'simulation_run', simulationId: 'hdt_tester' })
+        }).then(res => {
           if (res.ok) {
             setXpAwarded(true)
             if (onComplete) onComplete()
@@ -83,36 +78,59 @@ export function HDTTester({ onComplete }: { onComplete?: () => void }) {
         return
       }
 
-      const t = step / steps
-      const temp = 25 + t * (finalHdt + 15 - 25)
-      setCurrentTemp(temp)
+      // Linear temp rise
+      const tempProg = 25 + (step / steps) * (finalHdt - 25)
+      setCurrentTemp(tempProg)
 
-      // Deflection curve modeling elastic transition
-      const expTerm = Math.exp((temp - finalHdt) / 10)
-      const defl = (expTerm / (1 + expTerm)) * 0.28
-      setDeflection(defl)
-    }, 45)
+      // Exponential deflection curve near HDT point
+      const progress = step / steps
+      const def = Math.pow(progress, 3) * 0.25
+      setDeflection(def)
+    }, 50)
   }
 
-  const bathColor = `rgba(${Math.min(255, 90 + (currentTemp / 180) * 165)}, 110, 50, 0.4)`
+  const bathColor = currentTemp > 100 
+    ? 'rgba(239, 68, 68, 0.15)' 
+    : currentTemp > 60 
+    ? 'rgba(245, 158, 11, 0.15)' 
+    : 'rgba(59, 130, 246, 0.1)'
 
   return (
-    <div className="border-4 border-slate-900 bg-white rounded-xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
+    <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-7 shadow-xs flex flex-col justify-between space-y-6">
       <div className="space-y-4">
-        <div>
-          <span className="font-mono text-[9px] font-bold text-amber-600 uppercase tracking-wider block mb-1">Standard Deflection Under Load</span>
-          <h2 className="font-display font-black text-sm uppercase leading-tight">🔥 Heat Deflection Temperature (HDT) — ASTM D648</h2>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+              <Gauge className="w-4 h-4" />
+            </div>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase text-amber-600 tracking-wider block">
+                Thermal Deflection Evaluation (ASTM D648 / ISO 75)
+              </span>
+              <h3 className="font-display font-bold text-sm sm:text-base text-slate-900">
+                Heat Deflection Temperature (HDT) Oil Bath Simulator
+              </h3>
+            </div>
+          </div>
+          {xpAwarded && (
+            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
+              <CheckCircle2 className="w-3.5 h-3.5" /> +25 XP Earned
+            </span>
+          )}
         </div>
 
         {/* Controls */}
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Polymer Material</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1">
+              Polymer Material
+            </label>
             <select
               disabled={running}
               value={materialKey}
               onChange={(e) => setMaterialKey(e.target.value)}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
               {Object.entries(MATERIALS).map(([k, m]) => (
                 <option key={k} value={k}>{m.name}</option>
@@ -121,135 +139,140 @@ export function HDTTester({ onComplete }: { onComplete?: () => void }) {
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Bending Stress</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Weight className="w-3 h-3 text-blue-500" /> Bending Stress
+            </label>
             <select
               disabled={running}
               value={stress}
               onChange={(e) => setStress(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
-              <option value={0.45}>0.45 MPa (Low Load)</option>
-              <option value={1.82}>1.82 MPa (High Load)</option>
+              <option value={0.45}>0.45 MPa (Method B - Low Load)</option>
+              <option value={1.82}>1.82 MPa (Method A - High Load)</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-[9px] font-mono text-slate-400 mb-0.5">Heating Rate</label>
+            <label className="block text-[11px] font-mono font-bold text-slate-700 uppercase mb-1 flex items-center gap-1">
+              <Flame className="w-3 h-3 text-orange-500" /> Heating Rate
+            </label>
             <select
               disabled={running}
               value={heatingRate}
               onChange={(e) => setHeatingRate(Number(e.target.value))}
-              className="w-full p-2 border-2 border-slate-900 rounded-lg text-xs bg-slate-50 outline-none text-slate-900 disabled:opacity-60"
+              className="w-full p-2.5 border border-slate-200 rounded-xl text-xs bg-white text-slate-900 focus:outline-none focus:border-[#2563EB]"
             >
-              <option value={50}>50 °C/hr</option>
-              <option value={120}>120 °C/hr (Standard)</option>
+              <option value={50}>50 °C/hr (Slow Ramp)</option>
+              <option value={120}>120 °C/hr (Standard ASTM)</option>
             </select>
           </div>
         </div>
 
-        {/* Oil bath deflection drawing */}
-        <div className="border-4 border-slate-900 rounded-xl bg-slate-50 p-4 flex flex-col items-center justify-center">
-          <svg width="220" height="180" viewBox="0 0 220 180" className="overflow-visible bg-white border border-slate-200 rounded-lg">
-            
+        {/* Oil bath deflection instrument diagram */}
+        <div className="border border-slate-200 rounded-2xl bg-slate-900 p-5 flex flex-col items-center justify-center text-white">
+          <svg width="280" height="190" viewBox="0 0 280 190" className="overflow-visible">
             {/* Oil container bath */}
-            <rect x="50" y="80" width="120" height="70" fill={bathColor} stroke="#475569" strokeWidth="2.5" />
-            <line x1="50" y1="90" x2="170" y2="90" stroke="#CBD5E1" strokeWidth="1" strokeDasharray="3 3" />
-            <text x="110" y="105" textAnchor="middle" className="fill-slate-500 font-mono text-[7px]">Silicon Oil Bath</text>
+            <rect x="40" y="80" width="180" height="80" rx="8" fill={bathColor} stroke="#334155" strokeWidth="2" />
+            <line x1="40" y1="95" x2="220" y2="95" stroke="#475569" strokeWidth="1" strokeDasharray="4 4" />
+            <text x="130" y="110" textAnchor="middle" fill="#94A3B8" fontSize="8" fontFamily="monospace">Circulating Silicone Oil Bath</text>
 
-            {/* Supports for bending */}
-            <rect x="75" y="140" width="10" height="10" fill="#334155" />
-            <rect x="135" y="140" width="10" height="10" fill="#334155" />
+            {/* Span Supports (100 mm span) */}
+            <rect x="65" y="145" width="12" height="15" rx="2" fill="#64748B" />
+            <rect x="183" y="145" width="12" height="15" rx="2" fill="#64748B" />
 
-            {/* Bending specimen bar */}
-            <svg width="70" height="30" className="absolute top-[125px] left-[73px]">
-              <path 
-                d={`M 5 10 Q 35 ${10 + deflection * 35} 65 10`}
-                fill="none" 
-                stroke={running ? '#EA580C' : '#94A3B8'} 
-                strokeWidth="4.5" 
-                strokeLinecap="round"
-              />
-            </svg>
+            {/* Bending Specimen Bar */}
+            <path
+              d={`M 70 145 Q 130 ${145 + deflection * 90} 190 145`}
+              fill="none"
+              stroke={running ? '#F59E0B' : '#38BDF8'}
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
 
             {/* Center weighted loading nose */}
-            <g style={{ transform: `translateY(${deflection * 30}px)`, transition: 'transform 0.1s ease-out' }}>
-              <rect x="108" y="20" width="4" height="110" fill="#475569" />
-              {/* Load weight block */}
-              <rect x="95" y="30" width="30" height="15" fill="#334155" rx="1" />
-              <text x="110" y="40" textAnchor="middle" className="fill-white font-mono text-[5px] font-black">{stress} MPa</text>
-              {/* Wedge tip */}
-              <polygon points="106,128 114,128 110,132" fill="#334155" />
+            <g style={{ transform: `translateY(${deflection * 75}px)`, transition: 'transform 0.1s ease-out' }}>
+              <rect x="128" y="25" width="4" height="115" fill="#94A3B8" />
+              <rect x="110" y="35" width="40" height="18" rx="4" fill="#2563EB" stroke="#60A5FA" />
+              <text x="130" y="47" textAnchor="middle" fill="#FFFFFF" fontSize="7" fontWeight="bold" fontFamily="monospace">{stress} MPa</text>
+              <polygon points="126,140 134,140 130,146" fill="#64748B" />
             </g>
 
             {/* Bath Thermometer */}
-            <rect x="180" y="40" width="12" height="110" fill="#F1F5F9" stroke="#94A3B8" rx="2" />
-            <rect 
-              x="184" 
-              y={`${145 - (currentTemp / 200) * 90}`} 
-              width="4" 
-              height={`${(currentTemp / 200) * 90}`} 
-              fill="#EF4444" 
-              rx="1" 
-            />
-            <text x="180" y="32" className="fill-slate-400 font-mono text-[5px]">Temp</text>
-            <text x="195" y="145" className="fill-slate-400 font-mono text-[5px]">25°C</text>
+            <g transform="translate(235, 30)">
+              <rect x="0" y="0" width="12" height="130" rx="4" fill="#1E293B" stroke="#475569" />
+              <rect
+                x="3"
+                y={`${125 - Math.min(120, (currentTemp / 180) * 120)}`}
+                width="6"
+                height={`${Math.min(120, (currentTemp / 180) * 120)}`}
+                rx="2"
+                fill="#EF4444"
+              />
+              <text x="6" y="-6" textAnchor="middle" fill="#F87171" fontSize="7" fontWeight="bold" fontFamily="monospace">
+                {Math.round(currentTemp)}°C
+              </text>
+            </g>
 
-            {/* Dial gauge display */}
-            <rect x="15" y="20" width="40" height="24" fill="#F8FAFC" stroke="#475569" strokeWidth="1.5" rx="2" />
-            <text x="35" y="32" textAnchor="middle" className="fill-slate-800 font-mono text-[8px] font-black">{deflection.toFixed(3)} mm</text>
-            <text x="35" y="40" textAnchor="middle" className="fill-slate-400 font-mono text-[5px]">Deflection</text>
+            {/* Dial Gauge Readout */}
+            <g transform="translate(10, 25)">
+              <rect x="0" y="0" width="55" height="30" rx="6" fill="#1E293B" stroke="#38BDF8" strokeWidth="1.5" />
+              <text x="27" y="15" textAnchor="middle" fill="#38BDF8" fontSize="9" fontWeight="bold" fontFamily="monospace">
+                {deflection.toFixed(3)} mm
+              </text>
+              <text x="27" y="24" textAnchor="middle" fill="#94A3B8" fontSize="6" fontFamily="monospace">
+                Deflection (0.25mm)
+              </text>
+            </g>
           </svg>
         </div>
 
-        <button
-          disabled={running}
-          onClick={handleRunTest}
-          className="w-full bg-amber-600 text-white font-mono text-xs font-black uppercase tracking-wider py-3 border-2 border-slate-900 shadow-hard hover:bg-amber-700 disabled:opacity-60 flex items-center justify-center gap-1.5"
-        >
-          {running ? (
-            <>
-              <Loader2 className="w-4 h-4 animate-spin" /> Immersive heating cycle...
-            </>
-          ) : (
-            <>
-              <Play className="w-4 h-4" /> Start HDT Test
-            </>
-          )}
-        </button>
-      </div>
-
-      {/* Results output */}
-      <div className="mt-4 pt-4 border-t border-slate-100 space-y-3">
-        {results ? (
-          <div className="space-y-2">
-            <div className="flex justify-between items-center bg-green-50 p-2.5 rounded-lg border border-green-200">
-              <span className="text-[10px] text-green-700 font-bold uppercase flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Deflection point registered
-              </span>
-              {xpAwarded && (
-                <span className="font-mono text-[8px] font-black uppercase bg-green-600 text-white px-2 py-0.5 rounded shadow-sm">
-                  +15 XP Earned
-                </span>
-              )}
+        {/* Results Box */}
+        {results && (
+          <div className="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-3 animate-in fade-in-50">
+            <div className="flex items-center gap-1.5 text-xs font-mono font-bold text-amber-900">
+              <Award className="w-4 h-4 text-amber-700" />
+              <span>OFFICIAL ASTM D648 HDT TEST REPORT</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-lg border border-slate-200">
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Deflection Temp (0.25mm)</span>
-                <strong className="text-xs text-slate-800">{results.hdtTemp} °C</strong>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-center">
+              <div className="p-2 bg-white rounded-xl border border-amber-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">HDT Endpoint Temp</span>
+                <span className="font-mono text-base font-bold text-amber-700">{results.hdtTemp} °C</span>
               </div>
-              <div>
-                <span className="block text-[8px] font-mono text-slate-400 uppercase">Applied Fiber Stress</span>
-                <strong className="text-xs text-slate-800">{results.stress} MPa (Standard)</strong>
+              <div className="p-2 bg-white rounded-xl border border-amber-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Applied Surface Stress</span>
+                <span className="font-mono text-base font-bold text-slate-800">{results.stress} MPa</span>
+              </div>
+              <div className="p-2 bg-white rounded-xl border border-amber-100">
+                <span className="text-[9px] font-mono text-slate-400 uppercase block">Standard Heating Ramp</span>
+                <span className="font-mono text-base font-bold text-slate-800">{results.heatingRate} °C/hr</span>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2 text-slate-400 italic text-[10px] justify-center py-4 bg-slate-50/50 rounded-lg">
-            <HelpCircle className="w-4 h-4 text-slate-300" /> Start HDT bend cycle to capture 0.25 mm deflection limit temperature.
           </div>
         )}
       </div>
+
+      {/* Action Button */}
+      <button
+        disabled={running}
+        onClick={handleRunTest}
+        className="w-full py-3 bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 disabled:text-slate-400 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+      >
+        {running ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span>Heating Bath ({Math.round(currentTemp)}°C / Deflection: {deflection.toFixed(3)}mm)…</span>
+          </>
+        ) : (
+          <>
+            <Play className="w-4 h-4 fill-current" />
+            <span>Run ASTM D648 HDT Test</span>
+          </>
+        )}
+      </button>
     </div>
   )
 }
+
+export default HDTTester
