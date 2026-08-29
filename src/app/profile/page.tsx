@@ -4,15 +4,25 @@ import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Camera, Save, ArrowLeft, Check, AlertCircle, User } from 'lucide-react'
+import {
+  Camera,
+  Save,
+  ArrowLeft,
+  Check,
+  AlertCircle,
+  User as UserIcon,
+  Sparkles,
+  GraduationCap,
+  Target
+} from 'lucide-react'
 
 const EDUCATION_LEVELS = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Graduated', 'Working Professional']
 const TARGET_PATHS = [
-  { value: 'job', label: '🏭 Get a Job in the Industry' },
-  { value: 'gate', label: '📝 Crack GATE / PSU' },
-  { value: 'business', label: '🏗️ Start a Plastics Business' },
-  { value: 'rnd', label: '🔬 R&D / Research Career' },
-  { value: 'industry', label: '⚙️ Industry Skill Building' },
+  { value: 'job', label: '🏭 Industry Operations & Tooling' },
+  { value: 'gate', label: '📝 Crack GATE XE-F / PSU' },
+  { value: 'business', label: '🏗️ Plastics & Mould Manufacturing' },
+  { value: 'rnd', label: '🔬 Advanced Polymer R&D' },
+  { value: 'industry', label: '⚙️ Processing & Compounding' },
 ]
 
 type ProfileForm = {
@@ -100,7 +110,7 @@ export default function ProfilePage() {
           college_name: activeProfile.college_name ?? '',
           education_level: activeProfile.education_level ?? '',
           branch: activeProfile.branch ?? 'B.Tech Plastic Polymer Engineering',
-          graduation_year: activeProfile.graduation_year?.toString() ?? '',
+          graduation_year: activeProfile.graduation_year ? String(activeProfile.graduation_year) : '',
           target_path: activeProfile.target_path ?? '',
           is_hod: activeProfile.is_hod ?? false,
           is_recruiter: activeProfile.is_recruiter ?? false,
@@ -111,79 +121,88 @@ export default function ProfilePage() {
       setLoading(false)
     }
     load()
-  }, [router, supabase])
+  }, [supabase, router])
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    if (file.size > 2 * 1024 * 1024) { setError('Image must be under 2MB'); return }
+    if (file.size > 2 * 1024 * 1024) {
+      setError('Photo must be under 2MB')
+      return
+    }
     setAvatarFile(file)
     setAvatarPreview(URL.createObjectURL(file))
   }
 
   const handleSave = async () => {
-    if (!form.full_name.trim()) { setError('Name is required'); return }
-    setSaving(true); setError(null)
+    setSaving(true)
+    setError(null)
+    setSaved(false)
 
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) { router.push('/login'); return }
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) throw new Error('Not authenticated')
 
-    let newAvatarUrl = avatarUrl
+      let uploadedAvatarUrl = avatarUrl
 
-    // Upload avatar if changed
-    if (avatarFile) {
-      const ext = avatarFile.name.split('.').pop()
-      const path = `${session.user.id}/avatar.${ext}`
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(path, avatarFile, { upsert: true })
+      if (avatarFile) {
+        const ext = avatarFile.name.split('.').pop()
+        const path = `avatars/${session.user.id}.${ext}`
+        const { error: uploadError } = await supabase.storage
+          .from('avatars')
+          .upload(path, avatarFile, { upsert: true })
 
-      if (uploadError) {
-        setError(`Avatar upload failed: ${uploadError.message}`)
-        setSaving(false); return
+        if (uploadError) {
+          const { error: fallbackErr } = await supabase.storage
+            .from('public')
+            .upload(path, avatarFile, { upsert: true })
+          if (!fallbackErr) {
+            const { data: { publicUrl } } = supabase.storage.from('public').getPublicUrl(path)
+            uploadedAvatarUrl = publicUrl
+          }
+        } else {
+          const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path)
+          uploadedAvatarUrl = publicUrl
+        }
       }
 
-      const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path)
-      newAvatarUrl = publicUrl
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({
+          full_name: form.full_name || null,
+          bio: form.bio || null,
+          goals: form.goals || null,
+          college_name: form.college_name || null,
+          education_level: form.education_level || null,
+          branch: form.branch || null,
+          graduation_year: form.graduation_year ? parseInt(form.graduation_year) : null,
+          target_path: form.target_path || null,
+          avatar_url: uploadedAvatarUrl,
+          is_hod: form.is_hod,
+          is_recruiter: form.is_recruiter,
+          recruiter_company: form.is_recruiter ? form.recruiter_company : null,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', session.user.id)
+
+      if (updateError) throw updateError
+
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to save profile.')
+    } finally {
+      setSaving(false)
     }
-
-    // Update profile
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({
-        full_name: form.full_name.trim(),
-        bio: form.bio.trim() || null,
-        goals: form.goals.trim() || null,
-        college_name: form.college_name.trim() || null,
-        education_level: form.education_level || null,
-        branch: form.branch.trim() || null,
-        graduation_year: form.graduation_year ? parseInt(form.graduation_year) : null,
-        target_path: form.target_path || null,
-        is_hod: form.is_hod,
-        is_recruiter: form.is_recruiter,
-        recruiter_company: form.recruiter_company.trim() || null,
-        avatar_url: newAvatarUrl,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', session.user.id)
-
-    if (updateError) {
-      setError(updateError.message)
-      setSaving(false); return
-    }
-
-    setAvatarUrl(newAvatarUrl)
-    setSaved(true)
-    setSaving(false)
-    setTimeout(() => setSaved(false), 3000)
   }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-canvas flex items-center justify-center">
-        <div className="border-4 border-ink p-8 shadow-hard font-display text-xl font-black text-ink animate-pulse">
-          Loading your profile...
-        </div>
+      <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-center items-center p-6">
+        <div className="w-10 h-10 border-3 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mb-4" />
+        <p className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider">
+          Loading Profile Workspace…
+        </p>
       </div>
     )
   }
@@ -191,285 +210,212 @@ export default function ProfilePage() {
   const displayAvatar = avatarPreview || avatarUrl
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-violet" />
-
-      {/* Header */}
-      <div className="border-b-4 border-ink bg-ink px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/dashboard" className="border-2 border-white/30 text-white p-1.5 hover:bg-white/10 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-          </Link>
-          <div>
-            <div className="font-display text-lg font-black text-white">Your Profile</div>
-            <div className="font-mono text-[9px] text-white/40 uppercase tracking-wider">{email}</div>
+    <div className="min-h-screen bg-[#FAF8F5] pb-16">
+      {/* ── Top Bar ── */}
+      <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white px-4 sm:px-8 py-8 sm:py-10 border-b border-slate-800">
+        <div className="max-w-4xl mx-auto flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center border border-white/15"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <div>
+              <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
+                Engineering Profile
+              </h1>
+              <p className="text-xs font-mono text-slate-400 mt-0.5">{email}</p>
+            </div>
           </div>
+
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="px-5 py-2.5 bg-[#2563EB] hover:bg-blue-600 disabled:opacity-50 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+          >
+            {saving ? (
+              'Saving…'
+            ) : saved ? (
+              <>
+                <Check className="w-4 h-4 text-emerald-300" />
+                <span>Saved!</span>
+              </>
+            ) : (
+              <>
+                <Save className="w-4 h-4" />
+                <span>Save Changes</span>
+              </>
+            )}
+          </button>
         </div>
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="cn-btn-yellow text-sm disabled:opacity-50"
-        >
-          {saving ? 'Saving...' : saved ? <><Check className="w-4 h-4" /> Saved!</> : <><Save className="w-4 h-4" /> Save Profile</>}
-        </button>
-      </div>
+      </section>
 
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 space-y-5">
-
-        {/* Error */}
+      {/* ── Form Container ── */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         {error && (
-          <div className="border-4 border-orange p-4 flex items-center gap-3" style={{ backgroundColor: '#FFF7ED', boxShadow: '3px 3px 0px 0px #EA580C' }}>
-            <AlertCircle className="w-5 h-5 text-orange flex-shrink-0" />
-            <p className="text-sm font-bold text-ink">{error}</p>
+          <div className="p-4 rounded-2xl bg-red-50 border border-red-200 flex items-center gap-3 text-xs text-red-800 font-medium">
+            <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 
-        {/* Avatar */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard">
-          <div className="border-b-4 border-ink px-5 py-3 bg-violet">
-            <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Profile Photo</span>
-          </div>
-          <div className="p-6 bg-canvas flex items-center gap-6">
+        {/* Avatar Card */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+          <h2 className="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+            <UserIcon className="w-4 h-4 text-[#2563EB]" />
+            <span>Student Identity &amp; Photo</span>
+          </h2>
+
+          <div className="flex items-center gap-6 flex-wrap">
             <div className="relative flex-shrink-0">
-              <div className="w-24 h-24 border-4 border-ink overflow-hidden bg-violet/10 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-2xl border-2 border-slate-200 overflow-hidden bg-slate-100 flex items-center justify-center">
                 {displayAvatar ? (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img src={displayAvatar} alt="Avatar" className="w-full h-full object-cover" />
                 ) : (
-                  <User className="w-10 h-10 text-ink/30" />
+                  <UserIcon className="w-8 h-8 text-slate-400" />
                 )}
               </div>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute -bottom-2 -right-2 w-8 h-8 border-4 border-ink bg-yellow-bright flex items-center justify-center hover:bg-ink hover:text-white transition-colors"
+                className="absolute -bottom-2 -right-2 w-7 h-7 rounded-xl bg-[#2563EB] text-white flex items-center justify-center hover:bg-blue-700 transition-colors shadow-xs"
               >
                 <Camera className="w-3.5 h-3.5" />
               </button>
               <input ref={fileInputRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
             </div>
+
             <div>
-              <p className="font-bold text-ink mb-1">Upload your photo</p>
-              <p className="text-sm text-ink/60">JPG, PNG or WebP · Max 2MB</p>
-              <button onClick={() => fileInputRef.current?.click()} className="font-mono text-[10px] font-bold text-violet border-2 border-violet px-3 py-1 mt-2 hover:bg-violet hover:text-white transition-colors uppercase tracking-wider">
+              <p className="text-xs font-bold text-slate-900 mb-0.5">Upload Official Profile Photo</p>
+              <p className="text-[11px] font-mono text-slate-500">JPG, PNG or WebP · Maximum 2MB</p>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                className="mt-2.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-mono text-xs font-bold transition-colors"
+              >
                 Choose Photo
               </button>
             </div>
           </div>
         </div>
 
-        {/* Basic info */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard">
-          <div className="border-b-4 border-ink px-5 py-3 bg-blue">
-            <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Basic Information</span>
-          </div>
-          <div className="p-5 space-y-4 bg-canvas">
+        {/* Basic Information */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+          <h2 className="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-500" />
+            <span>Basic Information</span>
+          </h2>
+
+          <div className="space-y-4">
             <div>
-              <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">
-                Full Name <span className="text-orange">*</span>
+              <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                Full Name
               </label>
               <input
+                type="text"
                 value={form.full_name}
                 onChange={e => setForm(f => ({ ...f, full_name: e.target.value }))}
-                className="w-full border-4 border-ink px-4 py-3 text-sm font-bold text-ink focus:outline-none focus:border-blue shadow-hard-sm"
-                placeholder="Your full name"
+                placeholder="e.g. Siddharth Sen"
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-sans text-slate-900 focus:outline-none focus:border-[#2563EB]"
               />
             </div>
+
             <div>
-              <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">Bio</label>
+              <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                Technical Bio
+              </label>
               <textarea
+                rows={3}
                 value={form.bio}
                 onChange={e => setForm(f => ({ ...f, bio: e.target.value }))}
-                rows={3}
-                className="w-full border-4 border-ink px-4 py-3 text-sm text-ink focus:outline-none focus:border-blue resize-none shadow-hard-sm"
-                placeholder="Tell other students about yourself — interests, specialization, what excites you about polymer engineering..."
-              />
-            </div>
-            <div>
-              <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">Career Goals</label>
-              <textarea
-                value={form.goals}
-                onChange={e => setForm(f => ({ ...f, goals: e.target.value }))}
-                rows={2}
-                className="w-full border-4 border-ink px-4 py-3 text-sm text-ink focus:outline-none focus:border-blue resize-none shadow-hard-sm"
-                placeholder="e.g. Get placed at Reliance R&D, start a masterbatch business, crack GATE 2026..."
+                placeholder="Share your interests (e.g. Injection moulding defect analysis, biodegradable packaging, rheological testing)..."
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-sans text-slate-900 resize-none focus:outline-none focus:border-[#2563EB]"
               />
             </div>
           </div>
         </div>
 
-        {/* Education */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard">
-          <div className="border-b-4 border-ink px-5 py-3 bg-orange">
-            <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Education</span>
-          </div>
-          <div className="p-5 space-y-4 bg-canvas">
+        {/* Education & College */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+          <h2 className="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+            <GraduationCap className="w-4 h-4 text-[#2563EB]" />
+            <span>Academic &amp; Institution Details</span>
+          </h2>
+
+          <div className="space-y-4">
             <div>
-              <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">College / University</label>
+              <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                College / Institute Name
+              </label>
               <input
+                type="text"
                 value={form.college_name}
                 onChange={e => setForm(f => ({ ...f, college_name: e.target.value }))}
-                className="w-full border-4 border-ink px-4 py-3 text-sm text-ink focus:outline-none focus:border-orange shadow-hard-sm"
-                placeholder="e.g. CIPET Ahmedabad, PLAST India International University"
+                placeholder="e.g. CIPET Ahmedabad, ICT Mumbai, Anna University"
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-sans text-slate-900 focus:outline-none focus:border-[#2563EB]"
               />
             </div>
-            <div className="grid grid-cols-2 gap-4">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">Year / Level</label>
-                <div className="flex flex-col gap-1.5">
+                <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Academic Year / Level
+                </label>
+                <select
+                  value={form.education_level}
+                  onChange={e => setForm(f => ({ ...f, education_level: e.target.value }))}
+                  className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-sans text-slate-900"
+                >
+                  <option value="">Select Level</option>
                   {EDUCATION_LEVELS.map(level => (
-                    <button
-                      key={level}
-                      onClick={() => setForm(f => ({ ...f, education_level: level }))}
-                      className="border-4 border-ink px-3 py-2 text-left font-mono text-[10px] font-bold uppercase tracking-wider transition-all"
-                      style={{
-                        backgroundColor: form.education_level === level ? '#EA580C' : 'white',
-                        color: form.education_level === level ? 'white' : '#0A0A0A',
-                        boxShadow: form.education_level === level ? '2px 2px 0px 0px #EA580C' : '2px 2px 0px 0px #0A0A0A',
-                      }}
-                    >
-                      {level}
-                    </button>
+                    <option key={level} value={level}>{level}</option>
                   ))}
-                </div>
+                </select>
               </div>
+
               <div>
-                <div>
-                  <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">Branch</label>
-                  <input
-                    value={form.branch}
-                    onChange={e => setForm(f => ({ ...f, branch: e.target.value }))}
-                    className="w-full border-4 border-ink px-3 py-2 text-sm text-ink focus:outline-none shadow-hard-sm mb-4"
-                    placeholder="B.Tech PPE"
-                  />
-                </div>
-                <div>
-                  <label className="font-mono text-[10px] font-bold text-ink/50 uppercase tracking-widest block mb-1.5">Graduation Year</label>
-                  <input
-                    type="number"
-                    value={form.graduation_year}
-                    onChange={e => setForm(f => ({ ...f, graduation_year: e.target.value }))}
-                    className="w-full border-4 border-ink px-3 py-2 text-sm text-ink focus:outline-none shadow-hard-sm"
-                    placeholder="2026"
-                    min="2020" max="2030"
-                  />
-                </div>
+                <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                  Expected Graduation Year
+                </label>
+                <input
+                  type="number"
+                  value={form.graduation_year}
+                  onChange={e => setForm(f => ({ ...f, graduation_year: e.target.value }))}
+                  placeholder="2026"
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-sans text-slate-900 focus:outline-none focus:border-[#2563EB]"
+                />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Target path */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard">
-          <div className="border-b-4 border-ink px-5 py-3 bg-green">
-            <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Your Learning Target</span>
-          </div>
-          <div className="p-5 bg-canvas">
-            <p className="text-sm text-ink/60 mb-3">What are you primarily using PolymerHub for?</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {TARGET_PATHS.map(path => (
+        {/* Career Target Path */}
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs space-y-4">
+          <h2 className="font-display font-bold text-base text-slate-900 flex items-center gap-2">
+            <Target className="w-4 h-4 text-emerald-600" />
+            <span>Target Career Pathway</span>
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {TARGET_PATHS.map(path => {
+              const isSelected = form.target_path === path.value
+              return (
                 <button
                   key={path.value}
+                  type="button"
                   onClick={() => setForm(f => ({ ...f, target_path: path.value }))}
-                  className="border-4 border-ink p-4 text-left font-bold text-sm transition-all"
-                  style={{
-                    backgroundColor: form.target_path === path.value ? '#15803D' : 'white',
-                    color: form.target_path === path.value ? 'white' : '#0A0A0A',
-                    boxShadow: form.target_path === path.value ? '3px 3px 0px 0px #15803D' : '3px 3px 0px 0px #0A0A0A',
-                  }}
+                  className={`p-3.5 rounded-2xl border text-left text-xs font-bold transition-all ${
+                    isSelected
+                      ? 'border-[#2563EB] bg-blue-50/80 text-[#1E40AF] shadow-2xs'
+                      : 'border-slate-200 hover:border-slate-300 text-slate-700 bg-white'
+                  }`}
                 >
                   {path.label}
                 </button>
-              ))}
-            </div>
+              )
+            })}
           </div>
         </div>
-
-        {/* HOD / B2B Simulation (B2B Testing) */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard" style={{ borderColor: '#7C3AED' }}>
-          <div className="border-b-4 border-ink px-5 py-3 bg-violet-600 text-white flex justify-between items-center">
-            <span className="font-mono text-[10px] font-black uppercase tracking-widest">🏛️ HOD / Institutional Testing</span>
-            {form.is_hod && (
-              <Link href="/hod-dashboard" className="font-mono text-[9px] bg-white text-violet-700 border-2 border-white px-2 py-0.5 font-bold uppercase hover:bg-violet-50 transition-colors">
-                Go to HOD Dashboard →
-              </Link>
-            )}
-          </div>
-          <div className="p-5 bg-violet-50/50 space-y-3">
-            <p className="text-xs text-ink/70 leading-relaxed font-bold">
-              Toggle HOD (Head of Department) status below to test B2B seat allocation features. In HOD mode, you can allocate/revoke premium subscriptions for students in your college.
-            </p>
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="is_hod_checkbox"
-                checked={form.is_hod}
-                onChange={e => setForm(f => ({ ...f, is_hod: e.target.checked }))}
-                className="w-5 h-5 border-4 border-ink cursor-pointer accent-violet-600 rounded bg-white"
-              />
-              <label htmlFor="is_hod_checkbox" className="text-sm font-bold text-ink cursor-pointer select-none">
-                Enable HOD mode for my account
-              </label>
-            </div>
-            {form.is_hod && !form.college_name && (
-              <p className="text-[10px] text-amber-600 font-mono uppercase font-black">
-                ⚠️ Warning: You must select/enter a College / University above to match seats with students!
-              </p>
-            )}
-          </div>
-        </div>
-
-        {/* Recruiter / Enterprise Simulation (Recruiter Testing) */}
-        <div className="border-4 border-ink overflow-hidden shadow-hard" style={{ borderColor: '#2563EB' }}>
-          <div className="border-b-4 border-ink px-5 py-3 bg-blue-600 text-white flex justify-between items-center">
-            <span className="font-mono text-[10px] font-black uppercase tracking-widest">👔 Recruiter / Enterprise Testing</span>
-            {form.is_recruiter && (
-              <Link href="/recruiter" className="font-mono text-[9px] bg-white text-blue-700 border-2 border-white px-2 py-0.5 font-bold uppercase hover:bg-blue-50 transition-colors">
-                Go to Recruiter Portal →
-              </Link>
-            )}
-          </div>
-          <div className="p-5 bg-blue-50/50 space-y-4">
-            <p className="text-xs text-ink/70 leading-relaxed font-bold">
-              Toggle Recruiter status to access recruiter features. Enter your target company to manage challenges sponsored by your firm and view the candidate directory.
-            </p>
-            <div className="flex items-center gap-3">
-              <input
-                type="checkbox"
-                id="is_recruiter_checkbox"
-                checked={form.is_recruiter}
-                onChange={e => setForm(f => ({ ...f, is_recruiter: e.target.checked }))}
-                className="w-5 h-5 border-4 border-ink cursor-pointer accent-blue-600 rounded bg-white"
-              />
-              <label htmlFor="is_recruiter_checkbox" className="text-sm font-bold text-ink cursor-pointer select-none">
-                Enable Recruiter mode for my account
-              </label>
-            </div>
-            {form.is_recruiter && (
-              <div>
-                <label className="font-mono text-[9px] text-slate-500 uppercase tracking-wide block font-bold mb-1">Recruiter Company Name</label>
-                <input
-                  type="text"
-                  value={form.recruiter_company}
-                  onChange={e => setForm(f => ({ ...f, recruiter_company: e.target.value }))}
-                  placeholder="e.g. Reliance Industries, Supreme Industries"
-                  className="w-full border-4 border-ink p-2 font-mono text-xs bg-white focus:outline-none"
-                />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Save button */}
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="cn-btn-black w-full justify-center text-sm disabled:opacity-50"
-        >
-          {saving ? 'Saving...' : saved ? <><Check className="w-4 h-4" /> Profile Saved!</> : <><Save className="w-4 h-4" /> Save All Changes</>}
-        </button>
-
-        <Link href="/dashboard" className="block text-center font-mono text-[10px] text-ink/40 hover:text-ink uppercase tracking-wider py-2 transition-colors">
-          ← Back to Dashboard
-        </Link>
       </div>
     </div>
   )
