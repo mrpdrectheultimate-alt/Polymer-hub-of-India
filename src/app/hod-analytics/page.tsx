@@ -4,8 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import {
   Users, TrendingUp, AlertTriangle, BookOpen, Star,
-  BarChart2, Award, ChevronRight, ArrowLeft,
-
+  BarChart2, Award, ArrowLeft,
   CheckCircle, RefreshCw, ShieldAlert
 } from 'lucide-react'
 
@@ -54,14 +53,14 @@ type AnalyticsData = {
 
 /* ─── Small Components ────────────────────────────────────────────────── */
 function ScoreBar({ score }: { score: number | null }) {
-  if (score === null) return <span className="font-mono text-[9px] text-slate-400">No data</span>
-  const color = score >= 80 ? '#16a34a' : score >= 60 ? '#ca8a04' : '#dc2626'
+  if (score === null) return <span className="font-mono text-[10px] text-slate-400">No data</span>
+  const color = score >= 80 ? '#10B981' : score >= 60 ? '#F59E0B' : '#EF4444'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-2 bg-slate-100 border border-slate-200 rounded-full overflow-hidden">
         <div className="h-full rounded-full transition-all duration-500" style={{ width: `${score}%`, backgroundColor: color }} />
       </div>
-      <span className="font-mono text-[9px] font-black w-7 text-right" style={{ color }}>{score}%</span>
+      <span className="font-mono text-[10px] font-bold w-8 text-right" style={{ color }}>{score}%</span>
     </div>
   )
 }
@@ -70,14 +69,14 @@ function StatCard({ icon: Icon, label, value, sub, color }: {
   icon: React.ElementType; label: string; value: string | number; sub?: string; color: string
 }) {
   return (
-    <div className="border-4 border-ink bg-white shadow-hard p-5 flex items-center gap-4">
-      <div className="w-12 h-12 border-4 border-ink flex items-center justify-center flex-shrink-0" style={{ backgroundColor: color }}>
-        <Icon className="w-5 h-5 text-white" />
+    <div className="border border-slate-200/90 rounded-2xl bg-white shadow-xs p-5 flex items-center gap-4">
+      <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: color + '15' }}>
+        <Icon className="w-6 h-6" style={{ color }} />
       </div>
       <div>
-        <div className="font-mono text-[8px] text-slate-400 uppercase tracking-widest font-black">{label}</div>
-        <div className="font-display text-2xl font-black text-ink leading-tight">{value}</div>
-        {sub && <div className="font-mono text-[9px] text-slate-400">{sub}</div>}
+        <div className="font-mono text-[10px] text-slate-500 uppercase tracking-wider font-bold">{label}</div>
+        <div className="font-display text-2xl font-bold text-slate-900 leading-tight">{value}</div>
+        {sub && <div className="font-mono text-[10px] text-slate-400">{sub}</div>}
       </div>
     </div>
   )
@@ -118,10 +117,10 @@ export default function HODAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="border-4 border-ink w-12 h-12 border-t-yellow-bright animate-spin" />
-          <span className="font-mono text-xs uppercase tracking-widest text-ink">Loading Analytics...</span>
+          <div className="border-4 border-slate-200 border-t-[#2563EB] w-10 h-10 rounded-full animate-spin" />
+          <span className="font-mono text-xs uppercase tracking-widest text-slate-500">Loading Analytics...</span>
         </div>
       </div>
     )
@@ -129,16 +128,16 @@ export default function HODAnalyticsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-        <div className="max-w-md w-full border-4 border-ink p-8 bg-white shadow-hard text-center">
+      <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center p-6">
+        <div className="max-w-md w-full border border-slate-200/90 rounded-3xl p-8 bg-white shadow-xs text-center">
           <ShieldAlert className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="font-display text-xl font-black text-ink mb-2">Access Restricted</h2>
-          <p className="text-sm text-ink/70 leading-relaxed mb-6">{error}</p>
+          <h2 className="font-display text-xl font-bold text-slate-900 mb-2">Access Restricted</h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-6">{error}</p>
           <div className="flex gap-3 justify-center">
-            <Link href="/profile" className="border-4 border-ink bg-yellow-bright px-4 py-2 font-mono text-xs font-black uppercase shadow-hard-sm hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+            <Link href="/profile" className="px-4 py-2 bg-[#2563EB] text-white rounded-xl font-mono text-xs font-bold hover:bg-blue-700 transition-colors shadow-xs">
               Go to Profile
             </Link>
-            <Link href="/hod-dashboard" className="border-4 border-ink bg-white px-4 py-2 font-mono text-xs font-black uppercase shadow-hard-sm hover:translate-x-[-2px] hover:translate-y-[-2px] transition-transform">
+            <Link href="/hod-dashboard" className="px-4 py-2 border border-slate-200 bg-white text-slate-700 rounded-xl font-mono text-xs font-bold hover:bg-slate-50 transition-colors">
               Seat Dashboard
             </Link>
           </div>
@@ -159,20 +158,20 @@ export default function HODAnalyticsPage() {
   const weakSubjects = [...subjectStats].sort((a, b) => (a.avgScore ?? 101) - (b.avgScore ?? 101)).filter(s => s.avgScore !== null).slice(0, 5)
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] font-sans pb-16">
       {/* Header */}
-      <div className="border-b-4 border-ink bg-ink text-white px-6 py-5">
+      <div className="bg-slate-900 text-white px-6 py-8 border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex items-center justify-between flex-wrap gap-4">
           <div>
-            <Link href="/hod-dashboard" className="flex items-center gap-1 font-mono text-[9px] text-yellow-bright uppercase tracking-widest hover:opacity-80 mb-2">
+            <Link href="/hod-dashboard" className="flex items-center gap-1 font-mono text-[10px] text-blue-400 uppercase tracking-wider hover:underline mb-2">
               <ArrowLeft className="w-3 h-3" /> Seat Dashboard
             </Link>
-            <h1 className="font-display text-2xl font-black text-white">📊 Analytics & Insights</h1>
-            <p className="font-mono text-[10px] text-white/50 uppercase tracking-widest">Institution-level performance intelligence</p>
+            <h1 className="font-display text-2xl sm:text-3xl font-bold text-white">📊 Department Analytics &amp; Insights</h1>
+            <p className="font-mono text-xs text-slate-400 mt-1">Institution-level performance intelligence</p>
           </div>
           <button onClick={load}
-            className="flex items-center gap-2 border-4 border-yellow-bright bg-yellow-bright text-ink px-4 py-2 font-mono text-xs font-black uppercase shadow-[3px_3px_0px_0px_rgba(250,204,21,0.5)] hover:-translate-y-0.5 transition-transform">
-            <RefreshCw className="w-4 h-4" /> Refresh
+            className="flex items-center gap-2 bg-[#2563EB] hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all shadow-xs">
+            <RefreshCw className="w-3.5 h-3.5" /> Refresh
           </button>
         </div>
       </div>
@@ -181,16 +180,16 @@ export default function HODAnalyticsPage() {
 
         {/* Summary KPI Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          <StatCard icon={Users} label="Total Students" value={summary.totalStudents} sub="in your institution" color="#6D28D9" />
-          <StatCard icon={Star} label="Avg XP / Student" value={summary.avgXP.toLocaleString()} sub={`${summary.totalXP.toLocaleString()} total`} color="#CA8A04" />
-          <StatCard icon={BookOpen} label="Avg Lessons" value={summary.avgLessons} sub="completed per student" color="#1D4ED8" />
-          <StatCard icon={TrendingUp} label="Avg Quiz Score" value={summary.avgQuizScore > 0 ? `${summary.avgQuizScore}%` : 'N/A'} sub="across all attempts" color="#047857" />
+          <StatCard icon={Users} label="Total Students" value={summary.totalStudents} sub="in your institution" color="#2563EB" />
+          <StatCard icon={Star} label="Avg XP / Student" value={summary.avgXP.toLocaleString()} sub={`${summary.totalXP.toLocaleString()} total`} color="#D97706" />
+          <StatCard icon={BookOpen} label="Avg Lessons" value={summary.avgLessons} sub="completed per student" color="#4F46E5" />
+          <StatCard icon={TrendingUp} label="Avg Quiz Score" value={summary.avgQuizScore > 0 ? `${summary.avgQuizScore}%` : 'N/A'} sub="across all attempts" color="#059669" />
           <StatCard icon={AlertTriangle} label="Content Gaps" value={contentGaps.length} sub="topics below 70%" color="#DC2626" />
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="border-4 border-ink overflow-hidden bg-white shadow-hard">
-          <div className="flex border-b-4 border-ink">
+        {/* Navigation Tabs & Main Container */}
+        <div className="border border-slate-200/90 rounded-3xl overflow-hidden bg-white shadow-xs">
+          <div className="flex border-b border-slate-100 bg-slate-50">
             {([
               { id: 'overview', label: '🏆 Overview', icon: BarChart2 },
               { id: 'subjects', label: '📚 Subject Stats', icon: BookOpen },
@@ -198,8 +197,11 @@ export default function HODAnalyticsPage() {
               { id: 'students', label: '👥 Student Roster', icon: Users },
             ] as const).map(tab => (
               <button key={tab.id} onClick={() => setActiveTab(tab.id)}
-                className="flex-1 px-4 py-3 font-mono text-[9px] font-black uppercase tracking-widest border-r-4 border-ink last:border-r-0 transition-colors"
-                style={{ backgroundColor: activeTab === tab.id ? '#0A0A0A' : 'white', color: activeTab === tab.id ? '#FACC15' : '#6B7280' }}>
+                className={`flex-1 px-4 py-3.5 font-mono text-xs font-bold transition-all border-b-2 ${
+                  activeTab === tab.id
+                    ? 'border-[#2563EB] text-[#2563EB] bg-white'
+                    : 'border-transparent text-slate-500 hover:text-slate-900 hover:bg-slate-100'
+                }`}>
                 {tab.label}
               </button>
             ))}
@@ -212,21 +214,21 @@ export default function HODAnalyticsPage() {
               {/* Top Performing Subjects */}
               <div>
                 <div className="flex items-center gap-2 mb-4">
-                  <Award className="w-4 h-4 text-green-600" />
-                  <h3 className="font-display font-black text-sm text-ink uppercase">Top Performing Subjects</h3>
+                  <Award className="w-4 h-4 text-emerald-600" />
+                  <h3 className="font-display font-bold text-sm text-slate-900 uppercase">Top Performing Subjects</h3>
                 </div>
                 <div className="space-y-3">
                   {topSubjects.length === 0 && (
-                    <p className="font-mono text-[10px] text-slate-400 text-center py-4">No quiz data yet.</p>
+                    <p className="font-mono text-xs text-slate-400 text-center py-4">No quiz data yet.</p>
                   )}
                   {topSubjects.map((s, i) => (
-                    <div key={s.id} className="flex items-center gap-3 border-2 border-ink p-3">
-                      <div className="w-6 h-6 border-2 border-ink bg-green-100 flex items-center justify-center font-mono text-[9px] font-black text-green-700 flex-shrink-0">
+                    <div key={s.id} className="flex items-center gap-3 border border-slate-200 rounded-2xl p-3.5 hover:border-slate-300 transition-colors">
+                      <div className="w-7 h-7 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-mono text-xs font-bold flex-shrink-0">
                         {i + 1}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-xs text-ink truncate">{s.name}</div>
-                        <div className="font-mono text-[9px] text-slate-400">{s.completed} completions</div>
+                        <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">{s.name}</div>
+                        <div className="font-mono text-[10px] text-slate-400">{s.completed} completions</div>
                       </div>
                       <div className="w-28 flex-shrink-0">
                         <ScoreBar score={s.avgScore} />
@@ -239,21 +241,21 @@ export default function HODAnalyticsPage() {
               {/* Weak Subjects */}
               <div>
                 <div className="flex items-center gap-2 mb-4">
-                  <AlertTriangle className="w-4 h-4 text-red-500" />
-                  <h3 className="font-display font-black text-sm text-ink uppercase">Subjects Needing Attention</h3>
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  <h3 className="font-display font-bold text-sm text-slate-900 uppercase">Subjects Needing Attention</h3>
                 </div>
                 <div className="space-y-3">
                   {weakSubjects.length === 0 && (
-                    <p className="font-mono text-[10px] text-slate-400 text-center py-4">All subjects performing well! 🎉</p>
+                    <p className="font-mono text-xs text-slate-400 text-center py-4">All subjects performing well! 🎉</p>
                   )}
                   {weakSubjects.map((s, i) => (
-                    <div key={s.id} className="flex items-center gap-3 border-2 border-ink p-3">
-                      <div className="w-6 h-6 border-2 border-ink bg-red-50 flex items-center justify-center font-mono text-[9px] font-black text-red-600 flex-shrink-0">
+                    <div key={s.id} className="flex items-center gap-3 border border-slate-200 rounded-2xl p-3.5 hover:border-slate-300 transition-colors">
+                      <div className="w-7 h-7 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-mono text-xs font-bold flex-shrink-0">
                         {i + 1}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-bold text-xs text-ink truncate">{s.name}</div>
-                        <div className="font-mono text-[9px] text-slate-400">{s.completed} completions</div>
+                        <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">{s.name}</div>
+                        <div className="font-mono text-[10px] text-slate-400">{s.completed} completions</div>
                       </div>
                       <div className="w-28 flex-shrink-0">
                         <ScoreBar score={s.avgScore} />
@@ -263,170 +265,95 @@ export default function HODAnalyticsPage() {
                 </div>
               </div>
 
-              {/* Quick Action Links */}
-              <div className="lg:col-span-2 border-4 border-ink bg-yellow-bright p-5">
-                <h3 className="font-display font-black text-sm text-ink uppercase mb-3">🚀 Quick Actions</h3>
-                <div className="flex flex-wrap gap-3">
-                  <Link href="/hod-dashboard" className="flex items-center gap-2 border-4 border-ink bg-white px-4 py-2 font-mono text-[9px] font-black uppercase shadow-hard-sm hover:-translate-y-0.5 transition-transform">
-                    <Users className="w-3.5 h-3.5" /> Manage Seats <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
-                  <Link href="/leaderboard?tab=leaderboard" className="flex items-center gap-2 border-4 border-ink bg-white px-4 py-2 font-mono text-[9px] font-black uppercase shadow-hard-sm hover:-translate-y-0.5 transition-transform">
-                    <BarChart2 className="w-3.5 h-3.5" /> Institution Leaderboard <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
-                  <Link href="/subjects" className="flex items-center gap-2 border-4 border-ink bg-white px-4 py-2 font-mono text-[9px] font-black uppercase shadow-hard-sm hover:-translate-y-0.5 transition-transform">
-                    <BookOpen className="w-3.5 h-3.5" /> View Curriculum <ChevronRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
-              </div>
             </div>
           )}
 
           {/* ── Subject Stats Tab ── */}
           {activeTab === 'subjects' && (
-            <div className="divide-y-2 divide-ink/10">
-              <div className="grid grid-cols-4 gap-4 px-6 py-3 bg-slate-50 border-b-2 border-ink/10">
-                <span className="font-mono text-[8px] text-slate-400 uppercase font-black">Subject</span>
-                <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">Completions</span>
-                <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">Avg Quiz Score</span>
-                <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-right">Action</span>
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {subjectStats.map(s => (
+                  <div key={s.id} className="border border-slate-200 rounded-2xl p-4 space-y-2 hover:border-[#2563EB] transition-all">
+                    <div className="font-bold text-sm text-slate-900">{s.name}</div>
+                    <div className="flex justify-between text-xs font-mono text-slate-500">
+                      <span>Completions:</span>
+                      <span className="font-bold text-slate-900">{s.completed}</span>
+                    </div>
+                    <div className="pt-2">
+                      <ScoreBar score={s.avgScore} />
+                    </div>
+                  </div>
+                ))}
               </div>
-              {subjectStats.length === 0 && (
-                <div className="p-12 text-center">
-                  <p className="font-display text-xl font-black text-slate-300">No subject data yet.</p>
-                </div>
-              )}
-              {subjectStats.map(s => (
-                <div key={s.id} className="grid grid-cols-4 gap-4 items-center px-6 py-4 hover:bg-slate-50 transition-colors">
-                  <span className="font-bold text-sm text-ink">{s.name}</span>
-                  <div className="text-center">
-                    <span className="font-mono text-sm font-black text-blue-600">{s.completed}</span>
-                    <div className="font-mono text-[8px] text-slate-400">completions</div>
-                  </div>
-                  <div>
-                    <ScoreBar score={s.avgScore} />
-                  </div>
-                  <div className="text-right">
-                    <Link href={`/subjects/${s.slug}`} className="border-2 border-ink px-2 py-1 font-mono text-[8px] font-black uppercase hover:bg-ink hover:text-white transition-colors">
-                      View →
-                    </Link>
-                  </div>
-                </div>
-              ))}
             </div>
           )}
 
           {/* ── Content Gaps Tab ── */}
           {activeTab === 'gaps' && (
-            <div>
-              <div className="px-6 py-4 bg-red-50 border-b-4 border-ink flex items-start gap-3">
-                <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="font-mono text-[9px] font-black text-red-700 uppercase tracking-widest">Content Gap Heatmap</p>
-                  <p className="font-mono text-[9px] text-red-600 mt-0.5">These lessons have average quiz scores below 70%. Review content and consider extra sessions.</p>
+            <div className="p-6">
+              {contentGaps.length === 0 ? (
+                <div className="text-center py-10 space-y-2">
+                  <CheckCircle className="w-8 h-8 text-emerald-500 mx-auto" />
+                  <p className="font-bold text-sm text-slate-800">No Critical Content Gaps Detected</p>
+                  <p className="text-xs text-slate-500">All topics are averaging above 70% retention.</p>
                 </div>
-              </div>
-              <div className="divide-y-2 divide-ink/10">
-                <div className="grid grid-cols-5 gap-4 px-6 py-3 bg-slate-50 border-b-2 border-ink/10">
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black col-span-2">Lesson</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black">Subject</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">Attempts</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-right">Avg Score</span>
-                </div>
-                {contentGaps.length === 0 && (
-                  <div className="p-12 text-center">
-                    <CheckCircle className="w-12 h-12 text-green-400 mx-auto mb-3" />
-                    <p className="font-display text-xl font-black text-slate-300 mb-1">All Clear!</p>
-                    <p className="font-mono text-[10px] text-slate-400 uppercase tracking-wider">No lessons below 70% average score.</p>
-                  </div>
-                )}
-                {contentGaps.map((gap) => {
-                  const score = gap.avgScore ?? 0
-                  const severity = score < 40 ? 'bg-red-100 border-l-4 border-red-500' : score < 60 ? 'bg-orange-50 border-l-4 border-orange-400' : 'bg-yellow-50 border-l-4 border-yellow-400'
-                  return (
-                    <div key={gap.lessonId} className={`grid grid-cols-5 gap-4 items-center px-6 py-4 ${severity}`}>
-                      <span className="font-bold text-sm text-ink col-span-2 truncate">{gap.title}</span>
-                      <span className="font-mono text-[9px] text-slate-500">{gap.subjectName}</span>
-                      <span className="font-mono text-xs font-black text-slate-600 text-center">{gap.attempts}</span>
-                      <div className="text-right">
-                        <span className="font-mono text-sm font-black" style={{ color: score < 50 ? '#dc2626' : '#ca8a04' }}>
-                          {score}%
-                        </span>
+              ) : (
+                <div className="space-y-3">
+                  {contentGaps.map((gap, i) => (
+                    <div key={gap.lessonId || i} className="border border-slate-200 rounded-2xl p-4 flex items-center justify-between flex-wrap gap-3">
+                      <div>
+                        <div className="font-bold text-sm text-slate-900">{gap.title}</div>
+                        <div className="font-mono text-[10px] text-slate-400">{gap.subjectName} · {gap.attempts} attempts</div>
+                      </div>
+                      <div className="w-32">
+                        <ScoreBar score={gap.avgScore} />
                       </div>
                     </div>
-                  )
-                })}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
           {/* ── Student Roster Tab ── */}
           {activeTab === 'students' && (
-            <div>
-              <div className="px-6 py-4 border-b-4 border-ink flex items-center gap-3">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  placeholder="Search students by name or email..."
-                  className="flex-1 border-4 border-ink px-3 py-2 font-mono text-xs bg-white focus:outline-none focus:border-yellow-bright"
-                />
-                <span className="font-mono text-[9px] text-slate-400 whitespace-nowrap">{filteredStudents.length} of {students.length}</span>
-              </div>
-              <div className="divide-y-2 divide-ink/10">
-                <div className="grid grid-cols-6 gap-2 px-6 py-3 bg-slate-50 border-b-2 border-ink/10">
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black col-span-2">Student</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">XP</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">Streak</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-center">Lessons</span>
-                  <span className="font-mono text-[8px] text-slate-400 uppercase font-black text-right">Status</span>
-                </div>
-                {filteredStudents.length === 0 && (
-                  <div className="p-12 text-center">
-                    <p className="font-display text-xl font-black text-slate-300">No students found.</p>
-                  </div>
-                )}
-                {filteredStudents.map(s => {
-                  const isPremium = s.subscription_status === 'premium'
-                  return (
-                    <div key={s.id} className="grid grid-cols-6 gap-2 items-center px-6 py-4 hover:bg-slate-50 transition-colors">
-                      <div className="col-span-2 min-w-0">
-                        <div className="font-bold text-sm text-ink truncate">{s.full_name ?? 'Unnamed Student'}</div>
-                        <div className="font-mono text-[9px] text-slate-400 truncate">{s.email}</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="flex items-center justify-center gap-0.5">
-                          <Star className="w-3 h-3 text-yellow-600" />
-                          <span className="font-mono text-xs font-black text-ink">{s.xp_points.toLocaleString()}</span>
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <span className="font-mono text-xs font-black text-orange-600">{s.current_streak} 🔥</span>
-                      </div>
-                      <div className="text-center">
-                        <span className="font-mono text-xs font-black text-blue-600">{s.total_lessons_completed}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className={`font-mono text-[8px] font-black px-2 py-1 border-2 ${isPremium ? 'border-violet-600 text-violet-600 bg-violet-50' : 'border-slate-300 text-slate-400 bg-slate-50'}`}>
-                          {isPremium ? 'Premium' : 'Free'}
-                        </span>
-                      </div>
-                    </div>
-                  )
-                })}
+            <div className="p-6 space-y-4">
+              <input
+                type="text"
+                placeholder="Search students in roster..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-[#2563EB]"
+              />
+
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-slate-100 bg-slate-50 font-mono text-[10px] text-slate-500 uppercase tracking-wider text-left">
+                      <th className="px-4 py-3">Student</th>
+                      <th className="px-4 py-3">Email</th>
+                      <th className="px-4 py-3">XP Points</th>
+                      <th className="px-4 py-3">Lessons Done</th>
+                      <th className="px-4 py-3">Streak</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-sans text-xs sm:text-sm text-slate-800">
+                    {filteredStudents.map(s => (
+                      <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="px-4 py-3 font-bold text-slate-900">{s.full_name || 'Unnamed'}</td>
+                        <td className="px-4 py-3 font-mono text-xs text-slate-500">{s.email}</td>
+                        <td className="px-4 py-3 font-mono font-bold text-blue-600">{s.xp_points.toLocaleString()}</td>
+                        <td className="px-4 py-3 font-mono">{s.total_lessons_completed}</td>
+                        <td className="px-4 py-3 font-mono text-orange-600">{s.current_streak}d</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           )}
-        </div>
 
-        {/* Footer breadcrumbs */}
-        <div className="flex items-center gap-2 font-mono text-[9px] text-slate-400 uppercase">
-          <Link href="/dashboard" className="hover:text-ink">Dashboard</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link href="/hod-dashboard" className="hover:text-ink">HOD Dashboard</Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-ink font-black">Analytics</span>
         </div>
-
       </div>
     </div>
   )

@@ -1123,37 +1123,37 @@ export default function CareersHubPage() {
 function TrackCard({ track }: { track: typeof TRACKS[0] }) {
   const [open, setOpen] = useState(false)
   return (
-    <div className="border-4 border-slate-900 bg-white overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] rounded-xl">
+    <div className="border border-slate-200/90 bg-white overflow-hidden shadow-xs rounded-2xl transition-all">
       <button onClick={() => setOpen(!open)} className="w-full text-left">
-        <div className="relative border-b-4 border-slate-900 overflow-hidden" style={{ height: '120px' }}>
+        <div className="relative overflow-hidden" style={{ height: '120px' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={track.image} alt={track.title} className="w-full h-full object-cover" />
-          <div className="absolute inset-0" style={{ backgroundColor: track.color + 'CC' }} />
+          <div className="absolute inset-0 bg-slate-900/60 backdrop-blur-[1px]" />
           <div className="absolute bottom-3 left-4 right-4 flex items-end justify-between">
             <div>
-              <div className="font-mono text-[9px] font-bold text-white/70 uppercase tracking-wider">{track.subtitle}</div>
-              <h3 className="font-display text-base font-black text-white leading-tight uppercase">{track.title}</h3>
+              <div className="font-mono text-[9px] font-bold text-white/80 uppercase tracking-wider">{track.subtitle}</div>
+              <h3 className="font-display text-base font-bold text-white leading-tight">{track.title}</h3>
             </div>
             <div className="flex flex-col items-end gap-1 shrink-0">
-              <span className="font-mono text-[9px] font-black text-white border-2 border-white px-2 py-0.5">{track.salary}</span>
-              <span className="font-mono text-[8px] text-white/70 uppercase">{track.growth}</span>
+              <span className="font-mono text-[10px] font-bold text-white bg-white/20 px-2.5 py-0.5 rounded-lg border border-white/30">{track.salary}</span>
+              <span className="font-mono text-[9px] text-white/80 uppercase">{track.growth}</span>
             </div>
           </div>
         </div>
-        <div className="px-5 py-3 flex items-center justify-between bg-slate-50">
+        <div className="px-5 py-3 flex items-center justify-between bg-slate-50 border-t border-slate-100">
           <p className="text-xs text-slate-600 flex-1 pr-3 leading-relaxed">{track.desc}</p>
           {open ? <ChevronUp className="w-4 h-4 text-slate-500 flex-shrink-0" /> : <ChevronDown className="w-4 h-4 text-slate-500 flex-shrink-0" />}
         </div>
       </button>
 
       {open && (
-        <div className="border-t-4 border-slate-900 p-5 space-y-4 bg-white">
+        <div className="border-t border-slate-100 p-5 space-y-4 bg-white">
           <div>
-            <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Skills to Build</div>
+            <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Key Skills</div>
             <div className="space-y-1.5">
               {track.skills.map((s) => (
                 <div key={s} className="flex items-center gap-2">
-                  <div className="w-2 h-2 border-2 border-slate-900 flex-shrink-0" style={{ backgroundColor: track.color }} />
+                  <div className="w-2 h-2 rounded-full flex-shrink-0 bg-[#2563EB]" />
                   <span className="text-xs text-slate-700">{s}</span>
                 </div>
               ))}
@@ -1161,10 +1161,10 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
           </div>
           {track.recruiters.length > 0 && (
             <div>
-              <div className="font-mono text-[9px] font-bold uppercase tracking-widest text-slate-400 mb-2">Top Recruiters</div>
-              <div className="flex flex-wrap gap-2">
+              <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">Top Recruiters</div>
+              <div className="flex flex-wrap gap-1.5">
                 {track.recruiters.map((r) => (
-                  <span key={r} className="font-mono text-[9px] border-2 border-slate-900 px-2 py-0.5 text-slate-600 bg-slate-50">{r}</span>
+                  <span key={r} className="font-mono text-[10px] font-bold border border-slate-200 px-2.5 py-1 rounded-lg text-slate-700 bg-slate-50">{r}</span>
                 ))}
               </div>
             </div>
@@ -1173,10 +1173,10 @@ function TrackCard({ track }: { track: typeof TRACKS[0] }) {
             <Link
               key={l.slug}
               href={`/lessons/${l.slug}`}
-              className="flex items-center justify-between border-4 border-slate-900 p-3 hover:bg-slate-900 hover:text-white group transition-colors shadow-hard-sm"
+              className="flex items-center justify-between border border-slate-200 p-3 rounded-xl hover:border-[#2563EB] hover:bg-blue-50/50 group transition-all"
             >
-              <span className="text-xs font-bold group-hover:text-white">{l.name}</span>
-              <ArrowRight className="w-4 h-4 flex-shrink-0" />
+              <span className="text-xs font-bold text-slate-800 group-hover:text-[#2563EB]">{l.name}</span>
+              <ArrowRight className="w-4 h-4 text-slate-400 group-hover:text-[#2563EB] flex-shrink-0" />
             </Link>
           ))}
         </div>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { ArrowLeft, MessageSquare, AlertTriangle, Lightbulb, Heart, HelpCircle, CheckCircle } from 'lucide-react'
+import { ArrowLeft, MessageSquare, AlertTriangle, Lightbulb, Heart, CheckCircle2, Send, Sparkles } from 'lucide-react'
 
 type FeedbackType = 'bug' | 'feature' | 'content' | 'general' | 'praise'
 
@@ -79,76 +79,94 @@ export default function FeedbackPage() {
       setRating(null)
     } catch (err) {
       console.error('Failed to submit feedback:', err)
-      setErrorMsg(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
+      setErrorMsg('Failed to submit feedback. Please try again.')
     } finally {
       setSubmitting(false)
     }
   }
 
-  const TYPE_OPTIONS: { value: FeedbackType; label: string; icon: React.ElementType; color: string; bg: string }[] = [
-    { value: 'general', label: 'General Feedback', icon: HelpCircle, color: '#1D4ED8', bg: '#EFF6FF' },
+  const TYPE_OPTIONS = [
+    { value: 'general', label: 'General Inquiry', icon: MessageSquare, color: '#2563EB', bg: '#EFF6FF' },
     { value: 'bug', label: 'Report a Bug', icon: AlertTriangle, color: '#EA580C', bg: '#FFF7ED' },
-    { value: 'feature', label: 'Request a Feature', icon: Lightbulb, color: '#CA8A04', bg: '#FEFCE8' },
-    { value: 'content', label: 'Content Issue', icon: MessageSquare, color: '#7C3AED', bg: '#F5F3FF' },
-    { value: 'praise', label: 'Send Praise', icon: Heart, color: '#15803D', bg: '#F0FDF4' },
+    { value: 'feature', label: 'Request Feature', icon: Lightbulb, color: '#D97706', bg: '#FEFCE8' },
+    { value: 'content', label: 'Curriculum Note', icon: Sparkles, color: '#2563EB', bg: '#EFF6FF' },
+    { value: 'praise', label: 'Send Praise', icon: Heart, color: '#059669', bg: '#ECFDF5' },
   ]
 
   return (
-    <div className="min-h-screen bg-canvas pb-12">
-      {/* Top Banner Accent */}
-      <div className="h-2 bg-[#7C3AED]" />
-
-      {/* Header */}
-      <div className="border-b-4 border-ink px-6 md:px-10 py-5 flex items-center gap-3 bg-[#F5F3FF]">
-        <Link href="/dashboard" className="w-8 h-8 border-4 border-ink bg-white flex items-center justify-center hover:translate-x-[-2px] transition-transform">
-          <ArrowLeft className="w-4 h-4 text-ink" />
-        </Link>
-        <div>
-          <div className="font-mono text-[9px] font-black uppercase tracking-widest text-[#7C3AED]">Support & Growth</div>
-          <h1 className="font-display text-2xl font-black text-ink uppercase leading-none mt-1">
-            Send Feedback
-          </h1>
+    <div className="min-h-screen bg-[#F8FAFC] pb-16">
+      {/* Header Banner */}
+      <section className="bg-slate-900 text-white border-b border-slate-800 py-10 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/dashboard"
+              className="w-9 h-9 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+            </Link>
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase text-[#38BDF8] tracking-wider block">
+                Platform Continuous Improvement
+              </span>
+              <h1 className="text-xl sm:text-2xl font-bold font-display text-white mt-0.5">
+                Send Engineering Feedback
+              </h1>
+            </div>
+          </div>
+          <Link
+            href="/forum"
+            className="px-4 py-2 rounded-xl bg-slate-800 border border-slate-700 text-xs font-mono font-bold text-slate-300 hover:text-white transition-colors"
+          >
+            Community Forum →
+          </Link>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-xl mx-auto px-4 mt-8">
-        <div className="border-4 border-ink bg-white p-6 md:p-8 shadow-hard">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 mt-8">
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
           {success ? (
-            <div className="text-center py-6 space-y-4">
-              <div className="w-16 h-16 bg-[#F0FDF4] border-4 border-[#15803D] flex items-center justify-center mx-auto">
-                <CheckCircle className="w-8 h-8 text-[#15803D]" />
+            <div className="text-center py-8 space-y-4 animate-in fade-in-50">
+              <div className="w-16 h-16 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
+                <CheckCircle2 className="w-8 h-8" />
               </div>
-              <h2 className="font-display text-2xl font-black text-ink uppercase">Thank You!</h2>
-              <p className="text-sm text-ink/60 leading-relaxed max-w-sm mx-auto">
-                Your feedback has been logged successfully. The PolymerHub team reviews all submissions to improve the learning experience.
+              <h2 className="font-display text-2xl font-bold text-slate-900">Thank You!</h2>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-md mx-auto">
+                Your feedback has been logged successfully. The PolymerHub engineering team reviews all student and researcher submissions.
               </p>
               <div className="pt-4 flex gap-3 justify-center">
-                <button onClick={() => setSuccess(false)} className="border-4 border-ink px-4 py-2 font-mono text-[10px] font-black uppercase hover:bg-canvas transition-colors">
+                <button
+                  onClick={() => setSuccess(false)}
+                  className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-mono font-bold text-slate-700 hover:bg-slate-50 transition-colors"
+                >
                   Submit More Feedback
                 </button>
-                <Link href="/dashboard" className="cn-btn-black text-xs">
-                  Go to Dashboard
+                <Link
+                  href="/dashboard"
+                  className="px-4 py-2.5 rounded-xl bg-[#2563EB] text-white text-xs font-mono font-bold hover:bg-blue-700 transition-colors"
+                >
+                  Return to Dashboard
                 </Link>
               </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <h2 className="font-display text-lg font-black text-ink uppercase mb-2">Help Us Improve</h2>
-                <p className="text-xs text-ink/50 leading-relaxed">
-                  Encountered a bug? Have an idea for a calculator or a subject? Let us know. We read every message.
+                <h2 className="font-display text-lg font-bold text-slate-900 mb-1">Share Your Insights</h2>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  Encountered a defect calculation issue? Have an idea for a virtual testing simulator? Let us know below.
                 </p>
               </div>
 
               {errorMsg && (
-                <div className="border-4 border-orange bg-[#FFF7ED] p-4 text-xs font-mono font-bold text-orange uppercase tracking-wide">
+                <div className="p-3.5 bg-red-50 border border-red-200 rounded-2xl text-xs font-mono font-bold text-red-700">
                   ⚠️ Error: {errorMsg}
                 </div>
               )}
 
-              {/* Type Select */}
+              {/* Feedback Category */}
               <div className="space-y-2">
-                <label className="block font-mono text-[10px] font-black uppercase tracking-wide text-ink/75">
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-700">
                   Feedback Category
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -159,18 +177,17 @@ export default function FeedbackPage() {
                       <button
                         key={opt.value}
                         type="button"
-                        onClick={() => setType(opt.value)}
-                        className="border-2 border-ink p-3 flex items-center gap-3 transition-all hover:bg-canvas text-left"
-                        style={{
-                          backgroundColor: isSelected ? opt.bg : 'white',
-                          borderColor: isSelected ? opt.color : '#0A0A0A',
-                          boxShadow: isSelected ? `2px 2px 0px 0px ${opt.color}` : 'none'
-                        }}
+                        onClick={() => setType(opt.value as FeedbackType)}
+                        className={`p-3 rounded-2xl border flex items-center gap-3 transition-all text-left ${
+                          isSelected
+                            ? 'border-[#2563EB] bg-blue-50/60 ring-2 ring-blue-500/20'
+                            : 'border-slate-200/90 bg-white hover:border-slate-300'
+                        }`}
                       >
-                        <div className="w-7 h-7 border-2 border-ink flex items-center justify-center flex-shrink-0" style={{ backgroundColor: opt.color + '15' }}>
-                          <Icon className="w-3.5 h-3.5" style={{ color: opt.color }} />
+                        <div className="w-8 h-8 rounded-xl bg-slate-100 flex items-center justify-center flex-shrink-0 text-[#2563EB]">
+                          <Icon className="w-4 h-4" />
                         </div>
-                        <span className="font-mono text-[10px] font-black uppercase tracking-wider text-ink">
+                        <span className="font-mono text-xs font-bold text-slate-800">
                           {opt.label}
                         </span>
                       </button>
@@ -181,8 +198,8 @@ export default function FeedbackPage() {
 
               {/* Rating 1-5 */}
               <div className="space-y-2">
-                <label className="block font-mono text-[10px] font-black uppercase tracking-wide text-ink/75">
-                  Rate your experience
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                  Rate Your Experience
                 </label>
                 <div className="flex gap-2">
                   {[1, 2, 3, 4, 5].map(num => (
@@ -190,8 +207,11 @@ export default function FeedbackPage() {
                       key={num}
                       type="button"
                       onClick={() => setRating(num)}
-                      className="w-10 h-10 border-2 border-ink flex items-center justify-center font-display text-sm font-black transition-all hover:bg-canvas"
-                      style={rating === num ? { backgroundColor: '#7C3AED', color: 'white', borderColor: '#7C3AED', boxShadow: '2px 2px 0px 0px #0A0A0A' } : {}}
+                      className={`w-11 h-11 rounded-xl border font-mono text-sm font-bold transition-all ${
+                        rating === num
+                          ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-xs'
+                          : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                      }`}
                     >
                       {num}
                     </button>
@@ -200,57 +220,56 @@ export default function FeedbackPage() {
               </div>
 
               {/* Message */}
-              <div className="space-y-2">
-                <label className="block font-mono text-[10px] font-black uppercase tracking-wide text-ink/75">
-                  Your Message
+              <div className="space-y-1.5">
+                <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-700">
+                  Detailed Message
                 </label>
                 <textarea
                   value={message}
                   onChange={e => setMessage(e.target.value)}
                   rows={4}
                   required
-                  placeholder="Tell us what's on your mind..."
-                  className="w-full border-4 border-ink p-3 text-sm text-ink focus:outline-none focus:border-[#7C3AED] shadow-hard-sm"
+                  placeholder="Describe the issue, standard formula suggestion, or feature request..."
+                  className="w-full border border-slate-200 rounded-2xl p-3.5 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/10 resize-none font-sans"
                 />
               </div>
 
               {/* Personal Details */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="block font-mono text-[10px] font-black uppercase tracking-wide text-ink/75">
+                <div className="space-y-1.5">
+                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-700">
                     Your Name (Optional)
                   </label>
                   <input
                     type="text"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    placeholder="Enter your name"
-                    className="w-full border-4 border-ink px-3 py-2 text-sm text-ink focus:outline-none focus:border-[#7C3AED] shadow-hard-sm"
+                    placeholder="e.g. Rahul Sharma"
+                    className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="block font-mono text-[10px] font-black uppercase tracking-wide text-ink/75">
+                <div className="space-y-1.5">
+                  <label className="block font-mono text-[11px] font-bold uppercase tracking-wider text-slate-700">
                     Your Email (Optional)
                   </label>
                   <input
                     type="email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    placeholder="name@college.edu"
-                    className="w-full border-4 border-ink px-3 py-2 text-sm text-ink focus:outline-none focus:border-[#7C3AED] shadow-hard-sm"
+                    placeholder="name@institute.edu"
+                    className="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#2563EB]"
                   />
                 </div>
               </div>
 
-              <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="cn-btn-black w-full justify-center text-sm disabled:opacity-50"
-                >
-                  {submitting ? 'Submitting Feedback...' : 'Submit Feedback'}
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={submitting}
+                className="w-full py-3.5 bg-[#2563EB] hover:bg-blue-700 disabled:bg-slate-200 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-2"
+              >
+                <Send className="w-4 h-4" />
+                <span>{submitting ? 'Submitting Feedback…' : 'Submit Feedback'}</span>
+              </button>
             </form>
           )}
         </div>

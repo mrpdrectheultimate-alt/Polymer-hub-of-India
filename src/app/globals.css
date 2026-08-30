@@ -351,14 +351,9 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* ─── Hard shadow utilities ──────────────────────────────── */
-  .shadow-hard { box-shadow: 4px 4px 0px 0px var(--ink); }
-  .shadow-hard-sm { box-shadow: 2px 2px 0px 0px var(--ink); }
-  .shadow-hard-lg { box-shadow: 6px 6px 0px 0px var(--ink); }
-  .shadow-hard-blue { box-shadow: 4px 4px 0px 0px #1D4ED8; }
-  .shadow-hard-orange { box-shadow: 4px 4px 0px 0px #EA580C; }
-  .shadow-hard-green { box-shadow: 4px 4px 0px 0px #15803D; }
-  .shadow-hard-violet { box-shadow: 4px 4px 0px 0px #7C3AED; }
+  /* ─── Modern soft shadow utilities ────────────────────────── */
+  .shadow-soft { box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1); }
+  .shadow-card { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); }
 }
 
 /* ============================================================
