@@ -152,10 +152,10 @@ export default function HomePage() {
                 hidden: { opacity: 0, y: 30 },
                 visible: { opacity: 1, y: 0 }
               }}
-              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#111827] leading-[1.05] tracking-tight font-display"
+              className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#111827] leading-[1.12] tracking-tight font-display"
             >
               Master Polymer Engineering.
-              <span className="block bg-gradient-to-r from-[#2563EB] via-blue-700 to-[#16A34A] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#2563EB] via-blue-700 to-[#16A34A] bg-clip-text text-transparent pb-2.5 pt-1">
                 From Molecules to Manufacturing.
               </span>
             </motion.h1>
