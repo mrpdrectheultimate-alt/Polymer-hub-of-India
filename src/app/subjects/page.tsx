@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowRight, 
@@ -655,39 +654,29 @@ export default function SubjectsPage() {
                   style={{ borderColor: `${subject.color}40` }}
                 >
                   <div>
-                    {/* Full-Bleed Image Header */}
-                    <div className="relative h-48 w-full overflow-hidden bg-slate-900">
-                      <Image
-                        src={subject.image}
-                        alt={subject.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                      
-                      {/* Top Badges */}
-                      <div className="absolute top-4 left-4 flex items-center gap-2">
-                        <span className="px-2.5 py-1 rounded-full bg-[#F5C518] text-slate-950 text-[10px] font-mono font-black uppercase tracking-wider shadow-sm">
+                    {/* Blueprint Vector Header */}
+                    <div className="p-6 border-b border-slate-100 flex items-center justify-between" style={{ backgroundColor: subject.bgColor }}>
+                      <div className="w-14 h-14 rounded-2xl flex items-center justify-center border shadow-xs" style={{ backgroundColor: 'white', borderColor: `${subject.color}40` }}>
+                        <Icon className="h-7 w-7" style={{ color: subject.color }} />
+                      </div>
+                      <div className="flex flex-col items-end gap-1.5">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F5C518] text-slate-950 text-[10px] font-mono font-black uppercase tracking-wider shadow-xs">
                           ⭐ Featured
                         </span>
-                      </div>
-
-                      <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl flex items-center justify-center bg-black/60 backdrop-blur-md border border-white/20">
-                        <Icon className="h-5 w-5 text-white" />
-                      </div>
-
-                      {/* Bottom Title Info */}
-                      <div className="absolute bottom-4 left-4 right-4">
                         <span 
-                          className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold text-white uppercase shadow-xs inline-block mb-1.5"
+                          className="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold text-white uppercase shadow-xs"
                           style={{ backgroundColor: subject.color }}
                         >
                           {subject.level}
                         </span>
-                        <h3 className="font-black text-white text-lg leading-snug drop-shadow-sm">
-                          {subject.name}
-                        </h3>
                       </div>
+                    </div>
+
+                    {/* Title */}
+                    <div className="px-6 pt-5 pb-1">
+                      <h3 className="font-black text-[#111827] text-xl leading-snug group-hover:text-[#2563EB] transition-colors font-display">
+                        {subject.name}
+                      </h3>
                     </div>
 
                     {/* Card Content */}
@@ -758,27 +747,16 @@ export default function SubjectsPage() {
                   style={{ borderColor: `${subject.color}30` }}
                 >
                   <div>
-                    <div className="relative h-32 w-full overflow-hidden bg-slate-900">
-                      <Image
-                        src={subject.image}
-                        alt={subject.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
-                      
-                      <div className="absolute top-2.5 right-2.5 w-8 h-8 rounded-xl flex items-center justify-center bg-black/60 backdrop-blur-md border border-white/20">
-                        <Icon className="h-4 w-4 text-white" />
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between" style={{ backgroundColor: subject.bgColor }}>
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center border shadow-xs" style={{ backgroundColor: 'white', borderColor: `${subject.color}40` }}>
+                        <Icon className="h-5 w-5" style={{ color: subject.color }} />
                       </div>
-
-                      <div className="absolute bottom-2.5 left-2.5">
-                        <span 
-                          className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold text-white uppercase"
-                          style={{ backgroundColor: subject.color }}
-                        >
-                          {subject.level}
-                        </span>
-                      </div>
+                      <span 
+                        className="px-2 py-0.5 rounded-md text-[9px] font-mono font-bold text-white uppercase shadow-2xs"
+                        style={{ backgroundColor: subject.color }}
+                      >
+                        {subject.level}
+                      </span>
                     </div>
 
                     <div className="p-4 space-y-1.5">
@@ -831,27 +809,16 @@ export default function SubjectsPage() {
                   style={{ borderColor: `${subject.color}30` }}
                 >
                   <div>
-                    <div className="relative h-28 w-full overflow-hidden bg-slate-900">
-                      <Image
-                        src={subject.image}
-                        alt={subject.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
-                      
-                      <div className="absolute top-2 right-2 w-7 h-7 rounded-lg flex items-center justify-center bg-black/60 backdrop-blur-md border border-white/20">
-                        <Icon className="h-3.5 w-3.5 text-white" />
+                    <div className="p-3.5 border-b border-slate-100 flex items-center justify-between" style={{ backgroundColor: subject.bgColor }}>
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center border shadow-xs" style={{ backgroundColor: 'white', borderColor: `${subject.color}40` }}>
+                        <Icon className="h-4.5 w-4.5" style={{ color: subject.color }} />
                       </div>
-
-                      <div className="absolute bottom-2 left-2">
-                        <span 
-                          className="px-2 py-0.5 rounded text-[8px] font-mono font-bold text-white uppercase"
-                          style={{ backgroundColor: subject.color }}
-                        >
-                          {subject.level}
-                        </span>
-                      </div>
+                      <span 
+                        className="px-2 py-0.5 rounded text-[8px] font-mono font-bold text-white uppercase shadow-2xs"
+                        style={{ backgroundColor: subject.color }}
+                      >
+                        {subject.level}
+                      </span>
                     </div>
 
                     <div className="p-3.5 space-y-1">
@@ -905,31 +872,20 @@ export default function SubjectsPage() {
                   style={{ borderColor: `${subject.color}40` }}
                 >
                   <div>
-                    <div className="relative h-40 w-full overflow-hidden bg-slate-900">
-                      <Image
-                        src={subject.image}
-                        alt={subject.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-85"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                      
-                      <div className="absolute top-3 right-3 w-9 h-9 rounded-xl flex items-center justify-center bg-black/60 backdrop-blur-md border border-white/20">
-                        <Icon className="h-4 w-4 text-white" />
+                    <div className="p-5 border-b border-slate-100 flex items-center justify-between" style={{ backgroundColor: subject.bgColor }}>
+                      <div className="w-12 h-12 rounded-2xl flex items-center justify-center border shadow-xs" style={{ backgroundColor: 'white', borderColor: `${subject.color}40` }}>
+                        <Icon className="h-6 w-6" style={{ color: subject.color }} />
                       </div>
-
-                      <div className="absolute bottom-3 left-3">
-                        <span 
-                          className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-xs"
-                          style={{ backgroundColor: subject.color }}
-                        >
-                          {subject.level}
-                        </span>
-                      </div>
+                      <span 
+                        className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-xs"
+                        style={{ backgroundColor: subject.color }}
+                      >
+                        {subject.level}
+                      </span>
                     </div>
 
                     <div className="p-5 space-y-2">
-                      <h3 className="font-extrabold text-[#111827] text-base leading-snug group-hover:text-[#2563EB] transition-colors">
+                      <h3 className="font-extrabold text-[#111827] text-base leading-snug group-hover:text-[#2563EB] transition-colors font-display">
                         {subject.name}
                       </h3>
                       <p className="text-xs text-slate-600 font-light line-clamp-2 leading-relaxed">
@@ -1045,42 +1001,32 @@ export default function SubjectsPage() {
               className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border-2 border-slate-900"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Modal Header Image */}
-              <div className="relative h-52 w-full overflow-hidden bg-slate-900">
-                <Image
-                  src={selectedSubject.image}
-                  alt={selectedSubject.name}
-                  fill
-                  className="object-cover opacity-90"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                
+              {/* Modal Header */}
+              <div className="p-6 sm:p-8 border-b border-slate-100 relative" style={{ backgroundColor: selectedSubject.bgColor }}>
                 <button
                   onClick={() => setSelectedSubject(null)}
-                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 text-white hover:bg-black/80 transition-all flex items-center justify-center border border-white/20"
+                  className="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-slate-700 transition-all flex items-center justify-center border border-slate-200 shadow-xs"
                 >
                   <X className="h-5 w-5" />
                 </button>
 
-                <div className="absolute bottom-5 left-5 right-5">
-                  <div className="flex items-center gap-3">
-                    <div 
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center border border-white/30 backdrop-blur-md shadow-md"
-                      style={{ backgroundColor: `${selectedSubject.color}80` }}
+                <div className="flex items-center gap-4">
+                  <div 
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center border shadow-xs bg-white"
+                    style={{ borderColor: `${selectedSubject.color}40` }}
+                  >
+                    <selectedSubject.icon className="h-7 w-7" style={{ color: selectedSubject.color }} />
+                  </div>
+                  <div>
+                    <span 
+                      className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-xs mb-1.5 inline-block"
+                      style={{ backgroundColor: selectedSubject.color }}
                     >
-                      <selectedSubject.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <div>
-                      <span 
-                        className="px-2.5 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-xs mb-1 inline-block"
-                        style={{ backgroundColor: selectedSubject.color }}
-                      >
-                        {selectedSubject.level} &middot; {selectedSubject.lessons} Lessons
-                      </span>
-                      <h2 className="text-xl sm:text-2xl font-black text-white leading-tight">
-                        {selectedSubject.name}
-                      </h2>
-                    </div>
+                      {selectedSubject.level} &middot; {selectedSubject.lessons} Lessons
+                    </span>
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight font-display">
+                      {selectedSubject.name}
+                    </h2>
                   </div>
                 </div>
               </div>

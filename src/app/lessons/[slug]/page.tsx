@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 
@@ -23,7 +22,7 @@ import DownloadNotes from '@/components/DownloadNotes'
 import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
 import { LessonNotes } from '@/components/LessonNotes'
 import InteractiveKnowledgeCheck from '@/components/InteractiveKnowledgeCheck'
-import { LESSON_IMAGES, LessonImage } from '@/lib/lesson_images'
+import MaterialMachineProductTriad from '@/components/MaterialMachineProductTriad'
 
 type UserProgressRow = {
   quiz_passed?: boolean | null
@@ -120,20 +119,6 @@ export default async function LessonPage({ params }: { params: { slug: string } 
   }
 
   const isContentLocked = lesson.is_premium && !isPremium && !session
-
-  // Load images with fallback to static registry
-  const fallbackImages = LESSON_IMAGES[params.slug] || null
-  const conceptImages = (lesson.concept_images && (lesson.concept_images as unknown as LessonImage[]).length > 0)
-    ? (lesson.concept_images as unknown as LessonImage[])
-    : (fallbackImages?.concepts || [])
-  const productImages = (lesson.product_images && (lesson.product_images as unknown as LessonImage[]).length > 0)
-    ? (lesson.product_images as unknown as LessonImage[])
-    : (fallbackImages?.products || [])
-  const machineImages = (lesson.machine_images && (lesson.machine_images as unknown as LessonImage[]).length > 0)
-    ? (lesson.machine_images as unknown as LessonImage[])
-    : (lesson.process_images && (lesson.process_images as unknown as LessonImage[]).length > 0)
-      ? (lesson.process_images as unknown as LessonImage[])
-      : (fallbackImages?.machines || [])
 
   // Adjacent lessons
   const { data: allLessons } = await supabase
@@ -269,7 +254,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                 <div>
                   <h3 className="font-display text-xl font-bold text-slate-900">Full Lesson Access</h3>
                   <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
-                    Sign in to access complete lesson text, formulas, video explanations, and interactive quizzes across all 218 curriculum lessons.
+                    Sign in to access complete lesson text, formulas, video explanations, and interactive quizzes across all 216 curriculum lessons.
                   </p>
                 </div>
                 <div className="flex justify-center gap-3 pt-2">
@@ -305,65 +290,11 @@ export default async function LessonPage({ params }: { params: { slug: string } 
                   />
                 </section>
 
-                {/* ── CARD 04: VERIFIED CONCEPT & SCIENTIFIC DIAGRAMS ── */}
-                {conceptImages.length > 0 && (
-                  <section className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-5 pb-3 border-b border-slate-100">
-                      <span>📊</span>
-                      <span>03 · Validated Scientific &amp; Concept Diagrams</span>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {conceptImages.map((img: LessonImage, idx: number) => (
-                        <figure key={`concept-${idx}`} className="bg-slate-50/60 border border-slate-200 rounded-2xl p-3 shadow-xs">
-                          <div className="aspect-video relative bg-white rounded-xl border border-slate-200/80 overflow-hidden">
-                            <Image
-                              src={img.url}
-                              alt={img.caption || `Concept Diagram ${idx + 1}`}
-                              fill
-                              className="object-contain p-2"
-                            />
-                          </div>
-                          {img.caption && (
-                            <figcaption className="mt-2.5 text-xs text-slate-600 text-center font-mono font-medium leading-tight">
-                              {img.caption}
-                            </figcaption>
-                          )}
-                        </figure>
-                      ))}
-                    </div>
-                  </section>
-                )}
-
-                {/* ── CARD 05: INDUSTRIAL PRODUCTS & APPLICATIONS ── */}
-                {(productImages.length > 0 || machineImages.length > 0) && (
-                  <section className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-xs">
-                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-5 pb-3 border-b border-slate-100">
-                      <span>⚙️</span>
-                      <span>04 · Industrial Applications &amp; Processing Machinery</span>
-                    </div>
-
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                      {[...productImages, ...machineImages].slice(0, 6).map((img: LessonImage, idx: number) => (
-                        <div key={`app-${idx}`} className="bg-slate-50 border border-slate-200 rounded-xl p-2.5">
-                          <div className="relative aspect-square rounded-lg overflow-hidden border border-slate-200 bg-white">
-                            <Image
-                              src={img.url}
-                              alt={img.caption || `Application ${idx + 1}`}
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          {img.caption && (
-                            <p className="text-[11px] font-sans text-slate-600 mt-2 text-center leading-tight line-clamp-2">
-                              {img.caption}
-                            </p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-                )}
+                {/* ── CARD 04: VERIFIED MATERIAL · MACHINE · PRODUCT BLUEPRINT (0% MISMATCH) ── */}
+                <MaterialMachineProductTriad
+                  subjectSlug={subjectSlug}
+                  lessonTitle={lesson.title}
+                />
 
                 {/* ── CARD 06: INTERACTIVE SELF-ASSESSMENT KNOWLEDGE CHECK ── */}
                 <InteractiveKnowledgeCheck
