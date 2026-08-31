@@ -165,7 +165,7 @@ export default function UpgradePage() {
     )
   }
 
-  const isPremium = profile?.subscription_status === 'premium'
+  const isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col justify-between">

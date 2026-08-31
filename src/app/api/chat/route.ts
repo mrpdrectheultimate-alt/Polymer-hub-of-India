@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
         .eq('id', session.user.id)
         .single()
 
-      isPremium = profile?.subscription_status === 'premium'
+      isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
       userQueriesToday = profile?.ai_queries_today ?? 0
 
       if (!isPremium) {

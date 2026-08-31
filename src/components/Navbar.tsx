@@ -123,7 +123,7 @@ export default function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
-  const isPremium = profile?.subscription_status === 'premium'
+  const isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
 
   return (
     <>

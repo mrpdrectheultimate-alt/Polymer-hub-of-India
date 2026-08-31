@@ -366,7 +366,7 @@ export default function AITutorPage() {
           .eq('id', s.user.id)
           .single()
         if (profile) {
-          const isPremium = profile.subscription_status === 'premium'
+          const isPremium = profile.subscription_status === 'premium' || profile.subscription_status === 'active'
           setQueryStatus({
             used: profile.ai_queries_today ?? 0,
             limit: isPremium ? 9999 : 15,

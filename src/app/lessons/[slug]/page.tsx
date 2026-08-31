@@ -80,7 +80,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
       .select('subscription_status')
       .eq('id', session.user.id)
       .single()
-    isPremium = profile?.subscription_status === 'premium'
+    isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
 
     // Get user progress for this lesson
     const { data: prog } = await supabase

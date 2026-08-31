@@ -32,7 +32,7 @@ export async function GET() {
 
     if (!subjects || !lessons) return NextResponse.json({ recommendations: [] })
 
-    const isPremium = profile?.subscription_status === 'premium'
+    const isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
     const completedIds = new Set((progress ?? []).filter(p => p.quiz_passed).map(p => p.lesson_id))
 
     // ── Subject performance analysis ──────────────────────────────────────────
