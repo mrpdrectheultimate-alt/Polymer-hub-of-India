@@ -234,7 +234,7 @@ export default function DashboardPage() {
 
   if (!profile) return null
 
-  const isPremium = profile.subscription_status === 'active'
+  const isPremium = profile.subscription_status === 'premium' || profile.subscription_status === 'active'
   const totalCompleted = subjectStats.reduce((a, b) => a + b.completed, 0)
   const quizzesPassed = subjectStats.reduce((a, b) => a + b.completed, 0)
   const allScores = subjectStats.filter(s => s.avgScore !== null).map(s => s.avgScore!)
