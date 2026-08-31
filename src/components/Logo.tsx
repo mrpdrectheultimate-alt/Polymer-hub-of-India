@@ -16,11 +16,11 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     return (
       <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
         <Image
-          src="/logo-icon.svg"
+          src="/logo-icon.jpg"
           alt="Polymer Hub of India"
-          width={64}
-          height={40}
-          className="h-10 sm:h-11 w-auto object-contain shrink-0"
+          width={120}
+          height={90}
+          className="h-11 sm:h-12 w-auto object-contain shrink-0 mix-blend-multiply"
           priority
           unoptimized
         />
@@ -28,17 +28,17 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     )
   }
 
-  // Full logo — use official vector SVG
-  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-full.svg'
+  // Full logo — use original official horizontal logo
+  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-horizontal.jpg'
 
   return (
     <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
       <Image
         src={src}
         alt="Polymer Hub of India"
-        width={300}
-        height={65}
-        className="h-12 sm:h-13 md:h-14 w-auto object-contain shrink-0"
+        width={420}
+        height={130}
+        className="h-12 sm:h-14 md:h-16 w-auto object-contain shrink-0 mix-blend-multiply"
         priority
         unoptimized
       />
