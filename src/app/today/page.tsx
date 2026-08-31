@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { Newspaper, ShieldCheck } from 'lucide-react'
+import { Newspaper } from 'lucide-react'
 import TodayDashboard from '@/components/TodayDashboard'
 
 interface DBUpdate {
@@ -35,10 +35,10 @@ const TICKER_ITEMS = [
 
 function LiveTicker() {
   return (
-    <div className="bg-slate-900 text-white border-b border-slate-800 overflow-hidden h-10 flex items-center select-none">
-      <div className="bg-[#2563EB] text-white font-mono text-[11px] font-bold px-4 h-full flex items-center gap-1.5 flex-shrink-0 uppercase tracking-wider">
-        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-        Market Indicative
+    <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
+      <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest">
+        <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
+        Live Indices
       </div>
       <div className="overflow-hidden flex-1">
         <div className="flex animate-ticker whitespace-nowrap">
@@ -82,51 +82,53 @@ export default async function TodayPage() {
 
   const dateStr = new Date().toLocaleDateString('en-IN', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  })
+  }).toUpperCase()
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
       <LiveTicker />
 
-      {/* ── Hero Header: Clean Modern Slate-900 Banner ── */}
-      <section className="bg-white border-b border-slate-200/90 py-12 px-4 sm:px-6 relative">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
+      {/* ── Hero Header: Midnight Navy with Indian Tricolor Accent ── */}
+      <section className="bg-[#0A1628] text-white py-14 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
           <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-3.5 py-1 text-xs font-mono font-bold text-[#2563EB]">
-              <Newspaper className="w-3.5 h-3.5 text-[#2563EB]" />
-              <span>Daily Polymer Intelligence &middot; {dateStr}</span>
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1">
+              <Newspaper className="w-4 h-4 text-amber-400" />
+              <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+                Daily Polymer Intelligence &middot; {dateStr}
+              </span>
             </div>
 
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-slate-900 leading-tight tracking-tight">
-              What Happened Today in <span className="text-[#2563EB]">Plastics &amp; Polymers</span>
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black leading-tight tracking-tight uppercase">
+              What Happened Today in <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+                Plastics &amp; Polymers
+              </span>
             </h1>
 
-            <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-              Curated technical briefings in manufacturing, sustainability policies, and polymer research &mdash; linked to foundational curriculum lessons.
+            <p className="text-sm sm:text-base text-slate-300 max-w-2xl leading-relaxed font-light">
+              Curated daily breakthroughs in Indian manufacturing, EPR policies, biopolymer patents, and global research &mdash; connected directly to your B.Tech syllabus.
             </p>
-
-            <div className="flex items-center gap-2 pt-1 text-[11px] font-mono text-slate-500">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-              <span>Educational &amp; Industry Briefing Stream. Verified source links provided on each card.</span>
-            </div>
           </div>
 
           {/* Quick Metrics */}
           <div className="flex items-center gap-3 self-stretch md:self-end">
-            <div className="bg-slate-50 border border-slate-200/90 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial shadow-xs">
-              <span className="font-display text-2xl font-bold text-[#2563EB] block">{items.length}</span>
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">Stories Live</span>
+            <div className="bg-white/10 border border-white/15 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial">
+              <span className="font-display text-2xl font-bold text-amber-400 block">{items.length}</span>
+              <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider">Stories Live</span>
             </div>
-            <div className="bg-slate-50 border border-slate-200/90 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial shadow-xs">
-              <span className="font-display text-2xl font-bold text-emerald-600 block">100%</span>
-              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">Syllabus Linked</span>
+            <div className="bg-white/10 border border-white/15 px-4 py-2.5 rounded-2xl text-center flex-1 md:flex-initial">
+              <span className="font-display text-2xl font-bold text-emerald-400 block">24/7</span>
+              <span className="text-[10px] font-mono text-slate-300 uppercase tracking-wider">Verified News</span>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Main Dashboard Content ── */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 pt-8 relative z-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6 relative z-20">
         <TodayDashboard initialItems={items} />
       </main>
     </div>

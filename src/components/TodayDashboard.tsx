@@ -34,14 +34,14 @@ export interface NewsItem {
 }
 
 const CATEGORY_STYLES: Record<string, { badge: string; border: string }> = {
-  Research:       { badge: 'bg-blue-50 text-[#2563EB] border-blue-200', border: '#2563EB' },
-  Market:         { badge: 'bg-amber-50 text-amber-900 border-amber-200', border: '#D97706' },
-  India:          { badge: 'bg-orange-50 text-orange-800 border-orange-200', border: '#EA580C' },
-  Sustainability: { badge: 'bg-emerald-50 text-emerald-800 border-emerald-200', border: '#16A34A' },
-  Policy:         { badge: 'bg-purple-50 text-purple-800 border-purple-200', border: '#9333EA' },
-  Innovation:     { badge: 'bg-indigo-50 text-indigo-800 border-indigo-200', border: '#4F46E5' },
-  Recycling:      { badge: 'bg-teal-50 text-teal-800 border-teal-200', border: '#0D9488' },
-  Bioplastics:    { badge: 'bg-lime-50 text-lime-900 border-lime-200', border: '#65A30D' },
+  Research:       { badge: 'bg-blue-100 text-blue-800 border-blue-200', border: '#2563EB' },
+  Market:         { badge: 'bg-amber-100 text-amber-900 border-amber-200', border: '#D97706' },
+  India:          { badge: 'bg-orange-100 text-orange-800 border-orange-200', border: '#EA580C' },
+  Sustainability: { badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', border: '#16A34A' },
+  Policy:         { badge: 'bg-purple-100 text-purple-800 border-purple-200', border: '#9333EA' },
+  Innovation:     { badge: 'bg-indigo-100 text-indigo-800 border-indigo-200', border: '#4F46E5' },
+  Recycling:      { badge: 'bg-teal-100 text-teal-800 border-teal-200', border: '#0D9488' },
+  Bioplastics:    { badge: 'bg-lime-100 text-lime-900 border-lime-200', border: '#65A30D' },
 }
 
 const DEFAULT_IMAGES: Record<string, string> = {
@@ -118,66 +118,83 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
   // Compute insights
   const indiaCount = initialItems.filter((i) => i.region === 'India').length
   const sustainabilityCount = initialItems.filter((i) => 
-    i.category === 'Sustainability' || i.category === 'Recycling' || i.category === 'Bioplastics'
+    i.category === 'Recycling' || i.category === 'Bioplastics' || i.category === 'Sustainability'
   ).length
 
   return (
     <div className="space-y-8">
       
-      {/* ── Control Bar: Search & Filtering Tabs ── */}
-      <div className="bg-white border border-slate-200/90 rounded-3xl p-4 sm:p-5 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* ── Filter & Search Control Toolbar ── */}
+      <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-5 shadow-lg flex flex-col md:flex-row gap-4 items-center justify-between">
         
-        {/* Search Bar */}
-        <div className="relative w-full md:w-80 flex-shrink-0">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search polymer briefings, EPR norms, resins..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/10 font-sans"
-          />
-        </div>
-
-        {/* Region Filter Buttons */}
-        <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0">
-          {[
-            { id: 'all', label: 'All Regions', icon: Globe },
-            { id: 'india', label: '🇮🇳 India Focus', icon: Landmark },
-            { id: 'global', label: '🌍 Global R&D', icon: LayoutGrid },
-          ].map((tab) => {
-            const Icon = tab.icon
-            const isSelected = selectedRegion === tab.id
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setSelectedRegion(tab.id)}
-                className={`px-3.5 py-2 rounded-xl text-xs font-mono font-bold flex items-center gap-1.5 transition-all whitespace-nowrap ${
-                  isSelected
-                    ? 'bg-[#2563EB] text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <Icon className="w-3.5 h-3.5" />
-                <span>{tab.label}</span>
-              </button>
-            )
-          })}
-        </div>
-
-        {/* Category Dropdown */}
-        <div className="w-full md:w-auto flex items-center gap-2">
-          <span className="text-xs font-mono text-slate-500 font-bold uppercase hidden sm:inline">Category:</span>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full md:w-auto px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-700 focus:outline-none focus:border-[#2563EB]"
+        {/* Region Pills */}
+        <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 w-full md:w-auto">
+          <button
+            onClick={() => setSelectedRegion('all')}
+            className={`flex-1 md:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              selectedRegion === 'all'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
           >
-            <option value="all">All Disciplines</option>
-            {Object.keys(CATEGORY_STYLES).map((cat) => (
-              <option key={cat} value={cat}>{cat}</option>
-            ))}
-          </select>
+            <LayoutGrid className="w-3.5 h-3.5" /> All Regions
+          </button>
+          <button
+            onClick={() => setSelectedRegion('india')}
+            className={`flex-1 md:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              selectedRegion === 'india'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Landmark className="w-3.5 h-3.5 text-amber-400" /> India Focus
+          </button>
+          <button
+            onClick={() => setSelectedRegion('global')}
+            className={`flex-1 md:flex-initial px-3.5 py-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+              selectedRegion === 'global'
+                ? 'bg-slate-900 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5 text-blue-400" /> Global
+          </button>
+        </div>
+
+        {/* Search & Category Filter */}
+        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto flex-1 md:justify-end">
+          
+          {/* Search Input */}
+          <div className="relative w-full sm:w-64">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search polymer news..."
+              className="w-full pl-9 pr-3 py-2 text-xs font-medium bg-slate-50 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-slate-900 focus:bg-white transition-all text-slate-900"
+            />
+          </div>
+
+          {/* Category Dropdown */}
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full sm:w-auto border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 bg-slate-50 focus:outline-none focus:border-slate-900 transition-all cursor-pointer"
+            >
+              <option value="all">All Categories</option>
+              <option value="Research">Research &amp; R&amp;D</option>
+              <option value="Market">Market &amp; Prices</option>
+              <option value="India">Indian Manufacturing</option>
+              <option value="Sustainability">Sustainability &amp; Circularity</option>
+              <option value="Policy">Policy &amp; EPR</option>
+              <option value="Innovation">Material Innovation</option>
+              <option value="Recycling">Mechanical &amp; Chemical Recycling</option>
+              <option value="Bioplastics">Bioplastics &amp; PHA/PLA</option>
+            </select>
+          </div>
+
         </div>
 
       </div>
@@ -189,11 +206,11 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
         <div className="lg:col-span-8 space-y-6">
           
           {filteredItems.length === 0 ? (
-            <div className="bg-white border border-slate-200/90 rounded-3xl p-12 text-center shadow-xs space-y-4">
-              <Calendar className="w-12 h-12 text-slate-300 mx-auto" />
-              <h3 className="font-display text-lg font-bold text-slate-900">No matching daily updates found</h3>
+            <div className="bg-white border-2 border-slate-900 rounded-2xl p-12 text-center shadow-lg space-y-4">
+              <Calendar className="w-12 h-12 text-slate-400 mx-auto" />
+              <h3 className="font-display text-xl font-bold text-slate-900">No matching daily updates found</h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                Try clearing your search query or selecting &quot;All Disciplines&quot; to view the full intelligence stream.
+                Try clearing your search query or selecting &quot;All Categories&quot; to view today&apos;s latest intelligence stream.
               </p>
               <button
                 onClick={() => {
@@ -201,7 +218,7 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                   setSelectedCategory('all')
                   setSearchQuery('')
                 }}
-                className="bg-[#2563EB] hover:bg-blue-700 text-white font-mono text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all shadow-xs"
+                className="bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition-all"
               >
                 Reset All Filters
               </button>
@@ -211,31 +228,29 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
               
               {/* 🌟 Prominent Featured Hero Card */}
               {featured && (
-                <article className="bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-xs hover:border-[#2563EB] hover:shadow-md transition-all duration-300 group">
+                <article className="bg-white border-2 border-slate-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group">
                   <div className="grid grid-cols-1 md:grid-cols-12">
                     
-                    {/* Visual Card Image with Clean Fallback Pattern (Zero Black Void) */}
-                    <div className="md:col-span-5 relative min-h-[220px] md:min-h-full bg-gradient-to-br from-slate-100 to-blue-50/50 overflow-hidden flex items-center justify-center">
+                    {/* Visual 100% Unsplash Image */}
+                    <div className="md:col-span-5 relative min-h-[240px] md:min-h-full bg-slate-950 overflow-hidden">
                       <img
                         src={featured.image_url || DEFAULT_IMAGES[featured.category] || DEFAULT_IMAGES.Research}
                         alt={featured.headline}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        onError={(e) => {
-                          e.currentTarget.style.display = 'none'
-                        }}
                       />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-slate-950/20" />
                       
                       <div className="absolute top-3 left-3 flex gap-2">
-                        <span className="font-mono text-[10px] font-bold bg-[#2563EB] text-white px-2.5 py-0.5 rounded-lg shadow-xs">
-                          ⭐ Featured
+                        <span className="font-mono text-[10px] font-bold bg-[#F5C518] text-slate-950 px-2.5 py-0.5 rounded-md uppercase tracking-wider border border-slate-900 shadow-sm">
+                          ⭐ Featured Story
                         </span>
-                        <span className="font-mono text-[10px] font-bold bg-white/95 text-slate-800 px-2 py-0.5 rounded-lg border border-slate-200 shadow-xs">
+                        <span className="font-mono text-[10px] font-bold bg-white text-slate-900 px-2 py-0.5 rounded-md uppercase tracking-wider border border-slate-200">
                           {featured.region}
                         </span>
                       </div>
 
                       {featured.image_credit && (
-                        <div className="absolute bottom-2 right-2 bg-slate-900/60 backdrop-blur-xs text-[9px] text-white/90 px-2 py-0.5 rounded font-mono select-none">
+                        <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-sm text-[9px] text-white/90 px-2 py-0.5 rounded font-mono select-none">
                           📸 {featured.image_credit}
                         </div>
                       )}
@@ -245,21 +260,21 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                     <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-4">
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                          <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-lg border uppercase ${
+                          <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded border uppercase ${
                             CATEGORY_STYLES[featured.category]?.badge || 'bg-slate-100 text-slate-800 border-slate-200'
                           }`}>
                             {featured.category}
                           </span>
                           <span className="text-[11px] font-mono text-slate-400 font-medium">
-                            {featured.source_name} &middot; {new Date(featured.published_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}
+                            {featured.source_name} &middot; {new Date(featured.published_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} IST
                           </span>
                         </div>
 
-                        <h2 className="font-display text-xl sm:text-2xl font-bold text-slate-900 leading-tight group-hover:text-[#2563EB] transition-colors">
+                        <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 leading-tight group-hover:text-blue-600 transition-colors">
                           {featured.headline}
                         </h2>
 
-                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
                           {featured.summary}
                         </p>
                       </div>
@@ -268,7 +283,7 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                         {featured.related_lesson_slug && (
                           <Link
                             href={`/lessons/${featured.related_lesson_slug}`}
-                            className="inline-flex items-center gap-1.5 font-mono text-xs font-bold px-4 py-2 rounded-xl bg-blue-50 text-[#2563EB] hover:bg-[#2563EB] hover:text-white border border-blue-200 transition-all"
+                            className="inline-flex items-center gap-1.5 font-mono text-xs font-bold px-4 py-2 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white border border-blue-200 transition-all"
                           >
                             <BookOpen className="w-3.5 h-3.5" /> Connect to Lesson
                           </Link>
@@ -278,9 +293,9 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                             href={featured.source_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 font-mono text-xs font-bold px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all ml-auto"
+                            className="inline-flex items-center gap-1.5 font-mono text-xs font-bold px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition-all ml-auto"
                           >
-                            Source Link <ExternalLink className="w-3.5 h-3.5" />
+                            Read Full Source <ExternalLink className="w-3.5 h-3.5" />
                           </a>
                         )}
                       </div>
@@ -298,31 +313,29 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                   return (
                     <article
                       key={item.id}
-                      className="bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-xs hover:border-[#2563EB] hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
+                      className="bg-white border-2 border-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
                     >
                       <div>
-                        {/* Image / Header Pattern (Zero Black Void) */}
-                        <div className="relative h-44 bg-gradient-to-br from-slate-100 to-blue-50/50 overflow-hidden border-b border-slate-100 flex items-center justify-center">
+                        {/* Image */}
+                        <div className="relative h-44 bg-slate-950 overflow-hidden border-b-2 border-slate-200">
                           <img
                             src={item.image_url || DEFAULT_IMAGES[item.category] || DEFAULT_IMAGES.Research}
                             alt={item.headline}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none'
-                            }}
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
                           
                           <div className="absolute top-3 left-3 flex gap-1.5">
-                            <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded-lg border uppercase shadow-xs ${catStyle.badge}`}>
+                            <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded border uppercase shadow-sm ${catStyle.badge}`}>
                               {item.category}
                             </span>
-                            <span className="font-mono text-[9px] font-bold bg-white text-slate-800 px-2 py-0.5 rounded-lg border border-slate-200 shadow-xs">
+                            <span className="font-mono text-[9px] font-bold bg-slate-900/90 text-white px-2 py-0.5 rounded border border-white/20 uppercase">
                               {item.region}
                             </span>
                           </div>
 
                           {item.image_credit && (
-                            <div className="absolute bottom-2 right-2 bg-slate-900/60 backdrop-blur-xs text-[8px] text-white/90 px-1.5 py-0.5 rounded font-mono select-none">
+                            <div className="absolute bottom-2 right-2 bg-black/50 text-[8px] text-white/90 px-1.5 py-0.5 rounded font-mono select-none">
                               📸 {item.image_credit}
                             </div>
                           )}
@@ -332,14 +345,14 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                         <div className="p-5 space-y-2.5">
                           <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 font-medium">
                             <span>{item.source_name}</span>
-                            <span>{new Date(item.published_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric' })}</span>
+                            <span>{new Date(item.published_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} IST</span>
                           </div>
 
-                          <h3 className="font-display text-base font-bold text-slate-900 leading-snug group-hover:text-[#2563EB] transition-colors line-clamp-2">
+                          <h3 className="font-display text-base font-bold text-slate-900 leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">
                             {item.headline}
                           </h3>
 
-                          <p className="text-xs text-slate-600 leading-relaxed font-sans line-clamp-3">
+                          <p className="text-xs text-slate-600 leading-relaxed font-medium line-clamp-3">
                             {item.summary}
                           </p>
                         </div>
@@ -350,12 +363,12 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                         {item.related_lesson_slug ? (
                           <Link
                             href={`/lessons/${item.related_lesson_slug}`}
-                            className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#2563EB] hover:text-blue-800 uppercase"
+                            className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-blue-700 hover:text-blue-900 uppercase"
                           >
                             <BookOpen className="w-3 h-3" /> Syllabus Link &rarr;
                           </Link>
                         ) : (
-                          <span className="text-[10px] font-mono text-slate-400">Educational Brief</span>
+                          <span className="text-[10px] font-mono text-slate-400">Industry Brief</span>
                         )}
 
                         {item.source_url && (
@@ -363,7 +376,7 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                             href={item.source_url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 font-mono text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg transition-colors"
+                            className="inline-flex items-center gap-1 font-mono text-[10px] font-bold bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg transition-colors"
                           >
                             Source <ExternalLink className="w-2.5 h-2.5" />
                           </a>
@@ -384,71 +397,71 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
         <div className="lg:col-span-4 space-y-6">
           
           {/* 1. Weekly Takeaways Digest */}
-          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <Sparkles className="w-4 h-4 text-amber-500" /> Daily Executive Digest
               </span>
-              <span className="text-[10px] font-mono font-bold bg-blue-50 text-[#2563EB] px-2 py-0.5 rounded-lg border border-blue-200">
+              <span className="text-[10px] font-mono font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded">
                 Live Analysis
               </span>
             </div>
 
-            <div className="space-y-3.5 text-xs text-slate-600 leading-relaxed font-sans">
+            <div className="space-y-3.5 text-xs text-slate-700 leading-relaxed font-medium">
               <div className="flex items-start gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-blue-600 mt-1.5 flex-shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">National Manufacturing:</strong> {indiaCount} reports highlight polyolefin and carbon composite supply chains across India.
+                  <strong className="text-slate-900">India Expansion:</strong> {indiaCount} reports highlight Reliance, GAIL, and ISRO carbon composite &amp; PP infrastructure investments.
                 </p>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 mt-1.5 flex-shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">EPR &amp; Circularity:</strong> {sustainabilityCount} updates emphasize chemical pyrolysis recycling facilities and MoEFCC EPR norms.
+                  <strong className="text-slate-900">EPR &amp; Circularity:</strong> {sustainabilityCount} updates emphasize chemical pyrolysis recycling facilities and strict MoEFCC EPR credit mandates.
                 </p>
               </div>
               <div className="flex items-start gap-2.5">
-                <span className="w-2 h-2 rounded-full bg-indigo-600 mt-1.5 flex-shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">Engineering Resins:</strong> Growing demand for high-heat polyamides and bio-composites across EV components.
+                  <strong className="text-slate-900">Engineering Grades:</strong> Growing demand for high-heat automotive polyamides and bioplastics across EV battery packs.
                 </p>
               </div>
             </div>
           </div>
 
           {/* 2. On This Day in Polymer History */}
-          <div className="bg-blue-50/50 border border-blue-200 rounded-3xl p-6 shadow-xs space-y-3">
+          <div className="bg-[#FAF5FF] border-2 border-purple-300 rounded-2xl p-6 shadow-sm space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] bg-blue-100/70 px-2.5 py-0.5 rounded-lg">
-                📜 Milestone ({ON_THIS_DAY.year})
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded">
+                📜 On This Day ({ON_THIS_DAY.year})
               </span>
             </div>
             <h4 className="font-display font-bold text-base text-slate-900">
               {ON_THIS_DAY.headline}
             </h4>
-            <p className="text-xs text-slate-600 leading-relaxed font-sans">
+            <p className="text-xs text-slate-600 leading-relaxed font-medium">
               {ON_THIS_DAY.body}
             </p>
           </div>
 
           {/* 3. Shop-Floor Quick Tips */}
-          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <Lightbulb className="w-4 h-4 text-amber-500" /> Shop-Floor Quick Tips
               </span>
             </div>
 
             <div className="space-y-3">
               {SHOP_FLOOR_TIPS.map((tip, i) => (
-                <div key={i} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                <div key={i} className="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1">
                   <div className="flex items-center justify-between">
                     <span className="font-display font-bold text-xs text-slate-900">{tip.title}</span>
                     <span className="text-[9px] font-mono text-slate-500 bg-white px-1.5 py-0.5 rounded border border-slate-200">
                       {tip.tag}
                     </span>
                   </div>
-                  <p className="text-xs text-slate-600 leading-relaxed font-sans">
+                  <p className="text-[11px] text-slate-600 leading-relaxed font-medium">
                     {tip.tip}
                   </p>
                 </div>
@@ -457,9 +470,9 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
           </div>
 
           {/* 4. Trending Resins Tracker */}
-          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-4">
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-mono text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4 text-emerald-600" /> Benchmark Resins
               </span>
             </div>
@@ -469,10 +482,10 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                 <Link
                   key={resin.name}
                   href={`/materials?search=${encodeURIComponent(resin.name.split(' ')[1] || resin.name)}`}
-                  className="p-2.5 rounded-xl border border-slate-200 hover:border-[#2563EB] hover:bg-blue-50/30 transition-all text-left group"
+                  className="p-2.5 rounded-xl border border-slate-200 hover:border-slate-900 hover:bg-slate-50 transition-all text-left group"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-display font-bold text-xs text-slate-900 group-hover:text-[#2563EB]">
+                    <span className="font-display font-bold text-xs text-slate-900 group-hover:text-blue-600">
                       {resin.name}
                     </span>
                   </div>
@@ -488,21 +501,21 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
           </div>
 
           {/* 5. AI Tutor Shortcut Widget */}
-          <div className="bg-[#1E40AF] text-white border border-blue-300/30 rounded-3xl p-6 shadow-md space-y-3">
-            <div className="flex items-center gap-2 text-amber-300 font-mono text-[10px] font-bold uppercase tracking-wider">
+          <div className="bg-[#0A1628] text-white border-2 border-slate-900 rounded-2xl p-6 shadow-xl space-y-3">
+            <div className="flex items-center gap-2 text-amber-400 font-mono text-[10px] font-bold uppercase tracking-wider">
               <Brain className="w-4 h-4" /> AI News Synthesis
             </div>
             <h4 className="font-display font-bold text-base text-white">
-              Connect Industry News to Your B.Tech &amp; GATE Exams
+              Connect Today&apos;s News to Your GATE &amp; B.Tech Exams
             </h4>
-            <p className="text-xs text-white/80 leading-relaxed font-light">
-              Ask the RAG AI Copilot to summarize today&apos;s polymer briefings and generate practice questions.
+            <p className="text-xs text-slate-300 leading-relaxed font-light">
+              Ask the RAG AI Tutor to summarize today&apos;s headlines and generate 3 practice numericals.
             </p>
             <Link
               href={`/ai-tutor?prompt=${encodeURIComponent("Summarize today's polymer headlines and connect them to B.Tech Plastic Processing and Polymer Chemistry concepts.")}`}
-              className="w-full inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-100 text-[#2563EB] font-mono font-bold text-xs uppercase tracking-wider py-3 rounded-xl transition-all shadow-xs"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider py-3 rounded-xl border-2 border-slate-900 transition-all shadow-[3px_3px_0px_0px_#000]"
             >
-              Ask AI Copilot &rarr;
+              Ask AI Tutor &rarr;
             </Link>
           </div>
 
