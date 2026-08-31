@@ -104,6 +104,9 @@ export default function DashboardPage() {
   const [totalLessons, setTotalLessons] = useState(0)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'subjects'>('overview')
+  const [subjectSearch, setSubjectSearch] = useState('')
+  const [dailyAnswer, setDailyAnswer] = useState<number | null>(null)
+  const [dailySubmitted, setDailySubmitted] = useState(false)
 
   const supabase = createClient()
 
@@ -418,6 +421,73 @@ export default function DashboardPage() {
                 </Link>
               </div>
 
+              {/* Daily Engineering Challenge Card (Interactive) */}
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-md border border-amber-200 flex items-center gap-1">
+                      <Zap className="w-3 h-3 text-amber-600 fill-amber-500" />
+                      Daily Technical Challenge
+                    </span>
+                  </div>
+                  <span className="text-[11px] font-mono text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                    +15 XP Reward
+                  </span>
+                </div>
+
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-slate-900 font-display">
+                    For an 8-cavity injection mould producing POM components with total projected area of 320 cm² and peak cavity pressure of 500 bar, what minimum clamping tonnage is required with a 1.15 safety factor?
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                    {[
+                      { id: 0, text: '148 Tonnes' },
+                      { id: 1, text: '184 Tonnes (Correct: F = A × P × S / 1000)' },
+                      { id: 2, text: '210 Tonnes' },
+                      { id: 3, text: '92 Tonnes' },
+                    ].map((opt) => {
+                      const isSelected = dailyAnswer === opt.id
+                      const isCorrect = opt.id === 1
+
+                      let btnStyle = 'border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800'
+                      if (dailySubmitted) {
+                        if (isCorrect) btnStyle = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold'
+                        else if (isSelected && !isCorrect) btnStyle = 'border-rose-500 bg-rose-50 text-rose-950 font-bold'
+                      } else if (isSelected) {
+                        btnStyle = 'border-[#2563EB] bg-blue-50 text-[#1E40AF] font-bold ring-2 ring-blue-200'
+                      }
+
+                      return (
+                        <button
+                          key={opt.id}
+                          disabled={dailySubmitted}
+                          onClick={() => {
+                            setDailyAnswer(opt.id)
+                            setDailySubmitted(true)
+                          }}
+                          className={`p-3 rounded-xl border text-left text-xs font-mono transition-all flex items-center justify-between cursor-pointer ${btnStyle}`}
+                        >
+                          <span>{opt.text}</span>
+                          {dailySubmitted && isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+                        </button>
+                      )
+                    })}
+                  </div>
+
+                  {dailySubmitted && (
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-sans space-y-1">
+                      <p className="font-bold text-slate-900">
+                        {dailyAnswer === 1 ? '✅ Correct derivation!' : '💡 Formula Derivation:'}
+                      </p>
+                      <p className="text-slate-600 leading-relaxed font-mono text-[11px]">
+                        Clamping Force (Tons) = (Projected Area cm² × Cavity Pressure bar × 1.15) / 1000 = (320 × 500 × 1.15) / 1000 = 184 Tonnes.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Subject Progress Overview */}
               <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between border-b border-slate-100 pb-3">
@@ -485,6 +555,36 @@ export default function DashboardPage() {
 
             {/* ── Right Column (1 Col) ── */}
             <div className="space-y-6">
+              {/* GATE XE-F Readiness Meter */}
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-200">
+                    GATE XE-F Polymer Exam
+                  </span>
+                  <span className="text-xs font-mono font-bold text-slate-500">Target 2027</span>
+                </div>
+                <div>
+                  <h4 className="font-display font-bold text-sm text-slate-900">Syllabus Exam Readiness</h4>
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 mt-1 mb-1.5">
+                    <span>Curriculum Mastered</span>
+                    <span className="font-bold text-[#2563EB]">{totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}%</span>
+                  </div>
+                  <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                    <div
+                      className="bg-gradient-to-r from-blue-600 to-emerald-500 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${totalLessons > 0 ? Math.round((totalCompleted / totalLessons) * 100) : 0}%` }}
+                    />
+                  </div>
+                </div>
+                <Link
+                  href="/gate-mock"
+                  className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                >
+                  <Compass className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Launch GATE Mock Exam →</span>
+                </Link>
+              </div>
+
               {/* Flashcards Practice Widget */}
               <FlashcardWidget />
 
@@ -570,65 +670,76 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* ── All 19 Subjects Tab (Compact Structured List) ── */}
+        {/* ── All 19 Subjects Tab (Compact Structured List with Search Filter) ── */}
         {activeTab === 'subjects' && (
-          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-            <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between">
+          <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden space-y-0">
+            <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="font-display text-base font-bold text-slate-900">Accredited Polymer Curriculum (19 Disciplines)</h3>
                 <p className="text-xs text-slate-500 font-sans mt-0.5">216 in-depth engineering lessons aligned with AICTE &amp; GATE XE-F standards.</p>
               </div>
-              <span className="font-mono text-xs font-bold text-[#2563EB] bg-blue-50 px-3 py-1 rounded-lg border border-blue-200">
-                19 / 19 Domains
-              </span>
+              <div className="flex items-center gap-3">
+                <input
+                  type="text"
+                  placeholder="Filter disciplines (e.g. rheology, testing)..."
+                  value={subjectSearch}
+                  onChange={(e) => setSubjectSearch(e.target.value)}
+                  className="px-3.5 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#2563EB] w-full sm:w-64"
+                />
+                <span className="font-mono text-xs font-bold text-[#2563EB] bg-blue-50 px-3 py-1.5 rounded-xl border border-blue-200 shrink-0">
+                  {subjectStats.filter(s => !subjectSearch || s.subject.name.toLowerCase().includes(subjectSearch.toLowerCase())).length} / 19
+                </span>
+              </div>
             </div>
 
             <div className="divide-y divide-slate-100">
-              {subjectStats.map(stat => (
-                <div
-                  key={stat.subject.id}
-                  className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors"
-                >
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono font-bold uppercase text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                        Domain {stat.subject.order_index}
-                      </span>
-                      <h4 className="font-display font-bold text-sm text-slate-900 truncate">
-                        {stat.subject.name}
-                      </h4>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs font-mono text-slate-500 pt-1">
-                      <span>{stat.completed} / {stat.total} Lessons</span>
-                      <span>·</span>
-                      <span>{stat.avgScore !== null ? `Quiz avg: ${stat.avgScore}%` : 'Not tested'}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 sm:w-72">
-                    <div className="flex-1 space-y-1">
-                      <div className="flex justify-between text-[11px] font-mono text-slate-500">
-                        <span>Progress</span>
-                        <span className="font-bold text-slate-700">{stat.pct}%</span>
+              {subjectStats
+                .filter(s => !subjectSearch || s.subject.name.toLowerCase().includes(subjectSearch.toLowerCase()))
+                .map(stat => (
+                  <div
+                    key={stat.subject.id}
+                    className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-slate-50/80 transition-colors"
+                  >
+                    <div className="min-w-0 flex-1 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-mono font-bold uppercase text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                          Domain {stat.subject.order_index}
+                        </span>
+                        <h4 className="font-display font-bold text-sm text-slate-900 truncate">
+                          {stat.subject.name}
+                        </h4>
                       </div>
-                      <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div
-                          className="bg-[#2563EB] h-full rounded-full transition-all duration-500"
-                          style={{ width: `${stat.pct}%` }}
-                        />
+                      <div className="flex items-center gap-3 text-xs font-mono text-slate-500 pt-1">
+                        <span>{stat.completed} / {stat.total} Lessons</span>
+                        <span>·</span>
+                        <span>{stat.avgScore !== null ? `Quiz avg: ${stat.avgScore}%` : 'Not tested'}</span>
                       </div>
                     </div>
 
-                    <Link
-                      href={`/subjects/${stat.subject.slug}`}
-                      className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#2563EB] text-xs font-mono font-bold flex items-center gap-1 transition-colors border border-blue-100 shrink-0"
-                    >
-                      <span>Enter Domain</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
+                    <div className="flex items-center gap-4 sm:w-72">
+                      <div className="flex-1 space-y-1">
+                        <div className="flex justify-between text-[11px] font-mono text-slate-500">
+                          <span>Progress</span>
+                          <span className="font-bold text-slate-700">{stat.pct}%</span>
+                        </div>
+                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                          <div
+                            className="bg-[#2563EB] h-full rounded-full transition-all duration-500"
+                            style={{ width: `${stat.pct}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <Link
+                        href={`/subjects/${stat.subject.slug}`}
+                        className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 text-[#2563EB] text-xs font-mono font-bold flex items-center gap-1 transition-colors border border-blue-100 shrink-0"
+                      >
+                        <span>Enter Domain</span>
+                        <ChevronRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
         )}
