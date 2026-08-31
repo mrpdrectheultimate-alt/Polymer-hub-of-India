@@ -10,8 +10,6 @@ import {
   Brain, 
   Trophy, 
   Zap, 
-  Shield, 
-  Award, 
   Clock, 
   Target, 
   Check, 
@@ -1013,31 +1011,7 @@ export default function PracticePage() {
         </div>
       </section>
 
-      {/* ============================================================ */}
-      {/* TRUST & COMPLIANCE BAR */}
-      {/* ============================================================ */}
-      <section className="bg-white py-6 border-t border-[#F1F5F9]">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-[#94A3B8]">
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-emerald-600" />
-              DPDP Act 2023 Compliant
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-blue-600" />
-              AES-256 Encrypted Scores
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Award className="h-3.5 w-3.5 text-[#F5C518]" />
-              100% Verified GATE XE-F Syllabus Alignment
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
-          </div>
-        </div>
-      </section>
+
 
       {/* ===== GLOBAL FOOTER ===== */}
       <Footer />

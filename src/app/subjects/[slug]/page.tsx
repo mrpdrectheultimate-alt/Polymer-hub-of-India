@@ -10,8 +10,6 @@ import {
   ChevronRight,
   MessageSquare,
   Sparkles,
-  Shield,
-  Award,
   Clock,
   Layers,
   GraduationCap,
@@ -735,26 +733,7 @@ export default async function SubjectDetailPage({
         </section>
       )}
 
-      {/* ============================================================ */}
-      {/* TRUST & COMPLIANCE BADGE BAR */}
-      {/* ============================================================ */}
-      <section className="bg-white py-6 border-t border-slate-200">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-slate-500">
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-emerald-600" />
-              DPDP Act 2023 Compliant
-            </span>
-            <span className="w-px h-3.5 bg-slate-300" />
-            <span className="flex items-center gap-1.5">
-              <Award className="h-3.5 w-3.5 text-amber-500" />
-              GATE XE-F &amp; CIPET Curriculum Aligned
-            </span>
-            <span className="w-px h-3.5 bg-slate-300" />
-            <span className="flex items-center gap-1.5">🇮🇳 Designed for Indian Engineering Students</span>
-          </div>
-        </div>
-      </section>
+
 
       {/* ===== GLOBAL FOOTER ===== */}
       <Footer />
