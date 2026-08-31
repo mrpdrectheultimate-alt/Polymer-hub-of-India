@@ -272,37 +272,26 @@ function LoginContent() {
           </div>
 
           {/* ─── AUTH METHOD TOGGLE TABS ─── */}
-          {!isOtpStep && (
-            <div className="flex bg-slate-100 p-1 rounded-2xl mb-6 border border-slate-200">
-              <button
-                type="button"
-                onClick={() => { setAuthMethod('magic'); setErrorMessage(''); }}
-                className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                  authMethod === 'magic' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
-                }`}
-              >
-                ✉️ Magic Link
-              </button>
-              <button
-                type="button"
-                onClick={() => { setAuthMethod('password'); setErrorMessage(''); }}
-                className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                  authMethod === 'password' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
-                }`}
-              >
-                🔑 Password
-              </button>
-              <button
-                type="button"
-                onClick={() => { setAuthMethod('phone'); setErrorMessage(''); }}
-                className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                  authMethod === 'phone' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
-                }`}
-              >
-                📱 Mobile OTP
-              </button>
-            </div>
-          )}
+          <div className="flex bg-slate-100 p-1 rounded-2xl mb-6 border border-slate-200">
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('magic'); setErrorMessage(''); }}
+              className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+                authMethod === 'magic' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              ✉️ Magic Link
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAuthMethod('password'); setErrorMessage(''); }}
+              className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
+                authMethod === 'password' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              🔑 Email &amp; Password
+            </button>
+          </div>
 
           {/* ─── STEP 1: INITIAL SUBMISSION FORM ─── */}
           {!isOtpStep ? (
