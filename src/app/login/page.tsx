@@ -2,9 +2,9 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
+import { Logo } from '@/components/Logo'
 import { createClient } from '@/lib/supabase/client'
 import { 
   Mail, 
@@ -171,19 +171,9 @@ function LoginContent() {
           <div className="absolute top-0 left-8 right-8 h-[3px] bg-[#2563EB] rounded-full" />
 
           {/* Logo */}
-          <div className="text-center mb-5">
-            <Link href="/" className="inline-flex flex-col items-center">
-              <div className="relative h-12 w-48 sm:w-56 mb-1">
-                <Image
-                  src="/logo-horizontal.jpg"
-                  alt="Polymer Hub of India"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-              </div>
-              <p className="text-xs text-slate-600 font-mono font-medium">India&apos;s Polymer Engineering Platform</p>
-            </Link>
+          <div className="text-center mb-5 flex flex-col items-center">
+            <Logo variant="full" theme="light" />
+            <p className="text-xs text-slate-600 font-mono font-medium mt-2">India&apos;s Polymer Engineering Platform</p>
           </div>
 
           {/* Welcome Header */}

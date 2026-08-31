@@ -134,16 +134,16 @@ export default function Navbar() {
       ──────────────────────────────────────────────────────────────────────── */}
       <nav
         data-navbar
-        className="sticky top-0 left-0 right-0 z-50 bg-white border-b-4 border-black"
-        style={{ height: '64px' }}
+        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs"
+        style={{ height: '68px' }}
       >
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
 
-          {/* Logo — full on md+, icon on mobile */}
-          <div className="hidden sm:block">
+          {/* Logo — full on sm+, icon on mobile */}
+          <div className="hidden sm:flex items-center shrink-0">
             <Logo variant="full" theme="light" />
           </div>
-          <div className="sm:hidden">
+          <div className="sm:hidden flex items-center shrink-0">
             <Logo variant="icon" />
           </div>
 
