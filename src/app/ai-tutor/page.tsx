@@ -742,55 +742,55 @@ export default function AITutorPage() {
                 {messages.length === 0 && (
                   <div className="pt-2 pb-6 space-y-6 animate-in fade-in duration-300">
                     
-                    {/* Hero Header */}
-                    <div className="text-center max-w-2xl mx-auto space-y-2.5">
+                    {/* Compact Hero Header */}
+                    <div className="text-center max-w-2xl mx-auto space-y-2">
                       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1E40AF] text-xs font-mono font-bold">
                         <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-                        <span>POLYMERHUB ENGINEERING COPILOT</span>
+                        <span>PolymerHub Engineering Copilot</span>
                       </div>
-                      <h1 className="text-2xl sm:text-4xl font-extrabold font-display text-slate-900 tracking-tight">
-                        Master Polymer Engineering with an AI that speaks your language.
+                      <h1 className="text-2xl sm:text-3xl font-black font-display text-slate-900 tracking-tight uppercase">
+                        POLYMERHUB COPILOT
                       </h1>
-                      <p className="text-sm text-slate-600 font-sans leading-relaxed">
-                        Grounded in <strong className="text-slate-900">216 PolymerHub curriculum lessons</strong> across 19 subjects, citing standard reference textbooks, ASTM/ISO standards, and industrial best practices.
+                      <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
+                        Grounded in <strong className="text-slate-900">216 curriculum lessons</strong> across 19 disciplines &middot; Citing ASTM/ISO test methods &amp; standard reference literature.
                       </p>
                     </div>
 
                     {/* ─── CAPABILITY SUGGESTION CARDS (Precision · Technical Icons) ─── */}
-                    <div className="space-y-2">
+                    <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
+                        <p className="text-xs font-mono font-bold text-slate-700 uppercase tracking-wider">
                           Recommended Engineering Inquiries
                         </p>
-                        <span className="text-[11px] font-mono text-slate-400">Click any card to query</span>
+                        <span className="text-[11px] font-mono text-slate-500">Click any card to query</span>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
                         {ENGINEERING_PROMPTS.map((item, idx) => (
                           <button
                             key={idx}
                             onClick={() => sendMessage(item.prompt)}
                             disabled={loading}
-                            className="text-left p-3.5 rounded-xl bg-white border border-slate-200/90 hover:border-[#2563EB] hover:shadow-md transition-all group flex flex-col justify-between"
+                            className="text-left p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#2563EB] hover:shadow-md transition-all group flex flex-col justify-between shadow-xs cursor-pointer"
                           >
                             <div>
                               <div className="flex items-center justify-between mb-2">
-                                <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border ${item.badgeClass}`}>
+                                <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${item.badgeClass}`}>
                                   [{item.category}]
                                 </span>
-                                <div className="w-5 h-5 rounded-full bg-slate-100 group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center text-slate-400 transition-colors">
-                                  <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                                <div className="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center text-slate-400 transition-colors">
+                                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                                 </div>
                               </div>
-                              <h3 className="text-xs font-bold text-slate-900 font-display line-clamp-1 mb-1 group-hover:text-[#2563EB] transition-colors">
+                              <h3 className="text-sm font-bold text-slate-900 font-display line-clamp-1 mb-1 group-hover:text-[#2563EB] transition-colors">
                                 {item.title}
                               </h3>
-                              <p className="text-xs text-slate-500 font-sans line-clamp-2 leading-relaxed">
+                              <p className="text-xs text-slate-600 font-sans line-clamp-2 leading-relaxed font-normal">
                                 {item.prompt}
                               </p>
                             </div>
-                            <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center gap-1 text-[10px] font-mono text-slate-400">
-                              <BookOpen className="w-2.5 h-2.5 text-[#2563EB]" />
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
+                              <BookOpen className="w-3 h-3 text-[#2563EB] shrink-0" />
                               <span className="truncate">{item.sourceHint}</span>
                             </div>
                           </button>
@@ -799,7 +799,7 @@ export default function AITutorPage() {
                     </div>
 
                     {/* ─── "SHOW, DON'T TELL" STATIC PROOF DEMO ─── */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5 shadow-xs">
+                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
                       <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -807,7 +807,7 @@ export default function AITutorPage() {
                             Sample Grounded Response Demonstration
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-50 text-[#2563EB] font-bold">
+                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-50 text-[#2563EB] font-bold border border-blue-200">
                           Live Architecture Proof
                         </span>
                       </div>
@@ -815,13 +815,13 @@ export default function AITutorPage() {
                         <p className="font-bold text-slate-900">
                           Q: How does molecular weight affect polymer melt viscosity?
                         </p>
-                        <p className="text-slate-600">
+                        <p className="text-slate-600 leading-relaxed">
                           Above the critical entanglement molecular weight ($M_c$), zero-shear viscosity ($\eta_0$) scales dramatically following the Fox-Flory power law: $\eta_0 = K \cdot M_w^{3.4}$. This creates significant flow resistance during injection moulding but enhances mechanical tensile elongation in solid state.
                         </p>
-                        <div className="pt-2 flex items-center gap-2 font-mono text-[11px] text-slate-600">
+                        <div className="pt-2 flex items-center gap-2 font-mono text-xs text-slate-600">
                           <span className="font-bold text-[#2563EB]">Verified Source:</span>
-                          <span className="px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
-                            Lesson 5.2 · Viscoelastic Properties &amp; Melt Rheology
+                          <span className="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-800 border border-slate-200">
+                            Lesson 5.2 &middot; Viscoelastic Properties &amp; Melt Rheology
                           </span>
                         </div>
                       </div>
@@ -865,23 +865,23 @@ export default function AITutorPage() {
               </div>
             </div>
 
-            {/* ─── BOTTOM ENGINEERING INPUT CONSOLE ─── */}
-            <footer className="flex-shrink-0 border-t border-slate-800 bg-[#0B132B] p-3.5 sm:p-5 shadow-2xl text-slate-100">
+            {/* ─── BOTTOM ENGINEERING INPUT CONSOLE (CLEAN WHITE) ─── */}
+            <footer className="flex-shrink-0 border-t border-slate-200 bg-white p-4 sm:p-5 shadow-lg text-slate-900">
               <div className="max-w-4xl mx-auto space-y-3">
                 
                 {/* Mode Selector Chips */}
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-                  <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1 mr-1 flex-shrink-0">
-                    <Terminal className="w-3.5 h-3.5 text-[#38BDF8]" /> Engineering Mode:
+                  <span className="text-xs font-mono text-slate-500 font-bold flex items-center gap-1 mr-1 flex-shrink-0">
+                    <Terminal className="w-3.5 h-3.5 text-[#2563EB]" /> Mode:
                   </span>
                   {PROMPT_MODES.map((m) => (
                     <button
                       key={m.id}
                       onClick={() => handleModeClick(m)}
-                      className={`px-3 py-1 rounded-lg text-xs font-mono transition-all flex-shrink-0 border ${
+                      className={`px-3 py-1 rounded-full text-xs font-mono transition-all flex-shrink-0 border cursor-pointer ${
                         selectedMode === m.id
-                          ? 'bg-[#2563EB] border-blue-400 text-white font-bold shadow-md'
-                          : 'bg-slate-900/80 border-slate-700/80 text-slate-300 hover:bg-slate-800 hover:text-white'
+                          ? 'bg-[#2563EB] border-blue-600 text-white font-bold shadow-xs'
+                          : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
                       }`}
                     >
                       {m.label}
@@ -889,40 +889,39 @@ export default function AITutorPage() {
                   ))}
                 </div>
 
-                {/* The Dark Engineering Console Input Box */}
-                <div className="relative border-2 border-slate-700/90 rounded-2xl bg-slate-950 focus-within:border-[#38BDF8] focus-within:ring-2 focus-within:ring-blue-500/20 transition-all shadow-inner overflow-hidden">
-                  <div className="flex items-start px-3 pt-3">
-                    <span className="font-mono text-emerald-400 font-bold text-base select-none mr-2 mt-0.5">&gt;</span>
+                {/* The Clean White Engineering Console Input Box */}
+                <div className="relative border-2 border-slate-300 rounded-2xl bg-white focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-blue-100 transition-all shadow-xs overflow-hidden">
+                  <div className="flex items-start px-4 pt-3.5">
                     <textarea
                       ref={inputRef}
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Enter polymer engineering query, derivation prompt, or processing diagnostic..."
+                      placeholder="Ask about polymer chemistry, processing, materials, or GATE XE-F..."
                       disabled={loading}
-                      className="w-full text-sm text-slate-100 font-mono resize-none focus:outline-none placeholder:text-slate-500 bg-transparent"
+                      className="w-full text-sm text-slate-900 font-sans resize-none focus:outline-none placeholder:text-slate-400 bg-transparent"
                       rows={2}
                       style={{ minHeight: '56px', maxHeight: '140px' }}
                     />
                   </div>
 
                   {/* Input Footer Bar */}
-                  <div className="flex items-center justify-between px-4 py-2 border-t border-slate-800/80 bg-slate-900/90">
-                    <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
-                      <span className="inline-flex items-center gap-1 text-emerald-400">
-                        <ShieldCheck className="w-3 h-3" /> Grounded in 216 lessons
+                  <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-100 bg-slate-50/80">
+                    <div className="flex items-center gap-2 text-xs font-mono text-slate-600 font-medium">
+                      <span className="inline-flex items-center gap-1.5 text-emerald-700">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Grounded in 216 lessons
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2.5">
-                      <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">Press Enter ↵ to run</span>
+                    <div className="flex items-center gap-3">
+                      <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">Press Enter ↵</span>
                       <button
                         onClick={() => sendMessage(input)}
                         disabled={!input.trim() || loading}
-                        className={`px-4 py-1.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-1.5 ${
+                        className={`px-5 py-2 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                           input.trim() && !loading
-                            ? 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-md hover:-translate-y-0.5 active:translate-y-0'
-                            : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50'
+                            ? 'bg-[#F59E0B] hover:bg-[#D97706] text-slate-950 shadow-md hover:-translate-y-0.5 active:translate-y-0'
+                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                         }`}
                       >
                         {loading ? (
@@ -942,15 +941,15 @@ export default function AITutorPage() {
                 </div>
 
                 {/* AI Exam & Derivation Disclaimer */}
-                <div className="flex items-center justify-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-300 text-[11px] font-mono text-center">
-                  <span>⚠️</span>
-                  <span>AI-generated — always verify critical formulas, numerical constants &amp; derivations against standard textbooks or your instructor before exams.</span>
+                <div className="flex items-center justify-center gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-sans text-center">
+                  <span className="font-bold">⚠️</span>
+                  <span>AI-generated technical guidance &middot; Always verify critical formulas, numerical constants &amp; derivations against standard textbooks or your professor before exams.</span>
                 </div>
 
                 {/* Bottom Trust Line */}
-                <p className="text-[10px] text-slate-400 font-mono text-center flex items-center justify-center gap-1.5">
-                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
-                  <span>PolymerHub AI v3 · Grounded in 19 PPE Disciplines · Privacy-first platform · Strictly citing standard reference literature &amp; ASTM/ISO test methods</span>
+                <p className="text-[11px] text-slate-500 font-mono text-center flex items-center justify-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>PolymerHub AI &middot; Grounded in 19 PPE Disciplines &middot; Strictly citing standard reference literature &amp; ASTM/ISO test methods</span>
                 </p>
               </div>
             </footer>
