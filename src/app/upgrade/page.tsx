@@ -36,11 +36,11 @@ export default function UpgradePage() {
   const router = useRouter()
   const { toast } = useToast()
 
-  const upiId = 'polymerhub@upi'
-  const payeeName = 'PolymerHub India'
+  const upiId = '8125358468@fam'
+  const payeeName = 'Chengala Lakshmi Prasanna Kumar Naidu'
   const upiAmount = 149
   const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent('PolymerHub Premium Monthly')}`
-  const whatsappNumber = '919848022338'
+  const whatsappNumber = '918125358468'
 
   useEffect(() => {
     async function loadUser() {
@@ -207,30 +207,15 @@ export default function UpgradePage() {
               <div className="flex flex-col items-center space-y-3">
                 <div className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">Step 1: Scan UPI QR Code</div>
                 
-                {/* Visual QR Code */}
-                <div className="w-44 h-44 bg-white rounded-2xl flex items-center justify-center border-2 border-slate-200 relative overflow-hidden p-3 shadow-xs">
-                  <svg viewBox="0 0 120 120" className="w-full h-full text-slate-900">
-                    <rect width="120" height="120" fill="white" />
-                    <path d="M10,10 h30 v30 h-30 z M16,16 v18 h18 v-18 z M22,22 h6 v6 h-6 z" fill="#0f172a" />
-                    <path d="M80,10 h30 v30 h-30 z M86,16 v18 h18 v-18 z M92,22 h6 v6 h-6 z" fill="#0f172a" />
-                    <path d="M10,80 h30 v30 h-30 z M16,86 v18 h18 v-18 z M22,92 h6 v6 h-6 z" fill="#0f172a" />
-                    <rect x="50" y="15" width="8" height="8" fill="#2563EB" />
-                    <rect x="62" y="25" width="8" height="8" fill="#0f172a" />
-                    <rect x="50" y="35" width="8" height="8" fill="#0f172a" />
-                    <rect x="15" y="50" width="8" height="8" fill="#0f172a" />
-                    <rect x="28" y="60" width="8" height="8" fill="#2563EB" />
-                    <rect x="50" y="50" width="20" height="20" rx="4" fill="#2563EB" />
-                    <rect x="75" y="55" width="8" height="8" fill="#0f172a" />
-                    <rect x="90" y="65" width="8" height="8" fill="#0f172a" />
-                    <rect x="55" y="80" width="8" height="8" fill="#0f172a" />
-                    <rect x="70" y="90" width="8" height="8" fill="#2563EB" />
-                    <rect x="85" y="85" width="8" height="8" fill="#0f172a" />
-                    <rect x="100" y="95" width="8" height="8" fill="#0f172a" />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="bg-blue-600 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">
-                      ₹{upiAmount}
-                    </div>
+                {/* Visual QR Code Scanner */}
+                <div className="w-40 h-52 bg-white rounded-2xl flex items-center justify-center border-2 border-slate-200 relative overflow-hidden p-1 shadow-xs">
+                  <div className="relative w-full h-full rounded-xl overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/upi_scanner.jpg"
+                      alt="Official UPI QR Scanner"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 </div>
 
