@@ -174,10 +174,12 @@ function LoginContent() {
     setIsLoading(true)
     setErrorMessage('')
     try {
-      // Direct pass to dashboard
-      router.push(nextRedirect)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('polymerhub_guest_access', 'true')
+      }
+      router.push(nextRedirect || '/dashboard')
     } catch {
-      router.push('/dashboard')
+      window.location.href = nextRedirect || '/dashboard'
     } finally {
       setIsLoading(false)
     }

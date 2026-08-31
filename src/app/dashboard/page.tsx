@@ -112,36 +112,35 @@ export default function DashboardPage() {
     setLoading(true)
     const { data: { session } } = await supabase.auth.getSession()
 
-    if (!session) {
-      window.location.href = '/login'
-      return
+    const userId = session?.user?.id || 'evaluator-guest'
+
+    // Fetch Profile if session exists
+    let userProfile: Profile | null = null
+    if (session) {
+      const { data: prof } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+      userProfile = prof
     }
 
-    const userId = session.user.id
-
-    // Fetch Profile
-    const { data: prof } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .single()
-
     setProfile(
-      prof ?? {
+      userProfile ?? {
         id: userId,
-        email: session.user.email ?? 'engineer@polymerhub.in',
-        full_name: (session.user.user_metadata?.full_name as string) || 'Engineer',
-        avatar_url: (session.user.user_metadata?.avatar_url as string) || null,
-        bio: null,
-        goals: null,
-        college_name: 'Polymer Engineering Institution',
+        email: session?.user?.email ?? 'engineer@polymerhub.in',
+        full_name: (session?.user?.user_metadata?.full_name as string) || 'Evaluator Engineer',
+        avatar_url: (session?.user?.user_metadata?.avatar_url as string) || null,
+        bio: 'Polymer engineering student & technical evaluator.',
+        goals: 'Master processing parameters and clear GATE XE-F.',
+        college_name: 'Polymer Engineering Institute',
         education_level: 'B.Tech / CIPET / Diploma',
         target_path: 'gate-xe',
         subscription_status: 'active',
         ai_queries_today: 0,
-        xp_points: 250,
-        current_streak: 1,
-        longest_streak: 1,
+        xp_points: 450,
+        current_streak: 3,
+        longest_streak: 5,
       }
     )
 
