@@ -681,7 +681,7 @@ export default function HomePage() {
       {/* ============================================================ */}
       {/* CLEAN GLOBAL FOOTER */}
       {/* ============================================================ */}
-      <Footer />
+      <Footer showTrustBar />
 
     </div>
   )

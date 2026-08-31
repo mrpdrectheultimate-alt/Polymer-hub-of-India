@@ -4,30 +4,36 @@ import Link from 'next/link'
 import { Shield, Globe, GraduationCap } from 'lucide-react'
 import { Logo } from './Logo'
 
-export default function Footer() {
+interface FooterProps {
+  showTrustBar?: boolean
+}
+
+export default function Footer({ showTrustBar = false }: FooterProps) {
   return (
     <footer className="bg-white text-[#64748B] text-xs border-t border-[#E2E8F0]">
       
-      {/* ── Top Compliance & Trust Bar ── */}
-      <div className="bg-[#FAFAFA] border-b border-[#F1F5F9] py-3.5 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-2 gap-x-6 text-[11px] font-mono">
-          <div className="flex items-center gap-2 text-[#16A34A] font-medium">
-            <Shield className="w-3.5 h-3.5" />
-            <span>India DPDP Act 2023 Compliant</span>
-          </div>
-          <div className="flex items-center gap-2 text-[#2563EB] font-medium">
-            <Globe className="w-3.5 h-3.5" />
-            <span>100% Legally &amp; Academically Audited</span>
-          </div>
-          <div className="flex items-center gap-2 text-[#CA8A04] font-medium">
-            <GraduationCap className="w-3.5 h-3.5" />
-            <span>19 Subjects &middot; 218 Lessons Mapped</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-[#111827] font-medium">
-            <span>🇮🇳 Made in India for Global Engineers</span>
+      {/* ── Top Compliance & Trust Bar (Only displayed on Homepage when showTrustBar={true}) ── */}
+      {showTrustBar && (
+        <div className="bg-[#FAFAFA] border-b border-[#F1F5F9] py-3.5 px-4 sm:px-6">
+          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-2 gap-x-6 text-[11px] font-mono">
+            <div className="flex items-center gap-2 text-[#16A34A] font-medium">
+              <Shield className="w-3.5 h-3.5" />
+              <span>India DPDP Act 2023 Compliant</span>
+            </div>
+            <div className="flex items-center gap-2 text-[#2563EB] font-medium">
+              <Globe className="w-3.5 h-3.5" />
+              <span>100% Legally &amp; Academically Audited</span>
+            </div>
+            <div className="flex items-center gap-2 text-[#CA8A04] font-medium">
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>19 Subjects &middot; 216 Lessons Mapped</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[#111827] font-medium">
+              <span>🇮🇳 Made in India for Global Engineers</span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ── Main Footer Links ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
@@ -107,7 +113,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/history" className="text-[#64748B] hover:text-[#2563EB] transition-colors">
-                  162 Years History
+                  164 Years History
                 </Link>
               </li>
               <li>

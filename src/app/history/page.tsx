@@ -13,9 +13,9 @@ import {
   Award,
   Clock,
   Layers,
-  Shield,
   ArrowRight
 } from 'lucide-react'
+import Footer from '@/components/Footer'
 
 // ==================== DATA ====================
 
@@ -460,49 +460,9 @@ export default function HistoryPage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SOURCES & ACADEMIC CITATIONS */}
+      {/* GLOBAL FOOTER */}
       {/* ============================================================ */}
-      <section className="bg-[#FDF8F0] py-6 border-t border-[#E2E8F0]">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-[#94A3B8]">
-            <span className="flex items-center gap-1.5">
-              <BookOpen className="h-3.5 w-3.5 text-[#C9A84C]" />
-              Sources: Nobel Foundation &middot; ACS Publications &middot; IUPAC Macromolecular Division
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-[#16A34A]" />
-              Peer-Reviewed for Engineering Education
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
-          </div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* MINIMAL ARCHIVE FOOTER */}
-      {/* ============================================================ */}
-      <footer className="bg-[#0B172A] py-8 border-t border-[#1A2E4A] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#2563EB] to-[#1D4ED8] flex items-center justify-center text-white font-bold text-sm">
-                P
-              </div>
-              <span className="text-white font-bold text-sm">PolymerHub</span>
-              <span className="text-white/40 text-xs font-mono hidden sm:inline">&middot; Historical Archive</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-5 text-xs font-mono text-white/50">
-              <Link href="/subjects" className="hover:text-white transition-colors">Learn</Link>
-              <Link href="/world" className="hover:text-white transition-colors">Explore</Link>
-              <Link href="/calculators" className="hover:text-white transition-colors">Tools</Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>
-              <span className="text-white/30">&copy; 2026 PolymerHub</span>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
     </div>
   )

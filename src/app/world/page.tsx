@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
   ArrowRight, 
-  Shield, 
   Package, 
   Stethoscope, 
   Rocket, 
@@ -514,32 +513,6 @@ export default function WorldAtlasPage() {
               <ArrowRight className="h-4 w-4" />
             </Link>
           </motion.div>
-        </div>
-      </section>
-
-      {/* ============================================================ */}
-      {/* COMPLIANCE & LEGAL TRUST BAR */}
-      {/* ============================================================ */}
-      <section className="bg-white py-6 border-t border-[#F1F5F9]">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-mono text-[#94A3B8]">
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-emerald-600" />
-              DPDP Act 2023 Compliant
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-blue-600" />
-              256-bit Encrypted
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">
-              <Award className="h-3.5 w-3.5 text-[#F5C518]" />
-              Academically Audited &amp; Verified
-            </span>
-            <span className="w-px h-3.5 bg-[#E2E8F0]" />
-            <span className="flex items-center gap-1.5">🇮🇳 Made in India</span>
-          </div>
         </div>
       </section>
 
