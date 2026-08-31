@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import { COMMERCIAL_GRADES, CommercialGrade } from '@/lib/commercial_grades';
-import { Scale, Check, Plus, Trash2 } from 'lucide-react';
+import { Scale, Check, Plus, Trash2, AlertTriangle } from 'lucide-react';
 
 export function CommercialGradeComparator() {
   const [selectedGradeIds, setSelectedGradeIds] = useState<string[]>([
@@ -38,21 +38,34 @@ export function CommercialGradeComparator() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 font-sans">
       {/* Header card */}
-      <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 border-4 border-slate-900 text-white rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
+      <div className="bg-gradient-to-r from-[#0B132B] via-[#0F2042] to-[#0A1128] border-2 border-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-md relative overflow-hidden">
         <div className="relative z-10 max-w-3xl space-y-2">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-[9px] font-black uppercase px-2.5 py-0.5 bg-yellow-400 text-slate-950 border border-slate-900 rounded font-bold">
-              CAMPUS Plastics Model
+            <span className="font-mono text-[9px] font-bold uppercase px-2.5 py-0.5 bg-blue-500/20 text-[#38BDF8] border border-blue-400/30 rounded">
+              Commercial Grade Technical Datasheet (TDS) Model
             </span>
-            <span className="font-mono text-[9px] text-blue-300 font-bold uppercase">Commercial TDS Database</span>
+            <span className="font-mono text-[9px] text-slate-400 font-bold uppercase">16 Standard Properties per Grade</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black font-display uppercase tracking-tight">
-            🏭 Commercial Resin Grade Comparator
+            Commercial Resin Grade Comparator
           </h2>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             Directly compare technical datasheets (TDS) of commercial polymer grades from major resin manufacturers (Reliance, IOCL, GAIL, Covestro, SABIC, BASF, DuPont, etc.).
+          </p>
+        </div>
+      </div>
+
+      {/* Mandatory Technical & Legal TDS Disclaimer */}
+      <div className="p-4 bg-amber-50 border-2 border-amber-300 rounded-2xl text-amber-950 text-xs font-mono flex items-start gap-3 shadow-xs">
+        <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+        <div className="space-y-0.5">
+          <span className="font-bold text-amber-900 uppercase tracking-wider text-[11px] block">
+            ⚠️ Technical Datasheet (TDS) Guidance &amp; Verification Notice:
+          </span>
+          <p className="text-[11px] text-amber-900/90 leading-relaxed font-sans font-normal">
+            Property values, regulatory compliances (FDA 21 CFR 177.1520, IS 10910), and test standards are synthesized from published manufacturer technical literature. Always verify critical design tolerances against the resin producer&apos;s latest published lot-specific Certificate of Analysis (CoA) or official published TDS before final tooling and commercial manufacturing.
           </p>
         </div>
       </div>
@@ -150,6 +163,16 @@ export function CommercialGradeComparator() {
               </tr>
             </thead>
             <tbody className="divide-y-2 divide-slate-200 font-mono text-xs text-slate-800">
+              {/* ── TDS SOURCE CITATION ROW ── */}
+              <tr className="bg-slate-100">
+                <td className="p-3 font-bold text-slate-700 bg-slate-200/80">📚 TDS Literature Source</td>
+                {selectedGrades.map((g) => (
+                  <td key={g.id} className="p-3 border-l-2 border-slate-200 font-bold text-[#2563EB] text-[11px]">
+                    {g.producer} &middot; Published Technical Datasheet (TDS)
+                  </td>
+                ))}
+              </tr>
+
               {/* ── FLOW PROPERTIES ── */}
               <tr className="bg-blue-50/70">
                 <td colSpan={selectedGrades.length + 1} className="p-2.5 font-bold uppercase text-[10px] text-blue-900 tracking-wider">
@@ -159,7 +182,7 @@ export function CommercialGradeComparator() {
               <tr>
                 <td className="p-3 font-bold text-slate-700 bg-slate-50">MFI / Melt Flow Rate</td>
                 {selectedGrades.map((g) => (
-                  <td key={g.id} className="p-3 border-l-2 border-slate-200 font-black text-blue-700">
+                  <td key={g.id} className="p-3 border-l-2 border-slate-200 font-black text-blue-700 tabular-nums">
                     {g.mfi} g/10 min <span className="text-[9px] font-normal text-slate-500 block">({g.mfiCondition})</span>
                   </td>
                 ))}

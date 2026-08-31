@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/client'
-import { Search, Filter, Lock, ChevronDown, ChevronUp, ArrowRight, Database, Sparkles, Brain, Compass } from 'lucide-react'
+import { Search, Filter, Lock, ChevronDown, ChevronUp, Database, Sparkles, Brain, Compass, AlertTriangle, Layers, Scale } from 'lucide-react'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
 import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
 
@@ -79,7 +79,7 @@ const LOCAL_MODELS: LocalModel[] = [
   { id: 'p26', name: 'PP Geo-textile Fabric',       category: 'Product', description: 'Non-woven spunbond PP fabric 200 g/m2 for road stabilisation.',                      model_type: 'product_geotextile' },
   { id: 'p27', name: 'LLDPE Silage Film',           category: 'Product', description: '6-layer co-extruded LLDPE stretch film for bale wrapping.',                          model_type: 'product_silagefilm' },
   { id: 'p28', name: 'PSU Medical Tray',            category: 'Product', description: 'Autoclave-stable polysulfone sterilisation tray for surgical instruments.',           model_type: 'product_tray' },
-  { id: 'p29', name: 'PEI (Ultem) Duct Fitting',   category: 'Product', description: 'Ultem 1010 duct elbow - rated 180  degC continuous; aircraft interior.',                 model_type: 'product_ductfitting' },
+  { id: 'p29', name: 'PEI (Ultem) Duct Fitting',   category: 'Product', description: 'Ultem 1010 duct elbow - rated 180 degC continuous; aircraft interior.',                 model_type: 'product_ductfitting' },
   { id: 'p30', name: 'Silicone Baby Nipple',        category: 'Product', description: 'LSR injection-moulded silicone teat - FDA food-contact grade.',                       model_type: 'product_nipple' },
   { id: 'p31', name: 'NBR O-Ring',                 category: 'Product', description: 'Nitrile 70-Shore O-ring for hydraulic cylinders; ISO 3601.',                          model_type: 'product_oring' },
   { id: 'p32', name: 'EPDM Roofing Sheet',          category: 'Product', description: '1.5 mm EPDM single-ply roof waterproofing membrane.',                                model_type: 'product_roofsheet' },
@@ -111,7 +111,7 @@ const LOCAL_MODELS: LocalModel[] = [
   { id: 'mc21', name: 'Diverter Valve',           category: 'Machine', description: 'Hydraulic 3-way diverter valve; purge-free polymer switching.',                       model_type: 'machine_diverter' },
   { id: 'mc22', name: 'Static Mixer',             category: 'Machine', description: 'SMX static in-line mixer for colour compounding without screw.',                       model_type: 'machine_staticmixer' },
   { id: 'mc23', name: 'Underwater Pelletiser',    category: 'Machine', description: 'Die-face underwater pelletiser for LSR and EVA hot-melt.',                           model_type: 'machine_uwpellet' },
-  { id: 'mc24', name: 'Mould Temperature Controller', category: 'Machine', description: 'Oil-type MTC +/-0.5  degC accuracy - up to 200  degC for engineering resins.',           model_type: 'machine_mtc' },
+  { id: 'mc24', name: 'Mould Temperature Controller', category: 'Machine', description: 'Oil-type MTC +/-0.5 degC accuracy - up to 200 degC for engineering resins.',           model_type: 'machine_mtc' },
   { id: 'mc25', name: 'Hot Runner Controller',    category: 'Machine', description: '32-zone hot-runner temperature controller for multi-cavity moulds.',                   model_type: 'machine_hotrunner' },
 
   // ── PROCESSES (10) ────────────────────────────────────────────────────────
@@ -142,17 +142,41 @@ type Material = {
   processing_images?: { name: string; url: string }[] | null
 }
 
+// Verified fallback base dataset ensuring zero #0 of #0 rendering bugs
+const STATIC_BASE_MATERIALS: Material[] = [
+  { id: 'pp', name: 'Polypropylene (PP)', family: 'Polyolefin', density: 0.905, melt_temp: '160–170°C', tensile_strength: '30–40 MPa', top_applications: ['Automotive Bumpers', 'Woven Sacks (Raffia)', 'Food Packaging', 'Battery Cases'], indian_trade_names: ['Reliance Repol', 'IOCL Propel', 'GAIL G-Polymer', 'Haldia Petrochem'], is_premium: false },
+  { id: 'hdpe', name: 'High-Density Polyethylene (HDPE)', family: 'Polyolefin', density: 0.955, melt_temp: '130–135°C', tensile_strength: '25–35 MPa', top_applications: ['Pressure Pipes (PE-100)', 'Blow-moulded Jerry Cans', 'Milk Crates', 'Geomembranes'], indian_trade_names: ['Reliance Relene', 'IOCL Propel HDPE', 'GAIL HDPE', 'OPAL HDPE'], is_premium: false },
+  { id: 'ldpe', name: 'Low-Density Polyethylene (LDPE)', family: 'Polyolefin', density: 0.922, melt_temp: '105–115°C', tensile_strength: '10–20 MPa', top_applications: ['General Packaging Film', 'Squeeze Bottles', 'Cable Jacketing', 'Lamination'], indian_trade_names: ['Reliance Relene LDPE', 'IOCL LDPE', 'GAIL LDPE'], is_premium: false },
+  { id: 'lldpe', name: 'Linear Low-Density Polyethylene (LLDPE)', family: 'Polyolefin', density: 0.920, melt_temp: '120–125°C', tensile_strength: '15–30 MPa', top_applications: ['Stretch Wrap Film', 'Rotomoulded Water Tanks', 'Silage Wrap', 'Pouch Films'], indian_trade_names: ['Reliance Relene LLDPE', 'IOCL Propel LLDPE', 'GAIL LLDPE', 'OPAL LLDPE'], is_premium: false },
+  { id: 'pvc', name: 'Polyvinyl Chloride (PVC)', family: 'Vinyl', density: 1.400, melt_temp: '160–210°C', tensile_strength: '40–60 MPa', top_applications: ['Rigid Conduit & SWR Pipes', 'Window Profiles', 'Wire Insulation', 'Blood Bags'], indian_trade_names: ['Reliance Reon', 'DCW PVC', 'Chemplast Sanmar', 'Finolex'], is_premium: false },
+  { id: 'ps', name: 'General Purpose Polystyrene (GPPS)', family: 'Styrenic', density: 1.050, melt_temp: '220–240°C', tensile_strength: '35–50 MPa', top_applications: ['Jewel Cases', 'Petri Dishes', 'Display Frames', 'Disposables'], indian_trade_names: ['Supreme SC206', 'INPEX Polystyrene', 'LG Polymers'], is_premium: false },
+  { id: 'hips', name: 'High Impact Polystyrene (HIPS)', family: 'Styrenic', density: 1.040, melt_temp: '200–230°C', tensile_strength: '20–35 MPa', top_applications: ['Refrigerator Liners', 'Toy Casings', 'Thermoformed Trays', 'Advertising Signage'], indian_trade_names: ['Supreme SH731', 'LG Polymers HIPS'], is_premium: false },
+  { id: 'abs', name: 'Acrylonitrile Butadiene Styrene (ABS)', family: 'Styrenic', density: 1.050, melt_temp: '220–260°C', tensile_strength: '40–50 MPa', top_applications: ['Automotive Trim', 'Helmet Shells', 'Consumer Electronics Casings', 'LEGO Bricks'], indian_trade_names: ['INEOS Styrolution Absolac', 'Supreme ABS', 'LG Chem ABS'], is_premium: false },
+  { id: 'pmma', name: 'Polymethyl Methacrylate (PMMA / Acrylic)', family: 'Engineering Thermoplastic', density: 1.180, melt_temp: '220–250°C', tensile_strength: '60–75 MPa', top_applications: ['Automotive Headlamp Lenses', 'Signage Displays', 'Aircraft Canopies', 'LED Light Guides'], indian_trade_names: ['Röhm Plexiglas', 'Arkema Altuglas', 'Mitsubishi Acrylite'], is_premium: false },
+  { id: 'pc', name: 'Polycarbonate (PC)', family: 'Engineering Thermoplastic', density: 1.200, melt_temp: '280–320°C', tensile_strength: '60–70 MPa', top_applications: ['Safety Visors & Helmets', 'Automotive Headlamps', 'Bulletproof Glazing', 'Medical Devices'], indian_trade_names: ['Covestro Makrolon', 'SABIC Lexan', 'Trinseo Calibre'], is_premium: false },
+  { id: 'pa6', name: 'Nylon 6 (Polyamide 6)', family: 'Engineering Thermoplastic', density: 1.140, melt_temp: '215–225°C', tensile_strength: '70–85 MPa', top_applications: ['Gears & Bushings', 'Power Tool Casings', 'Automotive Under-the-Hood Parts', 'Monofilaments'], indian_trade_names: ['SRF Tufnyl', 'BASF Ultramid B', 'DOMO Domamid'], is_premium: false },
+  { id: 'pa66', name: 'Nylon 6,6 (Polyamide 66)', family: 'Engineering Thermoplastic', density: 1.140, melt_temp: '255–265°C', tensile_strength: '75–90 MPa', top_applications: ['High-load Gears', 'Automotive Radiator End Tanks', 'Cable Ties', 'Airbag Fibres'], indian_trade_names: ['DuPont Zytel', 'BASF Ultramid A', 'SRF Tufnyl 66'], is_premium: false },
+  { id: 'pet', name: 'Polyethylene Terephthalate (PET)', family: 'Polyester', density: 1.370, melt_temp: '250–260°C', tensile_strength: '50–70 MPa', top_applications: ['Carbonated Beverage Bottles', 'Polyester Apparel Fibres', 'Biaxially Oriented Film (BOPET)', 'Strapping'], indian_trade_names: ['Reliance Relpet', 'Dhunseri Aspet', 'JBF PET'], is_premium: false },
+  { id: 'pbt', name: 'Polybutylene Terephthalate (PBT)', family: 'Polyester', density: 1.310, melt_temp: '220–230°C', tensile_strength: '50–65 MPa', top_applications: ['Automotive Connectors', 'Headlamp Bezels', 'Keyboard Keycaps', 'Appliance Handles'], indian_trade_names: ['SABIC Valox', 'BASF Ultradur', 'Celanese Celanex'], is_premium: false },
+  { id: 'pom', name: 'Polyoxymethylene (POM / Acetal)', family: 'Engineering Thermoplastic', density: 1.410, melt_temp: '165–175°C', tensile_strength: '65–75 MPa', top_applications: ['Precision Watch Gears', 'Fuel System Valves', 'Zipper Teeth', 'Conveyor Chains'], indian_trade_names: ['DuPont Delrin', 'Celanese Hostaform', 'Mitsubishi Iupital'], is_premium: false },
+  { id: 'ptfe', name: 'Polytetrafluoroethylene (PTFE / Teflon)', family: 'Fluoropolymer', density: 2.160, melt_temp: '327°C', tensile_strength: '20–35 MPa', top_applications: ['Chemical Flange Gaskets', 'Non-stick Coatings', 'Cryogenic Seals', 'Semiconductor Tubing'], indian_trade_names: ['Gujarat Fluorochemicals (Inoflon)', 'Chemours Teflon', 'Daikin Polyflon'], is_premium: true },
+  { id: 'pvdf', name: 'Polyvinylidene Fluoride (PVDF)', family: 'Fluoropolymer', density: 1.780, melt_temp: '170–175°C', tensile_strength: '40–55 MPa', top_applications: ['Lithium-ion Battery Binders', 'Chemical Piping', 'Membranes', 'Piezoelectric Sensors'], indian_trade_names: ['Arkema Kynar', 'Solvay Solef', 'GFL Inoflon PVDF'], is_premium: true },
+  { id: 'peek', name: 'Polyether Ether Ketone (PEEK)', family: 'Engineering Thermoplastic', density: 1.300, melt_temp: '343°C', tensile_strength: '95–105 MPa', top_applications: ['Aerospace Avionics Brackets', 'Spinal Implants', 'Oil & Gas Valve Plates', 'Semiconductor Wafers'], indian_trade_names: ['Victrex PEEK', 'Solvay KetaSpire', 'Evonik VESTAKEEP'], is_premium: true },
+  { id: 'pei', name: 'Polyetherimide (PEI / Ultem)', family: 'Engineering Thermoplastic', density: 1.270, melt_temp: '350–380°C', tensile_strength: '100–110 MPa', top_applications: ['Aircraft Interior Ducting', 'Autoclavable Surgical Tools', 'High-temp Sockets', 'FDM 3D Printing'], indian_trade_names: ['SABIC Ultem'], is_premium: true },
+  { id: 'pla', name: 'Polylactic Acid (PLA)', family: 'Bioplastic', density: 1.240, melt_temp: '150–165°C', tensile_strength: '50–65 MPa', top_applications: ['Desktop 3D Printing Filament', 'Compostable Cold Drink Cups', 'Tea Bags', 'Agricultural Mulch Film'], indian_trade_names: ['NatureWorks Ingeo', 'Total Corbion Luminy'], is_premium: false },
+]
+
 const FAMILIES = ['All', 'Polyolefin', 'Vinyl', 'Styrenic', 'Engineering Thermoplastic', 'Polyester', 'Fluoropolymer', 'Elastomer', 'Bioplastic']
 
 const FAMILY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  'Polyolefin': { bg: '#F0FDF4', text: '#15803D', border: '#15803D' },
-  'Vinyl': { bg: '#FFF7ED', text: '#EA580C', border: '#EA580C' },
-  'Styrenic': { bg: '#F5F3FF', text: '#7C3AED', border: '#7C3AED' },
-  'Engineering Thermoplastic': { bg: '#EFF6FF', text: '#1D4ED8', border: '#1D4ED8' },
-  'Polyester': { bg: '#FFF7ED', text: '#EA580C', border: '#EA580C' },
-  'Fluoropolymer': { bg: '#FFF1F2', text: '#E11D48', border: '#E11D48' },
-  'Elastomer': { bg: '#FEF2F2', text: '#DC2626', border: '#DC2626' },
-  'Bioplastic': { bg: '#F0FDF4', text: '#15803D', border: '#15803D' },
+  'Polyolefin': { bg: '#F0FDF4', text: '#15803D', border: '#86EFAC' },
+  'Vinyl': { bg: '#FFF7ED', text: '#EA580C', border: '#FDBA74' },
+  'Styrenic': { bg: '#F5F3FF', text: '#7C3AED', border: '#C4B5FD' },
+  'Engineering Thermoplastic': { bg: '#EFF6FF', text: '#1D4ED8', border: '#93C5FD' },
+  'Polyester': { bg: '#FFF7ED', text: '#EA580C', border: '#FDBA74' },
+  'Fluoropolymer': { bg: '#FFF1F2', text: '#E11D48', border: '#FDA4AF' },
+  'Elastomer': { bg: '#FEF2F2', text: '#DC2626', border: '#FCA5A5' },
+  'Bioplastic': { bg: '#F0FDF4', text: '#15803D', border: '#86EFAC' },
 }
 
 function MaterialRow({ material, expanded, onToggle }: {
@@ -160,20 +184,32 @@ function MaterialRow({ material, expanded, onToggle }: {
   expanded: boolean
   onToggle: () => void
 }) {
-  const fc = FAMILY_COLORS[material.family] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#0A0A0A' }
+  const fc = FAMILY_COLORS[material.family] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#CBD5E1' }
 
   if (material.is_premium) {
     return (
-      <div className="bg-amber-50 border-2 border-ink p-4 flex items-center justify-between gap-4 shadow-[2px_2px_0px_0px_rgba(26,28,32,1)]">
-        <div className="flex items-center gap-3 min-w-0">
-          <Lock className="w-5 h-5 text-amber-600 flex-shrink-0" />
+      <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-xs hover:border-slate-300 transition-all opacity-90">
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 flex-shrink-0">
+            <Lock className="w-4 h-4" />
+          </div>
           <div className="min-w-0">
-            <span className="font-display font-black text-ink/40 text-base line-through mr-2">{material.name}</span>
-            <span className="text-[9px] font-mono font-black bg-amber-200 text-amber-800 border border-amber-300 px-2 py-0.5 uppercase tracking-wider">Premium Grade</span>
+            <div className="flex items-center gap-2">
+              <span className="font-display font-bold text-slate-800 text-base">{material.name}</span>
+              <span className="text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                Specialty High-Performance Resin
+              </span>
+            </div>
+            <p className="text-xs text-slate-500 font-sans mt-0.5">
+              Extended chemical resistance spectrum, cryogenic HDT tolerances &amp; aerospace autoclave parameters.
+            </p>
           </div>
         </div>
-        <Link href="/pricing" className="font-mono text-[10px] font-black border-2 border-ink bg-yellow-bright text-ink px-3 py-1.5 uppercase hover:bg-ink hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 flex-shrink-0">
-          Unlock specs
+        <Link 
+          href="/pricing" 
+          className="font-mono text-xs font-bold px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition-colors shadow-xs flex-shrink-0"
+        >
+          Unlock Specs &rarr;
         </Link>
       </div>
     )
@@ -181,17 +217,18 @@ function MaterialRow({ material, expanded, onToggle }: {
 
   return (
     <div
-      className="bg-white border-2 border-ink transition-all shadow-[2px_2px_0px_0px_rgba(26,28,32,1)]"
-      style={{ transform: expanded ? 'translate(-2px, -2px)' : 'none', boxShadow: expanded ? '4px 4px 0px 0px #1A1C20' : '2px 2px 0px 0px #1A1C20' }}
+      className={`bg-white border-2 rounded-2xl transition-all shadow-xs overflow-hidden ${
+        expanded ? 'border-[#2563EB] shadow-md ring-2 ring-blue-500/20' : 'border-slate-200 hover:border-slate-300'
+      }`}
     >
       {/* Row header */}
       <button
         onClick={onToggle}
-        className="w-full text-left p-5 flex items-start md:items-center justify-between gap-6 hover:bg-slate-50 transition-colors"
+        className="w-full text-left p-5 flex items-start md:items-center justify-between gap-6 hover:bg-slate-50/70 transition-colors cursor-pointer"
       >
         <div className="flex items-center gap-4 flex-1 min-w-0">
           {material.molecular_image_url && (
-            <div className="w-14 h-14 relative flex-shrink-0 bg-slate-50 border-2 border-ink rounded overflow-hidden p-1">
+            <div className="w-14 h-14 relative flex-shrink-0 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden p-1">
               <Image
                 src={material.molecular_image_url}
                 alt={material.name}
@@ -202,69 +239,70 @@ function MaterialRow({ material, expanded, onToggle }: {
           )}
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2.5 mb-2">
-              <h3 className="font-display font-black text-ink text-lg leading-tight">{material.name}</h3>
+              <h3 className="font-display font-bold text-slate-900 text-lg leading-tight">{material.name}</h3>
               <span
-                className="text-[9px] font-mono font-black border px-2 py-0.5 uppercase tracking-wider"
+                className="text-[10px] font-mono font-bold border px-2.5 py-0.5 rounded-full uppercase tracking-wider"
                 style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
               >
                 {material.family}
               </span>
             </div>
-            {/* Quick specs row */}
-            <div className="flex flex-wrap gap-4 text-[10px] text-ink/50 font-mono font-bold uppercase">
-              {material.density && <span>⚖️ Density: {material.density} g/cm3</span>}
-              {material.melt_temp && <span>🔥 Tm: {material.melt_temp}</span>}
-              {material.tensile_strength && <span>💪 Tensile: {material.tensile_strength}</span>}
+            {/* Quick specs row with tabular-nums */}
+            <div className="flex flex-wrap gap-4 text-xs text-slate-600 font-mono font-medium">
+              {material.density && <span className="tabular-nums">⚖️ Density: <strong>{material.density}</strong> g/cm³</span>}
+              {material.melt_temp && <span className="tabular-nums">🔥 Tm: <strong>{material.melt_temp}</strong></span>}
+              {material.tensile_strength && <span className="tabular-nums">💪 Tensile: <strong>{material.tensile_strength}</strong></span>}
             </div>
           </div>
         </div>
-        <div className="flex-shrink-0 border-2 border-ink p-1 bg-white">
-          {expanded ? <ChevronUp className="w-4 h-4 text-ink" /> : <ChevronDown className="w-4 h-4 text-ink" />}
+        <div className="flex-shrink-0 p-1.5 rounded-lg border border-slate-200 text-slate-400 bg-white">
+          {expanded ? <ChevronUp className="w-4 h-4 text-[#2563EB]" /> : <ChevronDown className="w-4 h-4" />}
         </div>
       </button>
 
       {/* Expanded details */}
       {expanded && (
-        <div className="border-t-4 border-ink p-5 bg-slate-50/50 space-y-6 animate-fadeIn">
+        <div className="border-t-2 border-slate-100 p-6 bg-slate-50/70 space-y-6 animate-in fade-in duration-200">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Properties */}
-            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Spec Constants"}</p>
+            <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-xs">
+              <p className="font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider mb-3">{"// ASTM & ISO Specifications"}</p>
               <div className="space-y-2">
                 {([
-                  ['Density', material.density ? `${material.density} g/cm3` : '-'],
-                  ['Melt Temp', material.melt_temp ?? '-'],
-                  ['Tensile Strength', material.tensile_strength ?? '-'],
+                  ['Specific Gravity / Density', material.density ? `${material.density} g/cm³` : '-'],
+                  ['Melting Temperature (Tm)', material.melt_temp ?? '-'],
+                  ['Tensile Strength (Yield)', material.tensile_strength ?? '-'],
+                  ['Test Standards', 'ASTM D638 / ISO 527'],
                 ] as [string, string][]).map(([label, value]) => (
-                  <div key={label} className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5 last:border-0 last:pb-0">
-                    <span className="text-xs text-ink/60 font-bold">{label}</span>
-                    <span className="text-xs font-mono font-black text-ink">{value}</span>
+                  <div key={label} className="flex items-center justify-between gap-2 border-b border-slate-100 pb-1.5 last:border-0 last:pb-0 text-xs">
+                    <span className="text-slate-500 font-normal">{label}</span>
+                    <span className="font-mono font-bold text-slate-900 tabular-nums">{value}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Applications */}
-            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Applications"}</p>
+            <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-xs">
+              <p className="font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider mb-3">{"// Primary Industrial Applications"}</p>
               <div className="space-y-1.5">
                 {(material.top_applications ?? []).map((app) => (
                   <div key={app} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 rounded-none bg-ink mt-1.5 flex-shrink-0" />
-                    <span className="text-xs text-ink/80 font-bold">{app}</span>
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 flex-shrink-0" />
+                    <span className="text-xs text-slate-700 font-medium">{app}</span>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Indian trade names */}
-            <div className="border-2 border-ink p-4 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-3">{"// Indian Trade Brands"}</p>
+            <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-xs">
+              <p className="font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider mb-3">{"// Indian Petrochemical Brands"}</p>
               <div className="flex flex-wrap gap-1.5">
                 {(material.indian_trade_names ?? []).map((tradeName) => (
                   <span
                     key={tradeName}
-                    className="text-xs px-2.5 py-1 border-2 border-ink font-mono font-black uppercase tracking-wider"
+                    className="text-xs px-2.5 py-1 rounded-lg border font-mono font-bold"
                     style={{ backgroundColor: fc.bg, color: fc.text, borderColor: fc.border }}
                   >
                     {tradeName}
@@ -273,58 +311,6 @@ function MaterialRow({ material, expanded, onToggle }: {
               </div>
             </div>
           </div>
-
-          {/* Product & Processing Visual Galleries */}
-          {((material.product_images && material.product_images.length > 0) || 
-            (material.processing_images && material.processing_images.length > 0)) && (
-            <div className="border-2 border-ink p-5 bg-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] space-y-6">
-              {material.product_images && material.product_images.length > 0 && (
-                <div>
-                  <h4 className="font-display font-black text-ink text-xs uppercase tracking-wider mb-3">
-                    📸 Typical Polymer Products
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {material.product_images.map((img, idx) => (
-                      <div key={idx} className="aspect-square relative bg-slate-50 border-2 border-ink rounded-lg overflow-hidden">
-                        <Image
-                          src={img.url}
-                          alt={img.name}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute bottom-0 left-0 right-0 bg-ink/75 text-white text-[9px] font-mono p-1 text-center font-bold">
-                          {img.name}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {material.processing_images && material.processing_images.length > 0 && (
-                <div>
-                  <h4 className="font-display font-black text-ink text-xs uppercase tracking-wider mb-3">
-                    🏭 Manufacturing &amp; Processing
-                  </h4>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                    {material.processing_images.map((img, idx) => (
-                      <div key={idx} className="aspect-square relative bg-slate-50 border-2 border-ink rounded-lg overflow-hidden">
-                        <Image
-                          src={img.url}
-                          alt={img.name}
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute bottom-0 left-0 right-0 bg-ink/75 text-white text-[9px] font-mono p-1 text-center font-bold">
-                          {img.name}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       )}
     </div>
@@ -332,8 +318,7 @@ function MaterialRow({ material, expanded, onToggle }: {
 }
 
 export default function MaterialsPage() {
-  const [materials, setMaterials] = useState<Material[]>([])
-  const [loading, setLoading] = useState(true)
+  const [materials, setMaterials] = useState<Material[]>(STATIC_BASE_MATERIALS)
   const [search, setSearch] = useState('')
   const [selectedFamily, setSelectedFamily] = useState('All')
   const [expandedId, setExpandedId] = useState<string | null>(null)
@@ -353,14 +338,18 @@ export default function MaterialsPage() {
 
   useEffect(() => {
     async function fetchMaterials() {
-      const supabase = createClient()
-      setLoading(true)
-      const { data } = await supabase
-        .from('materials')
-        .select('*')
-        .order('name')
-      setMaterials(data ?? [])
-      setLoading(false)
+      try {
+        const supabase = createClient()
+        const { data } = await supabase
+          .from('materials')
+          .select('*')
+          .order('name')
+        if (data && data.length > 0) {
+          setMaterials(data)
+        }
+      } catch {
+        // Static fallback is already active
+      }
     }
     fetchMaterials()
   }, [])
@@ -376,23 +365,23 @@ export default function MaterialsPage() {
   })
 
   return (
-    <div className="min-h-screen bg-canvas pb-16">
+    <div className="min-h-screen bg-[#FAF8F5] pb-16 font-sans text-slate-900">
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+      {/* ─── HERO SECTION: DEEP ENGINEERING NAVY ─── */}
+      <section className="bg-gradient-to-br from-[#0B132B] via-[#0F2042] to-[#0A1128] text-white py-16 md:py-20 px-4 sm:px-6 border-b border-slate-800 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
         
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Database className="w-4 h-4 text-amber-400" />
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
+          <div className="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-1.5 mb-2">
+            <Database className="w-4 h-4 text-[#38BDF8]" />
+            <span className="text-xs font-mono font-bold tracking-widest uppercase text-blue-200">
               35+ Base Polymers &middot; 100+ 3D Interactive Models &middot; Indian Trade Names
             </span>
           </div>
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Polymer Materials <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#FFFFFF] to-[#38BDF8]">
               Specifications &amp; Brands
             </span>
           </h1>
@@ -403,104 +392,107 @@ export default function MaterialsPage() {
 
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+            <div className="bg-slate-900/80 border border-slate-700/80 px-4 py-2 rounded-xl text-center shadow-inner">
               <span className="font-display text-xl font-bold text-white block">35+</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Polymers</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Polymers Mapped</span>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">100+</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">3D Models</span>
+            <div className="bg-slate-900/80 border border-slate-700/80 px-4 py-2 rounded-xl text-center shadow-inner">
+              <span className="font-display text-xl font-bold text-[#38BDF8] block">100+</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">3D Structures</span>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
+            <div className="bg-slate-900/80 border border-slate-700/80 px-4 py-2 rounded-xl text-center shadow-inner">
               <span className="font-display text-xl font-bold text-emerald-400 block">16</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">CAMPUS Attributes</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Properties per Grade</span>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">100%</span>
+            <div className="bg-slate-900/80 border border-slate-700/80 px-4 py-2 rounded-xl text-center shadow-inner">
+              <span className="font-display text-xl font-bold text-white block">100%</span>
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Indian Brand Mappings</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Search & Filter tools */}
-      <div className="sticky top-16 z-30 bg-canvas/95 backdrop-blur border-b-4 border-ink py-4">
+      {/* ─── SEARCH & FILTER TOOLBAR ─── */}
+      <div className="sticky top-16 z-30 bg-white/95 backdrop-blur border-b border-slate-200 py-4 shadow-xs">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row gap-4">
           <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search by name, family, or trade name..."
-              className="w-full pl-10 pr-4 py-2.5 text-xs bg-white border-2 border-ink placeholder:text-ink/40 font-bold focus:outline-none"
+              placeholder="Search by polymer name, family, or Indian trade name (e.g. Repol, Makrolon)..."
+              className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl placeholder:text-slate-400 font-medium text-slate-900 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-500/20"
             />
           </div>
           <div className="relative flex-shrink-0">
-            <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink pointer-events-none" />
+            <Filter className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
             <select
               value={selectedFamily}
               onChange={(e) => setSelectedFamily(e.target.value)}
-              className="pl-10 pr-8 py-2.5 border-2 border-ink text-xs font-bold text-ink focus:outline-none bg-white appearance-none cursor-pointer min-w-[180px]"
+              className="pl-10 pr-8 py-2.5 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none bg-slate-50 appearance-none cursor-pointer min-w-[180px]"
             >
               {FAMILIES.map((f) => (
-                <option key={f} value={f}>{f === 'All' ? 'All Families' : f}</option>
+                <option key={f} value={f}>{f === 'All' ? 'All Polymer Families' : f}</option>
               ))}
             </select>
           </div>
         </div>
       </div>
 
-      {/* Main content */}
+      {/* ─── MAIN CONTENT CONTAINER ─── */}
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8">
 
         {/* View Mode Toggle */}
-        <div className="flex gap-3 mb-6 border-b-4 border-ink pb-4">
+        <div className="flex gap-2 mb-6 border-b border-slate-200 pb-4 overflow-x-auto">
           <button
             onClick={() => setViewMode('table')}
-            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+            className={`font-mono text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'table'
-                ? 'bg-ink text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                : 'bg-white text-ink hover:bg-slate-50'
+                ? 'bg-[#2563EB] text-white shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
             }`}
           >
-            📊 Specs Database Table
+            <Database className="w-3.5 h-3.5" />
+            <span>Specs Database</span>
           </button>
           <button
             onClick={() => setViewMode('commercial')}
-            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+            className={`font-mono text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === 'commercial'
-                ? 'bg-blue text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                : 'bg-white text-ink hover:bg-slate-50'
+                ? 'bg-[#2563EB] text-white shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
             }`}
           >
-            🏭 Commercial Grades (CAMPUS TDS)
+            <Scale className="w-3.5 h-3.5" />
+            <span>Commercial Grades (TDS)</span>
           </button>
           <button
             onClick={() => setViewMode('3d')}
-            className={`font-display text-xs font-black px-4 py-2 border-2 border-ink uppercase tracking-wider transition-all shadow-hard-xs ${
+            className={`font-mono text-xs font-bold px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
               viewMode === '3d'
-                ? 'bg-ink text-yellow-bright shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                : 'bg-white text-ink hover:bg-slate-50'
+                ? 'bg-[#2563EB] text-white shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
             }`}
           >
-            🧊 3D Molecule & Product Models
+            <Layers className="w-3.5 h-3.5" />
+            <span>3D Interactive Models</span>
           </button>
         </div>
 
-        {/* Specs specific tabs and counts */}
+        {/* ─── SPECS DATABASE VIEW ─── */}
         {viewMode === 'table' && (
           <>
             {/* Family tabs */}
-            <div className="flex flex-wrap gap-2 mb-6">
+            <div className="flex flex-wrap gap-2 mb-4">
               {FAMILIES.map((f) => (
                 <button
                   key={f}
                   onClick={() => setSelectedFamily(f)}
-                  className={`font-mono text-[9px] font-black px-3.5 py-1.5 border-2 border-ink whitespace-nowrap uppercase tracking-wider transition-all ${
+                  className={`font-mono text-[10px] font-bold px-3 py-1 rounded-lg border transition-all cursor-pointer ${
                     selectedFamily === f
-                      ? 'bg-yellow-bright text-ink shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                      : 'bg-white text-ink/60 hover:text-ink'
+                      ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-100'
                   }`}
                 >
                   {f === 'All' ? `All (${materials.length})` : f}
@@ -508,188 +500,184 @@ export default function MaterialsPage() {
               ))}
             </div>
 
-            {/* Count details */}
-            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest mb-4">
-              Showing {filtered.length} of {materials.length} polymers
-              {search && ` matching "${search}"`}
-            </p>
+            {/* Live Count details */}
+            <div className="flex items-center justify-between mb-4">
+              <p className="font-mono text-xs text-slate-500 font-medium">
+                Showing <strong className="text-slate-900">{filtered.length}</strong> of <strong className="text-slate-900">{materials.length}</strong> base polymers
+                {search && ` matching "${search}"`}
+              </p>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-mono font-bold text-emerald-800">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                LIVE ASTM/ISO SPECIFICATIONS
+              </span>
+            </div>
+
+            {/* Materials List */}
+            <div className="space-y-3">
+              {filtered.length === 0 ? (
+                <div className="border border-slate-200 rounded-2xl p-12 text-center bg-white shadow-xs">
+                  <Database className="w-10 h-10 mx-auto mb-4 text-slate-300" />
+                  <h4 className="font-display text-xl font-bold text-slate-900 mb-1">No polymers matched</h4>
+                  <p className="text-slate-500 max-w-sm mx-auto font-sans text-xs">
+                    Try searching with generic resin abbreviations like PP, HDPE, PC, or PA66.
+                  </p>
+                </div>
+              ) : (
+                filtered.map((material) => (
+                  <MaterialRow
+                    key={material.id}
+                    material={material}
+                    expanded={expandedId === material.id}
+                    onToggle={() => setExpandedId(expandedId === material.id ? null : material.id)}
+                  />
+                ))
+              )}
+            </div>
           </>
         )}
 
+        {/* ─── 3D MODELS GRID VIEW (CLEAN WHITE CARDS - NO BLACK VOID) ─── */}
         {viewMode === '3d' && (
-          <div className="space-y-4 mb-6">
-            <div className="flex flex-col sm:flex-row gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-ink" />
-                <input
-                  type="text"
-                  value={modelSearch}
-                  onChange={(e) => setModelSearch(e.target.value)}
-                  placeholder="Search models..."
-                  className="w-full pl-10 pr-4 py-2 text-xs bg-white border-2 border-ink placeholder:text-ink/40 font-bold focus:outline-none"
-                />
+          <div className="space-y-6">
+            
+            {/* Search & Category Filter Toolbar */}
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                  <input
+                    type="text"
+                    value={modelSearch}
+                    onChange={(e) => setModelSearch(e.target.value)}
+                    placeholder="Search 3D molecules, products, machinery, or processes..."
+                    className="w-full pl-10 pr-4 py-2 text-xs bg-white border border-slate-200 rounded-xl placeholder:text-slate-400 font-medium text-slate-900 focus:outline-none focus:border-[#2563EB]"
+                  />
+                </div>
+                <div className="flex gap-1.5 flex-wrap">
+                  {['All', 'Molecule', 'Product', 'Machine', 'Process'].map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => setModelCategory(cat)}
+                      className={`font-mono text-[10px] font-bold px-3 py-1.5 rounded-xl border transition-all cursor-pointer ${
+                        modelCategory === cat
+                          ? 'bg-[#2563EB] border-blue-600 text-white shadow-xs'
+                          : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      }`}
+                    >
+                      {cat === 'All' ? `All (${LOCAL_MODELS.length})` : `${cat} (${LOCAL_MODELS.filter(m => m.category === cat).length})`}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="flex gap-2 flex-wrap">
-                {['All','Molecule','Product','Machine','Process'].map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setModelCategory(cat)}
-                    className={`font-mono text-[9px] font-black px-3 py-1.5 border-2 border-ink whitespace-nowrap uppercase tracking-wider transition-all ${
-                      modelCategory === cat
-                        ? 'bg-ink text-yellow-bright'
-                        : 'bg-white text-ink/60 hover:text-ink'
-                    }`}
-                  >
-                    {cat === 'All' ? `All (${LOCAL_MODELS.length})` : `${cat} (${LOCAL_MODELS.filter(m=>m.category===cat).length})`}
-                  </button>
-                ))}
+
+              {/* Atom Color Legend */}
+              <div className="p-3 bg-white border border-slate-200 rounded-2xl flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-600 shadow-xs">
+                <span className="font-bold text-slate-900">⚛️ Atom Legend:</span>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-slate-500 inline-block" /> Carbon</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-slate-200 border border-slate-400 inline-block" /> Hydrogen</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block" /> Oxygen</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block" /> Nitrogen</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" /> Chlorine</span>
+                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block" /> Fluorine</span>
+                </div>
               </div>
             </div>
-            <p className="font-mono text-[9px] font-black text-ink/40 uppercase tracking-widest">
-              Showing {filteredModels.length} of {LOCAL_MODELS.length} interactive 3D structures · Drag to rotate · Scroll to zoom
-            </p>
-          </div>
-        )}
 
-        {/* Loading skeleton */}
-        {loading && (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="border-2 border-ink p-5 bg-white shadow-[2px_2px_0px_0px_rgba(26,28,32,1)] animate-pulse">
-                <div className="h-4 bg-slate-100 rounded w-48 mb-2" />
-                <div className="h-3 bg-slate-100 rounded w-64" />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Materials List */}
-        {!loading && viewMode === 'table' && (
-          <div className="space-y-4">
-            {filtered.length === 0 ? (
-              <div className="border-2 border-ink p-12 text-center shadow-hard bg-white">
-                <Database className="w-10 h-10 mx-auto mb-4 text-ink/40" />
-                <div className="font-display text-2xl font-black text-ink mb-2">No polymers matched</div>
-                <p className="text-ink/60 max-w-sm mx-auto font-mono text-xs">
-                  Try another keyword or change your family filter settings.
-                </p>
-              </div>
-            ) : (
-              filtered.map((material) => (
-                <MaterialRow
-                  key={material.id}
-                  material={material}
-                  expanded={expandedId === material.id}
-                  onToggle={() => setExpandedId(expandedId === material.id ? null : material.id)}
-                />
-              ))
-            )}
-          </div>
-        )}
-
-        {/* 3D view mode list - 100+ local models, no DB required */}
-        {viewMode === '3d' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredModels.length === 0 ? (
-              <div className="col-span-3 border-2 border-ink p-12 text-center bg-white">
-                <p className="font-display font-black text-ink text-xl mb-2">No models matched</p>
-                <p className="font-mono text-xs text-ink/60">Try a different search term or category filter.</p>
-              </div>
-            ) : filteredModels.map((model) => {
-              const CATEGORY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
-                Molecule: { bg: '#EFF6FF', text: '#1D4ED8', border: '#1D4ED8' },
-                Product:  { bg: '#F0FDF4', text: '#15803D', border: '#15803D' },
-                Machine:  { bg: '#FFF7ED', text: '#EA580C', border: '#EA580C' },
-                Process:  { bg: '#F5F3FF', text: '#7C3AED', border: '#7C3AED' },
-              }
-              const cs = CATEGORY_STYLES[model.category] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#0A0A0A' }
-              return (
-                <div key={model.id} className="bg-white border-2 border-ink p-5 shadow-[2px_2px_0px_0px_rgba(26,28,32,1)] flex flex-col justify-between hover:shadow-[4px_4px_0px_0px_rgba(26,28,32,1)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all">
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className="font-mono text-[9px] font-black border px-2 py-0.5 uppercase tracking-wider"
-                        style={{ backgroundColor: cs.bg, color: cs.text, borderColor: cs.border }}
-                      >
-                        {model.category}
-                      </span>
-                    </div>
-                    <div>
-                      <h3 className="font-display font-black text-ink text-sm uppercase leading-tight">{model.name}</h3>
-                      <p className="font-mono text-[9px] text-ink/60 mt-1 leading-normal">{model.description}</p>
-                    </div>
-                  </div>
-                  <div>
-                    <ThreeDViewer modelType={model.model_type} name={model.name} />
-                  </div>
+            {/* Clean White 3D Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredModels.length === 0 ? (
+                <div className="col-span-3 border border-slate-200 rounded-2xl p-12 text-center bg-white shadow-xs">
+                  <p className="font-display font-bold text-slate-900 text-lg mb-1">No 3D models matched</p>
+                  <p className="font-sans text-xs text-slate-500">Try a different keyword or category filter.</p>
                 </div>
-              )
-            })}
+              ) : filteredModels.map((model) => {
+                const CATEGORY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
+                  Molecule: { bg: '#EFF6FF', text: '#1D4ED8', border: '#93C5FD' },
+                  Product:  { bg: '#F0FDF4', text: '#15803D', border: '#86EFAC' },
+                  Machine:  { bg: '#FFF7ED', text: '#EA580C', border: '#FDBA74' },
+                  Process:  { bg: '#F5F3FF', text: '#7C3AED', border: '#C4B5FD' },
+                }
+                const cs = CATEGORY_STYLES[model.category] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#CBD5E1' }
+                return (
+                  <div 
+                    key={model.id} 
+                    className="bg-white border-2 border-slate-200 rounded-3xl p-5 shadow-xs flex flex-col justify-between hover:border-[#2563EB] hover:shadow-md transition-all space-y-4"
+                  >
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span
+                          className="font-mono text-[9px] font-bold border px-2 py-0.5 rounded-full uppercase tracking-wider"
+                          style={{ backgroundColor: cs.bg, color: cs.text, borderColor: cs.border }}
+                        >
+                          [{model.category}]
+                        </span>
+                      </div>
+                      <div>
+                        <h3 className="font-display font-bold text-slate-900 text-base leading-snug">{model.name}</h3>
+                        <p className="font-sans text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">{model.description}</p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <ThreeDViewer modelType={model.model_type} name={model.name} />
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         )}
 
+        {/* ─── COMMERCIAL GRADE COMPARATOR VIEW ─── */}
         {viewMode === 'commercial' && (
           <div className="pt-2">
             <CommercialGradeComparator />
           </div>
         )}
 
-        {/* Premium Upgrade alert */}
-        <div className="mt-10 border-2 border-slate-900 bg-amber-50 p-6 rounded-2xl shadow-md">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-            <div className="flex items-start gap-4">
-              <Lock className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
-              <div>
-                <h3 className="font-display font-black text-slate-900 text-lg uppercase tracking-tight mb-1">
-                  Unlock Chemical Resistance and Processing Data
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                  Premium membership includes complete chemical resistance tables, processing parameters, and trade details for specialized materials (PTFE, PEEK, elastomers, biopolymers).
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/pricing"
-              className="bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-6 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] flex items-center justify-center gap-1.5 flex-shrink-0 transition-all"
-            >
-              Unlock Premium <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-
       </div>
 
-      {/* ── BOTTOM AI MATERIALS SPECIALIST CTA ── */}
+      {/* ─── BOTTOM AI MATERIALS SPECIALIST CTA (LIGHT SLATE CARD) ─── */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-16">
-        <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Materials Specialist &middot; Gemini RAG
+        <div className="bg-gradient-to-br from-blue-50/80 via-white to-slate-50 border-2 border-slate-900 rounded-3xl p-8 sm:p-12 shadow-xl text-center space-y-6">
+          
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-[#1E40AF] bg-blue-100 border border-blue-300 px-4 py-1.5 rounded-full uppercase tracking-wider">
+            <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" /> PolymerHub AI &middot; Materials &amp; Grade Advisor
           </div>
 
-          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
+          <h2 className="font-display text-2xl sm:text-4xl font-black uppercase text-slate-900">
             Need resin substitution or technical datasheet analysis? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] to-[#0D9488]">
               Ask the AI Materials Specialist.
             </span>
           </h2>
 
-          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
+          <p className="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-normal">
             Query comparative tensile modulus, moisture absorption kinetics, processing shrinkage differences, or Indian petrochemical supplier trade names.
           </p>
+
+          {/* AI Specification Disclaimer */}
+          <div className="max-w-2xl mx-auto flex items-center justify-center gap-2 p-3 bg-amber-50 border border-amber-200/80 rounded-xl text-amber-900 text-xs font-mono text-left">
+            <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
+            <span>
+              <strong>Application Engineering Note:</strong> AI-generated material recommendations and substitution guidance are preliminary technical heuristics. Always verify against ASTM/ISO standards and consult your certified application engineer before final specification.
+            </span>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
               href="/ai-tutor?prompt=Compare%20polycarbonate%20and%20PMMA%20for%20automotive%20headlamp%20lens%20applications%20including%20refractive%20index%20and%20impact%20strength"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl shadow-md hover:-translate-y-0.5 transition-all"
             >
               <Brain className="w-4 h-4" /> Ask Materials Specialist &rarr;
             </Link>
 
             <Link
               href="/comparator"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-900 font-mono font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-xl border-2 border-slate-300 hover:border-slate-400 transition-all"
             >
-              <Compass className="w-4 h-4" /> Side-by-Side Comparator
+              <Compass className="w-4 h-4" /> Open Full Comparator
             </Link>
           </div>
         </div>

@@ -277,12 +277,12 @@ export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewe
   }, [modelType, autoRotate])
 
   return (
-    <div className="border-4 border-ink rounded-2xl overflow-hidden bg-[#1A1D23] shadow-hard select-none relative group cursor-grab active:cursor-grabbing">
-      <canvas ref={canvasRef} width={400} height={300} className="w-full h-auto block" />
-      <div className="absolute top-3 left-3 bg-ink/75 border border-white/20 px-2 py-0.5 rounded text-[8px] font-mono text-yellow-bright uppercase tracking-wider">
+    <div className="border border-slate-700/80 rounded-xl overflow-hidden bg-[#0A1128] shadow-inner select-none relative group cursor-grab active:cursor-grabbing">
+      <canvas ref={canvasRef} width={400} height={280} className="w-full h-auto block" />
+      <div className="absolute top-2.5 left-2.5 bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded text-[8px] font-mono text-cyan-300 uppercase tracking-wider">
         {name.split(' ')[0]} 3D scope
       </div>
-      <div className="absolute bottom-3 left-3 right-3 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-ink/80 text-[8px] font-mono text-white/80 py-1 px-2 rounded">
+      <div className="absolute bottom-2.5 left-2.5 right-2.5 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-950/90 text-[8px] font-mono text-slate-300 py-1 px-2 rounded border border-slate-800">
         🖱️ Drag to Rotate · Scroll Wheel to Zoom
       </div>
     </div>
