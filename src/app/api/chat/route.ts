@@ -27,9 +27,9 @@ export async function POST(req: NextRequest) {
       guestQueriesUsed = guestCookie ? parseInt(guestCookie, 10) : 0
       if (isNaN(guestQueriesUsed)) guestQueriesUsed = 0
 
-      if (guestQueriesUsed >= 3) {
+      if (guestQueriesUsed >= 10) {
         return NextResponse.json(
-          { error: 'You have used your 3 free guest queries. Create a free account to continue asking questions.', guestLimitReached: true },
+          { error: 'You have used your 10 free guest queries. Create a free account to continue asking questions.', guestLimitReached: true },
           { status: 403 }
         )
       }
@@ -239,7 +239,7 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
       sources,
       isGuest,
       guestQueriesUsed: isGuest ? guestQueriesUsed + 1 : undefined,
-      guestQueriesLeft: isGuest ? Math.max(0, 3 - (guestQueriesUsed + 1)) : undefined,
+      guestQueriesLeft: isGuest ? Math.max(0, 10 - (guestQueriesUsed + 1)) : undefined,
     })
 
     if (isGuest) {

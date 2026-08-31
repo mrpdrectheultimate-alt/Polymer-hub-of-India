@@ -63,56 +63,56 @@ type ChatHistoryItem = {
 
 const ENGINEERING_PROMPTS = [
   {
-    category: 'Fundamentals',
+    category: 'Thermodynamics',
     badgeClass: 'bg-blue-50 text-blue-700 border-blue-200',
     title: 'Glass Transition vs Melting',
     prompt: 'Explain the thermodynamic and molecular differences between Tg and Tm in semi-crystalline polymers like POM and Nylon 6,6.',
-    sourceHint: 'Lesson 1.3 · Polymer Physics'
+    sourceHint: 'Lesson 5.1 · Polymer Thermodynamics & Glass Transition'
   },
   {
-    category: 'Processing',
+    category: 'Injection Moulding',
     badgeClass: 'bg-amber-50 text-amber-700 border-amber-200',
     title: 'Sink Marks & Cavity Pressure',
     prompt: 'What causes sink marks in thick-walled injection molded parts, and how do packing pressure and gate freeze-off time solve it?',
-    sourceHint: 'Lesson 4.2 · Injection Moulding'
+    sourceHint: 'Lesson 4.2 · Injection Moulding Process Parameters'
   },
   {
-    category: 'Materials',
+    category: 'Biopolymers',
     badgeClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     title: 'PLA vs PHA Biodegradation',
     prompt: 'Compare the biodegradation mechanisms and crystalline degradation rates of Polylactic Acid (PLA) vs Polyhydroxyalkanoate (PHA).',
-    sourceHint: 'Lesson 7.4 · Sustainable Biopolymers'
+    sourceHint: 'Lesson 7.4 · Sustainable Biopolymers & Degradation'
   },
   {
     category: 'Rheology',
     badgeClass: 'bg-indigo-50 text-indigo-700 border-indigo-200',
     title: 'MFI to Zero-Shear Viscosity',
     prompt: 'How is Melt Flow Index (MFI/MFR) correlated with molecular weight distribution (MWD) and shear-thinning power-law fluid behavior?',
-    sourceHint: 'Lesson 5.1 · Polymer Rheology'
+    sourceHint: 'Lesson 5.2 · Viscoelasticity & Shear Rheology'
   },
   {
-    category: 'Tooling',
+    category: 'Tooling & Mould Design',
     badgeClass: 'bg-orange-50 text-orange-700 border-orange-200',
     title: 'Multi-Cavity Runner Balancing',
     prompt: 'Derive the hydrodynamic diameter formula for naturally balanced 8-cavity runner systems undergoing non-Newtonian shear heating.',
-    sourceHint: 'Lesson 3.6 · Mould Design CAE'
+    sourceHint: 'Lesson 3.6 · Mould Tooling & Runner Systems'
   },
   {
-    category: 'GATE XE-F',
+    category: 'GATE XE-F Prep',
     badgeClass: 'bg-cyan-50 text-cyan-700 border-cyan-200',
     title: 'Carothers Equation & Gel Point',
     prompt: 'How do you calculate the critical extent of reaction (Pc) for trifunctional monomer polycondensation using the Carothers equation?',
-    sourceHint: 'Lesson 2.1 · Polymer Chemistry'
+    sourceHint: 'Lesson 2.1 · Step-Growth Polymerization Kinetics'
   },
 ]
 
 // ─── Quick Prompt Action Modes ────────────────────────────────────────────────
 
 const PROMPT_MODES = [
-  { id: 'explain', label: 'Explain', prefix: 'Explain the fundamental polymer science concept of: ' },
-  { id: 'solve', label: 'Solve Problem', prefix: 'Provide a step-by-step engineering calculation for: ' },
-  { id: 'quiz', label: 'GATE Quiz', prefix: 'Generate a GATE XE-F standard numerical problem with solution on: ' },
-  { id: 'calculate', label: 'Formulate', prefix: 'Give the compounding formulation and processing window for: ' },
+  { id: 'explain', label: 'Teach me', prefix: 'Teach me the core engineering principles of: ' },
+  { id: 'solve', label: 'Calculate', prefix: 'Provide a step-by-step engineering calculation with formulas for: ' },
+  { id: 'quiz', label: 'Test me', prefix: 'Generate a GATE XE-F standard numerical problem with step-by-step derivation on: ' },
+  { id: 'formulate', label: 'Analyze material', prefix: 'Analyze the material properties, compounding formulation, and processing window for: ' },
 ]
 
 // ─── Molecular AI Mark Component ──────────────────────────────────────────────
@@ -283,7 +283,7 @@ function ThinkingIndicator() {
             <span className="w-2 h-2 rounded-full bg-[#0D9488] animate-bounce" style={{ animationDelay: '150ms' }} />
             <span className="w-2 h-2 rounded-full bg-[#F59E0B] animate-bounce" style={{ animationDelay: '300ms' }} />
           </div>
-          <span className="text-xs text-slate-500 font-mono">Querying 218 lessons &amp; formulating verified answer…</span>
+          <span className="text-xs text-slate-500 font-mono">Querying 216 lessons &amp; formulating verified answer…</span>
         </div>
       </div>
     </div>
@@ -302,7 +302,7 @@ export default function AITutorPage() {
     limit: 15,
     isPremium: false,
     isGuest: true,
-    guestQueriesLeft: 3
+    guestQueriesLeft: 10
   })
   const [session, setSession] = useState<Session | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -376,7 +376,7 @@ export default function AITutorPage() {
           })
         }
       } else {
-        setQueryStatus(prev => ({ ...prev, isGuest: true, guestQueriesLeft: 3 }))
+        setQueryStatus(prev => ({ ...prev, isGuest: true, guestQueriesLeft: 10 }))
       }
     }
     init()
@@ -445,7 +445,7 @@ export default function AITutorPage() {
       if (!response.ok) {
         if (data.guestLimitReached) {
           setGuestLimitModal(true)
-          throw new Error('You have used your 3 free guest queries. Sign in to continue asking questions.')
+          throw new Error('You have used your 10 free guest queries. Sign in to continue asking questions.')
         }
         throw new Error(data.error || 'Failed to get response')
       }
@@ -516,7 +516,7 @@ export default function AITutorPage() {
               <span className="font-display font-bold text-sm text-slate-900 leading-none">Polymer Copilot</span>
               <p className="text-[10px] font-mono text-emerald-600 font-medium flex items-center gap-1 mt-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                218 Lessons Indexed
+                216 Lessons Indexed
               </p>
             </div>
           </div>
@@ -576,7 +576,7 @@ export default function AITutorPage() {
           {savedChats.length === 0 ? (
             <div className="px-2 py-4 text-center">
               <MessageSquare className="w-5 h-5 text-slate-300 mx-auto mb-1" />
-              <p className="text-[11px] text-slate-400 font-mono">No recent sessions yet</p>
+              <p className="text-[11px] text-slate-400 font-mono">No questions yet. Your conversations will appear here.</p>
             </div>
           ) : (
             <div className="space-y-1">
@@ -652,19 +652,19 @@ export default function AITutorPage() {
               </Link>
             </div>
           ) : (
-            <div className="p-2 bg-blue-50/70 border border-blue-200/80 rounded-xl">
+            <div className="p-2.5 bg-blue-50/70 border border-blue-200/80 rounded-xl">
               <div className="flex items-center gap-1.5 mb-1">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
-                <span className="text-[11px] font-bold text-[#1E40AF] font-mono">Guest Mode</span>
+                <span className="text-[11px] font-bold text-[#1E40AF] font-mono">Guest Mode (10 Queries)</span>
               </div>
               <p className="text-[10px] text-slate-600 leading-tight">
                 {queryStatus.guestQueriesLeft > 0
-                  ? `${queryStatus.guestQueriesLeft} free query remaining without sign-in.`
+                  ? `${queryStatus.guestQueriesLeft} free queries remaining without sign-in.`
                   : 'Free guest quota used.'}
               </p>
               <Link
                 href="/login"
-                className="mt-2 block text-center py-1.5 bg-[#2563EB] text-white rounded-lg text-[11px] font-bold font-mono hover:bg-blue-700 transition-colors"
+                className="mt-2 block text-center py-1.5 bg-[#2563EB] text-white rounded-lg text-[11px] font-bold font-mono hover:bg-blue-700 transition-colors shadow-xs"
               >
                 Sign In to Save History →
               </Link>
@@ -715,7 +715,7 @@ export default function AITutorPage() {
             {/* Real-time Status Badge */}
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-mono font-bold text-emerald-800">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Grounded in 218 Lessons</span>
+              <span>Grounded in 216 Lessons</span>
             </div>
 
             {messages.length > 0 && activeTab === 'chat' && (
@@ -749,10 +749,10 @@ export default function AITutorPage() {
                         <span>POLYMERHUB ENGINEERING COPILOT</span>
                       </div>
                       <h1 className="text-2xl sm:text-4xl font-extrabold font-display text-slate-900 tracking-tight">
-                        Precision AI for Polymer Engineers
+                        Master Polymer Engineering with an AI that speaks your language.
                       </h1>
                       <p className="text-sm text-slate-600 font-sans leading-relaxed">
-                        Every answer is grounded in <strong className="text-slate-900">218 accredited PPE lessons</strong> across 19 subjects, citing textbook formulas, ASTM/ISO standards, and Indian industrial best practices.
+                        Grounded in <strong className="text-slate-900">216 PolymerHub curriculum lessons</strong> across 19 subjects, citing standard reference textbooks, ASTM/ISO standards, and industrial best practices.
                       </p>
                     </div>
 
@@ -866,22 +866,22 @@ export default function AITutorPage() {
             </div>
 
             {/* ─── BOTTOM ENGINEERING INPUT CONSOLE ─── */}
-            <footer className="flex-shrink-0 border-t border-slate-200 bg-white p-3 sm:p-4 shadow-lg">
-              <div className="max-w-4xl mx-auto space-y-2">
+            <footer className="flex-shrink-0 border-t border-slate-800 bg-[#0B132B] p-3.5 sm:p-5 shadow-2xl text-slate-100">
+              <div className="max-w-4xl mx-auto space-y-3">
                 
                 {/* Mode Selector Chips */}
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
                   <span className="text-[11px] font-mono text-slate-400 flex items-center gap-1 mr-1 flex-shrink-0">
-                    <Terminal className="w-3 h-3 text-[#2563EB]" /> Mode:
+                    <Terminal className="w-3.5 h-3.5 text-[#38BDF8]" /> Engineering Mode:
                   </span>
                   {PROMPT_MODES.map((m) => (
                     <button
                       key={m.id}
                       onClick={() => handleModeClick(m)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all flex-shrink-0 ${
+                      className={`px-3 py-1 rounded-lg text-xs font-mono transition-all flex-shrink-0 border ${
                         selectedMode === m.id
-                          ? 'bg-[#2563EB] text-white font-bold shadow-xs'
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                          ? 'bg-[#2563EB] border-blue-400 text-white font-bold shadow-md'
+                          : 'bg-slate-900/80 border-slate-700/80 text-slate-300 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
                       {m.label}
@@ -889,35 +889,40 @@ export default function AITutorPage() {
                   ))}
                 </div>
 
-                {/* The Input Box */}
-                <div className="relative border border-slate-300 rounded-2xl bg-white focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-blue-100 transition-all shadow-xs overflow-hidden">
-                  <textarea
-                    ref={inputRef}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Ask anything about polymer engineering, tensile formulations, mold flow, or GATE XE-F..."
-                    disabled={loading}
-                    className="w-full px-4 py-3 text-sm text-slate-900 resize-none focus:outline-none placeholder:text-slate-400 bg-white"
-                    rows={2}
-                    style={{ minHeight: '58px', maxHeight: '140px' }}
-                  />
+                {/* The Dark Engineering Console Input Box */}
+                <div className="relative border-2 border-slate-700/90 rounded-2xl bg-slate-950 focus-within:border-[#38BDF8] focus-within:ring-2 focus-within:ring-blue-500/20 transition-all shadow-inner overflow-hidden">
+                  <div className="flex items-start px-3 pt-3">
+                    <span className="font-mono text-emerald-400 font-bold text-base select-none mr-2 mt-0.5">&gt;</span>
+                    <textarea
+                      ref={inputRef}
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Enter polymer engineering query, derivation prompt, or processing diagnostic..."
+                      disabled={loading}
+                      className="w-full text-sm text-slate-100 font-mono resize-none focus:outline-none placeholder:text-slate-500 bg-transparent"
+                      rows={2}
+                      style={{ minHeight: '56px', maxHeight: '140px' }}
+                    />
+                  </div>
 
                   {/* Input Footer Bar */}
-                  <div className="flex items-center justify-between px-4 py-2 border-t border-slate-100 bg-slate-50/80">
+                  <div className="flex items-center justify-between px-4 py-2 border-t border-slate-800/80 bg-slate-900/90">
                     <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400">
-                      <span>✦ Every answer cited from 218 lessons</span>
+                      <span className="inline-flex items-center gap-1 text-emerald-400">
+                        <ShieldCheck className="w-3 h-3" /> Grounded in 216 lessons
+                      </span>
                     </div>
 
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">Enter ↵ to send</span>
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">Press Enter ↵ to run</span>
                       <button
                         onClick={() => sendMessage(input)}
                         disabled={!input.trim() || loading}
                         className={`px-4 py-1.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-1.5 ${
                           input.trim() && !loading
-                            ? 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-sm hover:-translate-y-0.5'
-                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                            ? 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-md hover:-translate-y-0.5 active:translate-y-0'
+                            : 'bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50'
                         }`}
                       >
                         {loading ? (
@@ -936,10 +941,16 @@ export default function AITutorPage() {
                   </div>
                 </div>
 
+                {/* AI Exam & Derivation Disclaimer */}
+                <div className="flex items-center justify-center gap-1.5 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-lg text-amber-300 text-[11px] font-mono text-center">
+                  <span>⚠️</span>
+                  <span>AI-generated — always verify critical formulas, numerical constants &amp; derivations against standard textbooks or your instructor before exams.</span>
+                </div>
+
                 {/* Bottom Trust Line */}
                 <p className="text-[10px] text-slate-400 font-mono text-center flex items-center justify-center gap-1.5">
-                  <ShieldCheck className="w-3 h-3 text-emerald-600" />
-                  <span>PolymerHub AI v3 · Grounded in 19 B.Tech PPE Subjects · Digital Personal Data Protection Act (DPDP) Compliant</span>
+                  <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                  <span>PolymerHub AI v3 · Grounded in 19 PPE Disciplines · Privacy-first platform · Strictly citing standard reference literature &amp; ASTM/ISO test methods</span>
                 </p>
               </div>
             </footer>
@@ -1012,7 +1023,7 @@ export default function AITutorPage() {
                 You&apos;ve experienced the Copilot!
               </h3>
               <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                You have used your 3 free guest inquiries. Create your free account in seconds to save your conversation history, unlock 15 daily queries, and track your syllabus progress.
+                You have used your 10 free guest inquiries. Create your free account in seconds to save your conversation history, unlock 15 daily queries, and track your syllabus progress.
               </p>
             </div>
 

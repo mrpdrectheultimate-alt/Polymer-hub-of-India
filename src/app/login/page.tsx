@@ -214,7 +214,7 @@ export default function LoginPage() {
           >
             <span className="flex items-center gap-1">
               <BookOpen className="h-3 w-3 text-[#2563EB]" />
-              218+ Lessons
+              216+ Lessons
             </span>
             <span className="w-px h-3.5 bg-[#E2E8F0]" />
             <span className="flex items-center gap-1">
@@ -500,11 +500,11 @@ export default function LoginPage() {
           <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-[10px] sm:text-[11px] font-mono">
             <div className="flex items-center gap-1.5 text-[#16A34A] font-medium">
               <Shield className="w-3.5 h-3.5" />
-              <span>India DPDP Act 2023 Compliant</span>
+              <span>Privacy-First Educational Architecture</span>
             </div>
             <div className="flex items-center gap-1.5 text-[#2563EB] font-medium">
               <Globe className="w-3.5 h-3.5" />
-              <span>100% Legally &amp; Academically Audited</span>
+              <span>Academically Verified Curriculum</span>
             </div>
             <div className="flex items-center gap-1.5 text-[#CA8A04] font-medium">
               <GraduationCap className="w-3.5 h-3.5" />

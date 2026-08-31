@@ -28,7 +28,7 @@ const TYPES: { id: FeedbackType; label: string; icon: React.ElementType; color: 
     placeholder: 'What\'s working well? What do you love about PolymerHub?'
   },
   {
-    id: 'general', label: 'General Feedback', icon: MessageSquarePlus, color: '#7C3AED', bg: '#F5F3FF',
+    id: 'general', label: 'General Feedback', icon: MessageSquarePlus, color: '#2563EB', bg: '#EFF6FF',
     placeholder: 'Anything on your mind — suggestions, opinions, ideas...'
   },
 ]
@@ -112,7 +112,7 @@ export default function FeedbackWidget() {
         <button
           onClick={handleOpen}
           className="fixed bottom-6 right-6 z-40 border-4 border-ink flex items-center gap-2 px-4 py-3 font-mono text-[10px] font-black uppercase tracking-wider transition-all hover:scale-105 active:scale-95"
-          style={{ backgroundColor: '#7C3AED', color: 'white', boxShadow: '4px 4px 0px 0px #0A0A0A' }}
+          style={{ backgroundColor: '#2563EB', color: 'white', boxShadow: '4px 4px 0px 0px #0A0A0A' }}
         >
           <MessageSquarePlus className="w-4 h-4" />
           <span className="hidden sm:block">Feedback</span>
@@ -122,10 +122,10 @@ export default function FeedbackWidget() {
       {/* Feedback panel */}
       {open && (
         <div className="fixed bottom-6 right-6 z-50 w-full sm:w-96 max-h-[90vh] overflow-y-auto border-4 border-ink bg-canvas"
-          style={{ boxShadow: '6px 6px 0px 0px #7C3AED' }}>
+          style={{ boxShadow: '6px 6px 0px 0px #2563EB' }}>
 
           {/* Header */}
-          <div className="border-b-4 border-ink px-5 py-4 flex items-center justify-between bg-violet">
+          <div className="border-b-4 border-ink px-5 py-4 flex items-center justify-between bg-[#2563EB]">
             <div className="flex items-center gap-2">
               <MessageSquarePlus className="w-4 h-4 text-white" />
               <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Share Feedback</span>
