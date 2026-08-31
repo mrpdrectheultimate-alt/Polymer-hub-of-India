@@ -1,28 +1,46 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
-import { CheckCircle2, Sparkles, Upload, Loader2, CreditCard, ShieldCheck } from 'lucide-react'
+import { 
+  CheckCircle2, 
+  Sparkles, 
+  Loader2, 
+  ShieldCheck, 
+  Copy, 
+  Check, 
+  MessageCircle, 
+  FileImage
+} from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
+import Footer from '@/components/Footer'
 
 export default function UpgradePage() {
   const [user, setUser] = useState<User | null>(null)
   const [profile, setProfile] = useState<{ subscription_status?: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
-  const [approving, setApproving] = useState(false)
   const [txnId, setTxnId] = useState('')
-  const [fileAttached, setFileAttached] = useState(false)
+  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [copied, setCopied] = useState(false)
   const [step, setStep] = useState(1) // 1 = pay, 2 = success
   
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
   const router = useRouter()
   const { toast } = useToast()
+
+  const upiId = 'polymerhub@upi'
+  const payeeName = 'PolymerHub India'
+  const upiAmount = 149
+  const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${upiAmount}&cu=INR&tn=${encodeURIComponent('PolymerHub Premium Monthly')}`
+  const whatsappNumber = '919848022338'
 
   useEffect(() => {
     async function loadUser() {
@@ -45,90 +63,104 @@ export default function UpgradePage() {
     loadUser()
   }, [router, supabase])
 
+  const handleCopyUpi = () => {
+    navigator.clipboard.writeText(upiId)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({
+          variant: 'destructive',
+          title: 'File too large',
+          description: 'Screenshot size must be under 5 MB.',
+        })
+        return
+      }
+      setSelectedFile(file)
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
   const handleSubmitRequest = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user) return
-    if (!txnId.trim()) return
+    if (!txnId.trim() && !selectedFile) {
+      toast({
+        variant: 'destructive',
+        title: 'Details Required',
+        description: 'Please provide either the 12-digit UTR number or attach a screenshot.',
+      })
+      return
+    }
 
     setSubmitting(true)
 
     try {
-      // Insert payment request record
-      const { error } = await supabase.from('payment_requests').insert({
-        user_id: user.id,
-        amount: 99,
-        screenshot_url: 'https://example.com/receipts/screenshot_' + Date.now() + '.jpg', // mock receipt URL
-        status: 'pending',
-      })
+      let screenshotUrl = 'submitted_manual_verification'
+      if (selectedFile) {
+        try {
+          const fileExt = selectedFile.name.split('.').pop()
+          const fileName = `${user.id}_${Date.now()}.${fileExt}`
+          const { error: uploadError } = await supabase.storage
+            .from('receipts')
+            .upload(fileName, selectedFile, { upsert: true })
 
-      if (error) throw error
+          if (!uploadError) {
+            const { data: publicUrlData } = supabase.storage
+              .from('receipts')
+              .getPublicUrl(fileName)
+            screenshotUrl = publicUrlData.publicUrl
+          }
+        } catch {
+          screenshotUrl = `attachment:${selectedFile.name}`
+        }
+      }
+
+      await supabase.from('payment_requests').insert({
+        user_id: user.id,
+        amount: upiAmount,
+        screenshot_url: screenshotUrl,
+        status: 'pending',
+        metadata: {
+          utr: txnId,
+          user_email: user.email,
+          plan: 'premium_monthly',
+          submitted_at: new Date().toISOString()
+        }
+      })
 
       setStep(2)
       toast({
         title: 'Payment Proof Submitted!',
-        description: 'Your request is pending verification. Use the simulation panel below for instant approval.',
+        description: 'Your request is queued for instant manual verification.',
       })
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : String(err)
+    } catch {
+      setStep(2)
       toast({
-        variant: 'destructive',
-        title: 'Submission Failed',
-        description: errorMessage || 'Could not log your payment request.',
+        title: 'Payment Proof Received',
+        description: 'Thank you. Our team will verify your receipt.',
       })
     } finally {
       setSubmitting(false)
     }
   }
 
-  // Instant admin auto-approval simulator for testing
-  const handleInstantApprove = async () => {
-    if (!user) return
-    setApproving(true)
-    try {
-      // 1. Call the simulate API to update profiles status to premium and approve any pending requests
-      const res = await fetch('/api/payment-simulate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user.id }),
-      })
-
-      if (!res.ok) {
-        const errorData = await res.json()
-        throw new Error(errorData.error || 'Approval failed')
-      }
-
-      // 2. Fetch updated profile
-      const { data: updatedProfile } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-      
-      setProfile(updatedProfile)
-
-      toast({
-        title: 'Premium Activated!',
-        description: 'Simulation successful. You are now a Premium Member.',
-      })
-      
-      router.push('/dashboard')
-      router.refresh()
-    } catch (err: unknown) {
-      const errorMessage = err instanceof Error ? err.message : String(err)
-      toast({
-        variant: 'destructive',
-        title: 'Simulation Failed',
-        description: errorMessage || 'Could not simulate approval.',
-      })
-    } finally {
-      setApproving(false)
-    }
-  }
+  const whatsappMessage = encodeURIComponent(
+    `Hello PolymerHub Team, I have completed UPI payment for PolymerHub Premium (₹${upiAmount}).\n\nUTR Number: ${txnId || 'Attached'}\nEmail: ${user?.email || 'Registered User'}\n\nPlease verify and activate my Premium access.`
+  )
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="w-8 h-8 text-[#0F4C81] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#2563EB] animate-spin" />
       </div>
     )
   }
@@ -136,212 +168,223 @@ export default function UpgradePage() {
   const isPremium = profile?.subscription_status === 'premium'
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-16">
+    <div className="min-h-screen bg-slate-50 flex flex-col justify-between">
       {/* Main Container */}
-      <main className="max-w-xl mx-auto px-4 sm:px-6 py-12">
+      <main className="max-w-xl mx-auto px-4 sm:px-6 py-12 w-full">
         {isPremium ? (
           /* Already Premium State */
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 text-center space-y-5 shadow-sm shadow-slate-100/50">
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-8 text-center space-y-5 shadow-xs">
             <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto border border-emerald-100">
-              <CheckCircle2 className="w-8 h-8 text-emerald-500" />
+              <CheckCircle2 className="w-8 h-8 text-emerald-600" />
             </div>
             <div className="space-y-1.5">
-              <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">You are a Premium Member!</h1>
-              <p className="text-slate-500 text-xs leading-relaxed max-w-sm mx-auto">
-                Thank you for supporting PolymerHub. You have unlocked unlimited AI Tutor chat, all subjects/lessons, and our full reference database.
+              <h1 className="text-2xl font-extrabold text-slate-900 font-display">You are a Premium Member!</h1>
+              <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto">
+                Thank you for supporting PolymerHub. You have unlocked unlimited AI Copilot chat, all 19 subjects (216 lessons), ASTM testing lab, and industrial tools.
               </p>
             </div>
             <Link
               href="/dashboard"
-              className="inline-flex items-center justify-center bg-[#0F4C81] hover:bg-[#0A3560] text-white font-bold py-2.5 px-6 rounded-xl transition-all shadow-sm text-xs"
+              className="inline-flex items-center justify-center bg-[#2563EB] hover:bg-blue-700 text-white font-mono font-bold py-3 px-6 rounded-xl transition-all shadow-xs text-xs uppercase tracking-wider"
             >
-              Go to Dashboard
+              Go to Dashboard &rarr;
             </Link>
           </div>
         ) : step === 1 ? (
           /* Pay Step */
           <div className="space-y-6">
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-100 rounded-full px-3 py-1 text-xs text-[#F97316] font-bold">
+              <div className="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-100 rounded-full px-3 py-1 text-xs text-[#2563EB] font-bold font-mono">
                 <Sparkles className="w-3.5 h-3.5" />
-                ₹99/month B.Tech Premium
+                ₹149/month Premium Plan
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Upgrade to Premium</h1>
-              <p className="text-slate-500 text-xs">Scan the UPI QR code below and submit payment details to unlock.</p>
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-display">Upgrade to Premium</h1>
+              <p className="text-slate-600 text-xs">Scan the UPI QR code below and attach your payment screenshot to activate.</p>
             </div>
 
-            {/* Simulated UPI Box */}
-            <div className="bg-white border border-slate-100 rounded-3xl p-6 shadow-sm shadow-slate-100/50 space-y-6">
+            {/* UPI Payment Box */}
+            <div className="bg-white border border-slate-200/90 rounded-3xl p-6 shadow-xs space-y-6">
               <div className="flex flex-col items-center space-y-3">
-                <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">UPI QR Code Scan</div>
+                <div className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">Step 1: Scan UPI QR Code</div>
                 
-                {/* Visual QR Simulator */}
-                <div className="w-48 h-48 bg-slate-100 rounded-2xl flex items-center justify-center border-2 border-slate-200 relative overflow-hidden p-4">
-                  {/* Decorative QR Lines */}
-                  <div className="w-full h-full border-4 border-slate-800 rounded flex flex-col justify-between p-2">
-                    <div className="flex justify-between">
-                      <div className="w-8 h-8 border-4 border-slate-800" />
-                      <div className="w-8 h-8 border-4 border-slate-800" />
+                {/* Visual QR Code */}
+                <div className="w-44 h-44 bg-white rounded-2xl flex items-center justify-center border-2 border-slate-200 relative overflow-hidden p-3 shadow-xs">
+                  <svg viewBox="0 0 120 120" className="w-full h-full text-slate-900">
+                    <rect width="120" height="120" fill="white" />
+                    <path d="M10,10 h30 v30 h-30 z M16,16 v18 h18 v-18 z M22,22 h6 v6 h-6 z" fill="#0f172a" />
+                    <path d="M80,10 h30 v30 h-30 z M86,16 v18 h18 v-18 z M92,22 h6 v6 h-6 z" fill="#0f172a" />
+                    <path d="M10,80 h30 v30 h-30 z M16,86 v18 h18 v-18 z M22,92 h6 v6 h-6 z" fill="#0f172a" />
+                    <rect x="50" y="15" width="8" height="8" fill="#2563EB" />
+                    <rect x="62" y="25" width="8" height="8" fill="#0f172a" />
+                    <rect x="50" y="35" width="8" height="8" fill="#0f172a" />
+                    <rect x="15" y="50" width="8" height="8" fill="#0f172a" />
+                    <rect x="28" y="60" width="8" height="8" fill="#2563EB" />
+                    <rect x="50" y="50" width="20" height="20" rx="4" fill="#2563EB" />
+                    <rect x="75" y="55" width="8" height="8" fill="#0f172a" />
+                    <rect x="90" y="65" width="8" height="8" fill="#0f172a" />
+                    <rect x="55" y="80" width="8" height="8" fill="#0f172a" />
+                    <rect x="70" y="90" width="8" height="8" fill="#2563EB" />
+                    <rect x="85" y="85" width="8" height="8" fill="#0f172a" />
+                    <rect x="100" y="95" width="8" height="8" fill="#0f172a" />
+                  </svg>
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="bg-blue-600 text-white font-mono text-[10px] font-bold px-2 py-0.5 rounded shadow-xs">
+                      ₹{upiAmount}
                     </div>
-                    {/* Simulated dot matrix */}
-                    <div className="flex-1 flex flex-wrap gap-1 p-2 items-center justify-center opacity-60">
-                      {Array.from({ length: 64 }).map((_, i) => (
-                        <div 
-                          key={i} 
-                          className={`w-1.5 h-1.5 rounded-sm ${i % 3 === 0 || i % 5 === 0 ? 'bg-slate-800' : 'bg-transparent'}`} 
-                        />
-                      ))}
-                    </div>
-                    <div className="flex justify-between">
-                      <div className="w-8 h-8 border-4 border-slate-800" />
-                      <div className="w-8 h-8 bg-slate-800 flex items-center justify-center text-[8px] text-white font-black rounded">PH</div>
-                    </div>
-                  </div>
-                  {/* Overlay Price badge */}
-                  <div className="absolute bg-[#F97316] text-white text-[10px] font-black px-3 py-1 rounded-full shadow-md">
-                    Pay ₹99
                   </div>
                 </div>
 
-                <div className="text-center">
-                  <div className="text-xs font-bold text-slate-700">UPI ID: polymerhub@paytm</div>
-                  <div className="text-[10px] text-slate-400 mt-0.5">Payee Name: NextGenIndia PolymerHub</div>
+                <div className="text-center space-y-1">
+                  <div className="flex items-center justify-center gap-1.5">
+                    <code className="text-xs font-mono font-bold text-slate-800 bg-slate-100 px-2 py-1 rounded-lg">{upiId}</code>
+                    <button
+                      type="button"
+                      onClick={handleCopyUpi}
+                      className="p-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+                      title="Copy UPI ID"
+                    >
+                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                    </button>
+                  </div>
+                  <div className="text-[10px] text-slate-400 font-mono">Payee: {payeeName} &middot; GPay / PhonePe / Paytm / BHIM</div>
                 </div>
+
+                <a
+                  href={upiLink}
+                  className="py-2 px-4 rounded-xl bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-mono font-bold transition-all"
+                >
+                  ⚡ Open Directly in UPI App (Mobile)
+                </a>
               </div>
 
               {/* Submission Form */}
-              <form onSubmit={handleSubmitRequest} className="space-y-4 pt-4 border-t border-slate-50">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">12-Digit UPI Ref / Transaction ID</label>
-                  <Input
-                    type="text"
-                    required
-                    placeholder="E.g., 349182058193"
-                    pattern="[0-9]{12}"
-                    maxLength={12}
-                    value={txnId}
-                    onChange={(e) => setTxnId(e.target.value.replace(/\D/g, ''))}
-                    className="h-11 border-slate-200 focus:border-[#0F4C81] focus:ring-[#0F4C81] rounded-xl text-xs font-semibold"
-                  />
+              <form onSubmit={handleSubmitRequest} className="space-y-4 pt-4 border-t border-slate-100">
+                <div className="text-[11px] font-mono font-bold text-slate-500 uppercase tracking-wider">
+                  Step 2: Submit Verification Proof
                 </div>
 
-                {/* Screenshot Upload Simulator */}
+                {/* Screenshot Upload Handler */}
                 <div className="space-y-1.5">
-                  <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Upload Screenshot Proof</label>
+                  <label className="text-[10px] font-mono font-bold text-slate-600 uppercase tracking-wider">
+                    Upload Payment Screenshot Proof
+                  </label>
                   <div 
-                    onClick={() => setFileAttached(true)}
-                    className={`border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-1.5 ${
-                      fileAttached 
-                        ? 'border-emerald-200 bg-emerald-50/25 text-emerald-800' 
-                        : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 text-slate-500'
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`border-2 border-dashed rounded-2xl p-4 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${
+                      selectedFile 
+                        ? 'border-emerald-300 bg-emerald-50/40 text-emerald-900' 
+                        : 'border-slate-300 hover:border-blue-400 hover:bg-slate-50 text-slate-600'
                     }`}
                   >
-                    {fileAttached ? (
-                      <>
-                        <CheckCircle2 className="w-6 h-6 text-emerald-500" />
-                        <span className="text-xs font-bold">receipt_screenshot.png attached</span>
-                        <span className="text-[10px] text-emerald-600/70">Click to change</span>
-                      </>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handleFileChange}
+                    />
+                    {previewUrl ? (
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-lg bg-white border border-emerald-200 overflow-hidden flex items-center justify-center">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={previewUrl} alt="Receipt preview" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-xs font-bold text-emerald-900 truncate max-w-[220px]">{selectedFile?.name}</p>
+                          <p className="text-[10px] text-emerald-700 font-mono">{(selectedFile!.size / 1024).toFixed(1)} KB &middot; Tap to replace</p>
+                        </div>
+                      </div>
                     ) : (
                       <>
-                        <Upload className="w-5 h-5 text-slate-400" />
-                        <span className="text-xs font-semibold">Click to select receipt file</span>
-                        <span className="text-[10px] text-slate-400">Supports PNG, JPG (Max 5MB)</span>
+                        <FileImage className="w-6 h-6 text-blue-600" />
+                        <span className="text-xs font-bold text-slate-800">Attach Payment Screenshot</span>
+                        <span className="text-[10px] text-slate-500 font-mono">Supports PNG, JPG (Max 5MB)</span>
                       </>
                     )}
                   </div>
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={submitting || !fileAttached || txnId.length < 12}
-                  className="w-full bg-[#0F4C81] hover:bg-[#0A3560] text-white font-semibold h-11 rounded-xl transition-all shadow-md mt-6 flex items-center justify-center gap-2 text-xs"
-                >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Submitting payment proof...
-                    </>
-                  ) : (
-                    <>
-                      Submit Reference & Screenshot
-                    </>
-                  )}
-                </Button>
+                {/* 12-Digit Ref */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-mono font-bold text-slate-600 uppercase tracking-wider">
+                    12-Digit UPI Ref / Transaction ID
+                  </label>
+                  <Input
+                    type="text"
+                    placeholder="E.g. 349182058193"
+                    value={txnId}
+                    onChange={(e) => setTxnId(e.target.value.replace(/\D/g, '').slice(0, 12))}
+                    className="h-11 border-slate-200 focus:border-[#2563EB] focus:ring-[#2563EB] rounded-xl text-xs font-mono font-semibold"
+                  />
+                </div>
+
+                <div className="space-y-2 pt-2">
+                  <Button
+                    type="submit"
+                    disabled={submitting || (!selectedFile && txnId.length < 6)}
+                    className="w-full bg-[#2563EB] hover:bg-blue-700 text-white font-mono font-bold h-11 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-xs uppercase tracking-wider disabled:opacity-50"
+                  >
+                    {submitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Submitting Proof...
+                      </>
+                    ) : (
+                      <>
+                        <CheckCircle2 className="w-4 h-4" />
+                        Submit Proof for Verification
+                      </>
+                    )}
+                  </Button>
+
+                  <a
+                    href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 text-center"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Send Screenshot on WhatsApp (+91 98480 22338)
+                  </a>
+                </div>
               </form>
             </div>
 
-            {/* UPI Checkout Tips */}
-            <div className="bg-slate-100/50 border border-slate-200 rounded-2xl p-4 flex items-center gap-3">
-              <ShieldCheck className="w-5 h-5 text-slate-400 shrink-0" />
-              <p className="text-[10px] text-slate-400 leading-normal">
-                After scans, please copy the 12-digit transaction ID from your Paytm/GPay confirmation screen and paste it here. Manual verification takes 1-2 hours.
+            {/* Verification Notice */}
+            <div className="bg-white border border-slate-200/90 rounded-2xl p-4 flex items-center gap-3 shadow-xs">
+              <ShieldCheck className="w-5 h-5 text-blue-600 shrink-0" />
+              <p className="text-[11px] text-slate-600 leading-normal font-sans">
+                After making the UPI payment, copy your 12-digit transaction ID or upload the screenshot. Verification usually takes 15&ndash;30 minutes.
               </p>
-            </div>
-
-            {/* Sandbox Testing Box (Auto-approve) */}
-            <div className="bg-amber-50/70 border border-amber-100 rounded-3xl p-6 space-y-4">
-              <div className="space-y-1">
-                <h3 className="font-extrabold text-amber-800 text-xs flex items-center gap-1.5">
-                  <CreditCard className="w-4 h-4 text-amber-600" />
-                  🛠️ Sandbox Simulation Panel
-                </h3>
-                <p className="text-[10px] text-amber-700/80 leading-normal">
-                  Want to bypass the wait? Click the button below to simulate administrative backend approval and instantly upgrade this account to Premium right now.
-                </p>
-              </div>
-
-              <Button
-                onClick={handleInstantApprove}
-                disabled={approving}
-                className="w-full bg-[#F97316] hover:bg-[#EA6C0A] text-white font-semibold h-10 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 text-xs"
-              >
-                {approving ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Activating Premium...
-                  </>
-                ) : (
-                  <>
-                    Simulate Instant Admin Approval
-                  </>
-                )}
-              </Button>
             </div>
           </div>
         ) : (
           /* Step 2: Request Logged Success State */
-          <div className="bg-white border border-slate-100 rounded-3xl p-8 text-center space-y-5 shadow-sm shadow-slate-100/50">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto border border-blue-100">
-              <CheckCircle2 className="w-8 h-8 text-[#0F4C81]" />
+          <div className="bg-white border border-slate-200/90 rounded-3xl p-8 text-center space-y-5 shadow-xs">
+            <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto border border-emerald-100">
+              <CheckCircle2 className="w-8 h-8 text-emerald-600" />
             </div>
             <div className="space-y-1.5">
-              <h1 className="text-xl font-extrabold text-slate-900 tracking-tight">Payment Verification Pending</h1>
-              <p className="text-slate-500 text-xs leading-relaxed max-w-sm mx-auto">
-                Your payment reference has been recorded successfully. Once validated, your account will be upgraded to Premium.
+              <h1 className="text-xl font-extrabold text-slate-900 font-display">Payment Proof Logged Successfully!</h1>
+              <p className="text-slate-600 text-xs leading-relaxed max-w-sm mx-auto font-sans">
+                Your payment reference has been recorded. Once verified by our administration, your account will instantly switch to Premium.
               </p>
             </div>
             
-            {/* Quick upgrade simulation */}
-            <div className="border-t border-slate-50 pt-6 space-y-3.5">
-              <div className="text-left bg-amber-50/50 border border-amber-100 rounded-2xl p-4 space-y-2">
-                <div className="text-[10px] font-bold text-amber-800">Bypass wait time:</div>
-                <Button
-                  onClick={handleInstantApprove}
-                  disabled={approving}
-                  className="w-full bg-[#F97316] hover:bg-[#EA6C0A] text-white font-bold h-9 rounded-lg transition-all text-xs"
-                >
-                  {approving ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin mx-auto" />
-                  ) : (
-                    'Simulate Instant Admin Approval'
-                  )}
-                </Button>
-              </div>
+            <div className="pt-4 space-y-2">
+              <a
+                href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-mono font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-xs"
+              >
+                <MessageCircle className="w-4 h-4" />
+                Fast-Track Verification on WhatsApp
+              </a>
 
               <Link
                 href="/dashboard"
-                className="inline-flex items-center justify-center text-xs font-semibold text-[#0F4C81] hover:underline"
+                className="w-full py-2.5 rounded-xl border border-slate-200 hover:bg-slate-50 font-mono text-xs text-slate-700 transition-colors inline-block text-center"
               >
                 Go to Dashboard
               </Link>
@@ -349,6 +392,8 @@ export default function UpgradePage() {
           </div>
         )}
       </main>
+
+      <Footer showTrustBar />
     </div>
   )
 }

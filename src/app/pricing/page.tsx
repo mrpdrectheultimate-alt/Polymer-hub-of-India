@@ -309,11 +309,14 @@ export default function PricingPage() {
                     <div>
                       <RazorpayCheckout 
                         buttonText={isAnnual ? 'Start Annual Premium — ₹1,430/yr' : 'Start Premium — ₹149/mo'}
-                        buttonClass="w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-[#1D4ED8] hover:shadow-[0_4px_24px_rgba(37,99,235,0.4)] transition-all text-sm flex items-center justify-center gap-2"
+                        buttonClass="w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-md transition-all text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2"
+                        planName={plan.name}
+                        amount={isAnnual ? 1430 : 149}
+                        isAnnual={isAnnual}
                       />
                       <div className="mt-3 text-center text-[11px] text-[#94A3B8] font-mono flex items-center justify-center gap-1">
                         <Lock className="h-3 w-3 text-emerald-600" />
-                        Secured by Razorpay &middot; UPI &middot; Cards &middot; Net Banking
+                        UPI Scan &middot; Instant Proof Verification &middot; Cards
                       </div>
                     </div>
                   ) : (
