@@ -101,18 +101,18 @@ export default function AIGeneratorPage() {
         </div>
 
         {/* Hero banner */}
-        <div className="border-4 border-slate-900 bg-purple-600 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 md:p-12">
+        <div className="border-4 border-slate-900 bg-[#2563EB] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8 md:p-12">
           <div className="flex items-start gap-6">
             <div className="w-16 h-16 bg-white border-4 border-slate-900 flex items-center justify-center shrink-0">
-              <Brain size={32} className="text-purple-600 animate-pulse" />
+              <Brain size={32} className="text-[#2563EB] animate-pulse" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+              <h1 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight font-display">
                 AI Mock Exam Generator
               </h1>
-              <p className="text-purple-100 mt-3 text-lg max-w-2xl leading-relaxed">
+              <p className="text-blue-100 mt-3 text-base md:text-lg max-w-2xl leading-relaxed">
                 Generate 5 custom, high-fidelity multiple-choice questions on any custom topic. 
-                Pass with &ge; 70% to earn up to <span className="font-black text-white bg-slate-950 px-1">+50 XP</span>.
+                Pass with &ge; 70% to earn up to <span className="font-black text-slate-900 bg-amber-400 px-1.5 py-0.5 rounded-sm">+50 XP</span>.
               </p>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default function AIGeneratorPage() {
             <button
               onClick={handleGenerate}
               disabled={loading || !topic.trim()}
-              className="bg-purple-600 border-4 border-slate-900 text-white font-black px-8 py-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center justify-center gap-2"
+              className="bg-[#F59E0B] hover:bg-[#D97706] border-4 border-slate-900 text-slate-950 font-black px-8 py-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap flex items-center justify-center gap-2 cursor-pointer"
             >
               {loading ? (
                 <>
@@ -143,7 +143,7 @@ export default function AIGeneratorPage() {
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-5 h-5" /> Generate Exam
+                  <Sparkles className="w-5 h-5 text-slate-900" /> Generate Exam
                 </>
               )}
             </button>
@@ -158,9 +158,9 @@ export default function AIGeneratorPage() {
                 <div className="flex items-center gap-2 mb-4">
                   <span className="font-mono text-xs font-black bg-slate-900 text-white px-2 py-1">Q {qIdx + 1}</span>
                 </div>
-                <h3 className="text-lg font-black text-slate-950 leading-snug">{q.question}</h3>
+                <h3 className="text-lg font-bold text-slate-900 mb-6 leading-snug">{q.question}</h3>
 
-                <div className="mt-6 space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {[
                     { key: 'A', value: q.option_a },
                     { key: 'B', value: q.option_b },
@@ -170,24 +170,15 @@ export default function AIGeneratorPage() {
                     const isSelected = answers[qIdx] === opt.key
                     const isCorrect = q.correct_option === opt.key
                     
-                    let optStyle = 'border-2 border-slate-200 hover:bg-slate-50'
-                    let prefixStyle = 'bg-slate-100 text-slate-700'
-                    
-                    if (isSelected) {
-                      optStyle = 'border-slate-900 bg-slate-100'
-                      prefixStyle = 'bg-slate-900 text-white'
-                    }
-
+                    let optStyle = 'border-2 border-slate-900 bg-slate-50 hover:bg-slate-100 text-slate-900'
                     if (submitted) {
                       if (isCorrect) {
-                        optStyle = 'border-green-500 bg-green-50'
-                        prefixStyle = 'bg-green-500 text-white'
-                      } else if (isSelected) {
-                        optStyle = 'border-red-500 bg-red-50'
-                        prefixStyle = 'bg-red-500 text-white'
-                      } else {
-                        optStyle = 'border-slate-200 opacity-60'
+                        optStyle = 'border-2 border-emerald-600 bg-emerald-50 text-emerald-950 font-bold'
+                      } else if (isSelected && !isCorrect) {
+                        optStyle = 'border-2 border-rose-600 bg-rose-50 text-rose-950 font-bold'
                       }
+                    } else if (isSelected) {
+                      optStyle = 'border-2 border-[#2563EB] bg-blue-50 text-[#1E40AF] font-bold ring-2 ring-blue-400/40'
                     }
 
                     return (
@@ -195,18 +186,17 @@ export default function AIGeneratorPage() {
                         key={opt.key}
                         disabled={submitted}
                         onClick={() => handleSelectOption(qIdx, opt.key)}
-                        className={`w-full text-left p-3.5 flex items-center gap-3 transition-colors ${optStyle}`}
+                        className={`p-4 text-left font-medium text-sm flex items-start gap-3 transition-colors ${optStyle} cursor-pointer`}
                       >
-                        <div className={`w-7 h-7 flex items-center justify-center font-mono font-black text-xs ${prefixStyle}`}>
-                          {opt.key}
-                        </div>
-                        <span className="font-bold text-slate-900 text-sm flex-1">{opt.value}</span>
-                        {submitted && isSelected && (
-                          isCorrect ? (
-                            <CheckCircle2 className="w-5 h-5 text-green-600 shrink-0" />
-                          ) : (
-                            <XCircle className="w-5 h-5 text-red-600 shrink-0" />
-                          )
+                        <span className="font-mono font-bold text-xs uppercase opacity-75">
+                          {opt.key}.
+                        </span>
+                        <span className="flex-1 font-bold text-slate-900 text-sm">{opt.value}</span>
+                        {submitted && isCorrect && (
+                          <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                        )}
+                        {submitted && isSelected && !isCorrect && (
+                          <XCircle className="w-5 h-5 text-rose-600 shrink-0" />
                         )}
                       </button>
                     )
@@ -216,7 +206,7 @@ export default function AIGeneratorPage() {
                 {submitted && (
                   <div className="mt-5 p-4 bg-slate-50 border-2 border-slate-900">
                     <div className="flex items-center gap-1.5 text-xs font-black text-slate-800 uppercase tracking-wider mb-1">
-                      <HelpCircle className="w-4 h-4 text-purple-600" /> Explanation
+                      <HelpCircle className="w-4 h-4 text-[#2563EB]" /> Explanation
                     </div>
                     <p className="text-slate-600 text-xs font-semibold leading-relaxed">{q.explanation}</p>
                   </div>
@@ -229,15 +219,15 @@ export default function AIGeneratorPage() {
               <button
                 disabled={Object.keys(answers).length < questions.length}
                 onClick={handleSubmit}
-                className="w-full py-4 bg-purple-600 border-4 border-slate-900 text-white font-black text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 bg-[#2563EB] hover:bg-[#1D4ED8] border-4 border-slate-900 text-white font-black text-lg shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-x-0.5 active:translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 Submit Mock Exam
               </button>
             ) : (
               <div className="border-4 border-slate-900 bg-white p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-center space-y-4">
-                <Trophy className="w-16 h-16 mx-auto text-amber-500" />
-                <h2 className="text-3xl font-black text-slate-950">Mock Exam Complete!</h2>
-                <div className="text-4xl font-black text-purple-600 mt-2">{score}%</div>
+                <Trophy className="w-16 h-16 mx-auto text-[#F59E0B]" />
+                <h2 className="text-3xl font-black text-slate-950 font-display">Mock Exam Complete!</h2>
+                <div className="text-4xl font-black text-[#2563EB] mt-2 font-mono">{score}%</div>
                 <p className="text-slate-500 font-bold max-w-md mx-auto">
                   {score! >= 70 
                     ? 'Excellent job! You passed the AI exam and proved your comprehension.' 
@@ -245,7 +235,7 @@ export default function AIGeneratorPage() {
                 </p>
 
                 {xpEarned && (
-                  <div className="bg-purple-100 border-2 border-purple-500 py-3 px-6 max-w-xs mx-auto font-black text-purple-800">
+                  <div className="bg-amber-100 border-2 border-amber-500 py-3 px-6 max-w-xs mx-auto font-black text-amber-900">
                     🎉 +{xpEarned} XP Earned!
                   </div>
                 )}
@@ -259,11 +249,11 @@ export default function AIGeneratorPage() {
                       setSubmitted(false)
                       setXpEarned(null)
                     }}
-                    className="cn-btn-purple py-3 px-6 text-sm"
+                    className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white border-4 border-slate-900 font-black py-3 px-6 text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] cursor-pointer"
                   >
                     Take New Exam
                   </button>
-                  <Link href="/practice" className="cn-btn-black py-3 px-6 text-sm">
+                  <Link href="/practice" className="bg-slate-900 hover:bg-slate-800 text-white border-4 border-slate-900 font-black py-3 px-6 text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                     Back to Practice Hub
                   </Link>
                 </div>

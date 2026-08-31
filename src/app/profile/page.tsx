@@ -198,9 +198,9 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-center items-center p-6">
+      <div className="min-h-screen bg-slate-50 flex flex-col justify-center items-center p-6">
         <div className="w-10 h-10 border-3 border-slate-200 border-t-[#2563EB] rounded-full animate-spin mb-4" />
-        <p className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider">
+        <p className="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider">
           Loading Profile Workspace…
         </p>
       </div>
@@ -210,19 +210,19 @@ export default function ProfilePage() {
   const displayAvatar = avatarPreview || avatarUrl
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] pb-16">
-      {/* ── Top Bar ── */}
-      <section className="bg-gradient-to-b from-slate-900 to-slate-800 text-white px-4 sm:px-8 py-8 sm:py-10 border-b border-slate-800">
+    <div className="min-h-screen bg-slate-50 pb-16">
+      {/* ── Top Bar (Dark Navy Lab Style) ── */}
+      <section className="bg-slate-900 text-white px-4 sm:px-8 py-8 sm:py-10 border-b border-slate-800">
         <div className="max-w-4xl mx-auto flex items-center justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
             <Link
               href="/dashboard"
-              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors flex items-center justify-center border border-white/15"
+              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white transition-colors flex items-center justify-center border border-slate-700"
             >
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <div>
-              <h1 className="font-display text-xl sm:text-2xl font-extrabold text-white">
+              <h1 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight">
                 Engineering Profile
               </h1>
               <p className="text-xs font-mono text-slate-400 mt-0.5">{email}</p>
@@ -232,7 +232,7 @@ export default function ProfilePage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-5 py-2.5 bg-[#2563EB] hover:bg-blue-600 disabled:opacity-50 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-xs flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:opacity-50 text-white rounded-xl font-mono text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
           >
             {saving ? (
               'Saving…'
