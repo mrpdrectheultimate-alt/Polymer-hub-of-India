@@ -11,7 +11,6 @@ import {
   Shield, 
   CheckCircle, 
   Lock, 
-  Phone,
   ArrowRight,
   BookOpen,
   Cpu,
@@ -32,12 +31,9 @@ function LoginContent() {
   // Input states
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [phone, setPhone] = useState('')
-  const [otpCode, setOtpCode] = useState('')
   
-  // Auth flow states: 'magic' | 'password' | 'phone'
-  const [authMethod, setAuthMethod] = useState<'magic' | 'password' | 'phone'>('magic')
-  const [isOtpStep, setIsOtpStep] = useState(false)
+  // Auth flow states: 'magic' | 'password'
+  const [authMethod, setAuthMethod] = useState<'magic' | 'password'>('magic')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
@@ -57,7 +53,7 @@ function LoginContent() {
     checkSession()
   }, [supabase, router, nextRedirect])
 
-  // Handle Magic Link / Password / Phone Submit
+  // Handle Magic Link / Password Submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -113,62 +109,9 @@ function LoginContent() {
 
         setSuccessMessage('Authenticated successfully! Entering platform...')
         router.push(nextRedirect)
-      } 
-      else if (authMethod === 'phone') {
-        const cleanPhone = phone.trim().replace(/\s+/g, '')
-        if (cleanPhone.length < 10) {
-          throw new Error('Please enter a valid 10-digit mobile number.')
-        }
-
-        const formattedPhone = cleanPhone.startsWith('+') ? cleanPhone : `+91${cleanPhone}`
-        const { error: authError } = await supabase.auth.signInWithOtp({
-          phone: formattedPhone,
-        })
-
-        if (authError) throw new Error(authError.message)
-
-        setIsOtpStep(true)
-        setSuccessMessage(`One-time security code dispatched to ${formattedPhone}.`)
       }
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Authentication failed. Please try again.'
-      if (msg.toLowerCase().includes('unsupported phone provider') || msg.toLowerCase().includes('phone provider')) {
-        setErrorMessage('SMS service requires a connected SMS Gateway (Twilio). Please sign in using Google, GitHub, Magic Link, or Password.')
-      } else {
-        setErrorMessage(msg)
-      }
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  // Handle OTP Code Verification
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!otpCode.trim() || otpCode.trim().length < 6) {
-      setErrorMessage('Please enter the full 6-digit verification code.')
-      return
-    }
-
-    setIsLoading(true)
-    setErrorMessage('')
-
-    try {
-      const cleanPhone = phone.trim().replace(/\s+/g, '')
-      const formattedPhone = cleanPhone.startsWith('+') ? cleanPhone : `+91${cleanPhone}`
-      
-      const { error: verifyErr } = await supabase.auth.verifyOtp({
-        phone: formattedPhone,
-        token: otpCode.trim(),
-        type: 'sms',
-      })
-
-      if (verifyErr) throw new Error(verifyErr.message)
-
-      setSuccessMessage('Phone verified successfully! Entering platform...')
-      router.push(nextRedirect)
-    } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : 'Invalid or expired OTP code.')
+      setErrorMessage(err instanceof Error ? err.message : 'Authentication failed. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -293,168 +236,96 @@ function LoginContent() {
             </button>
           </div>
 
-          {/* ─── STEP 1: INITIAL SUBMISSION FORM ─── */}
-          {!isOtpStep ? (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              
-              {/* Email field (for magic link or password) */}
-              {authMethod !== 'phone' && (
-                <div>
-                  <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
-                    Work or Academic Email
-                  </label>
-                  <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => { setEmail(e.target.value); setErrorMessage(''); }}
-                      placeholder="name@company.com or you@institution.ac.in"
-                      className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs font-mono focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Password field (only for password method) */}
-              {authMethod === 'password' && (
-                <div>
-                  <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => { setPassword(e.target.value); setErrorMessage(''); }}
-                      placeholder="••••••••••••"
-                      className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs font-mono focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Mobile Phone field (only for phone method) */}
-              {authMethod === 'phone' && (
-                <div>
-                  <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
-                    Mobile Number (India)
-                  </label>
-                  <div className="relative">
-                    <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => { setPhone(e.target.value); setErrorMessage(''); }}
-                      placeholder="9876543210"
-                      className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs font-mono focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
-              {/* Guidance helper */}
-              <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
-                <Lock className="h-3 w-3 text-emerald-600 shrink-0" />
-                <span>
-                  {authMethod === 'magic' && "We'll send a secure passwordless sign-in link."}
-                  {authMethod === 'password' && "Instant secure authentication with your credentials."}
-                  {authMethod === 'phone' && "We'll dispatch a 6-digit one-time security OTP code."}
-                </span>
-              </div>
-
-              {/* Error Display */}
-              {errorMessage && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-600" />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
-
-              {/* Success Notification */}
-              {successMessage && (
-                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono flex items-center gap-2">
-                  <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
-                  <span>{successMessage}</span>
-                </div>
-              )}
-
-              {/* Submit CTA */}
-              <button
-                type="submit"
-                disabled={isLoading}
-                className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                {isLoading ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                    <span>Authenticating...</span>
-                  </>
-                ) : authMethod === 'magic' ? (
-                  <>
-                    <span>Send Secure Sign-In Link</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                ) : authMethod === 'password' ? (
-                  <>
-                    <span>Sign In to Dashboard</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                ) : (
-                  <>
-                    <span>Send Mobile Security Code</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </form>
-          ) : (
-            /* ─── STEP 2: OTP VERIFICATION SCREEN ─── */
-            <form onSubmit={handleVerifyOtp} className="space-y-4">
-              <div>
-                <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
-                  Enter 6-Digit OTP Code
-                </label>
+          {/* ─── AUTHENTICATION SUBMISSION FORM ─── */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            
+            {/* Email field */}
+            <div>
+              <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
+                Work or Academic Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                 <input
-                  type="text"
-                  maxLength={6}
-                  value={otpCode}
-                  onChange={(e) => { setOtpCode(e.target.value.replace(/\D/g, '')); setErrorMessage(''); }}
-                  placeholder="123456"
-                  className="w-full text-center tracking-widest text-lg font-mono font-bold py-3 border border-slate-200 rounded-xl bg-slate-50 text-slate-900 focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
-                  autoFocus
+                  type="email"
+                  value={email}
+                  onChange={(e) => { setEmail(e.target.value); setErrorMessage(''); }}
+                  placeholder="name@company.com or you@institution.ac.in"
+                  className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs font-mono focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                   required
                 />
               </div>
+            </div>
 
-              {errorMessage && (
-                <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono flex items-center gap-2">
-                  <AlertCircle className="h-4 w-4 shrink-0 text-rose-600" />
-                  <span>{errorMessage}</span>
+            {/* Password field (only for password method) */}
+            {authMethod === 'password' && (
+              <div>
+                <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
+                  Password
+                </label>
+                <div className="relative">
+                  <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => { setPassword(e.target.value); setErrorMessage(''); }}
+                    placeholder="••••••••••••"
+                    className="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 text-slate-900 placeholder:text-slate-400 text-xs font-mono focus:outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
+                    required
+                  />
                 </div>
+              </div>
+            )}
+
+            {/* Guidance helper */}
+            <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
+              <Lock className="h-3 w-3 text-emerald-600 shrink-0" />
+              <span>
+                {authMethod === 'magic' && "We'll send a secure passwordless sign-in link."}
+                {authMethod === 'password' && "Instant secure authentication with your credentials."}
+              </span>
+            </div>
+
+            {/* Error Display */}
+            {errorMessage && (
+              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-mono flex items-center gap-2">
+                <AlertCircle className="h-4 w-4 shrink-0 text-rose-600" />
+                <span>{errorMessage}</span>
+              </div>
+            )}
+
+            {/* Success Notification */}
+            {successMessage && (
+              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono flex items-center gap-2">
+                <CheckCircle className="h-4 w-4 shrink-0 text-emerald-600" />
+                <span>{successMessage}</span>
+              </div>
+            )}
+
+            {/* Submit CTA */}
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+            >
+              {isLoading ? (
+                <>
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  <span>Authenticating...</span>
+                </>
+              ) : authMethod === 'magic' ? (
+                <>
+                  <span>Send Secure Magic Link</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  <span>Sign In to Dashboard</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
               )}
-
-              <button
-                type="submit"
-                disabled={isLoading || otpCode.length < 6}
-                className="w-full py-3 bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                {isLoading ? 'Verifying Code...' : 'Verify & Enter Platform →'}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => { setIsOtpStep(false); setOtpCode(''); setErrorMessage(''); }}
-                className="w-full text-center text-xs font-mono text-slate-500 hover:text-[#2563EB] pt-1"
-              >
-                &larr; Use a different number or login method
-              </button>
-            </form>
-          )}
+            </button>
+          </form>
 
           {/* ===== 1-CLICK INSTANT DEMO PASS ===== */}
           <div className="mt-5 pt-5 border-t border-slate-200 space-y-3">
