@@ -503,39 +503,39 @@ export default function AITutorPage() {
   return (
     <div className="flex h-[calc(100vh-68px)] bg-[#FAF8F5] overflow-hidden">
 
-      {/* ─── LEFT WORKSPACE SIDEBAR (Desktop + Mobile Drawer) ─── */}
+      {/* ─── LEFT WORKSPACE SIDEBAR (Dark Navy Engineering Rail) ─── */}
       <aside className={`
-        fixed inset-y-0 left-0 z-40 w-72 bg-white border-r border-slate-200/90 flex flex-col transition-transform duration-200 lg:static lg:translate-x-0
+        fixed inset-y-0 left-0 z-40 w-72 bg-slate-900 border-r border-slate-800 text-slate-300 flex flex-col transition-transform duration-200 lg:static lg:translate-x-0
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
       `}>
         {/* Workspace Brand Header */}
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+        <div className="p-4 border-b border-slate-800 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <PolymerAIMark className="w-7 h-7" />
             <div>
-              <span className="font-display font-bold text-sm text-slate-900 leading-none">Polymer Copilot</span>
-              <p className="text-[10px] font-mono text-emerald-600 font-medium flex items-center gap-1 mt-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-display font-bold text-sm text-white leading-none">Polymer Copilot</span>
+              <p className="text-[10px] font-mono text-emerald-400 font-medium flex items-center gap-1 mt-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 216 Lessons Indexed
               </p>
             </div>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden p-1 text-slate-400 hover:text-slate-700"
+            className="lg:hidden p-1 text-slate-400 hover:text-white"
           >
             ✕
           </button>
         </div>
 
-        {/* New Chat CTA */}
-        <div className="p-3 border-b border-slate-100">
+        {/* New Chat CTA — Gold/Amber Pill */}
+        <div className="p-3 border-b border-slate-800">
           <button
             onClick={() => {
               clearConversation()
               setSidebarOpen(false)
             }}
-            className="w-full py-2.5 px-3.5 bg-[#2563EB] hover:bg-[#1D4ED8] text-white rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:shadow-sm"
+            className="w-full py-2.5 px-3.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>New Chat Session</span>
@@ -543,7 +543,7 @@ export default function AITutorPage() {
         </div>
 
         {/* Mode Selector Links */}
-        <div className="p-3 border-b border-slate-100">
+        <div className="p-3 border-b border-slate-800">
           <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider px-2 mb-2">
             Engineering Modes
           </p>
@@ -555,10 +555,10 @@ export default function AITutorPage() {
                   handleModeClick(m)
                   setSidebarOpen(false)
                 }}
-                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between ${
+                className={`w-full text-left px-2.5 py-1.5 rounded-lg text-xs font-mono transition-colors flex items-center justify-between cursor-pointer ${
                   selectedMode === m.id
-                    ? 'bg-blue-50 text-[#2563EB] font-bold border border-blue-200'
-                    : 'text-slate-600 hover:bg-slate-50'
+                    ? 'bg-slate-800 text-white font-bold border border-slate-700'
+                    : 'text-slate-300 hover:bg-slate-800/60 hover:text-white'
                 }`}
               >
                 <span>{m.label}</span>
@@ -575,8 +575,8 @@ export default function AITutorPage() {
           </p>
           {savedChats.length === 0 ? (
             <div className="px-2 py-4 text-center">
-              <MessageSquare className="w-5 h-5 text-slate-300 mx-auto mb-1" />
-              <p className="text-[11px] text-slate-400 font-mono">No questions yet. Your conversations will appear here.</p>
+              <MessageSquare className="w-5 h-5 text-slate-600 mx-auto mb-1" />
+              <p className="text-[11px] text-slate-400 font-mono">No recent inquiries yet. Start a new session below.</p>
             </div>
           ) : (
             <div className="space-y-1">
@@ -588,9 +588,9 @@ export default function AITutorPage() {
                     setSidebarOpen(false)
                     inputRef.current?.focus()
                   }}
-                  className="w-full text-left px-2.5 py-2 rounded-lg text-xs font-sans text-slate-700 hover:bg-slate-50 transition-colors flex items-center gap-2 group border border-transparent hover:border-slate-200"
+                  className="w-full text-left px-2.5 py-2 rounded-lg text-xs font-sans text-slate-300 hover:bg-slate-800 hover:text-white transition-colors flex items-center gap-2 group cursor-pointer"
                 >
-                  <MessageSquare className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 group-hover:text-[#2563EB]" />
+                  <MessageSquare className="w-3.5 h-3.5 text-slate-400 flex-shrink-0 group-hover:text-amber-400" />
                   <span className="truncate flex-1">{c.title}</span>
                 </button>
               ))}
@@ -599,72 +599,72 @@ export default function AITutorPage() {
         </div>
 
         {/* Quick Engineering Tools Rail */}
-        <div className="p-3 border-t border-slate-100 bg-slate-50/70 space-y-1">
+        <div className="p-3 border-t border-slate-800 bg-slate-950/60 space-y-1">
           <p className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider px-2 mb-1.5">
             Engineering Tools
           </p>
           <Link
             href="/calculators"
-            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-700 hover:bg-white transition-colors"
+            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Calculator className="w-3.5 h-3.5 text-[#2563EB]" />
+              <Calculator className="w-3.5 h-3.5 text-[#38BDF8]" />
               Calculators
             </span>
-            <ArrowRight className="w-3 h-3 text-slate-400" />
+            <ArrowRight className="w-3 h-3 text-slate-500" />
           </Link>
           <Link
             href="/comparator"
-            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-700 hover:bg-white transition-colors"
+            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Sliders className="w-3.5 h-3.5 text-[#EA580C]" />
+              <Sliders className="w-3.5 h-3.5 text-[#FB923C]" />
               Polymer Comparator
             </span>
-            <ArrowRight className="w-3 h-3 text-slate-400" />
+            <ArrowRight className="w-3 h-3 text-slate-500" />
           </Link>
           <Link
             href="/gate-mock"
-            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-700 hover:bg-white transition-colors"
+            className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
           >
             <span className="flex items-center gap-2">
-              <Compass className="w-3.5 h-3.5 text-[#15803D]" />
+              <Compass className="w-3.5 h-3.5 text-[#4ADE80]" />
               GATE XE-F Mock
             </span>
-            <ArrowRight className="w-3 h-3 text-slate-400" />
+            <ArrowRight className="w-3 h-3 text-slate-500" />
           </Link>
         </div>
 
         {/* Auth / Guest Status Footer */}
-        <div className="p-3 border-t border-slate-200 bg-white">
+        <div className="p-3 border-t border-slate-800 bg-slate-950">
           {session ? (
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-bold text-slate-900 truncate">
+                <p className="text-xs font-bold text-white truncate">
                   {session.user.email?.split('@')[0]}
                 </p>
-                <p className="text-[10px] font-mono text-slate-500">
+                <p className="text-[10px] font-mono text-slate-400">
                   {queryStatus.isPremium ? 'Unlimited Pro Access' : `${queriesLeft} queries left today`}
                 </p>
               </div>
-              <Link href="/profile" className="text-xs text-[#2563EB] font-bold hover:underline">
+              <Link href="/profile" className="text-xs text-amber-400 font-bold hover:underline">
                 Account
               </Link>
             </div>
           ) : (
-            <div className="p-2.5 bg-blue-50/70 border border-blue-200/80 rounded-xl">
+            <div className="p-2.5 bg-slate-800/80 border border-slate-700 rounded-xl">
               <div className="flex items-center gap-1.5 mb-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
-                <span className="text-[11px] font-bold text-[#1E40AF] font-mono">Guest Mode (10 Queries)</span>
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <span className="text-[11px] font-bold text-amber-400 font-mono">Guest Mode (10 Queries)</span>
               </div>
-              <p className="text-[10px] text-slate-600 leading-tight">
+              <p className="text-[10px] text-slate-300 leading-tight">
                 {queryStatus.guestQueriesLeft > 0
                   ? `${queryStatus.guestQueriesLeft} free queries remaining without sign-in.`
                   : 'Free guest quota used.'}
               </p>
               <Link
                 href="/login"
-                className="mt-2 block text-center py-1.5 bg-[#2563EB] text-white rounded-lg text-[11px] font-bold font-mono hover:bg-blue-700 transition-colors shadow-xs"
+                className="mt-2 block text-center py-1.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 rounded-lg text-[11px] font-bold font-mono transition-colors shadow-xs"
               >
                 Sign In to Save History →
               </Link>
@@ -743,20 +743,16 @@ export default function AITutorPage() {
                   <div className="pt-2 pb-6 space-y-6 animate-in fade-in duration-300">
                     
                     {/* Compact Hero Header */}
-                    <div className="text-center max-w-2xl mx-auto space-y-2">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1E40AF] text-xs font-mono font-bold">
-                        <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-                        <span>PolymerHub Engineering Copilot</span>
-                      </div>
-                      <h1 className="text-2xl sm:text-3xl font-black font-display text-slate-900 tracking-tight uppercase">
-                        POLYMERHUB COPILOT
+                    <div className="text-center max-w-2xl mx-auto space-y-1.5">
+                      <h1 className="text-2xl font-bold font-display text-slate-900 tracking-tight">
+                        Engineering Copilot
                       </h1>
                       <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
-                        Grounded in <strong className="text-slate-900">216 curriculum lessons</strong> across 19 disciplines &middot; Citing ASTM/ISO test methods &amp; standard reference literature.
+                        Grounded in 216 lessons across 19 subjects.
                       </p>
                     </div>
 
-                    {/* ─── CAPABILITY SUGGESTION CARDS (Precision · Technical Icons) ─── */}
+                    {/* ─── CAPABILITY SUGGESTION CARDS (Crisp White · Technical Badges) ─── */}
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
                         <p className="text-xs font-mono font-bold text-slate-700 uppercase tracking-wider">
@@ -771,7 +767,7 @@ export default function AITutorPage() {
                             key={idx}
                             onClick={() => sendMessage(item.prompt)}
                             disabled={loading}
-                            className="text-left p-4 rounded-2xl bg-white border border-slate-200 hover:border-[#2563EB] hover:shadow-md transition-all group flex flex-col justify-between shadow-xs cursor-pointer"
+                            className="text-left p-4 rounded-xl bg-white border border-slate-200 hover:border-[#2563EB] hover:shadow-md transition-all group flex flex-col justify-between shadow-sm cursor-pointer"
                           >
                             <div>
                               <div className="flex items-center justify-between mb-2">
@@ -799,7 +795,7 @@ export default function AITutorPage() {
                     </div>
 
                     {/* ─── "SHOW, DON'T TELL" STATIC PROOF DEMO ─── */}
-                    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs">
+                    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
                       <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5">
                         <div className="flex items-center gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -865,7 +861,7 @@ export default function AITutorPage() {
               </div>
             </div>
 
-            {/* ─── BOTTOM ENGINEERING INPUT CONSOLE (CLEAN WHITE) ─── */}
+            {/* ─── BOTTOM ENGINEERING INPUT CONSOLE (DARK NAVY CONSOLE) ─── */}
             <footer className="flex-shrink-0 border-t border-slate-200 bg-white p-4 sm:p-5 shadow-lg text-slate-900">
               <div className="max-w-4xl mx-auto space-y-3">
                 
@@ -889,39 +885,39 @@ export default function AITutorPage() {
                   ))}
                 </div>
 
-                {/* The Clean White Engineering Console Input Box */}
-                <div className="relative border-2 border-slate-300 rounded-2xl bg-white focus-within:border-[#2563EB] focus-within:ring-2 focus-within:ring-blue-100 transition-all shadow-xs overflow-hidden">
+                {/* The Dark Engineering Console Input Box */}
+                <div className="relative border border-slate-700 rounded-2xl bg-slate-900 text-white focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/20 transition-all shadow-xl overflow-hidden">
                   <div className="flex items-start px-4 pt-3.5">
                     <textarea
                       ref={inputRef}
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Ask about polymer chemistry, processing, materials, or GATE XE-F..."
+                      placeholder="> Ask about tensile strength, mold flow, or GATE XE-F..."
                       disabled={loading}
-                      className="w-full text-sm text-slate-900 font-sans resize-none focus:outline-none placeholder:text-slate-400 bg-transparent"
+                      className="w-full text-sm text-white font-sans resize-none focus:outline-none placeholder:text-slate-500 bg-transparent"
                       rows={2}
                       style={{ minHeight: '56px', maxHeight: '140px' }}
                     />
                   </div>
 
                   {/* Input Footer Bar */}
-                  <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-100 bg-slate-50/80">
-                    <div className="flex items-center gap-2 text-xs font-mono text-slate-600 font-medium">
-                      <span className="inline-flex items-center gap-1.5 text-emerald-700">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Grounded in 216 lessons
+                  <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-800 bg-slate-950/80">
+                    <div className="flex items-center gap-2 text-xs font-mono text-slate-400 font-medium">
+                      <span className="inline-flex items-center gap-1.5 text-emerald-400">
+                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Grounded in 216 lessons
                       </span>
                     </div>
 
                     <div className="flex items-center gap-3">
-                      <span className="text-[11px] font-mono text-slate-400 hidden sm:inline">Press Enter ↵</span>
+                      <span className="text-[11px] font-mono text-slate-500 hidden sm:inline">Press Enter ↵</span>
                       <button
                         onClick={() => sendMessage(input)}
                         disabled={!input.trim() || loading}
                         className={`px-5 py-2 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                           input.trim() && !loading
-                            ? 'bg-[#F59E0B] hover:bg-[#D97706] text-slate-950 shadow-md hover:-translate-y-0.5 active:translate-y-0'
-                            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                            ? 'bg-[#F4C51B] hover:bg-amber-400 text-slate-950 shadow-md hover:-translate-y-0.5 active:translate-y-0'
+                            : 'bg-slate-800 text-slate-600 cursor-not-allowed'
                         }`}
                       >
                         {loading ? (
@@ -941,8 +937,8 @@ export default function AITutorPage() {
                 </div>
 
                 {/* AI Exam & Derivation Disclaimer */}
-                <div className="flex items-center justify-center gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-sans text-center">
-                  <span className="font-bold">⚠️</span>
+                <div className="flex items-center justify-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-sans text-center">
+                  <span className="font-bold text-amber-600">⚠️</span>
                   <span>AI-generated technical guidance &middot; Always verify critical formulas, numerical constants &amp; derivations against standard textbooks or your professor before exams.</span>
                 </div>
 
