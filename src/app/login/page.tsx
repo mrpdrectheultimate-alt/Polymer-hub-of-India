@@ -131,7 +131,12 @@ function LoginContent() {
         setSuccessMessage(`One-time security code dispatched to ${formattedPhone}.`)
       }
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : 'Authentication failed. Please try again.')
+      const msg = err instanceof Error ? err.message : 'Authentication failed. Please try again.'
+      if (msg.toLowerCase().includes('unsupported phone provider') || msg.toLowerCase().includes('phone provider')) {
+        setErrorMessage('SMS service requires a connected SMS Gateway (Twilio). Please sign in using Google, GitHub, Magic Link, or Password.')
+      } else {
+        setErrorMessage(msg)
+      }
     } finally {
       setIsLoading(false)
     }
