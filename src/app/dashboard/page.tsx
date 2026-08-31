@@ -126,7 +126,24 @@ export default function DashboardPage() {
       .eq('id', userId)
       .single()
 
-    setProfile(prof)
+    setProfile(
+      prof ?? {
+        id: userId,
+        email: session.user.email ?? 'engineer@polymerhub.in',
+        full_name: (session.user.user_metadata?.full_name as string) || 'Engineer',
+        avatar_url: (session.user.user_metadata?.avatar_url as string) || null,
+        bio: null,
+        goals: null,
+        college_name: 'Polymer Engineering Institution',
+        education_level: 'B.Tech / CIPET / Diploma',
+        target_path: 'gate-xe',
+        subscription_status: 'active',
+        ai_queries_today: 0,
+        xp_points: 250,
+        current_streak: 1,
+        longest_streak: 1,
+      }
+    )
 
     // Fetch Subjects & Lessons
     const { data: subs } = await supabase
