@@ -179,34 +179,34 @@ function MessageBubble({
       <div className="max-w-[92%] sm:max-w-[85%] w-full">
         <div className="flex items-start gap-3">
           <PolymerAIMark className="w-8 h-8 flex-shrink-0 mt-0.5" />
-          <div className="flex-1 bg-white border border-slate-200/90 rounded-2xl rounded-tl-xs shadow-xs overflow-hidden">
+          <div className="flex-1 bg-slate-900 border border-slate-800 rounded-2xl rounded-tl-xs shadow-lg overflow-hidden">
             {/* Header pill bar */}
-            <div className="border-b border-slate-100 px-4 py-2 bg-slate-50/80 flex items-center justify-between">
+            <div className="border-b border-slate-800 px-4 py-2.5 bg-slate-950/80 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1 font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider">
-                  <Sparkles className="w-3 h-3 text-[#F59E0B]" />
+                <span className="inline-flex items-center gap-1.5 font-mono text-[10px] font-bold text-amber-400 uppercase tracking-wider">
+                  <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
                   PolymerHub AI Copilot
                 </span>
-                <span className="w-1 h-1 rounded-full bg-slate-300" />
-                <span className="text-[10px] text-slate-500 font-mono">Verified Syllabus Grounding</span>
+                <span className="w-1 h-1 rounded-full bg-slate-700" />
+                <span className="text-[10px] text-slate-400 font-mono">Verified Syllabus Grounding</span>
               </div>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="text-[10px] text-slate-500 font-mono">
                 {message.timestamp.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
               </span>
             </div>
 
             {/* Markdown Content */}
             <div className="p-4 sm:p-5">
-              <div className="prose prose-sm max-w-none text-slate-800 leading-relaxed font-sans prose-headings:font-display prose-headings:font-bold prose-code:font-mono prose-code:text-[#2563EB] prose-code:bg-blue-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs">
+              <div className="prose prose-sm prose-invert max-w-none text-slate-200 leading-relaxed font-sans prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-code:font-mono prose-code:text-amber-300 prose-code:bg-slate-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
               </div>
 
               {/* Source Citations — The Trust Layer */}
               {message.sources && message.sources.length > 0 && (
-                <div className="mt-4 pt-3.5 border-t border-slate-100 bg-slate-50/60 -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 p-4 rounded-b-2xl">
+                <div className="mt-4 pt-3.5 border-t border-slate-800 bg-slate-950/80 -mx-4 sm:-mx-5 -mb-4 sm:-mb-5 p-4 rounded-b-2xl">
                   <div className="flex items-center gap-1.5 mb-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                    <p className="text-[11px] text-slate-700 font-mono font-bold uppercase tracking-wider">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <p className="text-[11px] text-slate-300 font-mono font-bold uppercase tracking-wider">
                       Verified Curriculum Sources:
                     </p>
                   </div>
@@ -215,11 +215,11 @@ function MessageBubble({
                       <Link
                         key={src.slug || idx}
                         href={`/lessons/${src.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-mono font-medium px-3 py-1.5 rounded-lg bg-white text-slate-700 border border-slate-200 hover:border-blue-500 hover:text-blue-600 hover:shadow-xs transition-all group"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono font-medium px-3 py-1.5 rounded-lg bg-slate-850 text-slate-200 border border-slate-700 hover:border-amber-400 hover:text-amber-300 hover:shadow-xs transition-all group"
                       >
-                        <BookOpen className="w-3 h-3 text-[#2563EB] group-hover:scale-110 transition-transform" />
+                        <BookOpen className="w-3 h-3 text-amber-400 group-hover:scale-110 transition-transform" />
                         <span>{src.title}</span>
-                        <ArrowRight className="w-3 h-3 text-slate-400 group-hover:translate-x-0.5 group-hover:text-blue-600 transition-all" />
+                        <ArrowRight className="w-3 h-3 text-slate-400 group-hover:translate-x-0.5 group-hover:text-amber-300 transition-all" />
                       </Link>
                     ))}
                   </div>
@@ -233,13 +233,13 @@ function MessageBubble({
         <div className="flex items-center gap-3 mt-2 pl-11 text-xs">
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-700 transition-colors font-mono text-[11px]"
+            className="inline-flex items-center gap-1 text-slate-400 hover:text-slate-200 transition-colors font-mono text-[11px]"
             title="Copy response"
           >
             {copied ? (
               <>
-                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                <span className="text-emerald-600">Copied</span>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <span className="text-emerald-400">Copied</span>
               </>
             ) : (
               <>
@@ -501,7 +501,7 @@ export default function AITutorPage() {
   const queriesLeft = Math.max(0, queryStatus.limit - queryStatus.used)
 
   return (
-    <div className="flex h-[calc(100vh-68px)] bg-[#FAF8F5] overflow-hidden">
+    <div className="flex h-[calc(100vh-68px)] bg-slate-950 overflow-hidden text-white">
 
       {/* ─── LEFT WORKSPACE SIDEBAR (Dark Navy Engineering Rail) ─── */}
       <aside className={`
@@ -673,37 +673,37 @@ export default function AITutorPage() {
         </div>
       </aside>
 
-      {/* ─── MAIN CONSOLE CONTAINER ─── */}
-      <main className="flex-1 flex flex-col min-w-0 bg-[#FAF8F5]">
+      {/* ─── MAIN CONSOLE CONTAINER (Dark Navy Tech Console) ─── */}
+      <main className="flex-1 flex flex-col min-w-0 bg-slate-950">
 
         {/* ─── TOP CONSOLE BAR ─── */}
-        <header className="flex-shrink-0 h-14 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between z-10">
+        <header className="flex-shrink-0 h-14 bg-slate-900 border-b border-slate-800 px-4 sm:px-6 flex items-center justify-between z-10 text-white">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden p-1.5 rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50"
+              className="lg:hidden p-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800"
             >
               <Layers className="w-4 h-4" />
             </button>
             
             {/* View Switcher Tabs */}
-            <div className="flex items-center bg-slate-100/90 rounded-lg p-1 border border-slate-200/60">
+            <div className="flex items-center bg-slate-950 rounded-lg p-1 border border-slate-800">
               <button
                 onClick={() => setActiveTab('chat')}
-                className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer ${
                   activeTab === 'chat'
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-slate-800 text-white shadow-xs'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 Copilot Console
               </button>
               <button
                 onClick={() => setActiveTab('focus')}
-                className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all ${
+                className={`px-3 py-1 rounded-md text-xs font-mono font-bold transition-all cursor-pointer ${
                   activeTab === 'focus'
-                    ? 'bg-white text-[#2563EB] shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-slate-800 text-amber-400 shadow-xs'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 Career Focus Plan
@@ -713,15 +713,15 @@ export default function AITutorPage() {
 
           <div className="flex items-center gap-3">
             {/* Real-time Status Badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-mono font-bold text-emerald-800">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono font-bold text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Grounded in 216 Lessons</span>
             </div>
 
             {messages.length > 0 && activeTab === 'chat' && (
               <button
                 onClick={clearConversation}
-                className="p-1.5 rounded-lg border border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-400 transition-colors"
+                className="p-1.5 rounded-lg border border-slate-700 text-slate-400 hover:text-white hover:border-slate-500 transition-colors cursor-pointer"
                 title="Clear current conversation"
               >
                 <RotateCcw className="w-4 h-4" />
@@ -744,18 +744,18 @@ export default function AITutorPage() {
                     
                     {/* Compact Hero Header */}
                     <div className="text-center max-w-2xl mx-auto space-y-1.5">
-                      <h1 className="text-2xl font-bold font-display text-slate-900 tracking-tight">
+                      <h1 className="text-2xl font-bold font-display text-white tracking-tight">
                         Engineering Copilot
                       </h1>
-                      <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-400 font-sans leading-relaxed">
                         Grounded in 216 lessons across 19 subjects.
                       </p>
                     </div>
 
-                    {/* ─── CAPABILITY SUGGESTION CARDS (Crisp White · Technical Badges) ─── */}
+                    {/* ─── CAPABILITY SUGGESTION CARDS (Dark Navy Glass · Technical Badges) ─── */}
                     <div className="space-y-2.5">
                       <div className="flex items-center justify-between">
-                        <p className="text-xs font-mono font-bold text-slate-700 uppercase tracking-wider">
+                        <p className="text-xs font-mono font-bold text-slate-300 uppercase tracking-wider">
                           Recommended Engineering Inquiries
                         </p>
                         <span className="text-[11px] font-mono text-slate-500">Click any card to query</span>
@@ -767,26 +767,26 @@ export default function AITutorPage() {
                             key={idx}
                             onClick={() => sendMessage(item.prompt)}
                             disabled={loading}
-                            className="text-left p-4 rounded-xl bg-white border border-slate-200 hover:border-[#2563EB] hover:shadow-md transition-all group flex flex-col justify-between shadow-sm cursor-pointer"
+                            className="text-left p-4 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-amber-400/80 hover:bg-slate-850 hover:shadow-lg transition-all group flex flex-col justify-between shadow-md cursor-pointer"
                           >
                             <div>
                               <div className="flex items-center justify-between mb-2">
                                 <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${item.badgeClass}`}>
                                   [{item.category}]
                                 </span>
-                                <div className="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-[#2563EB] group-hover:text-white flex items-center justify-center text-slate-400 transition-colors">
+                                <div className="w-6 h-6 rounded-full bg-slate-800 group-hover:bg-[#F59E0B] group-hover:text-slate-950 flex items-center justify-center text-slate-400 transition-colors">
                                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                                 </div>
                               </div>
-                              <h3 className="text-sm font-bold text-slate-900 font-display line-clamp-1 mb-1 group-hover:text-[#2563EB] transition-colors">
+                              <h3 className="text-sm font-bold text-white font-display line-clamp-1 mb-1 group-hover:text-amber-400 transition-colors">
                                 {item.title}
                               </h3>
-                              <p className="text-xs text-slate-600 font-sans line-clamp-2 leading-relaxed font-normal">
+                              <p className="text-xs text-slate-300 font-sans line-clamp-2 leading-relaxed font-normal">
                                 {item.prompt}
                               </p>
                             </div>
-                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
-                              <BookOpen className="w-3 h-3 text-[#2563EB] shrink-0" />
+                            <div className="mt-3 pt-2.5 border-t border-slate-800 flex items-center gap-1.5 text-[11px] font-mono text-slate-400">
+                              <BookOpen className="w-3 h-3 text-amber-400 shrink-0" />
                               <span className="truncate">{item.sourceHint}</span>
                             </div>
                           </button>
@@ -795,28 +795,28 @@ export default function AITutorPage() {
                     </div>
 
                     {/* ─── "SHOW, DON'T TELL" STATIC PROOF DEMO ─── */}
-                    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-                      <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5">
+                    <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-5 shadow-md">
+                      <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2.5">
                         <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          <span className="text-xs font-mono font-bold text-slate-900 uppercase tracking-wider">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                          <span className="text-xs font-mono font-bold text-slate-200 uppercase tracking-wider">
                             Sample Grounded Response Demonstration
                           </span>
                         </div>
-                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-50 text-[#2563EB] font-bold border border-blue-200">
+                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-bold border border-blue-500/30">
                           Live Architecture Proof
                         </span>
                       </div>
-                      <div className="space-y-2 font-sans text-xs text-slate-700 leading-relaxed">
-                        <p className="font-bold text-slate-900">
+                      <div className="space-y-2 font-sans text-xs text-slate-300 leading-relaxed">
+                        <p className="font-bold text-white">
                           Q: How does molecular weight affect polymer melt viscosity?
                         </p>
-                        <p className="text-slate-600 leading-relaxed">
+                        <p className="text-slate-300 leading-relaxed">
                           Above the critical entanglement molecular weight ($M_c$), zero-shear viscosity ($\eta_0$) scales dramatically following the Fox-Flory power law: $\eta_0 = K \cdot M_w^{3.4}$. This creates significant flow resistance during injection moulding but enhances mechanical tensile elongation in solid state.
                         </p>
-                        <div className="pt-2 flex items-center gap-2 font-mono text-xs text-slate-600">
-                          <span className="font-bold text-[#2563EB]">Verified Source:</span>
-                          <span className="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-800 border border-slate-200">
+                        <div className="pt-2 flex items-center gap-2 font-mono text-xs text-slate-400">
+                          <span className="font-bold text-amber-400">Verified Source:</span>
+                          <span className="px-2.5 py-0.5 rounded-lg bg-slate-800 text-slate-200 border border-slate-700">
                             Lesson 5.2 &middot; Viscoelastic Properties &amp; Melt Rheology
                           </span>
                         </div>
@@ -841,9 +841,9 @@ export default function AITutorPage() {
 
                 {/* Error Banner */}
                 {error && (
-                  <div className="mb-4 border border-red-200 bg-red-50/80 rounded-xl p-4 flex items-center justify-between gap-3 text-red-800 text-xs">
+                  <div className="mb-4 border border-red-500/40 bg-red-950/50 rounded-xl p-4 flex items-center justify-between gap-3 text-red-200 text-xs">
                     <div className="flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
+                      <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0" />
                       <span>{error}</span>
                     </div>
                     {error.includes('limit') && (
@@ -862,13 +862,13 @@ export default function AITutorPage() {
             </div>
 
             {/* ─── BOTTOM ENGINEERING INPUT CONSOLE (DARK NAVY CONSOLE) ─── */}
-            <footer className="flex-shrink-0 border-t border-slate-200 bg-white p-4 sm:p-5 shadow-lg text-slate-900">
+            <footer className="flex-shrink-0 border-t border-slate-800 bg-slate-900 p-4 sm:p-5 shadow-2xl text-white">
               <div className="max-w-4xl mx-auto space-y-3">
                 
                 {/* Mode Selector Chips */}
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-                  <span className="text-xs font-mono text-slate-500 font-bold flex items-center gap-1 mr-1 flex-shrink-0">
-                    <Terminal className="w-3.5 h-3.5 text-[#2563EB]" /> Mode:
+                  <span className="text-xs font-mono text-slate-400 font-bold flex items-center gap-1 mr-1 flex-shrink-0">
+                    <Terminal className="w-3.5 h-3.5 text-amber-400" /> Mode:
                   </span>
                   {PROMPT_MODES.map((m) => (
                     <button
@@ -876,8 +876,8 @@ export default function AITutorPage() {
                       onClick={() => handleModeClick(m)}
                       className={`px-3 py-1 rounded-full text-xs font-mono transition-all flex-shrink-0 border cursor-pointer ${
                         selectedMode === m.id
-                          ? 'bg-[#2563EB] border-blue-600 text-white font-bold shadow-xs'
-                          : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                          ? 'bg-[#F59E0B] border-amber-500 text-slate-950 font-bold shadow-xs'
+                          : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700 hover:text-white'
                       }`}
                     >
                       {m.label}
@@ -886,7 +886,7 @@ export default function AITutorPage() {
                 </div>
 
                 {/* The Dark Engineering Console Input Box */}
-                <div className="relative border border-slate-700 rounded-2xl bg-slate-900 text-white focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/20 transition-all shadow-xl overflow-hidden">
+                <div className="relative border border-slate-700 rounded-2xl bg-slate-950 text-white focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-400/20 transition-all shadow-xl overflow-hidden">
                   <div className="flex items-start px-4 pt-3.5">
                     <textarea
                       ref={inputRef}
@@ -902,7 +902,7 @@ export default function AITutorPage() {
                   </div>
 
                   {/* Input Footer Bar */}
-                  <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-800 bg-slate-950/80">
+                  <div className="flex items-center justify-between px-4 py-2.5 border-t border-slate-800 bg-slate-900/90">
                     <div className="flex items-center gap-2 text-xs font-mono text-slate-400 font-medium">
                       <span className="inline-flex items-center gap-1.5 text-emerald-400">
                         <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Grounded in 216 lessons
@@ -937,29 +937,29 @@ export default function AITutorPage() {
                 </div>
 
                 {/* AI Exam & Derivation Disclaimer */}
-                <div className="flex items-center justify-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-sans text-center">
-                  <span className="font-bold text-amber-600">⚠️</span>
+                <div className="flex items-center justify-center gap-2 p-3 bg-amber-950/30 border border-amber-800/50 rounded-xl text-amber-200 text-xs font-sans text-center">
+                  <span className="font-bold text-amber-400">⚠️</span>
                   <span>AI-generated technical guidance &middot; Always verify critical formulas, numerical constants &amp; derivations against standard textbooks or your professor before exams.</span>
                 </div>
 
                 {/* Bottom Trust Line */}
                 <p className="text-[11px] text-slate-500 font-mono text-center flex items-center justify-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
                   <span>PolymerHub AI &middot; Grounded in 19 PPE Disciplines &middot; Strictly citing standard reference literature &amp; ASTM/ISO test methods</span>
                 </p>
               </div>
             </footer>
           </div>
         ) : (
-          /* ─── CAREER & FOCUS PLAN TAB ─── */
-          <div className="flex-1 overflow-y-auto bg-slate-50 p-4 sm:p-8">
+          /* ─── CAREER & FOCUS PLAN TAB (Dark Navy Theme) ─── */
+          <div className="flex-1 overflow-y-auto bg-slate-950 p-4 sm:p-8 text-white">
             <div className="max-w-4xl mx-auto space-y-6">
-              <div className="border border-blue-200 bg-blue-50/80 p-6 rounded-2xl shadow-xs">
+              <div className="border border-slate-800 bg-slate-900 p-6 rounded-2xl shadow-md">
                 <div className="flex items-center gap-3">
-                  <Brain className="w-8 h-8 text-[#2563EB] flex-shrink-0" />
+                  <Brain className="w-8 h-8 text-amber-400 flex-shrink-0" />
                   <div>
-                    <h2 className="text-xl font-bold font-display text-slate-900">Personalized AI Focus Blueprint</h2>
-                    <p className="text-xs text-slate-600 mt-0.5">
+                    <h2 className="text-xl font-bold font-display text-white">Personalized AI Focus Blueprint</h2>
+                    <p className="text-xs text-slate-300 mt-0.5 font-sans">
                       Synthesizes your lesson completion analytics, quiz performance, and career focus to map your weekly master plan.
                     </p>
                   </div>
@@ -967,35 +967,35 @@ export default function AITutorPage() {
               </div>
 
               {focusLoading ? (
-                <div className="border border-slate-200 p-12 text-center bg-white rounded-2xl shadow-xs animate-pulse">
-                  <RefreshCw className="w-8 h-8 mx-auto text-[#2563EB] animate-spin mb-3" />
-                  <p className="font-display font-bold text-slate-900">Analyzing study progress and running Gemini advisor planner…</p>
+                <div className="border border-slate-800 p-12 text-center bg-slate-900 rounded-2xl shadow-md animate-pulse">
+                  <RefreshCw className="w-8 h-8 mx-auto text-amber-400 animate-spin mb-3" />
+                  <p className="font-display font-bold text-white">Analyzing study progress and running Gemini advisor planner…</p>
                 </div>
               ) : !session ? (
-                <div className="border border-slate-200 p-10 text-center bg-white rounded-2xl shadow-xs space-y-3">
-                  <Lock className="w-8 h-8 mx-auto text-[#2563EB]" />
-                  <p className="font-display text-lg font-bold text-slate-900">Sign in to generate your Personal Study Focus Plan</p>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                <div className="border border-slate-800 p-10 text-center bg-slate-900 rounded-2xl shadow-md space-y-3">
+                  <Lock className="w-8 h-8 mx-auto text-amber-400" />
+                  <p className="font-display text-lg font-bold text-white">Sign in to generate your Personal Study Focus Plan</p>
+                  <p className="text-xs text-slate-400 max-w-sm mx-auto font-sans">
                     Log in with your free account to track your progress across all 19 subjects and generate custom weekly study milestones.
                   </p>
                   <Link
                     href="/login"
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#2563EB] text-white font-mono text-xs font-bold rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-mono text-xs font-bold rounded-xl transition-colors shadow-sm"
                   >
                     <span>Sign In to Continue</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               ) : focusPlan ? (
-                <div className="border border-slate-200 bg-white p-6 sm:p-8 rounded-2xl shadow-xs prose prose-sm max-w-none text-slate-900 leading-relaxed font-sans">
+                <div className="border border-slate-800 bg-slate-900 p-6 sm:p-8 rounded-2xl shadow-md prose prose-sm prose-invert max-w-none text-slate-200 leading-relaxed font-sans">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{focusPlan}</ReactMarkdown>
                 </div>
               ) : (
-                <div className="border border-slate-200 p-10 text-center bg-white rounded-2xl shadow-xs">
-                  <p className="font-display font-bold text-slate-900 mb-3">No active study plan generated yet.</p>
+                <div className="border border-slate-800 p-10 text-center bg-slate-900 rounded-2xl shadow-md">
+                  <p className="font-display font-bold text-white mb-3">No active study plan generated yet.</p>
                   <button
                     onClick={() => { setFocusPlan(null); loadFocusPlan() }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2563EB] text-white font-mono text-xs font-bold rounded-xl hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 font-mono text-xs font-bold rounded-xl transition-colors cursor-pointer"
                   >
                     <RefreshCw className="w-4 h-4" /> Generate Focus Plan
                   </button>
@@ -1008,16 +1008,16 @@ export default function AITutorPage() {
 
       {/* ─── GUEST CONVERSION MODAL ─── */}
       {guestLimitModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4 animate-in zoom-in-95 duration-200">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#2563EB]">
-              <Sparkles className="w-6 h-6 text-[#F59E0B]" />
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-4 animate-in zoom-in-95 duration-200 text-white">
+            <div className="w-12 h-12 rounded-2xl bg-amber-400/10 border border-amber-400/30 flex items-center justify-center text-amber-400">
+              <Sparkles className="w-6 h-6 text-amber-400" />
             </div>
             <div>
-              <h3 className="text-xl font-bold font-display text-slate-900">
+              <h3 className="text-xl font-bold font-display text-white">
                 You&apos;ve experienced the Copilot!
               </h3>
-              <p className="text-xs text-slate-600 mt-1 leading-relaxed">
+              <p className="text-xs text-slate-300 mt-1 leading-relaxed font-sans">
                 You have used your 10 free guest inquiries. Create your free account in seconds to save your conversation history, unlock 15 daily queries, and track your syllabus progress.
               </p>
             </div>
@@ -1025,14 +1025,14 @@ export default function AITutorPage() {
             <div className="space-y-2 pt-2">
               <Link
                 href="/login"
-                className="w-full py-3 bg-[#2563EB] hover:bg-blue-700 text-white rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all"
+                className="w-full py-3 bg-[#F59E0B] hover:bg-amber-400 text-slate-950 rounded-xl font-mono text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-all"
               >
                 <span>Create Free Account / Sign In</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <button
                 onClick={() => setGuestLimitModal(false)}
-                className="w-full py-2.5 text-slate-500 hover:text-slate-800 text-xs font-mono transition-colors"
+                className="w-full py-2.5 text-slate-400 hover:text-slate-200 text-xs font-mono transition-colors cursor-pointer"
               >
                 Continue Browsing Syllabus
               </button>
