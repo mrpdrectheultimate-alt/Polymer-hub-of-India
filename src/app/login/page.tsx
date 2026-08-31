@@ -16,8 +16,8 @@ import {
   Cpu,
   Users,
   AlertCircle,
-  Globe,
-  GraduationCap
+  Layers,
+  CheckCircle2
 } from 'lucide-react'
 
 export default function LoginPage() {
@@ -495,23 +495,24 @@ export default function LoginPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.4, delay: 0.55 }}
-          className="mt-6 bg-white/95 backdrop-blur-md border border-[#E2E8F0] rounded-2xl py-3 px-4 shadow-xs"
+          className="mt-6 bg-white border border-slate-200 rounded-2xl p-4 shadow-sm"
         >
-          <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-[10px] sm:text-[11px] font-mono">
-            <div className="flex items-center gap-1.5 text-[#16A34A] font-medium">
-              <Shield className="w-3.5 h-3.5" />
-              <span>Privacy-First Educational Architecture</span>
+          <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 text-xs font-mono text-slate-900">
+            <div className="flex items-center gap-2 font-medium">
+              <Shield className="w-4 h-4 text-emerald-600 shrink-0" />
+              <span>Privacy-First Architecture</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[#2563EB] font-medium">
-              <Globe className="w-3.5 h-3.5" />
-              <span>Academically Verified Curriculum</span>
+            <div className="flex items-center gap-2 font-medium">
+              <BookOpen className="w-4 h-4 text-[#2563EB] shrink-0" />
+              <span>19 Subjects &middot; 216 Lessons</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[#CA8A04] font-medium">
-              <GraduationCap className="w-3.5 h-3.5" />
-              <span>19 Subjects &middot; 216 Lessons Mapped</span>
+            <div className="flex items-center gap-2 font-medium">
+              <Layers className="w-4 h-4 text-amber-600 shrink-0" />
+              <span>ASTM &amp; ISO Aligned</span>
             </div>
-            <div className="flex items-center gap-1 text-[#111827] font-medium">
-              <span>🇮🇳 Made in India</span>
+            <div className="flex items-center gap-2 font-medium">
+              <CheckCircle2 className="w-4 h-4 text-[#2563EB] shrink-0" />
+              <span>Made in India</span>
             </div>
           </div>
         </motion.div>
