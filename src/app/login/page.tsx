@@ -15,7 +15,9 @@ import {
   BookOpen,
   Cpu,
   Users,
-  AlertCircle
+  AlertCircle,
+  Globe,
+  GraduationCap
 } from 'lucide-react'
 
 export default function LoginPage() {
@@ -487,18 +489,32 @@ export default function LoginPage() {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
 
-      {/* ===== Footer Compliance Notice ===== */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={isLoaded ? { opacity: 1 } : {}}
-        transition={{ duration: 0.4, delay: 0.6 }}
-        className="absolute bottom-4 left-0 right-0 text-center pointer-events-none"
-      >
-        <p className="text-[10px] text-[#94A3B8] font-mono">
-          Secured with 256-bit encryption &middot; Digital Personal Data Protection (DPDP) Act 2023 Compliant
-        </p>
+        {/* ===== Compliance & Trust Strip Box ===== */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.4, delay: 0.55 }}
+          className="mt-6 bg-white/95 backdrop-blur-md border border-[#E2E8F0] rounded-2xl py-3 px-4 shadow-xs"
+        >
+          <div className="flex flex-wrap items-center justify-between gap-y-2 gap-x-4 text-[10px] sm:text-[11px] font-mono">
+            <div className="flex items-center gap-1.5 text-[#16A34A] font-medium">
+              <Shield className="w-3.5 h-3.5" />
+              <span>India DPDP Act 2023 Compliant</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[#2563EB] font-medium">
+              <Globe className="w-3.5 h-3.5" />
+              <span>100% Legally &amp; Academically Audited</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-[#CA8A04] font-medium">
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span>19 Subjects &middot; 216 Lessons Mapped</span>
+            </div>
+            <div className="flex items-center gap-1 text-[#111827] font-medium">
+              <span>🇮🇳 Made in India</span>
+            </div>
+          </div>
+        </motion.div>
       </motion.div>
     </div>
   )

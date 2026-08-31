@@ -5,15 +5,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Shield, 
   Sparkles, 
   ChevronDown, 
   ChevronUp,
   BookOpen,
   Cpu,
-  Zap,
   Lock,
-  CreditCard,
   Building2,
   Award,
   Crown,
@@ -126,13 +123,6 @@ const FAQS = [
     q: 'Is this useful for GATE Polymer Science & Engineering (XE-F)?',
     a: 'Yes. Our curriculum covers all GATE XE-F topics, mathematical derivations, formula cheat-sheets, and simulated computer-based mock tests with negative marking.'
   },
-]
-
-const TRUST_BADGES = [
-  { icon: Shield, label: 'Secured by Razorpay', color: '#2563EB' },
-  { icon: CreditCard, label: 'UPI · Cards · Net Banking', color: '#16A34A' },
-  { icon: Zap, label: 'Cancel Anytime', color: '#F5C518' },
-  { icon: Award, label: 'Made in India', color: '#FF8A00' },
 ]
 
 const SOCIAL_PROOF = {
@@ -421,25 +411,8 @@ export default function PricingPage() {
         </motion.div>
       </section>
 
-      {/* ===== TRUST BADGES BAR ===== */}
-      <section className="bg-white border-t border-[#F1F5F9] py-8">
-        <div className="max-w-5xl mx-auto px-4">
-          <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs font-mono font-medium text-[#64748B]">
-            {TRUST_BADGES.map((badge, i) => (
-              <span
-                key={i}
-                className="flex items-center gap-1.5"
-              >
-                <badge.icon className="h-4 w-4" style={{ color: badge.color }} />
-                {badge.label}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== GLOBAL FOOTER ===== */}
-      <Footer />
+      {/* ===== GLOBAL FOOTER WITH TRUST BAR ===== */}
+      <Footer showTrustBar />
 
     </div>
   )
