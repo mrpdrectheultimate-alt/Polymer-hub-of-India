@@ -338,22 +338,6 @@ export default function PricingPage() {
             )
           })}
         </div>
-
-        {/* ===== PROMO CODE BANNER ===== */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.4, delay: 0.45 }}
-          className="mt-8 p-4 sm:p-5 bg-gradient-to-r from-[#F5C518]/15 via-amber-50 to-[#F5C518]/15 rounded-2xl border-2 border-[#F5C518]/40 text-center shadow-sm"
-        >
-          <p className="text-xs sm:text-sm font-medium text-[#111827]">
-            🎉 <span className="font-bold">Student Campus Launch Offer:</span> Get your first 3 months of Premium free &mdash; Use code{' '}
-            <code className="px-2.5 py-1 rounded-md bg-[#F5C518]/30 text-amber-900 font-mono font-bold text-xs tracking-wider">
-              PIIU2025
-            </code>{' '}
-            during checkout.
-          </p>
-        </motion.div>
       </section>
 
       {/* ===== FAQ SECTION ===== */}
