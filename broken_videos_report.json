@@ -488,84 +488,44 @@
     "subject": "digital-twins-plastics"
   },
   {
-    "id": "f17f2ae5-554a-41ed-a859-f51ca801a4cd",
-    "title": "PET vs HDPE vs PP: Which to Choose?",
+    "id": "3e62a8b1-16b0-4713-82a6-59693dd22518",
+    "title": "Mechanical Recycling of Plastics: Process and Limits",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "CrXVWd2D8dQ",
-    "subject": "polymer-chemistry"
+    "youtube_id": "e4zyPDeOvHY",
+    "subject": "recycling-technology"
   },
   {
-    "id": "426a5eed-551b-4697-9f41-6d51335cb12a",
-    "title": "GATE 2024 Polymer Engineering: Previous Year Analysis",
+    "id": "7ceda3a2-4aaa-403b-a9f2-4616815b480f",
+    "title": "Synthetic Rubbers: SBR, NBR, EPDM",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "4Y7Jl_JFBU8",
-    "subject": "polymer-chemistry"
+    "youtube_id": "vMZmwbCf5MI",
+    "subject": "rubber-technology"
   },
   {
-    "id": "bb5bed06-2752-46cb-93f6-b76212db3bba",
-    "title": "GATE Numericals: Polymer Rheology",
+    "id": "8d491290-f2f0-4ec6-aa98-d73ba4dcf4bf",
+    "title": "Blow Moulding vs Injection Moulding",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "Q5ZpBzRMl-I",
-    "subject": "polymer-rheology"
+    "youtube_id": "tOqPE83SXCY",
+    "subject": "polymer-processing"
   },
   {
-    "id": "af47536a-ed10-4906-903a-88716996af9b",
-    "title": "GATE Numericals: Molecular Weight Calculations",
-    "status": "broken",
-    "error": "oEmbed status 400",
-    "youtube_id": "E9WpfZl0YSRY",
-    "subject": "polymer-chemistry"
-  },
-  {
-    "id": "f1dea1cb-bfab-4414-8f67-24e864a91139",
-    "title": "Flexible Packaging: Film Structures and Barrier",
+    "id": "77583eb3-68fb-4012-bea4-60ba07b22e4a",
+    "title": "Injection Moulding: Defects and Troubleshooting",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "AOTQlqd09wU",
-    "subject": "plastic-packaging-engineering"
+    "youtube_id": "XZbfvJFB7Oo",
+    "subject": "polymer-processing"
   },
   {
-    "id": "e0252593-c371-4ee1-acc9-6ca653075a58",
-    "title": "PET Bottle Design and Blow Moulding",
+    "id": "58874b95-a694-4793-980f-0459bc09b913",
+    "title": "Chemical Recycling: Pyrolysis and Glycolysis",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "BzDIKrphYaA",
-    "subject": "plastic-packaging-engineering"
-  },
-  {
-    "id": "b10cdf89-6af0-4a3f-8a1d-4076037520eb",
-    "title": "Digital Twins in Injection Moulding",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "fCW_ZfOVR2M",
-    "subject": "digital-twins-plastics"
-  },
-  {
-    "id": "ca1519e6-4e13-4ff4-9939-8a2e3519a217",
-    "title": "IIoT Sensors in Plastics Plants",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "Rg3iM4KXC54",
-    "subject": "digital-twins-plastics"
-  },
-  {
-    "id": "287996aa-1ce9-4db1-a2c6-285c7b56d8ac",
-    "title": "Collaborative Robots in Injection Moulding",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "n4zkbZ7KSio",
-    "subject": "robotics-plastics"
-  },
-  {
-    "id": "0c895e53-23da-4a2e-a3df-04ce2bfdb00b",
-    "title": "Vision Systems for Plastic Part Inspection",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "Kq7cNY2YXDI",
-    "subject": "robotics-plastics"
+    "youtube_id": "bT-VXVqSQv8",
+    "subject": "recycling-technology"
   },
   {
     "id": "a9a1becd-b3a8-4149-ba01-7bbbdc8bc999",
@@ -576,54 +536,6 @@
     "subject": "bioprocessing-fermentation"
   },
   {
-    "id": "e75f5bf2-55c6-4658-9d8e-79c3d7a88ef1",
-    "title": "PHA Production by Microbial Fermentation",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "X6VuSoFLMsk",
-    "subject": "bioprocessing-fermentation"
-  },
-  {
-    "id": "6c52c308-abdb-4659-a94f-143e73d4d975",
-    "title": "MIT Lecture: Polymer Physics 3.063",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "fJ9LVXJLM-I",
-    "subject": "polymer-chemistry"
-  },
-  {
-    "id": "c9ecdd4d-41a4-4958-9e5a-65a6ff17e566",
-    "title": "MIT Lecture: Processing of Polymers",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "lpD9qxL05rg",
-    "subject": "polymer-processing"
-  },
-  {
-    "id": "a956587d-1a5b-41f7-ac17-858adaebbe7a",
-    "title": "How to Start a Plastics Recycling Business in India",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "tVi4bZFNJ7o",
-    "subject": "entrepreneurship-in-plastics"
-  },
-  {
-    "id": "baa9f223-d9d2-403d-a804-5a6ac02753cf",
-    "title": "Injection Moulding Job Shop: Business Model",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "Gq3YDAIY3V0",
-    "subject": "entrepreneurship-in-plastics"
-  },
-  {
-    "id": "d0d51482-a0ca-4666-82f5-c2ee2a79c7ce",
-    "title": "Introduction to Polymer Science",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "gCjMrFuigeY",
-    "subject": "polymer-chemistry"
-  },
-  {
     "id": "e6399cca-b416-4768-9ff2-2de9a4f45ddf",
     "title": "Addition Polymerization Mechanisms",
     "status": "broken",
@@ -632,11 +544,19 @@
     "subject": "polymer-chemistry"
   },
   {
-    "id": "097e2116-84a2-490c-b21f-61d44e1c498b",
-    "title": "Condensation Polymerization & Step Growth",
+    "id": "c8800a43-9a1e-437d-97c9-6053322942a2",
+    "title": "Impact Testing: Izod and Charpy Methods",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "T5RJZ_4Ydvw",
+    "youtube_id": "Kz8xt3xrtiY",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "eaf0ad38-b0ac-4f61-b5f7-5287e77a6ad7",
+    "title": "Rubber Elasticity Theory",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "KCQE7Qm5qGk",
     "subject": "polymer-chemistry"
   },
   {
@@ -664,14 +584,6 @@
     "subject": "polymer-chemistry"
   },
   {
-    "id": "eaf0ad38-b0ac-4f61-b5f7-5287e77a6ad7",
-    "title": "Rubber Elasticity Theory",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "KCQE7Qm5qGk",
-    "subject": "polymer-chemistry"
-  },
-  {
     "id": "cfd470e3-0f2b-4da8-8ddd-dcd4edf42985",
     "title": "Injection Moulding Machine: Anatomy and Operation",
     "status": "broken",
@@ -694,22 +606,6 @@
     "error": "oEmbed status 404",
     "youtube_id": "qg4OqBGHaK0",
     "subject": "polymer-processing"
-  },
-  {
-    "id": "77583eb3-68fb-4012-bea4-60ba07b22e4a",
-    "title": "Injection Moulding: Defects and Troubleshooting",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "XZbfvJFB7Oo",
-    "subject": "polymer-processing"
-  },
-  {
-    "id": "831ad630-0251-42c3-a227-ae7ba292fbff",
-    "title": "Injection Moulding: Gate Design and Location",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "VhKBgjb3DjM",
-    "subject": "mould-design"
   },
   {
     "id": "7938d5f4-e64a-4ed6-b9bb-824531b5e049",
@@ -760,27 +656,11 @@
     "subject": "rubber-technology"
   },
   {
-    "id": "949c13a7-5572-454e-8556-10842e7f7972",
-    "title": "Vulcanisation Chemistry and Systems",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "qwRpqSBMGGY",
-    "subject": "rubber-technology"
-  },
-  {
     "id": "cedd670a-9db3-46d8-8d0f-4e5c40057c7a",
     "title": "Rubber Compounding and Mixing",
     "status": "broken",
     "error": "oEmbed status 404",
     "youtube_id": "pV0KJhJh0lk",
-    "subject": "rubber-technology"
-  },
-  {
-    "id": "7ceda3a2-4aaa-403b-a9f2-4616815b480f",
-    "title": "Synthetic Rubbers: SBR, NBR, EPDM",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "vMZmwbCf5MI",
     "subject": "rubber-technology"
   },
   {
@@ -800,27 +680,11 @@
     "subject": "polymer-testing"
   },
   {
-    "id": "28e17604-854b-4960-ab1c-fd9668c635cd",
-    "title": "Tensile Testing of Plastics (ASTM D638)",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "fLGOxKr3V4M",
-    "subject": "polymer-testing"
-  },
-  {
     "id": "922fe7f8-5593-499c-90f7-1fa0301ace40",
     "title": "DSC Analysis of Polymers",
     "status": "broken",
     "error": "oEmbed status 404",
     "youtube_id": "eXPxBz6XPHE",
-    "subject": "polymer-testing"
-  },
-  {
-    "id": "88344aac-9772-4875-ac6c-e791a31ed320",
-    "title": "TGA: Thermogravimetric Analysis of Polymers",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "jSnp_SJVAmU",
     "subject": "polymer-testing"
   },
   {
@@ -830,14 +694,6 @@
     "error": "oEmbed status 404",
     "youtube_id": "P7C4qjEeI_M",
     "subject": "polymer-rheology"
-  },
-  {
-    "id": "c8800a43-9a1e-437d-97c9-6053322942a2",
-    "title": "Impact Testing: Izod and Charpy Methods",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "Kz8xt3xrtiY",
-    "subject": "polymer-testing"
   },
   {
     "id": "0366206f-7e28-4324-a39a-729aba6563ec",
@@ -894,22 +750,6 @@
     "error": "oEmbed status 404",
     "youtube_id": "X9hELpNrMGs",
     "subject": "medical-plastics-biomaterials"
-  },
-  {
-    "id": "3e62a8b1-16b0-4713-82a6-59693dd22518",
-    "title": "Mechanical Recycling of Plastics: Process and Limits",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "e4zyPDeOvHY",
-    "subject": "recycling-technology"
-  },
-  {
-    "id": "58874b95-a694-4793-980f-0459bc09b913",
-    "title": "Chemical Recycling: Pyrolysis and Glycolysis",
-    "status": "broken",
-    "error": "oEmbed status 404",
-    "youtube_id": "bT-VXVqSQv8",
-    "subject": "recycling-technology"
   },
   {
     "id": "7b9c9f0f-6fbb-462d-b870-773ad75eb71a",
@@ -992,6 +832,54 @@
     "subject": "polymer-processing"
   },
   {
+    "id": "bb5bed06-2752-46cb-93f6-b76212db3bba",
+    "title": "GATE Numericals: Polymer Rheology",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Q5ZpBzRMl-I",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "af47536a-ed10-4906-903a-88716996af9b",
+    "title": "GATE Numericals: Molecular Weight Calculations",
+    "status": "broken",
+    "error": "oEmbed status 400",
+    "youtube_id": "E9WpfZl0YSRY",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "f1dea1cb-bfab-4414-8f67-24e864a91139",
+    "title": "Flexible Packaging: Film Structures and Barrier",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "AOTQlqd09wU",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "e0252593-c371-4ee1-acc9-6ca653075a58",
+    "title": "PET Bottle Design and Blow Moulding",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "BzDIKrphYaA",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "b10cdf89-6af0-4a3f-8a1d-4076037520eb",
+    "title": "Digital Twins in Injection Moulding",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "fCW_ZfOVR2M",
+    "subject": "digital-twins-plastics"
+  },
+  {
+    "id": "ca1519e6-4e13-4ff4-9939-8a2e3519a217",
+    "title": "IIoT Sensors in Plastics Plants",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Rg3iM4KXC54",
+    "subject": "digital-twins-plastics"
+  },
+  {
     "id": "f1549287-d149-438d-8e61-e1dca887ded6",
     "title": "Shore Hardness: A vs D Explained",
     "status": "broken",
@@ -1016,11 +904,683 @@
     "subject": "polymer-processing"
   },
   {
-    "id": "8d491290-f2f0-4ec6-aa98-d73ba4dcf4bf",
-    "title": "Blow Moulding vs Injection Moulding",
+    "id": "287996aa-1ce9-4db1-a2c6-285c7b56d8ac",
+    "title": "Collaborative Robots in Injection Moulding",
     "status": "broken",
     "error": "oEmbed status 404",
-    "youtube_id": "tOqPE83SXCY",
+    "youtube_id": "n4zkbZ7KSio",
+    "subject": "robotics-plastics"
+  },
+  {
+    "id": "0c895e53-23da-4a2e-a3df-04ce2bfdb00b",
+    "title": "Vision Systems for Plastic Part Inspection",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Kq7cNY2YXDI",
+    "subject": "robotics-plastics"
+  },
+  {
+    "id": "e75f5bf2-55c6-4658-9d8e-79c3d7a88ef1",
+    "title": "PHA Production by Microbial Fermentation",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "X6VuSoFLMsk",
+    "subject": "bioprocessing-fermentation"
+  },
+  {
+    "id": "6c52c308-abdb-4659-a94f-143e73d4d975",
+    "title": "MIT Lecture: Polymer Physics 3.063",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "fJ9LVXJLM-I",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "c9ecdd4d-41a4-4958-9e5a-65a6ff17e566",
+    "title": "MIT Lecture: Processing of Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "lpD9qxL05rg",
     "subject": "polymer-processing"
+  },
+  {
+    "id": "a956587d-1a5b-41f7-ac17-858adaebbe7a",
+    "title": "How to Start a Plastics Recycling Business in India",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "tVi4bZFNJ7o",
+    "subject": "entrepreneurship-in-plastics"
+  },
+  {
+    "id": "baa9f223-d9d2-403d-a804-5a6ac02753cf",
+    "title": "Injection Moulding Job Shop: Business Model",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Gq3YDAIY3V0",
+    "subject": "entrepreneurship-in-plastics"
+  },
+  {
+    "id": "d0d51482-a0ca-4666-82f5-c2ee2a79c7ce",
+    "title": "Introduction to Polymer Science",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "gCjMrFuigeY",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "f17f2ae5-554a-41ed-a859-f51ca801a4cd",
+    "title": "PET vs HDPE vs PP: Which to Choose?",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "CrXVWd2D8dQ",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "426a5eed-551b-4697-9f41-6d51335cb12a",
+    "title": "GATE 2024 Polymer Engineering: Previous Year Analysis",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "4Y7Jl_JFBU8",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "097e2116-84a2-490c-b21f-61d44e1c498b",
+    "title": "Condensation Polymerization & Step Growth",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "T5RJZ_4Ydvw",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "831ad630-0251-42c3-a227-ae7ba292fbff",
+    "title": "Injection Moulding: Gate Design and Location",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "VhKBgjb3DjM",
+    "subject": "mould-design"
+  },
+  {
+    "id": "949c13a7-5572-454e-8556-10842e7f7972",
+    "title": "Vulcanisation Chemistry and Systems",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "qwRpqSBMGGY",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "28e17604-854b-4960-ab1c-fd9668c635cd",
+    "title": "Tensile Testing of Plastics (ASTM D638)",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "fLGOxKr3V4M",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "88344aac-9772-4875-ac6c-e791a31ed320",
+    "title": "TGA: Thermogravimetric Analysis of Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "jSnp_SJVAmU",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "b2ebb95a-15ee-48f1-a427-43325b84bd51",
+    "title": "Polymer Chemistry â€” Addition vs Condensation Polymerization",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "I1UIAHQQasQ",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "96b14e64-f327-4ff2-9efd-6b0d14b1ef6f",
+    "title": "Glass Transition Temperature (Tg) Explained",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "YVHc3dRsGBo",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "a3caa1c3-fbf4-4ec2-abfb-c87da4f598cd",
+    "title": "Polymer Molecular Weight â€” Mn, Mw and PDI",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "c_TGEWzRhF4",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "120e2727-44a7-45f4-93c4-9c34dfcf8de1",
+    "title": "Crystallinity in Polymers â€” HDPE vs LDPE",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "cRvnnlMRuDE",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "f4d15d18-0c57-4895-9eb8-651143e990cb",
+    "title": "Free Radical Polymerization Mechanism",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "HzQSc5AADB0",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "8636cc66-0b9d-436c-8503-d2033632fe4d",
+    "title": "Copolymers â€” Random, Block and Graft Types",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "8DkBWG_1y9s",
+    "subject": "polymer-chemistry"
+  },
+  {
+    "id": "8449942b-2139-48ec-95df-3df3160a0ec7",
+    "title": "Extrusion Process â€” Screw Design and Die Geometry",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "E9JDpMJU_7Y",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "fb381eee-9ccc-4cbf-9721-7c98b48820ba",
+    "title": "Blow Molding â€” ISBM, EBM and IBM Processes",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "BLb8AC3CJZY",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "af90221f-c19d-4f3b-b0c4-ba39405d860f",
+    "title": "Thermoforming â€” Vacuum Forming Deep Dive",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "v0KpfrP-HGQ",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "221e6049-48ca-4f1a-9838-e366e7c00d1d",
+    "title": "Rotational Molding â€” Process and Applications",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "TBjkphGzPXc",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "2a181394-6b0d-4b86-a4bc-1ae1b9e43c8b",
+    "title": "Compression Molding of Thermosets",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "f2GG_mhBe8M",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "409f9c42-4f36-450a-9bf1-28ec04a9cf04",
+    "title": "Plastic Pipe Extrusion â€” From Pellets to Pipe",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "VZkJ2P9kIeI",
+    "subject": "polymer-processing"
+  },
+  {
+    "id": "7f7b833b-0026-47be-b8ff-179d74626cde",
+    "title": "Injection Mold Gate Types â€” Edge, Pin, Fan, Submarine",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "NQKR7uDmHiI",
+    "subject": "mould-design"
+  },
+  {
+    "id": "de7fad2f-5515-4d5c-9edf-029a41b3653f",
+    "title": "Runner System Design â€” Hot vs Cold Runners",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "o8Mq3UzNqTk",
+    "subject": "mould-design"
+  },
+  {
+    "id": "6a1db6af-f0c4-455e-a199-dbfa5cba123d",
+    "title": "Draft Angles in Injection Molding",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "74N1GjPMCVs",
+    "subject": "mould-design"
+  },
+  {
+    "id": "af45e532-9d94-4dca-aad2-0541e808d31d",
+    "title": "Mold Cooling Channel Design for Cycle Time",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "aJ0Ol8eFGBo",
+    "subject": "mould-design"
+  },
+  {
+    "id": "bae973d3-5586-4161-94b8-aef0fd44355a",
+    "title": "Ejector Pin Placement and Parting Line Design",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "uR6uBFRfq3E",
+    "subject": "mould-design"
+  },
+  {
+    "id": "7ebc6818-8bc7-4695-8623-786133bc7aee",
+    "title": "Two-Shot Injection Molding Explained",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "0UQAEZl1bBk",
+    "subject": "mould-design"
+  },
+  {
+    "id": "35c6c6ed-8213-426d-8193-22a7e3177da1",
+    "title": "DSC Analysis â€” Understanding Thermograms",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Sa-3QG3dNq0",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "c222dbf3-9951-47ce-b0e4-44525ed5564f",
+    "title": "Izod vs Charpy Impact Testing for Plastics",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "XHPgrXVCAnE",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "523ed798-ddbf-4922-b705-4041e7ea6efd",
+    "title": "MFI Testing â€” Melt Flow Index Procedure",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "qsj6MF14H1g",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "2e5e1a81-4ec0-4945-a414-1f764dbfa153",
+    "title": "TGA Thermogravimetric Analysis for Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "P5XBuNtmFQ8",
+    "subject": "polymer-testing"
+  },
+  {
+    "id": "59e04502-3cb8-4269-8ee9-40960cc2f527",
+    "title": "Vulcanization of Rubber â€” Sulfur Crosslinking Chemistry",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "jy3w8pggNaI",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "789c4713-41a6-4462-9492-f6fe8058e2df",
+    "title": "Natural vs Synthetic Rubber â€” Properties Compared",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "b4JFV97t3hM",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "4fd01127-aa4c-4eba-a32a-9daa7769d622",
+    "title": "Rubber Compounding â€” Fillers, Plasticizers and Curatives",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "G6dqZqV77sc",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "bd666a04-186a-490a-8cb8-420cb192a08c",
+    "title": "Tyre Manufacturing Process â€” From Compounding to Curing",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "0DZEXDmMnBE",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "6966dd73-2c78-4c40-b047-d8126e32f765",
+    "title": "MDR Rheometer â€” Rubber Cure Curve Analysis",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "ZNGmRuPiI18",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "e353b662-fb59-4b2c-bad9-6bf528efc112",
+    "title": "TPE vs Rubber â€” Thermoplastic Elastomers Explained",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "rLiBmHmQ9kk",
+    "subject": "rubber-technology"
+  },
+  {
+    "id": "314b9478-21e8-4fc2-ab0d-de818992265e",
+    "title": "Mechanical Recycling of Plastics â€” Process Overview",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "D0WXuBJSCTY",
+    "subject": "recycling-technology"
+  },
+  {
+    "id": "53a5c02e-3a63-4c15-9588-e7d439aefa99",
+    "title": "Chemical Recycling â€” Pyrolysis and Depolymerization",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "EuPivEqHRyc",
+    "subject": "recycling-technology"
+  },
+  {
+    "id": "c0edb729-b70b-4202-9f39-5ba1e802a757",
+    "title": "Plastic Sorting Technology â€” NIR and AI Sorting",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "cbfvupd6YuU",
+    "subject": "recycling-technology"
+  },
+  {
+    "id": "e4945a1d-b3e9-47b3-b5f6-62e10c361121",
+    "title": "EPR in India â€” Extended Producer Responsibility Rules",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "04S-nYRKA7A",
+    "subject": "recycling-technology"
+  },
+  {
+    "id": "febfadf2-63c2-4f63-8bee-801c3a08180f",
+    "title": "Waste Plastic to Fuel â€” Pyrolysis Process",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Jh4c_SHmZiA",
+    "subject": "recycling-technology"
+  },
+  {
+    "id": "c507f052-1ff5-4bfa-ad9f-5f0cf8dfcd04",
+    "title": "PLA â€” Polylactic Acid Bioplastic Production",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "QEh0VoUVxbc",
+    "subject": "sustainable-plastics"
+  },
+  {
+    "id": "0417bad4-6d2f-4f9c-a40f-46a4b5b41e8e",
+    "title": "PHA Bioplastics â€” Fermentation and Properties",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "LtIPR3FDWaA",
+    "subject": "sustainable-plastics"
+  },
+  {
+    "id": "e9dcb099-f7df-4f3c-a245-47acf79f379f",
+    "title": "Oxo-Degradable vs Compostable Plastics Explained",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "5bkU5lCBBBE",
+    "subject": "sustainable-plastics"
+  },
+  {
+    "id": "4310babd-3f9f-4531-8d4d-96c80e23d6b2",
+    "title": "Bio-Based PE and PP â€” Drop-In Bioplastics",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "MUaKxkAk6Gk",
+    "subject": "sustainable-plastics"
+  },
+  {
+    "id": "e1b19a99-a7f5-4ab6-8d06-bcef6fc16802",
+    "title": "Carbon Fibre Reinforced Polymer (CFRP) Manufacturing",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "sWBHPg9Zv8c",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "df3d1558-6833-455a-9227-e687626e7a76",
+    "title": "Glass Fibre vs Carbon Fibre â€” Mechanical Properties",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "WY2VbINnlls",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "4c6e1f4d-9f81-4b17-ae32-e31ef70dd419",
+    "title": "Resin Transfer Molding (RTM) Process",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "UqBEjnm70mI",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "5e01f212-0a89-42a5-b869-902ed3f8ec65",
+    "title": "Filament Winding for Composite Pipes and Pressure Vessels",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "ikYtKwCl3Sc",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "3a2dc8bd-7d40-43f7-b217-d35e89a75712",
+    "title": "Nanocomposites â€” Clay and Graphene in Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "xPbQ0zCmB3I",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "970dd0df-5edc-4da8-a3fa-05b1443501c9",
+    "title": "Natural Fibre Composites â€” Jute, Hemp and Flax",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "OXuqGWGxcVo",
+    "subject": "polymer-composites"
+  },
+  {
+    "id": "e668c7d9-e7b9-420b-8e69-dd20dc70e180",
+    "title": "Plastic Additives â€” Stabilizers, Plasticizers and Flame Retardants",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "5D4lMFaWtpI",
+    "subject": "additives-compounding"
+  },
+  {
+    "id": "bbbb7c2d-02bf-4044-82da-49c973d5e4c1",
+    "title": "Twin-Screw Compounding â€” Co-rotating Extruder Design",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "LsNFsWKvBhU",
+    "subject": "additives-compounding"
+  },
+  {
+    "id": "13fb7132-4b2d-4a20-8ebe-b45a79fa7bdd",
+    "title": "Masterbatch Manufacturing â€” Pigment and Additive Concentrates",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "tCZD0e8F4z8",
+    "subject": "additives-compounding"
+  },
+  {
+    "id": "a72d6167-786a-492b-bf86-d8e7190281a0",
+    "title": "UV Stabilizers in Plastics â€” HALS and UV Absorbers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "HxD2kzpOLnc",
+    "subject": "additives-compounding"
+  },
+  {
+    "id": "52324f9f-f7f9-45de-a663-1ebbb450be2b",
+    "title": "Flame Retardant Mechanisms in Polymer Systems",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "OOkfQBj3GMo",
+    "subject": "additives-compounding"
+  },
+  {
+    "id": "04287f81-ee50-4560-a545-d42c11e1bdf5",
+    "title": "Medical Grade Plastics â€” PEEK, UHMWPE and Polysulfone",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "l_5BVHr7eTM",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "516b8d4c-f99e-4a27-b714-bb5a28841dce",
+    "title": "ISO 10993 Biocompatibility Testing Framework",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "WHh3WpAXmJU",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "9ac1cd9a-640f-4726-bcdc-bd5da8f4df52",
+    "title": "Drug Delivery Polymers â€” Controlled Release Systems",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "pnGD4Lbr7Hk",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "1f155da9-5e64-4be2-81a0-744d494bdfaa",
+    "title": "Sterilization of Medical Plastics â€” EtO, Gamma and Steam",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "hCpFEj3C3Io",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "6bb85413-d0e6-4643-9f13-2fcf88844157",
+    "title": "Tissue Engineering Scaffolds â€” 3D Printed Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Ai8ZOiZJR18",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "d4a6545d-f271-4720-a67a-c15f57ed72af",
+    "title": "PVC in Medical Devices â€” Applications and Alternatives",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Eq0BGlZqeEo",
+    "subject": "medical-plastics"
+  },
+  {
+    "id": "b3087fc6-b7f8-43a2-b50a-70102644dd76",
+    "title": "Plastic Packaging Barrier Properties â€” EVOH, PA and PET",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "D1GHqtb0Fxo",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "85072de1-b7b3-4acb-a501-c6f73b3cb762",
+    "title": "PET Bottle Stretch Blow Molding Process",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "WT7n7n9_p-s",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "4cf00dd1-b1e4-4530-af33-595c2ca75db5",
+    "title": "Multilayer Flexible Packaging Films â€” Co-extrusion",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "wGUixZq1MJY",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "0e00976c-dd4a-492c-afb1-49b5a3daab31",
+    "title": "Shelf Life Testing for Plastic Food Packaging",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "OVtbMqDnL4k",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "f9b1f039-170a-4e3c-88ca-4d5d1c53f293",
+    "title": "Active and Intelligent Packaging Technologies",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "JVhBRCJFnyc",
+    "subject": "plastic-packaging-engineering"
+  },
+  {
+    "id": "a8957cab-53ab-427a-8d65-ece35fa49ff7",
+    "title": "Shear Thinning in Polymer Melts â€” Power Law Model",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "HKh6wAmfOJE",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "c04d8847-5969-4ae9-a991-4d1ce7b36b8c",
+    "title": "Rheometer Operating Principles â€” Rotational and Capillary",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "h7JHDz4hx5A",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "763977a8-93e5-40d5-9fc3-1785054345d3",
+    "title": "Viscoelasticity â€” Creep and Stress Relaxation in Polymers",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Bx5MwF5XDPQ",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "e3b65f2d-2105-4908-a08f-ac01abc5521f",
+    "title": "Melt Flow Index vs Rheology â€” What MFI Tells You",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "pOlHqJMsNI4",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "1f6328ab-6ad4-4300-a014-8f2daa28f2db",
+    "title": "Die Swell and Elastic Recovery in Extrusion",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "Nl3DkwFGr6E",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "73f2fa7b-ef10-4f58-b022-19adda4c5268",
+    "title": "Cox-Merz Rule â€” Dynamic vs Steady-State Viscosity",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "J7sRqBNAWRM",
+    "subject": "polymer-rheology"
+  },
+  {
+    "id": "a5cf325c-177c-4724-853f-aec78872b7ca",
+    "title": "Starting a Plastic Processing Business in India",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "CeKSIxH67hc",
+    "subject": "entrepreneurship-plastics"
+  },
+  {
+    "id": "ab9a4743-985b-4685-a120-cb06305a8eea",
+    "title": "Plastic Machinery Market in India â€” PLEXCONCIL",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "ZFJilFJdQ6A",
+    "subject": "entrepreneurship-plastics"
+  },
+  {
+    "id": "8aa1bff6-64d7-4c7b-a6d0-0e36fe12cc96",
+    "title": "CIPET â€” Career Paths in Polymer Engineering",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "oWE1e7nsTts",
+    "subject": "entrepreneurship-plastics"
+  },
+  {
+    "id": "bec82c93-5522-45d4-9222-a251982b5c63",
+    "title": "Building a Recycling Startup â€” Business Model",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "1TsRKv-dPNo",
+    "subject": "entrepreneurship-plastics"
+  },
+  {
+    "id": "da88b477-b5a7-4b07-b4f8-33dd321979c3",
+    "title": "Injection Moulding SME Business Setup â€” Cost Analysis",
+    "status": "broken",
+    "error": "oEmbed status 404",
+    "youtube_id": "VdFJLKAEMTk",
+    "subject": "entrepreneurship-plastics"
   }
 ]
