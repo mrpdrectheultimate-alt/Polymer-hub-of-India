@@ -26,10 +26,14 @@ const nextConfig = {
     ],
   },
 
-  // Compression & Minification
+  // Compression, Minification & Compiler
   compress: true,
   swcMinify: true,
   poweredByHeader: false,
+  reactStrictMode: true,
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
+  },
 
   // Package import optimization for tree-shaking
   experimental: {
@@ -50,11 +54,11 @@ const nextConfig = {
         ],
       },
       {
-        source: '/images/(.*)',
+        source: '/(logo-.*|images/.*|.*\\.(?:png|jpg|jpeg|webp|svg|ico|avif))',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400, stale-while-revalidate=604800',
+            value: 'public, max-age=31536000, stale-while-revalidate=86400',
           },
         ],
       },
