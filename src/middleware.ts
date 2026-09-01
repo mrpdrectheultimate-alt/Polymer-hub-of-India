@@ -67,10 +67,32 @@ export async function middleware(request: NextRequest) {
     await supabase.auth.getSession()
   }
 
-  // Security & Performance Headers
+  // Enterprise Security & Performance Headers (A+ Grade Compliance)
+  response.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
   response.headers.set('X-Content-Type-Options', 'nosniff')
   response.headers.set('X-Frame-Options', 'SAMEORIGIN')
+  response.headers.set('X-XSS-Protection', '1; mode=block')
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  response.headers.set('X-Permitted-Cross-Domain-Policies', 'none')
+  response.headers.set('X-DNS-Prefetch-Control', 'on')
+  response.headers.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups')
+  response.headers.set('Cross-Origin-Resource-Policy', 'cross-origin')
+  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), browsing-topics=(), interest-cohort=(), payment=(self "https://checkout.razorpay.com" "https://api.razorpay.com")')
+  
+  const csp = `
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
+    img-src 'self' data: https: blob: https://images.unsplash.com https://*.supabase.co https://img.youtube.com https://i.ytimg.com;
+    font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net;
+    connect-src 'self' https://*.supabase.co https://*.vercel.app https://vercel.live https://api.razorpay.com https://generativelanguage.googleapis.com https://api.openai.com https://openrouter.ai https://www.youtube.com https://www.youtube-nocookie.com;
+    frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://api.razorpay.com https://checkout.razorpay.com;
+    frame-ancestors 'self';
+    form-action 'self' https://api.razorpay.com;
+    base-uri 'self';
+    upgrade-insecure-requests;
+  `.replace(/\s{2,}/g, ' ').trim()
+  response.headers.set('Content-Security-Policy', csp)
 
   return response
 }

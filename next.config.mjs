@@ -77,7 +77,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
+            value: 'max-age=63072000; includeSubDomains; preload',
           },
           {
             key: 'X-Content-Type-Options',
@@ -96,19 +96,35 @@ const nextConfig = {
             value: 'strict-origin-when-cross-origin',
           },
           {
+            key: 'X-Permitted-Cross-Domain-Policies',
+            value: 'none',
+          },
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'Cross-Origin-Opener-Policy',
+            value: 'same-origin-allow-popups',
+          },
+          {
+            key: 'Cross-Origin-Resource-Policy',
+            value: 'cross-origin',
+          },
+          {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+            value: 'camera=(), microphone=(), geolocation=(), browsing-topics=(), interest-cohort=(), payment=(self "https://checkout.razorpay.com" "https://api.razorpay.com")',
           },
           {
             key: 'Content-Security-Policy',
             value: `
               default-src 'self';
-              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://checkout.razorpay.com;
-              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+              script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
+              style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
               img-src 'self' data: https: blob: https://images.unsplash.com https://*.supabase.co https://img.youtube.com https://i.ytimg.com;
-              font-src 'self' data: https://fonts.gstatic.com;
-              connect-src 'self' https://*.supabase.co https://*.vercel.app https://vercel.live https://api.razorpay.com https://generativelanguage.googleapis.com https://api.openai.com https://www.youtube.com https://www.youtube-nocookie.com;
-              frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://api.razorpay.com;
+              font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net;
+              connect-src 'self' https://*.supabase.co https://*.vercel.app https://vercel.live https://api.razorpay.com https://generativelanguage.googleapis.com https://api.openai.com https://openrouter.ai https://www.youtube.com https://www.youtube-nocookie.com;
+              frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://api.razorpay.com https://checkout.razorpay.com;
               frame-ancestors 'self';
               form-action 'self' https://api.razorpay.com;
               base-uri 'self';
