@@ -191,19 +191,21 @@ export default function PricingPage() {
               </span>
               <button
                 type="button"
+                role="switch"
+                aria-checked={billingPeriod === 'annual'}
                 onClick={() => setBillingPeriod(billingPeriod === 'monthly' ? 'annual' : 'monthly')}
-                className="relative w-14 h-7 rounded-full bg-white/20 p-1 transition-colors border border-white/20 focus:outline-none"
+                className="w-14 h-8 rounded-full bg-white/15 p-1 relative transition-colors focus:outline-none focus:ring-2 focus:ring-[#2563EB]"
               >
                 <motion.div
-                  className="w-5 h-5 rounded-full bg-white shadow-md"
-                  animate={{ x: billingPeriod === 'annual' ? 28 : 0 }}
+                  className="w-6 h-6 rounded-full bg-[#F5C518] shadow-md"
+                  animate={{ x: billingPeriod === 'annual' ? 24 : 0 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                 />
               </button>
               <span className={`text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors ${billingPeriod === 'annual' ? 'text-white' : 'text-white/40'}`}>
                 Annual
                 <span className="px-2 py-0.5 rounded-full bg-[#F5C518]/20 text-[#F5C518] text-[10px] font-mono font-bold">
-                  Save 20%
+                  Save 44%
                 </span>
               </span>
             </div>
@@ -224,8 +226,8 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map((plan, index) => {
             const isAnnual = billingPeriod === 'annual' && plan.id === 'premium'
-            const displayPrice = isAnnual ? '₹119' : `₹${plan.monthlyPrice}`
-            const displayPeriod = isAnnual ? '/ MO (BILLED ANNUALLY)' : plan.period
+            const displayPrice = isAnnual ? '₹83' : `₹${plan.monthlyPrice}`
+            const displayPeriod = isAnnual ? '/ MO (BILLED ₹999 ANNUALLY)' : plan.period
 
             return (
               <motion.div
@@ -258,12 +260,12 @@ export default function PricingPage() {
                   <div className="flex items-center gap-3 mb-4">
                     <div 
                       className="w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-sm"
-                      style={{ backgroundColor: `${plan.color}15` }}
+                      style={{ backgroundColor: `${plan.color}15`, color: plan.color }}
                     >
-                      <plan.icon className="h-6 w-6" style={{ color: plan.color }} />
+                      <plan.icon className="h-6 w-6" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-[#111827]">{plan.name}</h3>
+                      <h3 className="text-xl font-extrabold text-[#111827]">{plan.name}</h3>
                       <p className="text-xs text-[#64748B] mt-0.5">{plan.tagline}</p>
                     </div>
                   </div>
@@ -277,7 +279,7 @@ export default function PricingPage() {
                     
                     {isAnnual && (
                       <div className="text-xs text-[#16A34A] font-semibold mt-1 font-mono">
-                        ✓ Save ₹360/year vs monthly billing
+                        ✓ Save ₹789/year vs monthly billing (44% Annual Discount)
                       </div>
                     )}
                     {plan.id === 'institutional' && (
@@ -285,9 +287,9 @@ export default function PricingPage() {
                         Minimum 30 seats (₹2,970/mo commit)
                       </div>
                     )}
-                    {plan.id === 'premium' && (
+                    {plan.id === 'premium' && !isAnnual && (
                       <div className="text-xs text-[#16A34A] font-semibold mt-1 font-mono">
-                        ≈ ₹4 to ₹5 / day &middot; Cancel anytime
+                        ≈ ₹4.90 / day &middot; Cancel anytime
                       </div>
                     )}
                   </div>
@@ -308,10 +310,10 @@ export default function PricingPage() {
                   {plan.id === 'premium' ? (
                     <div>
                       <RazorpayCheckout 
-                        buttonText={isAnnual ? 'Start Annual Premium — ₹1,430/yr' : 'Start Premium — ₹149/mo'}
+                        buttonText={isAnnual ? 'Start Annual Pro — ₹999/yr' : 'Start Premium — ₹149/mo'}
                         buttonClass="w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-md transition-all text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2"
                         planName={plan.name}
-                        amount={isAnnual ? 1430 : 149}
+                        amount={isAnnual ? 999 : 149}
                         isAnnual={isAnnual}
                       />
                       <div className="mt-3 text-center text-[11px] text-[#94A3B8] font-mono flex items-center justify-center gap-1">
