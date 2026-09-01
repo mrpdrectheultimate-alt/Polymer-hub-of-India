@@ -139,12 +139,9 @@ export default function Navbar() {
       >
         <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
 
-          {/* Logo — full on sm+, icon on mobile */}
-          <div className="hidden sm:flex items-center shrink-0">
+          {/* Logo — full horizontal logo for maximum brand prominence */}
+          <div className="flex items-center shrink-0">
             <Logo variant="full" theme="light" />
-          </div>
-          <div className="sm:hidden flex items-center shrink-0">
-            <Logo variant="icon" />
           </div>
 
           {/* Desktop nav */}

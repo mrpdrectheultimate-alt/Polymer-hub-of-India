@@ -18,9 +18,9 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
         <Image
           src="/logo-icon.jpg"
           alt="Polymer Hub of India"
-          width={120}
-          height={90}
-          className="h-11 sm:h-12 w-auto object-contain shrink-0 mix-blend-multiply"
+          width={416}
+          height={400}
+          className="h-10 sm:h-12 w-auto object-contain shrink-0 mix-blend-multiply"
           priority
           unoptimized
         />
@@ -28,7 +28,7 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     )
   }
 
-  // Full logo — use original official horizontal logo
+  // Full logo — use original official trimmed horizontal logo
   const src = theme === 'dark' ? '/logo-white.svg' : '/logo-horizontal.jpg'
 
   return (
@@ -36,9 +36,9 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
       <Image
         src={src}
         alt="Polymer Hub of India"
-        width={420}
-        height={130}
-        className="h-12 sm:h-14 md:h-16 w-auto object-contain shrink-0 mix-blend-multiply"
+        width={894}
+        height={268}
+        className="h-9.5 sm:h-12 md:h-13 w-auto object-contain shrink-0 mix-blend-multiply"
         priority
         unoptimized
       />
