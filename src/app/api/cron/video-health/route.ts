@@ -1,12 +1,37 @@
 import { NextResponse } from 'next/server';
+import { createClient as createServerClient } from '@/lib/supabase/server';
 import { createClient } from '@supabase/supabase-js';
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
-  const secret = process.env.CRON_SECRET || process.env.NEXT_PUBLIC_CRON_SECRET;
+  const secret = process.env.CRON_SECRET;
 
-  // Verify Bearer token authorization header
-  if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
+  let isAuthorized = false;
+
+  // 1. Check Bearer token authorization (for Vercel Cron)
+  if (secret && authHeader === `Bearer ${secret}`) {
+    isAuthorized = true;
+  } else {
+    // 2. Check authenticated admin session
+    try {
+      const userClient = createServerClient();
+      const { data: { session } } = await userClient.auth.getSession();
+      if (session) {
+        const { data: profile } = await userClient
+          .from('profiles')
+          .select('is_admin')
+          .eq('id', session.user.id)
+          .single();
+        if (profile?.is_admin) {
+          isAuthorized = true;
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  if (!isAuthorized) {
     return new Response('Unauthorized', { status: 401 });
   }
 

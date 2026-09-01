@@ -149,11 +149,7 @@ export default function AdminVideosPage() {
   const triggerHealthCheck = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/cron/video-health', {
-        headers: {
-          'Authorization': `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'cron_secret_placeholder'}`
-        }
-      })
+      const res = await fetch('/api/cron/video-health')
       if (res.ok) {
         const stats = await res.json()
         toast({
