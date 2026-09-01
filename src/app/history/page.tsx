@@ -191,15 +191,15 @@ export default function HistoryPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="max-w-3xl"
           >
             {/* Badge */}
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
-              animate={isLoaded ? { scale: 1, opacity: 1 } : {}}
+              animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3 }}
               className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#C9A84C]/20 border border-[#C9A84C]/40 text-[#F5C518] text-xs font-mono font-bold uppercase tracking-wider mb-6 shadow-sm"
             >
@@ -221,8 +221,8 @@ export default function HistoryPage() {
 
             {/* Stats Bar */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+              initial={{ opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="flex flex-wrap gap-4 mt-8"
             >
@@ -249,8 +249,8 @@ export default function HistoryPage() {
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20 pb-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="bg-white/95 backdrop-blur-md rounded-3xl border border-[#C9A84C]/30 shadow-[0_8px_40px_rgba(0,0,0,0.06)] p-6 md:p-8 relative"
         >
@@ -343,7 +343,7 @@ export default function HistoryPage() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={era.id}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 1, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
                 transition={{ duration: 0.3 }}
@@ -432,7 +432,7 @@ export default function HistoryPage() {
 
         <div className="max-w-4xl mx-auto px-4 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}

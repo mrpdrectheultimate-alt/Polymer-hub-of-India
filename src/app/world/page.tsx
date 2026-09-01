@@ -224,8 +224,8 @@ export default function WorldAtlasPage() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+            initial={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
@@ -252,8 +252,8 @@ export default function WorldAtlasPage() {
                 return (
                   <motion.div
                     key={stat.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+                    initial={{ opacity: 1, y: 0 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 * index }}
                     className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/15 shadow-sm"
                   >
@@ -296,7 +296,7 @@ export default function WorldAtlasPage() {
       {/* ============================================================ */}
       <section id="industries" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 1, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
@@ -317,7 +317,7 @@ export default function WorldAtlasPage() {
                 key={industry.id}
                 type="button"
                 onClick={() => setSelectedIndustry(industry)}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 1, y: 0 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.04 }}
                 viewport={{ once: true }}
@@ -373,7 +373,7 @@ export default function WorldAtlasPage() {
           <AnimatePresence mode="wait">
             <motion.div
               key={selectedIndustry.id}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
@@ -486,7 +486,7 @@ export default function WorldAtlasPage() {
       <section className="bg-[#0B172A] py-14 border-t border-[#1A2E4A] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}

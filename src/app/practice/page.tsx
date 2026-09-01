@@ -338,7 +338,7 @@ export default function PracticePage() {
             
             {/* Left Column: Mission Narrative & Launch Actions */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="lg:col-span-6 space-y-5"
@@ -410,7 +410,7 @@ export default function PracticePage() {
 
             {/* Right Column: Interactive Live Question Card Experience */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               className="lg:col-span-6"
@@ -523,7 +523,7 @@ export default function PracticePage() {
       {/* ============================================================ */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.2 }}
           className="bg-white rounded-3xl border border-[#E2E8F0] shadow-[0_8px_30px_rgba(0,0,0,0.06)] p-4 sm:p-5"
@@ -767,7 +767,7 @@ export default function PracticePage() {
                 {/* Deep Result Explanations & 4 Contextual AI Action Pills */}
                 {currentAnswerState.revealed && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 1, y: 0 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`p-5 rounded-2xl border-2 space-y-4 ${
                       currentAnswerState.correct ? 'bg-emerald-50/70 border-emerald-300' : 'bg-rose-50/70 border-rose-300'
@@ -974,7 +974,7 @@ export default function PracticePage() {
       <section className="bg-gradient-to-r from-[#0B172A] via-[#0A2E1A] to-[#0B172A] py-14 border-t border-white/10 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 0 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}

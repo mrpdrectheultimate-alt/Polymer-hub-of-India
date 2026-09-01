@@ -160,8 +160,8 @@ function LoginContent() {
 
       {/* ===== MAIN AUTH CARD ===== */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={isLoaded ? { opacity: 1, y: 0 } : {}}
+        initial={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="w-full max-w-[460px] relative z-10"
       >

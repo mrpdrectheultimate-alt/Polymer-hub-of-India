@@ -582,7 +582,7 @@ export default function ComparatorPage() {
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="max-w-3xl space-y-3"

@@ -235,7 +235,7 @@ export default function CalculatorsPage() {
             
             {/* Mission Narrative */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="max-w-3xl space-y-3"
@@ -260,7 +260,7 @@ export default function CalculatorsPage() {
 
             {/* Global Unit System Switcher */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 1, y: 0 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
               className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/15 shrink-0"
@@ -422,7 +422,7 @@ export default function CalculatorsPage() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeCalc}
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 1, y: 0 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
