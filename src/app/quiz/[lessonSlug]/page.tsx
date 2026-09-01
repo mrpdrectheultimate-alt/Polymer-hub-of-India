@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { CheckCircle, XCircle, ArrowRight, RotateCcw, Trophy, Brain, ArrowLeft } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -136,7 +136,9 @@ function ResultScreen({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function QuizPage({ params }: { params: { lessonSlug: string } }) {
+export default function QuizPage({ params }: { params?: { lessonSlug: string } }) {
+  const routeParams = useParams()
+  const lessonSlug = (routeParams?.lessonSlug as string) || params?.lessonSlug || ''
   const supabase = createClient()
   const router = useRouter()
 
@@ -163,7 +165,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
       const { data: lessonData } = await supabase
         .from('lessons')
         .select('id, title, slug, order_index, subject_id, subjects(name, slug)')
-        .eq('slug', params.lessonSlug)
+        .eq('slug', lessonSlug)
         .single()
 
       if (!lessonData) { setError('Lesson not found'); setLoading(false); return }
@@ -200,7 +202,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
       setLoading(false)
     }
     load()
-  }, [params.lessonSlug, router, supabase])
+  }, [lessonSlug, router, supabase])
 
   const handleSelect = (questionId: string, optionIdx: number) => {
     if (submitted) return
@@ -250,7 +252,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             action: correct === questions.length ? 'quiz_perfect' : 'quiz_pass',
-            reference: params.lessonSlug,
+            reference: lessonSlug,
             quizScore: scorePct
           })
         })
@@ -316,7 +318,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
       <div className="min-h-screen bg-canvas flex items-center justify-center px-6">
         <div className="border-4 border-ink p-8 shadow-hard max-w-md w-full text-center">
           <p className="font-display text-xl font-black text-ink mb-3">{error}</p>
-          <Link href={`/lessons/${params.lessonSlug}`} className="cn-btn-black text-sm">
+          <Link href={`/lessons/${lessonSlug}`} className="cn-btn-black text-sm">
             <ArrowLeft className="w-4 h-4" /> Back to Lesson
           </Link>
         </div>
@@ -331,7 +333,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
       {/* Header */}
       <div className="border-b-4 border-ink bg-ink px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href={`/lessons/${params.lessonSlug}`} className="border-2 border-white/30 text-white p-1.5 hover:bg-white/10 transition-colors">
+          <Link href={`/lessons/${lessonSlug}`} className="border-2 border-white/30 text-white p-1.5 hover:bg-white/10 transition-colors">
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
@@ -456,7 +458,7 @@ export default function QuizPage({ params }: { params: { lessonSlug: string } })
               passed={passed}
               passingScore={quiz?.passing_score ?? 70}
               nextLesson={nextLesson}
-              lessonSlug={params.lessonSlug}
+              lessonSlug={lessonSlug}
               onRetry={handleRetry}
             />
 

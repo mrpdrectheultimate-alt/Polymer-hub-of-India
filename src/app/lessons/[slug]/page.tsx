@@ -51,7 +51,8 @@ const DOMAIN: Record<string, { color: string; bg: string; label: string; tag: st
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default async function LessonPage({ params }: { params: { slug: string } }) {
+export default async function LessonPage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await Promise.resolve(params)
   const supabase = createClient()
 
   // Auth
@@ -61,7 +62,7 @@ export default async function LessonPage({ params }: { params: { slug: string } 
   const { data: lesson } = await supabase
     .from('lessons')
     .select('*, subjects(name, slug)')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single()
 
   if (!lesson) notFound()
@@ -102,13 +103,14 @@ export default async function LessonPage({ params }: { params: { slug: string } 
       }, { onConflict: 'user_id,lesson_id' })
 
       try {
-        const host = headers().get('host') || 'localhost:3000'
+        const headerStore = await headers()
+        const host = headerStore.get('host') || 'localhost:3000'
         const protocol = host.includes('localhost') ? 'http' : 'https'
         await fetch(`${protocol}://${host}/api/xp/award`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'cookie': headers().get('cookie') || ''
+            'cookie': headerStore.get('cookie') || ''
           },
           body: JSON.stringify({ action: 'lesson_complete', reference: lesson.slug })
         })
@@ -458,12 +460,13 @@ export default async function LessonPage({ params }: { params: { slug: string } 
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await Promise.resolve(params)
   const supabase = createClient()
   const { data: lesson } = await supabase
     .from('lessons')
     .select('title, summary, subjects(name)')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single()
 
   if (!lesson) return { title: 'Lesson Not Found' }

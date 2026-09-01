@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, useParams } from 'next/navigation'
 import { 
   ArrowLeft,
   Factory, 
@@ -783,8 +783,10 @@ const INDUSTRY_DATA: Record<string, {
   }
 }
 
-export default function IndustryDetailPage({ params }: { params: { industry: string } }) {
-  const industry = INDUSTRY_DATA[params.industry.toLowerCase()]
+export default function IndustryDetailPage({ params }: { params?: { industry: string } }) {
+  const routeParams = useParams()
+  const industryKey = ((routeParams?.industry as string) || params?.industry || '').toLowerCase()
+  const industry = INDUSTRY_DATA[industryKey]
   const [selectedTab, setSelectedTab] = useState<'overview' | 'materials' | 'processes' | 'standards' | 'troubleshooting' | 'curriculum' | 'careers'>('overview')
 
   if (!industry) {

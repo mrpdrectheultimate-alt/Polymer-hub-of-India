@@ -243,15 +243,16 @@ const DEFAULT_CONFIG: DomainConfig = {
 export default async function SubjectDetailPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }> | { slug: string }
 }) {
+  const resolvedParams = await Promise.resolve(params)
   const supabase = createClient()
 
   // Fetch subject
   const { data: subject } = await supabase
     .from('subjects')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single()
 
   if (!subject) notFound()
@@ -275,7 +276,7 @@ export default async function SubjectDetailPage({
     isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
   }
 
-  const domain = DOMAIN_DATA[params.slug] ?? DEFAULT_CONFIG
+  const domain = DOMAIN_DATA[resolvedParams.slug] ?? DEFAULT_CONFIG
 
   // Fix Numbering Bug & Reorder Pedagogically
   // Lessons get sequential 1-indexed display order and tiered categorisation
@@ -345,7 +346,7 @@ export default async function SubjectDetailPage({
             <WhatsAppShare
               type="subject"
               title={subject.name}
-              url={`https://polymer-hub-six.vercel.app/subjects/${params.slug}`}
+              url={`https://polymer-hub-six.vercel.app/subjects/${resolvedParams.slug}`}
               compact={true}
             />
           </div>
@@ -468,13 +469,13 @@ export default async function SubjectDetailPage({
                 {/* Grouped Secondary Action Links */}
                 <div className="grid grid-cols-2 gap-2 text-center text-xs font-mono">
                   <Link
-                    href={`/subjects/${params.slug}/practice`}
+                    href={`/subjects/${resolvedParams.slug}/practice`}
                     className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-white transition-colors border border-white/10 flex items-center justify-center gap-1.5 font-bold"
                   >
                     <BookOpen className="h-3.5 w-3.5 text-blue-400" /> Practice Quiz
                   </Link>
                   <Link
-                    href={`/subjects/${params.slug}/forum`}
+                    href={`/subjects/${resolvedParams.slug}/forum`}
                     className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-white transition-colors border border-white/10 flex items-center justify-center gap-1.5 font-bold"
                   >
                     <MessageSquare className="h-3.5 w-3.5 text-amber-400" /> Student Forum
@@ -544,7 +545,7 @@ export default async function SubjectDetailPage({
 
             <div className="pt-2">
               <Link
-                href={`/subjects/${params.slug}/practice`}
+                href={`/subjects/${resolvedParams.slug}/practice`}
                 className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-blue-700 hover:text-blue-900 transition-colors"
               >
                 Take 5-Minute Track Diagnostic Quiz &rarr;
@@ -842,12 +843,13 @@ function LessonCard({
 
 // ─── Metadata Generator ─────────────────────────────────────────────────────
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await Promise.resolve(params)
   const supabase = createClient()
   const { data: subject } = await supabase
     .from('subjects')
     .select('name, description')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single()
 
   if (!subject) return { title: 'Subject Not Found' }

@@ -6,13 +6,14 @@ import { GraduationCap, ArrowLeft, Landmark, DollarSign, Clock, ListChecks, Chec
 // Render dynamically to show fresh database changes
 export const dynamic = 'force-dynamic'
 
-export default async function ProgramDetailPage({ params }: { params: { slug: string } }) {
+export default async function ProgramDetailPage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
+  const resolvedParams = await Promise.resolve(params)
   const supabase = createClient()
 
   const { data: program } = await supabase
     .from('education_programs')
     .select('*')
-    .eq('slug', params.slug)
+    .eq('slug', resolvedParams.slug)
     .single()
 
   if (!program) {

@@ -26,9 +26,8 @@ const nextConfig = {
     ],
   },
 
-  // Compression, Minification & Compiler
+  // Compression & Compiler
   compress: true,
-  swcMinify: true,
   poweredByHeader: false,
   reactStrictMode: true,
   compiler: {
