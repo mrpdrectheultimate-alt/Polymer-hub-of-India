@@ -2,9 +2,23 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || ''
+  
+  // 1. Enforce 301 Canonical Domain Redirect (www -> non-www)
+  if (host.startsWith('www.polymerhubofindia.com')) {
+    const targetUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://polymerhubofindia.com')
+    return NextResponse.redirect(targetUrl, { status: 301 })
+  }
+
+  // 2. Protect against Header Spoofing & Middleware Bypass (CVE-2025-29927 defense)
+  const requestHeaders = new Headers(request.headers)
+  if (requestHeaders.has('x-middleware-subrequest')) {
+    requestHeaders.delete('x-middleware-subrequest')
+  }
+
   let response = NextResponse.next({
     request: {
-      headers: request.headers,
+      headers: requestHeaders,
     },
   })
 
@@ -24,7 +38,7 @@ export async function middleware(request: NextRequest) {
           })
           response = NextResponse.next({
             request: {
-              headers: request.headers,
+              headers: requestHeaders,
             },
           })
           response.cookies.set({
@@ -41,7 +55,7 @@ export async function middleware(request: NextRequest) {
           })
           response = NextResponse.next({
             request: {
-              headers: request.headers,
+              headers: requestHeaders,
             },
           })
           response.cookies.set({
@@ -79,15 +93,17 @@ export async function middleware(request: NextRequest) {
   response.headers.set('Cross-Origin-Resource-Policy', 'cross-origin')
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), browsing-topics=(), interest-cohort=(), payment=(self "https://checkout.razorpay.com" "https://api.razorpay.com")')
   
+  // Strict CSP: Zero 'unsafe-inline' or 'unsafe-eval' in script-src
   const csp = `
     default-src 'self';
-    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
+    script-src 'self' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
     img-src 'self' data: https: blob: https://images.unsplash.com https://*.supabase.co https://img.youtube.com https://i.ytimg.com;
     font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net;
     connect-src 'self' https://*.supabase.co https://*.vercel.app https://vercel.live https://api.razorpay.com https://generativelanguage.googleapis.com https://api.openai.com https://openrouter.ai https://www.youtube.com https://www.youtube-nocookie.com;
     frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://api.razorpay.com https://checkout.razorpay.com;
     frame-ancestors 'self';
+    object-src 'none';
     form-action 'self' https://api.razorpay.com;
     base-uri 'self';
     upgrade-insecure-requests;
