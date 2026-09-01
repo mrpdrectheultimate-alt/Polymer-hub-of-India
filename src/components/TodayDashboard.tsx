@@ -45,14 +45,14 @@ const CATEGORY_STYLES: Record<string, { badge: string; border: string }> = {
 }
 
 const DEFAULT_IMAGES: Record<string, string> = {
-  Research:       'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&q=80',
-  Market:         'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&q=80',
-  India:          'https://images.unsplash.com/photo-1581093458791-9d58e74010a8?w=800&q=80',
-  Sustainability: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&q=80',
-  Policy:         'https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=800&q=80',
-  Innovation:     'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=800&q=80',
-  Recycling:      'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&q=80',
-  Bioplastics:    'https://images.unsplash.com/photo-1569427830807-c1429cbabed9?w=800&q=80',
+  Research:       'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&auto=format&fit=crop&q=80',
+  Market:         'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80',
+  India:          'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=80',
+  Sustainability: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&auto=format&fit=crop&q=80',
+  Policy:         'https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=800&auto=format&fit=crop&q=80',
+  Innovation:     'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
+  Recycling:      'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&auto=format&fit=crop&q=80',
+  Bioplastics:    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80',
 }
 
 export interface PolymerPriceIndex {
@@ -247,10 +247,17 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                   <div className="grid grid-cols-1 md:grid-cols-12">
                     
                     {/* Visual 100% Unsplash Image */}
-                    <div className="md:col-span-5 relative min-h-[240px] md:min-h-full bg-slate-950 overflow-hidden">
+                    <div className="md:col-span-5 relative min-h-[240px] md:min-h-full bg-slate-900 overflow-hidden">
                       <img
                         src={featured.image_url || DEFAULT_IMAGES[featured.category] || DEFAULT_IMAGES.Research}
                         alt={featured.headline}
+                        referrerPolicy="no-referrer"
+                        loading="eager"
+                        onError={(e) => {
+                          const target = e.currentTarget
+                          const fallback = DEFAULT_IMAGES[featured.category] || DEFAULT_IMAGES.Research
+                          if (target.src !== fallback) target.src = fallback
+                        }}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-slate-950/20" />
@@ -332,10 +339,17 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                     >
                       <div>
                         {/* Image */}
-                        <div className="relative h-44 bg-slate-950 overflow-hidden border-b-2 border-slate-200">
+                        <div className="relative h-44 bg-slate-900 overflow-hidden border-b-2 border-slate-200">
                           <img
                             src={item.image_url || DEFAULT_IMAGES[item.category] || DEFAULT_IMAGES.Research}
                             alt={item.headline}
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            onError={(e) => {
+                              const target = e.currentTarget
+                              const fallback = DEFAULT_IMAGES[item.category] || DEFAULT_IMAGES.Research
+                              if (target.src !== fallback) target.src = fallback
+                            }}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
