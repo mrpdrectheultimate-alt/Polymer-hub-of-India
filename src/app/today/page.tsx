@@ -88,7 +88,7 @@ export default async function TodayPage() {
   }).toUpperCase()
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20 overflow-x-hidden">
       <LiveTicker />
 
       {/* ── Hero Header: Midnight Navy with Indian Tricolor Accent ── */}
