@@ -1,15 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import OpenAI from 'openai'
-
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
 
 type LessonChunk = {
   lesson_title: string
   lesson_slug: string
   content: string
 }
+
+const FALLBACK_MODELS = [
+  'google/gemini-2.5-flash',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'deepseek/deepseek-chat',
+  'google/gemini-2.0-flash-lite-001',
+]
 
 export async function POST(req: NextRequest) {
   try {
@@ -76,18 +80,18 @@ export async function POST(req: NextRequest) {
     let lessonSources: { title: string; slug: string }[] = []
 
     if (lessonId) {
-      // Determine if UUID or slug
-      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(lessonId)
-      const query = supabase
-        .from('lessons')
-        .select('title, slug, why_matters, core_concept, deep_dive, formulas, real_world, common_mistakes, key_takeaways')
+      try {
+        const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(lessonId)
+        const query = supabase
+          .from('lessons')
+          .select('title, slug, why_matters, core_concept, deep_dive, formulas, real_world, common_mistakes, key_takeaways')
 
-      const { data: lesson } = isUuid
-        ? await query.eq('id', lessonId).single()
-        : await query.eq('slug', lessonId).single()
+        const { data: lesson } = isUuid
+          ? await query.eq('id', lessonId).single()
+          : await query.eq('slug', lessonId).single()
 
-      if (lesson) {
-        lessonContext = `[From active lesson: "${lesson.title}"]
+        if (lesson) {
+          lessonContext = `[From active lesson: "${lesson.title}"]
 Why This Matters: ${lesson.why_matters || ''}
 Core Concept: ${lesson.core_concept || ''}
 Deep Dive: ${lesson.deep_dive || ''}
@@ -95,81 +99,78 @@ Formulas: ${lesson.formulas || ''}
 Real-World Application: ${lesson.real_world || ''}
 Common Student Mistakes: ${lesson.common_mistakes || ''}
 Key Takeaways: ${lesson.key_takeaways || ''}`
-        lessonSources = [{ title: lesson.title, slug: lesson.slug }]
+          lessonSources = [{ title: lesson.title, slug: lesson.slug }]
+        }
+      } catch (err) {
+        console.warn('Lesson context fetch warning:', err)
       }
     }
 
-    // ── Generate query embedding ─────────────────────────────────────────────
-    let queryEmbedding: number[] = []
-
-    if (process.env.GEMINI_API_KEY && genAI) {
-      const embeddingModel = genAI.getGenerativeModel({ model: 'gemini-embedding-001' })
-      const embeddingResult = await embeddingModel.embedContent(message)
-      queryEmbedding = embeddingResult.embedding.values
-    } else if (process.env.OPENROUTER_API_KEY) {
-      const openai = new OpenAI({
-        apiKey: process.env.OPENROUTER_API_KEY,
-        baseURL: 'https://openrouter.ai/api/v1',
-      })
-      const response = await openai.embeddings.create({
-        model: 'openai/text-embedding-3-small',
-        input: message,
-      })
-      queryEmbedding = response.data[0].embedding
-    } else {
-      return NextResponse.json({ error: 'AI integration keys not configured.' }, { status: 500 })
-    }
-
-    // ── Vector similarity search ─────────────────────────────────────────────
-    const { data: chunks } = await supabase.rpc('match_lesson_chunks', {
-      query_embedding: queryEmbedding,
-      match_threshold: 0.65,
-      match_count: 5,
-    })
-
-    // ── Build context from retrieved chunks ───────────────────────────────────
-    let context = chunks && chunks.length > 0
-      ? (chunks as LessonChunk[]).map((c) => `[From lesson: "${c.lesson_title}"]\n${c.content}`).join('\n\n---\n\n')
-      : ''
+    // ── Context and sources retrieval ─────────────────────────────────────────
+    let context = ''
+    let sources: { title: string; slug: string }[] = []
 
     if (lessonContext) {
-      context = `${lessonContext}\n\n---\n\n${context}`
+      context = lessonContext
+      sources = lessonSources
     }
 
-    let sources = chunks && chunks.length > 0
-      ? Array.from(new Map((chunks as LessonChunk[]).map((c) => [c.lesson_slug, { title: c.lesson_title, slug: c.lesson_slug }])).values()).slice(0, 3)
-      : []
+    // Optional vector search (gracefully fails if RPC or keys unavailable)
+    if (process.env.OPENROUTER_API_KEY) {
+      try {
+        const openai = new OpenAI({
+          apiKey: process.env.OPENROUTER_API_KEY,
+          baseURL: 'https://openrouter.ai/api/v1',
+        })
+        const embRes = await openai.embeddings.create({
+          model: 'openai/text-embedding-3-small',
+          input: message,
+        }).catch(() => null)
 
-    if (lessonSources.length > 0) {
-      const existing = new Set(sources.map(s => s.slug))
-      lessonSources.forEach(s => {
-        if (!existing.has(s.slug)) {
-          sources = [s, ...sources]
+        if (embRes?.data?.[0]?.embedding) {
+          try {
+            const { data: chunks } = await supabase.rpc('match_lesson_chunks', {
+              query_embedding: embRes.data[0].embedding,
+              match_threshold: 0.65,
+              match_count: 4,
+            })
+
+            if (chunks && chunks.length > 0) {
+              const chunkText = (chunks as LessonChunk[])
+                .map((c) => `[From lesson: "${c.lesson_title}"]\n${c.content}`)
+                .join('\n\n---\n\n')
+              context = context ? `${context}\n\n---\n\n${chunkText}` : chunkText
+
+              const retrievedSources = Array.from(
+                new Map((chunks as LessonChunk[]).map((c) => [c.lesson_slug, { title: c.lesson_title, slug: c.lesson_slug }])).values()
+              ).slice(0, 3)
+
+              const existingSlugs = new Set(sources.map(s => s.slug))
+              retrievedSources.forEach(s => {
+                if (!existingSlugs.has(s.slug)) sources.push(s)
+              })
+            }
+          } catch (rpcErr) {
+            console.warn('RPC match chunks skipped:', rpcErr)
+          }
         }
-      })
+      } catch (embErr) {
+        console.warn('Vector embedding skipped/failed:', embErr)
+      }
     }
 
     // ── System instruction ────────────────────────────────────────────────────
-    const systemInstruction = `You are the PolymerHub AI Tutor — an expert polymer engineering educator for Indian B.Tech PPE (Plastic Polymer Engineering) students.
+    const systemInstruction = `You are PolymerHub AI Copilot — India's premier technical AI specialist for Plastic & Polymer Engineering.
 
-Your knowledge is grounded in PolymerHub's curriculum covering: Polymer Chemistry, Polymer Processing, Mould Design, Polymer Testing, Rubber Technology, Recycling Technology, Sustainable Plastics & Bioplastics, Polymer Composites, Entrepreneurship in Plastics, and Medical Plastics & Biomaterials.
+Your expertise spans: Polymer Chemistry, Injection Molding & Extrusion, Mould Design, ASTM/ISO Testing, Rubber Technology, Mechanical & Chemical Recycling, Sustainable Bioplastics, Additives Compounding, and Indian Petrochemical Industry benchmarks (Reliance, Supreme, GAIL, CIPET, IOCL).
 
 CORE RULES:
-1. Always answer from the lesson context provided when relevant
-2. Connect theory to Indian industry examples (Reliance, Supreme Industries, MRF, CIPET, etc.)
-3. Use precise technical terms but explain them clearly
-4. When context is insufficient, say so honestly and answer from general polymer knowledge
-5. Keep answers focused and educational — you are a tutor, not a chatbot
-6. Remember the conversation history and build on previous questions naturally
-7. If a student asks a follow-up, connect it explicitly to what was discussed before
+1. Provide accurate, clear, and highly practical engineering answers.
+2. If context is provided, ground your answer in it.
+3. Connect theory to Indian industrial applications and plant standards where relevant.
+4. Keep the tone professional, structured, and educational.
 
-ANSWER FORMAT:
-- Lead with the direct answer (1-2 sentences)
-- Expand with explanation (3-5 sentences)
-- Include a practical example or Indian industry connection where relevant
-- Keep total response under 250 words unless the question genuinely requires more depth
-
-${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific lesson content was retrieved for this query — answer from general polymer engineering knowledge.'}`
+${context ? `\nRELEVANT CURRICULUM CONTEXT:\n${context}` : ''}`
 
     let answer = ''
 
@@ -178,7 +179,7 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
         apiKey: process.env.OPENROUTER_API_KEY,
         baseURL: 'https://openrouter.ai/api/v1',
         defaultHeaders: {
-          'HTTP-Referer': 'https://polymer-hub-six.vercel.app',
+          'HTTP-Referer': 'https://polymerhubofindia.com',
           'X-Title': 'Polymer Hub of India',
         }
       })
@@ -192,46 +193,44 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
         { role: 'user', content: message }
       ]
 
-      const response = await openai.chat.completions.create({
-        model: 'google/gemini-2.5-flash',
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        messages: openRouterMessages as any,
-        temperature: 0.3,
-        max_tokens: 1024,
-      })
+      // Try fallback models in order
+      for (const model of FALLBACK_MODELS) {
+        try {
+          const response = await openai.chat.completions.create({
+            model,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            messages: openRouterMessages as any,
+            temperature: 0.3,
+            max_tokens: 1024,
+          })
 
-      answer = response.choices[0].message.content || ''
-    } else if (process.env.GEMINI_API_KEY && genAI) {
-      // ── Build conversation history for Gemini ────────────────────────────────
-      const conversationHistory = history.map((msg: { role: string; content: string }) => ({
-        role: msg.role === 'user' ? 'user' : 'model',
-        parts: [{ text: msg.content }],
-      }))
+          const content = response.choices?.[0]?.message?.content
+          if (content && content.trim().length > 0) {
+            answer = content
+            break
+          }
+        } catch (modelErr) {
+          console.warn(`OpenRouter model ${model} failed, trying next fallback:`, modelErr)
+        }
+      }
+    }
 
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-2.5-flash',
-        systemInstruction,
-      })
-
-      const chat = model.startChat({
-        history: conversationHistory,
-        generationConfig: {
-          maxOutputTokens: 1024,
-          temperature: 0.3,
-        },
-      })
-
-      const result = await chat.sendMessage(message)
-      answer = result.response.text()
-    } else {
-      return NextResponse.json({ error: 'AI configuration is missing.' }, { status: 500 })
+    if (!answer) {
+      return NextResponse.json(
+        { error: 'AI Copilot is momentarily calibrating. Please try asking again in a few seconds.' },
+        { status: 503 }
+      )
     }
 
     // ── Update query count ────────────────────────────────────────────────────
     if (session && !isPremium) {
-      await supabase.from('profiles')
-        .update({ ai_queries_today: userQueriesToday + 1 })
-        .eq('id', session.user.id)
+      try {
+        await supabase.from('profiles')
+          .update({ ai_queries_today: userQueriesToday + 1 })
+          .eq('id', session.user.id)
+      } catch (profileErr) {
+        console.warn('Profile query count update skipped:', profileErr)
+      }
     }
 
     const res = NextResponse.json({
@@ -244,7 +243,7 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
 
     if (isGuest) {
       res.cookies.set('ph_guest_ai_count', String(guestQueriesUsed + 1), {
-        maxAge: 60 * 60 * 24 * 7, // 7 days
+        maxAge: 60 * 60 * 24 * 7,
         path: '/',
         httpOnly: true,
         sameSite: 'lax',
@@ -255,14 +254,6 @@ ${context ? `\nRELEVANT LESSON CONTENT:\n${context}` : '\nNote: No specific less
 
   } catch (error) {
     console.error('Chat API error:', error)
-
-    if (error && typeof error === 'object' && 'status' in error && (error as { status?: number }).status === 429) {
-      return NextResponse.json(
-        { error: 'AI service temporarily busy. Please try again in a moment.' },
-        { status: 429 }
-      )
-    }
-
     return NextResponse.json(
       { error: 'Something went wrong. Please try again.' },
       { status: 500 }
