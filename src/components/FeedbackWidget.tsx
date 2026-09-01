@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { 
   MessageSquarePlus, 
@@ -59,6 +60,7 @@ const TYPES: { id: FeedbackType; label: string; icon: React.ElementType; emoji: 
 const RATING_LABELS = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent']
 
 export default function FeedbackWidget() {
+  const pathname = usePathname()
   const supabase = createClient()
   const [open, setOpen] = useState(false)
   const [type, setType] = useState<FeedbackType>('general')
@@ -70,6 +72,9 @@ export default function FeedbackWidget() {
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
   const [userInfo, setUserInfo] = useState<{ id: string; email: string; name: string } | null>(null)
+
+  const isAiTutorPage = pathname === '/ai-tutor'
+  const isLessonPage = pathname.startsWith('/lessons/')
 
   useEffect(() => {
     const init = async () => {
@@ -144,7 +149,13 @@ export default function FeedbackWidget() {
       {!open && (
         <button
           onClick={handleOpen}
-          className="fixed bottom-6 right-6 z-40 bg-[#2563EB] hover:bg-[#1D4ED8] text-white flex items-center gap-2 px-4 py-3 rounded-full font-mono text-xs font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+          className={`fixed z-40 bg-[#2563EB] hover:bg-[#1D4ED8] text-white items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 rounded-full font-mono text-xs font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${
+            isAiTutorPage 
+              ? 'hidden md:flex bottom-6 right-6' 
+              : isLessonPage
+              ? 'flex bottom-4 left-4 sm:bottom-6 sm:left-6'
+              : 'flex bottom-4 right-4 sm:bottom-6 sm:right-6'
+          }`}
         >
           <MessageSquarePlus className="w-4 h-4" />
           <span>Feedback</span>
@@ -153,7 +164,11 @@ export default function FeedbackWidget() {
 
       {/* Modern Feedback Modal */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[calc(100vw-3rem)] sm:w-96 max-h-[85vh] overflow-y-auto bg-white border border-slate-200 rounded-3xl shadow-2xl animate-in slide-in-from-bottom-5 duration-200 font-sans">
+        <div className={`fixed z-50 w-[calc(100vw-2rem)] sm:w-96 max-h-[85vh] overflow-y-auto bg-white border border-slate-200 rounded-3xl shadow-2xl animate-in slide-in-from-bottom-5 duration-200 font-sans ${
+          isLessonPage
+            ? 'bottom-4 left-4 sm:bottom-6 sm:left-6'
+            : 'bottom-4 right-4 sm:bottom-6 sm:right-6'
+        }`}>
 
           {/* Header */}
           <div className="px-5 py-4 flex items-center justify-between bg-[#2563EB] text-white rounded-t-3xl">

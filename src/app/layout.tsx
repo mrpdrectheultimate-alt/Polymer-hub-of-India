@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
@@ -36,6 +36,14 @@ const notoDevanagari = Noto_Sans_Devanagari({
   variable: '--font-hindi',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  themeColor: '#1D4ED8',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
+}
 
 export const metadata: Metadata = {
   ...DEFAULT_METADATA,
