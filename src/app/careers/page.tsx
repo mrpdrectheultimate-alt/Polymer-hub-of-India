@@ -365,7 +365,7 @@ export default function CareersHubPage() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Build Your Career. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
               Shape The Future.
             </span>
           </h1>
@@ -1089,7 +1089,7 @@ export default function CareersHubPage() {
 
           <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
             Need guidance preparing for technical polymer interviews? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
               Ask the AI Career Coach.
             </span>
           </h2>

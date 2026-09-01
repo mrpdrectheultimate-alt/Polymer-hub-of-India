@@ -209,7 +209,7 @@ export default function HistoryPage() {
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.05] tracking-tight">
               The Materials That
-              <span className="block bg-gradient-to-r from-[#C9A84C] via-[#F5C518] to-[#FF9933] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#C9A84C] via-[#F5C518] to-[#FF9933] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                 Remade Human Civilization
               </span>
             </h1>

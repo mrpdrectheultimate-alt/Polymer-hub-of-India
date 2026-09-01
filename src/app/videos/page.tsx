@@ -472,9 +472,9 @@ export default function VideoLibraryPage() {
               🎬 Curated Video Library 3.0
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] pb-1 tracking-tight">
               Learn From
-              <span className="block bg-gradient-to-r from-[#C084FC] via-[#F472B6] to-[#EC4899] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#C084FC] via-[#F472B6] to-[#EC4899] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                 357+ Curated Video Lectures
               </span>
             </h1>
@@ -879,7 +879,7 @@ export default function VideoLibraryPage() {
 
               <div className="p-6 space-y-4">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight">
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-[1.15] pb-1">
                     {selectedVideo.title}
                   </h2>
                   <p className="text-xs font-mono text-slate-500 mt-1">

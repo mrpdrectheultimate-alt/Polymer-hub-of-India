@@ -245,9 +245,9 @@ export default function CalculatorsPage() {
                 ASTM &middot; ISO Verified Engineering Calculators
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] pb-1 tracking-tight">
                 Design With Confidence.
-                <span className="block bg-gradient-to-r from-[#38BDF8] via-[#34D399] to-[#10B981] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#38BDF8] via-[#34D399] to-[#10B981] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                   Engineering Math, Made Transparent.
                 </span>
               </h1>

@@ -624,7 +624,7 @@ Generated via PolymerHub Diagnostic Engine
 
           <h1 className="font-display text-3xl sm:text-5xl font-black leading-tight tracking-tight uppercase">
             Diagnose &amp; Fix <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#FFFFFF] to-[#38BDF8]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#FFFFFF] to-[#38BDF8] pb-2.5 pt-0.5 leading-[1.15]">
               Processing Defects
             </span>
           </h1>

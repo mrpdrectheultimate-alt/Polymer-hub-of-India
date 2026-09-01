@@ -592,9 +592,9 @@ export default function ComparatorPage() {
                 Ashby Selection Engine &middot; CAMPUS Standards
               </div>
 
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] pb-1 tracking-tight">
                 Systematic Material Selection.
-                <span className="block bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#38BDF8] bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#38BDF8] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                   Property Tradeoffs &amp; TDS Benchmarking.
                 </span>
               </h1>

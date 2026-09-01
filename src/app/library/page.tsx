@@ -183,9 +183,9 @@ export default function LibraryPage() {
               📚 Academic Reading Room &middot; Reference Library
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] pb-1 tracking-tight">
               Master Polymer Engineering.
-              <span className="block bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#10B981] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#6EE7B7] via-[#34D399] to-[#10B981] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                 One Resource At A Time.
               </span>
             </h1>

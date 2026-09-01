@@ -483,9 +483,9 @@ export default function SubjectsPage() {
               📚 Complete PPE Curriculum Matrix
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-[1.15] pb-1 tracking-tight">
               Master Polymer Engineering.
-              <span className="block bg-gradient-to-r from-[#60A5FA] via-[#34D399] to-[#10B981] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#60A5FA] via-[#34D399] to-[#10B981] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                 19 Subjects, One Learning Universe.
               </span>
             </h1>
@@ -1024,7 +1024,7 @@ export default function SubjectsPage() {
                     >
                       {selectedSubject.level} &middot; {selectedSubject.lessons} Lessons
                     </span>
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-tight font-display">
+                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-[1.15] pb-1 font-display">
                       {selectedSubject.name}
                     </h2>
                   </div>

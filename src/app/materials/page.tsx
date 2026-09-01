@@ -381,7 +381,7 @@ export default function MaterialsPage() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Polymer Materials <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#FFFFFF] to-[#38BDF8]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#93C5FD] via-[#FFFFFF] to-[#38BDF8] pb-2.5 pt-0.5 leading-[1.15]">
               Specifications &amp; Brands
             </span>
           </h1>
@@ -648,7 +648,7 @@ export default function MaterialsPage() {
 
           <h2 className="font-display text-2xl sm:text-4xl font-black uppercase text-slate-900">
             Need resin substitution or technical datasheet analysis? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] to-[#0D9488]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] to-[#0D9488] pb-2.5 pt-0.5 leading-[1.15]">
               Ask the AI Materials Specialist.
             </span>
           </h2>

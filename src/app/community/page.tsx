@@ -388,7 +388,7 @@ export default function CommunityPage() {
 
           <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
             Connect. Learn. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
               Grow Together.
             </span>
           </h1>
@@ -536,7 +536,7 @@ export default function CommunityPage() {
 
           <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
             Looking for study advice or career mentorship? <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
               Ask the AI Community Specialist.
             </span>
           </h2>

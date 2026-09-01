@@ -233,9 +233,9 @@ export default function WorldAtlasPage() {
               🌍 Global Industrial Atlas
             </div>
 
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] pb-1 tracking-tight">
               Without Polymer Engineering,
-              <span className="block bg-gradient-to-r from-[#FF9933] via-white to-[#138808] bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-[#FF9933] via-white to-[#138808] bg-clip-text text-transparent pb-3 pt-1 leading-[1.15]">
                 Modern Civilization Stops.
               </span>
             </h1>
