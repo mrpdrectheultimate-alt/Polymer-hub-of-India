@@ -38,7 +38,7 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
         alt="Polymer Hub of India"
         width={894}
         height={268}
-        className="h-9.5 sm:h-12 md:h-13 w-auto object-contain shrink-0 mix-blend-multiply"
+        className="h-10 sm:h-12 md:h-14 max-h-[44px] sm:max-h-[50px] w-auto max-w-[190px] sm:max-w-[240px] md:max-w-[280px] object-contain shrink-0 mix-blend-multiply"
         priority
         unoptimized
       />
