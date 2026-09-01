@@ -143,6 +143,8 @@ export default function FeedbackWidget() {
     setError('')
   }
 
+  if (isAiTutorPage) return null
+
   return (
     <>
       {/* Floating Trigger Button: PolymerHub Blue */}
