@@ -55,6 +55,115 @@ const STATS = [
   { value: '4 Tiers', label: 'From Basic to Expert', icon: GraduationCap },
 ]
 
+const DISCIPLINE_THEMES: Record<string, { gradient: string; watermark: string; tag: string }> = {
+  'polymer-chemistry': {
+    gradient: 'from-blue-900 via-indigo-950 to-slate-950',
+    watermark: 'POLYMER SYNTHESIS & MOLECULAR ARCHITECTURE',
+    tag: '⚗️ Chemistry',
+  },
+  'polymer-processing': {
+    gradient: 'from-amber-900 via-orange-950 to-slate-950',
+    watermark: 'INJECTION MOULDING & EXTRUSION DYNAMICS',
+    tag: '⚙️ Processing',
+  },
+  'polymer-testing': {
+    gradient: 'from-purple-900 via-slate-950 to-indigo-950',
+    watermark: 'ASTM / ISO MECHANICAL CHARACTERIZATION',
+    tag: '🔬 Testing & QA',
+  },
+  'polymer-rheology': {
+    gradient: 'from-cyan-900 via-blue-950 to-slate-950',
+    watermark: 'VISCOELASTICITY & SHEAR FLOW MECHANICS',
+    tag: '🌊 Rheology',
+  },
+  'polymer-composites': {
+    gradient: 'from-sky-900 via-slate-950 to-teal-950',
+    watermark: 'CFRP STRUCTURAL COMPOSITES & RESIN MATRIX',
+    tag: '🚀 Composites',
+  },
+  'rubber-technology': {
+    gradient: 'from-emerald-950 via-slate-950 to-zinc-950',
+    watermark: 'ELASTOMERS, VULCANIZATION & EPDM TECHNOLOGY',
+    tag: '🏎️ Rubber Tech',
+  },
+  'sustainable-plastics': {
+    gradient: 'from-emerald-900 via-teal-950 to-slate-950',
+    watermark: 'CIRCULAR ECONOMY & BIOPOLYMER DEGRADATION',
+    tag: '🌱 Sustainability',
+  },
+  'additives-and-compounding': {
+    gradient: 'from-amber-950 via-zinc-950 to-slate-950',
+    watermark: 'TWIN SCREW COMPOUNDING & MASTERBATCH',
+    tag: '🧪 Compounding',
+  },
+}
+
+function BookCoverVisual({ book, isOriginal, isOpenAccess }: { book: LibraryBook; isOriginal: boolean; isOpenAccess: boolean }) {
+  const [imgError, setImgError] = useState(false)
+  const primarySlug = book.subject_slugs?.[0] || 'polymer-chemistry'
+  const theme = DISCIPLINE_THEMES[primarySlug] || DISCIPLINE_THEMES['polymer-chemistry']
+
+  return (
+    <div className={`relative h-48 w-full overflow-hidden bg-gradient-to-br ${theme.gradient}`}>
+      {/* Engineering blueprint background watermark */}
+      <div className="absolute inset-0 opacity-15 pointer-events-none flex flex-col justify-between p-3 select-none">
+        <span className="font-mono text-[9px] font-black tracking-widest text-white/50 uppercase">
+          {theme.watermark}
+        </span>
+        <div className="border border-white/20 rounded-lg p-2 flex items-center justify-between">
+          <span className="font-mono text-[8px] text-white/60 font-bold uppercase">{theme.tag}</span>
+          <span className="font-mono text-[8px] text-amber-300 font-bold uppercase">{book.difficulty}</span>
+        </div>
+      </div>
+
+      {/* Book cover image with clean error fallback and crossfade */}
+      {book.cover_url && !imgError && (
+        <Image
+          src={book.cover_url}
+          alt={book.title}
+          fill
+          unoptimized
+          onError={() => setImgError(true)}
+          className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+        />
+      )}
+
+      {/* High-contrast gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
+
+      {/* Format Badge */}
+      <div className="absolute top-3.5 left-3.5 z-10">
+        {isOriginal && (
+          <span className="px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+            <Star className="h-3 w-3 fill-slate-950" /> Original Guide
+          </span>
+        )}
+        {isOpenAccess && (
+          <span className="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
+            <CheckCircle2 className="h-3 w-3" /> Free &middot; Open Access
+          </span>
+        )}
+        {!isOriginal && !isOpenAccess && (
+          <span className="px-2.5 py-1 rounded-full bg-blue-600 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm">
+            Commercial Standard
+          </span>
+        )}
+      </div>
+
+      {/* Level Pill */}
+      <div className="absolute bottom-3.5 left-3.5 z-10">
+        <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-white/20 backdrop-blur-md text-white uppercase border border-white/20">
+          {book.difficulty}
+        </span>
+      </div>
+
+      <div className="absolute bottom-3.5 right-3.5 text-xs font-mono text-slate-300 z-10">
+        {book.toc.length} Chapters
+      </div>
+    </div>
+  )
+}
+
 // ==================== COMPONENT ====================
 
 export default function LibraryPage() {
@@ -547,45 +656,7 @@ export default function LibraryPage() {
                 <div>
                   
                   {/* Card Header: Cover Thumbnail + Visual Badge */}
-                  <div className="relative h-48 w-full overflow-hidden bg-slate-900">
-                    <Image
-                      src={book.cover_url}
-                      alt={book.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-
-                    {/* Format Badge */}
-                    <div className="absolute top-3.5 left-3.5">
-                      {isOriginal && (
-                        <span className="px-2.5 py-1 rounded-full bg-amber-400 text-slate-950 text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-slate-950" /> Original Guide
-                        </span>
-                      )}
-                      {isOpenAccess && (
-                        <span className="px-2.5 py-1 rounded-full bg-emerald-500 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-                          <CheckCircle2 className="h-3 w-3" /> Free &middot; Open Access
-                        </span>
-                      )}
-                      {!isOriginal && !isOpenAccess && (
-                        <span className="px-2.5 py-1 rounded-full bg-blue-600 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm">
-                          Commercial Standard
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Level Pill */}
-                    <div className="absolute bottom-3.5 left-3.5">
-                      <span className="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-white/20 backdrop-blur-md text-white uppercase border border-white/20">
-                        {book.difficulty}
-                      </span>
-                    </div>
-
-                    <div className="absolute bottom-3.5 right-3.5 text-xs font-mono text-slate-300">
-                      {book.toc.length} Chapters
-                    </div>
-                  </div>
+                  <BookCoverVisual book={book} isOriginal={isOriginal} isOpenAccess={isOpenAccess} />
 
                   {/* Card Body */}
                   <div className="p-5 space-y-3">
