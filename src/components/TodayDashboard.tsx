@@ -44,6 +44,49 @@ const CATEGORY_STYLES: Record<string, { badge: string; border: string }> = {
   Bioplastics:    { badge: 'bg-lime-100 text-lime-900 border-lime-200', border: '#65A30D' },
 }
 
+const CATEGORY_THEMES: Record<string, { gradient: string; icon: string; tag: string }> = {
+  Research: {
+    gradient: 'from-blue-900 via-indigo-950 to-slate-950',
+    icon: '🔬',
+    tag: 'R&D / Molecular Lab'
+  },
+  Market: {
+    gradient: 'from-amber-900 via-stone-900 to-slate-950',
+    icon: '📈',
+    tag: 'Petrochem Price Index'
+  },
+  India: {
+    gradient: 'from-orange-900 via-slate-900 to-slate-950',
+    icon: '🇮🇳',
+    tag: 'CIPET & Domestic Mfg'
+  },
+  Sustainability: {
+    gradient: 'from-emerald-900 via-teal-950 to-slate-950',
+    icon: '♻️',
+    tag: 'Circular Monomaterials'
+  },
+  Policy: {
+    gradient: 'from-purple-900 via-indigo-950 to-slate-950',
+    icon: '📜',
+    tag: 'BIS Standards & Norms'
+  },
+  Innovation: {
+    gradient: 'from-violet-900 via-blue-950 to-slate-950',
+    icon: '🚀',
+    tag: 'Advanced Composites'
+  },
+  Recycling: {
+    gradient: 'from-teal-900 via-emerald-950 to-slate-950',
+    icon: '🔄',
+    tag: 'Mechanical Flake Recycling'
+  },
+  Bioplastics: {
+    gradient: 'from-lime-900 via-green-950 to-slate-950',
+    icon: '🌱',
+    tag: 'PLA & Bio-Polymers'
+  },
+}
+
 const DEFAULT_IMAGES: Record<string, string> = {
   Research:       'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&auto=format&fit=crop&q=80',
   Market:         'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80',
@@ -53,6 +96,78 @@ const DEFAULT_IMAGES: Record<string, string> = {
   Innovation:     'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
   Recycling:      'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&auto=format&fit=crop&q=80',
   Bioplastics:    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80',
+}
+
+function NewsVisualHeader({
+  imageUrl,
+  headline,
+  category,
+  region,
+  imageCredit,
+  isFeatured = false
+}: {
+  imageUrl?: string | null
+  headline: string
+  category: string
+  region: string
+  imageCredit?: string | null
+  isFeatured?: boolean
+}) {
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
+  const theme = CATEGORY_THEMES[category] || CATEGORY_THEMES.Research
+  const fallbackUrl = DEFAULT_IMAGES[category] || DEFAULT_IMAGES.Research
+  const displayUrl = imageUrl || fallbackUrl
+
+  return (
+    <div className={`relative overflow-hidden ${isFeatured ? 'min-h-[260px] md:min-h-full' : 'h-48'} bg-gradient-to-br ${theme.gradient}`}>
+      {/* Visual Engineering Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:20px_20px]" />
+      
+      {/* Decorative Technical Watermark */}
+      <div className="absolute -right-3 -bottom-4 text-7xl select-none opacity-20 pointer-events-none filter blur-[0.5px]">
+        {theme.icon}
+      </div>
+
+      {/* Real High-Res Photo with Instant CSS Background Fallback */}
+      {!imgError && (
+        <img
+          src={displayUrl}
+          alt={headline}
+          referrerPolicy="no-referrer"
+          loading={isFeatured ? 'eager' : 'lazy'}
+          onLoad={() => setImgLoaded(true)}
+          onError={() => setImgError(true)}
+          className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${imgLoaded ? 'opacity-85' : 'opacity-0'}`}
+        />
+      )}
+
+      {/* High-Contrast Gradient Scrim */}
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
+
+      {/* Top Badges */}
+      <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
+        <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded border uppercase shadow-sm ${CATEGORY_STYLES[category]?.badge || 'bg-white/90 text-slate-900 border-white/20'}`}>
+          {theme.icon} {category}
+        </span>
+        <span className="font-mono text-[9px] font-bold bg-black/60 backdrop-blur-md text-white px-2 py-0.5 rounded border border-white/15 uppercase">
+          {region}
+        </span>
+      </div>
+
+      {/* Bottom Technical Tag */}
+      <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[9px] font-mono text-white/80 z-10">
+        <span className="truncate max-w-[70%] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10">
+          ⚡ {theme.tag}
+        </span>
+        {imageCredit && (
+          <span className="text-[8px] text-white/60 bg-black/60 px-1.5 py-0.5 rounded">
+            📸 {imageCredit}
+          </span>
+        )}
+      </div>
+    </div>
+  )
 }
 
 export interface PolymerPriceIndex {
@@ -246,36 +361,16 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                 <article className="bg-white border-2 border-slate-900 rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 group">
                   <div className="grid grid-cols-1 md:grid-cols-12">
                     
-                    {/* Visual 100% Unsplash Image */}
-                    <div className="md:col-span-5 relative min-h-[240px] md:min-h-full bg-slate-900 overflow-hidden">
-                      <img
-                        src={featured.image_url || DEFAULT_IMAGES[featured.category] || DEFAULT_IMAGES.Research}
-                        alt={featured.headline}
-                        referrerPolicy="no-referrer"
-                        loading="eager"
-                        onError={(e) => {
-                          const target = e.currentTarget
-                          const fallback = DEFAULT_IMAGES[featured.category] || DEFAULT_IMAGES.Research
-                          if (target.src !== fallback) target.src = fallback
-                        }}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    {/* Visual Polymer Header */}
+                    <div className="md:col-span-5 relative">
+                      <NewsVisualHeader
+                        imageUrl={featured.image_url}
+                        headline={featured.headline}
+                        category={featured.category}
+                        region={featured.region}
+                        imageCredit={featured.image_credit}
+                        isFeatured={true}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent md:bg-gradient-to-r md:from-transparent md:to-slate-950/20" />
-                      
-                      <div className="absolute top-3 left-3 flex gap-2">
-                        <span className="font-mono text-[10px] font-bold bg-[#F5C518] text-slate-950 px-2.5 py-0.5 rounded-md uppercase tracking-wider border border-slate-900 shadow-sm">
-                          ⭐ Featured Story
-                        </span>
-                        <span className="font-mono text-[10px] font-bold bg-white text-slate-900 px-2 py-0.5 rounded-md uppercase tracking-wider border border-slate-200">
-                          {featured.region}
-                        </span>
-                      </div>
-
-                      {featured.image_credit && (
-                        <div className="absolute bottom-2 right-2 bg-black/50 backdrop-blur-sm text-[9px] text-white/90 px-2 py-0.5 rounded font-mono select-none">
-                          📸 {featured.image_credit}
-                        </div>
-                      )}
                     </div>
 
                     {/* Content Details */}
@@ -338,37 +433,15 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                       className="bg-white border-2 border-slate-900 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group"
                     >
                       <div>
-                        {/* Image */}
-                        <div className="relative h-44 bg-slate-900 overflow-hidden border-b-2 border-slate-200">
-                          <img
-                            src={item.image_url || DEFAULT_IMAGES[item.category] || DEFAULT_IMAGES.Research}
-                            alt={item.headline}
-                            referrerPolicy="no-referrer"
-                            loading="lazy"
-                            onError={(e) => {
-                              const target = e.currentTarget
-                              const fallback = DEFAULT_IMAGES[item.category] || DEFAULT_IMAGES.Research
-                              if (target.src !== fallback) target.src = fallback
-                            }}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
-                          
-                          <div className="absolute top-3 left-3 flex gap-1.5">
-                            <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded border uppercase shadow-sm ${catStyle.badge}`}>
-                              {item.category}
-                            </span>
-                            <span className="font-mono text-[9px] font-bold bg-slate-900/90 text-white px-2 py-0.5 rounded border border-white/20 uppercase">
-                              {item.region}
-                            </span>
-                          </div>
-
-                          {item.image_credit && (
-                            <div className="absolute bottom-2 right-2 bg-black/50 text-[8px] text-white/90 px-1.5 py-0.5 rounded font-mono select-none">
-                              📸 {item.image_credit}
-                            </div>
-                          )}
-                        </div>
+                        {/* Visual Polymer Header */}
+                        <NewsVisualHeader
+                          imageUrl={item.image_url}
+                          headline={item.headline}
+                          category={item.category}
+                          region={item.region}
+                          imageCredit={item.image_credit}
+                          isFeatured={false}
+                        />
 
                         {/* Text */}
                         <div className="p-5 space-y-2.5">
