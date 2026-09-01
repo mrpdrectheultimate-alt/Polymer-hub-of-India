@@ -153,23 +153,6 @@ const nextConfig = {
       },
     ];
   },
-
-  // 301 Canonical Domain Redirect (www -> non-www)
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'www.polymerhubofindia.com',
-          },
-        ],
-        destination: 'https://polymerhubofindia.com/:path*',
-        permanent: true,
-      },
-    ];
-  },
 };
 
 export default nextConfig;

@@ -2,15 +2,7 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  const host = request.headers.get('host') || ''
-  
-  // 1. Enforce 301 Canonical Domain Redirect (www -> non-www)
-  if (host.startsWith('www.polymerhubofindia.com')) {
-    const targetUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, 'https://polymerhubofindia.com')
-    return NextResponse.redirect(targetUrl, { status: 301 })
-  }
-
-  // 2. Protect against Header Spoofing & Middleware Bypass (CVE-2025-29927 defense)
+  // 1. Protect against Header Spoofing & Middleware Bypass (CVE-2025-29927 defense)
   const requestHeaders = new Headers(request.headers)
   if (requestHeaders.has('x-middleware-subrequest')) {
     requestHeaders.delete('x-middleware-subrequest')
