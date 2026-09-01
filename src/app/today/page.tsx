@@ -23,13 +23,16 @@ interface DBUpdate {
 export const revalidate = 3600
 
 const TICKER_ITEMS = [
-  'Repol PP (RIL) ₹94.50/kg ▲0.8%',
-  'Relene HDPE ₹101.20/kg ▲0.4%',
-  'Finolex PVC ₹88.10/kg ▼0.2%',
-  'Brent Crude $78.42/bbl ▲1.1%',
-  'SABIC PC ₹218/kg ▲0.3%',
-  'JBF PET ₹92/kg ▼0.5%',
-  'GAIL LLDPE ₹98.75/kg ▲0.6%',
+  'Reliance Repol PP ₹94.50/kg ▲0.8%',
+  'Reliance Relene HDPE ₹102.80/kg ▲0.4%',
+  'GAIL G-Lex LLDPE ₹99.20/kg ▲0.6%',
+  'Finolex PVC K-67 ₹89.50/kg ▼0.2%',
+  'Reliance Relpet PET ₹93.40/kg ▼0.5%',
+  'SABIC Lexan PC ₹224.00/kg ▲0.3%',
+  'BASF Ultramid PA6 ₹265.00/kg ▲1.1%',
+  'LG Chem ABS ₹148.50/kg ▲0.2%',
+  'Circular rPET Flakes ₹68.00/kg ▲1.5%',
+  'Brent Crude $78.85/bbl ▲0.9%',
   'Indian EPR Credit ₹1,850/ton ▲1.2%',
 ]
 

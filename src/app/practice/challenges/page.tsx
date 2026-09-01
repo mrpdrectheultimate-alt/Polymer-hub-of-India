@@ -117,11 +117,9 @@ export default function StudentChallengesPage() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-[#F5C518] text-xs font-mono font-bold uppercase tracking-wider">Industry Bounties</span>
-              <div className="flex flex-wrap gap-4 mt-1 text-white text-xs font-mono">
-                <span>{challenges.length || 12} <span className="text-[#F5C518]">Active</span></span>
-                <span className="w-px h-3 bg-white/20" />
-                <span>₹5L+ <span className="text-[#F5C518]">Prize Pool</span></span>
-                <span className="w-px h-3 bg-white/20" />
+              <div className="flex items-center gap-6 mt-1 text-xs font-mono font-medium text-slate-300">
+                <span>{challenges.length} <span className="text-[#F5C518]">Active</span></span>
+                <span>₹5L+ <span className="text-slate-400">Prize Pool</span></span>
                 <span>+200 <span className="text-[#F5C518]">XP Bonus</span></span>
               </div>
             </div>
@@ -157,7 +155,7 @@ export default function StudentChallengesPage() {
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">{challenges.length || 12}</span>
+              <span className="font-display text-xl font-bold text-white block">{challenges.length}</span>
               <span className="text-[10px] font-mono text-[#F5C518] uppercase tracking-wider">Active Challenges</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">

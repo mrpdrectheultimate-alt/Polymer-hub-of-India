@@ -400,8 +400,8 @@ export default function CommunityPage() {
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">{events.length || 5}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Live Webinars</span>
+              <span className="font-display text-xl font-bold text-white block">{events.length}</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Live Masterclasses</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
               <span className="font-display text-xl font-bold text-amber-400 block">{mentors.length || 6}</span>
