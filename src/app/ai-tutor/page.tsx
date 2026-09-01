@@ -638,18 +638,28 @@ export default function AITutorPage() {
         {/* Auth / Guest Status Footer */}
         <div className="p-3 border-t border-slate-800 bg-slate-950">
           {session ? (
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-bold text-white truncate">
-                  {session.user.email?.split('@')[0]}
-                </p>
-                <p className="text-[10px] font-mono text-slate-400">
-                  {queryStatus.isPremium ? 'Unlimited Pro Access' : `${queriesLeft} queries left today`}
-                </p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-bold text-white truncate">
+                    {session.user.email?.split('@')[0]}
+                  </p>
+                  <p className="text-[10px] font-mono text-slate-400">
+                    {queryStatus.isPremium ? '⭐ Unlimited Pro Access' : `${queriesLeft} of 15 queries left today`}
+                  </p>
+                </div>
+                <Link href="/profile" className="text-xs text-amber-400 font-bold hover:underline">
+                  Account
+                </Link>
               </div>
-              <Link href="/profile" className="text-xs text-amber-400 font-bold hover:underline">
-                Account
-              </Link>
+              {!queryStatus.isPremium && (
+                <Link
+                  href="/pricing"
+                  className="block text-center py-1.5 bg-[#2563EB] hover:bg-blue-600 text-white rounded-lg text-[10px] font-bold font-mono transition-colors shadow-xs"
+                >
+                  ⚡ Upgrade for Unlimited AI (₹149/mo) →
+                </Link>
+              )}
             </div>
           ) : (
             <div className="p-2.5 bg-slate-800/80 border border-slate-700 rounded-xl">
