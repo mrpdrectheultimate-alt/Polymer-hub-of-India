@@ -85,10 +85,10 @@ export async function middleware(request: NextRequest) {
   response.headers.set('Cross-Origin-Resource-Policy', 'cross-origin')
   response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), browsing-topics=(), interest-cohort=(), payment=(self "https://checkout.razorpay.com" "https://api.razorpay.com")')
   
-  // Strict CSP: Zero 'unsafe-inline' or 'unsafe-eval' in script-src
+  // Strict CSP with Next.js App Router Hydration Compatibility
   const csp = `
     default-src 'self';
-    script-src 'self' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
+    script-src 'self' 'unsafe-inline' 'unsafe-eval' https://vercel.live https://*.vercel.app https://checkout.razorpay.com https://cdn.jsdelivr.net;
     style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net;
     img-src 'self' data: https: blob: https://images.unsplash.com https://*.supabase.co https://img.youtube.com https://i.ytimg.com;
     font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net;

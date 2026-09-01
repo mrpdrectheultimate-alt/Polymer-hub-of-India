@@ -124,15 +124,7 @@ export default function HomePage() {
 
         {/* Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-24">
-          <motion.div
-            initial="hidden"
-            animate={isLoaded ? 'visible' : 'hidden'}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.05 } }
-            }}
-            className="max-w-3xl"
-          >
+          <div className="max-w-3xl">
             {/* Badge */}
             <motion.div
               variants={{
@@ -251,7 +243,7 @@ export default function HomePage() {
                 Polymer AI Copilot
               </span>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Minimal Scroll Indicator */}
