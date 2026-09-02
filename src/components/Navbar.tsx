@@ -35,7 +35,7 @@ const NAV = [
       { label: 'Student Forum', href: '/forum', icon: MessageCircle, desc: 'Ask classmates, get answers', color: '#7C3AED' },
       { label: 'Study Groups', href: '/study-groups', icon: Users, desc: 'Form groups, track progress', color: '#1D4ED8' },
       { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, desc: 'Compare XP rankings & streaks', color: '#CA8A04' },
-      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '17 books & original guides', color: '#1D4ED8' },
+      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '50 specialized engineering volumes', color: '#1D4ED8' },
       { label: 'Community & Events', href: '/community', icon: Users, desc: 'Webinars, mentorship & live events', color: '#EA580C' },
       { label: 'Company Challenges', href: '/practice/challenges', icon: Trophy, desc: 'Solve industry cases for XP', color: '#7C3AED' },
       { label: 'Student Projects', href: '/projects', icon: BookOpen, desc: 'Case studies & engineering portfolios', color: '#1D4ED8' },
@@ -176,7 +176,9 @@ export default function Navbar() {
                           </div>
                           <div>
                             <div className="font-mono text-[10px] font-bold uppercase tracking-wider">{item.label}</div>
-                            <div className="font-mono text-[8px] text-black/50 group-hover:text-white/60 mt-0.5">{item.desc}</div>
+                            <div className={`font-mono text-[9px] mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-200'}`}>
+                              {item.desc}
+                            </div>
                           </div>
                         </Link>
                       )
