@@ -79,9 +79,9 @@ export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
     venue: 'Labh Ganga Exhibition Centre, Bypass Road, Indore, Madhya Pradesh 452010',
     focus: 'Plastics processing, flexible barrier packaging, multilayer blown film lines, and industrial printing.',
     focusTags: ['Packaging Films', 'Blow Moulding', 'Printing & Converting', 'Circular rPET'],
-    organizer: 'Indore Plastics Manufacturers Association & Trade Feeds',
-    sourceName: 'The Wire / Lokmat Times / Official Industry Feed',
-    sourceUrl: 'https://www.thewire.in',
+    organizer: 'Indore Plastics Manufacturers Association (IPMA) & Trade Feeds',
+    sourceName: 'Indore Plastics Manufacturers Association (IPMA) / TradeIndia',
+    sourceUrl: 'https://www.tradeindia.com',
     lastVerified: '02 Sep 2026',
     eventType: 'Exhibition & Expo',
     isAnchorEvent: false,
@@ -218,6 +218,7 @@ export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
 
 export function computeEventStatus(startDate: string, endDate: string): {
   status: 'Live Today' | 'Upcoming' | 'Past Event'
+  badgeText: string
   badgeColor: string
   daysUntil: number
 } {
@@ -228,7 +229,8 @@ export function computeEventStatus(startDate: string, endDate: string): {
   if (now >= start && now <= end) {
     return {
       status: 'Live Today',
-      badgeColor: 'bg-red-500 text-white animate-pulse',
+      badgeText: '● Live Today',
+      badgeColor: 'bg-red-50 text-red-700 border border-red-200 animate-pulse',
       daysUntil: 0
     }
   }
@@ -238,13 +240,15 @@ export function computeEventStatus(startDate: string, endDate: string): {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
     return {
       status: 'Upcoming',
-      badgeColor: 'bg-emerald-50 text-emerald-800 border border-emerald-300',
+      badgeText: `In ${diffDays}d`,
+      badgeColor: 'bg-emerald-50 text-emerald-800 border border-emerald-200',
       daysUntil: diffDays
     }
   }
 
   return {
     status: 'Past Event',
+    badgeText: 'Past Event',
     badgeColor: 'bg-slate-100 text-slate-500 border border-slate-200',
     daysUntil: -1
   }
