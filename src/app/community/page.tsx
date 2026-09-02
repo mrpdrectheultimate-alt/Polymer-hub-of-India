@@ -1,5 +1,7 @@
 'use client'
 
+import ClientPortal from '@/components/ClientPortal'
+
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import {
@@ -88,8 +90,9 @@ function IndustryEventDetailModal({
   }, [onClose])
 
   return (
-    <div
-      className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+    <ClientPortal>
+      <div
+        className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
@@ -263,6 +266,7 @@ function IndustryEventDetailModal({
         </div>
       </div>
     </div>
+    </ClientPortal>
   )
 }
 
@@ -298,8 +302,9 @@ function WebinarDetailModal({
   }
 
   return (
-    <div
-      className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+    <ClientPortal>
+      <div
+        className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -419,6 +424,7 @@ function WebinarDetailModal({
         </div>
       </div>
     </div>
+    </ClientPortal>
   )
 }
 
@@ -447,8 +453,9 @@ function MentorDetailModal({
   }
 
   return (
-    <div
-      className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+    <ClientPortal>
+      <div
+        className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
       onClick={onClose}
     >
       <div
@@ -539,6 +546,7 @@ function MentorDetailModal({
         )}
       </div>
     </div>
+    </ClientPortal>
   )
 }
 

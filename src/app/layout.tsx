@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Space_Grotesk, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
+import { Suspense } from 'react'
+import ScrollRestoration from '@/components/ScrollRestoration'
 import { Toaster } from '@/components/ui/toaster'
 import Navbar from '@/components/Navbar'
 import FeedbackWidget from '@/components/FeedbackWidget'
@@ -158,6 +160,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="bg-canvas text-ink antialiased font-sans">
+        <Suspense fallback={null}><ScrollRestoration /></Suspense>
         <PerformanceMonitor />
         <ServiceWorkerRegister />
         <Navbar />
