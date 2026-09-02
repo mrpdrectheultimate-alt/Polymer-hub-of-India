@@ -1,5 +1,7 @@
 'use client'
 
+import ClientPortal from '@/components/ClientPortal'
+
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
@@ -118,8 +120,8 @@ function AskModal({
   const [error, setError] = useState('')
 
   const handleSubmit = async () => {
-    if (!title.trim() || !body.trim()) {
-      setError('Both question title and technical description are required.')
+    if (!title.trim()) {
+      setError('Please enter a question title.')
       return
     }
     setSubmitting(true)
@@ -135,7 +137,7 @@ function AskModal({
     const { error: insertErr } = await supabase.from('forum_questions').insert({
       user_id: session.user.id,
       title: title.trim(),
-      body: body.trim(),
+      body: body.trim() || title.trim(),
       subject_id: subjectId || null,
       upvotes: 1,
       answer_count: 0,
@@ -153,7 +155,8 @@ function AskModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <ClientPortal>
+      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-5 animate-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2.5">
@@ -205,9 +208,12 @@ function AskModal({
           </div>
 
           <div>
-            <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-              Technical Details &amp; Formulation / Machine Parameters
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider">
+                Technical Details &amp; Formulation / Machine Parameters
+              </label>
+              <span className="text-[10px] font-mono text-slate-400 uppercase font-semibold">Optional</span>
+            </div>
             <textarea
               rows={4}
               value={body}
@@ -235,7 +241,8 @@ function AskModal({
         </div>
       </div>
     </div>
-  )
+  </ClientPortal>
+)
 }
 
 // ─── Question Detail & Thread View ────────────────────────────────────────────

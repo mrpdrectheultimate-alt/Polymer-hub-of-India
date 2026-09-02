@@ -232,8 +232,8 @@ export default function SubjectForumPage() {
   const handleCreateQuestion = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!user || !subject) return
-    if (!newTitle.trim() || !newBody.trim()) {
-      setErrorMsg('Question title and technical details are required.')
+    if (!newTitle.trim()) {
+      setErrorMsg('Please enter a question title.')
       return
     }
 
@@ -252,7 +252,7 @@ export default function SubjectForumPage() {
         user_id: user.id,
         lesson_id: newLessonId || null,
         title: newTitle.trim(),
-        body: newBody.trim(),
+        body: newBody.trim() || newTitle.trim(),
         tags: tagsArray.length > 0 ? tagsArray : null,
         upvotes: 1,
         answer_count: 0,
