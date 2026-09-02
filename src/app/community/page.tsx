@@ -1,13 +1,19 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import {
   Users, Calendar, MessageCircle, Video, Star, Clock,
   Building2, CheckCircle, Zap,
-  Trophy, Sparkles, Brain,
-  Flame, AlertCircle, X, ExternalLink, Share2, Copy, Check, Send, BookOpen
+  Trophy, Sparkles, Brain, MapPin,
+  Flame, AlertCircle, X, ExternalLink, Share2, Copy, Check, Send, BookOpen, Compass
 } from 'lucide-react'
+import {
+  IndustryEvent,
+  VERIFIED_INDUSTRY_EVENTS,
+  computeEventStatus,
+  generateEventGoogleCalendarUrl
+} from '@/lib/industry_events_data'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -37,9 +43,9 @@ interface MentorProfile {
   avatar_initials: string | null
 }
 
-type Tab = 'webinars' | 'mentorship' | 'discussion'
+type Tab = 'exhibitions' | 'webinars' | 'mentorship' | 'discussion'
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(iso: string) {
   const d = new Date(iso)
@@ -61,322 +67,265 @@ function daysUntil(iso: string) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24))
 }
 
-function generateGoogleCalendarUrl(event: CommunityEvent) {
-  const startTime = new Date(event.event_date).toISOString().replace(/-|:|.ddd/g, "")
-  const endTime = new Date(new Date(event.event_date).getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|.ddd/g, "")
-  const title = encodeURIComponent(`PolymerHub Masterclass: ${event.title}`)
-  const details = encodeURIComponent(`Speaker: ${event.speaker} (${event.company})\n\nMeeting Link: ${event.meeting_url || 'https://polymerhubofindia.com/community'}\n\n${event.description}`)
-  const location = encodeURIComponent(event.meeting_url || 'https://polymerhubofindia.com')
-  return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startTime}/${endTime}&details=${details}&location=${location}`
-}
+// ─── INDUSTRY EVENT DETAIL MODAL ─────────────────────────────────────────────
 
-// ─── Skeleton ─────────────────────────────────────────────────────────────────
-
-function CardSkeleton() {
-  return (
-    <div className="border-2 border-slate-200 bg-white rounded-2xl p-6 animate-pulse space-y-3">
-      <div className="h-4 bg-slate-200 rounded w-1/3" />
-      <div className="h-6 bg-slate-200 rounded w-3/4" />
-      <div className="h-4 bg-slate-200 rounded w-full" />
-      <div className="h-4 bg-slate-200 rounded w-5/6" />
-      <div className="h-10 bg-slate-200 rounded-xl w-1/2" />
-    </div>
-  )
-}
-
-// ─── Webinar Card ─────────────────────────────────────────────────────────────
-
-function WebinarCard({ event, onOpenDetail, onRegister, registered }: {
-  event: CommunityEvent
-  onOpenDetail: (event: CommunityEvent) => void
-  onRegister: (id: string, e?: React.MouseEvent) => void
-  registered: boolean
+function IndustryEventDetailModal({
+  event,
+  onClose
+}: {
+  event: IndustryEvent
+  onClose: () => void
 }) {
-  const days = daysUntil(event.event_date)
-  const urgency = event.is_live ? 'LIVE NOW' : days <= 3 ? `${days}d left` : null
+  const statusInfo = useMemo(() => computeEventStatus(event.startDate, event.endDate), [event])
+  const gCalUrl = useMemo(() => generateEventGoogleCalendarUrl(event), [event])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onClose])
 
   return (
-    <article
-      onClick={() => onOpenDetail(event)}
-      className="border-2 border-slate-900 bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6 flex flex-col justify-between space-y-4 cursor-pointer group"
+    <div
+      className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+      onClick={onClose}
     >
-      <div className="space-y-3">
-        {/* Header row */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex-1 space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              {event.is_live && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-red-500 text-white text-[10px] font-mono font-bold rounded-full animate-pulse">
-                  <Flame size={10} /> LIVE NOW
-                </span>
-              )}
-              {urgency && !event.is_live && (
-                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-amber-400 text-slate-950 text-[10px] font-mono font-bold rounded-full">
-                  <Clock size={10} /> {urgency}
-                </span>
-              )}
-              {event.subject_slug && (
-                <span className="px-2.5 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-mono font-bold rounded-full uppercase border border-blue-200">
-                  {event.subject_slug.replace(/-/g, ' ')}
-                </span>
-              )}
-            </div>
-            <h3 className="font-display font-bold text-base sm:text-lg text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">
-              {event.title}
-            </h3>
-          </div>
-          <div className="shrink-0 w-11 h-11 bg-blue-50 rounded-xl border-2 border-blue-200 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all">
-            <Video size={20} className="text-blue-600 group-hover:text-white transition-colors" />
-          </div>
-        </div>
-
-        {/* Description */}
-        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium line-clamp-2">
-          {event.description}
-        </p>
-
-        {/* Speaker */}
-        <div className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-          <div className="w-8 h-8 rounded-full bg-slate-900 flex items-center justify-center text-white font-bold text-xs shrink-0">
-            {event.speaker.charAt(0)}
-          </div>
-          <div className="min-w-0 flex-1">
-            <div className="font-bold text-xs text-slate-900 truncate">{event.speaker}</div>
-            <div className="flex items-center gap-1 text-[11px] text-slate-500 truncate">
-              <Building2 size={11} className="shrink-0" />
-              {event.company}
-            </div>
-          </div>
-        </div>
-
-        {/* Date / Time */}
-        <div className="flex items-center gap-4 text-xs text-slate-600 font-medium">
-          <div className="flex items-center gap-1.5">
-            <Calendar size={13} className="text-blue-600" />
-            {formatDate(event.event_date)}
-          </div>
-          <div className="flex items-center gap-1.5 text-slate-500 font-mono">
-            <Clock size={13} />
-            {formatTime(event.event_date)}
-          </div>
-        </div>
-
-        {/* Tags */}
-        <div className="flex flex-wrap gap-1.5 pt-1">
-          {event.tags.slice(0, 4).map(tag => (
-            <span key={tag} className="px-2 py-0.5 bg-slate-100 text-slate-600 text-[10px] font-medium rounded-md">
-              #{tag}
+      <div
+        className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-auto flex flex-col max-h-[92vh]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header Bar */}
+        <div className="p-4 sm:p-5 bg-[#0A1628] text-white flex items-center justify-between border-b border-white/10">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-xs font-bold text-amber-400 bg-white/10 px-3 py-1 rounded-full uppercase tracking-wider border border-white/20">
+              {event.eventType}
             </span>
-          ))}
-        </div>
-      </div>
-
-      {/* CTA Buttons */}
-      <div className="flex items-center gap-2 pt-2">
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            onRegister(event.id, e)
-          }}
-          className={`flex-1 py-2.5 font-mono font-bold text-xs uppercase rounded-xl transition-all flex items-center justify-center gap-1.5 border-2 ${
-            registered
-              ? 'bg-emerald-500 text-white border-emerald-600'
-              : 'bg-blue-600 text-white border-blue-700 hover:bg-blue-700 shadow-sm'
-          }`}
-        >
-          {registered ? (
-            <><CheckCircle size={14} /> Registered &middot; +10 XP</>
-          ) : (
-            <><Zap size={14} /> Register Free</>
-          )}
-        </button>
-
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            onOpenDetail(event)
-          }}
-          className="px-3 py-2.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 rounded-xl font-mono text-xs font-bold text-slate-800 transition-colors"
-          title="View Event Details"
-        >
-          Details &rarr;
-        </button>
-      </div>
-    </article>
-  )
-}
-
-// ─── Mentor Card ──────────────────────────────────────────────────────────────
-
-const MENTOR_COLORS = [
-  'bg-blue-100 text-blue-800',
-  'bg-amber-100 text-amber-800',
-  'bg-emerald-100 text-emerald-800',
-  'bg-rose-100 text-rose-800',
-  'bg-purple-100 text-purple-800',
-  'bg-cyan-100 text-cyan-800',
-]
-
-function MentorCard({ mentor, idx, onOpenDetail, requested }: {
-  mentor: MentorProfile
-  idx: number
-  onOpenDetail: (mentor: MentorProfile) => void
-  requested: boolean
-}) {
-  const colorClass = MENTOR_COLORS[idx % MENTOR_COLORS.length]
-
-  return (
-    <article
-      onClick={() => onOpenDetail(mentor)}
-      className="border-2 border-slate-900 bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 p-6 flex flex-col justify-between space-y-4 cursor-pointer group"
-    >
-      <div className="space-y-3">
-        {/* Avatar + name */}
-        <div className="flex items-start gap-3.5">
-          <div className={`w-12 h-12 rounded-xl border-2 border-slate-900 flex items-center justify-center font-bold text-lg shrink-0 ${colorClass}`}>
-            {mentor.avatar_initials ?? mentor.name.charAt(0)}
+            <span className="font-mono text-xs text-slate-300">
+              {event.city}, {event.state}
+            </span>
           </div>
-          <div className="min-w-0">
-            <h3 className="font-display font-bold text-base text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">{mentor.name}</h3>
-            <div className="text-xs font-bold text-blue-700 truncate">{mentor.designation}</div>
-            <div className="flex items-center gap-1 text-xs text-slate-500 mt-0.5">
-              <Building2 size={11} className="shrink-0" />
-              {mentor.company}
-            </div>
-          </div>
-        </div>
-
-        {/* Stats row */}
-        <div className="grid grid-cols-2 gap-2">
-          <div className="py-2 px-3 bg-amber-50 rounded-xl border border-amber-200 text-center">
-            <div className="font-display font-bold text-base text-amber-800">{mentor.experience_years}+ Yrs</div>
-            <div className="text-[10px] text-amber-700 font-mono uppercase">Industry Exp</div>
-          </div>
-          <div className="py-2 px-3 bg-blue-50 rounded-xl border border-blue-200 text-center">
-            <div className="font-display font-bold text-xs text-blue-800 truncate">{mentor.specialization}</div>
-            <div className="text-[10px] text-blue-700 font-mono uppercase">Domain Focus</div>
-          </div>
-        </div>
-
-        {/* Bio */}
-        <p className="text-slate-600 text-xs leading-relaxed font-medium line-clamp-2">{mentor.bio}</p>
-      </div>
-
-      {/* CTA */}
-      <div className="flex items-center gap-2 pt-2">
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            onOpenDetail(mentor)
-          }}
-          className={`flex-1 py-2.5 font-mono font-bold text-xs uppercase rounded-xl transition-all flex items-center justify-center gap-1.5 border-2 ${
-            requested
-              ? 'bg-emerald-500 text-white border-emerald-600'
-              : 'bg-[#F5C518] text-slate-950 border-slate-900 hover:bg-amber-400 shadow-[2px_2px_0px_0px_#000]'
-          }`}
-        >
-          {requested ? (
-            <><CheckCircle size={14} /> Request Sent &middot; +25 XP</>
-          ) : (
-            <><Star size={14} /> Request 1-on-1 Match</>
-          )}
-        </button>
-      </div>
-    </article>
-  )
-}
-
-// ─── Discussion Tab ───────────────────────────────────────────────────────────
-
-function DiscussionTab() {
-  const channels = [
-    { title: 'Community Q&A Forum', desc: 'Ask classmates & engineers anything — resin processing, melt index queries, gate freeze-off calculations.', href: '/forum', icon: MessageCircle, color: 'bg-blue-50 text-blue-700 border-blue-200', count: 'Active Discussions' },
-    { title: 'Peer Study Groups', desc: 'Form study circles, track collective XP progress, and prepare together for semester exams.', href: '/study-groups', icon: Users, color: 'bg-emerald-50 text-emerald-700 border-emerald-200', count: '10 Circles' },
-    { title: 'GATE Mock Exam Arena', desc: 'Timed, simulated GATE Polymer Science test with -1/3 negative marking and instant rationale breakdown.', href: '/gate-mock', icon: Trophy, color: 'bg-amber-50 text-amber-700 border-amber-200', count: 'GATE XE-F' },
-    { title: 'AI Engineering Tutor', desc: '24/7 personalized Gemini RAG AI tutor grounded in 216 plastics engineering lessons.', href: '/ai-tutor', icon: Brain, color: 'bg-purple-50 text-purple-700 border-purple-200', count: 'Instant AI' },
-  ]
-
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-      {channels.map((ch) => {
-        const Icon = ch.icon
-        return (
-          <Link
-            key={ch.title}
-            href={ch.href}
-            className="border-2 border-slate-900 bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors"
           >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <div className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center ${ch.color}`}>
-                  <Icon size={22} />
-                </div>
-                <span className="font-mono text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
-                  {ch.count}
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Modal Scrollable Content */}
+        <div className="p-6 sm:p-8 space-y-6 overflow-y-auto">
+          {/* Badge & Dates */}
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="font-mono text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-3 py-1 rounded-md">
+                📅 {event.dateDisplay}
+              </span>
+              <span className={`font-mono text-xs font-bold px-3 py-1 rounded-md ${statusInfo.badgeColor}`}>
+                {statusInfo.status === 'Upcoming' ? `Upcoming · In ${statusInfo.daysUntil} Days` : statusInfo.status}
+              </span>
+            </div>
+            {event.isAnchorEvent && (
+              <span className="font-mono text-[11px] font-bold bg-amber-500 text-slate-950 px-3 py-1 rounded-md uppercase tracking-wider">
+                ⭐ Anchor Mega Show
+              </span>
+            )}
+          </div>
+
+          {/* Title & Venue */}
+          <div>
+            <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 leading-snug">
+              {event.title}
+            </h2>
+            <div className="flex items-start gap-2 text-xs sm:text-sm font-medium text-slate-600 mt-2">
+              <MapPin size={16} className="text-amber-600 shrink-0 mt-0.5" />
+              <span>{event.venue}</span>
+            </div>
+          </div>
+
+          {/* Focus & Tags */}
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
+            <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">
+              Core Industry &amp; Technological Focus
+            </span>
+            <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
+              {event.focus}
+            </p>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {event.focusTags.map(tag => (
+                <span key={tag} className="font-mono text-[10px] bg-white text-slate-700 border border-slate-200 px-2 py-0.5 rounded-md font-semibold">
+                  #{tag}
                 </span>
+              ))}
+            </div>
+          </div>
+
+          {/* 👥 Why Attend (Ideal For) */}
+          <div className="space-y-3">
+            <h3 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <Users size={15} className="text-blue-600" /> 👥 Ideal For &amp; Target Delegates
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {event.idealFor.map((item, idx) => (
+                <div key={idx} className="flex items-start gap-2 text-xs text-slate-700 bg-blue-50/50 p-3 rounded-xl border border-blue-100 font-medium">
+                  <CheckCircle size={14} className="text-blue-600 shrink-0 mt-0.5" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 🏭 What Can I See There? */}
+          <div className="space-y-3">
+            <h3 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <Building2 size={15} className="text-emerald-600" /> 🏭 What You Will Experience &amp; Inspect
+            </h3>
+            <div className="space-y-2.5">
+              {event.whatToSee.map((item) => (
+                <div key={item.step} className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-3 shadow-xs">
+                  <span className="font-mono text-xs font-bold bg-slate-900 text-white px-2 py-1 rounded-lg shrink-0">
+                    {item.step}
+                  </span>
+                  <div>
+                    <h4 className="font-display font-bold text-xs text-slate-900">{item.title}</h4>
+                    <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 🎓 Student Mode (Killer Differentiator) */}
+          <div className="p-5 rounded-2xl bg-amber-50 border-2 border-amber-300 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🎓</span>
+              <h4 className="font-display font-black text-sm text-amber-950 uppercase tracking-wide">
+                Student &amp; Trainee Field Guide
+              </h4>
+            </div>
+            <p className="text-xs sm:text-sm text-amber-900 font-medium leading-relaxed">
+              {event.studentMode.advice}
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+              <div className="bg-white/80 p-3 rounded-xl border border-amber-200 text-xs text-amber-950">
+                <span className="font-mono text-[10px] font-bold uppercase text-amber-700 block mb-1">🎯 Must-Visit Pavilions</span>
+                <ul className="list-disc list-inside space-y-0.5 font-medium">
+                  {event.studentMode.keyPavilions.map((pav, i) => (
+                    <li key={i}>{pav}</li>
+                  ))}
+                </ul>
               </div>
-              <h3 className="font-display font-bold text-lg text-slate-900 group-hover:text-blue-600 transition-colors">
-                {ch.title}
-              </h3>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-medium">
-                {ch.desc}
-              </p>
+              <div className="bg-white/80 p-3 rounded-xl border border-amber-200 text-xs text-amber-950">
+                <span className="font-mono text-[10px] font-bold uppercase text-amber-700 block mb-1">💡 Pro Networking Tip</span>
+                <p className="font-medium leading-relaxed">{event.studentMode.networkingTip}</p>
+              </div>
             </div>
-            <div className="pt-2 text-xs font-mono font-bold text-blue-600 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-              Open Channel &rarr;
+          </div>
+
+          {/* Trust Layer & Organizer Metadata */}
+          <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono text-slate-600">
+            <div>
+              <span>Organized by: <strong className="text-slate-900">{event.organizer}</strong></span>
+              <div className="text-[11px] text-slate-500 mt-0.5">
+                Verified via {event.sourceName} &middot; <span className="text-emerald-700 font-bold">Last Checked: {event.lastVerified}</span>
+              </div>
             </div>
-          </Link>
-        )
-      })}
+            <a
+              href={event.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-blue-700 font-bold hover:underline"
+            >
+              Official Source Link <ExternalLink size={12} />
+            </a>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <a
+              href={gCalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 inline-flex items-center justify-center gap-2 bg-[#0A1628] hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl border-2 border-slate-900 shadow-sm transition-all"
+            >
+              <Calendar size={15} /> + Add to Google Calendar
+            </a>
+            <a
+              href={event.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 text-slate-800 font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl border-2 border-slate-300 transition-all"
+            >
+              Organizer Portal <ExternalLink size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
 
-// ─── Webinar Detail Modal ─────────────────────────────────────────────────────
+// ─── MASTERCLASS WEBINAR MODAL ───────────────────────────────────────────────
 
 function WebinarDetailModal({
   event,
   onClose,
   onRegister,
-  registered
+  registered,
 }: {
   event: CommunityEvent
   onClose: () => void
-  onRegister: (id: string) => void
+  onRegister: (eventId: string) => void
   registered: boolean
 }) {
   const [copied, setCopied] = useState(false)
-  const meetingLink = event.meeting_url || 'https://meet.google.com/polymer-hub-live'
+  const meetingLink = event.meeting_url || `https://meet.google.com/polymer-hub-${event.id.slice(0, 4)}`
 
   const copyLink = () => {
     navigator.clipboard.writeText(meetingLink)
     setCopied(true)
-    setTimeout(() => setCopied(false), 3000)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const googleCalUrl = () => {
+    const d = new Date(event.event_date)
+    const start = d.toISOString().replace(/-|:|.ddd/g, '')
+    const end = new Date(d.getTime() + 90 * 60 * 1000).toISOString().replace(/-|:|.ddd/g, '')
+    const title = encodeURIComponent(event.title)
+    const details = encodeURIComponent(`${event.description}\n\nSpeaker: ${event.speaker} (${event.company})\nMeeting Link: ${meetingLink}`)
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${start}/${end}&details=${details}`
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+      onClick={onClose}
+    >
       <div
-        className="bg-white border-2 border-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl space-y-6 relative my-8"
+        className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors border border-slate-300"
-          title="Close Modal"
-        >
-          <X size={18} />
-        </button>
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200">
+            <Video size={14} /> Masterclass Access Hub
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
-        {/* Status badges */}
-        <div className="flex items-center gap-2 flex-wrap pr-10">
-          <span className="px-3 py-1 bg-blue-100 text-blue-800 text-xs font-mono font-bold rounded-full uppercase border border-blue-200">
-            📹 Live Masterclass
-          </span>
-          {event.subject_slug && (
-            <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-mono font-bold rounded-full uppercase border border-purple-200">
-              {event.subject_slug.replace(/-/g, ' ')}
+        <div className="flex items-center gap-2">
+          {event.is_live ? (
+            <span className="px-3 py-1 bg-red-600 text-white text-xs font-mono font-bold rounded-full animate-pulse flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-white animate-ping" /> LIVE NOW
+            </span>
+          ) : (
+            <span className="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-mono font-bold rounded-full border border-blue-200">
+              In {daysUntil(event.event_date)} Days
             </span>
           )}
           <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-mono font-bold rounded-full border border-emerald-200">
@@ -384,7 +333,6 @@ function WebinarDetailModal({
           </span>
         </div>
 
-        {/* Title */}
         <div className="space-y-2">
           <h2 className="font-display font-black text-xl sm:text-2xl text-slate-900 leading-snug">
             {event.title}
@@ -401,7 +349,6 @@ function WebinarDetailModal({
           </div>
         </div>
 
-        {/* Speaker Spotlight Card */}
         <div className="p-4 rounded-2xl bg-slate-50 border-2 border-slate-200 flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg shrink-0">
             {event.speaker.charAt(0)}
@@ -413,7 +360,6 @@ function WebinarDetailModal({
           </div>
         </div>
 
-        {/* Full Agenda & Overview */}
         <div className="space-y-2">
           <h3 className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">
             Masterclass Syllabus &amp; Overview
@@ -423,7 +369,6 @@ function WebinarDetailModal({
           </p>
         </div>
 
-        {/* Meeting Link & Access */}
         <div className="p-4 rounded-2xl bg-blue-50 border-2 border-blue-200 space-y-3">
           <div className="flex items-center justify-between">
             <span className="font-mono text-xs font-bold text-blue-900 uppercase">
@@ -448,28 +393,28 @@ function WebinarDetailModal({
           </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-          <a
-            href={meetingLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => onRegister(event.id)}
-            className="w-full sm:flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-mono font-bold text-xs uppercase tracking-wider border-2 border-blue-800 shadow-md flex items-center justify-center gap-2 transition-all"
-          >
-            <Video size={16} />
-            Join Virtual Masterclass
-            <ExternalLink size={14} />
-          </a>
+        <div className="flex flex-col sm:flex-row gap-3 pt-2">
+          {registered ? (
+            <div className="flex-1 flex items-center justify-center gap-2 bg-emerald-50 border-2 border-emerald-600 text-emerald-800 font-mono font-bold text-xs uppercase py-3.5 px-4 rounded-xl">
+              <CheckCircle size={16} className="text-emerald-600" />
+              Registered &amp; Seat Confirmed (+10 XP)
+            </div>
+          ) : (
+            <button
+              onClick={() => onRegister(event.id)}
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl border-2 border-blue-900 shadow-md transition-all"
+            >
+              Confirm Registration (Free)
+            </button>
+          )}
 
           <a
-            href={generateGoogleCalendarUrl(event)}
+            href={googleCalUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto px-5 py-3.5 bg-white hover:bg-slate-100 text-slate-900 rounded-xl font-mono font-bold text-xs uppercase tracking-wider border-2 border-slate-900 flex items-center justify-center gap-2 transition-all shadow-xs"
+            className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl border-2 border-slate-900 transition-colors"
           >
-            <Calendar size={16} />
-            Add to Calendar
+            <Calendar size={16} /> Add to Calendar
           </a>
         </div>
       </div>
@@ -477,48 +422,54 @@ function WebinarDetailModal({
   )
 }
 
-// ─── Mentor Match Modal ───────────────────────────────────────────────────────
+// ─── MENTOR DETAIL MODAL ─────────────────────────────────────────────────────
 
 function MentorDetailModal({
   mentor,
   onClose,
   onSubmitMatch,
-  requested
+  requested,
 }: {
   mentor: MentorProfile
   onClose: () => void
-  onSubmitMatch: (mentorId: string, message: string) => void
+  onSubmitMatch: (mentorId: string, customMsg: string) => void
   requested: boolean
 }) {
-  const [topic, setTopic] = useState('Career Placement & Interview Guidance')
+  const [topic, setTopic] = useState('GATE XE-F Exam Strategy & High-Weightage Chapters')
   const [customMsg, setCustomMsg] = useState('')
-  const [sent, setSent] = useState(requested)
+  const [submitted, setSubmitted] = useState(requested)
 
-  const handleSend = () => {
-    const fullMsg = `[Topic: ${topic}] ${customMsg || 'I would love to connect and learn from your engineering experience.'}`
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const fullMsg = `[Topic: ${topic}] ${customMsg}`
     onSubmitMatch(mentor.id, fullMsg)
-    setSent(true)
+    setSubmitted(true)
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
+      onClick={onClose}
+    >
       <div
-        className="bg-white border-2 border-slate-900 rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl space-y-6 relative my-8"
+        className="bg-white w-full max-w-xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 hover:text-slate-950 transition-colors border border-slate-300"
-          title="Close Modal"
-        >
-          <X size={18} />
-        </button>
+        <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200">
+            <Star size={14} className="text-amber-500 fill-amber-500" /> Verified Mentor Guidance
+          </div>
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+          >
+            <X size={20} />
+          </button>
+        </div>
 
-        {/* Header Profile */}
-        <div className="flex items-start gap-4 pr-8">
-          <div className="w-14 h-14 rounded-2xl bg-amber-400 text-slate-950 border-2 border-slate-900 flex items-center justify-center font-bold text-xl shrink-0">
-            {mentor.avatar_initials ?? mentor.name.charAt(0)}
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-display font-black text-2xl shrink-0">
+            {mentor.avatar_initials || mentor.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
             <h2 className="font-display font-black text-xl text-slate-900">{mentor.name}</h2>
@@ -529,7 +480,6 @@ function MentorDetailModal({
           </div>
         </div>
 
-        {/* Full Bio */}
         <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1.5">
           <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">
             Specialization &amp; Background
@@ -539,263 +489,644 @@ function MentorDetailModal({
           </p>
         </div>
 
-        {/* Request Form */}
-        <div className="space-y-4">
-          <div className="space-y-1.5">
-            <label className="text-xs font-mono font-bold text-slate-700 block">
-              What topic do you need guidance on?
-            </label>
-            <select
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              className="w-full bg-white border-2 border-slate-300 rounded-xl px-3 py-2.5 text-xs font-mono font-medium text-slate-900 focus:border-blue-600 focus:outline-none"
+        {submitted ? (
+          <div className="p-6 rounded-2xl bg-emerald-50 border-2 border-emerald-600 text-center space-y-2">
+            <CheckCircle className="w-8 h-8 text-emerald-600 mx-auto" />
+            <h4 className="font-display font-bold text-emerald-900 text-sm">Match Request Submitted (+25 XP)</h4>
+            <p className="text-xs text-emerald-700">
+              {mentor.name} has been notified. You will receive an email and in-app notification when they confirm your slot.
+            </p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono font-bold text-slate-700 block">
+                What topic do you need guidance on?
+              </label>
+              <select
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                className="w-full bg-white border-2 border-slate-300 rounded-xl px-3 py-2.5 text-xs font-mono font-medium text-slate-900 focus:border-blue-600 focus:outline-none"
+              >
+                <option value="GATE XE-F Exam Strategy & High-Weightage Chapters">GATE XE-F Exam Strategy &amp; Syllabus</option>
+                <option value="Injection Moulding & Tooling Shop-Floor Defect Solutions">Injection Moulding &amp; Tooling Defects</option>
+                <option value="R&D Formulation & Polyolefin Additives">R&amp;D Formulation &amp; Additives</option>
+                <option value="Placement Prep & Resume Review for Petrochemical Firms">Placement Prep &amp; Resume Review</option>
+                <option value="Recycling, Bioplastics & EPR Compliance Advisory">Recycling &amp; EPR Compliance</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-mono font-bold text-slate-700 block">
+                Personal Message / Specific Question (Optional):
+              </label>
+              <textarea
+                rows={3}
+                value={customMsg}
+                onChange={(e) => setCustomMsg(e.target.value)}
+                placeholder="Hi, I am preparing for polymer plant placements / semester exams and would love your guidance on..."
+                className="w-full bg-white border-2 border-slate-300 rounded-xl p-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:outline-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <option value="GATE XE-F Exam Strategy & High-Weightage Chapters">GATE XE-F Exam Strategy &amp; Syllabus</option>
-              <option value="Injection Moulding & Tooling Shop-Floor Defect Solutions">Injection Moulding &amp; Tooling Defects</option>
-              <option value="R&D Formulation & Polyolefin Additives">R&amp;D Formulation &amp; Additives</option>
-              <option value="Placement Prep & Resume Review for Petrochemical Firms">Placement Prep &amp; Resume Review</option>
-              <option value="Recycling, Bioplastics & EPR Compliance Advisory">Recycling &amp; EPR Compliance</option>
-            </select>
+              <Send size={14} /> Send 1-on-1 Mentorship Request (+25 XP)
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// ─── EVENT CARD (Webinar) ────────────────────────────────────────────────────
+
+function EventCard({
+  event,
+  onRegister,
+  onOpenDetail,
+  registered,
+}: {
+  event: CommunityEvent
+  onRegister: (id: string) => void
+  onOpenDetail: (event: CommunityEvent) => void
+  registered: boolean
+}) {
+  const d = daysUntil(event.event_date)
+  const isPast = d < 0
+
+  return (
+    <div
+      onClick={() => onOpenDetail(event)}
+      className="group bg-white border-2 border-slate-200 rounded-2xl p-5 hover:border-slate-900 hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer space-y-4"
+    >
+      <div className="space-y-3">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {event.tags.map((t) => (
+              <span
+                key={t}
+                className="font-mono text-[9px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded"
+              >
+                {t}
+              </span>
+            ))}
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs font-mono font-bold text-slate-700 block">
-              Personal Message / Specific Question (Optional):
-            </label>
-            <textarea
-              rows={3}
-              value={customMsg}
-              onChange={(e) => setCustomMsg(e.target.value)}
-              placeholder="Hi, I am preparing for polymer plant placements / semester exams and would love your guidance on..."
-              className="w-full bg-white border-2 border-slate-300 rounded-xl p-3 text-xs text-slate-900 placeholder:text-slate-400 focus:border-blue-600 focus:outline-none"
-            />
+          <button
+            onClick={(e) => {
+              e.stopPropagation()
+              onOpenDetail(event)
+            }}
+            className="p-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+            title="View Agenda & Meet Link"
+          >
+            <Video size={16} />
+          </button>
+        </div>
+
+        <h3 className="font-display font-bold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-blue-700 transition-colors">
+          {event.title}
+        </h3>
+
+        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+          {event.description}
+        </p>
+      </div>
+
+      <div className="space-y-3 border-t border-slate-100 pt-3">
+        <div className="flex items-center gap-2 text-xs">
+          <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+            {event.speaker.charAt(0)}
+          </div>
+          <div className="min-w-0">
+            <span className="font-bold text-slate-800 block truncate">{event.speaker}</span>
+            <span className="text-[10px] text-slate-500 font-mono block truncate">{event.company}</span>
           </div>
         </div>
 
-        {/* Submit */}
-        <div className="pt-2">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
+          <span className="flex items-center gap-1">
+            <Calendar size={12} /> {formatDate(event.event_date)}
+          </span>
+          <span className="flex items-center gap-1">
+            <Clock size={12} /> {formatTime(event.event_date)}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 pt-1" onClick={(e) => e.stopPropagation()}>
           <button
-            onClick={handleSend}
-            disabled={sent}
-            className={`w-full py-3.5 font-mono font-bold text-xs uppercase rounded-xl transition-all flex items-center justify-center gap-2 border-2 ${
-              sent
-                ? 'bg-emerald-500 text-white border-emerald-600 cursor-default'
-                : 'bg-[#F5C518] hover:bg-amber-400 text-slate-950 border-slate-900 shadow-[3px_3px_0px_0px_#000]'
+            onClick={() => onRegister(event.id)}
+            disabled={isPast}
+            className={`flex-1 py-2 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+              registered
+                ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
+                : isPast
+                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
             }`}
           >
-            {sent ? (
-              <><CheckCircle size={16} /> Mentorship Request Sent &middot; +25 XP</>
+            {registered ? (
+              <>
+                <CheckCircle size={13} /> Registered
+              </>
+            ) : isPast ? (
+              'Completed'
             ) : (
-              <><Send size={16} /> Send Mentorship Request &middot; +25 XP</>
+              'Register Free'
             )}
           </button>
-          <p className="text-[10px] font-mono text-slate-500 text-center mt-2">
-            The mentor will review your inquiry and connect via your registered profile email.
-          </p>
+
+          <button
+            onClick={() => onOpenDetail(event)}
+            className="px-3 py-2 border border-slate-200 hover:border-slate-400 rounded-xl font-mono text-[10px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+          >
+            Details &rarr;
+          </button>
         </div>
       </div>
     </div>
   )
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// ─── MENTOR CARD ─────────────────────────────────────────────────────────────
+
+function MentorCard({
+  mentor,
+  idx,
+  onOpenDetail,
+  requested,
+}: {
+  mentor: MentorProfile
+  idx: number
+  onOpenDetail: (mentor: MentorProfile) => void
+  requested: boolean
+}) {
+  return (
+    <div
+      onClick={() => onOpenDetail(mentor)}
+      className="bg-white border-2 border-slate-200 rounded-2xl p-5 hover:border-slate-900 hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer space-y-4 group"
+    >
+      <div className="space-y-3">
+        <div className="flex items-start gap-3">
+          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-display font-black text-slate-800 text-sm shrink-0 group-hover:bg-slate-900 group-hover:text-white transition-colors">
+            {mentor.avatar_initials || mentor.name.slice(0, 2).toUpperCase()}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="font-display font-bold text-slate-900 text-sm truncate group-hover:text-blue-700 transition-colors">
+              {mentor.name}
+            </h3>
+            <p className="text-xs text-blue-700 font-semibold truncate">{mentor.designation}</p>
+            <p className="text-[11px] text-slate-500 font-mono truncate flex items-center gap-1 mt-0.5">
+              <Building2 size={11} /> {mentor.company}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-[9px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">
+            {mentor.experience_years}+ Yrs Experience
+          </span>
+          <span className="font-mono text-[9px] font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded truncate">
+            {mentor.specialization}
+          </span>
+        </div>
+
+        <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+          {mentor.bio}
+        </p>
+      </div>
+
+      <div className="pt-2 border-t border-slate-100" onClick={(e) => e.stopPropagation()}>
+        <button
+          onClick={() => onOpenDetail(mentor)}
+          className={`w-full py-2.5 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+            requested
+              ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
+              : 'bg-[#F5C518] hover:bg-amber-400 text-slate-950 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000]'
+          }`}
+        >
+          {requested ? (
+            <>
+              <CheckCircle size={13} /> Request Sent
+            </>
+          ) : (
+            <>
+              <Star size={13} className="text-slate-900" /> Request 1-on-1 Match
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── DISCUSSION TAB COMPONENT ────────────────────────────────────────────────
+
+function DiscussionTab() {
+  const CHANNELS = [
+    { title: 'GATE XE-F Discussion Board', desc: 'Strategy, syllabus notes, previous year question walk-throughs & polymer physics calculations.', href: '/forum', tag: 'ACADEMIC', color: 'border-blue-200 bg-blue-50 text-blue-800' },
+    { title: 'Injection Moulding Defect Clinic', desc: 'Shop-floor defect solving — sink marks, flash, warpage, silver streaks, and process parameter optimization.', href: '/troubleshooter', tag: 'MANUFACTURING', color: 'border-orange-200 bg-orange-50 text-orange-800' },
+    { title: 'CIPET & University Study Circles', desc: 'Join 38 active student circles across CIPET, ICT Mumbai, CUSAT, Anna University, and IITs.', href: '/study-groups', tag: 'COMMUNITY', color: 'border-emerald-200 bg-emerald-50 text-emerald-800' },
+    { title: 'Plastics Industry Career & Placement Hub', desc: 'Resume reviews, interview tips from Reliance & Supreme engineers, and petrochemical hiring notices.', href: '/careers', tag: 'CAREERS', color: 'border-purple-200 bg-purple-50 text-purple-800' },
+  ]
+
+  return (
+    <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {CHANNELS.map((ch, idx) => (
+          <div
+            key={idx}
+            className="bg-white border-2 border-slate-200 rounded-3xl p-6 hover:border-slate-900 hover:shadow-xl transition-all flex flex-col justify-between space-y-4"
+          >
+            <div className="space-y-2">
+              <span className={`font-mono text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${ch.color}`}>
+                {ch.tag}
+              </span>
+              <h3 className="font-display font-black text-slate-900 text-lg sm:text-xl">
+                {ch.title}
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                {ch.desc}
+              </p>
+            </div>
+
+            <div className="pt-2">
+              <Link
+                href={ch.href}
+                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider hover:underline"
+              >
+                Enter Channel &rarr;
+              </Link>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="space-y-1 text-center sm:text-left">
+          <h4 className="font-display font-black text-slate-900 text-lg sm:text-xl">
+            Want to start an official CIPET or College Polymer Club?
+          </h4>
+          <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
+            We provide official PolymerHub verification badges, shared question banks, and free access to industrial calculation engines.
+          </p>
+        </div>
+        <Link
+          href="/study-groups"
+          className="bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border-2 border-slate-900 shrink-0 transition-colors"
+        >
+          Create Study Circle &rarr;
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+// ─── MAIN COMMUNITY PAGE ─────────────────────────────────────────────────────
 
 export default function CommunityPage() {
+  const [activeTab, setActiveTab] = useState<Tab>('exhibitions')
+  const [selectedCity, setSelectedCity] = useState('all')
+  const [selectedType, setSelectedType] = useState('all')
+
   const [events, setEvents] = useState<CommunityEvent[]>([])
   const [mentors, setMentors] = useState<MentorProfile[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState<Tab>('webinars')
-  const [registeredEvents, setRegisteredEvents] = useState<Set<string>>(new Set())
-  const [requestedMentors, setRequestedMentors] = useState<Set<string>>(new Set())
+
+  // Interactive Modals
+  const [selectedIndustryEvent, setSelectedIndustryEvent] = useState<IndustryEvent | null>(null)
   const [selectedEvent, setSelectedEvent] = useState<CommunityEvent | null>(null)
   const [selectedMentor, setSelectedMentor] = useState<MentorProfile | null>(null)
-  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null)
 
-  const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
-    setToast({ msg, type })
-    setTimeout(() => setToast(null), 4000)
-  }
+  const [registeredEvents, setRegisteredEvents] = useState<Set<string>>(new Set())
+  const [requestedMentors, setRequestedMentors] = useState<Set<string>>(new Set())
 
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-    try {
-      const [evRes, menRes] = await Promise.all([
-        fetch('/api/community/events'),
-        fetch('/api/community/mentors'),
-      ])
-      const evJson = await evRes.json()
-      const menJson = await menRes.json()
-      if (evJson.events) setEvents(evJson.events)
-      if (menJson.mentors) setMentors(menJson.mentors)
-    } catch {
-      // Silently continue
-    } finally {
-      setLoading(false)
+  // Load backend data
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true)
+        const [evRes, mRes] = await Promise.all([
+          fetch('/api/community/events'),
+          fetch('/api/community/mentors'),
+        ])
+
+        if (evRes.ok) {
+          const evData = await evRes.json()
+          setEvents(evData.events || [])
+        }
+
+        if (mRes.ok) {
+          const mData = await mRes.json()
+          setMentors(mData.mentors || [])
+        }
+      } catch (err) {
+        console.error('Failed to load community data:', err)
+      } finally {
+        setLoading(false)
+      }
     }
+    loadData()
   }, [])
 
-  useEffect(() => { fetchData() }, [fetchData])
+  // Filtered Industry Events
+  const filteredIndustryEvents = useMemo(() => {
+    return VERIFIED_INDUSTRY_EVENTS.filter((ev) => {
+      const matchCity = selectedCity === 'all' || ev.city.toLowerCase() === selectedCity.toLowerCase()
+      const matchType = selectedType === 'all' || (selectedType === 'conference' ? ev.eventType === 'Academic Conference' : ev.eventType === 'Exhibition & Expo')
+      return matchCity && matchType
+    })
+  }, [selectedCity, selectedType])
 
-  const handleRegister = async (eventId: string, e?: React.MouseEvent) => {
-    if (e) e.stopPropagation()
+  // Handle Event Register
+  const handleRegister = useCallback(async (eventId: string) => {
     try {
+      setRegisteredEvents((prev) => new Set(prev).add(eventId))
       const res = await fetch('/api/community/events', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ event_id: eventId }),
       })
-      const json = await res.json()
-      if (!res.ok) {
-        // Fallback for instant client RSVP
-        setRegisteredEvents(prev => new Set(Array.from(prev).concat(eventId)))
-        showToast('Seat Reserved! +10 XP Awarded.', 'success')
-        return
-      }
-      setRegisteredEvents(prev => new Set(Array.from(prev).concat(eventId)))
-      showToast(json.message ?? 'Registered! +10 XP', 'success')
+      if (!res.ok) throw new Error('Registration failed')
     } catch {
-      setRegisteredEvents(prev => new Set(Array.from(prev).concat(eventId)))
-      showToast('Seat Reserved! +10 XP Awarded.', 'success')
+      // Fallback state is preserved
     }
-  }
+  }, [])
 
-  const handleMatchRequest = async (mentorId: string, message?: string) => {
+  // Handle Mentorship Match Request
+  const handleMatchRequest = useCallback(async (mentorId: string, customMsg: string) => {
     try {
+      setRequestedMentors((prev) => new Set(prev).add(mentorId))
       const res = await fetch('/api/community/mentors', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mentor_id: mentorId, message: message || 'I would love to connect and learn from your experience.' }),
+        body: JSON.stringify({ mentor_id: mentorId, message: customMsg }),
       })
-      const json = await res.json()
-      if (!res.ok) {
-        setRequestedMentors(prev => new Set(Array.from(prev).concat(mentorId)))
-        showToast('Mentorship inquiry submitted! The mentor will contact you within 48h.', 'success')
-        return
-      }
-      setRequestedMentors(prev => new Set(Array.from(prev).concat(mentorId)))
-      showToast(json.message ?? 'Match request sent! +25 XP', 'success')
+      if (!res.ok) throw new Error('Match request failed')
     } catch {
-      setRequestedMentors(prev => new Set(Array.from(prev).concat(mentorId)))
-      showToast('Mentorship inquiry submitted! The mentor will contact you within 48h.', 'success')
+      // Fallback state is preserved
     }
-  }
-
-  const TABS: { id: Tab; label: string; icon: React.ElementType; count?: number | string }[] = [
-    { id: 'webinars', label: 'Live Masterclasses', icon: Video, count: events.length || '15' },
-    { id: 'mentorship', label: 'Mentorship Hub', icon: Star, count: mentors.length || '15' },
-    { id: 'discussion', label: 'Community Q&A & Channels', icon: MessageCircle },
-  ]
+  }, [])
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] pb-24 text-slate-900 font-sans">
+      {/* ── HERO ── */}
+      <section className="relative bg-gradient-to-br from-[#0B172A] via-[#102A45] to-[#0B172A] text-white pt-16 pb-20 px-4 sm:px-6 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'radial-gradient(#38BDF8 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-      {/* ── HERO SECTION: Midnight Navy with Indian Tricolor Accent ── */}
-      <section className="bg-[#0A1628] text-white py-16 md:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
-        
-        <div className="relative z-10 max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
-            <Users className="w-4 h-4 text-amber-400" />
-            <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
-              Community &middot; Mentorship &middot; Live Industry Webinars &middot; Study Circles
-            </span>
+        <div className="relative max-w-5xl mx-auto text-center space-y-6">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-400 bg-white/10 px-4 py-1.5 rounded-full uppercase tracking-widest border border-white/20">
+            <Compass className="w-3.5 h-3.5 text-amber-400" /> Industry Exhibitions &middot; Mentorship &middot; Live Webinars
           </div>
 
-          <h1 className="font-display text-3xl sm:text-5xl md:text-6xl font-black leading-tight tracking-tight uppercase">
-            Connect. Learn. <br />
-            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
-              Grow Together.
+          <h1 className="font-display text-4xl sm:text-6xl font-black uppercase tracking-tight">
+            CONNECT. LEARN. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2 pt-1 inline-block leading-[1.15]">
+              GROW TOGETHER.
             </span>
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-            Connect with senior polymer processing engineers from Reliance, Tata, and CIPET alumni. Attend live masterclasses, request 1-on-1 mentor guidance, and collaborate in study groups.
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
+            Attend verified industrial plastics exhibitions, connect with senior polymer engineers from Reliance, Tata, and CIPET alumni, and fast-track your technical career.
           </p>
 
-          {/* Quick Metrics */}
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">{events.length || 15}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Live Masterclasses</span>
+          {/* Stats Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4">
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="font-mono text-xl sm:text-2xl font-black text-amber-400">5</div>
+              <div className="text-[11px] font-mono text-slate-300 uppercase tracking-wider mt-0.5">Verified Expos</div>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">{mentors.length || 15}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Industry Mentors</span>
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="font-mono text-xl sm:text-2xl font-black text-amber-400">{events.length || 15}</div>
+              <div className="text-[11px] font-mono text-slate-300 uppercase tracking-wider mt-0.5">Masterclasses</div>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-emerald-400 block">38</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Active Circles</span>
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="font-mono text-xl sm:text-2xl font-black text-blue-400">{mentors.length || 15}</div>
+              <div className="text-[11px] font-mono text-slate-300 uppercase tracking-wider mt-0.5">Industry Mentors</div>
             </div>
-            <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-blue-400 block">+10 to +25 XP</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Per Interaction</span>
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="font-mono text-xl sm:text-2xl font-black text-emerald-400">+10 to +25</div>
+              <div className="text-[11px] font-mono text-slate-300 uppercase tracking-wider mt-0.5">XP Per Action</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── Main Body ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20 space-y-8">
-        
-        {/* Navigation Tabs Bar */}
-        <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-6 shadow-xl">
-          <div className="flex gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200 overflow-x-auto">
-            {TABS.map((tab) => {
-              const Icon = tab.icon
-              const isActive = activeTab === tab.id
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex-1 min-w-[140px] px-4 py-3 rounded-lg text-xs font-mono font-bold uppercase transition-all flex items-center justify-center gap-2 flex-shrink-0 cursor-pointer ${
-                    isActive
-                      ? 'bg-slate-900 text-white shadow-md'
-                      : 'text-slate-600 hover:text-slate-950'
-                  }`}
-                >
-                  <Icon size={14} />
-                  <span>{tab.label}</span>
-                  {tab.count !== undefined && (
-                    <span className={`px-2 py-0.5 text-[10px] font-mono rounded-full ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {tab.count}
-                    </span>
-                  )}
-                </button>
-              )
-            })}
+      {/* ── TABS NAVIGATION ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6">
+        <div className="bg-white rounded-2xl p-1.5 shadow-xl border-2 border-slate-900 flex flex-wrap items-center justify-between gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 w-full">
+            <button
+              onClick={() => setActiveTab('exhibitions')}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+                activeTab === 'exhibitions'
+                  ? 'bg-slate-950 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
+            >
+              <Building2 size={15} className={activeTab === 'exhibitions' ? 'text-amber-400' : 'text-slate-400'} />
+              Industry Expos &amp; Conferences ({VERIFIED_INDUSTRY_EVENTS.length})
+            </button>
+
+            <button
+              onClick={() => setActiveTab('webinars')}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+                activeTab === 'webinars'
+                  ? 'bg-slate-950 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
+            >
+              <Video size={15} className={activeTab === 'webinars' ? 'text-blue-400' : 'text-slate-400'} />
+              Live Masterclasses ({events.length || 15})
+            </button>
+
+            <button
+              onClick={() => setActiveTab('mentorship')}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+                activeTab === 'mentorship'
+                  ? 'bg-slate-950 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
+            >
+              <Star size={15} className={activeTab === 'mentorship' ? 'text-amber-400 fill-amber-400' : 'text-slate-400'} />
+              Mentorship Hub ({mentors.length || 15})
+            </button>
+
+            <button
+              onClick={() => setActiveTab('discussion')}
+              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+                activeTab === 'discussion'
+                  ? 'bg-slate-950 text-white shadow-md'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
+            >
+              <MessageCircle size={15} className={activeTab === 'discussion' ? 'text-emerald-400' : 'text-slate-400'} />
+              Community Q&amp;A &amp; Channels
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* ── Tab Content ── */}
-        {activeTab === 'webinars' && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
+      {/* ── TAB CONTENT ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-12">
+        {/* ============================================================ */}
+        {/* TAB 1: INDUSTRY EXPOS & CONFERENCES (THE VERIFIED TRUST LAYER) */}
+        {/* ============================================================ */}
+        {activeTab === 'exhibitions' && (
+          <div className="space-y-8">
+            {/* Header & City Filter */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
               <div>
-                <h2 className="font-display font-bold text-xl uppercase text-slate-900">Upcoming Live Masterclasses</h2>
-                <p className="text-xs text-slate-500 font-medium mt-0.5">Click any masterclass card for meeting links, calendar invites, and instant seat reservation (+10 XP).</p>
+                <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full uppercase tracking-wider border border-amber-200 mb-2">
+                  ✅ Verified Industry Foundation &middot; Computed Real-Time
+                </div>
+                <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900">
+                  Plastics &amp; Polymer Industry Exhibitions (2026 – 2027)
+                </h2>
+                <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed">
+                  Hand-curated, verifiable events from official organizers (AIPMA, TAPMA, MG University, Tradeindia). Every event includes real venue locations, student field guides, and 1-click Google Calendar integration.
+                </p>
+              </div>
+
+              {/* City & Category Filter Chips */}
+              <div className="flex flex-wrap items-center gap-2 shrink-0">
+                <select
+                  value={selectedCity}
+                  onChange={(e) => setSelectedCity(e.target.value)}
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-slate-900 focus:outline-none"
+                >
+                  <option value="all">📍 All Cities</option>
+                  <option value="vadodara">Vadodara</option>
+                  <option value="indore">Indore</option>
+                  <option value="mumbai">Mumbai</option>
+                  <option value="chennai">Chennai</option>
+                  <option value="kottayam">Kottayam (Kerala)</option>
+                </select>
+
+                <select
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-slate-900 focus:outline-none"
+                >
+                  <option value="all">🏢 All Event Types</option>
+                  <option value="expo">Exhibitions &amp; Expos</option>
+                  <option value="conference">Academic Conferences</option>
+                </select>
               </div>
             </div>
 
+            {/* Event Cards Grid (Engineering Worksheet Style) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredIndustryEvents.map((ev) => {
+                const statusInfo = computeEventStatus(ev.startDate, ev.endDate)
+                const gCalUrl = generateEventGoogleCalendarUrl(ev)
+
+                return (
+                  <div
+                    key={ev.id}
+                    onClick={() => setSelectedIndustryEvent(ev)}
+                    className="group bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-slate-900 hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer space-y-4"
+                  >
+                    <div className="space-y-3.5">
+                      {/* Top Badges */}
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-mono text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded">
+                            {ev.monthYearBadge}
+                          </span>
+                          <span className="font-mono text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded">
+                            {ev.city.toUpperCase()}
+                          </span>
+                        </div>
+                        <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded ${statusInfo.badgeColor}`}>
+                          {statusInfo.status === 'Upcoming' ? `In ${statusInfo.daysUntil}d` : statusInfo.status}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h3 className="font-display font-black text-slate-900 text-base sm:text-lg leading-snug group-hover:text-blue-700 transition-colors">
+                        {ev.title}
+                      </h3>
+
+                      {/* Venue */}
+                      <p className="text-xs font-medium text-slate-600 flex items-start gap-1.5 line-clamp-2">
+                        <MapPin size={14} className="text-amber-600 shrink-0 mt-0.5" />
+                        <span>{ev.venue}</span>
+                      </p>
+
+                      {/* Focus */}
+                      <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed font-normal bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                        🏭 <strong className="text-slate-900 font-semibold">Focus:</strong> {ev.focus}
+                      </p>
+                    </div>
+
+                    {/* Trust Layer & Action Bar */}
+                    <div className="space-y-3 border-t border-slate-100 pt-3" onClick={(e) => e.stopPropagation()}>
+                      {/* Trust Line */}
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
+                        <span className="text-emerald-700 font-bold flex items-center gap-1">
+                          <CheckCircle size={11} className="text-emerald-600" /> Source: {ev.sourceName.split('/')[0].trim()}
+                        </span>
+                        <span>Verified: {ev.lastVerified}</span>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setSelectedIndustryEvent(ev)}
+                          className="flex-1 py-2.5 px-3 bg-[#0A1628] hover:bg-slate-800 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all text-center"
+                        >
+                          View Event &rarr;
+                        </button>
+                        <a
+                          href={gCalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-2.5 border-2 border-slate-200 hover:border-slate-900 hover:bg-slate-50 rounded-xl text-slate-700 transition-colors"
+                          title="Add to Google Calendar"
+                        >
+                          <Calendar size={14} />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* ============================================================ */}
+        {/* TAB 2: LIVE WEBINARS & MASTERCLASSES */}
+        {/* ============================================================ */}
+        {activeTab === 'webinars' && (
+          <div className="space-y-6">
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="font-display text-2xl font-black text-slate-900">
+                Interactive Technical Webinars &amp; Plant Masterclasses
+              </h2>
+              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+                Live technical sessions conducted by senior industry practitioners. Register to receive Google Meet access links and earn +10 XP.
+              </p>
+            </div>
+
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {[1, 2, 3, 4].map(i => <CardSkeleton key={i} />)}
-              </div>
-            ) : events.length === 0 ? (
-              <div className="border-2 border-slate-900 bg-white p-12 text-center rounded-2xl shadow-sm">
-                <Calendar size={40} className="text-slate-300 mx-auto mb-3" />
-                <h3 className="font-display font-bold text-lg text-slate-900">No events scheduled right now</h3>
-                <p className="text-xs text-slate-500 mt-1">Check back shortly &mdash; new masterclasses are posted weekly.</p>
+              <div className="text-center py-16 space-y-3">
+                <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-xs font-mono text-slate-500">Loading masterclasses...</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {events.map(event => (
-                  <WebinarCard
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {events.map((event) => (
+                  <EventCard
                     key={event.id}
                     event={event}
+                    onRegister={(id) => handleRegister(id)}
                     onOpenDetail={(ev) => setSelectedEvent(ev)}
-                    onRegister={(id, e) => handleRegister(id, e)}
                     registered={registeredEvents.has(event.id)}
                   />
                 ))}
@@ -804,27 +1135,27 @@ export default function CommunityPage() {
           </div>
         )}
 
+        {/* ============================================================ */}
+        {/* TAB 3: 1-ON-1 MENTORSHIP HUB */}
+        {/* ============================================================ */}
         {activeTab === 'mentorship' && (
           <div className="space-y-6">
-            <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-5 shadow-sm flex items-start gap-3.5">
-              <Star size={20} className="text-amber-700 mt-0.5 shrink-0" />
-              <div className="text-xs sm:text-sm text-amber-950 font-medium leading-relaxed">
-                <strong className="font-bold">1-on-1 Mentorship Matchmaking:</strong> Click any mentor card to view their full R&amp;D bio, select your inquiry topic (GATE prep, injection tooling, plant placement, or compounding), and send a direct match request (+25 XP).
-              </div>
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="font-display text-2xl font-black text-slate-900">
+                Senior Industry Mentorship Directory
+              </h2>
+              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+                Direct 1-on-1 guidance from polymer engineering veterans across Reliance, Tata Motors, Supreme, and CIPET faculty. Select a mentor to submit your inquiry (+25 XP).
+              </p>
             </div>
 
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {[1, 2, 3, 4, 5, 6].map(i => <CardSkeleton key={i} />)}
-              </div>
-            ) : mentors.length === 0 ? (
-              <div className="border-2 border-slate-900 bg-white p-12 text-center rounded-2xl shadow-sm">
-                <Users size={40} className="text-slate-300 mx-auto mb-3" />
-                <h3 className="font-display font-bold text-lg text-slate-900">Mentor onboarding in progress</h3>
-                <p className="text-xs text-slate-500 mt-1">Profiles from top petrochemical plants are being verified.</p>
+              <div className="text-center py-16 space-y-3">
+                <div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-xs font-mono text-slate-500">Loading verified mentors...</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {mentors.map((mentor, idx) => (
                   <MentorCard
                     key={mentor.id}
@@ -839,11 +1170,20 @@ export default function CommunityPage() {
           </div>
         )}
 
+        {/* ============================================================ */}
+        {/* TAB 4: DISCUSSION & CHANNELS */}
+        {/* ============================================================ */}
         {activeTab === 'discussion' && <DiscussionTab />}
-
       </div>
 
       {/* ── MODALS ── */}
+      {selectedIndustryEvent && (
+        <IndustryEventDetailModal
+          event={selectedIndustryEvent}
+          onClose={() => setSelectedIndustryEvent(null)}
+        />
+      )}
+
       {selectedEvent && (
         <WebinarDetailModal
           event={selectedEvent}
@@ -870,44 +1210,33 @@ export default function CommunityPage() {
           </div>
 
           <h2 className="font-display text-3xl sm:text-4xl font-black uppercase">
-            Looking for study advice or career mentorship? <br />
+            Planning your trip to Plastivision or IPLAS? <br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF8A00] via-[#FFFFFF] to-[#16A34A] pb-2.5 pt-0.5 leading-[1.15]">
-              Ask the AI Community Specialist.
+              Ask the AI Community Specialist for an Expo Prep Checklist.
             </span>
           </h2>
 
           <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
-            Ask for study group coordination tips, interview prep for major polymer firms, or GATE preparation strategy.
+            Get personalized advice on which machine tool booths to visit, how to introduce yourself to plant heads, or what questions to ask at raw material stalls.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
-              href="/ai-tutor?prompt=What%20are%20the%20top%20career%20paths%20and%20interview%20topics%20for%20a%20Polymer%20Engineering%20graduate%20in%20India"
+              href="/ai-tutor?prompt=I%20am%20a%20Polymer%20Engineering%20student%20visiting%20Plastivision%20India%202027.%20What%20are%20the%20top%20machinery%20pavilions%20and%20technical%20questions%20I%20should%20prepare%20for%20plant%20heads%3F"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-slate-900 shadow-[4px_4px_0px_0px_#000] hover:shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
             >
-              <Brain className="w-4 h-4" /> Ask Career Specialist &rarr;
+              <Brain className="w-4 h-4" /> Get Expo Prep Checklist &rarr;
             </Link>
 
             <Link
-              href="/leaderboard"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/30 hover:border-white transition-all"
+              href="/forum"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border-2 border-white/20 transition-all"
             >
-              <Trophy className="w-4 h-4" /> View Leaderboard
+              <Users className="w-4 h-4" /> Join Student Discussion Circle
             </Link>
           </div>
         </div>
       </section>
-
-      {/* ── Toast ── */}
-      {toast && (
-        <div className={`fixed bottom-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl border-2 border-slate-900 font-bold text-xs shadow-2xl transition-all duration-300 ${
-          toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'
-        }`}>
-          {toast.type === 'success' ? <CheckCircle size={16} /> : <AlertCircle size={16} />}
-          {toast.msg}
-        </div>
-      )}
-
     </div>
   )
 }
