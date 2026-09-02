@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
-import { Scale, ArrowLeft } from 'lucide-react'
+import { Scale, ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react'
 import ProgramComparator from '@/components/ProgramComparator'
 import { Program } from '@/components/EducationDashboard'
 
@@ -35,43 +35,60 @@ export default async function ComparePage() {
   }))
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-20">
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-24">
       
       {/* Upper Navigation Bar */}
-      <div className="border-b-4 border-slate-900 bg-slate-900 px-6 py-4 flex items-center justify-between text-white shadow-md">
-        <Link href="/education" className="flex items-center gap-1.5 font-mono text-xs font-bold hover:text-yellow-400 transition-colors">
+      <div className="border-b border-slate-800 bg-[#0A1628] px-6 py-3.5 flex items-center justify-between text-white shadow-sm">
+        <Link href="/education" className="flex items-center gap-2 font-mono text-xs font-bold hover:text-amber-400 transition-colors text-slate-300">
           <ArrowLeft className="w-4 h-4" /> Back to Education Hub
         </Link>
-        <span className="font-mono text-[9px] uppercase tracking-widest text-slate-400">
-          COMPARATIVE ANALYTICS
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400 font-semibold">
+            Verified Academic Data &middot; 2026 Edition
+          </span>
+        </div>
       </div>
 
-      {/* Hero Header */}
-      <section className="border-b-4 border-slate-900 bg-yellow-400 px-6 md:px-12 py-10 shadow-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-slate-900 border-4 border-slate-900 flex items-center justify-center rounded">
-                <Scale className="w-5 h-5 text-yellow-400" />
-              </div>
-              <span className="font-mono text-[10px] font-black text-slate-900 border-2 border-slate-900 px-3 py-1 uppercase tracking-widest rounded bg-white">
-                Comparator Engine
+      {/* Hero Header - Clean Academic White/Slate Canvas (No Yellow) */}
+      <section className="border-b border-slate-200 bg-white px-6 md:px-12 py-10 md:py-12 shadow-xs">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 border border-blue-200 rounded-full font-mono text-[11px] font-bold text-blue-800 uppercase tracking-wider">
+                <Scale className="w-3.5 h-3.5 text-blue-600" /> Academic Comparator Engine
+              </span>
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 border border-emerald-200 rounded-full font-mono text-[11px] font-semibold text-emerald-800">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" /> Verified Tuition &amp; Cutoffs
               </span>
             </div>
-            <h1 className="font-display text-4xl md:text-5xl font-black text-slate-950 leading-none">
-              COMPARE POLYMER<br />
-              <span className="italic text-slate-900">ACADEMIC PROGRAMS</span>
+            
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-black text-slate-950 tracking-tight leading-tight">
+              Compare Polymer <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 via-indigo-800 to-slate-900">
+                Engineering &amp; Science Programs
+              </span>
             </h1>
-            <p className="text-slate-700 max-w-xl text-sm leading-relaxed mt-3 font-medium">
-              Compare annual fees, admission pathways, prerequisite requirements, and syllabus highlights side-by-side to make informed higher education decisions.
+
+            <p className="text-slate-600 max-w-2xl text-sm sm:text-base leading-relaxed font-normal">
+              Make an informed academic decision with verified annual tuition fees, NIRF rankings, entrance exam pathways, eligibility criteria, and syllabus highlights side-by-side.
+            </p>
+          </div>
+
+          {/* Trust Metadata Badge */}
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 md:max-w-xs w-full text-xs space-y-2 shrink-0">
+            <div className="font-mono font-bold text-slate-900 flex items-center gap-1.5 uppercase text-[11px]">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Sourced from Official Portals
+            </div>
+            <p className="text-slate-500 text-[11px] leading-relaxed">
+              Curated from official CIPET, CUSAT, ICT Mumbai, Anna University, and IIT prospectuses. Updated for the 2026–2027 academic year.
             </p>
           </div>
         </div>
       </section>
 
       {/* Main Grid Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
         <ProgramComparator programs={programs} />
       </div>
 
