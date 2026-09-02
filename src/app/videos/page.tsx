@@ -1,5 +1,7 @@
 'use client'
 
+import { createPortal } from 'react-dom'
+
 import { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -275,6 +277,27 @@ export default function VideoLibraryPage() {
   const [selectedLevel, setSelectedLevel] = useState('All Levels')
   const [sortBy, setSortBy] = useState('recommended')
   const [selectedVideo, setSelectedVideo] = useState<VideoRecord | null>(null)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Lock background scroll and listen for Escape key when video is playing
+  useEffect(() => {
+    if (selectedVideo) {
+      const prevOverflow = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setSelectedVideo(null)
+      }
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = prevOverflow
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [selectedVideo])
   const [watchlist, setWatchlist] = useState<string[]>([])
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -844,11 +867,17 @@ export default function VideoLibraryPage() {
 
 
       {/* ============================================================ */}
-      {/* VIDEO MODAL PLAYER */}
+      {/* VIDEO MODAL PLAYER (PORTAL ATTACHED DIRECTLY TO BODY) */}
       {/* ============================================================ */}
-      {selectedVideo && (
-        <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
-          <div className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[92vh] flex flex-col">
+      {mounted && selectedVideo && createPortal(
+        <div
+          className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
+          onClick={() => setSelectedVideo(null)}
+        >
+          <div
+            className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] flex flex-col my-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-4 bg-slate-950 text-white flex items-center justify-between border-b border-white/10">
               <span className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">
                 {selectedVideo.subject} &middot; {selectedVideo.level}
@@ -856,7 +885,8 @@ export default function VideoLibraryPage() {
               <button
                 type="button"
                 onClick={() => setSelectedVideo(null)}
-                className="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors"
+                className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer"
+                title="Close Video (Esc)"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -887,7 +917,7 @@ export default function VideoLibraryPage() {
                   </p>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
                   {selectedVideo.description}
                 </p>
 
@@ -913,7 +943,8 @@ export default function VideoLibraryPage() {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ===== GLOBAL FOOTER ===== */}
