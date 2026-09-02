@@ -659,7 +659,7 @@ export default function LibraryPage() {
                   <BookCoverVisual book={book} isOriginal={isOriginal} isOpenAccess={isOpenAccess} />
 
                   {/* Card Body */}
-                  <div className="p-5 space-y-3">
+                  <div className="p-5 space-y-3 cursor-pointer" onClick={() => window.location.href = `/library/${book.slug}/read`}>
                     <div>
                       <h3 className="font-extrabold text-[#111827] text-base leading-snug group-hover:text-[#10B981] transition-colors line-clamp-2">
                         {book.title}

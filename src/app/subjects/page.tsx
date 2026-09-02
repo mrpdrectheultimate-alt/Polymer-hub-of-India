@@ -649,7 +649,7 @@ export default function SubjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
                   whileHover={{ y: -6 }}
-                  onClick={() => setSelectedSubject(subject)}
+                  onClick={() => window.location.href = `/subjects/${subject.slug}`}
                   className="group bg-white rounded-3xl border-2 border-slate-200 overflow-hidden hover:shadow-[0_12px_36px_rgba(0,0,0,0.08)] transition-all cursor-pointer flex flex-col justify-between"
                   style={{ borderColor: `${subject.color}40` }}
                 >
@@ -742,7 +742,7 @@ export default function SubjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.03 * index }}
                   whileHover={{ y: -4 }}
-                  onClick={() => setSelectedSubject(subject)}
+                  onClick={() => window.location.href = `/subjects/${subject.slug}`}
                   className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all cursor-pointer flex flex-col justify-between"
                   style={{ borderColor: `${subject.color}30` }}
                 >
@@ -804,7 +804,7 @@ export default function SubjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.03 * index }}
                   whileHover={{ y: -4 }}
-                  onClick={() => setSelectedSubject(subject)}
+                  onClick={() => window.location.href = `/subjects/${subject.slug}`}
                   className="group bg-white rounded-2xl border border-slate-200 overflow-hidden hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all cursor-pointer flex flex-col justify-between"
                   style={{ borderColor: `${subject.color}30` }}
                 >
@@ -867,7 +867,7 @@ export default function SubjectsPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.02 * index }}
                   whileHover={{ y: -4 }}
-                  onClick={() => setSelectedSubject(subject)}
+                  onClick={() => window.location.href = `/subjects/${subject.slug}`}
                   className="group bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-[0_12px_32px_rgba(0,0,0,0.08)] transition-all cursor-pointer flex flex-col justify-between"
                   style={{ borderColor: `${subject.color}40` }}
                 >
