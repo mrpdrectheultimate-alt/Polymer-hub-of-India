@@ -2,12 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {
   Users, Calendar, MessageCircle, Video, Star, Clock,
   Building2, CheckCircle, Zap,
   Trophy, Sparkles, Brain,
-  Flame, AlertCircle, X, ExternalLink, Share2, Download, Copy, Check, Send, BookOpen
+  Flame, AlertCircle, X, ExternalLink, Share2, Copy, Check, Send, BookOpen
 } from 'lucide-react'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -862,53 +861,6 @@ export default function CommunityPage() {
           requested={requestedMentors.has(selectedMentor.id)}
         />
       )}
-
-      {/* ── OFFICIAL POLYMERHUB VISITING CARD & SHARE HUB ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
-        <div className="bg-white border-2 border-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl space-y-6">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-100 pb-6">
-            <div>
-              <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200 mb-2">
-                📇 Official Brand Asset &middot; Executive Identity
-              </div>
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-slate-900">
-                Official PolymerHub Visiting &amp; Network Card
-              </h3>
-              <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-xl leading-relaxed">
-                Download or share the official high-resolution executive visiting card representing India&apos;s premier polymer engineering ecosystem across colleges, CIPET centers, and industrial plant networks.
-              </p>
-            </div>
-            
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
-              <a
-                href="/polymerhub-visiting-card.jpg"
-                download="PolymerHub-Official-Card.jpg"
-                className="inline-flex items-center gap-2 bg-[#0A1628] hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl border-2 border-slate-900 shadow-sm transition-all"
-              >
-                <Download size={15} /> Download High-Res Card
-              </a>
-              <a
-                href="https://api.whatsapp.com/send?text=Check%20out%20PolymerHub%20of%20India%20%E2%80%94%20The%20Complete%20Polymer%20Engineering%20Ecosystem%20with%2019%20Subjects%2C%208%20Calculators%20%26%20AI%20Copilot%3A%20https%3A%2F%2Fwww.polymerhubofindia.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#16A34A] hover:bg-emerald-600 text-white font-mono font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-xl border-2 border-emerald-800 shadow-sm transition-all"
-              >
-                <Share2 size={15} /> Share on WhatsApp
-              </a>
-            </div>
-          </div>
-
-          <div className="relative rounded-2xl overflow-hidden border-2 border-slate-900 shadow-lg bg-[#0A1628] aspect-[16/9] max-w-3xl mx-auto">
-            <Image
-              src="/polymerhub-visiting-card.jpg"
-              alt="PolymerHub of India Official Executive Visiting Card"
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </div>
-      </section>
 
       {/* ── BOTTOM AI COMMUNITY COUNSELOR CTA ── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
