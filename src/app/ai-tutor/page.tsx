@@ -165,9 +165,9 @@ function MessageBubble({
               </span>
             </div>
 
-            {/* Markdown Content */}
+            {/* Markdown Content - High Contrast Engineering Typography */}
             <div className="p-4 sm:p-5">
-              <div className="prose prose-sm prose-invert max-w-none text-[#d4d4d4] leading-relaxed font-sans prose-headings:font-display prose-headings:font-bold prose-headings:text-[#ececec] prose-code:font-mono prose-code:text-blue-300 prose-code:bg-[#222222] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs">
+              <div className="prose prose-sm prose-invert max-w-none text-slate-100 leading-relaxed font-sans text-[14px] sm:text-[15px] prose-headings:font-display prose-headings:font-bold prose-headings:text-white prose-p:text-slate-100 prose-p:leading-relaxed prose-li:text-slate-100 prose-strong:text-white prose-strong:font-bold prose-code:font-mono prose-code:text-emerald-300 prose-code:bg-[#262626] prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-xs [&_strong]:text-white [&_strong]:font-bold [&_p]:text-slate-100 [&_li]:text-slate-100 [&_li]:marker:text-[#38BDF8] [&_ul]:my-2 [&_ol]:my-2 [&_li]:my-1 [&_td]:text-slate-200 [&_th]:text-white [&_a]:text-[#38BDF8] [&_blockquote]:text-slate-200 [&_blockquote]:border-l-[#2563EB]">
                 <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
               </div>
 
@@ -865,7 +865,7 @@ export default function AITutorPage() {
                   <p className="text-xs font-mono text-[#8a8a8a]">Synthesizing curriculum progress…</p>
                 </div>
               ) : focusPlan ? (
-                <div className="border border-[#282828] bg-[#171717] p-6 sm:p-8 rounded-2xl prose prose-sm prose-invert max-w-none text-[#d4d4d4] leading-relaxed font-sans">
+                <div className="border border-[#282828] bg-[#171717] p-6 sm:p-8 rounded-2xl prose prose-sm prose-invert max-w-none text-slate-100 leading-relaxed font-sans text-[14px] sm:text-[15px] prose-headings:text-white prose-p:text-slate-100 prose-li:text-slate-100 prose-strong:text-white [&_strong]:text-white [&_p]:text-slate-100 [&_li]:text-slate-100 [&_li]:marker:text-[#38BDF8]">
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>{focusPlan}</ReactMarkdown>
                 </div>
               ) : (
