@@ -8,11 +8,6 @@ export default function ClientPortal({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setMounted(true)
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => {
-      document.body.style.overflow = originalOverflow
-    }
   }, [])
 
   if (!mounted || typeof document === 'undefined') return null
