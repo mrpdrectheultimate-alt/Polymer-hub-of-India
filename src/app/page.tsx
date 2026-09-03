@@ -350,7 +350,7 @@ export default function HomePage() {
               </div>
 
               <div className="bg-slate-950 rounded-2xl p-4 shadow-2xl border-2 border-slate-900 relative overflow-hidden h-[340px] flex items-center justify-center">
-                <ThreeDViewer modelType={selected3DSample.model_type} name={selected3DSample.name} />
+                <ThreeDViewer modelType={selected3DSample.model_type} name={selected3DSample.name} isModal={true} interactive={true} width={500} height={340} />
               </div>
 
               {/* Standard CPK Atom Legend */}

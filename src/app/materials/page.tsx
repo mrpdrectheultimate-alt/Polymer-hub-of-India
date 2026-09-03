@@ -201,15 +201,21 @@ function FullAnalysis3DModal({
   const [subTab, setSubTab] = useState<'3d' | 'cru' | 'reaction'>('3d')
   const [copiedFormula, setCopiedFormula] = useState(false)
 
-  // Keyboard navigation (Esc, Left Arrow, Right Arrow)
+  // Lock body scroll and handle keyboard navigation (Esc, Left Arrow, Right Arrow)
   useEffect(() => {
+    const originalOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
       if (e.key === 'ArrowLeft') onPrev()
       if (e.key === 'ArrowRight') onNext()
     }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = originalOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [onClose, onPrev, onNext])
 
   const copyFormula = () => {
@@ -329,7 +335,7 @@ function FullAnalysis3DModal({
               {subTab === '3d' && (
                 <div className="space-y-3">
                   <div className="bg-slate-950 rounded-3xl p-4 shadow-xl border-2 border-slate-900 relative overflow-hidden">
-                    <ThreeDViewer modelType={model.model_type} name={model.name} />
+                    <ThreeDViewer modelType={model.model_type} name={model.name} isModal={true} interactive={true} width={720} height={420} />
                   </div>
 
                   {/* Synchronized Strict CPK Atom Legend */}
@@ -870,7 +876,7 @@ export default function MaterialsPage() {
                 return (
                   <div 
                     key={model.id}
-                    onClick={() => setActive3DModel(model)}
+                    onClick={(e) => { e.stopPropagation(); setActive3DModel(model); }}
                     className="group bg-white border-2 border-slate-200 hover:border-blue-600 rounded-3xl p-6 shadow-xs hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-4 relative overflow-hidden"
                   >
                     <div className="space-y-3">
@@ -908,7 +914,7 @@ export default function MaterialsPage() {
                     
                     {/* 3D Viewer Canvas */}
                     <div className="bg-slate-950 rounded-2xl p-2 shadow-inner border border-slate-900">
-                      <ThreeDViewer modelType={model.model_type} name={model.name} />
+                      <ThreeDViewer modelType={model.model_type} name={model.name} isModal={false} interactive={false} width={380} height={230} />
                     </div>
 
                     {/* Bottom CTA Bar */}

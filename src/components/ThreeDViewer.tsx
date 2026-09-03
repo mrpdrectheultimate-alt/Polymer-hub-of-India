@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { getMoleculeData, getElementColor, getElementRadius } from '@/lib/molecule-generator'
 import { getProductData } from '@/lib/product-generator'
 import { getMachineData } from '@/lib/machine-generator'
@@ -9,6 +9,10 @@ interface ThreeDViewerProps {
   modelType: string
   name: string
   autoRotate?: boolean
+  interactive?: boolean
+  width?: number
+  height?: number
+  isModal?: boolean
 }
 
 interface Point3D {
@@ -23,31 +27,62 @@ interface Point3D {
 interface Connection {
   from: number
   to: number
-  color?: string;
-  width?: number;
+  color?: string
+  width?: number
 }
 
-export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewerProps) {
+export function ThreeDViewer({
+  modelType,
+  name,
+  autoRotate = true,
+  interactive = true,
+  width = 400,
+  height = 280,
+  isModal = false
+}: ThreeDViewerProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const isDragging = useRef(false)
   const previousMousePosition = useRef({ x: 0, y: 0 })
-  const rotationAngles = useRef({ x: 0.3, y: 0.5 }) // Initial angles
+  const rotationAngles = useRef({ x: 0.3, y: 0.5 })
   const zoomFactor = useRef(1.0)
+  const [isInView, setIsInView] = useState(isModal)
+
+  // IntersectionObserver to pause off-screen canvas loops entirely
+  useEffect(() => {
+    if (isModal) {
+      setIsInView(true)
+      return
+    }
+
+    const container = containerRef.current
+    if (!container) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting)
+      },
+      { threshold: 0.05 }
+    )
+
+    observer.observe(container)
+    return () => observer.disconnect()
+  }, [isModal])
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d', { alpha: false })
     if (!ctx) return
 
     let animationId: number
+    let isSubscribed = true
 
-    // ─── Coordinate Generators for presets ───
+    // ─── Generate Model Data ───
     const generateModelData = (): { points: Point3D[]; connections: Connection[] } => {
-      // 1. Check Molecule Presets
       if (modelType.startsWith('molecule_') || modelType.includes('molecule')) {
-        const slug = modelType.replace('molecule_', '');
-        const mol = getMoleculeData(slug);
+        const slug = modelType.replace('molecule_', '')
+        const mol = getMoleculeData(slug)
         if (mol) {
           const pts: Point3D[] = mol.atoms.map((atom) => ({
             x: atom.x,
@@ -56,50 +91,47 @@ export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewe
             color: getElementColor(atom.element),
             radius: getElementRadius(atom.element),
             label: atom.element,
-          }));
+          }))
           const conns: Connection[] = mol.bonds.map((bond) => ({
             from: bond.start,
             to: bond.end,
-            color: '#E5E7EB',
-            width: bond.type === 'double' ? 4 : bond.type === 'triple' ? 6 : 2,
-          }));
-          return { points: pts, connections: conns };
+            color: '#E2E8F0',
+            width: bond.type === 'double' ? 3.5 : bond.type === 'triple' ? 5 : 2,
+          }))
+          return { points: pts, connections: conns }
         }
       }
 
-      // 2. Check Product Presets
       if (modelType.startsWith('product_') || modelType.includes('product')) {
-        const slug = modelType.replace('product_', '');
-        return getProductData(slug);
+        const slug = modelType.replace('product_', '')
+        return getProductData(slug)
       }
 
-      // 3. Check Machine Presets
       if (modelType.startsWith('machine_') || modelType.includes('machine') || modelType.includes('extruder')) {
-        const slug = modelType.replace('machine_', '');
-        return getMachineData(slug);
+        const slug = modelType.replace('machine_', '')
+        return getMachineData(slug)
       }
 
-      // Fallback: Default to a simple cube representing loading or unknown model
       const points: Point3D[] = [
-        { x: -20, y: -20, z: -20, color: '#6366F1', radius: 3 },
-        { x: 20, y: -20, z: -20, color: '#6366F1', radius: 3 },
-        { x: 20, y: 20, z: -20, color: '#6366F1', radius: 3 },
-        { x: -20, y: 20, z: -20, color: '#6366F1', radius: 3 },
-        { x: -20, y: -20, z: 20, color: '#6366F1', radius: 3 },
-        { x: 20, y: -20, z: 20, color: '#6366F1', radius: 3 },
-        { x: 20, y: 20, z: 20, color: '#6366F1', radius: 3 },
-        { x: -20, y: 20, z: 20, color: '#6366F1', radius: 3 },
-      ];
+        { x: -20, y: -20, z: -20, color: '#3B82F6', radius: 4 },
+        { x: 20, y: -20, z: -20, color: '#3B82F6', radius: 4 },
+        { x: 20, y: 20, z: -20, color: '#3B82F6', radius: 4 },
+        { x: -20, y: 20, z: -20, color: '#3B82F6', radius: 4 },
+        { x: -20, y: -20, z: 20, color: '#3B82F6', radius: 4 },
+        { x: 20, y: -20, z: 20, color: '#3B82F6', radius: 4 },
+        { x: 20, y: 20, z: 20, color: '#3B82F6', radius: 4 },
+        { x: -20, y: 20, z: 20, color: '#3B82F6', radius: 4 },
+      ]
       const connections: Connection[] = [
-        { from: 0, to: 1, color: '#818CF8' }, { from: 1, to: 2, color: '#818CF8' },
-        { from: 2, to: 3, color: '#818CF8' }, { from: 3, to: 0, color: '#818CF8' },
-        { from: 4, to: 5, color: '#818CF8' }, { from: 5, to: 6, color: '#818CF8' },
-        { from: 6, to: 7, color: '#818CF8' }, { from: 7, to: 4, color: '#818CF8' },
-        { from: 0, to: 4, color: '#818CF8' }, { from: 1, to: 5, color: '#818CF8' },
-        { from: 2, to: 6, color: '#818CF8' }, { from: 3, to: 7, color: '#818CF8' },
-      ];
-      return { points, connections };
-    };
+        { from: 0, to: 1, color: '#60A5FA' }, { from: 1, to: 2, color: '#60A5FA' },
+        { from: 2, to: 3, color: '#60A5FA' }, { from: 3, to: 0, color: '#60A5FA' },
+        { from: 4, to: 5, color: '#60A5FA' }, { from: 5, to: 6, color: '#60A5FA' },
+        { from: 6, to: 7, color: '#60A5FA' }, { from: 7, to: 4, color: '#60A5FA' },
+        { from: 0, to: 4, color: '#60A5FA' }, { from: 1, to: 5, color: '#60A5FA' },
+        { from: 2, to: 6, color: '#60A5FA' }, { from: 3, to: 7, color: '#60A5FA' },
+      ]
+      return { points, connections }
+    }
 
     const { points, connections } = generateModelData()
 
@@ -110,47 +142,28 @@ export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewe
       const cx = w / 2
       const cy = h / 2
 
-      ctx.clearRect(0, 0, w, h)
-
-      // Shaded Vector background
-      const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, w)
-      gradient.addColorStop(0, '#1E293B') // slate 800
-      gradient.addColorStop(1, '#0F172A') // slate 900
-      ctx.fillStyle = gradient
+      ctx.fillStyle = '#0F172A'
       ctx.fillRect(0, 0, w, h)
 
-      // Circular alignment scope
+      // Background subtle circular grid
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)'
       ctx.lineWidth = 1
       ctx.beginPath()
-      ctx.arc(cx, cy, Math.min(w, h) * 0.35, 0, Math.PI * 2)
-      ctx.stroke()
-
-      // Crosshair lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)'
-      ctx.beginPath()
-      ctx.moveTo(cx, 0); ctx.lineTo(cx, h)
-      ctx.moveTo(0, cy); ctx.lineTo(w, cy)
+      ctx.arc(cx, cy, Math.min(w, h) * 0.38, 0, Math.PI * 2)
       ctx.stroke()
 
       const sinX = Math.sin(angleX)
       const cosX = Math.cos(angleX)
       const sinY = Math.sin(angleY)
       const cosY = Math.cos(angleY)
-
       const focusDistance = 400
 
-      // 1. Transform coordinates with rotations
+      // 1. Perspective Transform
       const transformed = points.map(pt => {
-        // Rotate around Y-axis (yaw)
         const x1 = (pt.x * cosY - pt.z * sinY) * zoom
         const z1 = pt.x * sinY + pt.z * cosY
-
-        // Rotate around X-axis (pitch)
         const y2 = (pt.y * cosX - z1 * sinX) * zoom
         const z2 = (pt.y * sinX + z1 * cosX) * zoom
-
-        // 3D perspective projection formula
         const perspective = focusDistance / (focusDistance + z2)
         const screenX = cx + x1 * perspective
         const screenY = cy + y2 * perspective
@@ -165,50 +178,47 @@ export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewe
         }
       })
 
-      // 2. Draw connections (bonds or wires)
+      // 2. Draw connections
       connections.forEach(conn => {
         const p1 = transformed[conn.from]
         const p2 = transformed[conn.to]
-
         if (!p1 || !p2) return
 
-        ctx.strokeStyle = conn.color || '#94A3B8'
-        ctx.lineWidth = (conn.width || 2) * ((p1.radius + p2.radius) / 20)
+        ctx.strokeStyle = conn.color || '#CBD5E1'
+        ctx.lineWidth = (conn.width || 2) * Math.max(0.6, (p1.radius + p2.radius) / 22)
         ctx.beginPath()
         ctx.moveTo(p1.screenX, p1.screenY)
         ctx.lineTo(p2.screenX, p2.screenY)
         ctx.stroke()
       })
 
-      // 3. Draw points (atoms or vertices), depth-sorted back-to-front
+      // 3. Draw sorted atom nodes
       const sortedIndices = transformed
         .map((node, idx) => ({ node, idx }))
-        .sort((a, b) => b.node.depth - a.node.depth) // Draw far nodes first
+        .sort((a, b) => b.node.depth - a.node.depth)
 
       sortedIndices.forEach(({ node }) => {
         const x = node.screenX
         const y = node.screenY
-        const r = Math.max(1, node.radius)
+        const r = Math.max(1.5, node.radius)
 
-        // Radial highlight gradient for atomic shading
-        const radGrad = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r)
+        const radGrad = ctx.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.05, x, y, r)
         radGrad.addColorStop(0, '#FFFFFF')
-        radGrad.addColorStop(0.3, node.color)
-        radGrad.addColorStop(1, darkenColor(node.color, 0.4))
+        radGrad.addColorStop(0.35, node.color)
+        radGrad.addColorStop(1, darkenColor(node.color, 0.45))
 
         ctx.beginPath()
         ctx.arc(x, y, r, 0, Math.PI * 2)
         ctx.fillStyle = radGrad
         ctx.fill()
 
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)'
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)'
         ctx.lineWidth = 0.5
         ctx.stroke()
 
-        // Atom Symbol labels
-        if (node.label) {
+        if (node.label && r >= 7) {
           ctx.fillStyle = '#FFFFFF'
-          ctx.font = `bold ${Math.max(6, Math.floor(r * 0.7))}px monospace`
+          ctx.font = `bold ${Math.max(7, Math.floor(r * 0.75))}px monospace`
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
           ctx.fillText(node.label, x, y)
@@ -216,75 +226,126 @@ export function ThreeDViewer({ modelType, name, autoRotate = true }: ThreeDViewe
       })
     }
 
-    // ─── Interaction Handlers ───
+    // Single static initial draw
+    draw(rotationAngles.current.x, rotationAngles.current.y, zoomFactor.current)
+
+    // Only start continuous animation if element is currently in view
+    if (!isInView) return
+
+    // Interactive Drag Handlers (Only attached to window when dragging is active!)
+    let moveListener: ((e: MouseEvent) => void) | null = null
+    let upListener: (() => void) | null = null
+
     const handleMouseDown = (e: MouseEvent) => {
+      if (!interactive) return
       isDragging.current = true
-      previousMousePosition.current = {
-        x: e.clientX,
-        y: e.clientY
+      previousMousePosition.current = { x: e.clientX, y: e.clientY }
+
+      moveListener = (moveEvent: MouseEvent) => {
+        if (!isDragging.current) return
+        const deltaX = moveEvent.clientX - previousMousePosition.current.x
+        const deltaY = moveEvent.clientY - previousMousePosition.current.y
+        rotationAngles.current.y += deltaX * 0.008
+        rotationAngles.current.x -= deltaY * 0.008
+        previousMousePosition.current = { x: moveEvent.clientX, y: moveEvent.clientY }
       }
+
+      upListener = () => {
+        isDragging.current = false
+        if (moveListener) window.removeEventListener('mousemove', moveListener)
+        if (upListener) window.removeEventListener('mouseup', upListener)
+      }
+
+      window.addEventListener('mousemove', moveListener)
+      window.addEventListener('mouseup', upListener)
     }
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!isDragging.current) return
-      const deltaX = e.clientX - previousMousePosition.current.x
-      const deltaY = e.clientY - previousMousePosition.current.y
+    const handleTouchStart = (e: TouchEvent) => {
+      if (!interactive || e.touches.length === 0) return
+      isDragging.current = true
+      previousMousePosition.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
+    }
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!interactive || !isDragging.current || e.touches.length === 0) return
+      const deltaX = e.touches[0].clientX - previousMousePosition.current.x
+      const deltaY = e.touches[0].clientY - previousMousePosition.current.y
       rotationAngles.current.y += deltaX * 0.008
       rotationAngles.current.x -= deltaY * 0.008
-
-      previousMousePosition.current = {
-        x: e.clientX,
-        y: e.clientY
-      }
+      previousMousePosition.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }
     }
 
-    const handleMouseUp = () => {
+    const handleTouchEnd = () => {
       isDragging.current = false
     }
 
     const handleWheel = (e: WheelEvent) => {
+      if (!interactive || !isModal) return
       e.preventDefault()
-      // Adjust zoom factor
       const zoomDelta = e.deltaY * -0.001
-      zoomFactor.current = Math.max(0.3, Math.min(3.0, zoomFactor.current + zoomDelta))
+      zoomFactor.current = Math.max(0.4, Math.min(2.5, zoomFactor.current + zoomDelta))
     }
 
-    // Attach local events
-    canvas.addEventListener('mousedown', handleMouseDown)
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseup', handleMouseUp)
-    canvas.addEventListener('wheel', handleWheel, { passive: false })
+    if (interactive) {
+      canvas.addEventListener('mousedown', handleMouseDown)
+      canvas.addEventListener('touchstart', handleTouchStart, { passive: true })
+      canvas.addEventListener('touchmove', handleTouchMove, { passive: true })
+      canvas.addEventListener('touchend', handleTouchEnd)
+      if (isModal) {
+        canvas.addEventListener('wheel', handleWheel, { passive: false })
+      }
+    }
 
     // Animation Loop
     const tick = () => {
+      if (!isSubscribed) return
       if (autoRotate && !isDragging.current) {
-        rotationAngles.current.y += 0.006
+        rotationAngles.current.y += isModal ? 0.006 : 0.004
       }
       draw(rotationAngles.current.x, rotationAngles.current.y, zoomFactor.current)
       animationId = requestAnimationFrame(tick)
     }
 
-    tick()
+    animationId = requestAnimationFrame(tick)
 
     return () => {
+      isSubscribed = false
       cancelAnimationFrame(animationId)
-      canvas.removeEventListener('mousedown', handleMouseDown)
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseup', handleMouseUp)
-      canvas.removeEventListener('wheel', handleWheel)
+      if (interactive) {
+        canvas.removeEventListener('mousedown', handleMouseDown)
+        canvas.removeEventListener('touchstart', handleTouchStart)
+        canvas.removeEventListener('touchmove', handleTouchMove)
+        canvas.removeEventListener('touchend', handleTouchEnd)
+        if (isModal) {
+          canvas.removeEventListener('wheel', handleWheel)
+        }
+      }
+      if (moveListener) window.removeEventListener('mousemove', moveListener)
+      if (upListener) window.removeEventListener('mouseup', upListener)
     }
-  }, [modelType, autoRotate])
+  }, [modelType, autoRotate, interactive, isInView, isModal])
 
   return (
-    <div className="border border-slate-700/80 rounded-xl overflow-hidden bg-[#0A1128] shadow-inner select-none relative group cursor-grab active:cursor-grabbing">
-      <canvas ref={canvasRef} width={400} height={280} className="w-full h-auto block" />
-      <div className="absolute top-2.5 left-2.5 bg-slate-900/90 border border-slate-700 px-2 py-0.5 rounded text-[8px] font-mono text-cyan-300 uppercase tracking-wider">
-        {name.split(' ')[0]} 3D scope
+    <div
+      ref={containerRef}
+      className={`border border-slate-800 rounded-2xl overflow-hidden bg-[#0F172A] shadow-inner select-none relative group ${
+        isModal ? 'cursor-grab active:cursor-grabbing w-full' : 'pointer-events-none'
+      }`}
+    >
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        className="w-full h-auto block"
+      />
+      <div className="absolute top-2.5 left-2.5 bg-slate-900/90 border border-slate-700/80 px-2 py-0.5 rounded-md text-[9px] font-mono text-cyan-300 uppercase tracking-wider shadow-sm">
+        {name.split(' ')[0]} 3D
       </div>
-      <div className="absolute bottom-2.5 left-2.5 right-2.5 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-950/90 text-[8px] font-mono text-slate-300 py-1 px-2 rounded border border-slate-800">
-        🖱️ Drag to Rotate · Scroll Wheel to Zoom
-      </div>
+      {isModal && (
+        <div className="absolute bottom-2.5 left-2.5 right-2.5 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-950/90 text-[9px] font-mono text-slate-300 py-1 px-2 rounded-lg border border-slate-800">
+          🖱️ Drag 360° to Rotate &middot; Scroll Wheel to Zoom
+        </div>
+      )}
     </div>
   )
 }
