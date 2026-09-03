@@ -286,13 +286,14 @@ export default function VideoLibraryPage() {
   // Lock background scroll and listen for Escape key when video is playing
   useEffect(() => {
     if (selectedVideo) {
-      // Clean overlay without page jump
+      const orig = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') setSelectedVideo(null)
       }
       window.addEventListener('keydown', handleKeyDown)
       return () => {
-        // Restored
+        document.body.style.overflow = orig
         window.removeEventListener('keydown', handleKeyDown)
       }
     }

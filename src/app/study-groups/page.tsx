@@ -53,6 +53,24 @@ export default function StudyGroupsPage() {
   // Modal states
   const [createOpen, setCreateOpen] = useState(false)
   const [detailsGroup, setDetailsGroup] = useState<StudyGroup | null>(null)
+
+  useEffect(() => {
+    if (createOpen || detailsGroup) {
+      const orig = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setCreateOpen(false)
+          setDetailsGroup(null)
+        }
+      }
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = orig
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [createOpen, detailsGroup])
   const [groupMembers, setGroupMembers] = useState<Member[]>([])
   const [membersLoading, setMembersLoading] = useState(false)
 

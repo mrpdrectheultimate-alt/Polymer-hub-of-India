@@ -9,6 +9,7 @@ import {
   Sparkles, Brain, Compass
 } from 'lucide-react'
 import { PREDEFINED_PROJECTS, PredefinedProject } from '@/lib/predefined_projects'
+import ClientPortal from '@/components/ClientPortal'
 
 type CustomProject = {
   id: string
@@ -72,6 +73,21 @@ export default function StudentProjectsHub() {
   const [progressMap, setProgressMap] = useState<Record<string, 'not_started' | 'in_progress' | 'completed'>>({})
   const [titleToUuidMap, setTitleToUuidMap] = useState<Record<string, string>>({})
   const [selectedProject, setSelectedProject] = useState<PredefinedProject | null>(null)
+
+  useEffect(() => {
+    if (selectedProject) {
+      const orig = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setSelectedProject(null)
+      }
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = orig
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [selectedProject])
   
   // Custom Projects State
   const [customProjects, setCustomProjects] = useState<CustomProject[]>([])
@@ -644,8 +660,9 @@ export default function StudentProjectsHub() {
 
       {/* Predefined Project Lightbox Detail Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 overflow-y-auto">
-          <div className="bg-white rounded-2xl border-4 border-slate-900 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col justify-between">
+        <ClientPortal>
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 z-[99999] overflow-y-auto" onClick={() => setSelectedProject(null)}>
+          <div className="bg-white rounded-3xl border-2 border-slate-900 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col justify-between my-auto" onClick={(e) => e.stopPropagation()}>
             
             {/* Modal Header */}
             <div className="p-6 border-b-2 border-slate-100 bg-slate-50 flex justify-between items-start">
@@ -803,6 +820,7 @@ export default function StudentProjectsHub() {
 
           </div>
         </div>
+      </ClientPortal>
       )}
     </div>
   )

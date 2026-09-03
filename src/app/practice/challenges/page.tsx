@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import ClientPortal from '@/components/ClientPortal'
 import {
   Trophy, 
   AlertTriangle, 
@@ -45,6 +46,24 @@ export default function StudentChallengesPage() {
   const [solutionUrl, setSolutionUrl] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [viewDetails, setViewDetails] = useState<Challenge | null>(null)
+
+  useEffect(() => {
+    if (viewDetails || selectedChallenge) {
+      const orig = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          setViewDetails(null)
+          setSelectedChallenge(null)
+        }
+      }
+      window.addEventListener('keydown', handleKeyDown)
+      return () => {
+        document.body.style.overflow = orig
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [viewDetails, selectedChallenge])
 
   const loadChallenges = useCallback(async () => {
     setLoading(true)
@@ -331,8 +350,9 @@ export default function StudentChallengesPage() {
 
       {/* ── MODAL: Detail Viewer ── */}
       {viewDetails && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="max-w-lg w-full bg-white text-slate-900 border-2 border-slate-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+        <ClientPortal>
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onClick={() => setViewDetails(null)}>
+            <div className="max-w-xl w-full bg-white text-slate-900 border-2 border-slate-900 rounded-3xl shadow-2xl flex flex-col max-h-[90vh] my-auto" onClick={(e) => e.stopPropagation()}>
             <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
               <div>
                 <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">{viewDetails.company_name}</span>
@@ -377,12 +397,14 @@ export default function StudentChallengesPage() {
             </div>
           </div>
         </div>
+      </ClientPortal>
       )}
 
       {/* ── MODAL: Solution Submission Form ── */}
       {selectedChallenge && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <form onSubmit={handleSubmitSolution} className="max-w-lg w-full bg-white text-slate-900 border-2 border-slate-900 rounded-2xl shadow-2xl flex flex-col max-h-[90vh]">
+        <ClientPortal>
+          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onClick={() => setSelectedChallenge(null)}>
+            <form onSubmit={handleSubmitSolution} className="max-w-xl w-full bg-white text-slate-900 border-2 border-slate-900 rounded-3xl shadow-2xl flex flex-col max-h-[90vh] my-auto" onClick={(e) => e.stopPropagation()}>
             <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
               <div>
                 <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">Submit Solution</span>
@@ -441,6 +463,7 @@ export default function StudentChallengesPage() {
             </div>
           </form>
         </div>
+      </ClientPortal>
       )}
 
     </div>
