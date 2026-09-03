@@ -88,11 +88,16 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'No seats available' }, { status: 400 })
       }
 
-      // Update student to premium
-      await supabase
+      // Update student to premium (strictly scoped to same college)
+      const { error: studentUpdateErr } = await supabase
         .from('profiles')
         .update({ subscription_status: 'premium' })
         .eq('id', studentId)
+        .eq('college_name', profile.college_name)
+
+      if (studentUpdateErr) {
+        return NextResponse.json({ error: 'Failed to update student entitlement' }, { status: 500 })
+      }
 
       // Increment allocated seats
       await supabase
@@ -101,11 +106,16 @@ export async function POST(request: Request) {
         .eq('college_name', profile.college_name)
 
     } else if (action === 'revoke') {
-      // Update student to free
-      await supabase
+      // Update student to free (strictly scoped to same college)
+      const { error: studentRevokeErr } = await supabase
         .from('profiles')
         .update({ subscription_status: 'free' })
         .eq('id', studentId)
+        .eq('college_name', profile.college_name)
+
+      if (studentRevokeErr) {
+        return NextResponse.json({ error: 'Failed to revoke student entitlement' }, { status: 500 })
+      }
 
       // Decrement allocated seats
       await supabase
