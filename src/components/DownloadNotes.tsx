@@ -1,123 +1,118 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import { Download, Lock, Loader2, FileText } from 'lucide-react'
+import { Download, Loader2, FileText, Printer, CheckCircle2 } from 'lucide-react'
 
 type DownloadNotesProps = {
   lessonSlug: string
   lessonTitle: string
-  isPremium: boolean
+  isPremium?: boolean
   compact?: boolean
 }
 
 export default function DownloadNotes({
   lessonSlug,
   lessonTitle,
-  isPremium,
+  isPremium = true,
   compact = false,
 }: DownloadNotesProps) {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [downloaded, setDownloaded] = useState(false)
 
-  const handleDownload = async () => {
-    if (!isPremium) return
+  const handleDownload = () => {
     setLoading(true)
-    setError(null)
-
     try {
-      // Open PDF in new tab — user can print/save from there
-      const url = `/api/lesson/pdf?slug=${lessonSlug}`
-      const win = window.open(url, '_blank')
-      if (!win) {
-        setError('Please allow popups for this site to download PDFs.')
+      const url = `/api/lesson/pdf?slug=${encodeURIComponent(lessonSlug)}`
+      const printWindow = window.open(url, '_blank')
+      if (!printWindow) {
+        window.location.href = url
       }
-    } catch {
-      setError('Failed to generate PDF. Please try again.')
+      setDownloaded(true)
+      setTimeout(() => setDownloaded(false), 4000)
+    } catch (err) {
+      console.error('PDF export error:', err)
     } finally {
       setLoading(false)
     }
   }
 
-  // ── Compact version (icon button for sidebar) ──────────────────────────────
+  // ── Compact button (for sticky top breadcrumb bar) ──
   if (compact) {
-    if (!isPremium) {
-      return (
-        <Link
-          href="/pricing"
-          title="Premium feature — Download PDF Notes"
-          className="border-4 border-ink w-10 h-10 flex items-center justify-center hover:bg-yellow-bright transition-colors shadow-hard-sm opacity-60"
-          style={{ backgroundColor: '#F9FAFB' }}
-        >
-          <Lock className="w-4 h-4 text-ink/50" />
-        </Link>
-      )
-    }
-
     return (
       <button
         onClick={handleDownload}
         disabled={loading}
-        title="Download PDF Notes"
-        className="border-4 border-ink w-10 h-10 flex items-center justify-center hover:bg-yellow-bright transition-colors shadow-hard-sm disabled:opacity-50"
-        style={{ backgroundColor: '#FEFCE8' }}
+        title="Export / Print Lesson as PDF Notes"
+        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-blue-600 text-white font-mono text-xs font-bold transition-all shadow-xs cursor-pointer hover:shadow-md disabled:opacity-50"
       >
-        {loading
-          ? <Loader2 className="w-4 h-4 animate-spin text-ink" />
-          : <Download className="w-4 h-4 text-ink" />}
+        {loading ? (
+          <Loader2 className="w-3.5 h-3.5 animate-spin text-white" />
+        ) : downloaded ? (
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+        ) : (
+          <Download className="w-3.5 h-3.5 text-amber-400" />
+        )}
+        <span>{downloaded ? 'Opening PDF...' : 'PDF Notes'}</span>
       </button>
     )
   }
 
-  // ── Full button ────────────────────────────────────────────────────────────
-  if (!isPremium) {
-    return (
-      <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: '4px 4px 0px 0px #CA8A04' }}>
-        <div className="border-b-4 border-ink px-5 py-3 bg-yellow-bright flex items-center gap-2">
-          <FileText className="w-4 h-4 text-ink" />
-          <span className="font-mono text-[10px] font-black text-ink uppercase tracking-widest">PDF Notes</span>
-          <span className="font-mono text-[9px] font-black border-2 border-ink bg-ink text-yellow-bright px-2 py-0.5 ml-auto uppercase">Premium</span>
-        </div>
-        <div className="p-4 bg-canvas flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <p className="font-bold text-sm text-ink mb-0.5">Download as PDF</p>
-            <p className="text-xs text-ink/60">Study offline · Print for exams · Branded notes</p>
-          </div>
-          <Link href="/pricing" className="cn-btn-black text-xs flex-shrink-0 flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5" /> Unlock — ₹149/mo
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
+  // ── Full Featured Card (for lesson body & sidebar) ──
   return (
-    <div className="border-4 border-ink overflow-hidden" style={{ boxShadow: '4px 4px 0px 0px #CA8A04', backgroundColor: '#FEFCE8' }}>
-      <div className="border-b-4 border-ink px-5 py-3 bg-yellow-bright flex items-center gap-2">
-        <FileText className="w-4 h-4 text-ink" />
-        <span className="font-mono text-[10px] font-black text-ink uppercase tracking-widest">PDF Notes</span>
-        <span className="font-mono text-[9px] font-black border-2 border-green text-green px-2 py-0.5 ml-auto uppercase">Premium ✓</span>
-      </div>
-      <div className="p-4 bg-canvas flex items-center justify-between gap-4 flex-wrap">
-        <div>
-          <p className="font-bold text-sm text-ink mb-0.5">Download: {lessonTitle.slice(0, 50)}{lessonTitle.length > 50 ? '...' : ''}</p>
-          <p className="text-xs text-ink/60">Opens print dialog → Save as PDF</p>
+    <div className="bg-gradient-to-br from-slate-900 via-[#0A1628] to-slate-950 text-white border-2 border-slate-900 rounded-3xl p-6 sm:p-7 shadow-xl space-y-4 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-36 h-36 bg-blue-600/10 rounded-full blur-2xl pointer-events-none" />
+      
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1.5">
+          <div className="flex items-center gap-2">
+            <span className="font-mono text-[10px] font-black uppercase tracking-widest bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2.5 py-0.5 rounded-lg flex items-center gap-1">
+              <FileText className="w-3 h-3 text-amber-400" /> OFFICIAL CURRICULUM NOTES
+            </span>
+            <span className="font-mono text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-md">
+              A4 PRINT READY
+            </span>
+          </div>
+
+          <h3 className="font-display text-lg sm:text-xl font-bold text-white tracking-tight">
+            Download Offline Study Notes (PDF)
+          </h3>
+          <p className="text-slate-300 text-xs font-medium leading-relaxed max-w-xl">
+            Complete formatted lesson content, reaction schemes, formulas, tables, and review points formatted for exam revision and offline printing.
+          </p>
         </div>
+
         <button
           onClick={handleDownload}
           disabled={loading}
-          className="cn-btn-black text-xs flex-shrink-0 flex items-center gap-1.5 disabled:opacity-50"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-mono text-xs font-black uppercase tracking-wider rounded-2xl transition-all shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5 cursor-pointer shrink-0 disabled:opacity-50"
         >
-          {loading
-            ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Generating...</>
-            : <><Download className="w-3.5 h-3.5" /> Download PDF</>}
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Formatting Notes...</span>
+            </>
+          ) : downloaded ? (
+            <>
+              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              <span>Opened PDF Dialog</span>
+            </>
+          ) : (
+            <>
+              <Printer className="w-4 h-4 text-amber-300" />
+              <span>Export PDF / Print</span>
+            </>
+          )}
         </button>
       </div>
-      {error && (
-        <div className="px-4 pb-3">
-          <p className="font-mono text-[9px] text-orange uppercase tracking-wider">{error}</p>
-        </div>
-      )}
+
+      <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" /> Includes all technical tables &amp; figures
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" /> 1-Click Save as PDF via Browser Print
+        </span>
+      </div>
     </div>
   )
 }

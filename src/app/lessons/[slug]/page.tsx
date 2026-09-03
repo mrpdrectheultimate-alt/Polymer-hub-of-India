@@ -157,7 +157,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
           </span>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-2.5 flex-shrink-0">
           <DownloadNotes
             lessonSlug={lesson.slug}
             lessonTitle={lesson.title}
