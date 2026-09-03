@@ -7,7 +7,7 @@ import {
   Users, Calendar, MessageCircle, Video, Star, Clock,
   Building2, CheckCircle, Zap, CheckSquare,
   Trophy, Sparkles, Brain, MapPin,
-  Flame, AlertCircle, X, ExternalLink, Share2, Copy, Check, Send, BookOpen, Compass, CheckCircle2
+  Flame, AlertCircle, X, ExternalLink, Share2, Copy, Check, Send, BookOpen, Compass, CheckCircle2, ArrowRight
 } from 'lucide-react'
 import {
   IndustryEvent,
@@ -46,6 +46,15 @@ interface MentorProfile {
 
 type Tab = 'exhibitions' | 'webinars' | 'mentorship' | 'discussion'
 
+// ─── City Theme Palette ───────────────────────────────────────────────────────
+const CITY_THEMES: Record<string, { bg: string; text: string; border: string; accent: string }> = {
+  Vadodara: { bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-200', accent: 'from-blue-600 to-indigo-700' },
+  Indore:   { bg: 'bg-amber-50', text: 'text-amber-900', border: 'border-amber-200', accent: 'from-amber-600 to-orange-600' },
+  Kottayam: { bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200', accent: 'from-purple-600 to-indigo-700' },
+  Mumbai:   { bg: 'bg-yellow-50', text: 'text-yellow-950', border: 'border-yellow-300', accent: 'from-amber-500 to-yellow-600' },
+  Chennai:  { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200', accent: 'from-emerald-600 to-teal-700' },
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(iso: string) {
@@ -68,7 +77,7 @@ function daysUntil(iso: string) {
   return Math.ceil(diff / (1000 * 60 * 60 * 24))
 }
 
-// ─── INDUSTRY EVENT DETAIL MODAL (THE STAR FEATURE) ──────────────────────────
+// ─── INDUSTRY EVENT DETAIL MODAL ──────────────────────────────────────────────
 
 function IndustryEventDetailModal({
   event,
@@ -79,6 +88,7 @@ function IndustryEventDetailModal({
 }) {
   const statusInfo = useMemo(() => computeEventStatus(event.startDate, event.endDate), [event])
   const gCalUrl = useMemo(() => generateEventGoogleCalendarUrl(event), [event])
+  const cityTheme = CITY_THEMES[event.city] || CITY_THEMES.Vadodara
 
   // Interactive Visit Checklist State
   const [checklist, setChecklist] = useState<Record<string, boolean>>({
@@ -108,22 +118,23 @@ function IndustryEventDetailModal({
         onClick={onClose}
       >
         <div
-          className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto flex flex-col max-h-[92vh]"
+          className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-auto flex flex-col max-h-[92vh]"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* High-Contrast Header (Dark Navy) */}
-          <div className="p-5 sm:p-6 bg-slate-900 text-white flex items-center justify-between border-b border-slate-800">
-            <div className="flex items-center gap-2.5">
-              <span className="font-mono text-xs font-bold text-slate-950 bg-amber-500 px-3 py-1 rounded-md uppercase tracking-wider">
+          {/* High-Contrast Header (Dark Navy with Gradient) */}
+          <div className="p-6 bg-slate-950 text-white flex items-center justify-between border-b border-white/10 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="flex items-center gap-2.5 relative z-10">
+              <span className="font-mono text-xs font-black text-slate-950 bg-amber-400 px-3 py-1 rounded-lg uppercase tracking-wider shadow-sm">
                 {event.eventType}
               </span>
-              <span className="font-mono text-xs text-slate-300">
-                {event.city}, {event.state}
+              <span className="font-mono text-xs font-bold text-slate-300">
+                📍 {event.city}, {event.state}
               </span>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer"
+              className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer relative z-10"
               title="Close (Esc)"
             >
               <X size={18} />
@@ -135,15 +146,15 @@ function IndustryEventDetailModal({
             {/* Badge & Dates Row */}
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                <span className="font-mono text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-3 py-1 rounded-md">
+                <span className="font-mono text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-3 py-1 rounded-xl">
                   📅 {event.dateDisplay}
                 </span>
-                <span className={`font-mono text-xs font-bold px-3 py-1 rounded-md ${statusInfo.badgeColor}`}>
+                <span className={`font-mono text-xs font-bold px-3 py-1 rounded-xl ${statusInfo.badgeColor}`}>
                   {statusInfo.status === 'Upcoming' ? `Upcoming · ${statusInfo.badgeText}` : statusInfo.status}
                 </span>
               </div>
               {event.isAnchorEvent && (
-                <span className="font-mono text-[11px] font-bold bg-amber-100 text-amber-900 border border-amber-300 px-3 py-1 rounded-md uppercase tracking-wider">
+                <span className="font-mono text-[11px] font-black bg-gradient-to-r from-amber-400 to-yellow-500 text-slate-950 px-3 py-1 rounded-xl uppercase tracking-wider shadow-sm">
                   ⭐ Anchor Mega Show
                 </span>
               )}
@@ -160,9 +171,9 @@ function IndustryEventDetailModal({
               </div>
             </div>
 
-            {/* Core Focus & Muted Tags */}
-            <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">
+            {/* Core Focus & Tags */}
+            <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
+              <span className="font-mono text-[10px] font-bold uppercase text-blue-700 tracking-wider block">
                 Core Industry &amp; Technological Scope
               </span>
               <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed">
@@ -170,41 +181,41 @@ function IndustryEventDetailModal({
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
                 {event.focusTags.map(tag => (
-                  <span key={tag} className="font-mono text-[10px] bg-white text-slate-700 border border-slate-200 px-2.5 py-0.5 rounded-md font-semibold">
+                  <span key={tag} className="font-mono text-[10px] bg-white text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold shadow-xs">
                     #{tag}
                   </span>
                 ))}
               </div>
             </div>
 
-            {/* 👥 Ideal For (Uniform Muted Blue Styling) */}
+            {/* 👥 Ideal For */}
             <div className="space-y-3">
               <h3 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <Users size={15} className="text-blue-700" /> 👥 Ideal For &amp; Target Audience
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                 {event.idealFor.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-blue-900 bg-blue-50/70 p-3 rounded-xl border border-blue-200 font-medium">
-                    <CheckCircle size={14} className="text-blue-700 shrink-0 mt-0.5" />
+                  <div key={idx} className="flex items-start gap-2 text-xs text-blue-900 bg-blue-50/70 p-3.5 rounded-xl border border-blue-200 font-medium">
+                    <CheckCircle size={15} className="text-blue-700 shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* 🏭 What You Will Experience (01/02/03 Clean Labels) */}
+            {/* 🏭 What You Will Experience */}
             <div className="space-y-3">
               <h3 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
                 <Building2 size={15} className="text-slate-700" /> 🏭 What You Will Inspect on the Floor
               </h3>
               <div className="space-y-2.5">
                 {event.whatToSee.map((item) => (
-                  <div key={item.step} className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-start gap-3 shadow-xs">
-                    <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 px-2.5 py-1 rounded-lg shrink-0">
+                  <div key={item.step} className="p-4 rounded-xl bg-white border border-slate-200 flex items-start gap-3.5 shadow-xs">
+                    <span className="font-mono text-xs font-bold bg-slate-900 text-white px-2.5 py-1 rounded-lg shrink-0">
                       {item.step}
                     </span>
                     <div>
-                      <h4 className="font-display font-bold text-xs text-slate-900">{item.title}</h4>
+                      <h4 className="font-display font-bold text-xs sm:text-sm text-slate-900">{item.title}</h4>
                       <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">{item.desc}</p>
                     </div>
                   </div>
@@ -212,10 +223,10 @@ function IndustryEventDetailModal({
               </div>
             </div>
 
-            {/* 🎓 Student Mode (Engineering Field Guide) */}
-            <div className="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-3">
+            {/* 🎓 Student Mode */}
+            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50/60 border border-amber-200 space-y-3 shadow-xs">
               <div className="flex items-center gap-2">
-                <span className="text-base">🎓</span>
+                <span className="text-xl">🎓</span>
                 <h4 className="font-display font-black text-sm text-amber-950 uppercase tracking-wide">
                   Student &amp; Trainee Field Guide
                 </h4>
@@ -223,8 +234,8 @@ function IndustryEventDetailModal({
               <p className="text-xs sm:text-sm text-amber-900 font-medium leading-relaxed">
                 {event.studentMode.advice}
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                <div className="bg-white p-3 rounded-xl border border-amber-200 text-xs text-amber-950">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <div className="bg-white p-3.5 rounded-xl border border-amber-200 text-xs text-amber-950 shadow-xs">
                   <span className="font-mono text-[10px] font-bold uppercase text-amber-800 block mb-1">🎯 Must-Visit Pavilions</span>
                   <ul className="list-disc list-inside space-y-0.5 font-medium text-slate-700">
                     {event.studentMode.keyPavilions.map((pav, i) => (
@@ -232,20 +243,20 @@ function IndustryEventDetailModal({
                     ))}
                   </ul>
                 </div>
-                <div className="bg-white p-3 rounded-xl border border-amber-200 text-xs text-amber-950">
+                <div className="bg-white p-3.5 rounded-xl border border-amber-200 text-xs text-amber-950 shadow-xs">
                   <span className="font-mono text-[10px] font-bold uppercase text-amber-800 block mb-1">💡 Pro Networking Tip</span>
                   <p className="font-medium leading-relaxed text-slate-700">{event.studentMode.networkingTip}</p>
                 </div>
               </div>
             </div>
 
-            {/* 📋 Plan My Visit (Interactive Assistant Checklist) */}
+            {/* 📋 Plan My Visit */}
             <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
               <div className="flex items-center justify-between">
                 <h4 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
                   <CheckSquare size={15} className="text-blue-600" /> Plan My Visit Checklist
                 </h4>
-                <span className="font-mono text-[10px] text-slate-500">
+                <span className="font-mono text-[10px] font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-md">
                   {Object.values(checklist).filter(Boolean).length}/5 Completed
                 </span>
               </div>
@@ -260,7 +271,7 @@ function IndustryEventDetailModal({
                   <label
                     key={item.key}
                     onClick={() => toggleChecklistItem(item.key)}
-                    className="flex items-center gap-2.5 p-2.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 font-medium cursor-pointer hover:bg-slate-50 transition-colors select-none"
+                    className="flex items-center gap-2.5 p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-700 font-medium cursor-pointer hover:bg-slate-50 transition-colors select-none shadow-xs"
                   >
                     <input
                       type="checkbox"
@@ -277,7 +288,7 @@ function IndustryEventDetailModal({
             </div>
 
             {/* Trust Layer Stamp */}
-            <div className="p-4 rounded-xl bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono text-slate-600">
+            <div className="p-4 rounded-2xl bg-slate-100 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 text-xs font-mono text-slate-600">
               <div>
                 <span>Organized by: <strong className="text-slate-900">{event.organizer}</strong></span>
                 <div className="text-[11px] text-slate-500 mt-0.5">
@@ -300,7 +311,7 @@ function IndustryEventDetailModal({
                 href={gCalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-1 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-xs"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl transition-all shadow-md shadow-blue-600/20"
               >
                 <Calendar size={15} /> + Add to Google Calendar
               </a>
@@ -308,7 +319,7 @@ function IndustryEventDetailModal({
                 href={event.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 text-slate-800 font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl border border-slate-200 transition-all"
+                className="inline-flex items-center justify-center gap-1.5 bg-white hover:bg-slate-50 text-slate-800 font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl border border-slate-300 transition-all"
               >
                 Organizer Portal <ExternalLink size={14} />
               </a>
@@ -358,7 +369,7 @@ function WebinarDetailModal({
         onClick={onClose}
       >
         <div
-          className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
+          className="bg-white w-full max-w-2xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -375,7 +386,7 @@ function WebinarDetailModal({
 
           <div className="flex items-center gap-2">
             {event.is_live ? (
-              <span className="px-3 py-1 bg-red-600 text-white text-xs font-mono font-bold rounded-full animate-pulse flex items-center gap-1.5">
+              <span className="px-3 py-1 bg-red-600 text-white text-xs font-mono font-bold rounded-full animate-pulse flex items-center gap-1.5 shadow-sm">
                 <span className="w-2 h-2 rounded-full bg-white animate-ping" /> LIVE NOW
               </span>
             ) : (
@@ -405,7 +416,7 @@ function WebinarDetailModal({
           </div>
 
           <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-bold text-lg shrink-0 shadow-sm">
               {event.speaker.charAt(0)}
             </div>
             <div>
@@ -440,7 +451,7 @@ function WebinarDetailModal({
               />
               <button
                 onClick={copyLink}
-                className="px-3 py-2 bg-blue-600 text-white rounded-xl text-xs font-mono font-bold hover:bg-blue-700 transition-colors flex items-center gap-1"
+                className="px-3 py-2 bg-blue-600 text-white rounded-xl text-xs font-mono font-bold hover:bg-blue-700 transition-colors flex items-center gap-1 shadow-xs"
               >
                 {copied ? <Check size={14} /> : <Copy size={14} />}
                 {copied ? 'Copied' : 'Copy'}
@@ -457,7 +468,7 @@ function WebinarDetailModal({
             ) : (
               <button
                 onClick={() => onRegister(event.id)}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-xs transition-all"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-md shadow-blue-600/20 transition-all"
               >
                 Confirm Registration (Free)
               </button>
@@ -509,7 +520,7 @@ function MentorDetailModal({
         onClick={onClose}
       >
         <div
-          className="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
+          className="bg-white w-full max-w-xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-8 space-y-6 p-6 sm:p-8"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
@@ -525,7 +536,7 @@ function MentorDetailModal({
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-display font-black text-2xl shrink-0">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white flex items-center justify-center font-display font-black text-2xl shrink-0 shadow-md">
               {mentor.avatar_initials || mentor.name.slice(0, 2).toUpperCase()}
             </div>
             <div>
@@ -588,7 +599,7 @@ function MentorDetailModal({
 
               <button
                 type="submit"
-                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-xs transition-all"
+                className="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-md shadow-blue-600/20 transition-all"
               >
                 <Send size={14} /> Send 1-on-1 Mentorship Request (+25 XP)
               </button>
@@ -619,15 +630,15 @@ function EventCard({
   return (
     <div
       onClick={() => onOpenDetail(event)}
-      className="group bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between cursor-pointer space-y-4"
+      className="group bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-4"
     >
-      <div className="space-y-3">
+      <div className="space-y-3.5">
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-wrap items-center gap-1.5">
             {event.tags.map((t) => (
               <span
                 key={t}
-                className="font-mono text-[9px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded"
+                className="font-mono text-[9px] font-bold uppercase tracking-wider bg-blue-50 text-blue-700 border border-blue-200 px-2.5 py-0.5 rounded-lg shadow-xs"
               >
                 {t}
               </span>
@@ -639,39 +650,39 @@ function EventCard({
               e.stopPropagation()
               onOpenDetail(event)
             }}
-            className="p-1 rounded-lg text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+            className="p-1.5 rounded-xl text-slate-400 hover:text-blue-600 hover:bg-blue-50 transition-colors"
             title="View Agenda & Meet Link"
           >
             <Video size={16} />
           </button>
         </div>
 
-        <h3 className="font-display font-bold text-slate-900 text-sm sm:text-base leading-snug group-hover:text-blue-700 transition-colors">
+        <h3 className="font-display font-bold text-slate-900 text-base sm:text-lg leading-snug group-hover:text-blue-600 transition-colors">
           {event.title}
         </h3>
 
-        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed font-light">
           {event.description}
         </p>
       </div>
 
-      <div className="space-y-3 border-t border-slate-100 pt-3">
-        <div className="flex items-center gap-2 text-xs">
-          <div className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center font-bold text-[10px] shrink-0">
+      <div className="space-y-3 border-t border-slate-100 pt-4">
+        <div className="flex items-center gap-2.5 text-xs">
+          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
             {event.speaker.charAt(0)}
           </div>
           <div className="min-w-0">
-            <span className="font-bold text-slate-800 block truncate">{event.speaker}</span>
+            <span className="font-bold text-slate-900 block truncate">{event.speaker}</span>
             <span className="text-[10px] text-slate-500 font-mono block truncate">{event.company}</span>
           </div>
         </div>
 
         <div className="flex items-center justify-between text-[11px] font-mono text-slate-500">
           <span className="flex items-center gap-1">
-            <Calendar size={12} /> {formatDate(event.event_date)}
+            <Calendar size={12} className="text-blue-600" /> {formatDate(event.event_date)}
           </span>
           <span className="flex items-center gap-1">
-            <Clock size={12} /> {formatTime(event.event_date)}
+            <Clock size={12} className="text-blue-600" /> {formatTime(event.event_date)}
           </span>
         </div>
 
@@ -679,12 +690,12 @@ function EventCard({
           <button
             onClick={() => onRegister(event.id)}
             disabled={isPast}
-            className={`flex-1 py-2 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+            className={`flex-1 py-2.5 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-xs ${
               registered
                 ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
                 : isPast
                 ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
+                : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20'
             }`}
           >
             {registered ? (
@@ -700,7 +711,7 @@ function EventCard({
 
           <button
             onClick={() => onOpenDetail(event)}
-            className="px-3 py-2 border border-slate-200 hover:border-slate-300 rounded-xl font-mono text-[10px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
+            className="px-3.5 py-2.5 border border-slate-200 hover:border-slate-300 rounded-xl font-mono text-[10px] font-bold text-slate-600 hover:bg-slate-50 transition-colors"
           >
             Details &rarr;
           </button>
@@ -726,15 +737,15 @@ function MentorCard({
   return (
     <div
       onClick={() => onOpenDetail(mentor)}
-      className="bg-white border border-slate-200 rounded-2xl p-5 hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between cursor-pointer space-y-4 group"
+      className="bg-white border-2 border-slate-200 hover:border-amber-500 rounded-3xl p-6 hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-4 group"
     >
-      <div className="space-y-3">
-        <div className="flex items-start gap-3">
-          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-display font-black text-slate-800 text-sm shrink-0 group-hover:bg-slate-900 group-hover:text-white transition-colors">
+      <div className="space-y-3.5">
+        <div className="flex items-start gap-3.5">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white flex items-center justify-center font-display font-black text-slate-100 text-lg shrink-0 shadow-md group-hover:scale-105 transition-transform">
             {mentor.avatar_initials || mentor.name.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-display font-bold text-slate-900 text-sm truncate group-hover:text-blue-700 transition-colors">
+            <h3 className="font-display font-bold text-slate-900 text-base truncate group-hover:text-blue-600 transition-colors">
               {mentor.name}
             </h3>
             <p className="text-xs text-blue-700 font-semibold truncate">{mentor.designation}</p>
@@ -745,15 +756,15 @@ function MentorCard({
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="font-mono text-[9px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">
+          <span className="font-mono text-[9px] font-bold bg-amber-50 text-amber-900 border border-amber-200 px-2.5 py-0.5 rounded-lg shadow-xs">
             {mentor.experience_years}+ Yrs Experience
           </span>
-          <span className="font-mono text-[9px] font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2 py-0.5 rounded truncate">
+          <span className="font-mono text-[9px] font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-lg truncate shadow-xs">
             {mentor.specialization}
           </span>
         </div>
 
-        <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed">
+        <p className="text-xs text-slate-600 line-clamp-3 leading-relaxed font-light">
           {mentor.bio}
         </p>
       </div>
@@ -761,10 +772,10 @@ function MentorCard({
       <div className="pt-2 border-t border-slate-100" onClick={(e) => e.stopPropagation()}>
         <button
           onClick={() => onOpenDetail(mentor)}
-          className={`w-full py-2.5 px-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 ${
+          className={`w-full py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-xs ${
             requested
               ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
-              : 'bg-blue-600 hover:bg-blue-700 text-white shadow-xs'
+              : 'bg-slate-900 hover:bg-slate-800 text-white'
           }`}
         >
           {requested ? (
@@ -773,7 +784,7 @@ function MentorCard({
             </>
           ) : (
             <>
-              <Star size={13} className="text-white" /> Request 1-on-1 Match
+              <Star size={13} className="text-amber-400 fill-amber-400" /> Request 1-on-1 Match
             </>
           )}
         </button>
@@ -798,24 +809,24 @@ function DiscussionTab() {
         {CHANNELS.map((ch, idx) => (
           <div
             key={idx}
-            className="bg-white border border-slate-200 rounded-3xl p-6 hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4"
+            className="bg-white border-2 border-slate-200 hover:border-blue-500 rounded-3xl p-6 sm:p-8 hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-4"
           >
-            <div className="space-y-2">
-              <span className={`font-mono text-[9px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${ch.color}`}>
+            <div className="space-y-2.5">
+              <span className={`font-mono text-[9px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border shadow-xs ${ch.color}`}>
                 {ch.tag}
               </span>
               <h3 className="font-display font-black text-slate-900 text-lg sm:text-xl">
                 {ch.title}
               </h3>
-              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
                 {ch.desc}
               </p>
             </div>
 
-            <div className="pt-2">
+            <div className="pt-3 border-t border-slate-100">
               <Link
                 href={ch.href}
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-blue-700 hover:text-blue-900 uppercase tracking-wider hover:underline"
+                className="inline-flex items-center gap-2 text-xs font-mono font-bold text-blue-600 hover:text-blue-800 uppercase tracking-wider hover:translate-x-1 transition-transform"
               >
                 Enter Channel &rarr;
               </Link>
@@ -824,18 +835,18 @@ function DiscussionTab() {
         ))}
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xs">
-        <div className="space-y-1 text-center sm:text-left">
-          <h4 className="font-display font-black text-slate-900 text-lg sm:text-xl">
+      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 border-2 border-slate-800 rounded-3xl p-8 sm:p-10 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl text-white">
+        <div className="space-y-2 text-center sm:text-left">
+          <h4 className="font-display font-black text-white text-xl sm:text-2xl">
             Want to start an official CIPET or College Polymer Club?
           </h4>
-          <p className="text-xs sm:text-sm text-slate-600 max-w-xl">
+          <p className="text-xs sm:text-sm text-slate-300 max-w-xl font-light leading-relaxed">
             We provide official PolymerHub verification badges, shared question banks, and free access to industrial calculation engines.
           </p>
         </div>
         <Link
           href="/study-groups"
-          className="bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl shrink-0 transition-colors shadow-xs"
+          className="bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-black text-xs uppercase tracking-wider px-8 py-4 rounded-xl shrink-0 transition-all shadow-lg shadow-amber-400/20 hover:scale-105"
         >
           Create Study Circle &rarr;
         </Link>
@@ -931,95 +942,100 @@ export default function CommunityPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] pb-24 text-slate-900 font-sans">
-      {/* ── CLEAN SLATE HERO (ZERO YELLOW CONE) ── */}
-      <section className="bg-slate-50 border-b border-slate-200 text-slate-900 pt-16 pb-20 px-4 sm:px-6">
-        <div className="max-w-5xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-700 bg-blue-50 px-3.5 py-1 rounded-full uppercase tracking-wider border border-blue-200">
-            <Compass className="w-3.5 h-3.5 text-blue-600" /> INDUSTRY &amp; EVENTS
+    <div className="min-h-screen bg-[#FAF8F5] pb-24 text-slate-900 font-sans">
+      
+      {/* ── MIDNIGHT NAVY SIGNATURE HERO ── */}
+      <section className="bg-[#0A1628] text-white pt-16 pb-24 px-4 sm:px-6 relative overflow-hidden border-b-2 border-slate-900">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.2)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto text-center space-y-4 relative z-10">
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-300 bg-blue-900/40 border border-blue-400/30 px-4 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+            <Compass className="w-3.5 h-3.5 text-blue-400" /> INDUSTRY &amp; COMMUNITY ECOSYSTEM
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-slate-950 uppercase tracking-tight leading-tight">
+          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight leading-tight">
             CONNECT. LEARN. <br className="hidden sm:inline" />
-            GROW TOGETHER.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-400">
+              GROW TOGETHER.
+            </span>
           </h1>
 
-          <p className="text-slate-600 text-sm sm:text-base max-w-2xl mx-auto font-normal leading-relaxed">
-            Attend verified Indian plastics exhibitions, connect with senior polymer engineers from Reliance, Tata, and CIPET alumni, and boost your career.
+          <p className="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto font-light leading-relaxed">
+            Attend verified Indian plastics exhibitions, connect with senior polymer engineers from Reliance, Tata, and CIPET alumni, and boost your industrial career.
           </p>
 
-          {/* Clean Stats Bar (White Cards) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto pt-4">
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <div className="font-display text-2xl font-black text-slate-900">5</div>
-              <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mt-0.5">Verified Expos</div>
+          {/* Premium Glassmorphism Stats Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-3xl mx-auto pt-6">
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-lg">
+              <div className="font-display text-3xl font-black text-white">5</div>
+              <div className="text-[11px] font-mono text-amber-400 uppercase tracking-wider font-bold mt-1">Verified Expos</div>
             </div>
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <div className="font-display text-2xl font-black text-blue-700">{events.length || 15}</div>
-              <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mt-0.5">Masterclasses</div>
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-lg">
+              <div className="font-display text-3xl font-black text-blue-400">{events.length || 15}</div>
+              <div className="text-[11px] font-mono text-blue-300 uppercase tracking-wider font-bold mt-1">Masterclasses</div>
             </div>
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <div className="font-display text-2xl font-black text-slate-900">{mentors.length || 15}</div>
-              <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mt-0.5">Industry Mentors</div>
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-lg">
+              <div className="font-display text-3xl font-black text-purple-400">{mentors.length || 15}</div>
+              <div className="text-[11px] font-mono text-purple-300 uppercase tracking-wider font-bold mt-1">Industry Mentors</div>
             </div>
-            <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-xs">
-              <div className="font-display text-2xl font-black text-emerald-700">+10 to +25</div>
-              <div className="text-[11px] font-mono text-slate-500 uppercase tracking-wider mt-0.5">XP Per Action</div>
+            <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/15 shadow-lg">
+              <div className="font-display text-3xl font-black text-emerald-400">+10 to +25</div>
+              <div className="text-[11px] font-mono text-emerald-300 uppercase tracking-wider font-bold mt-1">XP Per Action</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── TABS NAVIGATION ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-6">
-        <div className="bg-white rounded-2xl p-1.5 shadow-md border border-slate-200 flex flex-wrap items-center justify-between gap-2">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 w-full">
+      {/* ── ELEVATED TABS NAVIGATION ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 -mt-8 relative z-20">
+        <div className="bg-white rounded-3xl p-2 shadow-xl border-2 border-slate-900 flex flex-wrap items-center justify-between gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 w-full">
             <button
               onClick={() => setActiveTab('exhibitions')}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xs ${
                 activeTab === 'exhibitions'
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
               }`}
             >
-              <Building2 size={15} className={activeTab === 'exhibitions' ? 'text-amber-400' : 'text-slate-400'} />
-              Industry Expos &amp; Conferences ({VERIFIED_INDUSTRY_EVENTS.length})
+              <Building2 size={16} className={activeTab === 'exhibitions' ? 'text-white' : 'text-slate-400'} />
+              Industry Expos ({VERIFIED_INDUSTRY_EVENTS.length})
             </button>
 
             <button
               onClick={() => setActiveTab('webinars')}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xs ${
                 activeTab === 'webinars'
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
               }`}
             >
-              <Video size={15} className={activeTab === 'webinars' ? 'text-blue-400' : 'text-slate-400'} />
+              <Video size={16} className={activeTab === 'webinars' ? 'text-white' : 'text-slate-400'} />
               Live Masterclasses ({events.length || 15})
             </button>
 
             <button
               onClick={() => setActiveTab('mentorship')}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xs ${
                 activeTab === 'mentorship'
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
               }`}
             >
-              <Star size={15} className={activeTab === 'mentorship' ? 'text-amber-400 fill-amber-400' : 'text-slate-400'} />
+              <Star size={16} className={activeTab === 'mentorship' ? 'text-amber-300 fill-amber-300' : 'text-slate-400'} />
               Mentorship Hub ({mentors.length || 15})
             </button>
 
             <button
               onClick={() => setActiveTab('discussion')}
-              className={`flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+              className={`flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xs ${
                 activeTab === 'discussion'
-                  ? 'bg-slate-900 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-50'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
               }`}
             >
-              <MessageCircle size={15} className={activeTab === 'discussion' ? 'text-emerald-400' : 'text-slate-400'} />
-              Community Q&amp;A &amp; Channels
+              <MessageCircle size={16} className={activeTab === 'discussion' ? 'text-white' : 'text-slate-400'} />
+              Discussion Channels
             </button>
           </div>
         </div>
@@ -1028,21 +1044,21 @@ export default function CommunityPage() {
       {/* ── TAB CONTENT ── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-12">
         {/* ============================================================ */}
-        {/* TAB 1: INDUSTRY EXPOS & CONFERENCES (THE VERIFIED TRUST LAYER) */}
+        {/* TAB 1: INDUSTRY EXPOS & CONFERENCES */}
         {/* ============================================================ */}
         {activeTab === 'exhibitions' && (
           <div className="space-y-8">
             {/* Header & City Filter */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b-2 border-slate-200">
               <div>
-                <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full uppercase tracking-wider border border-blue-200 mb-2">
-                  ✅ Verified Industry Foundation &middot; Computed Real-Time
+                <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-300 mb-2 shadow-xs">
+                  <CheckCircle size={13} className="text-emerald-600" /> Verified Industry Foundation &middot; Real-Time Computed
                 </div>
                 <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900">
                   Plastics &amp; Polymer Industry Exhibitions (2026 – 2027)
                 </h2>
-                <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed">
-                  Hand-curated, verifiable events from official organizers (AIPMA, TAPMA, MG University, IPMA). Every event includes real venue locations, student field guides, and 1-click Google Calendar integration.
+                <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed font-light">
+                  Hand-curated, verifiable events from official organizers (AIPMA, TAPMA, MG University, IPMA). Every event includes verified venue locations, student field guides, and 1-click Google Calendar integration.
                 </p>
               </div>
 
@@ -1051,7 +1067,7 @@ export default function CommunityPage() {
                 <select
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
-                  className="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm"
                 >
                   <option value="all">📍 All Cities</option>
                   <option value="vadodara">Vadodara</option>
@@ -1064,7 +1080,7 @@ export default function CommunityPage() {
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none"
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm"
                 >
                   <option value="all">🏢 All Event Types</option>
                   <option value="expo">Exhibitions &amp; Expos</option>
@@ -1073,36 +1089,40 @@ export default function CommunityPage() {
               </div>
             </div>
 
-            {/* Event Cards Grid (Clean Engineering Worksheet Style) */}
+            {/* Event Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredIndustryEvents.map((ev) => {
                 const statusInfo = computeEventStatus(ev.startDate, ev.endDate)
                 const gCalUrl = generateEventGoogleCalendarUrl(ev)
+                const cityTheme = CITY_THEMES[ev.city] || CITY_THEMES.Vadodara
 
                 return (
                   <div
                     key={ev.id}
                     onClick={() => setSelectedIndustryEvent(ev)}
-                    className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between cursor-pointer space-y-4"
+                    className="group bg-white border-2 border-slate-200 hover:border-blue-600 rounded-3xl p-6 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-4 relative overflow-hidden"
                   >
-                    <div className="space-y-3.5">
-                      {/* Top Badges (JetBrains Mono 10px) */}
+                    {/* Top Accent Gradient Bar */}
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${cityTheme.accent}`} />
+
+                    <div className="space-y-3.5 pt-1">
+                      {/* Top Badges (JetBrains Mono) */}
                       <div className="flex items-center justify-between gap-2">
                         <div className="flex items-center gap-1.5">
-                          <span className="font-mono text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-1 rounded">
+                          <span className="font-mono text-[10px] font-black bg-blue-100 text-blue-900 border border-blue-200 px-2.5 py-1 rounded-lg uppercase shadow-xs">
                             {ev.monthYearBadge}
                           </span>
-                          <span className="font-mono text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-1 rounded">
-                            {ev.city.toUpperCase()}
+                          <span className={`font-mono text-[10px] font-black px-2.5 py-1 rounded-lg uppercase border shadow-xs ${cityTheme.bg} ${cityTheme.text} ${cityTheme.border}`}>
+                            {ev.city}
                           </span>
                         </div>
-                        <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full ${statusInfo.badgeColor}`}>
+                        <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs ${statusInfo.badgeColor}`}>
                           {statusInfo.status === 'Upcoming' ? `In ${statusInfo.daysUntil}d` : statusInfo.status}
                         </span>
                       </div>
 
-                      {/* Title (Space Grotesk 700 18px Dark Navy) */}
-                      <h3 className="font-display font-bold text-slate-950 text-base sm:text-lg leading-snug group-hover:text-blue-700 transition-colors">
+                      {/* Title */}
+                      <h3 className="font-display font-black text-slate-900 text-base sm:text-lg leading-snug group-hover:text-blue-600 transition-colors">
                         {ev.title}
                       </h3>
 
@@ -1115,7 +1135,7 @@ export default function CommunityPage() {
                       {/* Muted Focus Tags */}
                       <div className="flex flex-wrap gap-1.5 pt-1">
                         {ev.focusTags.slice(0, 3).map(tag => (
-                          <span key={tag} className="font-mono text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-medium">
+                          <span key={tag} className="font-mono text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold shadow-2xs">
                             #{tag}
                           </span>
                         ))}
@@ -1123,11 +1143,11 @@ export default function CommunityPage() {
                     </div>
 
                     {/* Trust Layer & Action Bar */}
-                    <div className="space-y-3 border-t border-slate-100 pt-3" onClick={(e) => e.stopPropagation()}>
+                    <div className="space-y-3 border-t border-slate-100 pt-3.5" onClick={(e) => e.stopPropagation()}>
                       {/* Trust Line */}
                       <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
                         <span className="text-emerald-700 font-bold flex items-center gap-1">
-                          <CheckCircle size={11} className="text-emerald-600" /> Source: {ev.sourceName.split('/')[0].trim()}
+                          <CheckCircle size={12} className="text-emerald-600" /> Source: {ev.sourceName.split('/')[0].trim()}
                         </span>
                         <span>Verified: {ev.lastVerified}</span>
                       </div>
@@ -1136,7 +1156,7 @@ export default function CommunityPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setSelectedIndustryEvent(ev)}
-                          className="flex-1 py-2.5 px-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all text-center shadow-xs"
+                          className="flex-1 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all text-center shadow-md shadow-blue-600/20 group-hover:scale-101"
                         >
                           View Event &rarr;
                         </button>
@@ -1144,10 +1164,10 @@ export default function CommunityPage() {
                           href={gCalUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="p-2.5 border border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-xl text-slate-700 transition-colors"
+                          className="p-3 border-2 border-slate-200 hover:border-slate-300 hover:bg-slate-50 rounded-xl text-slate-700 transition-colors shadow-2xs"
                           title="Add to Google Calendar"
                         >
-                          <Calendar size={14} />
+                          <Calendar size={15} />
                         </a>
                       </div>
                     </div>
@@ -1163,11 +1183,11 @@ export default function CommunityPage() {
         {/* ============================================================ */}
         {activeTab === 'webinars' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-200 pb-4">
+            <div className="border-b-2 border-slate-200 pb-4">
               <h2 className="font-display text-2xl font-black text-slate-900">
                 Interactive Technical Webinars &amp; Plant Masterclasses
               </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+              <p className="text-slate-600 text-xs sm:text-sm mt-1 font-light">
                 Live technical sessions conducted by senior industry practitioners. Register to receive Google Meet access links and earn +10 XP.
               </p>
             </div>
@@ -1198,11 +1218,11 @@ export default function CommunityPage() {
         {/* ============================================================ */}
         {activeTab === 'mentorship' && (
           <div className="space-y-6">
-            <div className="border-b border-slate-200 pb-4">
+            <div className="border-b-2 border-slate-200 pb-4">
               <h2 className="font-display text-2xl font-black text-slate-900">
                 Senior Industry Mentorship Directory
               </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-1">
+              <p className="text-slate-600 text-xs sm:text-sm mt-1 font-light">
                 Direct 1-on-1 guidance from polymer engineering veterans across Reliance, Tata Motors, Supreme, and CIPET faculty. Select a mentor to submit your inquiry (+25 XP).
               </p>
             </div>
@@ -1260,32 +1280,34 @@ export default function CommunityPage() {
         />
       )}
 
-      {/* ── BOTTOM AI COMMUNITY COUNSELOR (CLEAN LIGHT INTEGRATION) ── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-16">
-        <div className="bg-blue-50/70 border border-blue-200 rounded-3xl p-8 sm:p-10 text-center space-y-4">
-          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-blue-700 bg-white px-3.5 py-1 rounded-full uppercase tracking-wider border border-blue-200">
-            <Sparkles className="w-3.5 h-3.5 text-blue-600" /> AI Community Specialist &middot; Gemini RAG
+      {/* ── SIGNATURE MIDNIGHT AI COUNSELOR SECTION ── */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 mt-20">
+        <div className="bg-gradient-to-br from-[#0A1628] via-[#0F223D] to-[#0A1628] text-white border-2 border-slate-800 rounded-3xl p-8 sm:p-12 text-center space-y-5 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-amber-300 bg-amber-400/15 border border-amber-400/30 px-4 py-1.5 rounded-full uppercase tracking-widest relative z-10 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> AI Community Specialist &middot; Gemini RAG
           </div>
 
-          <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900 uppercase">
+          <h2 className="font-display text-3xl sm:text-4xl font-black text-white uppercase relative z-10">
             Planning your trip to Plastivision or IPLAS?
           </h2>
 
-          <p className="text-slate-600 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed">
-            Ask our AI Specialist for a personalized machinery pavilion checklist, questions for plant heads, or technical prep guidelines.
+          <p className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-light relative z-10">
+            Ask our AI Specialist for a personalized machinery pavilion checklist, technical questions for plant heads, or student delegation prep guidelines.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-3 relative z-10">
             <Link
               href="/ai-tutor?prompt=I%20am%20a%20Polymer%20Engineering%20student%20visiting%20Plastivision%20India%202027.%20What%20are%20the%20top%20machinery%20pavilions%20and%20technical%20questions%20I%20should%20prepare%20for%20plant%20heads%3F"
-              className="inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl shadow-xs transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-black text-xs uppercase tracking-wider px-8 py-4 rounded-xl shadow-lg shadow-amber-400/20 hover:scale-105 transition-all"
             >
               <Brain className="w-4 h-4" /> Get Expo Prep Checklist &rarr;
             </Link>
 
             <Link
               href="/forum"
-              className="inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-mono font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl border border-slate-200 transition-all"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider px-8 py-4 rounded-xl border border-white/20 transition-all"
             >
               <Users className="w-4 h-4" /> Join Student Discussion Circle
             </Link>
