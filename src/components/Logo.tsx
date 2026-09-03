@@ -28,19 +28,16 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     )
   }
 
-  // Full logo — use original official trimmed horizontal logo
-  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-horizontal.jpg'
+  // Full logo — use official SVG vector logo to guarantee crystal-clear tagline rendering
+  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-full.svg'
 
   return (
     <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
-      <Image
+      <img
         src={src}
-        alt="Polymer Hub of India"
-        width={894}
-        height={268}
-        className="h-10 sm:h-12 md:h-14 max-h-[44px] sm:max-h-[50px] w-auto max-w-[190px] sm:max-w-[240px] md:max-w-[280px] object-contain shrink-0 mix-blend-multiply"
-        priority
-        unoptimized
+        alt="Polymer Hub of India — Knowledge • Innovation • Future"
+        className="h-11 sm:h-13 md:h-14 w-auto max-w-[220px] sm:max-w-[270px] md:max-w-[310px] object-contain shrink-0 drop-shadow-2xs"
+        loading="eager"
       />
     </Link>
   )
