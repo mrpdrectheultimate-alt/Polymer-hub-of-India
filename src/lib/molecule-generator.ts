@@ -19,15 +19,15 @@ export interface MoleculeData {
 }
 
 // Element properties (CPK Coloring)
-const ELEMENTS: Record<string, { color: string; radius: number }> = {
-  C: { color: '#4B5563', radius: 12 },    // Charcoal/Gray Carbon
-  H: { color: '#3B82F6', radius: 7 },     // Blue/White Hydrogen
-  O: { color: '#EF4444', radius: 12 },    // Red Oxygen
-  N: { color: '#8B5CF6', radius: 12 },    // Purple Nitrogen
-  Cl: { color: '#10B981', radius: 16 },   // Green Chlorine
-  F: { color: '#06B6D4', radius: 11 },    // Cyan Fluorine
-  Si: { color: '#6B7280', radius: 13 },   // Slate Silicon
-  S: { color: '#F59E0B', radius: 14 },    // Yellow Sulfur
+const ELEMENTS: Record<string, { color: string; radius: number; label: string }> = {
+  C: { color: '#374151', radius: 12, label: 'Carbon (C)' },       // Dark Charcoal Carbon
+  H: { color: '#E2E8F0', radius: 7, label: 'Hydrogen (H)' },       // Clean White Hydrogen
+  O: { color: '#EF4444', radius: 12, label: 'Oxygen (O)' },        // Vivid Red Oxygen
+  N: { color: '#2563EB', radius: 12, label: 'Nitrogen (N)' },      // CPK Royal Blue Nitrogen
+  Cl: { color: '#10B981', radius: 16, label: 'Chlorine (Cl)' },   // Forest Green Chlorine
+  F: { color: '#06B6D4', radius: 11, label: 'Fluorine (F)' },      // Cyan Fluorine
+  Si: { color: '#94A3B8', radius: 13, label: 'Silicon (Si)' },     // Slate Silicon
+  S: { color: '#EAB308', radius: 14, label: 'Sulfur (S)' },        // Amber Yellow Sulfur
 };
 
 export function getElementColor(element: string): string {
