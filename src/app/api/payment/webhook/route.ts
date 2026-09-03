@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
+import { verifyRazorpayWebhookSignature } from '@/lib/security'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,13 +26,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No signature header provided' }, { status: 400 })
     }
 
-    // 1. Verify HMAC SHA256 Webhook Signature
-    const expectedSignature = crypto
-      .createHmac('sha256', webhookSecret)
-      .update(body)
-      .digest('hex')
-
-    if (expectedSignature !== signature) {
+    // 1. Timing-Safe HMAC SHA256 Webhook Signature Verification
+    const isValidSignature = verifyRazorpayWebhookSignature(body, signature, webhookSecret)
+    if (!isValidSignature) {
       console.error('Webhook signature mismatch')
       return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 400 })
     }

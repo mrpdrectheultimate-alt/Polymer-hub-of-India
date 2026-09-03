@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import crypto from 'crypto'
+import { verifyRazorpaySignature } from '@/lib/security'
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,14 +21,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing payment verification params' }, { status: 400 })
     }
 
-    // Verify signature
-    const body = razorpay_order_id + '|' + razorpay_payment_id
-    const expectedSignature = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET!)
-      .update(body)
-      .digest('hex')
+    // Timing-safe HMAC verification
+    const secret = process.env.RAZORPAY_KEY_SECRET
+    if (!secret) {
+      return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 })
+    }
 
-    if (expectedSignature !== razorpay_signature) {
+    const isValid = verifyRazorpaySignature(
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      secret
+    )
+
+    if (!isValid) {
       return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
     }
 
