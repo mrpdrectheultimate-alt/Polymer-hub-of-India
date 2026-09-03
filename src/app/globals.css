@@ -719,4 +719,70 @@ select:focus-visible {
   animation: polymer-float 7s ease-in-out infinite;
 }
 
-
+
+
+/* ─── ULTRA-COMFORTABLE LARGE DISPLAY & HIGH-RESOLUTION ADAPTATION ─── */
+@media (min-width: 1440px) {
+  .max-w-7xl {
+    max-width: 1380px !important;
+  }
+  .max-w-6xl {
+    max-width: 1260px !important;
+  }
+  .max-w-5xl {
+    max-width: 1100px !important;
+  }
+}
+
+@media (min-width: 1600px) {
+  html {
+    font-size: 16.5px;
+  }
+  .max-w-7xl {
+    max-width: 1520px !important;
+  }
+  .max-w-6xl {
+    max-width: 1380px !important;
+  }
+  .max-w-5xl {
+    max-width: 1220px !important;
+  }
+  .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    gap: 1.75rem;
+  }
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: 17px;
+  }
+  .max-w-7xl {
+    max-width: 1680px !important;
+  }
+  .max-w-6xl {
+    max-width: 1520px !important;
+  }
+  .max-w-5xl {
+    max-width: 1360px !important;
+  }
+  /* Generous padding on full-width heroes and sections */
+  section {
+    scroll-margin-top: 5rem;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 18.5px;
+  }
+  .max-w-7xl {
+    max-width: 2040px !important;
+  }
+  .max-w-6xl {
+    max-width: 1840px !important;
+  }
+  .max-w-5xl {
+    max-width: 1600px !important;
+  }
+}
+

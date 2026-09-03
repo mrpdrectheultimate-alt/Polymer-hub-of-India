@@ -36,7 +36,7 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
       <img
         src={src}
         alt="Polymer Hub of India — Knowledge • Innovation • Future"
-        className="h-11 sm:h-13 md:h-14 w-auto max-w-[220px] sm:max-w-[270px] md:max-w-[310px] object-contain shrink-0 drop-shadow-2xs"
+        className="h-11 sm:h-13 md:h-14 2xl:h-16 w-auto max-w-[220px] sm:max-w-[270px] md:max-w-[310px] 2xl:max-w-[360px] object-contain shrink-0 drop-shadow-2xs"
         loading="eager"
       />
     </Link>

@@ -134,10 +134,9 @@ export default function Navbar() {
       ──────────────────────────────────────────────────────────────────────── */}
       <nav
         data-navbar
-        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs"
-        style={{ height: '68px' }}
+        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs h-[68px] 2xl:h-[76px]"
       >
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4">
+        <div className="h-full max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 2xl:px-8 flex items-center justify-between gap-4 2xl:gap-8">
 
           {/* Logo — full horizontal logo for maximum brand prominence */}
           <div className="flex items-center shrink-0">
@@ -150,7 +149,7 @@ export default function Navbar() {
               <div key={section.label} className="relative">
                 <button
                   onClick={() => setActiveDropdown(activeDropdown === section.label ? null : section.label)}
-                  className="flex items-center gap-1 px-3 h-8 font-mono text-[10px] font-black uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 px-3.5 2xl:px-4 py-2 rounded-xl font-mono text-xs 2xl:text-sm font-black uppercase tracking-wider text-slate-800 hover:bg-slate-900 hover:text-white transition-all shadow-2xs"
                   style={{
                     backgroundColor: activeDropdown === section.label ? '#0A0A0A' : undefined,
                     color: activeDropdown === section.label ? 'white' : undefined,
@@ -161,22 +160,22 @@ export default function Navbar() {
                 </button>
 
                 {activeDropdown === section.label && (
-                  <div className="absolute top-full left-0 mt-0 w-72 border-4 border-black bg-white z-50"
+                  <div className="absolute top-full left-0 mt-1.5 w-80 2xl:w-96 rounded-2xl border-2 border-slate-900 bg-white z-50 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
                     style={{ boxShadow: '4px 4px 0px 0px #0A0A0A' }}>
                     {section.items.map(item => {
                       const Icon = item.icon
                       const isActive = pathname === item.href
                       return (
                         <Link key={item.href} href={item.href}
-                          className="flex items-center gap-3 px-4 py-3 border-b-2 border-black/10 last:border-0 hover:bg-black hover:text-white group transition-colors"
+                          className="flex items-center gap-3.5 p-3.5 2xl:p-4 border-b border-slate-100 last:border-0 hover:bg-slate-900 hover:text-white group transition-all"
                           style={{ backgroundColor: isActive ? '#0A0A0A' : undefined, color: isActive ? 'white' : undefined }}>
-                          <div className="w-8 h-8 border-2 border-black flex items-center justify-center flex-shrink-0 group-hover:border-white transition-colors"
+                          <div className="w-9 h-9 2xl:w-10 2xl:h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white shadow-xs group-hover:scale-105 transition-transform"
                             style={{ backgroundColor: item.color }}>
                             <Icon className="w-4 h-4 text-white" />
                           </div>
                           <div>
-                            <div className="font-mono text-[10px] font-bold uppercase tracking-wider">{item.label}</div>
-                            <div className={`font-mono text-[9px] mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-200'}`}>
+                            <div className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</div>
+                            <div className={`font-mono text-[11px] 2xl:text-xs mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-300'}`}>
                               {item.desc}
                             </div>
                           </div>
@@ -195,18 +194,18 @@ export default function Navbar() {
               <>
                 {profile && profile.current_streak > 0 && (
                   <Link href="/leaderboard"
-                    className="flex items-center gap-1 border-2 border-black px-2 py-1 hover:bg-black hover:text-white transition-colors"
+                    className="flex items-center gap-1.5 border border-slate-200 bg-slate-50 rounded-xl px-3 py-1.5 hover:border-slate-900 transition-all text-xs font-mono font-bold shadow-xs"
                     title="Your streak">
                     <Flame className="w-3.5 h-3.5 text-orange-500" />
-                    <span className="font-mono text-[9px] font-black">{profile.current_streak}</span>
+                    <span className="font-mono text-xs font-black">{profile.current_streak}</span>
                   </Link>
                 )}
                 {profile && (
                   <Link href="/leaderboard"
-                    className="flex items-center gap-1 border-2 border-black px-2 py-1 hover:bg-yellow-400 transition-colors"
+                    className="flex items-center gap-1.5 border border-amber-200 bg-amber-50 rounded-xl px-3 py-1.5 hover:border-amber-400 transition-all text-xs font-mono font-bold text-amber-900 shadow-xs"
                     title="Your XP">
                     <Star className="w-3.5 h-3.5 text-yellow-600" />
-                    <span className="font-mono text-[9px] font-black">{(profile.xp_points ?? 0).toLocaleString()}</span>
+                    <span className="font-mono text-xs font-black">{(profile.xp_points ?? 0).toLocaleString()}</span>
                   </Link>
                 )}
                 {isPremium && (
@@ -332,7 +331,7 @@ export default function Navbar() {
                         <Icon className="w-3.5 h-3.5 text-white" />
                       </div>
                       <div>
-                        <div className="font-mono text-[10px] font-bold uppercase tracking-wider">{item.label}</div>
+                        <div className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</div>
                         <div className="font-mono text-[8px] text-black/40">{item.desc}</div>
                       </div>
                     </Link>
@@ -352,7 +351,7 @@ export default function Navbar() {
                   <Link key={item.href} href={item.href}
                     className="flex items-center gap-3 px-4 py-3 border-b-2 border-black/10 last:border-0 hover:bg-black/5 transition-colors">
                     <Icon className="w-4 h-4 text-black/50" />
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-wider">{item.label}</span>
+                    <span className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</span>
                   </Link>
                 )
               })}
