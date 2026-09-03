@@ -134,7 +134,7 @@ export default function Navbar() {
       ──────────────────────────────────────────────────────────────────────── */}
       <nav
         data-navbar
-        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs h-[68px] 2xl:h-[76px]"
+        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs h-[72px] sm:h-[76px] 2xl:h-[84px]"
       >
         <div className="h-full max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 2xl:px-8 flex items-center justify-between gap-4 2xl:gap-8">
 

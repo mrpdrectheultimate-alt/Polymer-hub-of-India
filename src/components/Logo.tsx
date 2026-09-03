@@ -28,15 +28,15 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
     )
   }
 
-  // Full logo — use official SVG vector logo to guarantee crystal-clear tagline rendering
-  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-full.svg'
+  // Exact original official logo — trimmed and scaled so "KNOWLEDGE • INNOVATION • FUTURE" is prominent & crystal-clear
+  const src = theme === 'dark' ? '/logo-white.svg' : '/logo-official.png'
 
   return (
     <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
       <img
         src={src}
         alt="Polymer Hub of India — Knowledge • Innovation • Future"
-        className="h-11 sm:h-13 md:h-14 2xl:h-16 w-auto max-w-[220px] sm:max-w-[270px] md:max-w-[310px] 2xl:max-w-[360px] object-contain shrink-0 drop-shadow-2xs"
+        className="h-12 sm:h-14 md:h-[58px] 2xl:h-[68px] w-auto max-w-[240px] sm:max-w-[290px] md:max-w-[340px] 2xl:max-w-[400px] object-contain shrink-0 mix-blend-multiply"
         loading="eager"
       />
     </Link>
