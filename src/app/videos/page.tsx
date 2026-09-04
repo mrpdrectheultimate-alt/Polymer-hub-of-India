@@ -276,28 +276,13 @@ export default function VideoLibraryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedLevel, setSelectedLevel] = useState('All Levels')
   const [sortBy, setSortBy] = useState('recommended')
-  const [selectedVideo, setSelectedVideo] = useState<VideoRecord | null>(null)
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Lock background scroll and listen for Escape key when video is playing
-  useEffect(() => {
-    if (selectedVideo) {
-      const orig = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') setSelectedVideo(null)
-      }
-      window.addEventListener('keydown', handleKeyDown)
-      return () => {
-        document.body.style.overflow = orig
-        window.removeEventListener('keydown', handleKeyDown)
-      }
-    }
-  }, [selectedVideo])
   const [watchlist, setWatchlist] = useState<string[]>([])
   const [showFilters, setShowFilters] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -680,7 +665,7 @@ export default function VideoLibraryPage() {
               <div className="flex flex-wrap gap-3 mt-6">
                 <button
                   type="button"
-                  onClick={() => setSelectedVideo(featuredVideo)}
+                  onClick={() => setPlayingVideoId(featuredVideo.id)}
                   className="px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-[#7C3AED] hover:bg-[#6D28D9] transition-all flex items-center gap-2 shadow-lg hover:scale-102"
                 >
                   <Play className="h-4 w-4 fill-white" />
@@ -722,7 +707,8 @@ export default function VideoLibraryPage() {
                 key={video.id}
                 video={video}
                 isSaved={watchlist.includes(video.id)}
-                onPlay={() => setSelectedVideo(video)}
+                onPlay={() => setPlayingVideoId(playingVideoId === video.id ? null : video.id)}
+                isPlaying={playingVideoId === video.id}
                 onToggleSave={() => toggleWatchlist(video.id)}
               />
             ))}
@@ -768,7 +754,8 @@ export default function VideoLibraryPage() {
                       key={video.id}
                       video={video}
                       isSaved={watchlist.includes(video.id)}
-                      onPlay={() => setSelectedVideo(video)}
+                      onPlay={() => setPlayingVideoId(playingVideoId === video.id ? null : video.id)}
+                isPlaying={playingVideoId === video.id}
                       onToggleSave={() => toggleWatchlist(video.id)}
                     />
                   ))}
@@ -804,7 +791,8 @@ export default function VideoLibraryPage() {
                     video={video}
                     index={index}
                     isSaved={watchlist.includes(video.id)}
-                    onPlay={() => setSelectedVideo(video)}
+                    onPlay={() => setPlayingVideoId(playingVideoId === video.id ? null : video.id)}
+                isPlaying={playingVideoId === video.id}
                     onToggleSave={() => toggleWatchlist(video.id)}
                   />
                 ))}
@@ -866,87 +854,6 @@ export default function VideoLibraryPage() {
 
 
 
-      {/* ============================================================ */}
-      {/* VIDEO MODAL PLAYER (PORTAL ATTACHED DIRECTLY TO BODY) */}
-      {/* ============================================================ */}
-      {mounted && selectedVideo && createPortal(
-        <div
-          className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
-          onClick={() => setSelectedVideo(null)}
-        >
-          <div
-            className="bg-white w-full max-w-3xl rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] flex flex-col my-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-4 bg-slate-950 text-white flex items-center justify-between border-b border-white/10">
-              <span className="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">
-                {selectedVideo.subject} &middot; {selectedVideo.level}
-              </span>
-              <button
-                type="button"
-                onClick={() => setSelectedVideo(null)}
-                className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer"
-                title="Close Video (Esc)"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <div className="overflow-y-auto">
-              <VideoPlayer
-                video={{
-                  id: selectedVideo.id,
-                  title: selectedVideo.title,
-                  youtubeId: selectedVideo.youtubeId,
-                  channel: selectedVideo.channel,
-                  duration: selectedVideo.duration,
-                  level: selectedVideo.level,
-                  subjectSlug: selectedVideo.subjectSlug,
-                  lessonSlug: selectedVideo.lessonSlug
-                }}
-                autoplay={true}
-              />
-
-              <div className="p-6 space-y-4">
-                <div>
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-[1.15] pb-1">
-                    {selectedVideo.title}
-                  </h2>
-                  <p className="text-xs font-mono text-slate-500 mt-1">
-                    {selectedVideo.channel} &middot; {selectedVideo.duration} &middot; {selectedVideo.views} views
-                  </p>
-                </div>
-
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-                  {selectedVideo.description}
-                </p>
-
-                <div className="flex flex-wrap gap-3 pt-3 border-t border-slate-100">
-                  {selectedVideo.lessonSlug && (
-                    <Link
-                      href={`/lessons/${selectedVideo.lessonSlug}`}
-                      onClick={() => setSelectedVideo(null)}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#7C3AED] text-white rounded-xl text-xs font-mono font-bold hover:bg-[#6D28D9] transition-all shadow-sm"
-                    >
-                      <BookOpen className="w-3.5 h-3.5" /> Read Related Lesson
-                    </Link>
-                  )}
-                  <a
-                    href={selectedVideo.canonicalUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-slate-300 rounded-xl text-xs font-mono font-bold text-slate-700 hover:bg-slate-50 transition-all"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" /> Watch on YouTube
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-
       {/* ===== GLOBAL FOOTER ===== */}
       <Footer />
 
@@ -960,12 +867,14 @@ function VideoCardItem({
   video, 
   index, 
   isSaved, 
+  isPlaying,
   onPlay, 
   onToggleSave 
 }: { 
   video: VideoRecord
   index?: number
   isSaved: boolean
+  isPlaying?: boolean
   onPlay: () => void
   onToggleSave: () => void 
 }) {
@@ -978,49 +887,79 @@ function VideoCardItem({
       whileHover={{ y: -4 }}
       className="group bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden hover:shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all flex flex-col justify-between"
     >
-      <div 
-        onClick={onPlay}
-        className="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer"
-      >
-        <Image
-          src={video.thumbnail}
-          alt={video.title}
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-95"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-        
-        {/* Duration Badge */}
-        <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/80 text-white text-[10px] font-mono font-bold">
-          {video.duration}
+      {isPlaying ? (
+        <div className="relative bg-slate-950 rounded-t-2xl overflow-hidden">
+          <div className="p-2 bg-slate-900 text-white flex items-center justify-between border-b border-white/10">
+            <span className="text-[10px] font-mono font-bold text-pink-400 uppercase tracking-wider">
+              ▶ Playing In-Place
+            </span>
+            <button
+              type="button"
+              onClick={onPlay}
+              className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white text-[11px] font-mono font-bold flex items-center gap-1 cursor-pointer transition-colors"
+            >
+              <X className="h-3.5 w-3.5" /> Close
+            </button>
+          </div>
+          <VideoPlayer
+            video={{
+              id: video.id,
+              title: video.title,
+              youtubeId: video.youtubeId,
+              channel: video.channel,
+              duration: video.duration,
+              level: video.level,
+              subjectSlug: video.subjectSlug,
+              lessonSlug: video.lessonSlug
+            }}
+            autoplay={true}
+          />
         </div>
-
-        {/* Level Badge */}
+      ) : (
         <div 
-          className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-sm"
-          style={{
-            backgroundColor: video.level === 'Beginner' ? '#10B981' : 
-                           video.level === 'Intermediate' ? '#F59E0B' : '#EF4444'
-          }}
+          onClick={onPlay}
+          className="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer"
         >
-          {video.level}
-        </div>
-
-        {/* Trending Badge */}
-        {video.trending && (
-          <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#EC4899] text-white text-[9px] font-mono font-bold shadow-sm flex items-center gap-1">
-            🔥 Hot
+          <Image
+            src={video.thumbnail}
+            alt={video.title}
+            fill
+            className="object-cover group-hover:scale-105 transition-transform duration-300 opacity-80 group-hover:opacity-95"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          
+          {/* Duration Badge */}
+          <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded-lg bg-black/80 text-white text-[10px] font-mono font-bold">
+            {video.duration}
           </div>
-        )}
 
-        {/* Play Icon Trigger */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="w-11 h-11 rounded-2xl bg-white/95 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-transform">
-            <Play className="h-5 w-5 text-[#7C3AED] fill-[#7C3AED] ml-0.5" />
+          {/* Level Badge */}
+          <div 
+            className="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-mono font-bold text-white uppercase shadow-sm"
+            style={{
+              backgroundColor: video.level === 'Beginner' ? '#10B981' : 
+                             video.level === 'Intermediate' ? '#F59E0B' : '#EF4444'
+            }}
+          >
+            {video.level}
+          </div>
+
+          {/* Trending Badge */}
+          {video.trending && (
+            <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-[#EC4899] text-white text-[9px] font-mono font-bold shadow-sm flex items-center gap-1">
+              🔥 Hot
+            </div>
+          )}
+
+          {/* Play Icon Trigger */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-11 h-11 rounded-2xl bg-white/95 flex items-center justify-center shadow-lg transform group-hover:scale-105 transition-transform">
+              <Play className="h-5 w-5 text-[#7C3AED] fill-[#7C3AED] ml-0.5" />
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       <div className="p-4 flex-1 flex flex-col justify-between">
         <div>

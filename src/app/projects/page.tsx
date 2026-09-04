@@ -9,7 +9,7 @@ import {
   Sparkles, Brain, Compass
 } from 'lucide-react'
 import { PREDEFINED_PROJECTS, PredefinedProject } from '@/lib/predefined_projects'
-import ClientPortal from '@/components/ClientPortal'
+
 
 type CustomProject = {
   id: string
@@ -72,22 +72,9 @@ export default function StudentProjectsHub() {
   const [selectedLevel, setSelectedLevel] = useState('all')
   const [progressMap, setProgressMap] = useState<Record<string, 'not_started' | 'in_progress' | 'completed'>>({})
   const [titleToUuidMap, setTitleToUuidMap] = useState<Record<string, string>>({})
-  const [selectedProject, setSelectedProject] = useState<PredefinedProject | null>(null)
+  const [expandedProjectId, setExpandedProjectId] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (selectedProject) {
-      const orig = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') setSelectedProject(null)
-      }
-      window.addEventListener('keydown', handleKeyDown)
-      return () => {
-        document.body.style.overflow = orig
-        window.removeEventListener('keydown', handleKeyDown)
-      }
-    }
-  }, [selectedProject])
+  
   
   // Custom Projects State
   const [customProjects, setCustomProjects] = useState<CustomProject[]>([])
@@ -425,11 +412,115 @@ export default function StudentProjectsHub() {
                 {filteredPredefined.map((proj) => {
                   const dbId = titleToUuidMap[proj.title] || proj.id
                   const status = progressMap[dbId] || 'not_started'
+                  const isExpanded = expandedProjectId === proj.id
+
+                  if (isExpanded) {
+                    return (
+                      <div
+                        key={proj.id}
+                        className="col-span-1 md:col-span-2 lg:col-span-3 bg-white rounded-2xl border-2 border-blue-600 p-6 sm:p-8 shadow-2xl space-y-6 transition-all animate-in fade-in"
+                      >
+                        {/* Expanded Top Bar */}
+                        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className={`text-[10px] uppercase font-black tracking-widest px-2.5 py-0.5 rounded border ${DIFFICULTY_COLORS[proj.difficulty]}`}>
+                                {proj.difficulty}
+                              </span>
+                              <span className="text-xs font-mono text-slate-500 flex items-center gap-1">
+                                <Clock className="w-3.5 h-3.5" /> Duration: {proj.duration}
+                              </span>
+                            </div>
+                            <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
+                              {proj.title}
+                            </h2>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => setExpandedProjectId(null)}
+                            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer"
+                          >
+                            Collapse ✕
+                          </button>
+                        </div>
+
+                        {/* Expanded Content Grid */}
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 text-xs text-slate-700 leading-relaxed font-sans">
+                          <div className="lg:col-span-7 space-y-4">
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">Project Description &amp; Scope</span>
+                              <p className="font-medium text-slate-800">{proj.description}</p>
+                            </div>
+
+                            <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-2 shadow-xs">
+                              <span className="font-mono text-[10px] font-bold uppercase text-blue-600 block">🎯 Deliverable</span>
+                              <p className="font-medium text-slate-800">{proj.deliverable}</p>
+                            </div>
+
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">💡 Why This Matters</span>
+                              <p className="font-medium text-slate-800 italic">&ldquo;{proj.why_matters}&rdquo;</p>
+                            </div>
+
+                            <div className="p-4 bg-white rounded-xl border border-slate-200 space-y-2">
+                              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">🌐 Real-World Application</span>
+                              <p className="font-medium text-slate-800">{proj.real_world_app}</p>
+                            </div>
+                          </div>
+
+                          <div className="lg:col-span-5 space-y-4">
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">🛠️ Required Equipment &amp; BOM</span>
+                              <div className="flex flex-wrap gap-1.5">
+                                {proj.equipment.map((eq: string, i: number) => (
+                                  <span key={i} className="font-mono text-[10px] bg-white text-slate-800 border border-slate-200 px-2 py-1 rounded">
+                                    {eq}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                              <span className="font-mono text-[10px] font-bold uppercase text-slate-500 block">📚 Curriculum Match</span>
+                              <span className="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2.5 py-1 rounded block">
+                                {proj.curriculum_match}
+                              </span>
+                            </div>
+
+                            <div className="p-4 bg-white rounded-xl border-2 border-slate-200 space-y-3">
+                              <span className="font-mono text-[10px] font-black uppercase text-slate-900 block">Update Project Status</span>
+                              <div className="flex gap-2">
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateProgress(proj, 'in_progress')}
+                                  className={`flex-1 py-2 rounded-lg font-mono text-[10px] font-bold uppercase transition-all ${
+                                    status === 'in_progress' ? 'bg-yellow-400 text-yellow-950 font-black' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                                  }`}
+                                >
+                                  In Progress
+                                </button>
+                                <button
+                                  type="button"
+                                  onClick={() => handleUpdateProgress(proj, 'completed')}
+                                  className={`flex-1 py-2 rounded-lg font-mono text-[10px] font-bold uppercase transition-all ${
+                                    status === 'completed' ? 'bg-emerald-600 text-white font-black' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                                  }`}
+                                >
+                                  Completed ✓
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  }
 
                   return (
                     <div
                       key={proj.id}
-                      onClick={() => setSelectedProject(proj)}
+                      onClick={() => setExpandedProjectId(proj.id)}
                       className="bg-white rounded-xl border-2 border-slate-200 p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between hover:-translate-y-0.5 cursor-pointer relative"
                     >
                       <div>
@@ -476,7 +567,7 @@ export default function StudentProjectsHub() {
                             <Clock className="w-3.5 h-3.5" /> {proj.duration}
                           </span>
                           <span className="text-blue-600 font-extrabold text-xs inline-flex items-center gap-1 hover:underline">
-                            View Details <ArrowRight className="w-3.5 h-3.5" />
+                            Expand In-Place &darr;
                           </span>
                         </div>
                       </div>
@@ -658,170 +749,6 @@ export default function StudentProjectsHub() {
         </div>
       </section>
 
-      {/* Predefined Project Lightbox Detail Modal */}
-      {selectedProject && (
-        <ClientPortal>
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 z-[99999] overflow-y-auto" onClick={() => setSelectedProject(null)}>
-          <div className="bg-white rounded-3xl border-2 border-slate-900 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col justify-between my-auto" onClick={(e) => e.stopPropagation()}>
-            
-            {/* Modal Header */}
-            <div className="p-6 border-b-2 border-slate-100 bg-slate-50 flex justify-between items-start">
-              <div>
-                <span className={`text-[10px] uppercase font-black tracking-widest px-2 py-0.5 rounded border ${DIFFICULTY_COLORS[selectedProject.difficulty]} mb-2 inline-block`}>
-                  {selectedProject.difficulty}
-                </span>
-                <h2 className="text-xl md:text-2xl font-black text-slate-800 mt-1">
-                  {selectedProject.title}
-                </h2>
-                <div className="flex gap-4 mt-2 text-xs text-slate-500 font-semibold">
-                  <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {selectedProject.duration}</span>
-                  <span className="flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> {selectedProject.curriculum_match}</span>
-                </div>
-              </div>
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold p-2.5 rounded-full transition-colors leading-none"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="p-6 space-y-6">
-              <div>
-                <h4 className="font-extrabold text-sm text-slate-800 mb-1 flex items-center gap-1.5">
-                  <FolderOpen className="w-4 h-4 text-blue-600" /> Project Description
-                </h4>
-                <p className="text-slate-600 text-sm leading-relaxed">
-                  {selectedProject.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-extrabold text-sm text-slate-800 mb-2 flex items-center gap-1.5">
-                    <Wrench className="w-4 h-4 text-slate-700" /> Equipment Needed
-                  </h4>
-                  <ul className="space-y-1.5">
-                    {selectedProject.equipment.map((eq, i) => (
-                      <li key={i} className="text-xs text-slate-600 flex items-start gap-1.5">
-                        <span className="text-blue-600 font-bold">•</span> {eq}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-sm text-slate-800 mb-2 flex items-center gap-1.5">
-                    <Award className="w-4 h-4 text-emerald-600" /> Deliverables
-                  </h4>
-                  <p className="text-xs text-slate-600 leading-relaxed bg-emerald-50/50 border border-emerald-100 p-3 rounded-xl font-medium">
-                    {selectedProject.deliverable}
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="font-extrabold text-sm text-slate-800 mb-1 flex items-center gap-1.5">
-                  <Target className="w-4 h-4 text-orange-600" /> Why This Project Matters
-                </h4>
-                <p className="text-slate-600 text-xs leading-relaxed italic bg-amber-50/30 border border-amber-100 p-3 rounded-xl">
-                  &ldquo;{selectedProject.why_matters}&rdquo;
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-extrabold text-sm text-slate-800 mb-1">
-                  🌐 Real-World Application
-                </h4>
-                <p className="text-slate-600 text-xs leading-relaxed">
-                  {selectedProject.real_world_app}
-                </p>
-              </div>
-
-              <div>
-                <h4 className="font-extrabold text-sm text-slate-800 mb-2">
-                  🛠️ Skills Developed
-                </h4>
-                <div className="flex flex-wrap gap-1.5">
-                  {selectedProject.skills.map((skill, idx) => (
-                    <span key={idx} className="text-[10px] bg-indigo-50 border border-indigo-100 px-2.5 py-1 rounded-lg font-medium text-indigo-700">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Footer (Action Panel) */}
-            <div className="p-6 border-t-2 border-slate-100 bg-slate-50 flex flex-col sm:flex-row gap-3 justify-between items-center">
-              <div>
-                <span className="text-xs text-slate-500 font-semibold">
-                  Status: <span className="font-black text-slate-800 uppercase">
-                    {(progressMap[titleToUuidMap[selectedProject.title] || selectedProject.id] || 'not_started').replace('_', ' ')}
-                  </span>
-                </span>
-              </div>
-              
-              <div className="flex gap-2 w-full sm:w-auto">
-                {(progressMap[titleToUuidMap[selectedProject.title] || selectedProject.id] || 'not_started') === 'not_started' && (
-                  <button
-                    onClick={() => {
-                      handleUpdateProgress(selectedProject, 'in_progress')
-                      setSelectedProject(null)
-                    }}
-                    className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-1.5"
-                  >
-                    Start Project <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
-                )}
-                {(progressMap[titleToUuidMap[selectedProject.title] || selectedProject.id] || 'not_started') === 'in_progress' && (
-                  <>
-                    <button
-                      onClick={() => {
-                        handleUpdateProgress(selectedProject, 'completed')
-                        setSelectedProject(null)
-                      }}
-                      className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-colors shadow-sm flex items-center justify-center gap-1.5"
-                    >
-                      <CheckCircle2 className="w-3.5 h-3.5" /> Mark Completed
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleUpdateProgress(selectedProject, 'not_started')
-                        setSelectedProject(null)
-                      }}
-                      className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors"
-                    >
-                      Reset Status
-                    </button>
-                  </>
-                )}
-                {(progressMap[titleToUuidMap[selectedProject.title] || selectedProject.id] || 'not_started') === 'completed' && (
-                  <div className="flex gap-2 w-full sm:w-auto">
-                    <button
-                      disabled
-                      className="w-full sm:w-auto bg-emerald-100 border border-emerald-200 text-emerald-800 font-black text-xs px-5 py-2.5 rounded-xl flex items-center justify-center gap-1.5"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Completed
-                    </button>
-                    <button
-                      onClick={() => {
-                        handleUpdateProgress(selectedProject, 'in_progress')
-                        setSelectedProject(null)
-                      }}
-                      className="w-full sm:w-auto bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold text-xs px-4 py-2.5 rounded-xl transition-colors"
-                    >
-                      Re-open Project
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </ClientPortal>
-      )}
     </div>
   )
 }

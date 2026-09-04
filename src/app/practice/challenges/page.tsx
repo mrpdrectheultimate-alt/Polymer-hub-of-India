@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import ClientPortal from '@/components/ClientPortal'
+
 import {
   Trophy, 
   AlertTriangle, 
@@ -40,30 +40,14 @@ export default function StudentChallengesPage() {
   const [loading, setLoading] = useState(true)
   const [sessionUser, setSessionUser] = useState<import('@supabase/supabase-js').User | null>(null)
 
-  // Submit Modal state
-  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null)
+  // In-Place Expanded States
+  const [expandedCriteriaId, setExpandedCriteriaId] = useState<string | null>(null)
+  const [expandedSubmitId, setExpandedSubmitId] = useState<string | null>(null)
   const [solutionText, setSolutionText] = useState('')
   const [solutionUrl, setSolutionUrl] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  const [viewDetails, setViewDetails] = useState<Challenge | null>(null)
 
-  useEffect(() => {
-    if (viewDetails || selectedChallenge) {
-      const orig = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          setViewDetails(null)
-          setSelectedChallenge(null)
-        }
-      }
-      window.addEventListener('keydown', handleKeyDown)
-      return () => {
-        document.body.style.overflow = orig
-        window.removeEventListener('keydown', handleKeyDown)
-      }
-    }
-  }, [viewDetails, selectedChallenge])
+  
 
   const loadChallenges = useCallback(async () => {
     setLoading(true)
@@ -87,9 +71,11 @@ export default function StudentChallengesPage() {
     loadChallenges()
   }, [loadChallenges])
 
-  const handleSubmitSolution = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!selectedChallenge) return
+  const handleSubmitSolution = async (challengeId: string) => {
+    if (!solutionText.trim()) {
+      alert('Please describe your engineering methodology and solution before submitting.')
+      return
+    }
     setSubmitting(true)
 
     try {
@@ -97,7 +83,7 @@ export default function StudentChallengesPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          challengeId: selectedChallenge.id,
+          challengeId,
           solutionText,
           solutionUrl
         })
@@ -107,7 +93,7 @@ export default function StudentChallengesPage() {
         alert(data.error)
       } else {
         alert('✅ Solution submitted! +50 XP has been added to your profile immediately.')
-        setSelectedChallenge(null)
+        setExpandedSubmitId(null)
         setSolutionText('')
         setSolutionUrl('')
         loadChallenges()
@@ -226,10 +212,15 @@ export default function StudentChallengesPage() {
               const hasSubmitted = !!challenge.submission
               const status = challenge.submission?.status
 
+              const isCriteriaOpen = expandedCriteriaId === challenge.id
+              const isSubmitOpen = expandedSubmitId === challenge.id
+
               return (
                 <article 
                   key={challenge.id} 
-                  className="bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between space-y-4"
+                  className={`bg-white border-2 border-slate-900 rounded-2xl p-6 shadow-sm transition-all duration-300 flex flex-col justify-between space-y-4 ${
+                    isCriteriaOpen || isSubmitOpen ? 'md:col-span-2 ring-2 ring-blue-600 shadow-2xl' : 'hover:shadow-xl hover:-translate-y-0.5'
+                  }`}
                 >
                   <div className="space-y-3">
                     <div className="flex items-center justify-between gap-2">
@@ -249,7 +240,7 @@ export default function StudentChallengesPage() {
                       {challenge.title}
                     </h3>
 
-                    <p className="text-xs text-slate-600 leading-relaxed line-clamp-3 font-medium">
+                    <p className="text-xs text-slate-600 leading-relaxed font-medium">
                       {challenge.description}
                     </p>
                   </div>
@@ -278,32 +269,141 @@ export default function StudentChallengesPage() {
                           </span>
                         </div>
                         <button 
-                          onClick={() => setViewDetails(challenge)}
-                          className="font-mono text-[10px] font-bold text-blue-600 hover:text-blue-800 uppercase"
+                          onClick={() => {
+                            setExpandedCriteriaId(isCriteriaOpen ? null : challenge.id)
+                            setExpandedSubmitId(null)
+                          }}
+                          className="font-mono text-[10px] font-bold text-blue-600 hover:text-blue-800 uppercase cursor-pointer"
                         >
-                          Feedback &rarr;
+                          {isCriteriaOpen ? 'Hide Feedback ✕' : 'Feedback &darr;'}
                         </button>
                       </div>
                     )}
 
                     <div className="flex gap-2 pt-1">
                       <button 
-                        onClick={() => setViewDetails(challenge)}
-                        className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all"
+                        type="button"
+                        onClick={() => {
+                          setExpandedCriteriaId(isCriteriaOpen ? null : challenge.id)
+                          setExpandedSubmitId(null)
+                        }}
+                        className={`flex-1 py-2.5 font-mono font-bold text-xs uppercase rounded-xl transition-all cursor-pointer ${
+                          isCriteriaOpen ? 'bg-slate-900 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
+                        }`}
                       >
-                        View Criteria
+                        {isCriteriaOpen ? 'Hide Criteria ✕' : 'View Criteria &darr;'}
                       </button>
 
                       {sessionUser && !hasSubmitted && (
                         <button 
-                          onClick={() => setSelectedChallenge(challenge)}
-                          className="flex-1 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-sm flex items-center justify-center gap-1"
+                          type="button"
+                          onClick={() => {
+                            setExpandedSubmitId(isSubmitOpen ? null : challenge.id)
+                            setExpandedCriteriaId(null)
+                          }}
+                          className={`flex-1 py-2.5 font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-sm flex items-center justify-center gap-1 cursor-pointer ${
+                            isSubmitOpen ? 'bg-slate-900 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'
+                          }`}
                         >
-                          Submit (+50 XP)
+                          {isSubmitOpen ? 'Cancel Submit ✕' : 'Submit (+50 XP) &darr;'}
                         </button>
                       )}
                     </div>
                   </div>
+
+                  {/* IN-PLACE EXPANDED CRITERIA DRAWER */}
+                  {isCriteriaOpen && (
+                    <div className="pt-4 border-t-2 border-slate-900 bg-slate-50 -mx-6 -mb-6 p-6 rounded-b-2xl space-y-4 animate-in fade-in duration-200">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-black uppercase text-slate-900 flex items-center gap-1.5">
+                          📋 Evaluation Criteria &amp; Technical Requirements
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setExpandedCriteriaId(null)}
+                          className="text-xs font-mono font-bold text-slate-500 hover:text-slate-900"
+                        >
+                          Collapse ✕
+                        </button>
+                      </div>
+
+                      <div className="bg-white p-4 rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed font-mono whitespace-pre-wrap">
+                        {challenge.criteria || 'Deliver complete CAD models, CAE flow simulations, and material selection analysis.'}
+                      </div>
+
+                      {challenge.submission?.review_feedback && (
+                        <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-1">
+                          <span className="font-mono text-[10px] font-bold uppercase text-blue-900 block">Recruiter Review Feedback:</span>
+                          <p className="text-xs text-blue-800 font-medium">{challenge.submission.review_feedback}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* IN-PLACE EXPANDED SUBMIT SOLUTION FORM */}
+                  {isSubmitOpen && (
+                    <div className="pt-4 border-t-2 border-blue-600 bg-blue-50/50 -mx-6 -mb-6 p-6 rounded-b-2xl space-y-4 animate-in fade-in duration-200">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-black uppercase text-blue-950 flex items-center gap-1.5">
+                          🚀 Submit Engineering Solution
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => setExpandedSubmitId(null)}
+                          className="text-xs font-mono font-bold text-slate-500 hover:text-slate-900"
+                        >
+                          Cancel ✕
+                        </button>
+                      </div>
+
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                            Technical Methodology &amp; Calculations *
+                          </label>
+                          <textarea
+                            rows={5}
+                            value={solutionText}
+                            onChange={(e) => setSolutionText(e.target.value)}
+                            placeholder="Detail your engineering approach, resin selection reasoning, ASTM test verification, and mold processing parameters..."
+                            className="w-full p-3 text-xs bg-white border-2 border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-blue-600"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                            GitHub / CAD / Cloud Drive URL (Optional)
+                          </label>
+                          <input
+                            type="url"
+                            value={solutionUrl}
+                            onChange={(e) => setSolutionUrl(e.target.value)}
+                            placeholder="https://github.com/your-username/polymer-challenge-cad"
+                            className="w-full p-3 text-xs bg-white border-2 border-slate-200 rounded-xl font-mono text-slate-900 focus:outline-none focus:border-blue-600"
+                          />
+                        </div>
+
+                        <div className="flex gap-2 pt-2">
+                          <button
+                            type="button"
+                            disabled={submitting}
+                            onClick={() => handleSubmitSolution(challenge.id)}
+                            className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all cursor-pointer disabled:opacity-50"
+                          >
+                            {submitting ? 'Submitting...' : 'Confirm Submission (+50 XP)'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setExpandedSubmitId(null)}
+                            className="px-4 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                 </article>
               )
             })
@@ -347,124 +447,6 @@ export default function StudentChallengesPage() {
           </div>
         </div>
       </section>
-
-      {/* ── MODAL: Detail Viewer ── */}
-      {viewDetails && (
-        <ClientPortal>
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onClick={() => setViewDetails(null)}>
-            <div className="max-w-xl w-full bg-white text-slate-900 border-2 border-slate-900 rounded-3xl shadow-2xl flex flex-col max-h-[90vh] my-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
-              <div>
-                <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">{viewDetails.company_name}</span>
-                <h3 className="font-display font-bold text-base text-slate-900 leading-snug">{viewDetails.title}</h3>
-              </div>
-              <button onClick={() => setViewDetails(null)} className="text-slate-400 hover:text-slate-900 font-bold">
-                ✕
-              </button>
-            </div>
-
-            <div className="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
-              <div>
-                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Challenge Brief</span>
-                <p className="text-slate-700 leading-relaxed font-medium">{viewDetails.description}</p>
-              </div>
-
-              <div>
-                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Evaluation Criteria</span>
-                <p className="text-blue-950 leading-relaxed font-medium bg-blue-50/70 p-3.5 rounded-xl border border-blue-200">{viewDetails.criteria}</p>
-              </div>
-
-              <div>
-                <span className="font-mono text-[10px] text-slate-400 uppercase block font-bold mb-1">Prize Pool &amp; Placement</span>
-                <p className="text-amber-700 font-display font-bold text-base">💰 {viewDetails.prize_pool}</p>
-              </div>
-
-              {viewDetails.submission?.review_feedback && (
-                <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                  <span className="font-mono text-[10px] text-amber-800 uppercase block font-bold mb-1">Recruiter Feedback</span>
-                  <p className="text-amber-950 leading-relaxed font-medium">{viewDetails.submission.review_feedback}</p>
-                </div>
-              )}
-            </div>
-
-            <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex justify-end">
-              <button 
-                onClick={() => setViewDetails(null)}
-                className="px-5 py-2 bg-slate-900 text-white font-mono text-xs font-bold uppercase rounded-xl"
-              >
-                Got It
-              </button>
-            </div>
-          </div>
-        </div>
-      </ClientPortal>
-      )}
-
-      {/* ── MODAL: Solution Submission Form ── */}
-      {selectedChallenge && (
-        <ClientPortal>
-          <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto" onClick={() => setSelectedChallenge(null)}>
-            <form onSubmit={handleSubmitSolution} className="max-w-xl w-full bg-white text-slate-900 border-2 border-slate-900 rounded-3xl shadow-2xl flex flex-col max-h-[90vh] my-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="border-b border-slate-100 p-5 flex justify-between items-center bg-slate-50 rounded-t-2xl">
-              <div>
-                <span className="font-mono text-[10px] font-bold text-blue-600 uppercase block">Submit Solution</span>
-                <h3 className="font-display font-bold text-base text-slate-900 leading-snug">{selectedChallenge.title}</h3>
-              </div>
-              <button type="button" onClick={() => setSelectedChallenge(null)} className="text-slate-400 hover:text-slate-900 font-bold">✕</button>
-            </div>
-
-            <div className="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
-              <div className="p-4 bg-amber-50 rounded-xl border border-amber-200">
-                <p className="font-mono text-[10px] font-bold text-amber-800 uppercase mb-1">🎁 XP Incentives</p>
-                <p className="text-amber-950 leading-normal font-medium">
-                  Uploading your solution awards **+50 XP** base immediately. If the engineering recruiter accepts your design, you earn a **+200 XP** bonus milestone!
-                </p>
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] text-slate-500 uppercase tracking-wide block font-bold mb-1.5">Solution Description / Technical Calculations</label>
-                <textarea
-                  required
-                  rows={6}
-                  value={solutionText}
-                  onChange={e => setSolutionText(e.target.value)}
-                  placeholder="Explain your approach, polymer selection, processing window, compounding steps, and formulas..."
-                  className="w-full p-3 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium leading-relaxed"
-                />
-              </div>
-
-              <div>
-                <label className="font-mono text-[10px] text-slate-500 uppercase tracking-wide block font-bold mb-1.5">Link to Repository / CAD / PDF (Optional)</label>
-                <input
-                  type="url"
-                  value={solutionUrl}
-                  onChange={e => setSolutionUrl(e.target.value)}
-                  placeholder="e.g. https://github.com/your-username/bumper-molding"
-                  className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium"
-                />
-              </div>
-            </div>
-
-            <div className="p-4 border-t border-slate-100 bg-slate-50 rounded-b-2xl flex gap-3 justify-end">
-              <button 
-                type="button" 
-                onClick={() => setSelectedChallenge(null)}
-                className="px-4 py-2 border-2 border-slate-200 text-slate-600 font-mono text-xs font-bold uppercase rounded-xl hover:bg-slate-100"
-              >
-                Cancel
-              </button>
-              <button 
-                type="submit" 
-                disabled={submitting}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-sm"
-              >
-                {submitting ? 'Submitting...' : 'Upload Solution (+50 XP)'}
-              </button>
-            </div>
-          </form>
-        </div>
-      </ClientPortal>
-      )}
 
     </div>
   )

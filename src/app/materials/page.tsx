@@ -186,357 +186,156 @@ const FAMILY_COLORS: Record<string, { bg: string; text: string; border: string }
 }
 
 // ─── FULL ANALYSIS 3D LEARNING LAB MODAL ───────────────────────────────────────
-function FullAnalysis3DModal({
-  model,
-  onClose,
-  onPrev,
-  onNext,
-}: {
-  model: LocalModel
-  onClose: () => void
-  onPrev: () => void
-  onNext: () => void
-}) {
-  const details: Polymer3DModelDetails | undefined = POLYMER_3D_KNOWLEDGE[model.id]
-  const [subTab, setSubTab] = useState<'3d' | 'cru' | 'reaction'>('3d')
-  const [copiedFormula, setCopiedFormula] = useState(false)
-
-  // Lock body scroll and handle keyboard navigation (Esc, Left Arrow, Right Arrow)
-  useEffect(() => {
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowLeft') onPrev()
-      if (e.key === 'ArrowRight') onNext()
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.body.style.overflow = originalOverflow
-      window.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [onClose, onPrev, onNext])
-
-  const copyFormula = () => {
-    if (details?.formula) {
-      navigator.clipboard.writeText(details.formula)
-      setCopiedFormula(true)
-      setTimeout(() => setCopiedFormula(false), 2000)
-    }
+function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: () => void }) {
+  const details = POLYMER_3D_KNOWLEDGE[model.id]
+  const CATEGORY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
+    Molecule: { bg: '#EFF6FF', text: '#1D4ED8', border: '#93C5FD' },
+    Product:  { bg: '#F0FDF4', text: '#15803D', border: '#86EFAC' },
+    Machine:  { bg: '#FFF7ED', text: '#EA580C', border: '#FDBA74' },
+    Process:  { bg: '#F5F3FF', text: '#7C3AED', border: '#C4B5FD' },
   }
+  const cs = CATEGORY_STYLES[model.category] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#CBD5E1' }
 
   return (
-    <ClientPortal>
-      <div
-        className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-[99999] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200"
-        onClick={onClose}
-      >
-        <div
-          className="bg-white w-full max-w-6xl rounded-3xl shadow-2xl border-2 border-slate-900 overflow-hidden my-auto flex flex-col max-h-[94vh]"
-          onClick={(e) => e.stopPropagation()}
-        >
-          {/* ── Top Header Bar ── */}
-          <div className="px-6 py-4 bg-[#0A1628] text-white flex items-center justify-between border-b border-white/10 shrink-0">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[11px] font-black bg-blue-600 text-white px-3 py-1 rounded-xl uppercase tracking-wider shadow-sm">
-                🧬 3D LEARNING LAB
+    <div className="col-span-1 md:col-span-2 lg:col-span-3 bg-white border-2 border-blue-600 rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-300 space-y-6 relative animate-in fade-in zoom-in-95">
+      {/* Top Header & Close Button */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span
+              className="font-mono text-[10px] font-black border px-2.5 py-0.5 rounded-lg uppercase tracking-wider"
+              style={{ backgroundColor: cs.bg, color: cs.text, borderColor: cs.border }}
+            >
+              [{model.category}]
+            </span>
+            {details?.formula && (
+              <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 px-3 py-0.5 rounded-md">
+                {details.formula}
               </span>
-              <span className="font-mono text-xs font-bold text-slate-300 hidden sm:inline">
-                Model ID: <strong className="text-white">{model.id.toUpperCase()}</strong> &middot; Category: <strong className="text-amber-400">{model.category}</strong>
-              </span>
-            </div>
+            )}
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-mono font-bold text-emerald-800">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Interactive 3D Lab Active
+            </span>
+          </div>
+          <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-950">
+            {model.name}
+          </h2>
+          {details?.iupacName && (
+            <p className="font-mono text-xs text-blue-700 font-bold">
+              IUPAC: {details.iupacName}
+            </p>
+          )}
+        </div>
 
-            {/* Prev / Next & Close */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={onPrev}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white font-mono text-xs font-bold transition-colors cursor-pointer"
-                title="Previous Model (Left Arrow)"
-              >
-                <ArrowLeft size={14} /> <span className="hidden sm:inline">Prev</span>
-              </button>
-              <button
-                onClick={onNext}
-                className="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white font-mono text-xs font-bold transition-colors cursor-pointer"
-                title="Next Model (Right Arrow)"
-              >
-                <span className="hidden sm:inline">Next</span> <ArrowRight size={14} />
-              </button>
-              <button
-                onClick={onClose}
-                className="p-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition-colors cursor-pointer ml-2"
-                title="Close (Esc)"
-              >
-                <X size={18} />
-              </button>
+        {/* In-Place Collapse Button */}
+        <button
+          type="button"
+          onClick={onCollapse}
+          className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+        >
+          <X size={16} />
+          <span>Collapse Lab ✕</span>
+        </button>
+      </div>
+
+      {/* 2-Column Laboratory Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* Left: 3D Interactive Canvas */}
+        <div className="lg:col-span-6 space-y-3">
+          <div className="bg-slate-950 rounded-2xl p-3 border-2 border-slate-900 shadow-inner relative overflow-hidden">
+            <div className="absolute top-3 left-3 z-10 font-mono text-[10px] font-bold text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-md border border-slate-800">
+              🖱️ Drag to rotate &middot; Scroll to zoom
             </div>
+            <ThreeDViewer 
+              modelType={model.model_type} 
+              name={model.name} 
+              isModal={true} 
+              interactive={true} 
+              width={580} 
+              height={380} 
+            />
           </div>
 
-          {/* ── Main Two-Column Scrollable Body ── */}
-          <div className="p-6 sm:p-8 overflow-y-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            {/* ── LEFT COLUMN: 3D Interactive Stage & View Modes (7 Cols) ── */}
-            <div className="lg:col-span-7 space-y-5 flex flex-col justify-between">
-              
-              <div className="space-y-3">
-                {/* Title & IUPAC Header */}
-                <div>
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-900 leading-tight">
-                      {model.name}
-                    </h2>
-                    {details?.formula && (
-                      <span className="font-mono text-xs font-bold bg-blue-50 text-blue-800 border border-blue-200 px-2.5 py-0.5 rounded-lg flex items-center gap-1">
-                        {details.formula}
-                        <button onClick={copyFormula} className="hover:text-blue-600 transition-colors" title="Copy formula">
-                          {copiedFormula ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
-                        </button>
-                      </span>
-                    )}
-                  </div>
-                  {details?.iupacName && (
-                    <p className="font-mono text-xs font-semibold text-slate-500 mt-1">
-                      IUPAC: <span className="text-slate-800">{details.iupacName}</span>
-                    </p>
-                  )}
-                </div>
-
-                {/* Sub-Tabs View Switcher */}
-                <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-2xl border border-slate-200 text-xs font-mono font-bold">
-                  <button
-                    onClick={() => setSubTab('3d')}
-                    className={`flex-1 py-2 px-3 rounded-xl transition-all ${
-                      subTab === '3d' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    🌐 3D Structure
-                  </button>
-                  <button
-                    onClick={() => setSubTab('cru')}
-                    className={`flex-1 py-2 px-3 rounded-xl transition-all ${
-                      subTab === 'cru' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    🔬 Repeat Unit (CRU)
-                  </button>
-                  <button
-                    onClick={() => setSubTab('reaction')}
-                    className={`flex-1 py-2 px-3 rounded-xl transition-all ${
-                      subTab === 'reaction' ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-600 hover:text-slate-900'
-                    }`}
-                  >
-                    ⚙️ Reaction Mechanism
-                  </button>
-                </div>
-              </div>
-
-              {/* View Tab Contents */}
-              {subTab === '3d' && (
-                <div className="space-y-3">
-                  <div className="bg-slate-950 rounded-3xl p-4 shadow-xl border-2 border-slate-900 relative overflow-hidden">
-                    <ThreeDViewer modelType={model.model_type} name={model.name} isModal={true} interactive={true} width={720} height={420} />
-                  </div>
-
-                  {/* Synchronized Strict CPK Atom Legend */}
-                  <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-wrap items-center justify-between gap-2.5 text-[11px] font-mono text-slate-700 shadow-2xs">
-                    <span className="font-bold text-slate-900 flex items-center gap-1">
-                      <Atom size={14} className="text-blue-600" /> CPK Legend:
-                    </span>
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#374151] inline-block shadow-2xs" /> C (Carbon)</span>
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#E2E8F0] border border-slate-400 inline-block shadow-2xs" /> H (Hydrogen)</span>
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#EF4444] inline-block shadow-2xs" /> O (Oxygen)</span>
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#2563EB] inline-block shadow-2xs" /> N (Nitrogen)</span>
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#10B981] inline-block shadow-2xs" /> Cl (Chlorine)</span>
-                      <span className="flex items-center gap-1.5"><span className="w-3 h-3 rounded-full bg-[#06B6D4] inline-block shadow-2xs" /> F (Fluorine)</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {subTab === 'cru' && (
-                <div className="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-inner">
-                  <div className="flex items-center gap-2">
-                    <FlaskConical className="w-5 h-5 text-blue-600" />
-                    <h3 className="font-display font-bold text-lg text-slate-900">Constitutional Repeating Unit (CRU)</h3>
-                  </div>
-                  <div className="p-6 bg-white rounded-2xl border-2 border-dashed border-blue-300 text-center font-mono font-black text-xl text-blue-900 shadow-sm">
-                    {details?.cru || model.name}
-                  </div>
-                  <div className="space-y-2 text-xs font-mono text-slate-700">
-                    <div><strong>Monomer Reactant:</strong> {details?.monomer || 'Standard industrial monomer'}</div>
-                    <div><strong>Polymerization Mode:</strong> {details?.polymerizationType || 'Chain-growth / Addition'}</div>
-                    <div><strong>Functional Group:</strong> {details?.functionalGroup || 'Hydrocarbon backbone'}</div>
-                  </div>
-                </div>
-              )}
-
-              {subTab === 'reaction' && (
-                <div className="bg-slate-50 border-2 border-slate-200 rounded-3xl p-6 sm:p-8 space-y-4 shadow-inner">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-amber-600" />
-                    <h3 className="font-display font-bold text-lg text-slate-900">How is this Polymer Formed?</h3>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
-                    {details?.howFormed || model.description}
-                  </p>
-                  <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs font-mono text-amber-900">
-                    💡 <strong>Curriculum Tip:</strong> For complete step-by-step kinetic equations, Carothers derivations, and catalyst mechanisms, visit the polymer chemistry lecture hub.
-                  </div>
-                </div>
-              )}
-
-              {/* Bottom Interactive Action Buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
-                <Link
-                  href={`/ai-tutor?prompt=${encodeURIComponent(details?.aiPrompt || `Explain the chemical synthesis, properties, and applications of ${model.name}`)}`}
-                  className="flex-1 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-md shadow-blue-600/20 transition-all text-center"
-                >
-                  <Brain size={15} /> Ask AI Copilot About This
-                </Link>
-
-                <Link
-                  href={details?.curriculumLessonUrl || '/subjects'}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-slate-50 text-slate-800 font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-5 rounded-xl border border-slate-300 transition-all text-center"
-                >
-                  <BookOpen size={15} className="text-blue-600" /> View Related Lesson &rarr;
-                </Link>
-              </div>
-
-            </div>
-
-            {/* ── RIGHT COLUMN: Chemistry & Structure Identity Panel (5 Cols) ── */}
-            <div className="lg:col-span-5 space-y-5">
-              
-              {/* 1. Scientific Identity Card */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
-                  <span className="font-mono text-xs font-black uppercase text-slate-900 flex items-center gap-1.5">
-                    <Info size={14} className="text-blue-600" /> Scientific Identity Card
-                  </span>
-                  <span className="font-mono text-[10px] font-bold bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-600">
-                    CAS: {details?.casNumber || 'Verified'}
-                  </span>
-                </div>
-
-                <div className="space-y-2 text-xs font-mono">
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="text-slate-500">IUPAC Name:</span>
-                    <span className="font-bold text-slate-900 text-right max-w-[200px] truncate">{details?.iupacName || model.name}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="text-slate-500">Formula:</span>
-                    <span className="font-bold text-blue-700">{details?.formula || 'Polymer chain'}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="text-slate-500">Abbreviation:</span>
-                    <span className="font-bold text-slate-900">{details?.abbreviation || model.name.split(' ')[0]}</span>
-                  </div>
-                  <div className="flex justify-between py-1 border-b border-slate-100">
-                    <span className="text-slate-500">Classification:</span>
-                    <span className="font-bold text-slate-900 text-right">{details?.classification?.split(',')[0] || 'Thermoplastic'}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* 2. Chemistry & Structure Parameters */}
-              <div className="p-5 rounded-2xl bg-white border-2 border-slate-200 space-y-3 shadow-xs">
-                <h4 className="font-mono text-xs font-black uppercase text-slate-900 flex items-center gap-1.5">
-                  <FlaskConical size={14} className="text-emerald-600" /> Polymerization &amp; Structure
-                </h4>
-
-                <div className="space-y-2.5 text-xs">
-                  <div>
-                    <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Constitutional Repeat Unit</span>
-                    <div className="font-mono font-bold text-blue-900 bg-blue-50/80 p-2 rounded-xl border border-blue-100 mt-0.5">
-                      {details?.cru || model.name}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Monomer Reactant</span>
-                    <div className="font-medium text-slate-800 mt-0.5">
-                      {details?.monomer || 'Industrial feed monomer'}
-                    </div>
-                  </div>
-
-                  <div>
-                    <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Polymerization Mechanism</span>
-                    <div className="font-medium text-slate-800 mt-0.5">
-                      {details?.polymerizationType || 'Addition / Polycondensation'}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 3. Physical & Mechanical Telemetry */}
-              {details?.density && (
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                  <h4 className="font-mono text-xs font-black uppercase text-slate-900 flex items-center gap-1.5">
-                    <Scale size={14} className="text-amber-600" /> Physical &amp; Thermal Telemetry
-                  </h4>
-
-                  <div className="grid grid-cols-2 gap-2 text-xs font-mono">
-                    <div className="p-2.5 bg-white rounded-xl border border-slate-200">
-                      <span className="text-[10px] text-slate-400 uppercase block">Glass Transition (Tg)</span>
-                      <strong className="text-slate-900">{details.tg}</strong>
-                    </div>
-                    <div className="p-2.5 bg-white rounded-xl border border-slate-200">
-                      <span className="text-[10px] text-slate-400 uppercase block">Melting Point (Tm)</span>
-                      <strong className="text-slate-900">{details.tm}</strong>
-                    </div>
-                    <div className="p-2.5 bg-white rounded-xl border border-slate-200">
-                      <span className="text-[10px] text-slate-400 uppercase block">Specific Density</span>
-                      <strong className="text-slate-900">{details.density}</strong>
-                    </div>
-                    <div className="p-2.5 bg-white rounded-xl border border-slate-200">
-                      <span className="text-[10px] text-slate-400 uppercase block">Tensile Strength</span>
-                      <strong className="text-slate-900">{details.tensileStrength}</strong>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* 4. Indian Commercial Brands */}
-              {details?.indianBrands && details.indianBrands.length > 0 && (
-                <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-xs">
-                  <span className="font-mono text-xs font-black uppercase text-slate-900 block">
-                    🇮🇳 Indian Commercial Trade Names
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {details.indianBrands.map(brand => (
-                      <span key={brand} className="font-mono text-[10px] font-bold bg-slate-100 text-slate-800 border border-slate-200 px-2.5 py-1 rounded-lg">
-                        {brand}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* 5. Top Industrial Applications */}
-              {details?.topApplications && (
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
-                  <span className="font-mono text-xs font-black uppercase text-slate-900 block">
-                    🏭 Core Engineering Applications
-                  </span>
-                  <ul className="space-y-1.5 text-xs text-slate-700 font-medium">
-                    {details.topApplications.map((app, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <CheckCircle2 size={14} className="text-emerald-600 shrink-0 mt-0.5" />
-                        <span>{app}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-            </div>
-
+          <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-600 leading-relaxed font-medium">
+            {model.description}
           </div>
         </div>
+
+        {/* Right: Technical Chemistry & Specifications */}
+        <div className="lg:col-span-6 space-y-4">
+          
+          {/* Key Properties Grid */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Melt Temp (Tm)</span>
+              <span className="font-display font-black text-slate-900 text-base">{details?.tm || 'N/A'}</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Glass Transition (Tg)</span>
+              <span className="font-display font-black text-slate-900 text-base">{details?.tg || 'N/A'}</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Classification</span>
+              <span className="font-display font-bold text-slate-800 text-xs mt-1 block">{details?.classification || 'N/A'}</span>
+            </div>
+            <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+              <span className="font-mono text-[10px] font-bold uppercase text-slate-400 block">Polymerization</span>
+              <span className="font-display font-bold text-slate-800 text-xs mt-1 block">{details?.polymerizationType || 'N/A'}</span>
+            </div>
+          </div>
+
+          {/* Indian Commercial Brands */}
+          {details?.indianBrands && details.indianBrands.length > 0 && (
+            <div className="p-4 rounded-xl bg-white border-2 border-slate-200 space-y-2">
+              <span className="font-mono text-[10px] font-black uppercase text-slate-900 block">
+                🇮🇳 Indian Commercial Trade Names &amp; Producers
+              </span>
+              <div className="flex flex-wrap gap-1.5">
+                {details.indianBrands.map(brand => (
+                  <span key={brand} className="font-mono text-xs font-bold bg-blue-50 text-blue-900 border border-blue-200 px-2.5 py-1 rounded-lg">
+                    {brand}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Top Industrial Applications */}
+          {details?.topApplications && (
+            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+              <span className="font-mono text-[10px] font-black uppercase text-slate-900 block">
+                🏭 Top Industrial Applications
+              </span>
+              <ul className="space-y-1 text-xs text-slate-700 font-medium">
+                {details.topApplications.map((app, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <CheckCircle2 size={13} className="text-emerald-600 shrink-0 mt-0.5" />
+                    <span>{app}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Action Link */}
+          {details?.curriculumLessonUrl && (
+            <div className="pt-2">
+              <Link
+                href={details.curriculumLessonUrl}
+                className="w-full inline-flex items-center justify-center gap-2 py-3 bg-[#2563EB] hover:bg-blue-700 text-white rounded-xl font-mono text-xs font-bold uppercase tracking-wider shadow-sm transition-all"
+              >
+                <BookOpen size={15} />
+                <span>Read Comprehensive Lesson &amp; ASTM Standards &rarr;</span>
+              </Link>
+            </div>
+          )}
+
+        </div>
+
       </div>
-    </ClientPortal>
+    </div>
   )
 }
 
@@ -655,7 +454,7 @@ export default function MaterialsPage() {
   // 3D Models state
   const [modelSearch, setModelSearch] = useState('')
   const [modelCategory, setModelCategory] = useState<string>('All')
-  const [active3DModel, setActive3DModel] = useState<LocalModel | null>(null)
+  const [expanded3DModelId, setExpanded3DModelId] = useState<string | null>(null)
 
   // Supabase fetch
   useEffect(() => {
@@ -698,26 +497,7 @@ export default function MaterialsPage() {
     })
   }, [modelCategory, modelSearch])
 
-  // Navigation handlers for modal
-  const handlePrevModel = useCallback(() => {
-    if (!active3DModel) return
-    const currentIndex = filteredModels.findIndex(m => m.id === active3DModel.id)
-    if (currentIndex > 0) {
-      setActive3DModel(filteredModels[currentIndex - 1])
-    } else {
-      setActive3DModel(filteredModels[filteredModels.length - 1])
-    }
-  }, [active3DModel, filteredModels])
 
-  const handleNextModel = useCallback(() => {
-    if (!active3DModel) return
-    const currentIndex = filteredModels.findIndex(m => m.id === active3DModel.id)
-    if (currentIndex < filteredModels.length - 1) {
-      setActive3DModel(filteredModels[currentIndex + 1])
-    } else {
-      setActive3DModel(filteredModels[0])
-    }
-  }, [active3DModel, filteredModels])
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] pb-24 text-slate-900 font-sans">
@@ -864,6 +644,15 @@ export default function MaterialsPage() {
                   <p className="font-sans text-xs text-slate-500">Try a different keyword or category filter.</p>
                 </div>
               ) : filteredModels.map((model) => {
+                if (expanded3DModelId === model.id) {
+                  return (
+                    <InPlace3DLab
+                      key={model.id}
+                      model={model}
+                      onCollapse={() => setExpanded3DModelId(null)}
+                    />
+                  )
+                }
                 const details = POLYMER_3D_KNOWLEDGE[model.id]
                 const CATEGORY_STYLES: Record<string, { bg: string; text: string; border: string }> = {
                   Molecule: { bg: '#EFF6FF', text: '#1D4ED8', border: '#93C5FD' },
@@ -876,7 +665,7 @@ export default function MaterialsPage() {
                 return (
                   <div 
                     key={model.id}
-                    onClick={(e) => { e.stopPropagation(); setActive3DModel(model); }}
+                    onClick={() => setExpanded3DModelId(model.id)}
                     className="group bg-white border-2 border-slate-200 hover:border-blue-600 rounded-3xl p-6 shadow-xs hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between cursor-pointer space-y-4 relative overflow-hidden"
                   >
                     <div className="space-y-3">
@@ -997,16 +786,6 @@ export default function MaterialsPage() {
         )}
 
       </div>
-
-      {/* ─── FULL ANALYSIS 3D MODAL ─── */}
-      {active3DModel && (
-        <FullAnalysis3DModal
-          model={active3DModel}
-          onClose={() => setActive3DModel(null)}
-          onPrev={handlePrevModel}
-          onNext={handleNextModel}
-        />
-      )}
 
       {/* ─── BOTTOM AI MATERIALS SPECIALIST CTA ─── */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 mt-20">

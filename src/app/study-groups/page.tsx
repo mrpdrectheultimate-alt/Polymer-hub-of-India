@@ -1,6 +1,6 @@
 'use client'
 
-import ClientPortal from '@/components/ClientPortal'
+
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
@@ -50,27 +50,11 @@ export default function StudyGroupsPage() {
   const [currentUser, setCurrentUser] = useState<string | null>(null)
   const [selectedSubject, setSelectedSubject] = useState<string>('all')
   
-  // Modal states
+  // In-Place Expanded States
   const [createOpen, setCreateOpen] = useState(false)
-  const [detailsGroup, setDetailsGroup] = useState<StudyGroup | null>(null)
+  const [expandedRosterGroupId, setExpandedRosterGroupId] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (createOpen || detailsGroup) {
-      const orig = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') {
-          setCreateOpen(false)
-          setDetailsGroup(null)
-        }
-      }
-      window.addEventListener('keydown', handleKeyDown)
-      return () => {
-        document.body.style.overflow = orig
-        window.removeEventListener('keydown', handleKeyDown)
-      }
-    }
-  }, [createOpen, detailsGroup])
+  
   const [groupMembers, setGroupMembers] = useState<Member[]>([])
   const [membersLoading, setMembersLoading] = useState(false)
 
@@ -131,9 +115,7 @@ export default function StudyGroupsPage() {
       const json = await res.json()
       if (json.success) {
         await loadGroups()
-        if (detailsGroup?.id === group.id) {
-          const updatedGroup = { ...group, is_member: !group.is_member, member_count: group.is_member ? group.member_count - 1 : group.member_count + 1 }
-          setDetailsGroup(updatedGroup)
+        if (expandedRosterGroupId === group.id) {
           fetchGroupMembers(group.id)
         }
       }
@@ -210,9 +192,13 @@ export default function StudyGroupsPage() {
     }
   }
 
-  const viewGroupDetails = async (group: StudyGroup) => {
-    setDetailsGroup(group)
-    await fetchGroupMembers(group.id)
+  const toggleGroupRoster = async (group: StudyGroup) => {
+    if (expandedRosterGroupId === group.id) {
+      setExpandedRosterGroupId(null)
+    } else {
+      setExpandedRosterGroupId(group.id)
+      await fetchGroupMembers(group.id)
+    }
   }
 
   const filteredGroups = selectedSubject === 'all' 
@@ -286,12 +272,103 @@ export default function StudyGroupsPage() {
           </div>
 
           <button 
-            onClick={() => setCreateOpen(true)}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-5 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all"
+            onClick={() => setCreateOpen(!createOpen)}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#F5C518] hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase px-5 py-3 rounded-xl border-2 border-slate-900 shadow-[2px_2px_0px_0px_#000] hover:translate-x-0.5 hover:translate-y-0.5 transition-all cursor-pointer"
           >
-            <Plus className="w-4 h-4" /> Create Study Circle
+            {createOpen ? <X className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+            {createOpen ? 'Close Form ✕' : 'Create Study Circle &darr;'}
           </button>
         </div>
+
+        {/* IN-PLACE COLLAPSIBLE CREATE CIRCLE FORM */}
+        {createOpen && (
+          <div className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-6 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div>
+                <h3 className="font-display font-bold text-xl text-slate-900">Create New Study Circle</h3>
+                <p className="text-xs text-slate-500 mt-0.5">Form a dedicated peer group for chapter revisions and project collaboration.</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCreateOpen(false)}
+                className="p-2 hover:bg-slate-100 rounded-xl text-slate-500 hover:text-slate-900 font-mono text-xs font-bold"
+              >
+                Close ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateGroup} className="space-y-4">
+              {formError && (
+                <div className="p-3 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-xl font-medium">
+                  {formError}
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                    Circle Name *
+                  </label>
+                  <input 
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g., Gate 2026 Polymer Rheology Circle"
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border-2 border-slate-200 rounded-xl font-medium text-slate-900 focus:outline-none focus:border-blue-600"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                    Subject Track *
+                  </label>
+                  <select
+                    required
+                    value={subjectId}
+                    onChange={(e) => setSubjectId(e.target.value)}
+                    className="w-full px-4 py-2.5 text-xs bg-slate-50 border-2 border-slate-200 rounded-xl font-medium text-slate-900 focus:outline-none focus:border-blue-600"
+                  >
+                    <option value="">Select Curriculum Subject</option>
+                    {subjects.map(sub => (
+                      <option key={sub.id} value={sub.id}>{sub.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono font-bold text-slate-700 mb-1">
+                  Circle Goals &amp; Weekly Focus
+                </label>
+                <textarea 
+                  rows={3}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Outline topics, weekly meeting cadence, or lab revision targets..."
+                  className="w-full px-4 py-2.5 text-xs bg-slate-50 border-2 border-slate-200 rounded-xl font-medium text-slate-900 focus:outline-none focus:border-blue-600"
+                />
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setCreateOpen(false)}
+                  className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-md transition-all cursor-pointer disabled:opacity-50"
+                >
+                  {submitting ? 'Creating...' : 'Create & Launch Circle &rarr;'}
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {/* Groups Grid */}
         {loading ? (
@@ -334,13 +411,55 @@ export default function StudyGroupsPage() {
                   </p>
                 </div>
 
+                {/* In-Place Roster Expansion */}
+                {expandedRosterGroupId === group.id && (
+                  <div className="pt-3 border-t-2 border-slate-200 space-y-3 animate-in fade-in duration-200">
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                        Enrolled Peers ({groupMembers.length})
+                      </span>
+                      <button 
+                        onClick={() => setExpandedRosterGroupId(null)}
+                        className="text-[11px] font-mono text-slate-400 hover:text-slate-700 font-bold"
+                      >
+                        Hide ✕
+                      </button>
+                    </div>
+
+                    {membersLoading ? (
+                      <div className="py-4 text-center text-xs font-mono text-slate-400">Loading roster...</div>
+                    ) : groupMembers.length === 0 ? (
+                      <div className="py-4 text-center text-xs text-slate-400 italic">No peers enrolled yet. Be the first!</div>
+                    ) : (
+                      <div className="space-y-1.5 max-h-[180px] overflow-y-auto pr-1">
+                        {groupMembers.map(m => (
+                          <div key={m.id} className="flex items-center justify-between p-2 rounded-lg border border-slate-200 bg-slate-50">
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-[10px] flex items-center justify-center">
+                                {m.full_name?.charAt(0) || 'S'}
+                              </div>
+                              <div>
+                                <div className="font-bold text-xs text-slate-900">{m.full_name || 'Engineering Student'}</div>
+                                <div className="text-[9px] text-slate-400 font-mono">{m.college_name || 'Plastics Institute'}</div>
+                              </div>
+                            </div>
+                            <span className="font-mono text-[10px] font-bold text-amber-600 flex items-center gap-1">
+                              <Star className="w-2.5 h-2.5 text-amber-500 fill-amber-500" /> {m.xp_points.toLocaleString()} XP
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 <div className="space-y-2 pt-3 border-t border-slate-100">
                   <div className="flex gap-2">
                     <button
-                      onClick={() => viewGroupDetails(group)}
+                      onClick={() => toggleGroupRoster(group)}
                       className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-all"
                     >
-                      View Roster
+                      {expandedRosterGroupId === group.id ? 'Hide Roster ✕' : 'View Roster ↓'}
                     </button>
                     <button
                       onClick={() => handleJoinLeave(group)}
@@ -396,147 +515,6 @@ export default function StudyGroupsPage() {
           </div>
         </div>
       </section>
-
-      {/* ── Create Group Modal ── */}
-      {createOpen && (
-        <ClientPortal>
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in overflow-y-auto" onClick={() => setCreateOpen(false)}>
-            <div className="bg-white text-slate-900 border border-slate-200 rounded-2xl max-w-md w-full p-6 shadow-2xl my-auto" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="font-display font-bold text-base uppercase tracking-wide">👥 Create Study Circle</h3>
-                <button onClick={() => setCreateOpen(false)} className="text-slate-400 hover:text-slate-900">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {formError && (
-                <div className="mb-4 p-3 bg-rose-50 border border-rose-200 text-rose-800 text-xs font-bold rounded-xl">
-                  {formError}
-                </div>
-              )}
-
-              <form onSubmit={handleCreateGroup} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Group Name</label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Injection Moulding Troubleshooters"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Subject Focus</label>
-                  <select
-                    value={subjectId}
-                    onChange={(e) => setSubjectId(e.target.value)}
-                    className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-bold"
-                  >
-                    <option value="">General / All Subjects</option>
-                    {subjects.map(s => (
-                      <option key={s.id} value={s.id}>{s.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono font-bold uppercase text-slate-500 mb-1">Description &amp; Goals</label>
-                  <textarea
-                    rows={3}
-                    placeholder="What will this group focus on? (e.g., Weekly problem solving, GATE review, lab viva prep)"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    className="w-full p-2.5 border-2 border-slate-200 focus:border-blue-600 rounded-xl text-xs bg-white outline-none text-slate-900 font-medium leading-relaxed"
-                  />
-                </div>
-
-                <div className="flex gap-3 justify-end pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setCreateOpen(false)}
-                    className="px-4 py-2 border-2 border-slate-200 text-xs font-mono font-bold uppercase rounded-xl hover:bg-slate-50"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-sm"
-                  >
-                    {submitting ? 'Creating...' : 'Create Circle'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </ClientPortal>
-      )}
-
-      {/* ── View Details Roster Modal ── */}
-      {detailsGroup && (
-        <ClientPortal>
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-fade-in overflow-y-auto" onClick={() => setDetailsGroup(null)}>
-            <div className="bg-white text-slate-900 border border-slate-200 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 my-auto" onClick={(e) => e.stopPropagation()}>
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div>
-                  <span className="text-[10px] font-mono font-bold text-blue-600 uppercase block">{detailsGroup.subject_name}</span>
-                  <h3 className="font-display font-bold text-lg text-slate-900 leading-snug">{detailsGroup.name}</h3>
-                </div>
-                <button onClick={() => setDetailsGroup(null)} className="text-slate-400 hover:text-slate-900">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                {detailsGroup.description || 'No detailed description provided for this study circle.'}
-              </p>
-
-              <div className="space-y-2">
-                <span className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider block">
-                  Enrolled Peers ({groupMembers.length})
-                </span>
-
-                {membersLoading ? (
-                  <div className="py-6 text-center text-xs font-mono text-slate-400">Loading roster...</div>
-                ) : groupMembers.length === 0 ? (
-                  <div className="py-6 text-center text-xs text-slate-400 italic">No peers enrolled yet. Be the first!</div>
-                ) : (
-                  <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
-                    {groupMembers.map(m => (
-                      <div key={m.id} className="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 bg-slate-50">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">
-                            {m.full_name?.charAt(0) || 'S'}
-                          </div>
-                          <div>
-                            <div className="font-bold text-xs text-slate-900">{m.full_name || 'Engineering Student'}</div>
-                            <div className="text-[10px] text-slate-400 font-mono">{m.college_name || 'Plastics Institute'}</div>
-                          </div>
-                        </div>
-                        <span className="font-mono text-xs font-bold text-amber-600 flex items-center gap-1">
-                          <Star className="w-3 h-3 text-amber-500 fill-amber-500" /> {m.xp_points.toLocaleString()} XP
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <div className="pt-2 border-t border-slate-100 flex justify-end">
-                <button
-                  onClick={() => setDetailsGroup(null)}
-                  className="px-5 py-2 bg-slate-900 text-white font-mono font-bold text-xs uppercase rounded-xl"
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-          </div>
-        </ClientPortal>
-      )}
 
     </div>
   )
