@@ -216,12 +216,17 @@ export function ThreeDViewer({
         ctx.lineWidth = 0.5
         ctx.stroke()
 
-        if (node.label && r >= 7) {
-          ctx.fillStyle = '#FFFFFF'
-          ctx.font = `bold ${Math.max(7, Math.floor(r * 0.75))}px monospace`
+        if (node.label && r >= 6) {
+          const fontSize = Math.max(8, Math.floor(r * 0.85))
+          ctx.save()
+          ctx.font = `bold ${fontSize}px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace`
           ctx.textAlign = 'center'
           ctx.textBaseline = 'middle'
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)'
+          ctx.shadowBlur = 3
+          ctx.fillStyle = '#FFFFFF'
           ctx.fillText(node.label, x, y)
+          ctx.restore()
         }
       })
     }
@@ -338,12 +343,13 @@ export function ThreeDViewer({
         height={height}
         className="w-full h-auto block"
       />
-      <div className="absolute top-2.5 left-2.5 bg-slate-900/90 border border-slate-700/80 px-2 py-0.5 rounded-md text-[9px] font-mono text-cyan-300 uppercase tracking-wider shadow-sm">
+      <div className="absolute top-3 left-3 bg-slate-900/90 border border-slate-700/80 px-2.5 py-1 rounded-lg text-[10px] font-mono font-bold text-cyan-300 uppercase tracking-wider shadow-sm flex items-center gap-1.5 z-10 pointer-events-none">
+        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
         {name.split(' ')[0]} 3D
       </div>
       {isModal && (
-        <div className="absolute bottom-2.5 left-2.5 right-2.5 text-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-slate-950/90 text-[9px] font-mono text-slate-300 py-1 px-2 rounded-lg border border-slate-800">
-          🖱️ Drag 360° to Rotate &middot; Scroll Wheel to Zoom
+        <div className="absolute top-3 right-3 bg-slate-900/90 border border-slate-700/80 px-2.5 py-1 rounded-lg text-[10px] font-mono font-medium text-slate-300 shadow-sm z-10 pointer-events-none flex items-center gap-1">
+          <span>🖱️ Drag to rotate &middot; Scroll to zoom</span>
         </div>
       )}
     </div>

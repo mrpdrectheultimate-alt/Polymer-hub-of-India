@@ -199,9 +199,9 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
   return (
     <div className="col-span-1 md:col-span-2 lg:col-span-3 bg-white border-2 border-blue-600 rounded-3xl p-6 sm:p-8 shadow-2xl transition-all duration-300 space-y-6 relative animate-in fade-in zoom-in-95">
       {/* Top Header & Close Button */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-start justify-between gap-4 pb-4 border-b border-slate-200">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span
               className="font-mono text-[10px] font-black border px-2.5 py-0.5 rounded-lg uppercase tracking-wider"
               style={{ backgroundColor: cs.bg, color: cs.text, borderColor: cs.border }}
@@ -209,7 +209,7 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
               [{model.category}]
             </span>
             {details?.formula && (
-              <span className="font-mono text-xs font-bold bg-slate-100 text-slate-800 border border-slate-200 px-3 py-0.5 rounded-md">
+              <span className="font-mono text-xs font-bold bg-slate-900 text-white border border-slate-800 px-3 py-0.5 rounded-md shadow-xs">
                 {details.formula}
               </span>
             )}
@@ -218,13 +218,28 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
               Interactive 3D Lab Active
             </span>
           </div>
-          <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-950">
+
+          <h2 className="font-display font-black text-2xl sm:text-3xl text-slate-950 tracking-tight">
             {model.name}
           </h2>
+
+          {/* High-Contrast Clear Chemical Nomenclature Box */}
           {details?.iupacName && (
-            <p className="font-mono text-xs text-blue-700 font-bold">
-              IUPAC: {details.iupacName}
-            </p>
+            <div className="flex flex-wrap items-center gap-2 pt-0.5">
+              <div className="inline-flex items-center gap-2 bg-blue-50/90 border border-blue-200 px-3 py-1.5 rounded-xl shadow-xs">
+                <span className="font-mono text-[10px] font-black uppercase text-blue-900 bg-blue-200/80 px-2 py-0.5 rounded-md tracking-wider">
+                  IUPAC Systematic Name
+                </span>
+                <span className="font-mono text-xs sm:text-sm font-bold text-blue-950 tracking-tight">
+                  {details.iupacName}
+                </span>
+              </div>
+              {details?.casNumber && (
+                <span className="font-mono text-[11px] font-bold text-slate-600 bg-slate-100 border border-slate-200 px-2.5 py-1.5 rounded-xl">
+                  CAS: {details.casNumber}
+                </span>
+              )}
+            </div>
           )}
         </div>
 
@@ -232,7 +247,7 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
         <button
           type="button"
           onClick={onCollapse}
-          className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer"
+          className="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-all cursor-pointer shrink-0"
         >
           <X size={16} />
           <span>Collapse Lab ✕</span>
@@ -244,10 +259,7 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
         
         {/* Left: 3D Interactive Canvas */}
         <div className="lg:col-span-6 space-y-3">
-          <div className="bg-slate-950 rounded-2xl p-3 border-2 border-slate-900 shadow-inner relative overflow-hidden">
-            <div className="absolute top-3 left-3 z-10 font-mono text-[10px] font-bold text-slate-400 bg-slate-900/80 px-2.5 py-1 rounded-md border border-slate-800">
-              🖱️ Drag to rotate &middot; Scroll to zoom
-            </div>
+          <div className="bg-slate-950 rounded-2xl p-2 border-2 border-slate-900 shadow-inner relative overflow-hidden">
             <ThreeDViewer 
               modelType={model.model_type} 
               name={model.name} 
