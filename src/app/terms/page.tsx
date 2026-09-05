@@ -107,7 +107,7 @@ export default function TermsPage() {
             <span className="text-blue-600 font-mono text-base">04.</span> Subscriptions, Pricing &amp; Refund Policy
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-            All core curriculum lessons remain permanently free. Premium subscriptions (₹149/mo or ₹999/yr) unlock unlimited AI tutoring, downloadable offline PDF study packs, and verified completion certificates.
+            All core curriculum lessons remain permanently free. Premium subscriptions (₹149/mo or ₹1,429/yr) unlock unlimited AI tutoring, downloadable offline PDF study packs, and verified completion certificates.
           </p>
           <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-xs sm:text-sm text-emerald-950 space-y-1">
             <p className="font-bold flex items-center gap-1.5 text-emerald-800">

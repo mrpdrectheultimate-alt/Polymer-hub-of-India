@@ -205,7 +205,7 @@ export default function PricingPage() {
               <span className={`text-xs sm:text-sm font-semibold flex items-center gap-1.5 transition-colors ${billingPeriod === 'annual' ? 'text-white' : 'text-white/40'}`}>
                 Annual
                 <span className="px-2 py-0.5 rounded-full bg-[#F5C518]/20 text-[#F5C518] text-[10px] font-mono font-bold">
-                  Save 44%
+                  Save 20%
                 </span>
               </span>
             </div>
@@ -226,8 +226,8 @@ export default function PricingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {PLANS.map((plan, index) => {
             const isAnnual = billingPeriod === 'annual' && plan.id === 'premium'
-            const displayPrice = isAnnual ? '₹83' : `₹${plan.monthlyPrice}`
-            const displayPeriod = isAnnual ? '/ MO (BILLED ₹999 ANNUALLY)' : plan.period
+            const displayPrice = isAnnual ? '₹119' : `₹${plan.monthlyPrice}`
+            const displayPeriod = isAnnual ? '/ MO (BILLED ₹1,429 ANNUALLY)' : plan.period
 
             return (
               <motion.div
@@ -279,7 +279,7 @@ export default function PricingPage() {
                     
                     {isAnnual && (
                       <div className="text-xs text-[#16A34A] font-semibold mt-1 font-mono">
-                        ✓ Save ₹789/year vs monthly billing (44% Annual Discount)
+                        ✓ Save ₹359/year vs monthly billing (20% Annual Discount)
                       </div>
                     )}
                     {plan.id === 'institutional' && (
@@ -310,10 +310,10 @@ export default function PricingPage() {
                   {plan.id === 'premium' ? (
                     <div>
                       <RazorpayCheckout 
-                        buttonText={isAnnual ? 'Start Annual Pro — ₹999/yr' : 'Start Premium — ₹149/mo'}
+                        buttonText={isAnnual ? 'Start Annual Pro — ₹1,429/yr' : 'Start Premium — ₹149/mo'}
                         buttonClass="w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-md transition-all text-xs font-mono uppercase tracking-wider flex items-center justify-center gap-2"
                         planName={plan.name}
-                        amount={isAnnual ? 999 : 149}
+                        amount={isAnnual ? 1429 : 149}
                         isAnnual={isAnnual}
                       />
                       <div className="mt-3 text-center text-[11px] text-[#94A3B8] font-mono flex items-center justify-center gap-1">
