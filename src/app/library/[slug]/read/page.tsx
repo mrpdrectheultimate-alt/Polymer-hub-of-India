@@ -23,6 +23,13 @@ interface Book {
   slug: string
   title: string
   authors: string
+  legal_class?: 'Class A' | 'Class B' | 'Class C' | 'Class D'
+  publisher?: string
+  publication_year?: number
+  isbn?: string
+  doi?: string
+  worldcat_url?: string
+  openlibrary_url?: string
   cover_image_url?: string
   chapter_images?: Record<string, { url: string; caption: string }[]>
   category: 'original_guide' | 'open_access' | 'commercial'
@@ -167,13 +174,22 @@ export default function ReadingRoomPage() {
   useEffect(() => {
     if (book && currentChapterId) {
       const fallbackBook = getBookBySlug(slug as string)
-      let content = book.chapters?.[currentChapterId] || fallbackBook?.chapters?.[currentChapterId] || ''
-      
-      // If still empty, synthesize rich curriculum notes for this chapter
-      if (!content) {
-        const matchingToc = book.toc.find(t => t.id === currentChapterId)
-        const chapterTitle = matchingToc ? matchingToc.title : `Chapter ${currentChapterId}`
-        content = `# ${chapterTitle}\n*From "${book.title}" by ${book.authors}*\n\n## 📖 Overview\nThis chapter covers core principles in **${chapterTitle}**. Study the parameters, constitutive equations, and practical industrial processing considerations.\n\n${book.file_url ? `\n> [!TIP]\n> **[Click here to download the unabridged Open Access PDF Document](${book.file_url})**\n` : ''}`
+      const isClassD = book.legal_class === 'Class D' || fallbackBook?.legal_class === 'Class D'
+      const isClassB = book.legal_class === 'Class B' || fallbackBook?.legal_class === 'Class B'
+
+      let content = ''
+
+      if (isClassD) {
+        // Class D: Zero AI filler text. Display clean External Reference Card markdown.
+        content = `# 🛡️ External Reference Catalog Card: ${book.title}\n*By ${book.authors}* — Published by ${book.publisher || 'Publisher'} (${book.publication_year || 'Academic Edition'})\n\n---\n\n> [!IMPORTANT]\n> **Class D Legal Classification Notice**\n> Full copyright and proprietary text rights for this commercial textbook belong strictly to the original authors and publisher (${book.publisher || 'Taylor & Francis / Wiley / Springer'}).\n> PolymerHub provides bibliographic indexing, ISBN (${book.isbn || 'N/A'}) and DOI (${book.doi || 'N/A'}) cataloging, and Table of Contents referencing for university coursework citation.\n> **Zero unauthorized AI-generated filler or copied body text is stored or displayed.**\n\n---\n\n## 🛒 Official Purchase & University Library Access\n\n* 👉 **[Buy Official Edition (${book.publisher || 'Publisher'})](${book.purchase_url || '#'})**\n* 🏛️ **[Search WorldCat Global University Library System](${book.worldcat_url || 'https://www.worldcat.org'})**\n* 📖 **[Find Title in Open Library Catalog](${book.openlibrary_url || 'https://openlibrary.org'})**\n\n---\n\n## 📚 Unabridged Table of Contents Reference\n\n${book.toc.map((t, idx) => `* **Module ${idx + 1}:** ${t.title}`).join('\n')}\n`
+      } else {
+        content = book.chapters?.[currentChapterId] || fallbackBook?.chapters?.[currentChapterId] || ''
+        
+        if (!content && isClassB) {
+          const matchingToc = book.toc.find(t => t.id === currentChapterId)
+          const chapterTitle = matchingToc ? matchingToc.title : `Chapter ${currentChapterId}`
+          content = `# 🟢 Open Access Reference: ${chapterTitle}\n*From "${book.title}" by ${book.authors}*\n\n---\n\n## 📄 Official Open Access Document\n> [!NOTE]\n> This title is classified under **Class B (Open Access / Public Domain)**. Access the complete official publication directly:\n> \n> 👉 **[Download / Read Full Official Publication (${book.file_url || '#'})](${book.file_url || '#'})**\n`
+        }
       }
 
       setChapterContent(content)
