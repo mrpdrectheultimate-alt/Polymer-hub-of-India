@@ -47,11 +47,16 @@ type Tab = 'exhibitions' | 'webinars' | 'mentorship' | 'discussion'
 
 // ─── City Theme Palette ───────────────────────────────────────────────────────
 const CITY_THEMES: Record<string, { bg: string; text: string; border: string; accent: string }> = {
-  Vadodara: { bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-200', accent: 'from-blue-600 to-indigo-700' },
-  Indore:   { bg: 'bg-amber-50', text: 'text-amber-900', border: 'border-amber-200', accent: 'from-amber-600 to-orange-600' },
-  Kottayam: { bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200', accent: 'from-purple-600 to-indigo-700' },
-  Mumbai:   { bg: 'bg-yellow-50', text: 'text-yellow-950', border: 'border-yellow-300', accent: 'from-amber-500 to-yellow-600' },
-  Chennai:  { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200', accent: 'from-emerald-600 to-teal-700' },
+  Vadodara:    { bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-200', accent: 'from-blue-600 to-indigo-700' },
+  Indore:      { bg: 'bg-amber-50', text: 'text-amber-900', border: 'border-amber-200', accent: 'from-amber-600 to-orange-600' },
+  Gandhinagar: { bg: 'bg-sky-50', text: 'text-sky-900', border: 'border-sky-200', accent: 'from-sky-600 to-blue-700' },
+  Kottayam:    { bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200', accent: 'from-purple-600 to-indigo-700' },
+  Mumbai:      { bg: 'bg-yellow-50', text: 'text-yellow-950', border: 'border-yellow-300', accent: 'from-amber-500 to-yellow-600' },
+  'New Delhi': { bg: 'bg-rose-50', text: 'text-rose-900', border: 'border-rose-200', accent: 'from-rose-600 to-red-700' },
+  Chennai:     { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200', accent: 'from-emerald-600 to-teal-700' },
+  Hyderabad:   { bg: 'bg-teal-50', text: 'text-teal-900', border: 'border-teal-200', accent: 'from-teal-600 to-emerald-700' },
+  Bengaluru:   { bg: 'bg-indigo-50', text: 'text-indigo-900', border: 'border-indigo-200', accent: 'from-indigo-600 to-purple-700' },
+  Raipur:      { bg: 'bg-orange-50', text: 'text-orange-900', border: 'border-orange-200', accent: 'from-orange-600 to-amber-700' },
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────

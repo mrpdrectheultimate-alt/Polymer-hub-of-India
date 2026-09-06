@@ -194,7 +194,7 @@ export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
     organizer: 'Tamil Nadu Plastics Manufacturers’ Association (TAPMA)',
     sourceName: 'TAPMA / Plastemart',
     sourceUrl: 'https://www.plastemart.com',
-    lastVerified: '02 Sep 2026',
+    lastVerified: '06 Sep 2026',
     eventType: 'Exhibition & Expo',
     isAnchorEvent: false,
     idealFor: [
@@ -212,6 +212,228 @@ export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
       advice: 'Chennai is India\'s Detroit and the home of CIPET Corporate Head Office. Excellent opportunity to meet automotive molders and secure plant placement interviews.',
       keyPavilions: ['Automotive & Engineering Plastics Hall', 'Tool & Die Specialist Arena', 'South India Recyclers Pavilion'],
       networkingTip: 'Ask exhibitors about their automotive PP-GF and PA66 validation cycles; demonstrate your knowledge of ASTM D638 and Izod impact standards.'
+    }
+  },
+  {
+    id: 'event-006',
+    title: 'Plexpo India 2026 — 9th International Plastics Exhibition',
+    shortTitle: 'Plexpo India Gandhinagar',
+    slug: 'plexpo-india-gandhinagar-2026',
+    startDate: '2026-12-17',
+    endDate: '2026-12-20',
+    dateDisplay: 'December 17 – 20, 2026',
+    monthYearBadge: 'DEC 2026',
+    city: 'Gandhinagar',
+    state: 'Gujarat',
+    venue: 'Helipad Exhibition Centre, Near J2 Circle, Swarnim Park, Gandhinagar, Gujarat 382016',
+    focus: 'Gujarat flagship show. High-throughput extrusion, polyolefin compounding, masterbatches, and packaging converting machinery.',
+    focusTags: ['Gujarat Flagship', 'High-Speed Extrusion', 'Masterbatch Formulations', 'GSPMA'],
+    organizer: 'Gujarat State Plastics Manufacturers Association (GSPMA)',
+    sourceName: 'GSPMA / Plexpo India Official',
+    sourceUrl: 'https://www.plexpoindia.com',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    isAnchorEvent: false,
+    idealFor: [
+      'Extrusion & Pipe Manufacturing Engineers',
+      'Masterbatch & Additive Formulators',
+      'Flexible Packaging Converters & Printers',
+      'Polymer Engineering Students & Researchers'
+    ],
+    whatToSee: [
+      { step: '01', title: 'High-Output Pipe & Sheet Extrusion', desc: 'Live running HDPE pressure pipe lines and multilayer sheet extrusion dies.' },
+      { step: '02', title: 'Additive & Color Masterbatch Pavilion', desc: 'Concentrated UV stabilizer masterbatches, filler masterbatches ($\text{CaCO}_3$), and flame retardants.' },
+      { step: '03', title: 'Recycling & Melt Filtration', desc: 'Automatic continuous screen changers and pelletizing lines for post-industrial scrap.' }
+    ],
+    studentMode: {
+      advice: 'GSPMA is one of India\'s largest regional plastics associations. Great venue to interact with twin-screw extruder manufacturers.',
+      keyPavilions: ['Extrusion Machinery Hall', 'Masterbatch & Chemical Pavilion', 'Toolroom & Auxiliary Equipment Zone'],
+      networkingTip: 'Inquire about Specific Mechanical Energy ($\text{SME}$) calculations with twin-screw extrusion application engineers.'
+    }
+  },
+  {
+    id: 'event-007',
+    title: 'India Rubber Expo 2027 (IRE 2027) — 11th International Rubber Conference & Expo',
+    shortTitle: 'India Rubber Expo New Delhi',
+    slug: 'india-rubber-expo-delhi-2027',
+    startDate: '2027-03-18',
+    endDate: '2027-03-20',
+    dateDisplay: 'March 18 – 20, 2027',
+    monthYearBadge: 'MAR 2027',
+    city: 'New Delhi',
+    state: 'Delhi NCR',
+    venue: 'Pragati Maidan Exhibition Complex, Mathura Road, New Delhi 110001',
+    focus: 'Asia\'s largest rubber show. Natural & synthetic rubbers (SBR, EPDM, NBR), vulcanization accelerators, tire compounding, and rubber machinery.',
+    focusTags: ['Rubber & Elastomers', 'Tire Compounding', 'Sulfur Vulcanization', 'AIRIA Mega Show'],
+    organizer: 'All India Rubber Industries Association (AIRIA)',
+    sourceName: 'AIRIA Official / India Rubber Expo',
+    sourceUrl: 'https://www.indiarubberexpo.in',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    isAnchorEvent: true,
+    idealFor: [
+      'Rubber Technologists & Tire Compounders',
+      'Elastomeric Product Designers (O-Rings, Seals, Hoses)',
+      'Synthetic Rubber & Silica Filler Suppliers',
+      'Polymer & Rubber Technology Students'
+    ],
+    whatToSee: [
+      { step: '01', title: 'Rubber Vulcanization & Mixing', desc: 'Banbury internal mixers, two-roll compounding mills, and Moving Die Rheometers (MDR).' },
+      { step: '02', title: 'Synthetic Elastomers & Silica', desc: 'Solution SBR, EPDM, Nitrile rubber (NBR), and nano-silica reinforcing agents.' },
+      { step: '03', title: 'Automotive Rubber Moldings', desc: 'Weatherstrips, engine mounts, fuel hoses, and anti-vibration automotive dampers.' }
+    ],
+    studentMode: {
+      advice: 'The absolute pinnacle event for rubber technology students. Study MDR cure curves ($t_{s2}, t_{90}$) and sulfur crosslink chemistry before attending.',
+      keyPavilions: ['Synthetic & Natural Rubber Hall', 'Rubber Machinery & Presses', 'Testing & Rheology Arena'],
+      networkingTip: 'Engage compounders at tire producer booths (MRF, Apollo, CEAT) regarding internship projects in rubber characterization.'
+    }
+  },
+  {
+    id: 'event-008',
+    title: 'IPLEX 2027 — 13th International Plastics Exhibition Hyderabad',
+    shortTitle: 'IPLEX 2027 Hyderabad',
+    slug: 'iplex-hyderabad-2027',
+    startDate: '2027-08-20',
+    endDate: '2027-08-23',
+    dateDisplay: 'August 20 – 23, 2027',
+    monthYearBadge: 'AUG 2027',
+    city: 'Hyderabad',
+    state: 'Telangana',
+    venue: 'HITEX Exhibition Centre, Trade Fair Office Building, IZZAT Nagar, Hyderabad, Telangana 500084',
+    focus: 'Joint South-Central India Expo. Pharmaceutical blister packaging, medical devices, rigid containers, and injection moulding automation.',
+    focusTags: ['Pharma Packaging', 'Medical Plastics', 'Rigid Containers', 'South Plastics Alliance'],
+    organizer: 'TAIPMA, KADPMA, APMSME & Telangana Plastics Association',
+    sourceName: 'IPLEX Official / TradeIndia',
+    sourceUrl: 'https://www.iplexindia.com',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    isAnchorEvent: false,
+    idealFor: [
+      'Pharmaceutical Packaging Technologists',
+      'Medical Device Injection Molding Engineers',
+      'Telangana & Andhra Pradesh SME Processors',
+      'CIPET Hyderabad Students & Faculty'
+    ],
+    whatToSee: [
+      { step: '01', title: 'Pharma & Medical Cleanroom Moulding', desc: 'ISO Class 7 cleanroom all-electric injection molding presses for IV sets and diagnostic cassettes.' },
+      { step: '02', title: 'High-Barrier Blister Packaging', desc: 'PVC/PVDC, Alu-Alu cold forming, and cyclic olefin copolymer (COC) barrier films.' },
+      { step: '03', title: 'Blow Moulding & Rigid Bottles', desc: 'ISBM (Injection Stretch Blow Moulding) machines for pharmaceutical syrup and reagent bottles.' }
+    ],
+    studentMode: {
+      advice: 'Hyderabad is India\'s pharma capital. Focus your visit on medical grade polymer compliance (ISO 10993, USP Class VI).',
+      keyPavilions: ['Pharma & Healthcare Plastics Zone', 'Machinery & Moulds Hall', 'Resin & Additives Hub'],
+      networkingTip: 'Ask technical directors about regulatory validation steps for medical grade polypropylene and polycarbonate.'
+    }
+  },
+  {
+    id: 'event-009',
+    title: 'PlastAsia 2027 — 8th International Plastics Exhibition Bengaluru',
+    shortTitle: 'PlastAsia 2027 Bengaluru',
+    slug: 'plastasia-bengaluru-2027',
+    startDate: '2027-07-09',
+    endDate: '2027-07-12',
+    dateDisplay: 'July 9 – 12, 2027',
+    monthYearBadge: 'JUL 2027',
+    city: 'Bengaluru',
+    state: 'Karnataka',
+    venue: 'Bengaluru International Exhibition Centre (BIEC), 10th Mile, Tumkur Road, Bengaluru, Karnataka 560073',
+    focus: 'High-tech plastics show. Aerospace carbon fiber composites, 3D printing filaments, precision electronics housings, and Industry 4.0 IoT moulding.',
+    focusTags: ['Aerospace Composites', '3D Printing Filament', 'Precision Electronics', 'Industry 4.0'],
+    organizer: 'Triune Exhibitors Pvt Ltd & Karnataka State Plastics Association (KSPA)',
+    sourceName: 'PlastAsia Official / BIEC',
+    sourceUrl: 'https://www.plastasia.in',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    isAnchorEvent: false,
+    idealFor: [
+      'Aerospace & Defense Composite Engineers (HAL, ISRO suppliers)',
+      'Electronics Enclosure Moulding Technicians',
+      'Additive Manufacturing & 3D Printing Researchers',
+      'Bengaluru Tech Hub Polymer Engineers'
+    ],
+    whatToSee: [
+      { step: '01', title: 'Carbon Fiber & CFRP Composites', desc: 'Resin Transfer Moulding (RTM), autoclave prepregs, and carbon-fiber reinforced polyamides (PA66-CF30).' },
+      { step: '02', title: 'Polymer 3D Printing & SLS', desc: 'Industrial Selective Laser Sintering (SLS) with PEEK/PA12 powders and high-temp FDM filaments.' },
+      { step: '03', title: 'Smart Factory & Mould Sensors', desc: 'IoT cavity pressure sensors, automated robotic demolding arms, and energy monitoring dashboards.' }
+    ],
+    studentMode: {
+      advice: 'BIEC Bengaluru hosts India\'s highest-tech composite and additive manufacturing exhibits. Bring your research questions on composite mechanics.',
+      keyPavilions: ['Advanced Composites & 3D Printing Hall', 'Precision Machinery Hall', 'Smart Factory & Automation Zone'],
+      networkingTip: 'Visit composite prepreg stalls and ask application specialists about classical lamination theory $[A][B][D]$ matrix validation.'
+    }
+  },
+  {
+    id: 'event-010',
+    title: 'Plast Asia Central Expo 2026 — Raipur Plastics & Infrastructure Expo',
+    shortTitle: 'Plast Central Raipur',
+    slug: 'plast-central-raipur-2026',
+    startDate: '2026-12-04',
+    endDate: '2026-12-07',
+    dateDisplay: 'December 4 – 7, 2026',
+    monthYearBadge: 'DEC 2026',
+    city: 'Raipur',
+    state: 'Chhattisgarh',
+    venue: 'Shriram Business Park / Science Centre Ground, Vidhan Sabha Road, Raipur, Chhattisgarh 492007',
+    focus: 'Central India regional infrastructure expo. HDPE/PVC pipe extrusion, agricultural drip irrigation systems, and woven sack looms.',
+    focusTags: ['Agricultural Plastics', 'HDPE/PVC Pipes', 'Woven Sacks', 'Central India'],
+    organizer: 'Chhattisgarh Plastics Manufacturers Association (CPMA)',
+    sourceName: 'TradeIndia / CPMA',
+    sourceUrl: 'https://www.tradeindia.com',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    isAnchorEvent: false,
+    idealFor: [
+      'Agricultural Pipe & Drip Irrigation Extruders',
+      'Woven Sack Packaging Plant Supervisors',
+      'Central India Infrastructure Contractors',
+      'Regional Polymer & Chemical Diploma Students'
+    ],
+    whatToSee: [
+      { step: '01', title: 'HDPE Pipe Extrusion Lines', desc: 'Continuous pipe extrusion dies, vacuum calibration tanks, and haul-off units for PE100 municipal water pipes.' },
+      { step: '02', title: 'Woven Sack & Circular Looms', desc: 'High-speed circular looms for PP raffia bags used in fertilizer and cement packaging.' },
+      { step: '03', title: 'Recycled Granules & Washers', desc: 'Post-agricultural film wash lines and repelletizing machinery.' }
+    ],
+    studentMode: {
+      advice: 'Great hands-on venue to study pipe extrusion pressure flow ($Q_p$) and circular loom raffia orientation.',
+      keyPavilions: ['Pipe Extrusion & Irrigation Pavilion', 'Woven Sack Machinery Zone', 'Regional Processors Desk'],
+      networkingTip: 'Ask pipe machine operators about vacuum sizing tank temperature control and pipe wall thickness tolerances under IS 4984.'
+    }
+  },
+  {
+    id: 'event-011',
+    title: 'Global Plastics Circularity Summit & K-Preview 2027',
+    shortTitle: 'Global Circularity Summit Mumbai',
+    slug: 'global-circularity-summit-mumbai-2027',
+    startDate: '2027-05-14',
+    endDate: '2027-05-15',
+    dateDisplay: 'May 14 – 15, 2027',
+    monthYearBadge: 'MAY 2027',
+    city: 'Mumbai',
+    state: 'Maharashtra',
+    venue: 'World Trade Centre Mumbai, Cuffe Parade, Mumbai, Maharashtra 400005 (Hybrid Online Stream)',
+    focus: 'International summit on chemical recycling, depolymerization kinetics, bio-feedstocks, life cycle carbon offsets, and global packaging policies.',
+    focusTags: ['Global Summit', 'Chemical Recycling', 'Depolymerization', 'LCA & Net Zero', 'Hybrid Stream'],
+    organizer: 'International Polymer Sustainability Forum & AIPMA Committee',
+    sourceName: 'Plastics News & WTC Mumbai',
+    sourceUrl: 'https://www.wtcmumbai.org',
+    lastVerified: '06 Sep 2026',
+    eventType: 'Industry Summit',
+    isAnchorEvent: false,
+    idealFor: [
+      'Sustainability Directors & Chief Technology Officers',
+      'Chemical Recycling & Pyrolysis Plant Developers',
+      'Lifecycle Assessment (LCA) Researchers & Consultants',
+      'Polymer Students interested in Net-Zero Materials'
+    ],
+    whatToSee: [
+      { step: '01', title: 'Chemical Recycling & Pyrolysis', desc: 'Engineering keynotes on thermal cracking, solvolysis, and mass-balance ISCC PLUS certification.' },
+      { step: '02', title: 'Life Cycle Assessment (LCA) Software', desc: 'Simulations of cradle-to-grave carbon footprint modeling for bio-PE vs petroleum polyolefins.' },
+      { step: '03', title: 'Global Regulatory & EPR Panel', desc: 'Discussions with EU, US FDA, EFSA, and Indian CPCB regulatory heads on recycled plastic contact approvals.' }
+    ],
+    studentMode: {
+      advice: 'Join via student hybrid livestream if traveling to Mumbai isn\'t feasible. Excellent exposure to chemical recycling reactors and LCA methodologies.',
+      keyPavilions: ['Plenary Keynote Stage', 'Chemical Depolymerization Gallery', 'LCA & ESG Strategy Hub'],
+      networkingTip: 'Participate actively during Q&A sessions on chemical recycling yield ratios to catch the attention of sustainability hiring managers.'
     }
   }
 ]
