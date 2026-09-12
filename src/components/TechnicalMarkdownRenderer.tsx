@@ -36,6 +36,26 @@ function getSectionIcon(heading: string) {
   return { icon: BookOpen, color: '#2563EB' }
 }
 
+export function sanitizeLatex(text: string): string {
+  if (!text) return ''
+  return text
+    .replace(/\x08/g, '\\b')
+    .replace(/\x0C/g, '\\f')
+    .replace(/\x09/g, '\\t')
+    .replace(/\x0B/g, '\\v')
+    .replace(/(?<!\\)ar\{/g, '\\bar{')
+    .replace(/(?<!\\)rac\{/g, '\\frac{')
+    .replace(/(?<!\\)int_/g, '\\int_')
+    .replace(/(?<!\\)alpha/g, '\\alpha')
+    .replace(/(?<!\\)beta/g, '\\beta')
+    .replace(/(?<!\\)gamma/g, '\\gamma')
+    .replace(/(?<!\\)delta/g, '\\delta')
+    .replace(/(?<!\\)theta/g, '\\theta')
+    .replace(/(?<!\\)tau/g, '\\tau')
+    .replace(/(?<!\\)eta/g, '\\eta')
+    .replace(/(?<!\\)dot\{/g, '\\dot{')
+}
+
 export default function TechnicalMarkdownRenderer({ content, domainColor = '#2563EB' }: Props) {
   const [copied, setCopied] = useState(false)
 
@@ -45,8 +65,8 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // Sanitize raw leaked debug/HTML wrapper tags that damage rendering
-  const sanitizedContent = (content || '')
+  // Sanitize raw leaked debug/HTML wrapper tags and fix KaTeX LaTeX backslashes
+  const sanitizedContent = sanitizeLatex(content || '')
     .replace(/<div className=["']problem-statement["']>/gi, '')
     .replace(/<div class=["']problem-statement["']>/gi, '')
     .replace(/<div className=["'][^"']*["']>/gi, '')

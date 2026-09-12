@@ -17,6 +17,7 @@ import { ReaderControls } from '@/components/ReaderControls'
 import { GlossaryPopover } from '@/components/GlossaryPopover'
 import { BOOK_IMAGES } from '@/lib/book_images'
 import { getBookBySlug } from '@/lib/library_data'
+import TechnicalMarkdownRenderer, { sanitizeLatex } from '@/components/TechnicalMarkdownRenderer'
 
 interface Book {
   id: string
@@ -847,12 +848,16 @@ export default function ReadingRoomPage() {
                 </div>
               )}
 
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm, remarkMath]}
-                rehypePlugins={[rehypeKatex]}
-              >
-                {chapterContent}
-              </ReactMarkdown>
+              {book.legal_class === 'Class A' ? (
+                <TechnicalMarkdownRenderer content={chapterContent} />
+              ) : (
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                >
+                  {sanitizeLatex(chapterContent)}
+                </ReactMarkdown>
+              )}
             </article>
 
             {/* Bottom Pagination Links */}
