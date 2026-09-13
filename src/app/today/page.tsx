@@ -23,17 +23,17 @@ interface DBUpdate {
 export const revalidate = 3600
 
 const TICKER_ITEMS = [
-  'Reliance Repol PP ₹105.00/kg ▲1.7%',
-  'Reliance Relene HDPE ₹111.20/kg ▲1.6%',
-  'GAIL G-Lex LLDPE ₹107.50/kg ▲1.6%',
-  'Finolex PVC K-67 ₹96.20/kg ▲1.5%',
-  'Reliance Relpet PET ₹100.50/kg ▲1.4%',
-  'SABIC Lexan PC ₹235.00/kg ▲0.9%',
-  'BASF Ultramid PA6 ₹278.50/kg ▲0.9%',
-  'LG Chem ABS ₹158.00/kg ▲1.2%',
-  'Circular rPET Flakes ₹77.00/kg ▲2.0%',
-  'Brent Crude $84.20/bbl ▲0.8%',
-  'Indian EPR Credit (Cat-I Rigid) ₹2,240/ton ▲2.8%',
+  'Reliance Repol PP ₹106.80/kg ▲1.7%',
+  'Reliance Relene HDPE ₹113.00/kg ▲1.6%',
+  'GAIL G-Lex LLDPE ₹109.20/kg ▲1.6%',
+  'Finolex PVC K-67 ₹97.60/kg ▲1.5%',
+  'Reliance Relpet PET ₹102.00/kg ▲1.5%',
+  'SABIC Lexan PC ₹237.50/kg ▲1.1%',
+  'BASF Ultramid PA6 ₹281.00/kg ▲0.9%',
+  'LG Chem ABS ₹160.20/kg ▲1.4%',
+  'Circular rPET Flakes ₹78.50/kg ▲1.9%',
+  'Brent Crude $85.10/bbl ▲1.1%',
+  'Indian EPR Credit (Cat-I Rigid) ₹2,280/ton ▲1.8%',
 ]
 
 function LiveTicker() {
