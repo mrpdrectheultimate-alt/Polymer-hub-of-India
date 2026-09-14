@@ -142,22 +142,22 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
     <div className="min-h-screen bg-[#FAF8F5]">
 
       {/* ─── STICKY TOP BREADCRUMB & PROGRESS BAR ─── */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-xs border-b border-slate-200/90 px-4 sm:px-8 py-2.5 flex items-center justify-between gap-4">
-        <div className="flex items-center gap-2 overflow-x-auto whitespace-nowrap text-xs font-mono">
-          <Link href="/subjects" className="text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1 font-medium">
-            <ArrowLeft className="w-3.5 h-3.5" /> Subjects
+      <div className="sticky top-[72px] sm:top-[76px] 2xl:top-[84px] z-30 bg-white/95 backdrop-blur-xs border-b border-slate-200/90 px-3.5 sm:px-8 py-2 flex items-center justify-between gap-3 shadow-2xs">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto whitespace-nowrap text-xs font-mono mobile-touch-scroll">
+          <Link href="/subjects" className="text-slate-500 hover:text-slate-900 transition-colors flex items-center gap-1 font-medium min-h-[36px]">
+            <ArrowLeft className="w-3.5 h-3.5" /> <span className="hidden sm:inline">Subjects</span>
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-300 flex-shrink-0" />
-          <Link href={`/subjects/${subjectSlug}`} className="font-bold text-[#2563EB] hover:underline flex-shrink-0">
+          <Link href={`/subjects/${subjectSlug}`} className="font-bold text-[#2563EB] hover:underline flex-shrink-0 truncate max-w-[140px] sm:max-w-[220px]">
             {subjectName}
           </Link>
           <ChevronRight className="w-3 h-3 text-slate-300 flex-shrink-0" />
-          <span className="text-slate-800 font-bold truncate max-w-[280px]">
-            Lesson {displayLessonNumber} · {lesson.title}
+          <span className="text-slate-800 font-bold truncate max-w-[140px] sm:max-w-[280px]">
+            L{displayLessonNumber} · {lesson.title}
           </span>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-shrink-0">
           <DownloadNotes
             lessonSlug={lesson.slug}
             lessonTitle={lesson.title}
@@ -165,9 +165,9 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
             compact={true}
           />
           {quizPassed && (
-            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              <CheckCircle2 className="w-3 h-3" />
-              <span>Completed</span>
+            <span className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+              <span className="hidden sm:inline">Completed</span>
             </span>
           )}
         </div>

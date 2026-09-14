@@ -408,7 +408,7 @@ export default function QuizPage({ params }: { params?: { lessonSlug: string } }
                       <button
                         key={optIdx}
                         onClick={() => handleSelect(q.id, optIdx)}
-                        className="w-full text-left border-4 border-ink p-3 flex items-center gap-3 transition-all"
+                        className="w-full text-left border-4 border-ink p-3.5 sm:p-4 flex items-center gap-3 transition-all min-h-[50px] active:scale-[0.99] rounded-sm"
                         style={{
                           backgroundColor: isSelected ? '#0A0A0A' : 'white',
                           color: isSelected ? 'white' : '#0A0A0A',
@@ -417,7 +417,7 @@ export default function QuizPage({ params }: { params?: { lessonSlug: string } }
                         }}
                       >
                         <span
-                          className="font-mono text-xs font-black w-7 h-7 border-2 flex items-center justify-center flex-shrink-0"
+                          className="font-mono text-xs font-black w-8 h-8 border-2 flex items-center justify-center flex-shrink-0 rounded-xs"
                           style={{
                             borderColor: isSelected ? 'white' : '#0A0A0A',
                             backgroundColor: isSelected ? 'white' : 'transparent',
@@ -426,7 +426,7 @@ export default function QuizPage({ params }: { params?: { lessonSlug: string } }
                         >
                           {['A', 'B', 'C', 'D'][optIdx]}
                         </span>
-                        <span className="text-sm font-medium">{option}</span>
+                        <span className="text-xs sm:text-sm font-semibold leading-snug">{option}</span>
                       </button>
                     )
                   })}

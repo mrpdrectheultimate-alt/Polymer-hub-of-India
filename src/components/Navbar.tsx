@@ -251,10 +251,10 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden border-4 border-black w-10 h-10 flex items-center justify-center hover:bg-black hover:text-white transition-colors flex-shrink-0"
+            className="md:hidden border-4 border-black w-11 h-11 flex items-center justify-center hover:bg-black hover:text-white transition-colors flex-shrink-0 active:scale-95"
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </nav>
@@ -264,47 +264,47 @@ export default function Navbar() {
           Does NOT push page content down
       ──────────────────────────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden" style={{ top: '68px' }}>
+        <div className="fixed inset-0 z-50 md:hidden" style={{ top: '72px' }}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setMobileOpen(false)} />
 
           {/* Drawer */}
-          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-68px)] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2 duration-200">
+          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-72px)] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2 duration-200">
 
             {/* Auth section */}
             {session ? (
               <div className="border-b-4 border-black px-4 py-3 flex items-center gap-3 bg-black">
                 {profile?.avatar_url ? (
                   <img src={profile.avatar_url} alt="avatar"
-                    className="w-9 h-9 object-cover border-2 border-yellow-400 flex-shrink-0" />
+                    className="w-10 h-10 object-cover border-2 border-yellow-400 flex-shrink-0 rounded-sm" />
                 ) : (
-                  <div className="w-9 h-9 bg-violet-700 border-2 border-yellow-400 flex items-center justify-center flex-shrink-0">
-                    <User className="w-4 h-4 text-white" />
+                  <div className="w-10 h-10 bg-violet-700 border-2 border-yellow-400 flex items-center justify-center flex-shrink-0 rounded-sm">
+                    <User className="w-5 h-5 text-white" />
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="font-bold text-sm text-white truncate">{profile?.full_name ?? 'Student'}</div>
-                  <div className="flex items-center gap-2">
-                    {isPremium && <span className="font-mono text-[8px] text-yellow-400 uppercase">⭐ Premium</span>}
-                    {profile && <span className="font-mono text-[8px] text-white/40">{profile.xp_points} XP</span>}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {isPremium && <span className="font-mono text-[9px] text-yellow-400 font-bold uppercase">⭐ Premium</span>}
+                    {profile && <span className="font-mono text-[9px] text-white/70 font-semibold">{profile.xp_points} XP</span>}
                     {profile && profile.current_streak > 0 && (
-                      <span className="font-mono text-[8px] text-orange-400">🔥 {profile.current_streak}</span>
+                      <span className="font-mono text-[9px] text-orange-400 font-bold">🔥 {profile.current_streak} Streak</span>
                     )}
                   </div>
                 </div>
                 <Link href="/dashboard"
-                  className="font-mono text-[9px] font-bold border-2 border-yellow-400 text-yellow-400 px-2 py-1 uppercase">
+                  className="font-mono text-[10px] font-bold border-2 border-yellow-400 text-yellow-400 px-3 py-1.5 uppercase hover:bg-yellow-400 hover:text-black transition-colors min-h-[36px] flex items-center justify-center">
                   Dashboard
                 </Link>
               </div>
             ) : (
               <div className="border-b-4 border-black px-4 py-3 flex gap-3">
                 <Link href="/login"
-                  className="flex-1 font-mono text-[10px] font-bold border-4 border-black px-3 py-2 text-center uppercase hover:bg-black hover:text-white transition-colors">
+                  className="flex-1 font-mono text-[11px] font-bold border-4 border-black px-3 py-2.5 text-center uppercase hover:bg-black hover:text-white transition-colors min-h-[44px] flex items-center justify-center">
                   Sign In
                 </Link>
                 <Link href="/pricing"
-                  className="flex-1 font-mono text-[10px] font-bold border-4 border-black bg-yellow-400 px-3 py-2 text-center uppercase"
+                  className="flex-1 font-mono text-[11px] font-bold border-4 border-black bg-yellow-400 px-3 py-2.5 text-center uppercase min-h-[44px] flex items-center justify-center"
                   style={{ boxShadow: '2px 2px 0px 0px #0A0A0A' }}>
                   ₹149/MO
                 </Link>
@@ -314,25 +314,28 @@ export default function Navbar() {
             {/* Nav sections */}
             {NAV.map(section => (
               <div key={section.label} className="border-b-4 border-black">
-                <div className="px-4 py-2 bg-black">
-                  <span className="font-mono text-[9px] font-black text-yellow-400 uppercase tracking-widest">
+                <div className="px-4 py-2 bg-black flex items-center justify-between">
+                  <span className="font-mono text-[10px] font-black text-yellow-400 uppercase tracking-widest">
                     {section.label}
                   </span>
+                  <span className="font-mono text-[9px] text-white/40">{section.items.length} links</span>
                 </div>
                 {section.items.map(item => {
                   const Icon = item.icon
                   const isActive = pathname === item.href
                   return (
                     <Link key={item.href} href={item.href}
-                      className="flex items-center gap-3 px-4 py-3 border-b-2 border-black/10 last:border-0 transition-colors"
+                      className="flex items-center gap-3.5 px-4 py-3 border-b border-slate-100 last:border-0 transition-colors min-h-[48px]"
                       style={{ backgroundColor: isActive ? '#0A0A0A' : undefined, color: isActive ? 'white' : undefined }}>
-                      <div className="w-7 h-7 border-2 border-black flex items-center justify-center flex-shrink-0"
+                      <div className="w-8 h-8 border-2 border-black rounded-lg flex items-center justify-center flex-shrink-0 shadow-2xs"
                         style={{ backgroundColor: item.color }}>
-                        <Icon className="w-3.5 h-3.5 text-white" />
+                        <Icon className="w-4 h-4 text-white" />
                       </div>
-                      <div>
-                        <div className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</div>
-                        <div className="font-mono text-[8px] text-black/40">{item.desc}</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-mono text-xs font-bold uppercase tracking-wider truncate">{item.label}</div>
+                        <div className={`font-mono text-[9px] truncate mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                          {item.desc}
+                        </div>
                       </div>
                     </Link>
                   )
@@ -349,19 +352,19 @@ export default function Navbar() {
                 const Icon = item.icon
                 return (
                   <Link key={item.href} href={item.href}
-                    className="flex items-center gap-3 px-4 py-3 border-b-2 border-black/10 last:border-0 hover:bg-black/5 transition-colors">
-                    <Icon className="w-4 h-4 text-black/50" />
-                    <span className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</span>
+                    className="flex items-center gap-3.5 px-4 py-3.5 border-b border-slate-100 last:border-0 hover:bg-slate-100 transition-colors min-h-[48px]">
+                    <Icon className="w-4 h-4 text-slate-700" />
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-900">{item.label}</span>
                   </Link>
                 )
               })}
             </div>
 
             {session && (
-              <div className="px-4 py-3">
+              <div className="px-4 py-3 bg-slate-50">
                 <button
                   onClick={async () => { await supabase.auth.signOut(); window.location.href = '/' }}
-                  className="w-full font-mono text-[9px] font-bold text-black/40 uppercase tracking-wider border-2 border-black/20 py-2 hover:bg-black hover:text-white hover:border-black transition-colors">
+                  className="w-full font-mono text-[10px] font-bold text-red-600 uppercase tracking-wider border-2 border-red-200 bg-red-50 py-2.5 min-h-[44px] hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors rounded-lg">
                   Sign Out
                 </button>
               </div>

@@ -386,21 +386,44 @@
   padding-top: 0;  /* Sticky nav doesn't need offset — it's in flow */
 }
 
-/* ── Fix 6: Mobile overflow — content wider than viewport ────── */
+/* ── Fix 6: Mobile overflow & touch scrolling inertia ────────────── */
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+  touch-action: manipulation;
 }
 
 * {
   box-sizing: border-box;
 }
 
-/* ── Fix 7: Button text overflow ────────────────────────────── */
-button, a[class*="btn"] {
+/* Touch-scrolling helpers for tables & equations */
+.mobile-touch-scroll,
+.overflow-x-auto,
+.katex-display {
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+}
+
+/* ── Fix 7: Touch ergonomics & button text overflow ─────────────── */
+button, a[class*="btn"], input[type="submit"] {
   word-break: normal;
   overflow-wrap: break-word;
-  min-height: 40px;  /* Minimum touch target */
+  min-height: 44px;  /* Accessible 44px touch target */
+}
+
+@media (max-width: 640px) {
+  /* Mobile padding and touch target adjustments */
+  .cn-card-body {
+    padding: 16px 16px;
+  }
+  .cn-card-header {
+    padding: 10px 16px;
+  }
+  .formula-block {
+    padding: 1rem 0.75rem;
+    margin: 1.5rem 0;
+  }
 }
 
 /* ── Fix 8: Forum empty state — too much wasted space ────────── */

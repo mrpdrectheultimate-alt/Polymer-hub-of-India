@@ -140,7 +140,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
             // ── Tables ─────────────────────────────────────────────────────────
             table: ({ children }) => (
-              <div className="overflow-x-auto my-6 border border-slate-200/90 rounded-xl bg-white shadow-xs">
+              <div className="overflow-x-auto mobile-touch-scroll my-6 border border-slate-200/90 rounded-xl bg-white shadow-xs">
                 <table className="w-full border-collapse font-sans text-xs sm:text-sm tech-table">{children}</table>
               </div>
             ),
@@ -344,6 +344,8 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
           border: none !important;
           box-shadow: none !important;
           overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-x pan-y;
           text-align: center;
         }
         .lesson-content .katex-display .katex {
@@ -354,6 +356,15 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
         .lesson-content .katex {
           font-size: 1.1em;
           padding: 0 0.2em;
+        }
+        @media (max-width: 640px) {
+          .lesson-content .katex-display {
+            margin: 1.25rem 0 !important;
+            padding: 0.75rem 0 !important;
+          }
+          .lesson-content .katex-display .katex {
+            font-size: 1.15em !important;
+          }
         }
       `}</style>
     </div>
