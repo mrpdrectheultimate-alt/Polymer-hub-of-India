@@ -36,10 +36,12 @@
     --radius: 0.75rem;
 
     /* ─── WORLD-CLASS ENGINEERING TYPOGRAPHY SYSTEM ─────────────────── */
+    color-scheme: light;
+
     /* FONT FAMILIES (3-Font Stack + Multilingual Indian Layer) */
-    --font-body: var(--font-body), var(--font-hindi), system-ui, -apple-system, sans-serif;
-    --font-display: var(--font-display), var(--font-hindi), sans-serif;
-    --font-mono: var(--font-mono), monospace;
+    --font-sans-fallback: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-display-fallback: system-ui, -apple-system, sans-serif;
+    --font-mono-fallback: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* FLUID TYPE SCALE (Responsive clamp scaling) */
     --text-display-xl: clamp(3rem, 6vw, 5.5rem);
@@ -85,8 +87,10 @@
   }
 
   html {
-    /* scroll-behavior managed via Next.js router & ScrollRestoration */
-text-rendering: optimizeLegibility;
+    color-scheme: light;
+    background-color: #FAF8F5;
+    color: #111827;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
@@ -95,9 +99,10 @@ text-rendering: optimizeLegibility;
   }
 
   body {
+    color-scheme: light;
     background-color: var(--canvas);
     color: var(--ink);
-    font-family: var(--font-body);
+    font-family: var(--font-body), var(--font-sans-fallback);
     font-size: var(--text-body-md);
     line-height: var(--leading-body);
     overflow-wrap: break-word;
@@ -105,67 +110,6 @@ text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
     transform: translateZ(0);
     overflow-x: hidden;
-  }
-
-  button, a, input, select, textarea, [role="button"] {
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /* Smooth momentum scrolling for mobile devices */
-  .overflow-y-auto, .overflow-x-auto {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  h1 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--text-h1);
-    line-height: var(--leading-display);
-    letter-spacing: var(--tracking-display);
-  }
-
-  h2 {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--text-h2);
-    line-height: var(--leading-heading);
-    letter-spacing: var(--tracking-heading);
-  }
-
-  h3 {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: var(--text-h3);
-    line-height: 1.3;
-    letter-spacing: -0.015em;
-  }
-
-  /* Professional Tables and Spacing */
-  .tech-table th {
-    font-family: var(--font-body);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-label);
-    font-size: var(--text-caption);
-    padding: 0.75rem 1.25rem;
-  }
-
-  .tech-table td {
-    font-family: var(--font-body);
-    padding: 0.875rem 1.25rem;
-    line-height: 1.6;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .tech-table tr:nth-child(even) {
-    background-color: #F8FAFC;
-  }
-
-  /* Selection highlight — blue */
-  ::selection {
-    background-color: #1D4ED8;
-    color: #FFFFFF;
   }
 }
 

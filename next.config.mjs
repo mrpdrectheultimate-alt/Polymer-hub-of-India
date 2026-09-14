@@ -42,6 +42,16 @@ const nextConfig = {
   // Security, Caching & Performance Headers
   async headers() {
     return [
+      // HTML Page revalidation caching (forces browsers & CDNs to revalidate updated HTML on every visit)
+      {
+        source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=0, must-revalidate',
+          },
+        ],
+      },
       // Immutable static assets caching
       {
         source: '/_next/static/(.*)',

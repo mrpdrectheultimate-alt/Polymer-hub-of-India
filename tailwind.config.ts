@@ -11,9 +11,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'var(--font-hindi)', 'sans-serif'],
-        sans:    ['var(--font-body)', 'var(--font-hindi)', 'system-ui', 'sans-serif'],
-        mono:    ['var(--font-mono)', 'monospace'],
+        display: ['var(--font-display)', 'system-ui', '-apple-system', 'sans-serif'],
+        sans:    ['var(--font-body)', 'system-ui', '-apple-system', 'sans-serif'],
+        mono:    ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
+        hindi:   ['var(--font-hindi)', 'sans-serif'],
       },
       colors: {
         // ─── PolymerHub v3 — Bold CN-Industrial Palette ──────────────────

@@ -1,5 +1,5 @@
-// public/sw.js — PolymerHub Modern Service Worker
-const CACHE_NAME = 'polymerhub-v3-master';
+// public/sw.js — PolymerHub Production Live Service Worker (v4)
+const CACHE_NAME = 'polymerhub-v4-final-live';
 const STATIC_ASSETS = [
   '/manifest.json',
   '/icons/icon-192x192.png',
@@ -23,22 +23,34 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only handle GET requests and skip internal APIs / Supabase / dynamic auth
   const url = new URL(event.request.url);
+
+  // Skip non-GET, APIs, Supabase, Auth, and Vercel internal routes
   if (
     event.request.method !== 'GET' || 
     url.pathname.startsWith('/api') || 
     url.pathname.includes('/supabase/') ||
-    url.pathname.startsWith('/auth')
+    url.pathname.startsWith('/auth') ||
+    url.pathname.startsWith('/_next/webpack-hmr')
   ) {
     return;
   }
 
-  // Network-First Strategy for HTML pages and script chunks so updates appear instantly
+  // ALWAYS Network-Only for HTML Navigation Requests to prevent stale HTML referencing deleted CSS hashes
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request).catch(() => {
+        return caches.match('/').then((response) => response || new Response('Offline', { status: 503 }));
+      })
+    );
+    return;
+  }
+
+  // Network-First for static assets, fallback to cache
   event.respondWith(
     fetch(event.request)
       .then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200) {
+        if (networkResponse && networkResponse.status === 200 && url.origin === location.origin) {
           const responseClone = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseClone);
@@ -47,61 +59,27 @@ self.addEventListener('fetch', (event) => {
         return networkResponse;
       })
       .catch(() => {
-        // Fallback to cache when offline
-        return caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            return cachedResponse;
-          }
-          if (event.request.mode === 'navigate') {
-            return caches.match('/');
-          }
-          return new Response('Network error occurred', { status: 503, statusText: 'Service Unavailable' });
-        });
+        return caches.match(event.request);
       })
   );
 });
 
-// Push notification listeners
 self.addEventListener('push', function(event) {
-  let data = {};
   if (event.data) {
-    try {
-      data = event.data.json();
-    } catch (e) {
-      data = { title: 'PolymerHub Alert', body: event.data.text() };
-    }
+    const data = event.data.json();
+    const options = {
+      body: data.body || 'New notification from PolymerHub',
+      icon: '/icons/icon-192x192.png',
+      badge: '/icons/icon-192x192.png',
+      data: { url: data.url || '/' }
+    };
+    event.waitUntil(self.registration.showNotification(data.title || 'PolymerHub', options));
   }
-
-  const title = data.title || 'PolymerHub';
-  const options = {
-    body: data.body || 'You have a new update in PolymerHub!',
-    icon: '/logo.png',
-    badge: '/logo.png',
-    data: {
-      url: data.url || '/dashboard'
-    }
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(title, options)
-  );
 });
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
-  const url = event.notification.data ? event.notification.data.url : '/dashboard';
-  
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then(function(clientList) {
-      for (var i = 0; i < clientList.length; i++) {
-        var client = clientList[i];
-        if (client.url === url && 'focus' in client) {
-          return client.focus();
-        }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(url);
-      }
-    })
+    clients.openWindow(event.notification.data.url)
   );
 });
