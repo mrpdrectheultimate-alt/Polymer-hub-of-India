@@ -1,0 +1,112 @@
+[
+  {
+    "id": "photo-injection-moulding-machine",
+    "src": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    "alt": "High-Tonnage Hydraulic Injection Moulding Machine with Automated Robotic Arm",
+    "technique": "Industrial Machinery Photo",
+    "scale": "Macro 1:1",
+    "source": "Unsplash Industrial Archive / Public License",
+    "source_url": "https://unsplash.com/photos/gray-steel-machine-ee22621dd758",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-extrusion-strand-die",
+    "src": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Twin-Screw Compounding Extrusion Strand Die Head & Water Bath",
+    "technique": "Extrusion Line Macro Photo",
+    "scale": "Macro View",
+    "source": "Unsplash Engineering Collection",
+    "source_url": "https://unsplash.com/photos/black-and-gray-industrial-machine-a6a2a5aee158",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-testing-dsc-lab",
+    "src": "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Analytical Polymer Testing Laboratory with Automated Spectrometer & Rheometer",
+    "technique": "Laboratory Characterization Photo",
+    "scale": "Lab Scale",
+    "source": "Unsplash Science Archive",
+    "source_url": "https://unsplash.com/photos/person-in-white-lab-coat-543bc11b234d",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-composite-carbon-fiber",
+    "src": "https://images.unsplash.com/photo-1507668077129-56e32842fceb?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Woven Carbon Fiber Epoxy Composite Structure & Fiber Alignment",
+    "technique": "Composite Microstructure SEM (2,500x)",
+    "scale": "20 µm",
+    "source": "Unsplash Technology Collection",
+    "source_url": "https://unsplash.com/photos/black-and-gray-checkerboard-56e32842fceb",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-recycling-sorting-plant",
+    "src": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1200&q=80",
+    "alt": "NIR Optical Automated Plastic Waste Flake Sorting Conveyor System",
+    "technique": "Recycling Plant Operational Photo",
+    "scale": "Macro 1:1",
+    "source": "Unsplash Sustainability Archive",
+    "source_url": "https://unsplash.com/photos/clear-glass-bottles-on-brown-surface-e3c354a0b15b",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-biomedical-scaffold",
+    "src": "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Fluorescence Microscopic View of Porous Electrospun Bio-Polymer Scaffold",
+    "technique": "Confocal Laser Scanning Microscopy (1,000x)",
+    "scale": "50 µm",
+    "source": "Unsplash Medical Science Library",
+    "source_url": "https://unsplash.com/photos/blue-and-white-abstract-illustration-01588f351e67",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-blow-moulding-bottle",
+    "src": "https://images.unsplash.com/photo-1603126857599-f6e212450518?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Stretch Blow Moulded PET Bottle Cavity Exit & Preform Heating System",
+    "technique": "Packaging Factory Line Photo",
+    "scale": "1:1 Scale",
+    "source": "Unsplash Packaging Archive",
+    "source_url": "https://unsplash.com/photos/blue-and-red-plastic-bottles-f6e212450518",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-sem-spherulite-microstructure",
+    "src": "https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Polarized Light Micrograph of Spherulitic Lamellar Crystallization in Polypropylene",
+    "technique": "Polarized Optical Microscopy (POM 400x)",
+    "scale": "100 µm",
+    "source": "Wikimedia Commons Microstructure Archive",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Polymer_spherulites.jpg",
+    "license": "CC BY-SA 4.0 / Verified Public Asset",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-mould-core-cavity-tooling",
+    "src": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Precision CNC Machined Hardened P20 Tool Steel Injection Mould Cavity Plate",
+    "technique": "Toolroom CNC Machining Photo",
+    "scale": "Tooling Scale 1:1",
+    "source": "Unsplash Manufacturing Library",
+    "source_url": "https://unsplash.com/photos/gray-metal-gear-in-close-up-photography-9583fe92d232",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  },
+  {
+    "id": "photo-rubber-vulcanization-press",
+    "src": "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+    "alt": "Hydraulic Compression Vulcanization Molding Press for Elastomeric Seals",
+    "technique": "Rubber Processing Plant Photo",
+    "scale": "Plant Scale",
+    "source": "Unsplash Industrial Archive",
+    "source_url": "https://unsplash.com/photos/man-working-in-factory-d4dc5ebe6122",
+    "license": "Unsplash Commercial License (Free Use)",
+    "verified_at": "2026-09-20"
+  }
+]

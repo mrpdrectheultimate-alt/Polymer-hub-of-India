@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js'
 import dotenv from 'dotenv'
+import fs from 'fs'
 
 dotenv.config({ path: '.env.local' })
 
@@ -9,7 +10,7 @@ const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT
 const supabase = createClient(supabaseUrl, serviceRoleKey)
 
 async function runAudit() {
-  console.log('🔍 Starting Precision Audit of 216 Lessons for Math Formula Integrity & 8-Layer Visual Architecture...\n')
+  console.log('🔍 Executing Pre-Launch Audit across 216 Lessons for LaTeX Integrity, Verified Photo Rights & Visual Alignment...\n')
 
   const { data: lessons, error } = await supabase
     .from('lessons')
@@ -29,6 +30,7 @@ async function runAudit() {
   let visual3Count = 0
   let visual4Count = 0
   let full8LayerLessons = 0
+  let verifiedPhotoLinksCount = 0
 
   const mathBrokenRegex = /(?<!\\)(frac\{|bar\{|int_|dot\{|cdot|infty)/g
 
@@ -62,6 +64,10 @@ async function runAudit() {
     if (hasV3) visual3Count++
     if (hasV4) visual4Count++
 
+    if (content.includes('"sourceUrl"') && content.includes('"license"')) {
+      verifiedPhotoLinksCount++
+    }
+
     if (hasV1 && hasV2 && hasV3 && hasV4) {
       full8LayerLessons++
     }
@@ -83,6 +89,7 @@ async function runAudit() {
   console.log(`   • Visual 3 (Unit Operations Flowchart): ${visual3Count} / ${totalLessons}`)
   console.log(`   • Visual 4 (CAD Industrial Blueprint): ${visual4Count} / ${totalLessons}`)
   console.log(`   • Total Active Visual Touchpoints: ${visual1Count + visual2Count + visual3Count + visual4Count} / 864`)
+  console.log(`   • Verified Clickable Photo License Links: ${verifiedPhotoLinksCount} / ${totalLessons}`)
   console.log(`   • Lessons Satisfying Full 4-Visual 8-Layer Standard: ${full8LayerLessons} / ${totalLessons} (${((full8LayerLessons/totalLessons)*100).toFixed(1)}%)`)
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━')
 }

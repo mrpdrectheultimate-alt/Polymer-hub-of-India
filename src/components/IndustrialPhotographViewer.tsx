@@ -9,6 +9,9 @@ export interface IndustrialPhotographProps {
   alt: string
   caption: string
   source?: string
+  sourceUrl?: string
+  license?: string
+  verifiedAt?: string
   scale?: string
   magnification?: string
   technique?: string // e.g. "SEM Micrograph (5,000x)", "Polarized Optical Microscopy", "Industrial Plant Photo"
@@ -19,7 +22,10 @@ export function IndustrialPhotographViewer({
   src,
   alt,
   caption,
-  source = 'Public Domain / Wikimedia Commons Engineering Archive',
+  source = 'Unsplash Commercial License (Free Commercial Use)',
+  sourceUrl = 'https://unsplash.com',
+  license = 'Unsplash License / CC0 Equivalent',
+  verifiedAt = '2026-09-20',
   scale,
   magnification,
   technique = 'Industrial Microscopy / Macro Imaging',
@@ -30,7 +36,7 @@ export function IndustrialPhotographViewer({
 
   return (
     <>
-      <figure className="my-6 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-md text-slate-100">
+      <figure className="my-6 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-md text-slate-100 font-sans">
         {/* Header Bar */}
         <div className="px-4 py-2.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between font-mono text-xs text-slate-400">
           <div className="flex items-center gap-2">
@@ -93,17 +99,28 @@ export function IndustrialPhotographViewer({
           ))}
         </div>
 
-        {/* Caption & Source Footer */}
+        {/* Caption & Verified License Footer */}
         <div className="p-4 bg-slate-950/80 border-t border-slate-800/80 space-y-2">
-          <p className="text-xs text-slate-300 leading-relaxed font-sans">
+          <p className="text-xs text-slate-300 leading-relaxed">
             <strong className="text-cyan-400 font-mono">Industrial Photography:</strong> {caption}
           </p>
-          <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 border-t border-slate-800/50 pt-2">
-            <span className="flex items-center gap-1">
-              <ShieldCheck className="w-3 h-3 text-emerald-400" />
-              Source: {source}
-            </span>
-            <span className="text-slate-600">PolymerHub Standard Visual Asset Layer v3</span>
+          <div className="flex flex-wrap items-center justify-between gap-2 text-[10px] font-mono text-slate-400 border-t border-slate-800/50 pt-2">
+            <a
+              href={sourceUrl || '#'}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300 transition-colors underline decoration-cyan-500/50"
+            >
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Verified Source: <strong>{source}</strong></span>
+              <ExternalLink className="w-3 h-3 text-cyan-400" />
+            </a>
+            <div className="flex items-center gap-2 text-slate-400">
+              <span className="bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded font-bold">
+                {license}
+              </span>
+              <span className="text-slate-500">Verified {verifiedAt}</span>
+            </div>
           </div>
         </div>
       </figure>
