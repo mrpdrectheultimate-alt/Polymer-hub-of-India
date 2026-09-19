@@ -4,6 +4,7 @@
 // Renders deep lesson content with:
 // - Unboxed, large, centered KaTeX equations
 // - Interactive vector graphs (Stress-Strain, DSC, TGA, Rheology)
+// - Dynamic 8-Layer Visual Renderer (Visual Mechanisms, Photos, PFDs, Blueprints)
 // - Clean typography (Inter 17px body, Space Grotesk headings, JetBrains Mono data)
 // - Validated figure containers
 
@@ -14,6 +15,7 @@ import remarkMath from 'remark-math'
 import rehypeKatex from 'rehype-katex'
 import 'katex/dist/katex.min.css'
 import { Copy, Check, BookOpen, Target, Calculator, FlaskConical, Lightbulb, Award, FileText, AlertTriangle } from 'lucide-react'
+import DynamicVisualRenderer from '@/components/DynamicVisualRenderer'
 import { VisualMechanismDispatcher } from '@/components/VisualMechanismPrimitives'
 import { InteractiveStressStrainGraph, InteractiveRheologyGraph } from '@/components/InteractiveEngineeringGraphs'
 
@@ -195,7 +197,20 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               }
 
               if (isBlock && className) {
-                const lang = className.replace('language-', '')
+                const lang = className.replace('language-', '').trim()
+
+                // Dynamic 8-Layer Visual Renderer (Visual 1, 2, 3, 4 standard code blocks)
+                if (
+                  lang === 'visual-mechanism' ||
+                  lang === 'industrial-photograph' ||
+                  lang === 'process-flow' ||
+                  lang === 'industrial-blueprint' ||
+                  lang.startsWith('visual-') ||
+                  lang.startsWith('industrial-') ||
+                  lang.startsWith('process-')
+                ) {
+                  return <DynamicVisualRenderer type={lang} data={rawCode} />
+                }
 
                 // Interactive Stress-Strain Laboratory Graph (ASTM D638 / ISO 527)
                 if (lang === 'graph-stress-strain') {
@@ -207,52 +222,6 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                 // Interactive Melt Rheology Graph
                 if (lang === 'graph-viscosity' || lang === 'graph-rheology') {
                   return <InteractiveRheologyGraph />
-                }
-
-                // DSC Thermogram Graph
-                if (lang === 'graph-dsc') {
-                  const parts = rawCode.split('|')
-                  const material = parts[0] || 'Standard Semicrystalline Polymer (PET)'
-                  return (
-                    <figure className="my-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs">
-                      <div className="font-mono text-xs font-bold uppercase text-slate-800 tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
-                        <span className="w-2 h-2 bg-blue-600 rounded-full" />
-                        Differential Scanning Calorimetry (DSC) Scan
-                      </div>
-                      <svg viewBox="0 0 600 400" className="w-full h-auto font-sans">
-                        <g stroke="#F1F5F9" strokeWidth="1.5">
-                          {[40, 80, 120, 160, 200, 240, 280, 320, 360].map(y => (
-                            <line key={y} x1="55" y1={y} x2="560" y2={y} />
-                          ))}
-                          {[120, 190, 260, 330, 400, 470, 540].map(x => (
-                            <line key={x} x1={x} y1="30" x2={x} y2="360" />
-                          ))}
-                        </g>
-                        <g stroke="#0F172A" strokeWidth="2.5" strokeLinecap="round">
-                          <line x1="55" y1="360" x2="565" y2="360" />
-                          <line x1="55" y1="25" x2="55" y2="360" />
-                        </g>
-                        <text x="310" y="390" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" letterSpacing="1">TEMPERATURE T (&deg;C)</text>
-                        <text x="20" y="195" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" letterSpacing="1" transform="rotate(-90, 20, 195)">HEAT FLOW &rarr; ENDO DOWN (mW)</text>
-                        <path
-                          d="M 55,100 L 140,100 Q 155,100 165,115 T 180,120 L 220,120 Q 250,120 270,70 T 290,120 L 380,120 Q 420,120 440,290 T 465,120 L 560,120"
-                          fill="none"
-                          stroke="#2563EB"
-                          strokeWidth="3.5"
-                          strokeLinecap="round"
-                        />
-                        <circle cx="165" cy="110" r="5" fill="#2563EB" stroke="#FFF" strokeWidth="2" />
-                        <text x="165" y="90" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#2563EB">Tg (Glass Transition)</text>
-                        <circle cx="270" cy="70" r="5" fill="#EA580C" stroke="#FFF" strokeWidth="2" />
-                        <text x="270" y="50" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#EA580C">Tc (Crystallization Peak)</text>
-                        <circle cx="440" cy="290" r="5" fill="#15803D" stroke="#FFF" strokeWidth="2" />
-                        <text x="440" y="315" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#15803D">Tm (Melting Endotherm)</text>
-                      </svg>
-                      <figcaption className="mt-3 text-xs font-mono text-slate-500 text-center">
-                        Material: <strong>{material}</strong> | DSC trace highlighting characteristic thermodynamic transitions.
-                      </figcaption>
-                    </figure>
-                  )
                 }
 
                 // Mechanism & Chemical SVGs
@@ -299,74 +268,14 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                 <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#2563EB] mb-1">
                   Core Engineering Takeaway
                 </div>
-                <div className="text-sm text-slate-800 leading-relaxed font-sans">{children}</div>
+                <div className="text-xs sm:text-sm text-slate-800 font-sans italic">{children}</div>
               </div>
-            ),
-
-            // ── Horizontal rule ────────────────────────────────────────────────
-            hr: () => (
-              <hr className="my-8 border-t border-slate-200" />
-            ),
-
-            // ── Strong/Bold ────────────────────────────────────────────────────
-            strong: ({ children }) => (
-              <strong className="font-bold text-slate-900">{children}</strong>
-            ),
-
-            // ── Em/Italic ──────────────────────────────────────────────────────
-            em: ({ children }) => (
-              <em className="font-medium text-slate-900 not-italic bg-amber-50 px-1 rounded">{children}</em>
-            ),
-
-            // ── Links ──────────────────────────────────────────────────────────
-            a: ({ href, children }) => (
-              <a
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-bold text-[#2563EB] underline hover:text-blue-800 transition-colors"
-              >
-                {children}
-              </a>
-            ),
+            )
           }}
         >
           {sanitizedContent}
         </ReactMarkdown>
       </div>
-
-      {/* ─── UNBOXED, LARGE, CENTERED KaTeX FORMULA STYLES ─── */}
-      <style jsx global>{`
-        .lesson-content .katex-display {
-          margin: 1.75rem 0 !important;
-          padding: 1rem 0 !important;
-          background: transparent !important;
-          border: none !important;
-          box-shadow: none !important;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          touch-action: pan-x pan-y;
-          text-align: center;
-        }
-        .lesson-content .katex-display .katex {
-          font-size: 1.35em !important;
-          line-height: 2 !important;
-          color: #0F172A !important;
-        }
-        .lesson-content .katex {
-          font-size: 1.1em;
-          padding: 0 0.2em;
-        }
-        @media (max-width: 640px) {
-          .lesson-content .katex-display {
-            margin: 1.25rem 0 !important;
-            padding: 0.75rem 0 !important;
-          }
-          .lesson-content .katex-display .katex {
-            font-size: 1.15em !important;
-          }
-        }
-      `}</style>
     </div>
   )
 }
