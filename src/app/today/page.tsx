@@ -40,8 +40,8 @@ function LiveTicker() {
   return (
     <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
       <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest">
-        <span className="w-2 h-2 rounded-full bg-rose-600 animate-ping" />
-        Live Indices
+        <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+        Indicative Benchmarks (Educational Reference)
       </div>
       <div className="overflow-hidden flex-1">
         <div className="flex animate-ticker whitespace-nowrap">

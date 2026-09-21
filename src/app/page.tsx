@@ -182,7 +182,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden font-sans">
       
       {/* ─── HERO SECTION ─── */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
+      <section className="relative flex items-center overflow-hidden bg-white py-10 sm:py-14">
         <div className="absolute inset-0">
           <Image
             src="/images/hero/students-polymer-lab.jpg"
@@ -193,10 +193,10 @@ export default function HomePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40" />
-          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-24">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-6 sm:py-10">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E2E8F0] text-[#2563EB] text-xs sm:text-sm font-mono font-bold mb-6 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
@@ -265,11 +265,6 @@ export default function HomePage() {
               </span>
             </div>
           </div>
-        </div>
-
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#94A3B8] z-20 pointer-events-none">
-          <span className="text-[9px] font-mono uppercase tracking-widest">Scroll</span>
-          <div className="w-0.5 h-5 bg-[#94A3B8]/60 rounded-full animate-bounce" />
         </div>
       </section>
 

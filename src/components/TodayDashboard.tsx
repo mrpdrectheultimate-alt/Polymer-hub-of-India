@@ -571,18 +571,22 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
             </div>
           </div>
 
-          {/* 4. Live Indian Domestic Polymer Spot Prices */}
+          {/* 4. Indicative Indian Domestic Polymer Spot Prices */}
           <div className="bg-white border-2 border-slate-900 rounded-2xl p-5 shadow-sm space-y-3.5">
             <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
               <div>
                 <span className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
-                  <TrendingUp className="w-4 h-4 text-emerald-600" /> India Polymer Spot Index
+                  <TrendingUp className="w-4 h-4 text-emerald-600" /> Indicative Polymer Benchmarks
                 </span>
-                <span className="text-[10px] font-mono text-slate-500 block">Ex-Plant / Spot Rates (Hazira / Mumbai)</span>
+                <span className="text-[10px] font-mono text-slate-500 block">Educational &amp; Project Reference Figures</span>
               </div>
-              <span className="text-[10px] font-mono font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded">
-                Live 2026
+              <span className="text-[10px] font-mono font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded">
+                Indicative (Educational)
               </span>
+            </div>
+
+            <div className="p-2.5 bg-amber-50/80 border border-amber-200/90 text-amber-950 text-[10px] rounded-lg font-medium leading-normal">
+              ⚠️ <strong>Educational Reference Notice:</strong> These figures represent indicative market benchmark ranges for CIPET curriculum exercises and mould costing projects. They do not constitute real-time financial trading quotes.
             </div>
 
             <div className="space-y-2 max-h-[380px] overflow-y-auto pr-1">
