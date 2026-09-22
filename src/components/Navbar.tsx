@@ -14,42 +14,31 @@ import {
 
 const NAV = [
   {
-    label: 'Explore',
+    label: 'Learn',
     items: [
-      { label: 'Today in Plastics', href: '/today', icon: Flame, desc: 'Daily industry news & updates', color: '#EA580C' },
-      { label: 'History of Plastics', href: '/history', icon: BookOpen, desc: '162 years that remade civilization', color: '#1D4ED8' },
-      { label: 'World of Plastic', href: '/world', icon: FlaskConical, desc: '7 industries that run on polymers', color: '#15803D' },
-      { label: 'Video Library', href: '/videos', icon: Play, desc: 'NPTEL + industry videos mapped to lessons', color: '#1D4ED8' },
-      { label: 'Education Hub', href: '/education', icon: GraduationCap, desc: '84 programs & 17 scholarships', color: '#7C3AED' },
-      { label: 'Research Hub', href: '/research', icon: FlaskConical, desc: 'Academic papers & patent filing', color: '#1D4ED8' },
-      { label: 'Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
+      { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 curriculum lessons', color: '#1D4ED8' },
+      { label: 'Engineering Library', href: '/library', icon: BookOpen, desc: '50 specialized textbook volumes', color: '#1D4ED8' },
+      { label: 'GATE XE-F & Practice', href: '/gate-mock', icon: Trophy, desc: 'Simulated exams & practice questions', color: '#7C3AED' },
+      { label: 'Polymer AI Copilot', href: '/ai-tutor', icon: Brain, desc: 'RAG-grounded technical assistant', color: '#15803D' },
+      { label: 'Student Projects', href: '/projects', icon: GraduationCap, desc: 'Case studies & student portfolios', color: '#EA580C' },
     ]
   },
   {
-    label: 'Learn',
+    label: 'Explore',
     items: [
-      { label: 'All Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
-      { label: 'AI Tutor', href: '/ai-tutor', icon: Brain, desc: 'Ask anything — grounded in your lessons', color: '#15803D' },
-      { label: 'Practice Questions', href: '/practice', icon: Zap, desc: '50+ MCQs across all subjects', color: '#CA8A04' },
-      { label: 'GATE Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
-      { label: 'Student Forum', href: '/forum', icon: MessageCircle, desc: 'Ask classmates, get answers', color: '#7C3AED' },
-      { label: 'Study Groups', href: '/study-groups', icon: Users, desc: 'Form groups, track progress', color: '#1D4ED8' },
-      { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, desc: 'Compare XP rankings & streaks', color: '#CA8A04' },
-      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '50 specialized engineering volumes', color: '#1D4ED8' },
-      { label: 'Community & Events', href: '/community', icon: Users, desc: 'Webinars, mentorship & live events', color: '#EA580C' },
-      { label: 'Company Challenges', href: '/practice/challenges', icon: Trophy, desc: 'Solve industry cases for XP', color: '#7C3AED' },
-      { label: 'Student Projects', href: '/projects', icon: BookOpen, desc: 'Case studies & engineering portfolios', color: '#1D4ED8' },
+      { label: 'Today in Plastics', href: '/today', icon: Flame, desc: 'Daily market benchmarks & verified news', color: '#EA580C' },
+      { label: '3D Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
+      { label: 'Video Library', href: '/videos', icon: Play, desc: 'NPTEL & industry lecture videos', color: '#1D4ED8' },
+      { label: 'World of Plastic', href: '/world', icon: FlaskConical, desc: '7 major polymer manufacturing sectors', color: '#15803D' },
     ]
   },
   {
     label: 'Tools',
     items: [
-      { label: 'Engineering Calculators', href: '/calculators', icon: Calculator, desc: 'Tonnage, cooling, shrinkage & more', color: '#CA8A04' },
-      { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Fix injection & extrusion defects', color: '#EA580C' },
-      { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 12 polymers · 15 properties', color: '#1D4ED8' },
-      { label: 'Careers', href: '/careers', icon: Trophy, desc: '6 career tracks · ₹4–40 LPA', color: '#15803D' },
-      { label: 'Materials Database', href: '/materials', icon: FlaskConical, desc: 'Polymer properties & Indian industry', color: '#7C3AED' },
-      { label: 'Enterprise Portal', href: '/enterprise', icon: Building, desc: 'Corporate training & solutions', color: '#15803D' },
+      { label: 'Engineering Calculators', href: '/calculators', icon: Calculator, desc: 'Tonnage, cooling & shrinkage solvers', color: '#CA8A04' },
+      { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Rosato injection moulding diagnostics', color: '#EA580C' },
+      { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 35+ polymers & ASTM properties', color: '#1D4ED8' },
+      { label: 'Materials & 3D Lab', href: '/materials', icon: FlaskConical, desc: '100+ 3D models & Indian trade names', color: '#7C3AED' },
     ]
   },
 ]

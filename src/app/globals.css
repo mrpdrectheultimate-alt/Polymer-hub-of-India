@@ -40,7 +40,7 @@
 
     /* FONT FAMILIES (3-Font Stack + Multilingual Indian Layer) */
     --font-sans-fallback: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --font-display-fallback: system-ui, -apple-system, sans-serif;
+    --font-display-fallback: "Space Grotesk", system-ui, -apple-system, sans-serif;
     --font-mono-fallback: JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
     /* FLUID TYPE SCALE (Responsive clamp scaling) */
@@ -84,6 +84,10 @@
 
   * {
     @apply border-border;
+  }
+
+  .font-display {
+    font-family: var(--font-display), 'Space Grotesk', system-ui, -apple-system, sans-serif !important;
   }
 
   html {
