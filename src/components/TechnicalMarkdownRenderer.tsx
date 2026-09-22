@@ -40,40 +40,22 @@ function getSectionIcon(heading: string) {
 
 export function sanitizeLatex(text: string): string {
   if (!text) return ''
-  return text
-    // Replace JS mangled form feed control char (\f) back to backslash (\)
-    .replace(/\x0C/g, '\\')
+
+  let str = text
+    .replace(/\x0C/g, '\\f')
     .replace(/\x0D/g, '\\r')
     .replace(/\x08/g, '\\b')
     .replace(/\x0B/g, '\\v')
-    // Clean up duplicate \f\frac or \\frac
-    .replace(/\\f\\frac/g, '\\frac')
-    .replace(/(?<!\\)frac\{/g, '\\frac{')
-    .replace(/(?<!\\)rac\{/g, '\\frac{')
-    .replace(/(?<!\\)bar\{/g, '\\bar{')
-    .replace(/(?<!\\)ar\{/g, '\\bar{')
-    .replace(/(?<!\\)int_/g, '\\int_')
-    .replace(/(?<!\\)dot\{/g, '\\dot{')
-    .replace(/(?<!\\)cdot/g, '\\cdot')
-    .replace(/(?<!\\)infty/g, '\\infty')
-    .replace(/(?<!\\)Delta/g, '\\Delta')
-    .replace(/(?<!\\)delta/g, '\\delta')
-    .replace(/(?<!\\)phi/g, '\\phi')
-    .replace(/(?<!\\)chi/g, '\\chi')
-    .replace(/(?<!\\)alpha/g, '\\alpha')
-    .replace(/(?<!\\)beta/g, '\\beta')
-    .replace(/(?<!\\)gamma/g, '\\gamma')
-    .replace(/(?<!\\)theta/g, '\\theta')
-    .replace(/(?<!\\)tau/g, '\\tau')
-    .replace(/(?<!\\)eta/g, '\\eta')
-    .replace(/(?<!\\)sigma/g, '\\sigma')
-    .replace(/(?<!\\)rho/g, '\\rho')
-    .replace(/(?<!\\)ln(?=[\s\(\\\{])/g, '\\ln')
-    .replace(/(?<!\\)left(?=[\s\[\(\\\{])/g, '\\left')
-    .replace(/(?<!\\)right(?=[\s\]\)\\\}])/g, '\\right')
-    .replace(/(?<!\\)partial/g, '\\partial')
-    .replace(/(?<!\\)approx/g, '\\approx')
-    .replace(/(?<!\\)sqrt/g, '\\sqrt')
+
+  // Target inline math ($...$) and display math ($$...$$) blocks
+  // Pre-process math blocks to double-escape single backslashes so ReactMarkdown preserves single backslashes for KaTeX
+  str = str.replace(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+\$)/g, (mathBlock) => {
+    return mathBlock
+      .replace(/\\/g, '\\\\')
+      .replace(/\\\\\\\\/g, '\\\\')
+  })
+
+  return str
 }
 
 export default function TechnicalMarkdownRenderer({ content, domainColor = '#2563EB' }: Props) {
