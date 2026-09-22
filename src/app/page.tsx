@@ -30,7 +30,6 @@ import {
 } from 'lucide-react'
 import Footer from '@/components/Footer'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
-import TechnicalMarkdownRenderer from '@/components/TechnicalMarkdownRenderer'
 import { VERIFIED_INDUSTRY_EVENTS } from '@/lib/industry_events_data'
 
 // ==================== DATA ====================
@@ -183,7 +182,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden font-sans">
       
       {/* ─── HERO SECTION ─── */}
-      <section className="relative flex items-center overflow-hidden bg-white py-4 sm:py-6">
+      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0">
           <Image
             src="/images/hero/students-polymer-lab.jpg"
@@ -194,10 +193,10 @@ export default function HomePage() {
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40" />
-          <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-white to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-2 sm:py-4">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-24">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E2E8F0] text-[#2563EB] text-xs sm:text-sm font-mono font-bold mb-6 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
@@ -266,6 +265,11 @@ export default function HomePage() {
               </span>
             </div>
           </div>
+        </div>
+
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#94A3B8] z-20 pointer-events-none">
+          <span className="text-[9px] font-mono uppercase tracking-widest">Scroll</span>
+          <div className="w-0.5 h-5 bg-[#94A3B8]/60 rounded-full animate-bounce" />
         </div>
       </section>
 
@@ -610,40 +614,41 @@ export default function HomePage() {
       </section>
 
       {/* ─── AI TUTOR ─── */}
-      <section className="bg-blue-50/70 border-y border-blue-200/80 py-12 text-slate-900">
+      <section className="bg-[#1E40AF] py-16 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-8">
             <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-                <Brain className="h-3.5 w-3.5 text-blue-600" />
-                AI Tutor &middot; RAG-Grounded Specialist
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-mono font-bold uppercase tracking-wider mb-3">
+                <Brain className="h-3.5 w-3.5 text-amber-300" />
+                AI Tutor &middot; Powered by Your Curriculum
               </div>
-              <h2 className="text-2xl md:text-3xl font-bold font-display text-slate-900 leading-tight">
+              <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight">
                 Your Polymer Engineering Copilot
               </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-2 max-w-xl font-normal leading-relaxed">
+              <p className="text-white/85 text-xs sm:text-sm mt-2 max-w-xl font-light leading-relaxed">
                 Ask technical questions and get answers grounded in PolymerHub&apos;s 216 curriculum lessons &mdash; 
-                calibrated for exams, KaTeX derivations, and shop-floor diagnostics.
+                calibrated for exams and shop-floor diagnostics.
               </p>
               
-              <div className="mt-6 bg-white rounded-2xl border border-blue-200/90 p-5 max-w-xl shadow-md">
+              <div className="mt-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4 max-w-xl shadow-xl">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-7 h-7 rounded-xl bg-blue-600 flex items-center justify-center text-xs font-bold text-white font-mono">
+                  <div className="w-7 h-7 rounded-xl bg-amber-400 flex items-center justify-center text-xs font-bold text-slate-950 font-mono">
                     AI
                   </div>
-                  <span className="text-slate-900 text-xs font-mono font-bold">PolymerHub AI Specialist</span>
-                  <span className="text-emerald-600 text-[10px] font-mono">● Online</span>
+                  <span className="text-white text-xs font-mono font-bold">PolymerHub AI Specialist</span>
+                  <span className="text-emerald-300 text-[10px] font-mono">● Online</span>
                 </div>
-                <div className="bg-slate-50 rounded-xl p-3.5 mb-3 border border-slate-200 text-xs">
-                  <TechnicalMarkdownRenderer
-                    content={`**Question:** Derive the Flory-Huggins Free Energy of Mixing equation for polymer solutions.
-
-**AI Tutor Response:** According to Flory-Huggins lattice theory, the free energy of mixing per lattice site is given by:
-
-$$\\Delta G_m = R T \\left[ \\frac{\\phi}{N} \\ln \\phi + (1 - \\phi) \\ln(1 - \\phi) + \\chi \\phi (1 - \\phi) \\right]$$
-
-*Source: Polymer Solution Thermodynamics · Lesson 08*`}
-                  />
+                <div className="bg-white/5 rounded-xl p-3 mb-3 border border-white/10">
+                  <p className="text-white/90 text-xs sm:text-sm">
+                    <span className="text-amber-300 font-bold font-mono">You:</span> Why does increasing injection pressure sometimes cause flash?
+                  </p>
+                  <p className="text-white/90 text-xs sm:text-sm mt-2 leading-relaxed">
+                    <span className="text-emerald-300 font-bold font-mono">AI:</span> Flash occurs when injection pressure exceeds the effective clamp tonnage across the projected area, forcing molten polymer into the parting line.
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-[10px] text-white/60 font-mono">
+                    <span>📘 Source:</span>
+                    <span>Polymer Processing &middot; Lesson 12</span>
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <input 
@@ -651,11 +656,11 @@ $$\\Delta G_m = R T \\left[ \\frac{\\phi}{N} \\ln \\phi + (1 - \\phi) \\ln(1 - \
                     value={demoQuestion}
                     onChange={(e) => setDemoQuestion(e.target.value)}
                     placeholder="Ask any polymer question (e.g. Carothers equation, MFI)..."
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-blue-600 font-sans"
+                    className="flex-1 px-4 py-2.5 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 text-xs focus:outline-none focus:ring-2 focus:ring-amber-300 font-sans"
                   />
                   <Link
                     href={'/ai-tutor?prompt=' + encodeURIComponent(demoQuestion || 'Explain the Carothers equation for step-growth polymerization')}
-                    className="px-4 py-2.5 rounded-xl bg-[#2563EB] text-white hover:bg-blue-700 font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1 transition-all shadow-xs"
+                    className="px-4 py-2.5 rounded-xl bg-white text-[#2563EB] hover:bg-slate-100 font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1 transition-all"
                   >
                     Ask <ArrowRight className="h-3.5 w-3.5" />
                   </Link>
@@ -666,7 +671,7 @@ $$\\Delta G_m = R T \\left[ \\frac{\\phi}{N} \\ln \\phi + (1 - \\phi) \\ln(1 - \
             <div className="flex-shrink-0">
               <Link
                 href="/ai-tutor"
-                className="px-8 py-4 rounded-2xl font-mono font-bold text-white bg-[#2563EB] hover:bg-blue-700 transition-all flex items-center gap-2 shadow-lg text-xs uppercase tracking-wider hover:shadow-xl"
+                className="px-8 py-4 rounded-2xl font-mono font-bold text-slate-900 bg-white hover:bg-slate-100 transition-all flex items-center gap-2 shadow-xl text-xs uppercase tracking-wider hover:shadow-2xl"
               >
                 Launch AI Tutor Workspace
                 <ArrowRight className="h-4 w-4" />

@@ -86,10 +86,6 @@
     @apply border-border;
   }
 
-  .font-display {
-    font-family: var(--font-display), 'Space Grotesk', system-ui, -apple-system, sans-serif !important;
-  }
-
   html {
     color-scheme: light;
     background-color: #FAF8F5;
