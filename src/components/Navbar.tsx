@@ -16,29 +16,40 @@ const NAV = [
   {
     label: 'Learn',
     items: [
-      { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 curriculum lessons', color: '#1D4ED8' },
-      { label: 'Engineering Library', href: '/library', icon: BookOpen, desc: '50 specialized textbook volumes', color: '#1D4ED8' },
-      { label: 'GATE XE-F & Practice', href: '/gate-mock', icon: Trophy, desc: 'Simulated exams & practice questions', color: '#7C3AED' },
+      { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
+      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '50 specialized textbook volumes', color: '#1D4ED8' },
+      { label: 'GATE XE-F Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
       { label: 'Polymer AI Copilot', href: '/ai-tutor', icon: Brain, desc: 'RAG-grounded technical assistant', color: '#15803D' },
-      { label: 'Student Projects', href: '/projects', icon: GraduationCap, desc: 'Case studies & student portfolios', color: '#EA580C' },
+      { label: 'Practice Questions', href: '/practice', icon: Zap, desc: '50+ MCQs across all subjects', color: '#CA8A04' },
+      { label: 'Student Forum', href: '/forum', icon: MessageCircle, desc: 'Ask classmates, get answers', color: '#7C3AED' },
+      { label: 'Study Groups', href: '/study-groups', icon: Users, desc: 'Form groups, track progress', color: '#1D4ED8' },
+      { label: 'Leaderboard', href: '/leaderboard', icon: Trophy, desc: 'Compare XP rankings & streaks', color: '#CA8A04' },
+      { label: 'Community & Events', href: '/community', icon: Users, desc: 'Webinars, mentorship & live events', color: '#EA580C' },
+      { label: 'Company Challenges', href: '/practice/challenges', icon: Trophy, desc: 'Solve industry cases for XP', color: '#7C3AED' },
+      { label: 'Student Projects', href: '/projects', icon: GraduationCap, desc: 'Case studies & student portfolios', color: '#1D4ED8' },
     ]
   },
   {
     label: 'Explore',
     items: [
       { label: 'Today in Plastics', href: '/today', icon: Flame, desc: 'Daily market benchmarks & verified news', color: '#EA580C' },
-      { label: '3D Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
-      { label: 'Video Library', href: '/videos', icon: Play, desc: 'NPTEL & industry lecture videos', color: '#1D4ED8' },
+      { label: 'History of Plastics', href: '/history', icon: BookOpen, desc: '162 years that remade civilization', color: '#1D4ED8' },
       { label: 'World of Plastic', href: '/world', icon: FlaskConical, desc: '7 major polymer manufacturing sectors', color: '#15803D' },
+      { label: 'Video Library', href: '/videos', icon: Play, desc: 'NPTEL & industry lecture videos', color: '#1D4ED8' },
+      { label: 'Education Hub', href: '/education', icon: GraduationCap, desc: '84 programs & 17 scholarships', color: '#7C3AED' },
+      { label: 'Research Hub', href: '/research', icon: FlaskConical, desc: 'Academic papers & patent filing', color: '#1D4ED8' },
+      { label: '3D Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
     ]
   },
   {
     label: 'Tools',
     items: [
       { label: 'Engineering Calculators', href: '/calculators', icon: Calculator, desc: 'Tonnage, cooling & shrinkage solvers', color: '#CA8A04' },
-      { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Rosato injection moulding diagnostics', color: '#EA580C' },
+      { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Rosato injection & extrusion fixes', color: '#EA580C' },
       { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 35+ polymers & ASTM properties', color: '#1D4ED8' },
       { label: 'Materials & 3D Lab', href: '/materials', icon: FlaskConical, desc: '100+ 3D models & Indian trade names', color: '#7C3AED' },
+      { label: 'Career Tracks', href: '/careers', icon: Trophy, desc: '6 career tracks · ₹4–40 LPA', color: '#15803D' },
+      { label: 'Enterprise Portal', href: '/enterprise', icon: Building, desc: 'Corporate training & solutions', color: '#15803D' },
     ]
   },
 ]
@@ -127,54 +138,60 @@ export default function Navbar() {
       >
         <div className="h-full max-w-7xl 2xl:max-w-[1600px] mx-auto px-4 sm:px-6 2xl:px-8 flex items-center justify-between gap-4 2xl:gap-8">
 
-          {/* Logo — full horizontal logo for maximum brand prominence */}
-          <div className="flex items-center shrink-0">
-            <Logo variant="full" theme="light" />
-          </div>
+          {/* Logo & Desktop links */}
+          <div className="flex items-center gap-6 2xl:gap-10">
+            <Logo />
 
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-0.5 flex-1 justify-center" data-navbar>
-            {NAV.map(section => (
-              <div key={section.label} className="relative">
-                <button
-                  onClick={() => setActiveDropdown(activeDropdown === section.label ? null : section.label)}
-                  className="flex items-center gap-1.5 px-3.5 2xl:px-4 py-2 rounded-xl font-mono text-xs 2xl:text-sm font-black uppercase tracking-wider text-slate-800 hover:bg-slate-900 hover:text-white transition-all shadow-2xs"
-                  style={{
-                    backgroundColor: activeDropdown === section.label ? '#0A0A0A' : undefined,
-                    color: activeDropdown === section.label ? 'white' : undefined,
-                  }}
-                >
-                  {section.label}
-                  <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === section.label ? 'rotate-180' : ''}`} />
-                </button>
+            <div className="hidden md:flex items-center gap-1">
+              {NAV.map(section => (
+                <div key={section.label} className="relative">
+                  <button
+                    onClick={() => setActiveDropdown(activeDropdown === section.label ? null : section.label)}
+                    className="flex items-center gap-1.5 px-3.5 2xl:px-4 py-2 rounded-xl font-mono text-xs 2xl:text-sm font-black uppercase tracking-wider text-slate-800 hover:bg-slate-900 hover:text-white transition-all shadow-2xs"
+                    style={{
+                      backgroundColor: activeDropdown === section.label ? '#0A0A0A' : undefined,
+                      color: activeDropdown === section.label ? 'white' : undefined,
+                    }}
+                  >
+                    {section.label}
+                    <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === section.label ? 'rotate-180' : ''}`} />
+                  </button>
 
-                {activeDropdown === section.label && (
-                  <div className="absolute top-full left-0 mt-1.5 w-80 2xl:w-96 rounded-2xl border-2 border-slate-900 bg-white z-50 shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
-                    style={{ boxShadow: '4px 4px 0px 0px #0A0A0A' }}>
-                    {section.items.map(item => {
-                      const Icon = item.icon
-                      const isActive = pathname === item.href
-                      return (
-                        <Link key={item.href} href={item.href}
-                          className="flex items-center gap-3.5 p-3.5 2xl:p-4 border-b border-slate-100 last:border-0 hover:bg-slate-900 hover:text-white group transition-all"
-                          style={{ backgroundColor: isActive ? '#0A0A0A' : undefined, color: isActive ? 'white' : undefined }}>
-                          <div className="w-9 h-9 2xl:w-10 2xl:h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white shadow-xs group-hover:scale-105 transition-transform"
-                            style={{ backgroundColor: item.color }}>
-                            <Icon className="w-4 h-4 text-white" />
-                          </div>
-                          <div>
-                            <div className="font-mono text-xs 2xl:text-sm font-bold uppercase tracking-wider">{item.label}</div>
-                            <div className={`font-mono text-[11px] 2xl:text-xs mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-300'}`}>
-                              {item.desc}
+                  {activeDropdown === section.label && (
+                    <div
+                      className="absolute top-full left-0 mt-1.5 w-[560px] 2xl:w-[620px] grid grid-cols-2 p-3 gap-1.5 rounded-2xl border-2 border-slate-900 bg-white z-50 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150"
+                      style={{ boxShadow: '4px 4px 0px 0px #0A0A0A' }}
+                    >
+                      {section.items.map(item => {
+                        const Icon = item.icon
+                        const isActive = pathname === item.href
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="flex items-start gap-3 p-2.5 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-900 hover:text-white group transition-all"
+                            style={{ backgroundColor: isActive ? '#0A0A0A' : undefined, color: isActive ? 'white' : undefined }}
+                          >
+                            <div
+                              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-xs group-hover:scale-105 transition-transform mt-0.5"
+                              style={{ backgroundColor: item.color }}
+                            >
+                              <Icon className="w-4 h-4 text-white" />
                             </div>
-                          </div>
-                        </Link>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            ))}
+                            <div className="flex-1 min-w-0">
+                              <div className="font-mono text-xs font-bold uppercase tracking-wider truncate">{item.label}</div>
+                              <div className={`font-mono text-[10px] leading-tight line-clamp-1 mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-300'}`}>
+                                {item.desc}
+                              </div>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Desktop right */}
