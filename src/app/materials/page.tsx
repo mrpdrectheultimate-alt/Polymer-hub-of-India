@@ -523,7 +523,7 @@ export default function MaterialsPage() {
             <Compass className="w-3.5 h-3.5 text-blue-400" /> 35+ BASE POLYMERS &middot; 100+ 3D INTERACTIVE MODELS &middot; INDIAN TRADE NAMES
           </div>
 
-          <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-black text-white uppercase tracking-tight leading-tight">
+          <h1 className="font-display text-[clamp(3rem,6vw,5rem)] font-extrabold text-white tracking-tight leading-[1.1]">
             POLYMER MATERIALS <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-emerald-400">
               SPECIFICATIONS &amp; BRANDS

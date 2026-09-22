@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Inter, Playfair_Display, JetBrains_Mono, Noto_Sans_Devanagari } from 'next/font/google'
+import { Inter, Space_Grotesk, JetBrains_Mono, Lora, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
 import { Suspense } from 'react'
 import ScrollRestoration from '@/components/ScrollRestoration'
@@ -18,10 +18,17 @@ const inter = Inter({
   display: 'swap',
 })
 
-const playfairDisplay = Playfair_Display({
+const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700'],
   variable: '--font-display',
+  display: 'swap',
+})
+
+const lora = Lora({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-serif',
   display: 'swap',
 })
 
@@ -57,7 +64,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable} ${notoDevanagari.variable}`}>
+    <html lang="en" className={`${inter.variable} ${spaceGrotesk.variable} ${lora.variable} ${jetbrainsMono.variable} ${notoDevanagari.variable}`}>
       <head>
         {/* JSON-LD Structured Data — helps Google understand the site */}
         <script

@@ -11,8 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['var(--font-display)', 'Playfair Display', 'Georgia', 'serif'],
-        serif:   ['var(--font-display)', 'Playfair Display', 'Georgia', 'serif'],
+        display: ['var(--font-display)', 'Space Grotesk', 'system-ui', 'sans-serif'],
+        serif:   ['var(--font-serif)', 'Lora', 'Georgia', 'serif'],
         sans:    ['var(--font-body)', 'Inter', 'system-ui', 'sans-serif'],
         mono:    ['var(--font-mono)', 'JetBrains Mono', 'monospace'],
         hindi:   ['var(--font-hindi)', 'sans-serif'],

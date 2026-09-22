@@ -203,26 +203,26 @@ export default function HomePage() {
               Built for India&apos;s Polymer Engineering Students &amp; Industry
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold text-[#111827] leading-[1.12] tracking-tight font-display">
+            <h1 className="text-[clamp(3rem,6vw,5rem)] font-extrabold text-slate-900 leading-[1.1] tracking-tight font-display">
               Master Polymer Engineering.
               <span className="block bg-gradient-to-r from-[#2563EB] via-blue-700 to-[#16A34A] bg-clip-text text-transparent pb-2.5 pt-1">
                 From Molecules to Manufacturing.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-[#334155] max-w-2xl mt-4 leading-relaxed font-normal">
+            <p className="text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mt-4 leading-relaxed font-normal">
               Master polymer science with structured lessons, interactive 3D crystal models, industrial engineering solvers, and an AI copilot.
             </p>
 
-            {/* Honest Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mt-8 max-w-2xl">
+            {/* Equal 4-Card Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 max-w-3xl">
               {STATS.map((stat) => (
                 <div
                   key={stat.label}
-                  className="bg-white/95 backdrop-blur-md border border-[#E2E8F0] p-4 rounded-2xl shadow-xs transition-transform hover:-translate-y-1"
+                  className="bg-white/95 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-xs flex flex-col justify-between h-full hover:border-blue-400 transition-all"
                 >
-                  <div className="text-2xl sm:text-3xl font-extrabold text-[#2563EB] font-display">{stat.value}</div>
-                  <div className="text-xs text-[#64748B] mt-0.5 font-mono font-medium">{stat.label}</div>
+                  <div className="text-3xl font-extrabold text-[#2563EB] font-display tabular-nums tracking-tight">{stat.value}</div>
+                  <div className="text-xs sm:text-sm text-slate-600 mt-1 font-sans font-medium">{stat.label}</div>
                 </div>
               ))}
             </div>

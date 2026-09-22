@@ -47,6 +47,16 @@ export function sanitizeLatex(text: string): string {
     .replace(/\x08/g, '\\b')
     .replace(/\x0B/g, '\\v')
 
+  // Auto-wrap bare equations matching Flory-Huggins or thermodynamics without $ wrapper
+  str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT\s*\\?left\[[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
+    if (match.startsWith('$')) return match
+    return `$$\n${match}\n$$`
+  })
+
+  // Normalize bare DeltaG or Delta P inside math or prose
+  str = str.replace(/DeltaG_m/g, '\\Delta G_m')
+  str = str.replace(/DeltaP/g, '\\Delta P')
+
   // Target inline math ($...$) and display math ($$...$$) blocks
   // Pre-process math blocks to double-escape single backslashes so ReactMarkdown preserves single backslashes for KaTeX
   str = str.replace(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+\$)/g, (mathBlock) => {
@@ -80,13 +90,13 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
       <div className="flex justify-end -mb-2">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white font-mono text-[11px] font-bold text-slate-600 hover:text-slate-900 hover:border-slate-400 transition-all shadow-xs"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[12px] font-bold text-slate-700 hover:text-slate-900 hover:border-slate-500 transition-all shadow-xs"
         >
-          {copied ? <><Check className="w-3.5 h-3.5 text-emerald-600" /> Copied Text</> : <><Copy className="w-3.5 h-3.5 text-slate-400" /> Copy Text</>}
+          {copied ? <><Check className="w-3.5 h-3.5 text-emerald-600" /> Copied Text</> : <><Copy className="w-3.5 h-3.5 text-slate-500" /> Copy Text</>}
         </button>
       </div>
 
-      <div className="prose prose-sm max-w-none text-slate-800 leading-[1.75]">
+      <div className="prose prose-slate max-w-none text-slate-800 leading-[1.75]">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[rehypeKatex]}
@@ -94,7 +104,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
             // ── Headings ───────────────────────────────────────────────────────
             h1: ({ children }) => (
-              <h1 className="font-display text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-5 mt-6 border-b border-slate-200 pb-3">
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-slate-900 leading-tight mb-6 mt-8 border-b border-slate-200 pb-3">
                 {children}
               </h1>
             ),
@@ -103,12 +113,12 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               const text = String(children)
               const { icon: Icon, color } = getSectionIcon(text)
               return (
-                <div className="mt-10 mb-4 pt-4 border-t border-slate-100">
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: color }}>
-                      <Icon className="w-3.5 h-3.5 text-white" />
+                <div className="mt-12 mb-5 pt-6 border-t border-slate-200">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: color }}>
+                      <Icon className="w-4 h-4 text-white" />
                     </div>
-                    <h2 className="font-display text-lg md:text-xl font-bold text-slate-900 leading-tight m-0">
+                    <h2 className="font-display text-2xl md:text-3xl font-bold text-slate-900 leading-snug m-0">
                       {children}
                     </h2>
                   </div>
@@ -117,14 +127,14 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
             },
 
             h3: ({ children }) => (
-              <h3 className="font-display text-base font-bold text-slate-900 mt-6 mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-4 rounded-full flex-shrink-0" style={{ backgroundColor: domainColor }} />
+              <h3 className="font-display text-xl md:text-2xl font-bold text-slate-900 mt-8 mb-3 flex items-center gap-2.5">
+                <span className="w-2 h-5 rounded-full flex-shrink-0" style={{ backgroundColor: domainColor }} />
                 <span>{children}</span>
               </h3>
             ),
 
             h4: ({ children }) => (
-              <h4 className="font-mono text-xs font-bold text-slate-500 uppercase tracking-wider mt-4 mb-2">
+              <h4 className="font-mono text-xs font-bold text-slate-600 uppercase tracking-wider mt-5 mb-2">
                 {children}
               </h4>
             ),
@@ -135,9 +145,9 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                 typeof child === 'string' && (child.includes('$') || child.includes('\\('))
               )
               if (hasMath) {
-                return <div className="math-paragraph my-3">{children}</div>
+                return <div className="math-paragraph my-4">{children}</div>
               }
-              return <p className="text-slate-700 leading-[1.75] mb-4 text-[16px] font-sans">{children}</p>
+              return <p className="text-slate-700 leading-[1.75] mb-5 text-[17px] sm:text-[18px] font-sans">{children}</p>
             },
 
             // ── Tables ─────────────────────────────────────────────────────────
@@ -256,7 +266,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               <ol className="my-4 space-y-2 pl-2 list-decimal list-inside">{children}</ol>
             ),
             li: ({ children }) => (
-              <li className="flex items-start gap-2.5 text-slate-700 text-[16px] leading-[1.75]">
+              <li className="flex items-start gap-2.5 text-slate-700 text-[17px] sm:text-[18px] leading-[1.75]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-2.5 flex-shrink-0" />
                 <span className="flex-1">{children}</span>
               </li>
