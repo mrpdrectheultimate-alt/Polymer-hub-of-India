@@ -34,11 +34,15 @@ export function repairLessonContentLatex(text) {
     return `$$\n\\Delta G_m = RT \\left[ \\frac{\\phi}{N}\\ln\\phi + (1-\\phi)\\ln(1-\\phi) + \\chi\\phi(1-\\phi) \\right]\n$$`
   })
 
-  // Ensure all math blocks ($...$ and $$...$$) have double-escaped backslashes
+  // Normalize double-escaped tokens (e.g. \\approx, \\textbf, \\text, \\frac) to single backslashes
+  str = str.replace(/\\\\approx/g, '\\approx')
+  str = str.replace(/\\\\textbf/g, '\\textbf')
+  str = str.replace(/\\\\text/g, '\\text')
+
+  // Target inline math ($...$) and display math ($$...$$) blocks
+  // Collapse any multi-backslashes (\\frac, \\sqrt) into single backslashes
   str = str.replace(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+\$)/g, (mathBlock) => {
-    return mathBlock
-      .replace(/\\/g, '\\\\')
-      .replace(/\\\\\\\\/g, '\\\\')
+    return mathBlock.replace(/\\{2,}/g, '\\')
   })
 
   return str

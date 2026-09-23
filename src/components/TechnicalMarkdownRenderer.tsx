@@ -48,22 +48,20 @@ export function sanitizeLatex(text: string): string {
     .replace(/\x09/g, '\\t')
     .replace(/\x0B/g, '\\v')
 
-  // Auto-wrap bare Flory-Huggins, thermodynamics, or un-delimited math expressions
+  // Auto-wrap un-delimited Flory-Huggins, thermodynamics, or bare math expressions
   str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
     if (match.startsWith('$')) return match
     return `$$\n${match}\n$$`
   })
 
-  // Normalize stripped LaTeX tokens (e.g. frac -> \frac, left -> \left, right -> \right) if inside unformatted math strings
+  // Normalize stripped LaTeX tokens if present in bare text
   str = str.replace(/DeltaG_m/g, '\\Delta G_m')
   str = str.replace(/DeltaP/g, '\\Delta P')
 
   // Target inline math ($...$) and display math ($$...$$) blocks
-  // Pre-process math blocks to double-escape single backslashes so ReactMarkdown preserves single backslashes for KaTeX
+  // Collapse any multi-backslashes (\\approx, \\textbf, \\frac) into single backslashes for KaTeX
   str = str.replace(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+\$)/g, (mathBlock) => {
-    return mathBlock
-      .replace(/\\/g, '\\\\')
-      .replace(/\\\\\\\\/g, '\\\\')
+    return mathBlock.replace(/\\{2,}/g, '\\')
   })
 
   return str
@@ -80,10 +78,6 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
   // Sanitize raw leaked debug/HTML wrapper tags and fix KaTeX LaTeX backslashes
   const sanitizedContent = sanitizeLatex(content || '')
-    .replace(/<div className=["']problem-statement["']>/gi, '')
-    .replace(/<div class=["']problem-statement["']>/gi, '')
-    .replace(/<div className=["'][^"']*["']>/gi, '')
-    .replace(/<\/div>/gi, '')
 
   return (
     <div className="lesson-content space-y-6">
@@ -102,6 +96,23 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: '#DC2626' }]]}
           components={{
+            div: ({ className, children }) => {
+              if (className === 'problem-statement') {
+                return (
+                  <div className="my-6 p-5 bg-amber-50/90 border-l-4 border-amber-600 rounded-xl shadow-xs font-sans text-slate-900 border border-amber-200/80">
+                    {children}
+                  </div>
+                )
+              }
+              if (className === 'solution-step') {
+                return (
+                  <div className="my-4 p-5 bg-emerald-50/90 border-l-4 border-emerald-600 rounded-xl shadow-xs font-sans text-slate-900 border border-emerald-200/80">
+                    {children}
+                  </div>
+                )
+              }
+              return <div className={className}>{children}</div>
+            },
 
             // ── Headings ───────────────────────────────────────────────────────
             h1: ({ children }) => (

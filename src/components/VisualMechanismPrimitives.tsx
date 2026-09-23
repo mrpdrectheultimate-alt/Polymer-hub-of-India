@@ -498,14 +498,34 @@ export function VisualMechanismDispatcher({ mechanismId, mechanism, title }: { m
   const id = (mechanismId || mechanism || '').toLowerCase()
   const t = (title || '').toLowerCase()
 
-  // Topic-Matched Dispatching based on mechanismId OR title keywords
-  if (id.includes('thermodynamic') || id.includes('flory') || id.includes('huggins') || id.includes('phase') || id.includes('solution') || t.includes('thermodynamic') || t.includes('flory') || t.includes('phase')) {
+  // 1. FIRST: Priority Title Domain Match (Guarantees visual topic match regardless of generic primitiveId)
+  if (t.includes('thermodynamic') || t.includes('flory') || t.includes('huggins') || t.includes('phase') || t.includes('solution') || t.includes('ucst') || t.includes('lcst')) {
     return <FloryHugginsThermodynamicsSVG title={title} />
   }
-  if (id.includes('rheology') || id.includes('viscosity') || id.includes('shear') || id.includes('flow') || t.includes('rheology') || t.includes('viscosity')) {
+  if (t.includes('rheology') || t.includes('viscosity') || t.includes('shear') || t.includes('pseudoplastic') || t.includes('non-newtonian')) {
     return <RheologyViscositySVG title={title} />
   }
-  if (id.includes('mould') || id.includes('cooling') || id.includes('runner') || id.includes('gate') || id.includes('injection') || t.includes('mould') || t.includes('cooling')) {
+  if (t.includes('mould') || t.includes('cooling') || t.includes('runner') || t.includes('gate') || t.includes('cavity')) {
+    return <MouldCoolingSystemSVG title={title} />
+  }
+  if (t.includes('gpc') || t.includes('sec') || t.includes('molecular weight distribution')) {
+    return <GPCChromatogramSVG title={title} />
+  }
+  if (t.includes('tensile') || t.includes('stress-strain') || t.includes('iso 527') || t.includes('astm d638')) {
+    return <TensileStressStrainSVG title={title} />
+  }
+  if (t.includes('dsc') || t.includes('glass transition') || t.includes('crystallization')) {
+    return <DSCFormSVG title={title} />
+  }
+
+  // 2. SECOND: Mechanism ID Matching
+  if (id.includes('thermodynamic') || id.includes('flory') || id.includes('huggins') || id.includes('phase') || id.includes('solution')) {
+    return <FloryHugginsThermodynamicsSVG title={title} />
+  }
+  if (id.includes('rheology') || id.includes('viscosity') || id.includes('shear') || id.includes('flow')) {
+    return <RheologyViscositySVG title={title} />
+  }
+  if (id.includes('mould') || id.includes('cooling') || id.includes('runner') || id.includes('gate')) {
     return <MouldCoolingSystemSVG title={title} />
   }
   if (id.includes('romp')) return <ROMPMechanismSVG title={title} />
@@ -516,10 +536,6 @@ export function VisualMechanismDispatcher({ mechanismId, mechanism, title }: { m
   if (id.includes('spherulite') || id.includes('crystallization') || id.includes('maltese')) return <SpheruliteMorphologySVG title={title} />
   if (id.includes('dsc') || id.includes('thermal-analysis')) return <DSCFormSVG title={title} />
   if (id.includes('tensile') || id.includes('stress-strain')) return <TensileStressStrainSVG title={title} />
-
-  // Contextual fallback by title inspection
-  if (t.includes('chemistry') || t.includes('reaction') || t.includes('synthesis')) return <FreeRadicalPolymerizationSVG title={title} />
-  if (t.includes('testing') || t.includes('property') || t.includes('astm')) return <TensileStressStrainSVG title={title} />
 
   return <FloryHugginsThermodynamicsSVG title={title} />
 }
