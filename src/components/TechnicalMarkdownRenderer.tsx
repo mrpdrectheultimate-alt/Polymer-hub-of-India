@@ -45,15 +45,16 @@ export function sanitizeLatex(text: string): string {
     .replace(/\x0C/g, '\\f')
     .replace(/\x0D/g, '\\r')
     .replace(/\x08/g, '\\b')
+    .replace(/\x09/g, '\\t')
     .replace(/\x0B/g, '\\v')
 
-  // Auto-wrap bare equations matching Flory-Huggins or thermodynamics without $ wrapper
-  str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT\s*\\?left\[[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
+  // Auto-wrap bare Flory-Huggins, thermodynamics, or un-delimited math expressions
+  str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
     if (match.startsWith('$')) return match
     return `$$\n${match}\n$$`
   })
 
-  // Normalize bare DeltaG or Delta P inside math or prose
+  // Normalize stripped LaTeX tokens (e.g. frac -> \frac, left -> \left, right -> \right) if inside unformatted math strings
   str = str.replace(/DeltaG_m/g, '\\Delta G_m')
   str = str.replace(/DeltaP/g, '\\Delta P')
 
@@ -99,7 +100,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
       <div className="prose prose-slate max-w-none text-slate-800 leading-[1.75]">
         <ReactMarkdown
           remarkPlugins={[remarkGfm, remarkMath]}
-          rehypePlugins={[rehypeKatex]}
+          rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: '#DC2626' }]]}
           components={{
 
             // ── Headings ───────────────────────────────────────────────────────

@@ -24,6 +24,8 @@ import { LessonNotes } from '@/components/LessonNotes'
 import InteractiveKnowledgeCheck from '@/components/InteractiveKnowledgeCheck'
 import MaterialMachineProductTriad from '@/components/MaterialMachineProductTriad'
 
+import LessonReadingProgress from '@/components/LessonReadingProgress'
+
 type UserProgressRow = {
   quiz_passed?: boolean | null
   quiz_score?: number | null
@@ -158,6 +160,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
+          <LessonReadingProgress lessonTitle={lesson.title} />
           <DownloadNotes
             lessonSlug={lesson.slug}
             lessonTitle={lesson.title}
@@ -391,10 +394,10 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
           </article>
 
           {/* ─── SIDEBAR: CURRICULUM SYLLABUS RAIL ─── */}
-          <aside className="lg:col-span-1 space-y-4">
+          <aside className="lg:col-span-1 space-y-4 sticky top-24 self-start">
 
             {/* Subject Syllabus List */}
-            <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden sticky top-16">
+            <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden">
               <div className="p-4 border-b border-slate-100 bg-slate-50/80">
                 <div className="font-mono text-[10px] font-bold text-[#2563EB] uppercase tracking-wider">
                   {domain.label}

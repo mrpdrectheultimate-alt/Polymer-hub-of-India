@@ -33,6 +33,7 @@ export function IndustrialPhotographViewer({
 }: IndustrialPhotographProps) {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [activeAnnotation, setActiveAnnotation] = useState<string | null>(null)
+  const [hasError, setHasError] = useState(false)
 
   return (
     <>
@@ -67,13 +68,26 @@ export function IndustrialPhotographViewer({
         </div>
 
         {/* Image Container with Annotations */}
-        <div className="relative group bg-black flex items-center justify-center min-h-[220px]">
-          <img
-            src={src}
-            alt={alt}
-            className="w-full h-auto max-h-[480px] object-contain transition-transform duration-300 group-hover:scale-[1.01]"
-            loading="lazy"
-          />
+        <div className="relative group bg-slate-950 flex items-center justify-center min-h-[220px]">
+          {hasError ? (
+            <div className="p-8 text-center space-y-2 bg-slate-900/90 w-full flex flex-col items-center justify-center border border-slate-800">
+              <Info className="w-8 h-8 text-cyan-400 mb-1" />
+              <div className="font-mono text-xs font-bold text-slate-200 uppercase tracking-wider">
+                {alt || 'Industrial Visual Reference'}
+              </div>
+              <p className="text-xs text-slate-400 max-w-md font-sans">
+                {caption || 'Verified industrial polymer processing micrograph and technical experimental setup.'}
+              </p>
+            </div>
+          ) : (
+            <img
+              src={src}
+              alt={alt}
+              onError={() => setHasError(true)}
+              className="w-full h-auto max-h-[480px] object-contain transition-transform duration-300 group-hover:scale-[1.01]"
+              loading="lazy"
+            />
+          )}
 
           {/* Overlay Annotations */}
           {annotations.map((ann, idx) => (

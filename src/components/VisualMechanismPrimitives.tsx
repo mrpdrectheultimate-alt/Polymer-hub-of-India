@@ -369,21 +369,159 @@ export function TensileStressStrainSVG({ title = 'Polymer Tensile Engineering St
   )
 }
 
+// ─── 9. Flory-Huggins Solution Thermodynamics Phase Diagram ─────────────────────
+export function FloryHugginsThermodynamicsSVG({ title = 'Flory-Huggins Solution Thermodynamics: Binodal & Spinodal Phase Separation' }: { title?: string }) {
+  return (
+    <figure className="my-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs font-sans">
+      <div className="font-mono text-xs font-bold uppercase text-slate-800 tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
+        <span className="w-2 h-2 bg-emerald-600 rounded-full" />
+        {title}
+      </div>
+      <svg viewBox="0 0 650 300" className="w-full h-auto">
+        <rect width="650" height="300" fill="#FFFFFF" rx="8" />
+        <g stroke="#F1F5F9" strokeWidth="1">
+          {[60, 110, 160, 210, 260].map(y => <line key={y} x1={70} y1={y} x2={590} y2={y} />)}
+        </g>
+        <g stroke="#0F172A" strokeWidth="2">
+          <line x1="70" y1="260" x2="590" y2="260" />
+          <line x1="70" y1="20" x2="70" y2="260" />
+        </g>
+        <text x="330" y="292" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569">POLYMER VOLUME FRACTION (&phi;) &rarr;</text>
+        <text x="25" y="140" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" transform="rotate(-90, 25, 140)">TEMPERATURE (T, &deg;C) &rarr;</text>
+        
+        {/* Binodal Curve (Coexistence) */}
+        <path d="M 90,260 Q 300,50 570,260" fill="none" stroke="#2563EB" strokeWidth="3" />
+        <text x="440" y="130" fontSize="10" fontWeight="bold" fill="#2563EB">Binodal Curve (Coexistence)</text>
+
+        {/* Spinodal Curve (Unstable boundary) */}
+        <path d="M 150,260 Q 300,100 510,260" fill="none" stroke="#DC2626" strokeWidth="2.5" strokeDasharray="5,4" />
+        <text x="370" y="180" fontSize="10" fontWeight="bold" fill="#DC2626">Spinodal Curve (Unstable)</text>
+
+        {/* Critical Point (UCST) */}
+        <circle cx="300" cy="75" r="5" fill="#D97706" />
+        <text x="300" y="60" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#D97706">Critical Point (UCST, &chi;_c = 0.5)</text>
+
+        {/* Region Labels */}
+        <text x="300" y="230" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#991B1B">Unstable (Spinodal Decomposition)</text>
+        <text x="180" y="140" textAnchor="middle" fontSize="9" fontWeight="bold" fill="#0369A1">Metastable (Nucleation)</text>
+        <text x="300" y="30" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#15803D">Homogeneous One-Phase Region (&Delta;G_m &lt; 0)</text>
+      </svg>
+      <figcaption className="mt-3 text-xs font-mono text-slate-500 text-center">
+        Flory-Huggins Lattice Model: &Delta;G_m = RT [ (&phi;/N)ln&phi; + (1-&phi;)ln(1-&phi;) + &chi;&phi;(1-&phi;) ]. Enthalpic interaction parameter &chi; determines phase separation into polymer-rich and solvent-rich phases below UCST.
+      </figcaption>
+    </figure>
+  )
+}
+
+// ─── 10. Rheology Non-Newtonian Viscosity Flow ─────────────────────────────────
+export function RheologyViscositySVG({ title = 'Polymer Melt Viscoelasticity: Non-Newtonian Pseudoplastic Shear-Thinning' }: { title?: string }) {
+  return (
+    <figure className="my-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs font-sans">
+      <div className="font-mono text-xs font-bold uppercase text-slate-800 tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
+        <span className="w-2 h-2 bg-orange-600 rounded-full" />
+        {title}
+      </div>
+      <svg viewBox="0 0 650 300" className="w-full h-auto">
+        <rect width="650" height="300" fill="#FFFFFF" rx="8" />
+        <g stroke="#F1F5F9" strokeWidth="1">
+          {[60, 110, 160, 210, 260].map(y => <line key={y} x1={70} y1={y} x2={590} y2={y} />)}
+        </g>
+        <g stroke="#0F172A" strokeWidth="2">
+          <line x1="70" y1="260" x2="590" y2="260" />
+          <line x1="70" y1="20" x2="70" y2="260" />
+        </g>
+        <text x="330" y="292" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569">SHEAR RATE (&gamma;&#775;, s&#8315;&sup1;) &rarr;</text>
+        <text x="25" y="140" textAnchor="middle" fontSize="11" fontWeight="700" fill="#475569" transform="rotate(-90, 25, 140)">VISCOSITY (&eta;, Pa&middot;s) &rarr;</text>
+
+        {/* Zero Shear Plateau -> Shear Thinning -> Infinite Shear */}
+        <path d="M 70,70 L 180,70 Q 250,75 350,170 L 520,240 L 590,240" fill="none" stroke="#EA580C" strokeWidth="3.5" />
+
+        {/* Newtonian Plateau Label */}
+        <text x="130" y="55" fontSize="10" fontWeight="bold" fill="#B45309">Zero-Shear Viscosity (&eta;_0)</text>
+        <line x1="70" y1="70" x2="180" y2="70" stroke="#D97706" strokeWidth="1.5" strokeDasharray="3,3" />
+
+        {/* Shear Thinning Region */}
+        <text x="360" y="145" fontSize="10" fontWeight="bold" fill="#EA580C" transform="rotate(35, 360, 145)">Power-Law Region (&eta; = K &gamma;&#775;&sup1;&#8315;&supn;)</text>
+
+        {/* Infinite Shear Plateau */}
+        <text x="500" y="225" fontSize="10" fontWeight="bold" fill="#7C2D12">Infinite Shear Limit (&eta;_&infin;)</text>
+      </svg>
+      <figcaption className="mt-3 text-xs font-mono text-slate-500 text-center">
+        Ostwald-de Waele Shear Thinning: Chain disentanglement under high shear rates (&gamma;&#775; &gt; 100 s&#8315;&sup1;) reduces apparent viscosity &eta;, critical for high-speed injection gate filling and extrusion dies.
+      </figcaption>
+    </figure>
+  )
+}
+
+// ─── 11. Mould Cooling & Heat Transfer Thermodynamics ─────────────────────────
+export function MouldCoolingSystemSVG({ title = 'Mould Thermodynamics: Sprue, Runner, Gate & Cooling Channel Heat Transfer' }: { title?: string }) {
+  return (
+    <figure className="my-6 bg-white border border-slate-200 rounded-2xl p-5 shadow-xs font-sans">
+      <div className="font-mono text-xs font-bold uppercase text-slate-800 tracking-wider mb-3 flex items-center gap-2 border-b border-slate-100 pb-2">
+        <span className="w-2 h-2 bg-blue-600 rounded-full" />
+        {title}
+      </div>
+      <svg viewBox="0 0 650 260" className="w-full h-auto">
+        <rect width="650" height="260" fill="#F8FAFC" rx="10" />
+        {/* Core Cavity Blocks */}
+        <rect x="100" y="40" width="200" height="180" fill="#EFF6FF" stroke="#2563EB" strokeWidth="2" rx="6" />
+        <rect x="350" y="40" width="200" height="180" fill="#EFF6FF" stroke="#2563EB" strokeWidth="2" rx="6" />
+
+        {/* Cooling Water Channels */}
+        <circle cx="150" cy="80" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="250" cy="80" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="150" cy="180" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="250" cy="180" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+
+        <circle cx="400" cy="80" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="500" cy="80" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="400" cy="180" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+        <circle cx="500" cy="180" r="14" fill="#DBEAFE" stroke="#1D4ED8" strokeWidth="2" />
+
+        {/* Melt Cavity */}
+        <rect x="200" y="110" width="250" height="40" fill="#FEE2E2" stroke="#DC2626" strokeWidth="2" rx="4" />
+        <text x="325" y="135" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#991B1B">Molten Polymer Melt (T_melt = 230&deg;C)</text>
+
+        <text x="200" y="30" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1E40AF">Cavity Steel (Tool Steel P20 / H13)</text>
+        <text x="450" y="30" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#1E40AF">Core Steel Block</text>
+        <text x="325" y="240" textAnchor="middle" fontSize="10" fontStyle="italic" fill="#475569">Cooling Time t_cool = (h&sup2; / &pi;&sup2;&alpha;) &middot; ln[ (4/&pi;) &middot; (T_melt - T_mould)/(T_eject - T_mould) ]</text>
+      </svg>
+      <figcaption className="mt-3 text-xs font-mono text-slate-500 text-center">
+        Injection Mould Cooling Thermodynamics (ISO 294): Conduction through mold cavity steel to turbulent water cooling lines (&Delta;T = T_melt - T_mold) dictates 70-80% of total cycle time.
+      </figcaption>
+    </figure>
+  )
+}
+
 // ─── Visual Mechanism Dispatcher Component ───────────────────────────────────
 export function VisualMechanismDispatcher({ mechanismId, mechanism, title }: { mechanismId?: string; mechanism?: string; title?: string }) {
   const id = (mechanismId || mechanism || '').toLowerCase()
+  const t = (title || '').toLowerCase()
 
+  // Topic-Matched Dispatching based on mechanismId OR title keywords
+  if (id.includes('thermodynamic') || id.includes('flory') || id.includes('huggins') || id.includes('phase') || id.includes('solution') || t.includes('thermodynamic') || t.includes('flory') || t.includes('phase')) {
+    return <FloryHugginsThermodynamicsSVG title={title} />
+  }
+  if (id.includes('rheology') || id.includes('viscosity') || id.includes('shear') || id.includes('flow') || t.includes('rheology') || t.includes('viscosity')) {
+    return <RheologyViscositySVG title={title} />
+  }
+  if (id.includes('mould') || id.includes('cooling') || id.includes('runner') || id.includes('gate') || id.includes('injection') || t.includes('mould') || t.includes('cooling')) {
+    return <MouldCoolingSystemSVG title={title} />
+  }
   if (id.includes('romp')) return <ROMPMechanismSVG title={title} />
   if (id.includes('gpc') || id.includes('sec') || id.includes('mwd')) return <GPCChromatogramSVG title={title} />
   if (id.includes('carothers') || id.includes('gelation')) return <CarothersGelationSVG title={title} />
-  if (id.includes('radical') || id.includes('frp') || id.includes('kinetics')) return <FreeRadicalPolymerizationSVG title={title} />
+  if (id.includes('radical') || id.includes('frp') || id.includes('kinetics') || id.includes('polymerization')) return <FreeRadicalPolymerizationSVG title={title} />
   if (id.includes('screw') || id.includes('extrusion-zone')) return <ExtrusionScrewZonesSVG title={title} />
   if (id.includes('spherulite') || id.includes('crystallization') || id.includes('maltese')) return <SpheruliteMorphologySVG title={title} />
   if (id.includes('dsc') || id.includes('thermal-analysis')) return <DSCFormSVG title={title} />
   if (id.includes('tensile') || id.includes('stress-strain')) return <TensileStressStrainSVG title={title} />
 
-  // Fallback default primitive
-  return <ROMPMechanismSVG title={title} />
+  // Contextual fallback by title inspection
+  if (t.includes('chemistry') || t.includes('reaction') || t.includes('synthesis')) return <FreeRadicalPolymerizationSVG title={title} />
+  if (t.includes('testing') || t.includes('property') || t.includes('astm')) return <TensileStressStrainSVG title={title} />
+
+  return <FloryHugginsThermodynamicsSVG title={title} />
 }
 
 export default VisualMechanismDispatcher
