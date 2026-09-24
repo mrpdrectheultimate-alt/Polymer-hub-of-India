@@ -385,3 +385,289 @@ export function InteractiveRheologyGraph() {
     </div>
   )
 }
+
+// ─── 3. Interactive DSC Thermal Analysis Laboratory Graph ──────────────────────
+
+export function InteractiveDSCGraph({ material = 'Polypropylene (PP)' }: { material?: string }) {
+  const [heatingRate, setHeatingRate] = useState(10) // °C/min (5 to 40)
+  const [purity, setPurity] = useState(98) // % (80 to 100)
+
+  // Real-time DSC thermal transition kinetics
+  const telemetry = useMemo(() => {
+    // Reference transitions for PP
+    const baseTg = 5.0 // °C
+    const baseTc = 115.0 // °C
+    const baseTm = 165.0 // °C
+
+    // Heating rate kinetic shift (higher rate -> thermal lag shifts peaks to higher temps)
+    const rateShift = (heatingRate - 10) * 0.4
+    const purityShift = (100 - purity) * 0.5
+
+    const Tg = Math.round((baseTg + rateShift - purityShift) * 10) / 10
+    const Tc = Math.round((baseTc - rateShift - purityShift * 1.5) * 10) / 10
+    const Tm = Math.round((baseTm + rateShift - purityShift * 0.8) * 10) / 10
+    const deltaHm = Math.round((207 * (purity / 100) * (1 - heatingRate / 200)) * 10) / 10
+    const crystallinity = Math.round((deltaHm / 207) * 100)
+
+    return { Tg, Tc, Tm, deltaHm, crystallinity }
+  }, [heatingRate, purity])
+
+  return (
+    <div className="my-8 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-xs">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700">
+            <Flame className="w-4 h-4" />
+          </div>
+          <div>
+            <span className="font-mono text-[10px] font-bold text-purple-700 uppercase tracking-wider">
+              Differential Scanning Calorimetry (ASTM E1356 / ISO 11357)
+            </span>
+            <h3 className="font-display text-sm sm:text-base font-bold text-slate-900">
+              DSC Heat Flow vs. Temperature: {material}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Sliders */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 p-4 rounded-2xl bg-slate-50/80 border border-slate-200/70">
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs font-mono">
+            <span className="font-bold text-slate-700">Heating Rate (&beta;):</span>
+            <span className="font-bold text-purple-700">{heatingRate} °C/min</span>
+          </div>
+          <input
+            type="range"
+            min="5"
+            max="40"
+            step="5"
+            value={heatingRate}
+            onChange={(e) => setHeatingRate(Number(e.target.value))}
+            className="w-full accent-purple-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs font-mono">
+            <span className="font-bold text-slate-700">Polymer Purity:</span>
+            <span className="font-bold text-emerald-700">{purity} %</span>
+          </div>
+          <input
+            type="range"
+            min="80"
+            max="100"
+            value={purity}
+            onChange={(e) => setPurity(Number(e.target.value))}
+            className="w-full accent-emerald-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg"
+          />
+        </div>
+      </div>
+
+      {/* SVG Plot */}
+      <div className="relative rounded-2xl bg-white border border-slate-200 p-2 overflow-hidden mb-4">
+        <svg viewBox="0 0 600 280" className="w-full h-auto font-sans">
+          {/* Grid lines */}
+          <g stroke="#F1F5F9" strokeWidth="1.5">
+            {[50, 100, 150, 200, 250].map(y => (
+              <line key={y} x1="55" y1={y} x2="565" y2={y} />
+            ))}
+            {[150, 250, 350, 450, 550].map(x => (
+              <line key={x} x1={x} y1="20" x2={x} y2="250" />
+            ))}
+          </g>
+
+          {/* Axes */}
+          <g stroke="#0F172A" strokeWidth="2" strokeLinecap="round">
+            <line x1="55" y1="250" x2="575" y2="250" />
+            <line x1="55" y1="20" x2="55" y2="250" />
+          </g>
+
+          {/* Scale Numbers */}
+          <g fontSize="9" fontFamily="monospace" fill="#64748B" textAnchor="middle">
+            <text x="55" y="265">-20°C</text>
+            <text x="180" y="265">30°C</text>
+            <text x="315" y="265">100°C</text>
+            <text x="445" y="265">170°C</text>
+            <text x="565" y="265">220°C</text>
+          </g>
+
+          {/* Axis Titles */}
+          <text x="310" y="278" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569">TEMPERATURE T (°C)</text>
+          <text x="18" y="135" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569" transform="rotate(-90, 18, 135)">HEAT FLOW dH/dt (mW)</text>
+
+          {/* Dynamic DSC Curve */}
+          <path
+            d={`M 55,140 L 110,140 Q 125,140 135,160 Q 145,180 160,180 L 380,180 Q 420,180 435,70 Q 445,40 455,180 L 565,180`}
+            fill="none"
+            stroke="#7C3AED"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+
+          {/* Annotations */}
+          <g fontSize="9" fontFamily="sans-serif" fontWeight="bold">
+            <text x="135" y="200" fill="#7C3AED" textAnchor="middle">Glass Transition Tg ({telemetry.Tg}°C)</text>
+            <text x="435" y="25" fill="#DC2626" textAnchor="middle">Melting Peak Tm ({telemetry.Tm}°C)</text>
+          </g>
+        </svg>
+      </div>
+
+      {/* Telemetry output */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div className="p-2.5 rounded-xl bg-purple-50/70 border border-purple-200">
+          <span className="text-[10px] font-mono uppercase text-purple-700 font-bold block">Glass Transition (Tg)</span>
+          <span className="font-mono text-base font-bold text-purple-950">{telemetry.Tg} °C</span>
+        </div>
+        <div className="p-2.5 rounded-xl bg-red-50/70 border border-red-200">
+          <span className="text-[10px] font-mono uppercase text-red-700 font-bold block">Melting Peak (Tm)</span>
+          <span className="font-mono text-base font-bold text-red-950">{telemetry.Tm} °C</span>
+        </div>
+        <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
+          <span className="text-[10px] font-mono uppercase text-amber-800 font-bold block">Enthalpy of Fusion (&Delta;Hm)</span>
+          <span className="font-mono text-base font-bold text-amber-950">{telemetry.deltaHm} J/g</span>
+        </div>
+        <div className="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <span className="text-[10px] font-mono uppercase text-emerald-700 font-bold block">Mass Crystallinity (&chi;c)</span>
+          <span className="font-mono text-base font-bold text-emerald-950">{telemetry.crystallinity} %</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── 4. Interactive TGA Thermogravimetric Analysis Laboratory Graph ───────────
+
+export function InteractiveTGAGraph({ material = 'Compounded Polymer + Filler' }: { material?: string }) {
+  const [fillerPercent, setFillerPercent] = useState(25) // % (0 to 50)
+  const [atmosphere, setAtmosphere] = useState<'Inert (N2)' | 'Oxidative (Air)'>('Inert (N2)')
+
+  const telemetry = useMemo(() => {
+    const T_onset = atmosphere === 'Inert (N2)' ? 385 : 340
+    const T_50 = T_onset + 45
+    const residualAsh = fillerPercent
+
+    return { T_onset, T_50, residualAsh }
+  }, [fillerPercent, atmosphere])
+
+  return (
+    <div className="my-8 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-xs">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-5">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+            <Activity className="w-4 h-4" />
+          </div>
+          <div>
+            <span className="font-mono text-[10px] font-bold text-emerald-700 uppercase tracking-wider">
+              Thermogravimetric Analysis (ASTM E1131 / ISO 11358)
+            </span>
+            <h3 className="font-display text-sm sm:text-base font-bold text-slate-900">
+              TGA Mass Loss vs. Temperature: {material}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 p-4 rounded-2xl bg-slate-50/80 border border-slate-200/70">
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs font-mono">
+            <span className="font-bold text-slate-700">Inorganic Filler / Fiber (CaCO3/Glass):</span>
+            <span className="font-bold text-emerald-700">{fillerPercent} %</span>
+          </div>
+          <input
+            type="range"
+            min="0"
+            max="50"
+            value={fillerPercent}
+            onChange={(e) => setFillerPercent(Number(e.target.value))}
+            className="w-full accent-emerald-600 cursor-pointer h-1.5 bg-slate-200 rounded-lg"
+          />
+        </div>
+
+        <div className="space-y-1.5">
+          <div className="flex justify-between text-xs font-mono">
+            <span className="font-bold text-slate-700">Purge Gas Atmosphere:</span>
+            <span className="font-bold text-indigo-700">{atmosphere}</span>
+          </div>
+          <div className="flex gap-2 pt-1">
+            {(['Inert (N2)', 'Oxidative (Air)'] as const).map(atm => (
+              <button
+                key={atm}
+                onClick={() => setAtmosphere(atm)}
+                className={`flex-1 py-1.5 text-xs font-mono font-bold rounded-lg border transition-all ${
+                  atmosphere === atm
+                    ? 'bg-indigo-600 text-white border-indigo-600 shadow-xs'
+                    : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                }`}
+              >
+                {atm}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* SVG Plot */}
+      <div className="relative rounded-2xl bg-white border border-slate-200 p-2 overflow-hidden mb-4">
+        <svg viewBox="0 0 600 280" className="w-full h-auto font-sans">
+          <g stroke="#F1F5F9" strokeWidth="1.5">
+            {[50, 100, 150, 200, 250].map(y => (
+              <line key={y} x1="55" y1={y} x2="565" y2={y} />
+            ))}
+            {[150, 250, 350, 450, 550].map(x => (
+              <line key={x} x1={x} y1="20" x2={x} y2="250" />
+            ))}
+          </g>
+
+          <g stroke="#0F172A" strokeWidth="2" strokeLinecap="round">
+            <line x1="55" y1="250" x2="575" y2="250" />
+            <line x1="55" y1="20" x2="55" y2="250" />
+          </g>
+
+          <g fontSize="9" fontFamily="monospace" fill="#64748B" textAnchor="middle">
+            <text x="55" y="265">50°C</text>
+            <text x="180" y="265">200°C</text>
+            <text x="315" y="265">350°C</text>
+            <text x="445" y="265">500°C</text>
+            <text x="565" y="265">650°C</text>
+          </g>
+
+          <text x="310" y="278" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569">TEMPERATURE T (°C)</text>
+          <text x="18" y="135" textAnchor="middle" fontSize="10" fontWeight="700" fill="#475569" transform="rotate(-90, 18, 135)">SAMPLE MASS (%)</text>
+
+          {/* Dynamic TGA Mass Curve */}
+          <path
+            d={`M 55,40 L 310,40 Q 380,40 400,${250 - (fillerPercent / 100) * 210 - 40} Q 420,${250 - (fillerPercent / 100) * 210} 565,${250 - (fillerPercent / 100) * 210}`}
+            fill="none"
+            stroke="#059669"
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+
+          <g fontSize="9" fontFamily="sans-serif" fontWeight="bold">
+            <text x="340" y="30" fill="#059669">Onset T_onset ({telemetry.T_onset}°C)</text>
+            <text x="470" y={240 - (fillerPercent / 100) * 210} fill="#047857">Ash Residue ({fillerPercent}%)</text>
+          </g>
+        </svg>
+      </div>
+
+      {/* Telemetry output */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <div className="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-200">
+          <span className="text-[10px] font-mono uppercase text-emerald-700 font-bold block">Degradation Onset (T_onset)</span>
+          <span className="font-mono text-base font-bold text-emerald-950">{telemetry.T_onset} °C</span>
+        </div>
+        <div className="p-2.5 rounded-xl bg-blue-50/70 border border-blue-200">
+          <span className="text-[10px] font-mono uppercase text-blue-700 font-bold block">50% Mass Loss Temp (T_50%)</span>
+          <span className="font-mono text-base font-bold text-blue-950">{telemetry.T_50} °C</span>
+        </div>
+        <div className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200">
+          <span className="text-[10px] font-mono uppercase text-amber-800 font-bold block">Inorganic Ash Content</span>
+          <span className="font-mono text-base font-bold text-amber-950">{telemetry.residualAsh} %</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+

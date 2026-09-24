@@ -17,7 +17,12 @@ import 'katex/dist/katex.min.css'
 import { Copy, Check, BookOpen, Target, Calculator, FlaskConical, Lightbulb, Award, FileText, AlertTriangle } from 'lucide-react'
 import DynamicVisualRenderer from '@/components/DynamicVisualRenderer'
 import { VisualMechanismDispatcher } from '@/components/VisualMechanismPrimitives'
-import { InteractiveStressStrainGraph, InteractiveRheologyGraph } from '@/components/InteractiveEngineeringGraphs'
+import {
+  InteractiveStressStrainGraph,
+  InteractiveRheologyGraph,
+  InteractiveDSCGraph,
+  InteractiveTGAGraph
+} from '@/components/InteractiveEngineeringGraphs'
 
 type Props = {
   content: string
@@ -47,6 +52,10 @@ export function sanitizeLatex(text: string): string {
     .replace(/\x08/g, '\\b')
     .replace(/\x09/g, '\\t')
     .replace(/\x0B/g, '\\v')
+
+  // Strip unstyled inline raw markdown Quiz sections (e.g., ## 9. Quiz or ## Self-Assessment Quiz)
+  // so they do not render as raw bullet text in body, since InteractiveKnowledgeCheck handles quizzes at the bottom.
+  str = str.replace(/##\s*\d*\.?\s*(Quiz|Self-Assessment Quiz|Practice Quiz)[\s\S]*?(?=(##\s*\d*\.|\s*$))/gi, '')
 
   // Auto-wrap un-delimited Flory-Huggins, thermodynamics, or bare math expressions
   str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
@@ -96,17 +105,26 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: '#DC2626' }]]}
           components={{
-            div: ({ className, children }) => {
-              if (className === 'problem-statement') {
+            div: ({ className, children, ...props }) => {
+              const cls = (className || (props as Record<string, string>).class || '').toLowerCase()
+
+              if (cls.includes('problem-statement') || cls.includes('worked-example')) {
                 return (
-                  <div className="my-6 p-5 bg-amber-50/90 border-l-4 border-amber-600 rounded-xl shadow-xs font-sans text-slate-900 border border-amber-200/80">
+                  <div className="my-6 p-5 sm:p-6 bg-amber-50/90 border-l-4 border-amber-600 rounded-2xl shadow-xs font-sans text-slate-900 border border-amber-200/80">
                     {children}
                   </div>
                 )
               }
-              if (className === 'solution-step') {
+              if (cls.includes('solution-step') || cls.includes('solution-box')) {
                 return (
-                  <div className="my-4 p-5 bg-emerald-50/90 border-l-4 border-emerald-600 rounded-xl shadow-xs font-sans text-slate-900 border border-emerald-200/80">
+                  <div className="my-4 p-5 sm:p-6 bg-emerald-50/90 border-l-4 border-emerald-600 rounded-2xl shadow-xs font-sans text-slate-900 border border-emerald-200/80">
+                    {children}
+                  </div>
+                )
+              }
+              if (cls.includes('callout') || cls.includes('highlight-box') || cls.includes('formula-box')) {
+                return (
+                  <div className="my-6 p-5 sm:p-6 bg-blue-50/80 border-l-4 border-[#2563EB] rounded-2xl shadow-xs font-sans text-slate-900 border border-blue-200/80">
                     {children}
                   </div>
                 )
@@ -151,13 +169,17 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               </h4>
             ),
 
-            // ── Paragraphs ─────────────────────────────────────────────────────
+            // ── Paragraphs & Math Containers ────────────────────────────────────
             p: ({ children }) => {
               const hasMath = React.Children.toArray(children).some(child => 
                 typeof child === 'string' && (child.includes('$') || child.includes('\\('))
               )
               if (hasMath) {
-                return <div className="math-paragraph my-4">{children}</div>
+                return (
+                  <div className="math-paragraph my-4 w-full max-w-full overflow-x-auto mobile-touch-scroll py-1">
+                    {children}
+                  </div>
+                )
               }
               return <p className="text-slate-700 leading-[1.75] mb-5 text-[17px] sm:text-[18px] font-sans">{children}</p>
             },
@@ -210,7 +232,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
               if (isMath) {
                 return (
-                  <div className="formula-block my-4">
+                  <div className="formula-block my-5 w-full max-w-full overflow-x-auto py-2 px-1 mobile-touch-scroll">
                     <div className="katex-display-wrapper text-center">
                       {children}
                     </div>
@@ -219,7 +241,7 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
               }
 
               if (isBlock && className) {
-                const lang = className.replace('language-', '').trim()
+                const lang = className.replace('language-', '').trim().toLowerCase()
 
                 // Dynamic 8-Layer Visual Renderer (Visual 1, 2, 3, 4 standard code blocks)
                 if (
@@ -246,17 +268,28 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                   return <InteractiveRheologyGraph />
                 }
 
+                // Interactive DSC Thermal Analysis Graph
+                if (lang === 'graph-dsc' || lang === 'dsc') {
+                  return <InteractiveDSCGraph />
+                }
+
+                // Interactive TGA Thermal Analysis Graph
+                if (lang === 'graph-tga' || lang === 'tga') {
+                  return <InteractiveTGAGraph />
+                }
+
                 // Mechanism & Chemical SVGs
                 if (lang.startsWith('mechanism') || lang.startsWith('diagram') || lang.startsWith('primitive')) {
                   return <VisualMechanismDispatcher mechanism={lang} />
                 }
 
+                // Editorial light code container (Replacing pitch-black bg-slate-900 dark boxes)
                 return (
-                  <div className="my-4 rounded-xl border border-slate-200 overflow-hidden bg-slate-900 text-slate-100">
-                    <div className="flex items-center justify-between px-4 py-1.5 bg-slate-800/80 border-b border-slate-700 text-[11px] font-mono text-slate-400">
+                  <div className="my-5 rounded-2xl border border-slate-200 overflow-hidden bg-slate-50/90 text-slate-800 shadow-xs">
+                    <div className="flex items-center justify-between px-4 py-2 bg-slate-100 border-b border-slate-200 text-[11px] font-mono text-slate-600 font-bold uppercase tracking-wider">
                       <span>{lang}</span>
                     </div>
-                    <pre className="p-4 overflow-x-auto font-mono text-xs text-slate-200">
+                    <pre className="p-4 overflow-x-auto font-mono text-xs text-slate-800 leading-relaxed mobile-touch-scroll">
                       <code>{children}</code>
                     </pre>
                   </div>
@@ -301,3 +334,4 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
     </div>
   )
 }
+

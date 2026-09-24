@@ -749,6 +749,7 @@ select:focus-visible {
   }
 }
 
+
 @media (min-width: 2560px) {
   html {
     font-size: 18.5px;
@@ -763,4 +764,38 @@ select:focus-visible {
     max-width: 1600px !important;
   }
 }
+
+/* ─── KATEX & MATHEMATICAL EQUATION CONTAINER SAFEGUARDS ─── */
+.katex-display {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 0.5rem 0.25rem !important;
+  margin: 0.75rem 0 !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex-display > .katex {
+  max-width: 100% !important;
+  text-align: center;
+}
+
+.katex-display-wrapper {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+.formula-block {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  background-color: rgba(248, 250, 252, 0.7);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 0.875rem;
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+
 
