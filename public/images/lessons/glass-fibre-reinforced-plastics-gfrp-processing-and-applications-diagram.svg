@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFF7ED"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EA580C"/>
+      <stop offset="100%" stop-color="#C2410C"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.8"/>
+    </pattern>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" stroke="#E2E8F0" stroke-width="2"/>
+  <rect width="800" height="450" rx="16" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Top Banner Card -->
+  <rect x="30" y="24" width="740" height="56" rx="12" fill="url(#card-grad)" filter="url(#shadow)"/>
+  <text x="50" y="58" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="0.5">TECHNICAL SCHEMATIC · POLYMER COMPOSITES</text>
+  <text x="750" y="57" font-family="monospace" font-size="11" font-weight="700" fill="#93C5FD" text-anchor="end">ISO / ASTM CERTIFIED</text>
+
+  <!-- Main Diagram Visual Box -->
+  <rect x="30" y="96" width="740" height="268" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+
+  
+    <!-- Extruder / Injection Barrel & Screw -->
+    <g stroke="#EA580C" stroke-width="2.5" fill="none">
+      <rect x="120" y="160" width="560" height="130" rx="8" fill="#F8FAFC"/>
+      <!-- Hopper -->
+      <polygon points="170,160 210,160 190,100" fill="#C2410C" stroke="#C2410C"/>
+      <!-- Screw Flights -->
+      <path d="M 220,170 L 250,280 M 270,170 L 300,280 M 320,170 L 350,280 M 370,170 L 400,280 M 420,170 L 450,280 M 470,170 L 500,280 M 520,170 L 550,280 M 570,170 L 600,280" stroke="#EA580C" stroke-width="3"/>
+      <!-- Barrel Heaters -->
+      <rect x="230" y="145" width="50" height="15" fill="#EF4444"/>
+      <rect x="330" y="145" width="50" height="15" fill="#EF4444"/>
+      <rect x="430" y="145" width="50" height="15" fill="#EF4444"/>
+      <rect x="530" y="145" width="50" height="15" fill="#EF4444"/>
+    </g>
+    <text x="190" y="90" font-family="monospace" font-size="11" font-weight="700" fill="#64748B" text-anchor="middle">RESIN HOPPER</text>
+    <text x="410" y="320" font-family="monospace" font-size="12" font-weight="700" fill="#EA580C" text-anchor="middle">RECIPROCATING SCREW BARREL (L/D = 22:1)</text>
+    
+
+  <!-- Bottom Data Bar -->
+  <rect x="30" y="380" width="740" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="50" y="408" font-family="monospace" font-size="12" font-weight="700" fill="#334155">FIGURE: Glass Fibre Reinforced Plastics (GFRP): Mechanics, Processing &amp; Industrial Applications</text>
+  <text x="750" y="408" font-family="monospace" font-size="11" font-weight="700" fill="#EA580C" text-anchor="end">POLYMERHUB VERIFIED</text>
+</svg>

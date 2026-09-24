@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#FFF7ED"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#EA580C"/>
+      <stop offset="100%" stop-color="#C2410C"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.8"/>
+    </pattern>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" stroke="#E2E8F0" stroke-width="2"/>
+  <rect width="800" height="450" rx="16" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Top Banner Card -->
+  <rect x="30" y="24" width="740" height="56" rx="12" fill="url(#card-grad)" filter="url(#shadow)"/>
+  <text x="50" y="58" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="0.5">TECHNICAL SCHEMATIC · DIGITAL TWINS IN POLYMER MANUFACTURING</text>
+  <text x="750" y="57" font-family="monospace" font-size="11" font-weight="700" fill="#93C5FD" text-anchor="end">ISO / ASTM CERTIFIED</text>
+
+  <!-- Main Diagram Visual Box -->
+  <rect x="30" y="96" width="740" height="268" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+
+  
+    <!-- CAD Mould Tooling Schematic -->
+    <g stroke="#EA580C" stroke-width="2.5" fill="none">
+      <rect x="70" y="130" width="300" height="200" rx="8" fill="#F8FAFC"/>
+      <rect x="430" y="130" width="300" height="200" rx="8" fill="#F8FAFC"/>
+      
+      <!-- Core and Cavity -->
+      <path d="M 170,130 L 170,230 L 270,230 L 270,130" stroke="#C2410C" stroke-width="3" fill="#EA580C" fill-opacity="0.1"/>
+      <path d="M 530,130 L 530,230 L 630,230 L 630,130" stroke="#C2410C" stroke-width="3" fill="#EA580C" fill-opacity="0.1"/>
+
+      <!-- Cooling Channels -->
+      <circle cx="120" cy="170" r="10" fill="#3B82F6"/>
+      <circle cx="120" cy="210" r="10" fill="#3B82F6"/>
+      <circle cx="120" cy="250" r="10" fill="#3B82F6"/>
+      <circle cx="680" cy="170" r="10" fill="#EF4444"/>
+      <circle cx="680" cy="210" r="10" fill="#EF4444"/>
+      <circle cx="680" cy="250" r="10" fill="#EF4444"/>
+
+      <!-- Ejector Pins -->
+      <line x1="200" y1="230" x2="200" y2="310" stroke="#64748B" stroke-dasharray="4,4"/>
+      <line x1="240" y1="230" x2="240" y2="310" stroke="#64748B" stroke-dasharray="4,4"/>
+    </g>
+    <text x="220" y="120" font-family="monospace" font-size="12" font-weight="700" fill="#EA580C">STATIONARY CAVITY PLATE</text>
+    <text x="580" y="120" font-family="monospace" font-size="12" font-weight="700" fill="#EA580C">MOVABLE CORE PLATE</text>
+    
+
+  <!-- Bottom Data Bar -->
+  <rect x="30" y="380" width="740" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="50" y="408" font-family="monospace" font-size="12" font-weight="700" fill="#334155">FIGURE: Simulation Software — Moldex3D, Moldflow, ANSYS</text>
+  <text x="750" y="408" font-family="monospace" font-size="11" font-weight="700" fill="#EA580C" text-anchor="end">POLYMERHUB VERIFIED</text>
+</svg>

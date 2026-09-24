@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#EFF6FF"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.8"/>
+    </pattern>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" stroke="#E2E8F0" stroke-width="2"/>
+  <rect width="800" height="450" rx="16" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Top Banner Card -->
+  <rect x="30" y="24" width="740" height="56" rx="12" fill="url(#card-grad)" filter="url(#shadow)"/>
+  <text x="50" y="58" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="0.5">TECHNICAL SCHEMATIC · SUSTAINABLE PLASTICS & BIOPLASTICS</text>
+  <text x="750" y="57" font-family="monospace" font-size="11" font-weight="700" fill="#93C5FD" text-anchor="end">ISO / ASTM CERTIFIED</text>
+
+  <!-- Main Diagram Visual Box -->
+  <rect x="30" y="96" width="740" height="268" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+
+  
+    <!-- Chemical Synthesis & Reaction Mechanism -->
+    <g stroke="#2563EB" stroke-width="2.5" fill="none">
+      <!-- Monomer to Polymer Backbone -->
+      <circle cx="120" cy="230" r="35" fill="#2563EB" fill-opacity="0.15"/>
+      <circle cx="240" cy="230" r="35" fill="#2563EB" fill-opacity="0.15"/>
+      <line x1="155" y1="230" x2="205" y2="230" stroke="#1E40AF" stroke-width="4"/>
+      
+      <!-- Arrow -->
+      <path d="M 310,230 L 390,230 M 375,220 L 395,230 L 375,240" stroke="#0F172A" stroke-width="3" fill="#0F172A"/>
+
+      <!-- Polymer Chain -->
+      <path d="M 430,230 Q 480,170 530,230 T 630,230 T 730,230" stroke="#2563EB" stroke-width="4"/>
+      <circle cx="430" cy="230" r="8" fill="#1E40AF"/>
+      <circle cx="530" cy="230" r="8" fill="#1E40AF"/>
+      <circle cx="630" cy="230" r="8" fill="#1E40AF"/>
+      <circle cx="730" cy="230" r="8" fill="#1E40AF"/>
+    </g>
+    <text x="180" y="140" font-family="monospace" font-size="12" font-weight="700" fill="#2563EB" text-anchor="middle">MONOMER UNITS</text>
+    <text x="350" y="210" font-family="monospace" font-size="11" font-weight="700" fill="#64748B" text-anchor="middle">CATALYST / HEAT</text>
+    <text x="580" y="140" font-family="monospace" font-size="12" font-weight="700" fill="#2563EB" text-anchor="middle">HIGH MOLECULAR WEIGHT POLYMER</text>
+    
+
+  <!-- Bottom Data Bar -->
+  <rect x="30" y="380" width="740" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="50" y="408" font-family="monospace" font-size="12" font-weight="700" fill="#334155">FIGURE: Bioplastics: Synthesis, Compostability &amp; Biodegradation Standards</text>
+  <text x="750" y="408" font-family="monospace" font-size="11" font-weight="700" fill="#2563EB" text-anchor="end">POLYMERHUB VERIFIED</text>
+</svg>

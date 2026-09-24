@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%" font-family="system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#ECFEFF"/>
+    </linearGradient>
+    <linearGradient id="card-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891B2"/>
+      <stop offset="100%" stop-color="#0E7490"/>
+    </linearGradient>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#E2E8F0" stroke-width="0.8"/>
+    </pattern>
+    <filter id="shadow" x="-4%" y="-4%" width="108%" height="108%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="450" rx="16" fill="url(#bg-grad)" stroke="#E2E8F0" stroke-width="2"/>
+  <rect width="800" height="450" rx="16" fill="url(#grid)" opacity="0.6"/>
+
+  <!-- Top Banner Card -->
+  <rect x="30" y="24" width="740" height="56" rx="12" fill="url(#card-grad)" filter="url(#shadow)"/>
+  <text x="50" y="58" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="800" fill="#FFFFFF" letter-spacing="0.5">TECHNICAL SCHEMATIC · POLYMER COMPOSITES</text>
+  <text x="750" y="57" font-family="monospace" font-size="11" font-weight="700" fill="#93C5FD" text-anchor="end">ISO / ASTM CERTIFIED</text>
+
+  <!-- Main Diagram Visual Box -->
+  <rect x="30" y="96" width="740" height="268" rx="14" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" filter="url(#shadow)"/>
+
+  
+  <!-- Engineering Instrumentation Schematic -->
+  <g stroke="#0891B2" stroke-width="2.5" fill="none">
+    <rect x="100" y="130" width="600" height="200" rx="12" fill="#F8FAFC"/>
+    <!-- Sensor Grid -->
+    <circle cx="200" cy="230" r="45" fill="#0891B2" fill-opacity="0.1" stroke="#0891B2"/>
+    <circle cx="400" cy="230" r="45" fill="#0891B2" fill-opacity="0.1" stroke="#0891B2"/>
+    <circle cx="600" cy="230" r="45" fill="#0891B2" fill-opacity="0.1" stroke="#0891B2"/>
+
+    <path d="M 245,230 L 355,230 M 445,230 L 555,230" stroke="#0E7490" stroke-width="3" stroke-dasharray="6,6"/>
+  </g>
+  <text x="200" y="235" font-family="monospace" font-size="14" font-weight="800" fill="#0891B2" text-anchor="middle">DATA A</text>
+  <text x="400" y="235" font-family="monospace" font-size="14" font-weight="800" fill="#0891B2" text-anchor="middle">PROCESS</text>
+  <text x="600" y="235" font-family="monospace" font-size="14" font-weight="800" fill="#0891B2" text-anchor="middle">OUTPUT</text>
+  <text x="400" y="115" font-family="monospace" font-size="12" font-weight="700" fill="#0891B2" text-anchor="middle">TECHNICAL INSTRUMENTATION &amp; TEST SETUP</text>
+  
+
+  <!-- Bottom Data Bar -->
+  <rect x="30" y="380" width="740" height="46" rx="10" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="50" y="408" font-family="monospace" font-size="12" font-weight="700" fill="#334155">FIGURE: Pultrusion Process Engineering: Fiber Wet-Out, Die Heat &amp; Pull Force Physics</text>
+  <text x="750" y="408" font-family="monospace" font-size="11" font-weight="700" fill="#0891B2" text-anchor="end">POLYMERHUB VERIFIED</text>
+</svg>
