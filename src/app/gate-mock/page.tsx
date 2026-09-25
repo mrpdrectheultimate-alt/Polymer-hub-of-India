@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { 
   Clock, 
@@ -16,7 +16,7 @@ import {
   PlayCircle
 } from 'lucide-react'
 
-// ─── GATE Questions (30 questions mapped to 155 lessons) ───────────────────────
+// ─── GATE Questions (30 questions mapped to 216 lessons) ───────────────────────
 
 const GATE_QUESTIONS = [
   // Polymer Chemistry (6 questions)
@@ -148,268 +148,193 @@ const GATE_QUESTIONS = [
   {
     id: 'pt2', subject: 'Polymer Testing', lessonSlug: 'differential-scanning-calorimetry-dsc-thermal-fingerprints',
     question: 'In a DSC thermogram of a semi-crystalline polymer, an exothermic peak observed during heating (between Tg and Tm) corresponds to:',
-    options: ['Melting', 'Glass transition', 'Cold crystallization', 'Thermal degradation'],
-    correct: 2,
-    explanation: 'Cold crystallization is an exothermic process (heat released) that occurs when amorphous chains quenched during rapid cooling gain sufficient thermal energy above Tg to reorganize into crystalline lamellae. Melting (Tm) is endothermic (heat absorbed) at higher temperature. Tg is a baseline shift (step change in heat capacity), not a peak.',
+    options: ['Melting', 'Cold crystallization', 'Thermal degradation', 'Glass transition'],
+    correct: 1,
+    explanation: 'Cold crystallization occurs when a rapidly quenched (mostly amorphous) polymer is heated above Tg. Above Tg, chain mobility is restored, allowing disordered chains to reorganize into lower-energy crystalline lamellae before reaching Tm. Because crystallization releases latent heat (exothermic), it appears as a dip/peak below the baseline (or above, depending on heat-flow sign convention). Melting is endothermic.',
     marks: 2,
   },
   {
-    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'impact-testing-izod-vs-charpy-energy-absorption-mechanisms',
-    question: 'The notch in an Izod or Charpy impact specimen serves primarily to:',
+    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'thermogravimetric-analysis-tga-thermal-stability-and-filler-content',
+    question: 'TGA is used to determine the inorganic filler content (e.g. glass fiber, CaCO₃) in a polymer composite by:',
     options: [
-      'Reduce the required pendulum energy',
-      'Create a severe stress concentration (triaxial stress state) that suppresses shear yielding and promotes brittle fracture',
-      'Measure the surface hardness of the specimen',
-      'Allow easy alignment in the specimen vice',
+      'Measuring thermal expansion up to 200°C',
+      'Heating the sample in inert/oxidative atmosphere to ~600-800°C to pyrolyze the polymer matrix, leaving non-volatile filler residue',
+      'Measuring dielectric loss vs temperature',
+      'Determining the heat of fusion during melting',
     ],
     correct: 1,
-    explanation: 'The standard V-notch (radius 0.25 mm) creates a triaxial tensile stress state at the notch root during high-rate impact loading. Triaxial tension suppresses shear yielding (which requires shear stress) and forces the material to dissipate energy via brittle crack propagation. Notched impact tests measure notch sensitivity — how vulnerable the polymer is to surface scratches, sharp corners, and weld lines in service.',
+    explanation: 'In TGA filler analysis, the sample is heated to 600-800°C in nitrogen/air. The organic polymer matrix completely pyrolyzes into volatile gases, producing a major mass drop step. The remaining mass percentage at 600-800°C represents the non-volatile inorganic filler (glass fiber, mineral filler, carbon black if atmosphere switched to oxygen). This is the standard method specified in ASTM E1131.',
     marks: 1,
   },
   {
-    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'thermogravimetric-analysis-tga-thermal-stability-and-composition',
-    question: 'TGA is used to determine the carbon black content in a filled polyolefin by heating:',
-    options: [
-      'In pure oxygen from 0°C to 1000°C',
-      'First in nitrogen to 600°C (pyrolyzes polymer), then switching to air/O₂ to 800°C (burns carbon black)',
-      'In helium only up to 400°C',
-      'In steam atmosphere to 500°C',
-    ],
+    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'izod-and-charpy-impact-testing-astm-d256-notch-sensitivity',
+    question: 'In Izod impact testing (ASTM D256), the specimen is mounted as a:',
+    options: ['Simply supported beam (supported at both ends)', 'Vertical cantilever beam (clamped at one end, struck at free end)', 'Flat disc clamped along the circumference', 'Tension bar pulled at constant speed'],
     correct: 1,
-    explanation: 'ASTM D6370 / E1131 two-atmosphere method: Under N₂ up to 600°C, the polymer pyrolyzes and volatilizes completely (weight loss 1 = polymer fraction). Switching to air/O₂ at 600°C combusts carbon black to CO₂ (weight loss 2 = carbon black fraction). Any remaining weight at 800°C is inorganic ash/filler (talc, CaCO₃, glass fibre). This is the standard compositional analysis method in masterbatch and compounding quality control.',
-    marks: 2,
+    explanation: 'Izod testing (ASTM D256) clamps the notched specimen vertically as a cantilever beam — the pendulum strikes the free end above the notch on the same side as the notch facing the striker. Charpy testing (ISO 179 / ASTM E23) supports the specimen horizontally at both ends as a simple beam and strikes it in the middle directly behind the notch.',
+    marks: 1,
   },
   {
     id: 'pt5', subject: 'Polymer Testing', lessonSlug: 'heat-deflection-temperature-hdt-and-vicat-softening-point',
-    question: 'HDT (ASTM D648) measures the temperature at which a 3-point bend specimen deflects 0.25 mm under a specific fiber stress of:',
-    options: ['0.05 MPa only', '0.455 MPa or 1.82 MPa', '10.0 MPa', '50.0 MPa'],
+    question: 'Heat Deflection Temperature (HDT, ASTM D648) measures the temperature at which a specimen deflects by 0.25 mm under a standard flexural load of:',
+    options: ['0.455 MPa or 1.82 MPa', '5.0 MPa or 10.0 MPa', '0.01 MPa only', '100 MPa'],
+    correct: 0,
+    explanation: 'ASTM D648 specifies two standard flexural stress levels: Method A at 1.82 MPa (264 psi) for high-rigidity structural applications, and Method B at 0.455 MPa (66 psi) for lower-stress applications. HDT indicates short-term load-bearing capability at elevated temperatures, which is critical for automotive engine compartment parts.',
+    marks: 2,
+  },
+
+  // Rubber & Composites (5 questions)
+  {
+    id: 'rc1', subject: 'Rubber Technology', lessonSlug: 'vulcanization-kinetics-sulfur-vs-peroxide-curing',
+    question: 'In sulfur vulcanization of natural rubber, the addition of zinc oxide and stearic acid serves to:',
+    options: [
+      'Increase the solubility of sulfur only',
+      'Form a zinc stearate complex that activates the sulfur-accelerator system, increasing vulcanization rate and crosslink efficiency',
+      'Act as plasticizers to lower viscosity',
+      'Prevent oxidative degradation during service',
+    ],
     correct: 1,
-    explanation: 'ASTM D648 specifies two standard fiber stress levels: 0.455 MPa (66 psi) for low-stress or unfilled materials, and 1.82 MPa (264 psi) for engineering resins and reinforced grades. HDT is the single most referenced thermal specification in automotive and appliance material datasheets for defining maximum short-term load-bearing temperature.',
+    explanation: 'ZnO + stearic acid form a soluble zinc stearate complex that reacts with organic accelerators (e.g. CBS, TBTD) to generate active sulfurating species. This increases crosslinking efficiency — converting polysulfidic links (-S-S-S-) to more thermally stable mono- and disulfidic links (-S- and -S-S-), reducing cure time and improving reversion resistance.',
+    marks: 2,
+  },
+  {
+    id: 'rc2', subject: 'Rubber Technology', lessonSlug: 'elastomer-selection-guide-nr-sbr-epdm-nbr-fkm-silicone',
+    question: 'Which elastomer is specifically selected for automotive fuel hoses due to its exceptional resistance to petroleum oils and fuels?',
+    options: ['Natural Rubber (NR)', 'Ethylene Propylene Diene Monomer (EPDM)', 'Nitrile Butadiene Rubber (NBR)', 'Silicone Rubber (VMQ)'],
+    correct: 2,
+    explanation: 'NBR (Nitrile Rubber) contains polar acrylonitrile (-C≡N) groups that provide excellent resistance to non-polar petroleum fuels, oils, and greases. Higher acrylonitrile content (33-50%) increases fuel resistance and tensile strength, though it reduces low-temperature flexibility. EPDM has zero oil resistance due to its non-polar polyolefin backbone, making it unsuitable for fuel contact.',
+    marks: 1,
+  },
+  {
+    id: 'rc3', subject: 'Composites', lessonSlug: 'carbon-fiber-reinforced-polymers-cfrp-manufacturing-and-properties',
+    question: 'The specific strength (strength-to-weight ratio) of carbon fiber composite (CFRP) compared to structural steel (FE 410) is approximately:',
+    options: ['Same', '2× higher', '5-8× higher', '20× higher'],
+    correct: 2,
+    explanation: 'CFRP has a density of ~1.5-1.6 g/cm³ and tensile strength of 1500-2500 MPa, giving a specific strength of ~1000-1600 kN·m/kg. Structural steel has density ~7.85 g/cm³ and strength ~410-550 MPa, giving specific strength of ~50-70 kN·m/kg. CFRP is 5-8× higher in specific strength, making it indispensable for weight-critical aerospace and automotive applications.',
+    marks: 2,
+  },
+  {
+    id: 'rc4', subject: 'Composites', lessonSlug: 'resin-transfer-moulding-rtm-and-vacuum-assisted-processes',
+    question: 'In Resin Transfer Moulding (RTM), Darcy\'s Law governs liquid resin flow through the dry fiber preform. Flow velocity (v) is proportional to:',
+    options: [
+      'Preform permeability (K) and pressure gradient (dP/dx), inversely proportional to resin viscosity (μ)',
+      'Resin viscosity squared',
+      'Fiber diameter only',
+      'Mold temperature only',
+    ],
+    correct: 0,
+    explanation: 'Darcy\'s Law for flow through porous media states: v = -(K / μ) · (dP/dx). Higher preform permeability (K) and higher injection pressure gradient (dP/dx) increase fill speed. Lower resin viscosity (μ, typically <500 mPa·s at injection temperature) is critical to prevent dry spots and achieve complete preform wet-out before resin gelation.',
+    marks: 2,
+  },
+  {
+    id: 'rc5', subject: 'Recycling', lessonSlug: 'mechanical-recycling-sorting-washing-re-granulation',
+    question: 'In post-consumer PET bottle recycling, automated optical sorting uses NIR (Near-Infrared) spectroscopy to distinguish PET from PVC because:',
+    options: [
+      'PET and PVC have different colors under visible light',
+      'PET and PVC have distinct overtone absorption spectra in the 1000-1700 nm NIR region',
+      'PVC is magnetic while PET is non-magnetic',
+      'PET floats in water while PVC sinks',
+    ],
+    correct: 1,
+    explanation: 'NIR spectroscopy identifies polymers by their unique C-H, O-H, and N-H vibrational overtone absorptions in the 1000-1700 nm wavelength range. NIR sensors detect the chemical signature of incoming bottles on a high-speed conveyor (2-3 m/s) in milliseconds, triggering air jets to blast PVC bottles out of the PET stream. This prevents PVC contamination (>50 ppm causes acid degradation during rPET processing).',
     marks: 1,
   },
 
-  // Rubber Technology (4 questions)
+  // Mould Design & Sustainability (4 questions)
   {
-    id: 'rt1', subject: 'Rubber Technology', lessonSlug: 'natural-rubber-vs-synthetic-rubbers-chemistry-and-properties',
-    question: 'Natural rubber consists predominantly of:',
+    id: 'ms1', subject: 'Mould Design', lessonSlug: 'injection-mould-runner-systems-cold-vs-hot-runner-design',
+    question: 'In hot runner mold design, the primary advantage of valve-gated hot runners over open-tip hot runners is:',
     options: [
-      'trans-1,4-polyisoprene (gutta-percha)',
-      'cis-1,4-polyisoprene',
-      '1,2-polybutadiene',
-      'cis-1,4-polybutadiene',
+      'Lower mold manufacturing cost',
+      'Elimination of gate vestige (leaves a flush surface) and independent control of gate open/close timing for sequential filling',
+      'Reduced heating power requirement',
+      'Compatibility with PVC processing',
     ],
     correct: 1,
-    explanation: 'Natural rubber is >99.9% cis-1,4-polyisoprene from Hevea brasiliensis latex. The all-cis configuration gives natural rubber its low Tg (−70°C), exceptional elasticity, and unique ability to undergo strain-induced crystallization (giving high gum tensile strength >25 MPa without fillers). Gutta-percha is trans-1,4-polyisoprene — crystalline and hard at room temperature.',
-    marks: 1,
-  },
-  {
-    id: 'rt2', subject: 'Rubber Technology', lessonSlug: 'vulcanization-chemistry-sulfur-peroxide-and-accelerators',
-    question: 'In sulfur vulcanization of unsaturated rubbers, zinc oxide (ZnO) and stearic acid act as:',
-    options: [
-      'Primary crosslinking agents (substitute for sulfur)',
-      'Activator system — reacting to form zinc stearate, which solubilizes zinc to accelerate polysulfide intermediate formation',
-      'Fillers to increase hardness only',
-      'Anti-degradants to prevent ozonolysis',
-    ],
-    correct: 1,
-    explanation: 'ZnO + stearic acid forms zinc stearate in the rubber matrix. Zinc ions coordinate with accelerators (e.g., CBS, TBBS) and sulfur rings, generating reactive sulfurating complexes that crosslink allylic positions on the rubber backbone rapidly at 140-160°C. Without the ZnO/stearic acid activator system, sulfur crosslinking is extremely slow (hours vs minutes) and gives inefficient polysulfidic crosslinks prone to reversion.',
+    explanation: 'Valve-gated hot runners use hydraulic/pneumatic pin actuators to mechanically shut off the gate orifice at the end of holding phase. This leaves a virtually invisible, flush gate mark (no vestige/drooling) and allows sequential valve gating (SVG) to eliminate weld lines in large automotive parts like bumpers by opening gates sequentially as the melt front advances.',
     marks: 2,
   },
   {
-    id: 'rt3', subject: 'Rubber Technology', lessonSlug: 'carbon-black-and-silica-reinforcement-in-elastomers',
-    question: 'Silica reinforcement in passenger car tire treads (the "green tire" concept) reduces rolling resistance while improving wet grip because:',
+    id: 'ms2', subject: 'Mould Design', lessonSlug: 'conformal-cooling-in-injection-moulds-3d-metal-printing',
+    question: '3D metal printed conformal cooling channels improve injection moulding productivity primarily by:',
     options: [
-      'Silica has lower density than carbon black',
-      'Silica/silane systems reduce hysteresis (tan δ at 60°C) while maintaining high hysteresis (tan δ at 0°C) for wet traction',
-      'Silica eliminates the need for vulcanization',
-      'Silica is cheaper than carbon black',
+      'Reducing mold steel cost',
+      'Following the exact 3D contour of the cavity to provide uniform heat extraction, reducing cooling time by 20-40% and minimizing warpage',
+      'Eliminating the need for mold temperature controllers',
+      'Increasing clamping force capacity',
     ],
     correct: 1,
-    explanation: 'The "magic triangle" of tire performance (rolling resistance, wet grip, wear resistance) was traditionally conflicting. Precipitated silica coupled with bifunctional organosilanes (e.g., TESPT) decouples this: at 60°C (rolling frequency ~10-100 Hz), tan δ is low → lower fuel consumption; at 0°C (wet braking frequency ~10⁴-10⁶ Hz), tan δ is high → high energy dissipation on wet roads. Carbon black cannot match this dual-frequency response.',
+    explanation: 'Conventional cooling channels are straight holes drilled into mold steel — they cannot follow complex curved cavity geometry, creating hot spots that dictate long cooling times and cause non-uniform thermal shrinkage (warpage). DMLS/SLM 3D metal printing enables curved channels positioned at constant distance from cavity walls, maximizing cooling rate and dimensional stability.',
     marks: 2,
   },
   {
-    id: 'rt4', subject: 'Rubber Technology', lessonSlug: 'rheometer-cure-curves-ts2-tc90-and-scorch-safety',
-    question: 'On an MDR/ODR rheometer cure curve, tc90 represents:',
-    options: [
-      'The time to reach minimum torque (ML)',
-      'The scorch time (onset of vulcanization)',
-      'The optimum cure time — time to reach 90% of maximum crosslink density (MH − ML)',
-      'The total cycle time including demoulding',
-    ],
-    correct: 2,
-    explanation: 'tc90 = time to reach ML + 0.90 × (MH − ML). In production moulding, parts are vulcanized to tc90 rather than tc100 (100% cure) to avoid overcure, minimize cycle time, and prevent reversion of polysulfidic crosslinks in thick parts. tc90 is the primary parameter for programming press cure times.',
-    marks: 1,
-  },
-
-  // Recycling & Sustainability (5 questions)
-  {
-    id: 'rc1', subject: 'Recycling Technology', lessonSlug: 'mechanical-recycling-sorting-washing-shredding-compounding',
-    question: 'In mechanical recycling of mixed plastics, PVC contamination in a PET stream must be kept below ~50 ppm because:',
-    options: [
-      'PVC makes PET transparent',
-      'PVC degrades at PET processing temperatures (260-280°C), releasing HCl gas that accelerates PET hydrolytic degradation and corrodes machinery',
-      'PVC increases the melting point of PET',
-      'PVC prevents crystallisation of PET',
-    ],
+    id: 'ms3', subject: 'Sustainability', lessonSlug: 'life-cycle-assessment-lca-of-polymers-cradle-to-grave-carbon-footprint',
+    question: 'In ISO 14040 Life Cycle Assessment (LCA), Global Warming Potential (GWP) is expressed in units of:',
+    options: ['kg SO₂ equivalent', 'kg CO₂ equivalent per functional unit', 'MJ of primary energy', 'ppm of VOC'],
     correct: 1,
-    explanation: 'PET processes at 260-280°C; PVC begins dehydrochlorination (degradation) above 190°C. Even 50 ppm PVC in a PET melt stream generates HCl gas, which: (1) catalyzes hydrolytic/acid degradation of PET chains (IV drops drastically); (2) causes severe black specks and yellowing; (3) corrodes extruder screws, barrels, and blow moulds. Near-infrared (NIR) and optical sorting are critical to eliminate PVC flake from rPET.',
-    marks: 2,
-  },
-  {
-    id: 'rc2', subject: 'Sustainable Plastics', lessonSlug: 'biodegradable-polymers-pla-pha-pbs-and-starch-blends',
-    question: 'Industrial composting (EN 13432 / ISO 17088) requires biodegradable plastics to achieve 90% biodegradation within:',
-    options: ['30 days at room temperature', '90 days at 20°C', '180 days at 58°C (thermophilic composting)', '1 year in soil'],
-    correct: 2,
-    explanation: 'EN 13432 specifies: ≥90% carbon conversion to CO₂ within 180 days at 58°C ± 2°C under active composting conditions with microbial presence. Disintegration (>90% passing through 2 mm sieve) must occur within 12 weeks. PLA meets industrial composting standards because 58°C is above its Tg (~55°C), enabling hydrolytic chain scission; in soil or ambient water (20°C, below Tg), PLA does not biodegrade rapidly.',
+    explanation: 'GWP measures the total radiative forcing of greenhouse gas emissions (CO₂, CH₄, N₂O, HFCs) integrated over a 100-year time horizon, normalized to kg CO₂ equivalent per functional unit (e.g. 1 kg of polymer resin or 1,000 beverage containers). SimaPro and GaBi software calculate GWP using IPCC characterization factors.',
     marks: 1,
   },
   {
-    id: 'rc3', subject: 'Recycling Technology', lessonSlug: 'chemical-recycling-depolymerization-pyrolysis-and-gasification',
-    question: 'Glycolysis of PET waste involves reacting PET with excess ethylene glycol at 180-220°C in the presence of a catalyst to produce:',
+    id: 'ms4', subject: 'Sustainability', lessonSlug: 'extended-producer-responsibility-epr-for-plastics-in-india',
+    question: 'Under India\'s MoEFCC Extended Producer Responsibility (EPR) Guidelines 2022, Category I plastics refer to:',
     options: [
-      'Terephthalic acid (TPA) and ethylene glycol',
-      'Bis(2-hydroxyethyl) terephthalate (BHET) monomer',
-      'Monomeric styrene',
-      'Pyrolysis oil / naphtha fraction',
+      'Flexible plastic packaging (single layer or multilayer)',
+      'Rigid plastic packaging',
+      'Multilayered plastic packaging (having at least one layer of plastic and at least one layer of material other than plastic)',
+      'Plastic sheet or like used for packaging and compostable plastic',
     ],
     correct: 1,
-    explanation: 'PET + ethylene glycol (EG) → BHET monomer via transesterification of ester bonds. BHET is purified (filtered, decolorized, recrystallized) to food-grade quality and repolymerized into virgin-equivalent rPET. This chemical recycling route avoids the downcycling of mechanical recycling and processes colored, contaminated, or textile (polyester fiber) waste streams.',
-    marks: 2,
-  },
-  {
-    id: 'rc4', subject: 'Sustainable Plastics', lessonSlug: 'extended-producer-responsibility-epr-regulations-in-india',
-    question: 'Under the Indian Plastic Waste Management (PWM) Rules Amendment 2022, EPR Category I covers:',
-    options: ['Flexible plastic packaging', 'Rigid plastic packaging', 'Multi-layered plastic packaging (MLP)', 'Plastic carry bags below 120 microns'],
-    correct: 1,
-    explanation: 'India PWM EPR categorization: Category I = Rigid plastic packaging (bottles, containers, crates); Category II = Flexible plastic packaging (single layer/multi-layer polyolefin); Category III = Multi-layered plastic packaging (at least one non-plastic layer like aluminium foil); Category IV = Plastic sheets and carry bags. Each category carries distinct mandatory recycling percentages and end-of-life disposal targets.',
-    marks: 1,
-  },
-  {
-    id: 'rc5', subject: 'Sustainable Plastics', lessonSlug: 'life-cycle-assessment-lca-of-plastics-cradle-to-grave',
-    question: 'In a Cradle-to-Grave Life Cycle Assessment (LCA) of plastic packaging, the functional unit is:',
-    options: [
-      'The total weight of the plastic package (e.g., 25 g)',
-      'The quantified performance of a product system for use as a reference unit (e.g., "delivering 1 liter of beverage to consumer with shelf life of 6 months")',
-      'The total cost of production',
-      'The energy consumed during injection moulding only',
-    ],
-    correct: 1,
-    explanation: 'ISO 14040/14044 LCA requires comparison on a functional unit basis — not weight. Comparing a 25 g PET bottle to a 400 g glass bottle on a per-kg basis is invalid; comparing both on "packaging and protecting 1 liter of carbonated beverage from filling to consumption" captures the full lightweighting advantage, transport fuel savings, and recycling impact accurately.',
-    marks: 1,
-  },
-
-  // Composites & Mould Design (5 questions)
-  {
-    id: 'cm1', subject: 'Polymer Composites', lessonSlug: 'fiber-matrix-interphase-sizing-and-coupling-agents',
-    question: 'In glass-fiber reinforced polypropylene (PP-GF), maleic anhydride grafted polypropylene (PP-g-MAH) is added to:',
-    options: [
-      'Reduce the compound price',
-      'Act as a compatibilizer — anhydride groups react with silane sizing on glass, while PP backbone entangles with the matrix, improving stress transfer',
-      'Increase the melt flow index',
-      'Prevent UV discoloration',
-    ],
-    correct: 1,
-    explanation: 'Polypropylene is non-polar and chemically inert; glass fibers are polar and hydrophilic. Without coupling, fiber-matrix adhesion is purely frictional and poor — tensile strength of PP-GF without compatibilizer is barely higher than neat PP. PP-g-MAH (typically 1-3%) provides chemical bonds: anhydride rings open and react with amine/hydroxy groups on the glass fiber silane sizing, while the PP polymer chains co-crystallize with the bulk PP matrix. Tensile strength doubles (35 → 80+ MPa).',
-    marks: 2,
-  },
-  {
-    id: 'cm2', subject: 'Mould Design', lessonSlug: 'runner-and-gating-systems-hot-vs-cold-runner-design',
-    question: 'In injection mould design, a "hot runner" system eliminates:',
-    options: [
-      'The need for mould cooling channels',
-      'Solidified runner scrap and the need for runner regrind, reducing material waste and cycle time',
-      'Clamping force requirements',
-      'The need for cavity venting',
-    ],
-    correct: 1,
-    explanation: 'Hot runner systems maintain polymer in a molten state inside manifold and nozzles up to the cavity gate. Only the part in the cavity solidifies — no cold runner or sprue is ejected. Benefits: (1) zero runner scrap (critical for high-volume automotive/packaging parts); (2) reduced cycle time (runner is often thicker than the part and governs cooling time); (3) lower injection pressure drops.',
-    marks: 1,
-  },
-  {
-    id: 'cm3', subject: 'Mould Design', lessonSlug: 'cooling-channel-design-conformal-cooling-and-cycle-time',
-    question: 'In injection moulding of a typical 2 mm polypropylene part, cooling time accounts for approximately what percentage of total cycle time?',
-    options: ['10-20%', '25-35%', '50-70% (the dominant portion of cycle time)', '90-95%'],
-    correct: 2,
-    explanation: 'In thermoplastic injection moulding, cooling time is governed by Fourier heat conduction: t_cool ∝ s² / (π² · α), where s is wall thickness and α is thermal diffusivity. Because polymers have low thermal conductivity (k ~0.15-0.35 W/m·K), removing heat through the steel mould takes 50-70% of the total cycle time. Optimizing cooling channels (conformal cooling via 3D printing, beryllium-copper inserts) is the most profitable mould engineering optimization.',
-    marks: 1,
-  },
-  {
-    id: 'cm4', subject: 'Polymer Composites', lessonSlug: 'short-vs-continuous-fiber-composites-mechanics-and-processing',
-    question: 'The critical fiber length (l_c) in short-fiber composites is defined as:',
-    options: [
-      'The length of the fiber in the pellet before compounding',
-      'The minimum fiber length required for fiber stress to build up to the fiber ultimate tensile strength (l_c = σ_f · d / 2τ)',
-      'The diameter of the compounding extruder screw',
-      'The length of the runner channel in the mould',
-    ],
-    correct: 1,
-    explanation: 'Kelly-Tyson shear lag model: l_c = (σ_f · d) / (2 · τ_y), where σ_f is fiber tensile strength, d is fiber diameter, and τ_y is interfacial shear strength. If actual fiber length l < l_c, the fiber pulls out of the matrix before reaching its breaking strength (inefficient reinforcement). If l > l_c, the fiber fractures in the middle and carries maximum load. Injection moulding typically degrades fiber length to 0.2-0.5 mm, which must remain above l_c (~0.15-0.3 mm for E-glass in PP) for effective reinforcement.',
-    marks: 2,
-  },
-  {
-    id: 'cm5', subject: 'Mould Design', lessonSlug: 'ejection-systems-pins-sleeves-stripper-plates-and-air-ejection',
-    question: 'Stripper plate ejection is preferred over ejector pins for:',
-    options: [
-      'Heavy automotive bumper mouldings',
-      'Thin-walled, circular, or cylindrical parts (e.g., cups, caps, closures) to distribute ejection force uniformly and prevent pin push-through marks',
-      'Moulds with side-core actions only',
-      'Thermoset compression moulds',
-    ],
-    correct: 1,
-    explanation: 'Ejector pins concentrate force on small contact areas (2-8 mm dia) and can punch through or distort thin-walled hot parts during ejection. A stripper plate acts on the entire perimeter of the part flange or rim, providing 360° uniform ejection force with zero pin witness marks. It is the standard ejection mechanism for beverage closures, thin-wall food containers, and medical syringes.',
+    explanation: 'India\'s EPR Guidelines 2022 classify plastic packaging into 4 categories: Category I = Rigid plastic packaging; Category II = Flexible plastic packaging (single or multilayer); Category III = Multilayered plastic packaging (plastic + non-plastic like aluminum foil); Category IV = Plastic sheet/film used for packaging and compostable plastics. Obligated entities must register on the CPCB portal and fulfill minimum recycling targets for each category.',
     marks: 1,
   },
 ]
 
+const SUBJECT_COLORS: Record<string, string> = {
+  'Polymer Chemistry': 'bg-[#2563EB] text-white',
+  'Polymer Processing': 'bg-[#EA580C] text-white',
+  'Polymer Testing': 'bg-[#EF4444] text-white',
+  'Rubber Technology': 'bg-[#8B5CF6] text-white',
+  'Composites': 'bg-[#0284C7] text-white',
+  'Recycling': 'bg-[#059669] text-white',
+  'Mould Design': 'bg-[#059669] text-white',
+  'Sustainability': 'bg-[#16A34A] text-white',
+}
+
 type QuizState = 'setup' | 'active' | 'submitted'
 type AnswerMap = Record<string, number>
 
-const SUBJECT_COLORS: Record<string, string> = {
-  'Polymer Chemistry': '#2563EB',
-  'Polymer Processing': '#EA580C',
-  'Polymer Testing': '#7C3AED',
-  'Rubber Technology': '#DC2626',
-  'Recycling Technology': '#16A34A',
-  'Sustainable Plastics': '#059669',
-  'Polymer Composites': '#D97706',
-  'Mould Design': '#4F46E5',
-}
+// ─── Dynamic Color-Changing Timer ─────────────────────────────────────────────
 
-// ─── Timer Component ──────────────────────────────────────────────────────────
-
-function Timer({ seconds, onTimeout }: { seconds: number; onTimeout: () => void }) {
+function DynamicTimer({ seconds, onTimeout }: { seconds: number; onTimeout: () => void }) {
   const [remaining, setRemaining] = useState(seconds)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setRemaining(prev => {
-        if (prev <= 1) {
-          clearInterval(intervalRef.current!)
-          onTimeout()
-          return 0
-        }
-        return prev - 1
-      })
+    if (remaining <= 0) {
+      onTimeout()
+      return
+    }
+    const timer = setInterval(() => {
+      setRemaining(prev => prev - 1)
     }, 1000)
-    return () => clearInterval(intervalRef.current!)
-  }, [onTimeout])
+    return () => clearInterval(timer)
+  }, [remaining, onTimeout])
 
   const mins = Math.floor(remaining / 60)
   const secs = remaining % 60
-  const isUrgent = remaining < 300 // last 5 minutes
+
+  // Dynamic timer color thresholds
+  let timerStyle = 'border-slate-800 bg-slate-900 text-[#F5C518]' // Default 10+ mins
+  if (remaining < 120) {
+    timerStyle = 'border-red-600 bg-red-600 text-white font-black animate-pulse shadow-md' // <2 mins Red Alert
+  } else if (remaining < 600) {
+    timerStyle = 'border-amber-500/50 bg-amber-500/20 text-amber-300 font-bold' // <10 mins Amber Warning
+  }
 
   return (
-    <div
-      className={`flex items-center gap-2 border-2 rounded-xl px-4 py-2 font-mono font-bold text-base ${
-        isUrgent 
-          ? 'border-red-500 bg-red-500 text-white animate-pulse' 
-          : 'border-slate-900 bg-slate-900 text-[#F5C518]'
-      }`}
-    >
+    <div className={`flex items-center gap-2 border-2 rounded-xl px-4 py-2 font-mono text-sm transition-all ${timerStyle}`}>
       <Clock className="w-4 h-4" />
-      {String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}
+      <span>{String(mins).padStart(2, '0')}:{String(secs).padStart(2, '0')}</span>
     </div>
   )
 }
@@ -622,6 +547,7 @@ export default function GATEMockPage() {
   const [startTime, setStartTime] = useState<number>(0)
   const [timeTaken, setTimeTaken] = useState(0)
   const [flagged, setFlagged] = useState<Set<string>>(new Set())
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false)
 
   const TOTAL_TIME = 60 * 60 // 60 minutes
 
@@ -630,10 +556,12 @@ export default function GATEMockPage() {
     setAnswers({})
     setCurrentQ(0)
     setFlagged(new Set())
+    setIsSubmitModalOpen(false)
     setState('active')
   }
 
-  const handleSubmit = () => {
+  const confirmSubmit = () => {
+    setIsSubmitModalOpen(false)
     setTimeTaken(Math.round((Date.now() - startTime) / 1000))
     setState('submitted')
   }
@@ -671,7 +599,7 @@ export default function GATEMockPage() {
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
             <Trophy className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
-              GATE 2026 Polymer Science &middot; Timed Mock Arena
+              GATE XE-F Polymer Science &amp; Engineering &middot; Timed Practice Mock
             </span>
           </div>
 
@@ -683,7 +611,7 @@ export default function GATEMockPage() {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-            Full-length timed simulation strictly aligned with GATE (XE-F / CY / CH) syllabus. Includes authentic negative marking (&minus;1/3) and instant rationale breakdown.
+            Timed practice simulation strictly aligned with GATE (XE-F / CY / CH) syllabus standards. Includes authentic negative marking (&minus;1/3 &amp; &minus;2/3) and instant rationale breakdown.
           </p>
 
           {/* Quick Metrics */}
@@ -701,8 +629,8 @@ export default function GATEMockPage() {
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Continuous Timer</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-rose-400 block">&minus;1/3</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Negative Marking</span>
+              <span className="font-display text-xl font-bold text-rose-400 block">&minus;1/3 / &minus;2/3</span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">MCQ Negative Marking</span>
             </div>
           </div>
         </div>
@@ -719,15 +647,15 @@ export default function GATEMockPage() {
                 📋 Exam Protocol &amp; Instructions
               </h2>
               <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-                Please read the official evaluation criteria before starting the mock session.
+                Please read the official evaluation criteria before starting the practice session.
               </p>
             </div>
 
             <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
               <span className="font-mono text-xs font-bold text-amber-900 uppercase tracking-wide block">Evaluation Rules</span>
               <ul className="space-y-1.5 text-xs text-amber-950 font-medium">
-                <li>&bull; 1-Mark Questions: +1.0 for correct, &minus;0.33 for incorrect.</li>
-                <li>&bull; 2-Mark Questions: +2.0 for correct, &minus;0.67 for incorrect.</li>
+                <li>&bull; 1-Mark MCQ: +1.0 for correct, &minus;0.33 for incorrect.</li>
+                <li>&bull; 2-Mark MCQ: +2.0 for correct, &minus;0.67 for incorrect.</li>
                 <li>&bull; Unattempted questions carry zero penalty.</li>
                 <li>&bull; You can freely navigate, clear choices, or flag items for review.</li>
                 <li>&bull; The 60-minute timer runs continuously upon clicking Start.</li>
@@ -749,8 +677,11 @@ export default function GATEMockPage() {
               onClick={handleStart}
               className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-sm uppercase tracking-wider rounded-xl border-2 border-blue-700 shadow-md hover:translate-y-[-1px] transition-all flex items-center justify-center gap-2"
             >
-              <PlayCircle className="w-5 h-5" /> Start GATE Mock Exam &mdash; 60 Minutes
+              <PlayCircle className="w-5 h-5" /> Start GATE Timed Practice Mock &mdash; 60 Minutes
             </button>
+            <p className="text-[11px] font-mono text-slate-500 text-center">
+              * Educational simulation aligned with GATE XE-F Polymer Science &amp; Engineering syllabus standards.
+            </p>
           </div>
         )}
 
@@ -764,25 +695,24 @@ export default function GATEMockPage() {
                 <span className="font-display font-bold text-base text-slate-900">
                   Question {currentQ + 1} of {GATE_QUESTIONS.length}
                 </span>
-                <span className="font-mono text-xs text-slate-500 font-bold">
-                  ({answered} answered)
-                </span>
               </div>
 
               <div className="flex items-center gap-3">
+                {/* Prominent Flag for Review Button */}
                 <button
                   onClick={toggleFlag}
-                  className={`px-3 py-1.5 rounded-xl border-2 font-mono text-xs font-bold uppercase transition-all flex items-center gap-1.5 ${
+                  className={`px-4 py-2 rounded-xl font-mono text-xs font-bold flex items-center gap-1.5 transition-all border-2 ${
                     isFlagged
-                      ? 'border-amber-500 bg-amber-50 text-amber-800'
-                      : 'border-slate-200 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-amber-400 text-slate-950 border-amber-500 shadow-sm'
+                      : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-300'
                   }`}
                 >
-                  <Flag className="w-3.5 h-3.5" />
-                  {isFlagged ? 'Flagged' : 'Flag Question'}
+                  <Flag className="w-3.5 h-3.5 fill-current" />
+                  {isFlagged ? '🚩 Flagged for Review' : '🚩 Flag for Review'}
                 </button>
 
-                <Timer seconds={TOTAL_TIME} onTimeout={handleSubmit} />
+                {/* Dynamic Color Changing Timer */}
+                <DynamicTimer seconds={TOTAL_TIME} onTimeout={confirmSubmit} />
               </div>
             </div>
 
@@ -791,12 +721,13 @@ export default function GATEMockPage() {
               
               {/* Question & Options (3 Columns) */}
               <div className="lg:col-span-3 bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
-                <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
-                  <span className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-mono font-bold rounded-lg border border-blue-200">
-                    {currentQuestion.marks} Mark{currentQuestion.marks > 1 ? 's' : ''}
-                  </span>
-                  <span className="font-mono text-xs font-bold text-slate-500 uppercase">
+                
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                  <span className={`px-3 py-1 rounded-lg text-xs font-mono font-bold ${SUBJECT_COLORS[currentQuestion.subject] || 'bg-slate-900 text-white'}`}>
                     {currentQuestion.subject}
+                  </span>
+                  <span className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-full">
+                    {currentQuestion.marks} {currentQuestion.marks === 1 ? 'Mark' : 'Marks'}
                   </span>
                 </div>
 
@@ -858,8 +789,8 @@ export default function GATEMockPage() {
                       </button>
                     ) : (
                       <button
-                        onClick={handleSubmit}
-                        className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all"
+                        onClick={() => setIsSubmitModalOpen(true)}
+                        className="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md"
                       >
                         Submit Test
                       </button>
@@ -916,9 +847,10 @@ export default function GATEMockPage() {
                   </div>
                 </div>
 
+                {/* Submit Exam Button - Red Alert Style */}
                 <button
-                  onClick={handleSubmit}
-                  className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-sm"
+                  onClick={() => setIsSubmitModalOpen(true)}
+                  className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md"
                 >
                   Submit Exam
                 </button>
@@ -936,6 +868,55 @@ export default function GATEMockPage() {
 
       </div>
 
+      {/* ── SUBMISSION CONFIRMATION MODAL ── */}
+      {isSubmitModalOpen && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border-2 border-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center gap-3 text-red-600">
+              <AlertTriangle className="w-8 h-8 shrink-0" />
+              <div>
+                <h3 className="font-display font-black text-lg text-slate-900 uppercase">Confirm Exam Submission</h3>
+                <span className="text-[11px] font-mono text-slate-500 font-bold uppercase">Irreversible Action</span>
+              </div>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
+              Are you sure you want to submit your exam now? Once submitted, your score will be calculated using official GATE negative marking.
+            </p>
+
+            <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-1.5 text-xs font-mono">
+              <div className="flex justify-between text-slate-700">
+                <span>Answered Questions:</span>
+                <strong className="text-emerald-700">{answered}</strong>
+              </div>
+              <div className="flex justify-between text-slate-700">
+                <span>Flagged for Review:</span>
+                <strong className="text-amber-700">{flagged.size}</strong>
+              </div>
+              <div className="flex justify-between text-slate-700">
+                <span>Unattempted Questions:</span>
+                <strong className="text-rose-700">{GATE_QUESTIONS.length - answered}</strong>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-2">
+              <button
+                onClick={() => setIsSubmitModalOpen(false)}
+                className="flex-1 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-bold uppercase rounded-xl border border-slate-300 transition-all"
+              >
+                Return to Test
+              </button>
+              <button
+                onClick={confirmSubmit}
+                className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase rounded-xl shadow-md transition-all"
+              >
+                Confirm &amp; Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── BOTTOM AI GATE COUNSELOR CTA ── */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 mt-16">
         <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-2xl text-center space-y-6">
@@ -950,9 +931,12 @@ export default function GATEMockPage() {
             </span>
           </h2>
 
-          <p className="text-slate-300 text-sm max-w-xl mx-auto leading-relaxed font-light">
-            Review numerical formula steps for single screw output, Carothers equation degree of polymerization, or shear lag critical fiber length.
-          </p>
+          <div className="text-slate-300 text-xs sm:text-sm max-w-xl mx-auto leading-relaxed font-light text-left space-y-2 bg-white/5 border border-white/10 p-4 rounded-2xl">
+            <span className="font-mono text-[10px] text-amber-400 font-bold uppercase tracking-wider block">Example Step-by-Step AI Prompts:</span>
+            <p className="font-mono text-slate-200">&bull; Single screw extruder output &amp; pressure flow rate formula derivation</p>
+            <p className="font-mono text-slate-200">&bull; Carothers equation degree of polymerization &amp; gel point math</p>
+            <p className="font-mono text-slate-200">&bull; Kelly-Tyson critical fiber length &amp; shear lag stress transfer</p>
+          </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
