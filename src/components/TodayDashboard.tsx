@@ -15,6 +15,8 @@ import {
   TrendingUp,
   Lightbulb
 } from 'lucide-react'
+import ImageWithFallback from '@/components/ImageWithFallback'
+import { LOCKED_CATEGORY_MAP } from '@/components/NewsVisualTemplates'
 
 export interface NewsItem {
   id: string
@@ -24,6 +26,8 @@ export interface NewsItem {
   source_url: string | null
   image_url: string | null
   image_credit: string | null
+  visual_type?: string | null
+  rights_class?: string | null
   category: string
   region: 'India' | 'Global' | 'Regional'
   related_lesson_slug: string | null
@@ -31,143 +35,6 @@ export interface NewsItem {
   published_at: string
   publish_date: string
   is_featured: boolean
-}
-
-const CATEGORY_STYLES: Record<string, { badge: string; border: string }> = {
-  Research:       { badge: 'bg-blue-100 text-blue-800 border-blue-200', border: '#2563EB' },
-  Market:         { badge: 'bg-amber-100 text-amber-900 border-amber-200', border: '#D97706' },
-  India:          { badge: 'bg-orange-100 text-orange-800 border-orange-200', border: '#EA580C' },
-  Sustainability: { badge: 'bg-emerald-100 text-emerald-800 border-emerald-200', border: '#16A34A' },
-  Policy:         { badge: 'bg-purple-100 text-purple-800 border-purple-200', border: '#9333EA' },
-  Innovation:     { badge: 'bg-indigo-100 text-indigo-800 border-indigo-200', border: '#4F46E5' },
-  Recycling:      { badge: 'bg-teal-100 text-teal-800 border-teal-200', border: '#0D9488' },
-  Bioplastics:    { badge: 'bg-lime-100 text-lime-900 border-lime-200', border: '#65A30D' },
-}
-
-const CATEGORY_THEMES: Record<string, { gradient: string; icon: string; tag: string }> = {
-  Research: {
-    gradient: 'from-blue-900 via-indigo-950 to-slate-950',
-    icon: '🔬',
-    tag: 'R&D / Molecular Lab'
-  },
-  Market: {
-    gradient: 'from-amber-900 via-stone-900 to-slate-950',
-    icon: '📈',
-    tag: 'Petrochem Price Index'
-  },
-  India: {
-    gradient: 'from-orange-900 via-slate-900 to-slate-950',
-    icon: '🇮🇳',
-    tag: 'CIPET & Domestic Mfg'
-  },
-  Sustainability: {
-    gradient: 'from-emerald-900 via-teal-950 to-slate-950',
-    icon: '♻️',
-    tag: 'Circular Monomaterials'
-  },
-  Policy: {
-    gradient: 'from-purple-900 via-indigo-950 to-slate-950',
-    icon: '📜',
-    tag: 'BIS Standards & Norms'
-  },
-  Innovation: {
-    gradient: 'from-violet-900 via-blue-950 to-slate-950',
-    icon: '🚀',
-    tag: 'Advanced Composites'
-  },
-  Recycling: {
-    gradient: 'from-teal-900 via-emerald-950 to-slate-950',
-    icon: '🔄',
-    tag: 'Mechanical Flake Recycling'
-  },
-  Bioplastics: {
-    gradient: 'from-lime-900 via-green-950 to-slate-950',
-    icon: '🌱',
-    tag: 'PLA & Bio-Polymers'
-  },
-}
-
-const DEFAULT_IMAGES: Record<string, string> = {
-  Research:       'https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=800&auto=format&fit=crop&q=80',
-  Market:         'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80',
-  India:          'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=80',
-  Sustainability: 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800&auto=format&fit=crop&q=80',
-  Policy:         'https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=800&auto=format&fit=crop&q=80',
-  Innovation:     'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
-  Recycling:      'https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=800&auto=format&fit=crop&q=80',
-  Bioplastics:    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&auto=format&fit=crop&q=80',
-}
-
-function NewsVisualHeader({
-  imageUrl,
-  headline,
-  category,
-  region,
-  imageCredit,
-  isFeatured = false
-}: {
-  imageUrl?: string | null
-  headline: string
-  category: string
-  region: string
-  imageCredit?: string | null
-  isFeatured?: boolean
-}) {
-  const [imgLoaded, setImgLoaded] = useState(false)
-  const [imgError, setImgError] = useState(false)
-  const theme = CATEGORY_THEMES[category] || CATEGORY_THEMES.Research
-  const fallbackUrl = DEFAULT_IMAGES[category] || DEFAULT_IMAGES.Research
-  const displayUrl = imageUrl || fallbackUrl
-
-  return (
-    <div className={`relative overflow-hidden ${isFeatured ? 'min-h-[260px] md:min-h-full' : 'h-48'} bg-gradient-to-br ${theme.gradient}`}>
-      {/* Visual Engineering Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:20px_20px]" />
-      
-      {/* Decorative Technical Watermark */}
-      <div className="absolute -right-3 -bottom-4 text-7xl select-none opacity-20 pointer-events-none filter blur-[0.5px]">
-        {theme.icon}
-      </div>
-
-      {/* Real High-Res Photo with Instant CSS Background Fallback */}
-      {!imgError && (
-        <img
-          src={displayUrl}
-          alt={headline}
-          referrerPolicy="no-referrer"
-          loading={isFeatured ? 'eager' : 'lazy'}
-          onLoad={() => setImgLoaded(true)}
-          onError={() => setImgError(true)}
-          className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105 ${imgLoaded ? 'opacity-85' : 'opacity-0'}`}
-        />
-      )}
-
-      {/* High-Contrast Gradient Scrim */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
-
-      {/* Top Badges */}
-      <div className="absolute top-3 left-3 flex items-center gap-1.5 z-10">
-        <span className={`font-mono text-[9px] font-bold px-2 py-0.5 rounded border uppercase shadow-sm ${CATEGORY_STYLES[category]?.badge || 'bg-white/90 text-slate-900 border-white/20'}`}>
-          {theme.icon} {category}
-        </span>
-        <span className="font-mono text-[9px] font-bold bg-black/60 backdrop-blur-md text-white px-2 py-0.5 rounded border border-white/15 uppercase">
-          {region}
-        </span>
-      </div>
-
-      {/* Bottom Technical Tag */}
-      <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between text-[9px] font-mono text-white/80 z-10">
-        <span className="truncate max-w-[70%] bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10">
-          ⚡ {theme.tag}
-        </span>
-        {imageCredit && (
-          <span className="text-[8px] text-white/60 bg-black/60 px-1.5 py-0.5 rounded">
-            📸 {imageCredit}
-          </span>
-        )}
-      </div>
-    </div>
-  )
 }
 
 export interface PolymerPriceIndex {
@@ -363,11 +230,13 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                     
                     {/* Visual Polymer Header */}
                     <div className="md:col-span-5 relative">
-                      <NewsVisualHeader
-                        imageUrl={featured.image_url}
-                        headline={featured.headline}
+                      <ImageWithFallback
+                        src={featured.image_url}
+                        alt={featured.headline}
                         category={featured.category}
                         region={featured.region}
+                        sourceName={featured.source_name}
+                        visualType={featured.visual_type || undefined}
                         imageCredit={featured.image_credit}
                         isFeatured={true}
                       />
@@ -377,8 +246,10 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                     <div className="md:col-span-7 p-6 sm:p-8 flex flex-col justify-between space-y-4">
                       <div className="space-y-3">
                         <div className="flex items-center gap-2">
-                          <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded border uppercase ${
-                            CATEGORY_STYLES[featured.category]?.badge || 'bg-slate-100 text-slate-800 border-slate-200'
+                          <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded border uppercase shadow-xs ${
+                            LOCKED_CATEGORY_MAP[featured.category]?.badgeBg || 'bg-slate-900'
+                          } ${LOCKED_CATEGORY_MAP[featured.category]?.badgeText || 'text-white'} ${
+                            LOCKED_CATEGORY_MAP[featured.category]?.badgeBorder || 'border-slate-700'
                           }`}>
                             {featured.category}
                           </span>
@@ -426,7 +297,7 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
               {/* 📰 Standard Stories Grid (2 Columns) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {standardItems.map((item) => {
-                  const catStyle = CATEGORY_STYLES[item.category] || { badge: 'bg-slate-100 text-slate-800 border-slate-200', border: '#0F172A' }
+                  const catConfig = LOCKED_CATEGORY_MAP[item.category]
                   return (
                     <article
                       key={item.id}
@@ -434,11 +305,13 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                     >
                       <div>
                         {/* Visual Polymer Header */}
-                        <NewsVisualHeader
-                          imageUrl={item.image_url}
-                          headline={item.headline}
+                        <ImageWithFallback
+                          src={item.image_url}
+                          alt={item.headline}
                           category={item.category}
                           region={item.region}
+                          sourceName={item.source_name}
+                          visualType={item.visual_type || undefined}
                           imageCredit={item.image_credit}
                           isFeatured={false}
                         />
@@ -446,7 +319,11 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
                         {/* Text */}
                         <div className="p-5 space-y-2.5">
                           <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 font-medium">
-                            <span>{item.source_name}</span>
+                            <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded border uppercase ${
+                              catConfig?.badgeBg || 'bg-slate-900'
+                            } ${catConfig?.badgeText || 'text-white'} ${catConfig?.badgeBorder || 'border-slate-700'}`}>
+                              {item.category}
+                            </span>
                             <span>{new Date(item.published_at).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })} IST</span>
                           </div>
 

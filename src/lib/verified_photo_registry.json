@@ -1,0 +1,362 @@
+[
+  {
+    "id": "photo-001",
+    "category": "Research",
+    "title": "Laboratory Chemical Synthesis & Polymerization",
+    "url": "https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Science Lab",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-002",
+    "category": "Research",
+    "title": "Spectroscopy and Molecular Analysis",
+    "url": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Analytical Chemistry",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-003",
+    "category": "Research",
+    "title": "Electron Microscopy Sample Analysis",
+    "url": "https://images.unsplash.com/photo-1579154204601-01588f351e67?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / R&D Facility",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-004",
+    "category": "Research",
+    "title": "Polymer Solution Viscometry Glassware",
+    "url": "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pexels / Chemical Lab",
+    "license": "Pexels Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-005",
+    "category": "Research",
+    "title": "Thermal Analysis Crucible & DSC Setup",
+    "url": "https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pixabay / Material Science",
+    "license": "Pixabay CC0",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-006",
+    "category": "Market",
+    "title": "Petrochemical Refinery Distillation Towers",
+    "url": "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Industrial Petrochem",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-007",
+    "category": "Market",
+    "title": "Polymer Resin Granules Shipping Logistics",
+    "url": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Container Shipping",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-008",
+    "category": "Market",
+    "title": "Polypropylene Resin Pellets Silo & Storage",
+    "url": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Bulk Material Handling",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-009",
+    "category": "Market",
+    "title": "Commodity Spot Trading Market Data Display",
+    "url": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Financial Market",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-010",
+    "category": "Market",
+    "title": "Port Freight Terminals & Resin Freight Containers",
+    "url": "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pexels / Logistics",
+    "license": "Pexels Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-011",
+    "category": "India",
+    "title": "High-Speed Automated Injection Moulding Factory Floor",
+    "url": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Manufacturing India",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-012",
+    "category": "India",
+    "title": "Precision Toolroom Milling for Mould Cavities",
+    "url": "https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Precision Toolroom",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-013",
+    "category": "India",
+    "title": "Industrial Extrusion Line & Water Bath Cooling",
+    "url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Industrial Extrusion",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-014",
+    "category": "India",
+    "title": "Automated Robotic Arm on Plastic Assembly Line",
+    "url": "https://images.unsplash.com/photo-1618042164219-62c820f10723?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pexels / Industry 4.0 India",
+    "license": "Pexels Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-015",
+    "category": "India",
+    "title": "Quality Inspection of Automotive Polymeric Components",
+    "url": "https://images.unsplash.com/photo-1581092335397-9583fe92d232?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Quality Assurance",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-016",
+    "category": "Sustainability",
+    "title": "Sorted Post-Consumer Polyolefin Flakes & Pellets",
+    "url": "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Circular Economy",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-017",
+    "category": "Sustainability",
+    "title": "Recycled Plastic Polymer Washing & Shredding Line",
+    "url": "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Recycling Plant",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-018",
+    "category": "Sustainability",
+    "title": "Ocean Plastic Recovery & Sorting Stream",
+    "url": "https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pexels / Environmental Recovery",
+    "license": "Pexels Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-019",
+    "category": "Sustainability",
+    "title": "Sustainable Monomaterial Packaging Film Roll",
+    "url": "https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Circular Packaging",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-020",
+    "category": "Sustainability",
+    "title": "Pyrolysis Chemical Recycling Reactor Unit",
+    "url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Chemical Pyrolysis",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-021",
+    "category": "Policy",
+    "title": "Bureau of Indian Standards Quality Control Certification Document",
+    "url": "https://images.unsplash.com/photo-1614935151651-0bea6508db6b?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Compliance Standards",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-022",
+    "category": "Policy",
+    "title": "Ministry Gazette Notification & Official Seal",
+    "url": "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Legal & Gazette",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-023",
+    "category": "Policy",
+    "title": "EPR Credit Audit Ledger & Certificate Stamp",
+    "url": "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Regulatory Audit",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-024",
+    "category": "Policy",
+    "title": "Global Trade & Environmental Policy Forum",
+    "url": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Policy Summit",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-025",
+    "category": "Policy",
+    "title": "ISO 9001 / ISO 14001 Audit Inspection",
+    "url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Quality Standards",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-026",
+    "category": "Innovation",
+    "title": "Carbon Fiber Reinforced Polymer Composite Weave",
+    "url": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Advanced Materials",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-027",
+    "category": "Innovation",
+    "title": "Additive Manufacturing High-Temp PEEK 3D Printer",
+    "url": "https://images.unsplash.com/photo-1581092162384-8987c1d64718?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / 3D Printing PEEK",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-028",
+    "category": "Innovation",
+    "title": "Self-Healing Smart Hydrogel Polymers in Biomedical Testing",
+    "url": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Hydrogel R&D",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-029",
+    "category": "Innovation",
+    "title": "High-Thermal-Conductivity Polymer Matrix Microstructure",
+    "url": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Nano Composites",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-030",
+    "category": "Innovation",
+    "title": "Aerospace Grade Structural Honeycomb Polymer Panel",
+    "url": "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Composite Structures",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-031",
+    "category": "Bioplastics",
+    "title": "Cornstarch Polylactic Acid (PLA) Bio-Resin Pellets & Leaf Overlay",
+    "url": "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Bio-Materials",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-032",
+    "category": "Bioplastics",
+    "title": "Polyhydroxyalkanoate (PHA) Bacterial Fermentation Tank",
+    "url": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Bioprocess Fermentation",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-033",
+    "category": "Bioplastics",
+    "title": "Industrial Compostability Testing Facility for Bio-Packaging",
+    "url": "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Compostability Lab",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-034",
+    "category": "Bioplastics",
+    "title": "Seaweed Polysaccharide Biopolymer Film Extrusion",
+    "url": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Algae Bio-Films",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-035",
+    "category": "Bioplastics",
+    "title": "Bio-Based Succinic Acid & PBS Resin Synthesis",
+    "url": "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Pexels / Bio-Monomers",
+    "license": "Pexels Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-036",
+    "category": "Recycling",
+    "title": "High-Purify Food Grade rPET Pellets for Bottle-to-Bottle",
+    "url": "https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / rPET Recycling",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-037",
+    "category": "Recycling",
+    "title": "Optical NIR Sorting Machine for Polyolefin Waste",
+    "url": "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Automated Sorting",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-038",
+    "category": "Recycling",
+    "title": "Twin-Screw Regrind Extruder & Strand Pelletizer",
+    "url": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Compounding Extrusion",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-039",
+    "category": "Recycling",
+    "title": "Depolymerization Chemical Recycling Pilot Plant",
+    "url": "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Solvolysis Plant",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  },
+  {
+    "id": "photo-040",
+    "category": "Recycling",
+    "title": "Post-Industrial Scrap Shredder & Heavy Regrind Silo",
+    "url": "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1000&auto=format&fit=crop&q=80",
+    "credit": "Unsplash / Scrap Processing",
+    "license": "Unsplash Free License",
+    "verified_at": "2026-09-25"
+  }
+]

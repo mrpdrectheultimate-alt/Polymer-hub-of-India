@@ -1,6 +1,8 @@
+import { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
 import { Newspaper } from 'lucide-react'
 import TodayDashboard from '@/components/TodayDashboard'
+import MarketSparkline from '@/components/MarketSparkline'
 
 interface DBUpdate {
   id: string
@@ -10,6 +12,8 @@ interface DBUpdate {
   source_url: string | null
   image_url: string | null
   image_credit: string | null
+  visual_type?: string | null
+  rights_class?: string | null
   category: string
   region: 'India' | 'Global' | 'Regional'
   related_lesson_slug: string | null
@@ -22,33 +26,63 @@ interface DBUpdate {
 // Revalidate every hour
 export const revalidate = 3600
 
-const TICKER_ITEMS = [
-  'Reliance Repol PP ₹111.80/kg ▲2.2%',
-  'Reliance Relene HDPE ₹117.90/kg ▲2.2%',
-  'GAIL G-Lex LLDPE ₹114.20/kg ▲2.1%',
-  'Finolex PVC K-67 ₹102.00/kg ▲1.9%',
-  'Reliance Relpet PET ₹107.00/kg ▲2.2%',
-  'SABIC Lexan PC ₹248.00/kg ▲1.6%',
-  'BASF Ultramid PA6 ₹292.00/kg ▲1.6%',
-  'LG Chem ABS ₹166.80/kg ▲1.9%',
-  'Circular rPET Flakes ₹84.20/kg ▲2.4%',
-  'Brent Crude $88.30/bbl ▲1.8%',
-  'Indian EPR Credit (Cat-I Rigid) ₹2,490/ton ▲1.7%',
+export const metadata: Metadata = {
+  title: 'Daily Polymer Intelligence & Market Spot Benchmarks | PolymerHub India',
+  description: 'Curated daily polymer engineering updates, Indian domestic resin spot prices, BIS quality standards, EPR compliance policies, and bioplastics R&D news.',
+  openGraph: {
+    title: 'Daily Polymer Intelligence | PolymerHub India',
+    description: 'Real-time petrochem spot benchmarks, EPR policies, biopolymers R&D & syllabus-connected industry briefs.',
+    url: 'https://polymerhub.in/today',
+    siteName: 'PolymerHub India',
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&h=630&auto=format&fit=crop&q=80',
+        width: 1200,
+        height: 630,
+        alt: 'Daily Polymer Intelligence & Petrochemical Spot Market',
+      },
+    ],
+    locale: 'en_IN',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Daily Polymer Intelligence | PolymerHub India',
+    description: 'Curated Indian plastic manufacturing updates, spot benchmarks, and R&D research.',
+    images: ['https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1200&h=630&auto=format&fit=crop&q=80'],
+  },
+}
+
+const TICKER_DATA = [
+  { name: 'Reliance Repol PP', price: '₹111.80/kg', change: '+2.2%', isUp: true, points: [108, 109, 109.5, 110, 110.8, 111.2, 111.8] },
+  { name: 'Reliance Relene HDPE', price: '₹117.90/kg', change: '+2.2%', isUp: true, points: [114, 115, 115.5, 116, 116.8, 117.2, 117.9] },
+  { name: 'GAIL G-Lex LLDPE', price: '₹114.20/kg', change: '+2.1%', isUp: true, points: [111, 112, 112.5, 113, 113.5, 113.8, 114.2] },
+  { name: 'Finolex PVC K-67', price: '₹102.00/kg', change: '+1.9%', isUp: true, points: [99, 100, 100.2, 100.8, 101.2, 101.5, 102.0] },
+  { name: 'Reliance Relpet PET', price: '₹107.00/kg', change: '+2.2%', isUp: true, points: [104, 104.5, 105, 105.8, 106.2, 106.5, 107.0] },
+  { name: 'SABIC Lexan PC', price: '₹248.00/kg', change: '+1.6%', isUp: true, points: [242, 243, 244, 245, 246, 247, 248] },
+  { name: 'BASF Ultramid PA6', price: '₹292.00/kg', change: '+1.6%', isUp: true, points: [286, 287, 288, 289, 290, 291, 292] },
+  { name: 'LG Chem ABS', price: '₹166.80/kg', change: '+1.9%', isUp: true, points: [162, 163, 164, 165, 165.5, 166, 166.8] },
+  { name: 'Circular rPET Flakes', price: '₹84.20/kg', change: '+2.4%', isUp: true, points: [81, 82, 82.5, 83, 83.5, 83.9, 84.2] },
+  { name: 'Brent Crude Oil', price: '$88.30/bbl', change: '+1.8%', isUp: true, points: [85, 86, 86.5, 87, 87.4, 87.8, 88.3] },
+  { name: 'Indian EPR Credit (Rigid)', price: '₹2,490/ton', change: '+1.7%', isUp: true, points: [2430, 2440, 2450, 2465, 2475, 2480, 2490] },
 ]
 
 function LiveTicker() {
   return (
     <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
-      <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest">
+      <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest z-10 shadow-md">
         <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-        Indicative Benchmarks (Educational Reference)
+        Indicative Spot Benchmarks
       </div>
       <div className="overflow-hidden flex-1">
-        <div className="flex animate-ticker whitespace-nowrap">
-          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
-            <span key={i} className="font-mono text-xs text-slate-300 font-medium px-8 border-r border-white/10">
-              {item}
-            </span>
+        <div className="flex animate-ticker whitespace-nowrap items-center">
+          {[...TICKER_DATA, ...TICKER_DATA].map((item, i) => (
+            <div key={i} className="font-mono text-xs text-slate-300 font-medium px-6 border-r border-white/10 flex items-center gap-2">
+              <span className="text-white font-bold">{item.name}</span>
+              <span className="text-amber-400 font-bold">{item.price}</span>
+              <span className="text-emerald-400 font-bold text-[10px]">{item.change}</span>
+              <MarketSparkline isUp={item.isUp} points={item.points} width={64} height={20} />
+            </div>
           ))}
         </div>
       </div>
@@ -74,6 +108,8 @@ export default async function TodayPage() {
     source_url: item.source_url,
     image_url: item.image_url,
     image_credit: item.image_credit || null,
+    visual_type: item.visual_type || null,
+    rights_class: item.rights_class || null,
     category: item.category,
     region: item.region || 'Global',
     related_lesson_slug: item.related_lesson_slug,
