@@ -68,13 +68,17 @@ export function sanitizeLatex(text: string): string {
   str = str.replace(/DeltaP/g, '\\Delta P')
 
   // Target inline math ($...$) and display math ($$...$$) blocks
-  // Collapse any multi-backslashes (\\approx, \\textbf, \\frac) into single backslashes for KaTeX
+  // 1. Collapse any multi-backslashes (\\approx, \\textbf, \\frac) into single backslashes for KaTeX
+  // 2. Convert invalid LaTeX text-mode \textbf{...} into \mathbf{...} inside KaTeX math mode
   str = str.replace(/(\$\$[\s\S]*?\$\$|\$[^\$\n]+\$)/g, (mathBlock) => {
-    return mathBlock.replace(/\\{2,}/g, '\\')
+    let cleanMath = mathBlock.replace(/\\{2,}/g, '\\')
+    cleanMath = cleanMath.replace(/\\textbf\{([^}]+)\}/g, '\\mathbf{$1}')
+    return cleanMath
   })
 
   return str
 }
+
 
 export default function TechnicalMarkdownRenderer({ content, domainColor = '#2563EB' }: Props) {
   const [copied, setCopied] = useState(false)

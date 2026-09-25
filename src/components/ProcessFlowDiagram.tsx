@@ -29,68 +29,68 @@ export function ProcessFlowDiagram({
   notes
 }: ProcessFlowDiagramProps) {
   return (
-    <figure className="my-6 bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg text-slate-100 font-sans">
+    <figure className="my-8 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-xs font-sans text-slate-900">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+      <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-5 flex-wrap gap-2">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
-            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-300">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600" />
+            <h4 className="font-mono text-xs font-bold uppercase tracking-wider text-emerald-800">
               {title}
             </h4>
           </div>
-          {subtitle && <p className="text-[11px] text-slate-400 mt-0.5 font-mono">{subtitle}</p>}
+          {subtitle && <p className="text-[11px] text-slate-500 mt-0.5 font-mono">{subtitle}</p>}
         </div>
-        <span className="text-[10px] font-mono bg-emerald-950 border border-emerald-800 text-emerald-300 px-2 py-1 rounded font-bold">
+        <span className="text-[10px] font-mono bg-emerald-50 border border-emerald-200 text-emerald-700 px-2.5 py-1 rounded-full font-bold">
           ISO 10628 PFD Standard
         </span>
       </div>
 
       {/* Process Flow Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 relative">
         {steps.map((s, idx) => {
           const isLast = idx === steps.length - 1
           const statusStyles = {
-            primary: 'border-slate-700 bg-slate-800/80 text-slate-100',
-            secondary: 'border-blue-900/60 bg-blue-950/40 text-blue-100',
-            recycle: 'border-emerald-900/60 bg-emerald-950/40 text-emerald-100',
-            critical: 'border-amber-900/60 bg-amber-950/40 text-amber-100'
+            primary: 'border-slate-200 bg-slate-50/80 text-slate-900',
+            secondary: 'border-blue-200 bg-blue-50/70 text-slate-900',
+            recycle: 'border-emerald-200 bg-emerald-50/70 text-slate-900',
+            critical: 'border-amber-200 bg-amber-50/70 text-slate-900'
           }[s.status || 'primary']
 
           return (
             <div key={idx} className="relative flex flex-col justify-between">
-              <div className={`p-3.5 rounded-xl border ${statusStyles} shadow-sm space-y-2 h-full flex flex-col justify-between`}>
+              <div className={`p-4 rounded-2xl border ${statusStyles} shadow-2xs space-y-2 h-full flex flex-col justify-between`}>
                 <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="w-5 h-5 rounded-full bg-slate-700 text-cyan-300 font-mono text-[10px] font-bold flex items-center justify-center border border-slate-600">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="w-5 h-5 rounded-lg bg-[#2563EB] text-white font-mono text-[10px] font-bold flex items-center justify-center">
                       {s.step || idx + 1}
                     </span>
                     {s.parameters && (
-                      <span className="text-[9px] font-mono bg-slate-900 text-cyan-400 px-1.5 py-0.5 rounded border border-slate-700">
+                      <span className="text-[9px] font-mono bg-white text-blue-700 px-2 py-0.5 rounded border border-blue-200 font-bold">
                         {s.parameters}
                       </span>
                     )}
                   </div>
-                  <h5 className="text-xs font-bold font-mono text-slate-100 leading-snug">
+                  <h5 className="text-xs font-bold font-display text-slate-900 leading-snug">
                     {s.title}
                   </h5>
                   {s.description && (
-                    <p className="text-[11px] text-slate-300 mt-1 leading-relaxed">
+                    <p className="text-[11px] text-slate-600 mt-1 leading-relaxed font-sans">
                       {s.description}
                     </p>
                   )}
                 </div>
 
                 {s.output && (
-                  <div className="mt-2 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[10px] font-mono text-slate-400">
-                    <span>Output Stream:</span>
-                    <span className="text-emerald-400 font-semibold">{s.output}</span>
+                  <div className="mt-2.5 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-mono text-slate-500">
+                    <span>Output:</span>
+                    <span className="text-emerald-700 font-bold">{s.output}</span>
                   </div>
                 )}
               </div>
 
               {!isLast && (
-                <div className="hidden lg:flex absolute -right-3 top-1/2 -translate-y-1/2 z-10 bg-slate-950 border border-slate-700 rounded-full p-1 text-cyan-400">
+                <div className="hidden lg:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-10 bg-white border border-slate-300 rounded-full p-1 text-[#2563EB] shadow-2xs">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               )}
@@ -101,23 +101,24 @@ export function ProcessFlowDiagram({
 
       {/* Optional Recycle Loop Callout */}
       {recycleLoop && (
-        <div className="mt-4 p-3 bg-emerald-950/60 border border-emerald-800/80 rounded-xl flex items-center gap-3 text-xs text-emerald-200">
-          <RefreshCw className="w-4 h-4 text-emerald-400 shrink-0 animate-spin" style={{ animationDuration: '8s' }} />
+        <div className="mt-5 p-3.5 bg-emerald-50/80 border border-emerald-200 rounded-2xl flex items-center gap-3 text-xs text-emerald-950">
+          <RefreshCw className="w-4 h-4 text-emerald-600 shrink-0 animate-spin" style={{ animationDuration: '8s' }} />
           <div>
-            <strong className="font-mono text-emerald-300 uppercase text-[10px] block">Recycle Loop Stream:</strong>
-            <span className="text-[11px]">{recycleLoop}</span>
+            <strong className="font-mono text-emerald-800 uppercase text-[10px] block">Recycle Loop Stream:</strong>
+            <span className="text-[11px] font-sans">{recycleLoop}</span>
           </div>
         </div>
       )}
 
       {/* Notes & Standards Footer */}
       {notes && (
-        <figcaption className="mt-3 text-[11px] font-mono text-slate-400 border-t border-slate-800 pt-2 text-center">
+        <figcaption className="mt-4 text-[11px] font-mono text-slate-500 border-t border-slate-100 pt-2.5 text-center">
           {notes}
         </figcaption>
       )}
     </figure>
   )
 }
+
 
 export default ProcessFlowDiagram
