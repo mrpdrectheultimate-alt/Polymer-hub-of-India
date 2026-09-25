@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 
 import { getBookBySlug, LibraryBook } from '@/lib/library_data'
+import LibraryBookCover from '@/components/LibraryBookCover'
 
 export default function BookDetailPage() {
   const { slug } = useParams()
@@ -128,25 +129,26 @@ export default function BookDetailPage() {
         {/* Left Column: Cover Card & Legal Status */}
         <div className="lg:col-span-1">
           <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-xl sticky top-6">
+            
             {/* Visual Book Cover */}
-            <div className="h-64 rounded-xl bg-gradient-to-br from-purple-950 via-slate-900 to-indigo-950 relative p-6 flex flex-col justify-between text-white border border-slate-800 shadow-md mb-6">
-              <span className="self-start text-[9px] uppercase font-mono font-black tracking-widest px-2.5 py-1 rounded bg-black/40 border border-white/20">
-                {book.legal_class}
-              </span>
-              <div>
-                <h3 className="font-extrabold text-lg leading-snug line-clamp-3 text-amber-300">
-                  {book.title}
-                </h3>
-                <p className="text-xs text-slate-300 mt-1">by {book.authors}</p>
-              </div>
-              <div className="flex items-center justify-between text-slate-400 text-xs">
-                <span>{book.difficulty}</span>
-                <BookOpen className="w-4 h-4 text-amber-400/50" />
-              </div>
+            <div className="rounded-xl overflow-hidden border border-slate-800 shadow-md mb-6">
+              <LibraryBookCover
+                id={book.id}
+                slug={book.slug}
+                title={book.title}
+                authors={book.authors}
+                legalClass={book.legal_class}
+                isbn={book.isbn}
+                publisher={book.publisher}
+                subjectSlugs={book.subject_slugs}
+                coverUrl={book.cover_url}
+                difficulty={book.difficulty}
+                isHero={true}
+              />
             </div>
 
             {/* Quick Metadata List */}
-            <div className="space-y-3 mb-6 text-xs border-b border-slate-800 pb-5">
+            <div className="space-y-3 mb-6 text-xs border-b border-slate-800 pb-5 font-mono">
               {book.publisher && (
                 <div className="flex justify-between">
                   <span className="text-slate-400">Publisher:</span>
@@ -178,151 +180,136 @@ export default function BookDetailPage() {
               {isClassA && (
                 <Link
                   href={`/library/${book.slug}/read`}
-                  className="w-full inline-flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition-all text-xs shadow-md"
+                  className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-xs uppercase py-3 rounded-xl shadow-lg transition-all"
                 >
-                  <Sparkles className="w-4 h-4" /> Launch Interactive Reading Room
+                  <BookOpen className="w-4 h-4" /> Launch Interactive Reader
                 </Link>
               )}
 
-              {isClassB && (
-                <>
-                  {book.file_url && (
-                    <a
-                      href={book.file_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition-all text-xs shadow-md"
-                    >
-                      <Download className="w-4 h-4" /> Download / View Official PDF
-                    </a>
-                  )}
-                  <Link
-                    href={`/library/${book.slug}/read`}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl transition-all text-xs border border-slate-700"
-                  >
-                    <BookOpen className="w-4 h-4 text-emerald-400" /> Read Open Access Summary
-                  </Link>
-                </>
+              {isClassB && book.file_url && (
+                <a
+                  href={book.file_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-mono font-bold text-xs uppercase py-3 rounded-xl shadow-lg transition-all"
+                >
+                  <Download className="w-4 h-4" /> Download / Open Verified PDF
+                </a>
               )}
 
               {isClassD && (
-                <>
+                <div className="space-y-2">
                   {book.purchase_url && (
                     <a
                       href={book.purchase_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold py-3 rounded-xl transition-all text-xs shadow-md"
+                      className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-300 text-slate-950 font-mono font-bold text-xs uppercase py-3 rounded-xl transition-all"
                     >
-                      <ShoppingBag className="w-4 h-4" /> Buy Edition (Amazon / Publisher)
+                      <ShoppingBag className="w-4 h-4" /> Publisher / Merchant Link <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
+
                   {book.worldcat_url && (
                     <a
                       href={book.worldcat_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-2.5 rounded-xl transition-all text-xs border border-slate-700"
+                      className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-mono font-bold text-xs uppercase py-2.5 rounded-xl transition-all"
                     >
-                      <LibraryIcon className="w-4 h-4 text-blue-400" /> Find in University Library (WorldCat)
+                      <LibraryIcon className="w-4 h-4 text-amber-400" /> Find in Library (WorldCat) <ExternalLink className="w-3.5 h-3.5" />
                     </a>
                   )}
-                </>
+                </div>
               )}
             </div>
+
           </div>
         </div>
 
-        {/* Right Column: Detailed Bibliographic Metadata & Table of Contents */}
+        {/* Right 2 Columns: Book Synopsis, Syllabus Links & Table of Contents */}
         <div className="lg:col-span-2 space-y-6">
-          {/* Legal Rights Banner */}
-          {isClassD && (
-            <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-5 relative overflow-hidden">
-              <div className="flex items-start gap-3.5">
-                <ShieldCheck className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold text-amber-300">
-                    External Reference Catalog Card (Class D)
-                  </h4>
-                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                    Full text copyright for <em>"{book.title}"</em> is strictly held by {book.publisher || 'the original authors and publisher'}. PolymerHub displays verified bibliographic metadata, ISBN/DOI details, and Table of Contents for academic citation and discovery. Zero unauthorized body text is hosted.
-                  </p>
-                </div>
+          
+          {/* Main Book Information */}
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 md:p-8 shadow-xl space-y-6">
+            <div>
+              <span className="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider block mb-1">
+                {book.focus}
+              </span>
+              <h1 className="font-display font-black text-2xl md:text-3xl text-white leading-snug">
+                {book.title}
+              </h1>
+              <p className="text-sm text-slate-300 mt-2 font-medium">by {book.authors}</p>
+            </div>
+
+            {/* Legal Class Partition Warning / Notice */}
+            <div className={`p-4 rounded-xl border text-xs font-mono leading-relaxed ${
+              isClassA ? 'bg-purple-950/60 border-purple-800 text-purple-200' :
+              isClassB ? 'bg-emerald-950/60 border-emerald-800 text-emerald-200' :
+              'bg-amber-950/40 border-amber-800/80 text-amber-200'
+            }`}>
+              <div className="flex items-center gap-2 font-bold mb-1 uppercase tracking-wider">
+                <CheckCircle2 className="w-4 h-4 text-amber-400" />
+                Legal Partition Status: {book.legal_class}
+              </div>
+              <p>{book.notice}</p>
+            </div>
+
+            {/* Book Executive Summary */}
+            <div className="space-y-3">
+              <h3 className="font-display font-bold text-lg text-white">Executive Summary</h3>
+              <p className="text-sm text-slate-300 leading-relaxed font-light whitespace-pre-line">
+                {book.summary}
+              </p>
+            </div>
+
+            {/* Target Careers & Syllabus Alignment */}
+            <div className="space-y-3 pt-4 border-t border-slate-800">
+              <h4 className="font-mono text-xs font-bold text-slate-400 uppercase tracking-wider">
+                Target Industry Careers &amp; Academic Focus
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {book.careers.map((career, i) => (
+                  <span key={i} className="px-3 py-1 rounded-lg bg-slate-950 text-slate-300 border border-slate-800 text-xs font-mono font-medium">
+                    💼 {career}
+                  </span>
+                ))}
               </div>
             </div>
-          )}
 
-          {isClassA && (
-            <div className="bg-purple-950/40 border border-purple-800/40 rounded-2xl p-5">
-              <div className="flex items-start gap-3.5">
-                <Sparkles className="w-6 h-6 text-purple-400 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold text-purple-200">
-                    PolymerHub Proprietary Original Guide (Class A)
-                  </h4>
-                  <p className="text-xs text-purple-300 mt-1 leading-relaxed">
-                    100% original, interactive technical guide written by the PolymerHub Academic Board. Includes KaTeX math formulas, shop-floor parameters, worked examples, and interactive calculators.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Book Summary & Focus */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <h3 className="text-base font-bold text-white mb-3">Executive Summary</h3>
-            <p className="text-sm text-slate-300 leading-relaxed">{book.summary}</p>
-
-            <div className="mt-4 pt-4 border-t border-slate-800">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Engineering Focus</h4>
-              <p className="text-xs text-slate-300 leading-relaxed">{book.focus}</p>
-            </div>
           </div>
 
-          {/* Table of Contents Index */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-base font-bold text-white flex items-center gap-2">
-                <BookMarked className="w-4 h-4 text-amber-400" /> Table of Contents Reference
-              </h3>
-              <span className="text-xs font-mono text-slate-400">{book.toc?.length || 0} Modules Listed</span>
-            </div>
+          {/* Table of Contents / Chapter Syllabus Overview */}
+          <div className="bg-slate-900 rounded-2xl border border-slate-800 p-6 md:p-8 shadow-xl space-y-4">
+            <h3 className="font-display font-bold text-lg text-white flex items-center justify-between">
+              <span>Table of Contents / Chapter Index</span>
+              <span className="text-xs font-mono font-normal text-slate-400">
+                {book.toc.length} Chapters Cataloged
+              </span>
+            </h3>
 
             <div className="space-y-2.5">
-              {book.toc?.map((chapter, idx) => (
+              {book.toc.map((chap, idx) => (
                 <div
-                  key={idx}
-                  className="bg-slate-950 border border-slate-800/80 rounded-xl p-3.5 flex items-center justify-between hover:border-slate-700 transition-all"
+                  key={chap.id || idx}
+                  className="p-3.5 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center justify-between text-xs font-mono text-slate-300 hover:border-slate-700 transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="w-7 h-7 rounded-lg bg-slate-800 border border-slate-700 flex items-center justify-center font-mono text-xs font-bold text-amber-300">
-                      {idx + 1}
-                    </span>
-                    <span className="text-xs font-medium text-slate-200">{chapter.title}</span>
-                  </div>
-
-                  {isClassA && (
+                  <span className="font-medium">{chap.title}</span>
+                  {isClassA ? (
                     <Link
-                      href={`/library/${book.slug}/read?ch=${chapter.id}`}
-                      className="text-[11px] font-bold text-purple-400 hover:text-purple-300"
+                      href={`/library/${book.slug}/read#${chap.id}`}
+                      className="text-purple-400 hover:text-purple-300 font-bold uppercase text-[10px] shrink-0 ml-3"
                     >
                       Read Chapter &rarr;
                     </Link>
-                  )}
-                  {isClassB && (
-                    <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800">
-                      Open Access Reference
-                    </span>
-                  )}
-                  {isClassD && (
-                    <span className="text-[10px] font-mono text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                      Citation Index
-                    </span>
+                  ) : (
+                    <span className="text-[10px] text-slate-500 uppercase">Chapter Reference</span>
                   )}
                 </div>
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </div>

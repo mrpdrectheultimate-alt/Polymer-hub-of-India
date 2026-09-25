@@ -1,8 +1,7 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { 
   BookOpen, 
@@ -11,15 +10,13 @@ import {
   Sparkles, 
   ShieldCheck, 
   Award, 
-  CheckCircle2, 
-  Layers, 
   GraduationCap, 
   ExternalLink,
   Download,
   BookMarked
 } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
 import { ALL_LIBRARY_BOOKS, LibraryBook, LegalClass } from '@/lib/library_data'
+import LibraryBookCover from '@/components/LibraryBookCover'
 import Footer from '@/components/Footer'
 
 // ==================== DATA & CONSTANTS ====================
@@ -50,287 +47,278 @@ const STATS = [
   { value: '5 Deep Guides', label: 'Full Interactive Books', icon: GraduationCap },
 ]
 
-const DISCIPLINE_THEMES: Record<string, { gradient: string; watermark: string; tag: string }> = {
-  'polymer-chemistry': {
-    gradient: 'from-blue-900 via-indigo-950 to-slate-950',
-    watermark: 'POLYMER SYNTHESIS & MOLECULAR ARCHITECTURE',
-    tag: '⚗️ Chemistry',
-  },
-  'polymer-processing': {
-    gradient: 'from-amber-900 via-orange-950 to-slate-950',
-    watermark: 'INJECTION MOULDING & EXTRUSION DYNAMICS',
-    tag: '⚙️ Processing',
-  },
-  'polymer-testing': {
-    gradient: 'from-purple-900 via-slate-950 to-indigo-950',
-    watermark: 'ASTM / ISO MECHANICAL CHARACTERIZATION',
-    tag: '🔬 Testing & QA',
-  },
-  'polymer-rheology': {
-    gradient: 'from-cyan-900 via-blue-950 to-slate-950',
-    watermark: 'VISCOELASTICITY & SHEAR FLOW MECHANICS',
-    tag: '🌊 Rheology',
-  },
-  'polymer-composites': {
-    gradient: 'from-sky-900 via-slate-950 to-teal-950',
-    watermark: 'CFRP STRUCTURAL COMPOSITES & RESIN MATRIX',
-    tag: '🚀 Composites',
-  },
-  'mould-design': {
-    gradient: 'from-slate-900 via-zinc-950 to-blue-950',
-    watermark: 'INJECTION MOULDS & RUNNER COOLING LAYOUTS',
-    tag: '📐 Mould Design',
-  },
-  'sustainable-plastics': {
-    gradient: 'from-emerald-900 via-teal-950 to-slate-950',
-    watermark: 'CIRCULAR ECONOMY & BIOPOLYMER DEGRADATION',
-    tag: '🌱 Sustainability',
-  },
-  'additives-and-compounding': {
-    gradient: 'from-amber-950 via-zinc-950 to-slate-950',
-    watermark: 'TWIN SCREW COMPOUNDING & MASTERBATCH',
-    tag: '🧪 Compounding',
-  },
-}
-
-function BookCoverVisual({ book }: { book: LibraryBook }) {
-  const [imgError, setImgError] = useState(false)
-  const primarySlug = book.subject_slugs?.[0] || 'polymer-chemistry'
-  const theme = DISCIPLINE_THEMES[primarySlug] || DISCIPLINE_THEMES['polymer-chemistry']
-
-  return (
-    <div className={`relative h-48 w-full overflow-hidden bg-gradient-to-br ${theme.gradient}`}>
-      <div className="absolute inset-0 opacity-15 pointer-events-none flex flex-col justify-between p-3 select-none">
-        <span className="font-mono text-[9px] font-black tracking-widest text-white/50 uppercase">
-          {theme.watermark}
-        </span>
-        <div className="border border-white/20 rounded-lg p-2 flex items-center justify-between">
-          <span className="font-mono text-[8px] text-white/60 font-bold uppercase">{theme.tag}</span>
-          <span className="font-mono text-[8px] text-amber-300 font-bold uppercase">{book.difficulty}</span>
-        </div>
-      </div>
-
-      {book.cover_url && !imgError && (
-        <Image
-          src={book.cover_url}
-          alt={book.title}
-          fill
-          unoptimized
-          onError={() => setImgError(true)}
-          className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
-        />
-      )}
-
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none" />
-
-      {/* 4-Class Legal Badges */}
-      <div className="absolute top-3.5 left-3.5 z-10">
-        {book.legal_class === 'Class A' && (
-          <span className="px-2.5 py-1 rounded-full bg-purple-600 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-            <Sparkles className="h-3 w-3 fill-white" /> Class A &middot; PolymerHub Original
-          </span>
-        )}
-        {book.legal_class === 'Class B' && (
-          <span className="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-            <Download className="h-3 w-3" /> Class B &middot; Open Access PDF
-          </span>
-        )}
-        {book.legal_class === 'Class D' && (
-          <span className="px-2.5 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-600 text-[10px] font-mono font-black uppercase tracking-wider shadow-sm flex items-center gap-1">
-            <ExternalLink className="h-3 w-3 text-amber-400" /> Class D &middot; Catalog Card
-          </span>
-        )}
-      </div>
-    </div>
-  )
-}
-
 export default function DigitalLibraryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedSubject, setSelectedSubject] = useState('all')
-  const [selectedLegalClass, setSelectedLegalClass] = useState('all')
-  const [books, setBooks] = useState<LibraryBook[]>(ALL_LIBRARY_BOOKS)
+  const [selectedLegalClass, setSelectedLegalClass] = useState<string>('all')
 
-  useEffect(() => {
-    async function fetchSupabaseBooks() {
-      try {
-        const supabase = createClient()
-        const { data } = await supabase.from('library_books').select('*')
-        if (data && data.length > 0) {
-          // Merge with fallback data
-          const merged = ALL_LIBRARY_BOOKS.map(localB => {
-            const dbB = data.find((d: any) => d.slug === localB.slug)
-            return dbB ? { ...localB, ...dbB } : localB
-          })
-          setBooks(merged)
-        }
-      } catch (err) {
-        console.error('Using local library fallback:', err)
-      }
-    }
-    fetchSupabaseBooks()
-  }, [])
+  const books: LibraryBook[] = ALL_LIBRARY_BOOKS
 
   const filteredBooks = useMemo(() => {
-    return books.filter(book => {
+    return books.filter((b) => {
       const matchesSearch = 
-        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.authors.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        book.summary.toLowerCase().includes(searchQuery.toLowerCase())
+        !searchQuery ||
+        b.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        b.authors.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        b.focus.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        b.summary.toLowerCase().includes(searchQuery.toLowerCase())
 
-      const matchesSubject = selectedSubject === 'all' || book.subject_slugs.includes(selectedSubject)
-      const matchesLegalClass = selectedLegalClass === 'all' || book.legal_class === selectedLegalClass
+      const matchesSubject = 
+        selectedSubject === 'all' || 
+        b.subject_slugs?.includes(selectedSubject)
+
+      const matchesLegalClass = 
+        selectedLegalClass === 'all' || 
+        b.legal_class === selectedLegalClass
 
       return matchesSearch && matchesSubject && matchesLegalClass
     })
   }, [books, searchQuery, selectedSubject, selectedLegalClass])
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-amber-400 selection:text-slate-950 font-sans">
-      {/* Top Banner: 4-Class Legal Guarantee */}
-      <div className="bg-gradient-to-r from-purple-900 via-slate-900 to-indigo-950 border-b border-purple-800/40 py-2.5 px-4 text-center text-xs font-medium text-slate-200">
-        <span className="inline-flex items-center gap-1.5 font-bold text-amber-400">
-          <ShieldCheck className="h-4 w-4" /> PolymerHub 4-Class Legal Infrastructure:
-        </span>{' '}
-        Zero misattributed AI filler. Original interactive guides (Class A) + Open Access standards (Class B) + Bibliographic commercial discovery cards (Class D).
-      </div>
+  const classACount = useMemo(() => books.filter((b) => b.legal_class === 'Class A').length, [books])
+  const classBCount = useMemo(() => books.filter((b) => b.legal_class === 'Class B').length, [books])
+  const classDCount = useMemo(() => books.filter((b) => b.legal_class === 'Class D').length, [books])
 
-      {/* Hero Header */}
-      <section className="relative overflow-hidden pt-16 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-xs font-mono font-bold mb-4">
-            <BookMarked className="h-3.5 w-3.5" /> ACADEMIC & INDUSTRIAL KNOWLEDGE ENGINE
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      
+      {/* ── 1. HERO SECTION: Midnight Navy with Gold Accent ── */}
+      <section className="relative pt-12 pb-16 px-4 md:px-8 border-b border-slate-800 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(245,197,24,0.08)_0%,transparent_70%)] pointer-events-none" />
+        
+        <div className="max-w-6xl mx-auto space-y-6 relative z-10">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/20 text-amber-400 font-mono text-xs font-bold uppercase tracking-wider">
+            <BookMarked className="w-4 h-4" /> PolymerHub Digital Library &middot; 3-Tier Visual System
           </div>
-          <h1 className="text-4xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-            PolymerHub <span className="bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-500 bg-clip-text text-transparent">Digital Library</span>
+
+          <h1 className="font-display font-black text-3xl md:text-5xl text-white tracking-tight leading-tight uppercase">
+            Curated Academic &amp; Industrial <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500">
+              Polymer Bookshelf
+            </span>
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-slate-400 leading-relaxed font-normal">
-            Legally partitioned reference library. Deep interactive original guides for polymer engineers, verified public domain technical standards, and external commercial discovery cards.
+
+          <p className="text-sm md:text-base text-slate-300 max-w-3xl leading-relaxed font-light">
+            Partitioned into <strong className="text-purple-300 font-semibold">Class A Originals</strong>, <strong className="text-emerald-300 font-semibold">Class B Open Access PDFs</strong>, and <strong className="text-amber-300 font-semibold">Class D Reference Cards</strong> for complete legal compliance and academic transparency.
           </p>
 
-          {/* Search & Filter Controls */}
-          <div className="mt-8 relative max-w-2xl mx-auto">
-            <div className="relative">
-              <Search className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
-              <input
-                type="text"
-                placeholder="Search by title, author, ASTM standard, or keyword..."
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 bg-slate-900/90 border border-slate-800 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm transition-all shadow-inner"
-              />
-            </div>
+          {/* Quick Metrics Bar */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 max-w-4xl">
+            {STATS.map((stat, i) => {
+              const Icon = stat.icon
+              return (
+                <div key={i} className="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-lg bg-amber-400/10 border border-amber-400/20 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4 text-amber-400" />
+                  </div>
+                  <div>
+                    <span className="font-display font-extrabold text-white text-base block leading-tight">{stat.value}</span>
+                    <span className="font-mono text-[10px] text-slate-400 uppercase font-medium">{stat.label}</span>
+                  </div>
+                </div>
+              )
+            })}
           </div>
-        </div>
 
-        {/* Stats Row */}
-        <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-          {STATS.map((s, idx) => (
-            <div key={idx} className="bg-slate-900/60 border border-slate-800 rounded-xl p-4 text-center">
-              <s.icon className="h-5 w-5 text-amber-400 mx-auto mb-2" />
-              <div className="text-xl font-extrabold text-white">{s.value}</div>
-              <div className="text-xs text-slate-400 mt-0.5">{s.label}</div>
-            </div>
-          ))}
         </div>
       </section>
 
-      {/* Main Catalog View */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
-        {/* Legal Class Filter Tabs */}
-        <div className="flex flex-wrap gap-2 justify-center mb-8 border-b border-slate-800 pb-4">
-          {LEGAL_CLASS_FILTERS.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => setSelectedLegalClass(tab.id)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold transition-all ${
-                selectedLegalClass === tab.id
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'bg-slate-900 text-slate-400 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
+      {/* ── 2. LEGAL PARTITIONING EXPLANATION BANNER ── */}
+      <section className="bg-slate-900/60 border-b border-slate-800 py-4 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2 text-slate-300">
+            <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>4-Class Legal Partitioning System Active:</span>
+          </div>
+
+          <div className="flex items-center gap-3 flex-wrap text-[11px]">
+            <span className="px-2.5 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800 font-bold">
+              Class A: Originals ({classACount})
+            </span>
+            <span className="px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-bold">
+              Class B: Open Access ({classBCount})
+            </span>
+            <span className="px-2.5 py-0.5 rounded bg-slate-800 text-amber-400 border border-slate-700 font-bold">
+              Class D: Reference Cards ({classDCount})
+            </span>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. FILTER & SEARCH CONTROL TOOLBAR ── */}
+      <main className="max-w-6xl mx-auto px-4 md:px-8 py-8 flex-1 w-full space-y-8">
+        
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 md:p-5 space-y-4 shadow-xl">
+          
+          {/* Top Row: Search & Class Filter */}
+          <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
+            {/* Search Input */}
+            <div className="relative w-full md:w-80">
+              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search polymer titles, authors, ISBN..."
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs font-medium text-white focus:outline-none focus:border-amber-400 transition-colors"
+              />
+            </div>
+
+            {/* Legal Class Filter Buttons */}
+            <div className="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto whitespace-nowrap mobile-touch-scroll">
+              {LEGAL_CLASS_FILTERS.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setSelectedLegalClass(f.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+                    selectedLegalClass === f.id
+                      ? 'bg-amber-400 text-slate-950 shadow-md'
+                      : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Bottom Row: Subject Filter Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap pt-2 border-t border-slate-800/80 mobile-touch-scroll">
+            {SUBJECT_FILTERS.map((s) => (
+              <button
+                key={s.slug}
+                onClick={() => setSelectedSubject(s.slug)}
+                className={`px-3 py-1 rounded-full text-[11px] font-mono font-medium transition-all ${
+                  selectedSubject === s.slug
+                    ? 'bg-slate-800 text-amber-300 border border-amber-400/40'
+                    : 'text-slate-400 hover:text-white border border-slate-800/50 hover:bg-slate-950'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
         </div>
 
-        {/* Subject Filter Pills */}
-        <div className="flex flex-wrap gap-2 justify-center mb-10">
-          {SUBJECT_FILTERS.map(sub => (
+        {/* ── 4. BOOK CARDS GRID ── */}
+        {filteredBooks.length === 0 ? (
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-12 text-center space-y-4">
+            <BookOpen className="w-12 h-12 text-slate-600 mx-auto" />
+            <h3 className="font-display font-bold text-lg text-white">No Matching Reference Books</h3>
+            <p className="text-xs text-slate-400 max-w-md mx-auto">
+              Try adjusting your search query or switching legal classification filters to view the full bookshelf.
+            </p>
             <button
-              key={sub.slug}
-              onClick={() => setSelectedSubject(sub.slug)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                selectedSubject === sub.slug
-                  ? 'bg-amber-400 text-slate-950 font-bold'
-                  : 'bg-slate-900/80 border border-slate-800 text-slate-400 hover:text-white'
-              }`}
+              onClick={() => {
+                setSearchQuery('')
+                setSelectedSubject('all')
+                setSelectedLegalClass('all')
+              }}
+              className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-mono text-xs font-bold px-4 py-2 rounded-lg transition-colors uppercase"
             >
-              {sub.label}
+              Reset All Filters
             </button>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredBooks.map((book) => {
+              const isClassA = book.legal_class === 'Class A'
+              const isClassB = book.legal_class === 'Class B'
+              const isClassD = book.legal_class === 'Class D'
 
-        {/* Book Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredBooks.map((book) => (
-            <motion.div
-              key={book.id}
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg hover:border-purple-500/50 transition-all flex flex-col group"
-            >
-              {/* Visual Book Cover */}
-              <BookCoverVisual book={book} />
+              return (
+                <motion.div
+                  key={book.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden shadow-lg hover:border-slate-700 hover:shadow-2xl transition-all duration-300 flex flex-col justify-between group"
+                >
+                  <div>
+                    {/* 3-Tier Visual Library Cover Header */}
+                    <LibraryBookCover
+                      id={book.id}
+                      slug={book.slug}
+                      title={book.title}
+                      authors={book.authors}
+                      legalClass={book.legal_class}
+                      isbn={book.isbn}
+                      publisher={book.publisher}
+                      subjectSlugs={book.subject_slugs}
+                      coverUrl={book.cover_url}
+                      difficulty={book.difficulty}
+                      isHero={false}
+                    />
 
-              {/* Book Content Metadata */}
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/20">
-                      {book.category.toUpperCase().replace('_', ' ')}
-                    </span>
-                    <span className="text-[10px] text-slate-400 font-mono">
-                      {book.toc?.length || 0} Chapters
-                    </span>
+                    {/* Book Text Details */}
+                    <div className="p-5 space-y-3">
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-400">
+                        <span>{book.publisher || 'PolymerHub Academic'} &middot; {book.publication_year || 2026}</span>
+                        <span className="font-bold text-amber-400">{book.difficulty}</span>
+                      </div>
+
+                      <h3 className="font-display font-bold text-base text-white group-hover:text-amber-300 transition-colors leading-snug line-clamp-2">
+                        {book.title}
+                      </h3>
+
+                      <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 font-light">
+                        {book.summary}
+                      </p>
+
+                      <div className="pt-2 flex flex-wrap gap-1">
+                        {book.careers?.slice(0, 2).map((c, idx) => (
+                          <span key={idx} className="text-[9px] font-mono bg-slate-950 text-slate-400 px-2 py-0.5 rounded border border-slate-800">
+                            💼 {c}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
 
-                  <h3 className="font-bold text-lg text-white group-hover:text-amber-400 transition-colors line-clamp-2">
-                    {book.title}
-                  </h3>
-                  <p className="text-xs text-slate-400 mt-1 font-medium">by {book.authors}</p>
-                  <p className="text-xs text-slate-400 mt-3 line-clamp-3 leading-relaxed">
-                    {book.summary}
-                  </p>
-                </div>
+                  {/* Card Actions Footer */}
+                  <div className="p-5 pt-0 border-t border-slate-800/60 flex items-center justify-between gap-2 mt-4">
+                    <Link
+                      href={`/library/${book.slug}`}
+                      className="inline-flex items-center gap-1 font-mono text-[11px] font-bold text-amber-400 hover:text-amber-300 uppercase tracking-wider"
+                    >
+                      View Details &rarr;
+                    </Link>
 
-                <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
-                  <Link
-                    href={`/library/${book.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-400 hover:text-amber-300 group-hover:translate-x-1 transition-all"
-                  >
-                    {book.legal_class === 'Class A' && 'Read Interactive Guide'}
-                    {book.legal_class === 'Class B' && 'View Open Access PDF'}
-                    {book.legal_class === 'Class D' && 'View Catalog Card & Citation'}
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                    {isClassA && (
+                      <Link
+                        href={`/library/${book.slug}`}
+                        className="inline-flex items-center gap-1 font-mono text-[10px] font-bold bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-lg transition-colors"
+                      >
+                        Read Book <BookOpen className="w-3 h-3" />
+                      </Link>
+                    )}
 
-                  {book.legal_class === 'Class D' && (
-                    <span className="text-[9px] font-mono text-slate-500 uppercase">External Catalog</span>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                    {isClassB && (
+                      <Link
+                        href={`/library/${book.slug}`}
+                        className="inline-flex items-center gap-1 font-mono text-[10px] font-bold bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg transition-colors"
+                      >
+                        Read Open PDF <Download className="w-3 h-3" />
+                      </Link>
+                    )}
 
-        {filteredBooks.length === 0 && (
-          <div className="text-center py-16 bg-slate-900/50 border border-slate-800 rounded-2xl">
-            <BookOpen className="h-10 w-10 text-slate-600 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-white">No matching books found</h3>
-            <p className="text-xs text-slate-400 mt-1">Try resetting your subject or legal classification filters.</p>
+                    {isClassD && (
+                      <Link
+                        href={`/library/${book.slug}`}
+                        className="inline-flex items-center gap-1 font-mono text-[10px] font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition-colors"
+                      >
+                        Catalog Card <ExternalLink className="w-3 h-3 text-amber-400" />
+                      </Link>
+                    )}
+                  </div>
+
+                </motion.div>
+              )
+            })}
           </div>
         )}
+
       </main>
 
       <Footer />
