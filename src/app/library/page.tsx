@@ -30,18 +30,20 @@ const SUBJECT_FILTERS = [
   { slug: 'polymer-composites', label: 'Composites' },
   { slug: 'mould-design', label: 'Mould Design' },
   { slug: 'additives-and-compounding', label: 'Compounding' },
+  { slug: 'rubber-technology', label: 'Rubber Tech' },
+  { slug: 'plastic-packaging-engineering', label: 'Packaging' },
   { slug: 'sustainable-plastics', label: 'Sustainability' },
 ]
 
 const LEGAL_CLASS_FILTERS = [
-  { id: 'all', label: 'All Books (20)' },
+  { id: 'all', label: 'All Books (40)' },
   { id: 'Class A', label: '⭐ Class A: PolymerHub Originals (5)' },
   { id: 'Class B', label: '🟢 Class B: Open Access / PDF (6)' },
-  { id: 'Class D', label: '📘 Class D: External Reference Cards (9)' },
+  { id: 'Class D', label: '📘 Class D: External Reference Cards (29)' },
 ]
 
 const STATS = [
-  { value: '20', label: 'Curated Volumes', icon: BookOpen },
+  { value: '40', label: 'Curated Volumes', icon: BookOpen },
   { value: '4 Classes', label: 'Strict Legal Classification', icon: ShieldCheck },
   { value: '100%', label: 'Legally Audited & Partitioned', icon: Award },
   { value: '5 Deep Guides', label: 'Full Interactive Books', icon: GraduationCap },
