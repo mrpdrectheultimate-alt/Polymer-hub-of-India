@@ -11,6 +11,7 @@ import {
 import {
   IndustryEvent,
   VERIFIED_INDUSTRY_EVENTS,
+  ARCHIVED_INDUSTRY_EVENTS,
   computeEventStatus,
   generateEventGoogleCalendarUrl
 } from '@/lib/industry_events_data'
@@ -123,15 +124,26 @@ function IndustryEventCard({
       <div className="space-y-3.5 pt-1">
         {/* Top Badges */}
         <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 flex-wrap">
             <span className="font-mono text-[10px] font-black bg-blue-100 text-blue-900 border border-blue-200 px-2.5 py-1 rounded-lg uppercase shadow-xs">
               {event.monthYearBadge}
             </span>
             <span className={`font-mono text-[10px] font-black px-2.5 py-1 rounded-lg uppercase border shadow-xs ${cityTheme.bg} ${cityTheme.text} ${cityTheme.border}`}>
               {event.city}
             </span>
+            {event.priorityBadge && (
+              <span className={`font-mono text-[10px] font-black px-2 py-1 rounded-lg uppercase border shadow-xs ${
+                event.priorityBadge === 'P0 Flagship'
+                  ? 'bg-amber-100 text-amber-950 border-amber-300'
+                  : event.priorityBadge === 'P1 Research'
+                  ? 'bg-purple-100 text-purple-950 border-purple-200'
+                  : 'bg-emerald-100 text-emerald-950 border-emerald-300'
+              }`}>
+                {event.priorityBadge}
+              </span>
+            )}
           </div>
-          <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs ${statusInfo.badgeColor}`}>
+          <span className={`font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full shadow-xs shrink-0 ${statusInfo.badgeColor}`}>
             {statusInfo.status === 'Upcoming' ? `In ${statusInfo.daysUntil}d` : statusInfo.status}
           </span>
         </div>
@@ -290,10 +302,16 @@ function IndustryEventCard({
       {/* Trust Layer & Action Bar when Collapsed */}
       <div className="space-y-3 border-t border-slate-100 pt-3.5">
         <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
-          <span className="text-emerald-700 font-bold flex items-center gap-1">
-            <CheckCircle size={12} className="text-emerald-600" /> Source: {event.sourceName.split('/')[0].trim()}
-          </span>
-          <span>Verified: {event.lastVerified}</span>
+          <a
+            href={event.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-700 font-bold hover:underline flex items-center gap-1 truncate max-w-[210px]"
+            title={`Source: ${event.sourceName} (${event.sourceUrl})`}
+          >
+            <CheckCircle size={12} className="text-emerald-600 shrink-0" /> Source: {event.sourceName.split('/')[0].trim()}
+          </a>
+          <span className="shrink-0 text-slate-500">Verified: {event.lastVerified}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -803,6 +821,7 @@ function DiscussionTab() {
 
 export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState<Tab>('exhibitions')
+  const [eventFeedMode, setEventFeedMode] = useState<'upcoming' | 'archive'>('upcoming')
   const [selectedCity, setSelectedCity] = useState('all')
   const [selectedType, setSelectedType] = useState('all')
 
@@ -848,12 +867,13 @@ export default function CommunityPage() {
 
   // Filtered Industry Events
   const filteredIndustryEvents = useMemo(() => {
-    return VERIFIED_INDUSTRY_EVENTS.filter((ev) => {
+    const dataset = eventFeedMode === 'upcoming' ? VERIFIED_INDUSTRY_EVENTS : ARCHIVED_INDUSTRY_EVENTS
+    return dataset.filter((ev) => {
       const matchCity = selectedCity === 'all' || ev.city.toLowerCase() === selectedCity.toLowerCase()
       const matchType = selectedType === 'all' || (selectedType === 'conference' ? ev.eventType === 'Academic Conference' : ev.eventType === 'Exhibition & Expo')
       return matchCity && matchType
     })
-  }, [selectedCity, selectedType])
+  }, [eventFeedMode, selectedCity, selectedType])
 
   // Handle Event Register
   const handleRegister = useCallback(async (eventId: string) => {
@@ -985,17 +1005,17 @@ export default function CommunityPage() {
         {/* ============================================================ */}
         {activeTab === 'exhibitions' && (
           <div className="space-y-8">
-            {/* Header & City Filter */}
+            {/* Header & Feed Mode Filter */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b-2 border-slate-200">
               <div>
                 <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-300 mb-2 shadow-xs">
-                  <CheckCircle size={13} className="text-emerald-600" /> Verified Industry Foundation &middot; Real-Time Computed
+                  <CheckCircle size={13} className="text-emerald-600" /> Verified Industry Calendar &middot; Updated Sept 26, 2026
                 </div>
                 <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900">
                   Plastics &amp; Polymer Industry Exhibitions (2026 – 2027)
                 </h2>
                 <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed font-light">
-                  Hand-curated, verifiable events from official organizers (AIPMA, TAPMA, MG University, IPMA). Every event includes verified venue locations, student field guides, and 1-click Google Calendar integration.
+                  Hand-curated, verifiable events from official organizers (AIPMA, AIRIA, TAPMA, PMMAI, GSPMA). Includes direct source URLs, verified dates, and 1-click Google Calendar integration.
                 </p>
               </div>
 
@@ -1004,26 +1024,63 @@ export default function CommunityPage() {
                 <select
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
-                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm"
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm cursor-pointer"
                 >
                   <option value="all">📍 All Cities</option>
                   <option value="vadodara">Vadodara</option>
                   <option value="indore">Indore</option>
+                  <option value="raipur">Raipur</option>
                   <option value="mumbai">Mumbai</option>
+                  <option value="new delhi">New Delhi</option>
+                  <option value="kottayam">Kottayam</option>
                   <option value="chennai">Chennai</option>
-                  <option value="kottayam">Kottayam (Kerala)</option>
+                  <option value="bengaluru">Bengaluru</option>
+                  <option value="hyderabad">Hyderabad</option>
+                  <option value="gandhinagar">Gandhinagar</option>
                 </select>
 
                 <select
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
-                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm"
+                  className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm cursor-pointer"
                 >
                   <option value="all">🏢 All Event Types</option>
                   <option value="expo">Exhibitions &amp; Expos</option>
                   <option value="conference">Academic Conferences</option>
                 </select>
               </div>
+            </div>
+
+            {/* Sub-Navigation Toggle: Active Upcoming Calendar vs Historical Archive */}
+            <div className="flex items-center gap-2 bg-slate-200/70 p-1.5 rounded-2xl border border-slate-300 w-fit">
+              <button
+                type="button"
+                onClick={() => setEventFeedMode('upcoming')}
+                className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  eventFeedMode === 'upcoming'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-300/50'
+                }`}
+              >
+                <span>📅 Upcoming Calendar</span>
+                <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px]">
+                  {VERIFIED_INDUSTRY_EVENTS.length}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setEventFeedMode('archive')}
+                className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                  eventFeedMode === 'archive'
+                    ? 'bg-slate-900 text-white shadow-md'
+                    : 'text-slate-700 hover:text-slate-950 hover:bg-slate-300/50'
+                }`}
+              >
+                <span>🏛️ Industry Archive</span>
+                <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px]">
+                  {ARCHIVED_INDUSTRY_EVENTS.length}
+                </span>
+              </button>
             </div>
 
             {/* Event Cards Grid */}
