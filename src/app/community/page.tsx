@@ -58,6 +58,7 @@ const CITY_THEMES: Record<string, { bg: string; text: string; border: string; ac
   Hyderabad:   { bg: 'bg-teal-50', text: 'text-teal-900', border: 'border-teal-200', accent: 'from-teal-600 to-emerald-700' },
   Bengaluru:   { bg: 'bg-indigo-50', text: 'text-indigo-900', border: 'border-indigo-200', accent: 'from-indigo-600 to-purple-700' },
   Raipur:      { bg: 'bg-orange-50', text: 'text-orange-900', border: 'border-orange-200', accent: 'from-orange-600 to-amber-700' },
+  Pune:        { bg: 'bg-violet-50', text: 'text-violet-900', border: 'border-violet-200', accent: 'from-violet-600 to-purple-700' },
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -1027,6 +1028,7 @@ export default function CommunityPage() {
                   className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm cursor-pointer"
                 >
                   <option value="all">📍 All Cities</option>
+                  <option value="pune">Pune</option>
                   <option value="vadodara">Vadodara</option>
                   <option value="indore">Indore</option>
                   <option value="raipur">Raipur</option>

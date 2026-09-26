@@ -31,6 +31,44 @@ export interface IndustryEvent {
 // ── 1. ACTIVE VERIFIED UPCOMING INDUSTRY EVENTS (2026 - 2027) ─────────────────
 export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
   {
+    id: 'event-000',
+    title: 'DIEMEX 2026 — International Tooling, Die & Mould Exhibition',
+    shortTitle: 'DIEMEX 2026 Pune',
+    slug: 'diemex-pune-2026',
+    startDate: '2026-10-08',
+    endDate: '2026-10-10',
+    dateDisplay: 'October 8 – 10, 2026',
+    monthYearBadge: 'OCT 2026',
+    city: 'Pune',
+    state: 'Maharashtra',
+    venue: 'Auto Cluster Exhibition Centre, H-Block, Chinchwad, Pune, Maharashtra 411019',
+    focus: 'Die & mould manufacturing, precision tooling solutions, CNC machining, EDM spark erosion, and advanced manufacturing across automotive, aerospace, electronics, consumer goods, and packaging sectors.',
+    focusTags: ['Die & Mould', 'Precision Tooling', 'Automotive Plastics', 'CNC & EDM', 'Pune Cluster'],
+    organizer: 'Auto Cluster Exhibition Centre & Tooling Industry Association',
+    sourceName: 'Auto Cluster Official Portal',
+    sourceUrl: 'https://www.autocluster.in',
+    lastVerified: '26 Sep 2026',
+    eventType: 'Exhibition & Expo',
+    priorityBadge: 'P1 Regional',
+    isAnchorEvent: false,
+    idealFor: [
+      'Die & Mould Designers & Toolroom Engineers',
+      'Automotive Component Molders & Tier-1 Suppliers (Tata Motors, Bajaj, Mahindra)',
+      'Precision Injection Moulding & Tooling Technicians',
+      'COEP, MIT Pune, & Government Polytechnic Tooling Trainees'
+    ],
+    whatToSee: [
+      { step: '01', title: 'Precision Tooling & Mould Inserts', desc: 'Hardened P20, H13, and NAK80 steel core/cavity machining, 5-axis CNC contour milling, and wire-EDM spark erosion.' },
+      { step: '02', title: 'Hot Runner & Temperature Control', desc: 'Valve-gated hot runner manifolds, sequential valve timers, and conformal cooling channel inserts.' },
+      { step: '03', title: 'Automotive & Aerospace Enclosures', desc: 'Precision plastic components for automotive dashboard panels, electrical connectors, and packaging molds.' }
+    ],
+    studentMode: {
+      advice: 'Happening next month in Pune (India\'s automotive & tooling hub). Ideal event for students interested in CAD/CAM mould design, moldflow thermal balancing, and tool steel metallurgy.',
+      keyPavilions: ['Tooling & Die Mould Pavilion', 'CNC & Precision Machining Arena', 'Automotive Plastics Zone'],
+      networkingTip: 'Visit hot runner and tool steel stalls; ask application engineers about core deflection calculation methods and cooling channel optimization.'
+    }
+  },
+  {
     id: 'event-001',
     title: 'Plast Champions — International Plastics Expo 2026',
     shortTitle: 'Plast Champions Vadodara',
