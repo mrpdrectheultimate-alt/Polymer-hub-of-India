@@ -29,7 +29,7 @@ export function ProcessFlowDiagram({
   notes
 }: ProcessFlowDiagramProps) {
   return (
-    <figure className="my-8 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-xs font-sans text-slate-900">
+    <figure className="my-8 bg-white border border-slate-200/90 rounded-3xl p-5 sm:p-7 shadow-xs font-sans text-slate-900 w-full max-w-full overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-3.5 mb-5 flex-wrap gap-2">
         <div>
@@ -47,7 +47,7 @@ export function ProcessFlowDiagram({
       </div>
 
       {/* Process Flow Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3.5 relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 relative max-w-full">
         {steps.map((s, idx) => {
           const isLast = idx === steps.length - 1
           const statusStyles = {
@@ -58,15 +58,15 @@ export function ProcessFlowDiagram({
           }[s.status || 'primary']
 
           return (
-            <div key={idx} className="relative flex flex-col justify-between">
+            <div key={idx} className="relative flex flex-col justify-between min-w-0">
               <div className={`p-4 rounded-2xl border ${statusStyles} shadow-2xs space-y-2 h-full flex flex-col justify-between`}>
                 <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="w-5 h-5 rounded-lg bg-[#2563EB] text-white font-mono text-[10px] font-bold flex items-center justify-center">
+                  <div className="flex items-center justify-between mb-2 gap-1 flex-wrap">
+                    <span className="w-5 h-5 rounded-lg bg-[#2563EB] text-white font-mono text-[10px] font-bold flex items-center justify-center shrink-0">
                       {s.step || idx + 1}
                     </span>
                     {s.parameters && (
-                      <span className="text-[9px] font-mono bg-white text-blue-700 px-2 py-0.5 rounded border border-blue-200 font-bold">
+                      <span className="text-[9px] font-mono bg-white text-blue-700 px-2 py-0.5 rounded border border-blue-200 font-bold truncate max-w-full">
                         {s.parameters}
                       </span>
                     )}
@@ -82,9 +82,9 @@ export function ProcessFlowDiagram({
                 </div>
 
                 {s.output && (
-                  <div className="mt-2.5 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-mono text-slate-500">
+                  <div className="mt-2.5 pt-2 border-t border-slate-200/60 flex items-center justify-between text-[10px] font-mono text-slate-500 flex-wrap gap-1">
                     <span>Output:</span>
-                    <span className="text-emerald-700 font-bold">{s.output}</span>
+                    <span className="text-emerald-700 font-bold truncate max-w-full">{s.output}</span>
                   </div>
                 )}
               </div>
@@ -119,6 +119,5 @@ export function ProcessFlowDiagram({
     </figure>
   )
 }
-
 
 export default ProcessFlowDiagram

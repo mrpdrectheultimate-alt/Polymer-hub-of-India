@@ -6,7 +6,8 @@
 // - Interactive vector graphs (Stress-Strain, DSC, TGA, Rheology)
 // - Dynamic 8-Layer Visual Renderer (Visual Mechanisms, Photos, PFDs, Blueprints)
 // - Clean typography (Inter 17px body, Space Grotesk headings, JetBrains Mono data)
-// - Validated figure containers
+// - Sanitized raw HTML/JSX tags prevention
+// - Overridden <pre> container to prevent layout shifting & overflow
 
 import React, { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
@@ -57,6 +58,14 @@ export function sanitizeLatex(text: string): string {
   // so they do not render as raw bullet text in body, since InteractiveKnowledgeCheck handles quizzes at the bottom.
   str = str.replace(/##\s*\d*\.?\s*(Quiz|Self-Assessment Quiz|Practice Quiz)[\s\S]*?(?=(##\s*\d*\.|\s*$))/gi, '')
 
+  // Transform raw leaked HTML/JSX div tags into clean Markdown blockquote callouts so code never leaks onscreen
+  str = str.replace(/<div\s+class(?:Name)?=["']problem-statement["']\s*>/gi, '\n\n> **Problem Statement:**\n>')
+  str = str.replace(/<div\s+class(?:Name)?=["']solution-step["']\s*>/gi, '\n\n> **Solution Step:**\n>')
+  str = str.replace(/<div\s+class(?:Name)?=["']solution-box["']\s*>/gi, '\n\n> **Solution:**\n>')
+  str = str.replace(/<div\s+class(?:Name)?=["']callout["']\s*>/gi, '\n\n> **Engineering Callout:**\n>')
+  str = str.replace(/<div\s+class(?:Name)?=["'][^"']*["']\s*>/gi, '\n\n')
+  str = str.replace(/<\/div>/gi, '\n\n')
+
   // Auto-wrap un-delimited Flory-Huggins, thermodynamics, or bare math expressions
   str = str.replace(/(\bDelta\s*G_?m?\s*=\s*RT[\s\S]*?\\?right\]|\b\Delta\s*G_?m?\s*=\s*RT[\s\S]*?\))/gi, (match) => {
     if (match.startsWith('$')) return match
@@ -79,7 +88,6 @@ export function sanitizeLatex(text: string): string {
   return str
 }
 
-
 export default function TechnicalMarkdownRenderer({ content, domainColor = '#2563EB' }: Props) {
   const [copied, setCopied] = useState(false)
 
@@ -93,12 +101,12 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
   const sanitizedContent = sanitizeLatex(content || '')
 
   return (
-    <div className="lesson-content space-y-6">
+    <div className="lesson-content space-y-6 max-w-full overflow-hidden">
       {/* Copy quick action */}
       <div className="flex justify-end -mb-2">
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[12px] font-bold text-slate-700 hover:text-slate-900 hover:border-slate-500 transition-all shadow-xs"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white font-mono text-[12px] font-bold text-slate-700 hover:text-slate-900 hover:border-slate-500 transition-all shadow-xs cursor-pointer"
         >
           {copied ? <><Check className="w-3.5 h-3.5 text-emerald-600" /> Copied Text</> : <><Copy className="w-3.5 h-3.5 text-slate-500" /> Copy Text</>}
         </button>
@@ -109,6 +117,13 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
           remarkPlugins={[remarkGfm, remarkMath]}
           rehypePlugins={[[rehypeKatex, { throwOnError: false, errorColor: '#DC2626' }]]}
           components={{
+            // ── Override PRE to avoid dark container wrapping & pre-formatted layout breaking ──
+            pre: ({ children }) => (
+              <div className="my-6 w-full max-w-full overflow-hidden">
+                {children}
+              </div>
+            ),
+
             div: ({ className, children, ...props }) => {
               const cls = (className || (props as Record<string, string>).class || '').toLowerCase()
 
@@ -211,13 +226,13 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
             // ── Images ─────────────────────────────────────────────────────────
             img: ({ src, alt }) => (
-              <figure className="my-6 border border-slate-200 bg-white p-3 rounded-2xl shadow-xs">
+              <figure className="my-6 border border-slate-200 bg-white p-3 rounded-2xl shadow-xs max-w-full overflow-hidden">
                 <div className="w-full overflow-hidden rounded-xl bg-slate-50 border border-slate-100 p-2 flex items-center justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={src}
                     alt={alt || 'Polymer Engineering Diagram'}
-                    className="max-h-[360px] w-auto object-contain hover:scale-[1.01] transition-transform duration-200"
+                    className="max-h-[360px] w-auto object-contain hover:scale-[1.01] transition-transform duration-200 max-w-full"
                   />
                 </div>
                 {alt && (
@@ -287,15 +302,15 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
                   return <VisualMechanismDispatcher mechanism={lang} />
                 }
 
-                // Editorial light code container (Replacing pitch-black bg-slate-900 dark boxes)
+                // Editorial code container with horizontal scroll
                 return (
-                  <div className="my-5 rounded-2xl border border-slate-200 overflow-hidden bg-slate-50/90 text-slate-800 shadow-xs">
-                    <div className="flex items-center justify-between px-4 py-2 bg-slate-100 border-b border-slate-200 text-[11px] font-mono text-slate-600 font-bold uppercase tracking-wider">
+                  <div className="my-5 rounded-2xl border border-slate-200 overflow-hidden bg-slate-900 text-slate-100 shadow-md max-w-full">
+                    <div className="flex items-center justify-between px-4 py-2 bg-slate-950 border-b border-slate-800 text-[11px] font-mono text-slate-400 font-bold uppercase tracking-wider">
                       <span>{lang}</span>
                     </div>
-                    <pre className="p-4 overflow-x-auto font-mono text-xs text-slate-800 leading-relaxed mobile-touch-scroll">
+                    <div className="p-4 overflow-x-auto font-mono text-xs text-slate-100 leading-relaxed mobile-touch-scroll">
                       <code>{children}</code>
-                    </pre>
+                    </div>
                   </div>
                 )
               }
@@ -323,11 +338,12 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
 
             // ── Blockquotes ────────────────────────────────────────────────────
             blockquote: ({ children }) => (
-              <div className="my-5 p-4 rounded-xl border-l-4 border-l-[#2563EB] bg-blue-50/60 border border-slate-200/70">
-                <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#2563EB] mb-1">
-                  Core Engineering Takeaway
+              <div className="my-5 p-4 sm:p-5 rounded-2xl border-l-4 border-l-[#2563EB] bg-blue-50/70 border border-blue-200/80 shadow-xs font-sans text-slate-800 max-w-full">
+                <div className="font-mono text-[10px] font-bold uppercase tracking-wider text-[#2563EB] mb-1.5 flex items-center gap-1.5">
+                  <Lightbulb className="w-3.5 h-3.5 text-[#2563EB]" />
+                  Engineering Note &amp; Problem Analysis
                 </div>
-                <div className="text-xs sm:text-sm text-slate-800 font-sans italic">{children}</div>
+                <div className="text-sm sm:text-base leading-relaxed text-slate-800">{children}</div>
               </div>
             )
           }}
@@ -338,4 +354,3 @@ export default function TechnicalMarkdownRenderer({ content, domainColor = '#256
     </div>
   )
 }
-
