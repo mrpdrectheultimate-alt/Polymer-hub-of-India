@@ -119,10 +119,10 @@ function ClassAOriginalCover({ slug, title, authors }: { slug: string; title: st
       <div className="w-full h-full bg-gradient-to-br from-[#0A1628] via-[#0284C7] to-[#0A1628] p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-2xl">
         <div className="absolute inset-0 bg-[radial-gradient(#38bdf8_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none" />
         
-        {/* Top Header Badge */}
+        {/* Top Header Badge — POLYMERHUB ACADEMIC BOARD */}
         <div className="flex items-center justify-between z-10">
           <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-md">
-            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ORIGINAL
+            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ACADEMIC BOARD &middot; ORIGINAL
           </span>
           <span className="text-[9px] font-bold text-cyan-300 border border-cyan-400/40 px-2 py-0.5 rounded uppercase">
             MASTER GUIDE
@@ -171,7 +171,7 @@ function ClassAOriginalCover({ slug, title, authors }: { slug: string; title: st
 
         <div className="flex items-center justify-between z-10">
           <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-md">
-            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ORIGINAL
+            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ACADEMIC BOARD &middot; ORIGINAL
           </span>
           <span className="text-[9px] font-bold text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded uppercase">
             TOOLROOM HANDBOOK
@@ -209,7 +209,7 @@ function ClassAOriginalCover({ slug, title, authors }: { slug: string; title: st
       <div className="w-full h-full bg-gradient-to-br from-[#1E1B4B] via-[#312E81] to-[#0F172A] p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-2xl">
         <div className="flex items-center justify-between z-10">
           <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-md">
-            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ORIGINAL
+            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ACADEMIC BOARD &middot; ORIGINAL
           </span>
           <span className="text-[9px] font-bold text-purple-300 border border-purple-500/40 px-2 py-0.5 rounded uppercase">
             ASTM / ISO STANDARD
@@ -243,7 +243,7 @@ function ClassAOriginalCover({ slug, title, authors }: { slug: string; title: st
       <div className="w-full h-full bg-gradient-to-br from-[#0C4A6E] via-[#0369A1] to-[#0F172A] p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-2xl">
         <div className="flex items-center justify-between z-10">
           <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-md">
-            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ORIGINAL
+            <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ACADEMIC BOARD &middot; ORIGINAL
           </span>
           <span className="text-[9px] font-bold text-sky-200 border border-sky-400/40 px-2 py-0.5 rounded uppercase">
             KINETICS HANDBOOK
@@ -279,7 +279,7 @@ function ClassAOriginalCover({ slug, title, authors }: { slug: string; title: st
     <div className="w-full h-full bg-gradient-to-br from-[#451A03] via-[#78350F] to-[#0F172A] p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-2xl">
       <div className="flex items-center justify-between z-10">
         <span className="px-2.5 py-1 rounded-full bg-amber-500 text-slate-950 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-md">
-          <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ORIGINAL
+          <Sparkles className="w-3 h-3 fill-slate-950" /> POLYMERHUB ACADEMIC BOARD &middot; ORIGINAL
         </span>
         <span className="text-[9px] font-bold text-amber-200 border border-amber-400/40 px-2 py-0.5 rounded uppercase">
           COMPOUNDING GUIDE
@@ -316,7 +316,7 @@ function ClassBOpenAccessCover({ title, authors, publisher }: { title: string; a
     <div className="w-full h-full bg-gradient-to-br from-[#064E3B] via-[#022C22] to-[#0F172A] p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-xl">
       <div className="flex items-center justify-between z-10">
         <span className="px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm">
-          <Download className="w-3 h-3" /> CLASS B &middot; OPEN ACCESS PDF
+          <Download className="w-3 h-3" /> POLYMERHUB ACADEMIC BOARD &middot; OPEN ACCESS
         </span>
         <span className="text-[8px] font-bold text-emerald-300 border border-emerald-500/40 px-1.5 py-0.5 rounded uppercase">
           PUBLIC DOMAIN / CC
@@ -366,7 +366,7 @@ function ClassDAbstractFallbackCover({
     <div className={`w-full h-full bg-gradient-to-br ${theme.gradient} p-5 flex flex-col justify-between text-white font-mono select-none overflow-hidden relative shadow-lg`}>
       <div className="flex items-center justify-between z-10">
         <span className="px-2.5 py-1 rounded-full bg-slate-800 text-slate-200 border border-slate-700 text-[9px] font-black uppercase tracking-wider flex items-center gap-1 shadow-sm">
-          <ExternalLink className="w-3 h-3 text-amber-400" /> CLASS D &middot; CATALOG CARD
+          <ExternalLink className="w-3 h-3 text-amber-400" /> POLYMERHUB ACADEMIC BOARD &middot; CATALOG
         </span>
         <span className="text-[8px] font-bold text-slate-400 border border-slate-700 px-1.5 py-0.5 rounded uppercase">
           COMMERCIAL REF
@@ -471,7 +471,7 @@ export default function LibraryBookCover({
           {/* Class D Badge */}
           <div className="absolute top-3 left-3 z-30">
             <span className="px-2.5 py-1 rounded-full bg-slate-900/90 text-slate-200 border border-slate-700 text-[9px] font-mono font-black uppercase tracking-wider flex items-center gap-1 shadow-sm">
-              <ExternalLink className="w-3 h-3 text-amber-400" /> CLASS D &middot; CATALOG CARD
+              <ExternalLink className="w-3 h-3 text-amber-400" /> POLYMERHUB ACADEMIC BOARD &middot; CATALOG
             </span>
           </div>
 
