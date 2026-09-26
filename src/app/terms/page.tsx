@@ -119,19 +119,23 @@ export default function TermsPage() {
           </div>
         </section>
 
-        {/* Section 5: Legal Jurisdiction */}
+        {/* Section 5: Legal Jurisdiction & Intermediary Safe Harbor */}
         <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-3">
-          <h3 className="font-display text-xl font-bold text-amber-400">Jurisdiction &amp; Dispute Resolution</h3>
+          <h3 className="font-display text-xl font-bold text-amber-400">Jurisdiction, Safe Harbor &amp; Dispute Resolution</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
-            These Terms shall be governed by and construed in accordance with the laws of India. Any dispute arising out of or related to these Terms shall be subject to the exclusive jurisdiction of the competent courts of India.
+            These Terms are governed by the laws of India, including the Indian Copyright Act 1957 (Sec 52 Fair Dealing), Information Technology Act 2000 (Sec 79 Intermediary Protection), and DPDP Act 2023. Any dispute shall be subject to the exclusive jurisdiction of the competent courts of India.
           </p>
           <div className="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-400">
+            <Link href="/legal" className="text-amber-400 font-bold hover:underline">
+              Legal &amp; Provenance Charter &rarr;
+            </Link>
+            <span>&bull;</span>
             <Link href="/privacy" className="text-blue-400 hover:underline">
               View Privacy Policy &rarr;
             </Link>
             <span>&bull;</span>
-            <a href="mailto:support@polymerhub.in" className="text-blue-400 hover:underline">
-              Contact Legal Support &rarr;
+            <a href="mailto:legal@polymerhub.in" className="text-blue-400 hover:underline">
+              Contact Legal Officer &rarr;
             </a>
           </div>
         </section>

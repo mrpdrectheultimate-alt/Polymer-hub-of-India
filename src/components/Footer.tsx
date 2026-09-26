@@ -147,6 +147,11 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/legal" className="text-amber-700 hover:text-amber-900 font-bold transition-colors">
+                  Legal &amp; Provenance Charter
+                </Link>
+              </li>
+              <li>
                 <Link href="/privacy" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
                   Privacy Policy
                 </Link>
@@ -160,13 +165,21 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
           </div>
 
         </div>
+
+        {/* Legal Fair Dealing Disclaimer Banner */}
+        <div className="mt-8 pt-6 border-t border-slate-200/80 text-[11px] text-slate-500 font-sans leading-relaxed">
+          <p>
+            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India is a non-commercial educational index and polymer engineering knowledge platform. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under <strong className="text-slate-700">Section 52(1)(i) of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for non-commercial academic research, instruction, and educational indexing.
+          </p>
+        </div>
+
       </div>
 
       {/* ── Bottom Copyright & Dot Matrix Bar ── */}
       <div className="bg-slate-50 border-t border-slate-200 py-4 px-4 sm:px-6">
         <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 font-medium">
           <p>
-            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering
+            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-[#2563EB] hover:underline">Legal &amp; Provenance</Link>
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#0B132B]" title="Deep Navy" />
