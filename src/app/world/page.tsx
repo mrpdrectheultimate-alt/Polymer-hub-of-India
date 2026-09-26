@@ -27,50 +27,297 @@ import {
 } from 'lucide-react'
 import Footer from '@/components/Footer'
 
-// Technical SVG Diagram Component for Packaging Barrier Film
-function PackagingBarrierDiagram() {
+// Technical SVG Diagram Component for ALL 7 Industrial Domains (Clean White Box Design)
+function DomainTechnicalDiagram({ id, color }: { id: string; color: string }) {
+  if (id === 'packaging') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#2563EB] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#2563EB]" />
+            5-Layer Co-extrusion Barrier Cross-Section (30µm)
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200 font-bold">
+            ASTM F1927 O₂ Permeability &lt; 0.1 cc/m²/day
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-blue-50 border border-blue-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-blue-900 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+              Layer 1 (Outer Print Layer): LLDPE / BOPP
+            </span>
+            <span className="text-blue-700 text-[10px]">10µm &middot; Puncture &amp; Friction Resistance</span>
+          </div>
+          <div className="h-5 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between px-3 text-[10px]">
+            <span className="text-amber-900 font-medium">Layer 2: Maleic Anhydride Grafted PE Tie Layer</span>
+            <span className="text-amber-700 text-[9px]">2.5µm &middot; Polymer Compatibilizer</span>
+          </div>
+          <div className="h-9 bg-emerald-50 border-2 border-emerald-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-emerald-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Layer 3 (CORE BARRIER): EVOH (38 mol% Ethylene)
+            </span>
+            <span className="text-emerald-800 text-[10px] font-bold bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">
+              5µm &middot; 99.9% Oxygen &amp; Aroma Block
+            </span>
+          </div>
+          <div className="h-5 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between px-3 text-[10px]">
+            <span className="text-amber-900 font-medium">Layer 4: Maleic Anhydride Grafted PE Tie Layer</span>
+            <span className="text-amber-700 text-[9px]">2.5µm &middot; Interlayer Bonding</span>
+          </div>
+          <div className="h-7 bg-indigo-50 border border-indigo-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-indigo-900 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
+              Layer 5 (Food Contact Sealant): Metallocene LLDPE
+            </span>
+            <span className="text-indigo-700 text-[10px]">10µm &middot; Hermetic Heat Sealability (110°C)</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === 'medical') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#EC4899] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#EC4899]" />
+            Medical Catheter Micro-Extrusion Layering
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200 font-bold">
+            ISO 10993 Biocompatibility Certified
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-pink-50 border border-pink-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-pink-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-pink-600" />
+              Layer 1 (Outer Sheath): Medical Grade TPU (Shore 85A)
+            </span>
+            <span className="text-pink-700 text-[10px]">Kink Resistance &amp; Vascular Flexibility</span>
+          </div>
+          <div className="h-9 bg-purple-50 border-2 border-purple-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-purple-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
+              Layer 2 (BRAIDED CORE): Stainless Steel 316L Wire Braid
+            </span>
+            <span className="text-purple-800 text-[10px] font-bold bg-purple-100 px-2 py-0.5 rounded border border-purple-300">
+              Torque Transmission &amp; Burst &gt; 300 psi
+            </span>
+          </div>
+          <div className="h-7 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+              Layer 3 (Inner Lumen): PTFE / UHMWPE Fluoropolymer
+            </span>
+            <span className="text-emerald-700 text-[10px]">Ultra-Low Friction Guide Wire Transit</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === 'aerospace') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#7C3AED] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#7C3AED]" />
+            CFRP Composite 8-Ply Stacking Laminate ([0/±45/90]s)
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200 font-bold">
+            ASTM D3039 / Autoclave 180°C @ 7 bar
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-purple-50 border border-purple-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-purple-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
+              Ply 1 &amp; 8 (0° Axial Load): T800 High-Modulus Carbon
+            </span>
+            <span className="text-purple-700 text-[10px]">Tensile Modulus 290 GPa &middot; Rocket Motor Axis</span>
+          </div>
+          <div className="h-7 bg-indigo-50 border border-indigo-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-indigo-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
+              Ply 2 &amp; 7 (+45°/-45° Shear): Toughened Epoxy Matrix
+            </span>
+            <span className="text-indigo-700 text-[10px]">Torsional Shear &amp; Aerodynamic Twist Relief</span>
+          </div>
+          <div className="h-9 bg-blue-50 border-2 border-blue-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-blue-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+              Ply 3-6 (90° Hoop Plies): Pressure Vessel Containment
+            </span>
+            <span className="text-blue-800 text-[10px] font-bold bg-blue-100 px-2 py-0.5 rounded border border-blue-300">
+              Burst Stress &gt; 1,800 MPa
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === 'automotive') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#F59E0B] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#F59E0B]" />
+            EV Battery Pack Flame Barrier Cross-Section
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200 font-bold">
+            UL94 V-0 Flame Retardant / ISO 26262
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-amber-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+              Layer 1 (Outer Shell): PA66-GF30 Thermoplastic
+            </span>
+            <span className="text-amber-800 text-[10px]">High Impact Crash &amp; Stone Shield</span>
+          </div>
+          <div className="h-9 bg-red-50 border-2 border-red-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-red-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse" />
+              Layer 2 (THERMAL BARRIER): Intumescent Aerogel Coating
+            </span>
+            <span className="text-red-800 text-[10px] font-bold bg-red-100 px-2 py-0.5 rounded border border-red-300">
+              1,000°C Thermal Runaway Delay &gt; 15 min
+            </span>
+          </div>
+          <div className="h-7 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-slate-900 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+              Layer 3 (Heat Sink Plate): Anodized Aluminum Plate
+            </span>
+            <span className="text-slate-600 text-[10px]">Liquid Coolant Heat Transfer Interface</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === 'electronics') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#06B6D4] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#06B6D4]" />
+            Semiconductor Flip-Chip Package Architecture
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-cyan-50 px-2.5 py-1 rounded-full border border-cyan-200 font-bold">
+            JEDEC MSL-1 / Dielectric &gt; 15 kV/mm
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-cyan-50 border border-cyan-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-cyan-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-600" />
+              Layer 1 (Encapsulant): Epoxy Novolac Molding Compound
+            </span>
+            <span className="text-cyan-700 text-[10px]">Zero Moisture &amp; Silica Filled (&gt;85%)</span>
+          </div>
+          <div className="h-9 bg-blue-50 border-2 border-blue-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-blue-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+              Layer 2 (5G SUBSTRATE): Liquid Crystal Polymer (LCP) Film
+            </span>
+            <span className="text-blue-800 text-[10px] font-bold bg-blue-100 px-2 py-0.5 rounded border border-blue-300">
+              Low Loss Df &lt; 0.002 @ 28 GHz mmWave
+            </span>
+          </div>
+          <div className="h-7 bg-amber-50 border border-amber-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-amber-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-600" />
+              Layer 3 (Interconnect): Copper-Cored Solder Micro-Bumps
+            </span>
+            <span className="text-amber-800 text-[10px]">High-Density Ball Grid Array (BGA)</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === 'textiles') {
+    return (
+      <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+        <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+          <span className="text-[#8B5CF6] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+            <Layers className="h-4 w-4 text-[#8B5CF6]" />
+            Melt-Spun Synthetic Fiber Molecular Orientation
+          </span>
+          <span className="text-[10px] font-mono text-slate-600 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200 font-bold">
+            ISO 2062 Tenacity &gt; 8.5 g/denier
+          </span>
+        </div>
+        <div className="space-y-1.5 text-xs font-mono">
+          <div className="h-7 bg-purple-50 border border-purple-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-purple-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
+              Stage 1 (Spinneret Extrusion): PET / Nylon Polymer Melt
+            </span>
+            <span className="text-purple-700 text-[10px]">Capillary Flow @ 290°C Through 64-Hole Die</span>
+          </div>
+          <div className="h-9 bg-emerald-50 border-2 border-emerald-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+            <span className="font-extrabold text-emerald-950 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+              Stage 2 (HIGH-SPEED DRAWING): Molecular Orientation Rollers
+            </span>
+            <span className="text-emerald-800 text-[10px] font-bold bg-emerald-100 px-2 py-0.5 rounded border border-emerald-300">
+              Chain Orientation &gt; 88% @ 6,000 m/min
+            </span>
+          </div>
+          <div className="h-7 bg-indigo-50 border border-indigo-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+            <span className="font-bold text-indigo-950 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-600" />
+              Stage 3 (Final Fiber): High-Tenacity Geotextile Filament
+            </span>
+            <span className="text-indigo-700 text-[10px]">Tire Cord &amp; Highway Geotextile Ready</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Infrastructure & Construction
   return (
-    <div className="w-full bg-[#091322] p-4 sm:p-5 rounded-2xl border border-blue-500/30 text-white font-mono shadow-inner my-4">
-      <div className="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
-        <span className="text-blue-400 text-xs font-bold flex items-center gap-2">
-          <Layers className="h-4 w-4 text-blue-400" />
-          5-Layer Co-extrusion Barrier Cross-Section (30µm)
+    <div className="w-full bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 text-slate-900 font-sans shadow-xs my-4">
+      <div className="flex items-center justify-between mb-3 border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+        <span className="text-[#10B981] text-xs font-mono font-bold flex items-center gap-2 uppercase tracking-wider">
+          <Layers className="h-4 w-4 text-[#10B981]" />
+          Multi-Chamber uPVC Profile &amp; HDPE Pipe Geometry
         </span>
-        <span className="text-[10px] text-slate-400 bg-blue-950/80 px-2 py-0.5 rounded border border-blue-800/50">
-          ASTM F1927 O₂ Permeability &lt; 0.1 cc/m²/day
+        <span className="text-[10px] font-mono text-slate-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200 font-bold">
+          IS 4984 / ISO 4427 50+ Year Hydrostatic Rating
         </span>
       </div>
-      <div className="space-y-1.5 text-xs">
-        <div className="h-7 bg-blue-600/25 border border-blue-500/40 rounded-lg flex items-center justify-between px-3 text-[11px]">
-          <span className="font-bold text-blue-300 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
-            Layer 1 (Outer Print Layer): LLDPE / BOPP
+      <div className="space-y-1.5 text-xs font-mono">
+        <div className="h-7 bg-emerald-50 border border-emerald-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+          <span className="font-bold text-emerald-950 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
+            Layer 1 (Outer Capstock): Co-extruded Acrylic UV Shield
           </span>
-          <span className="text-slate-400 text-[10px]">10µm &middot; Puncture &amp; Friction Resistance</span>
+          <span className="text-emerald-700 text-[10px]">Weatherability &amp; Monsoonal Resistance</span>
         </div>
-        <div className="h-5 bg-amber-500/15 border border-amber-500/30 rounded-lg flex items-center justify-between px-3 text-[10px]">
-          <span className="text-amber-300 font-medium">Layer 2: Maleic Anhydride Grafted PE Tie Layer</span>
-          <span className="text-slate-400 text-[9px]">2.5µm &middot; Polymer Compatibilizer</span>
-        </div>
-        <div className="h-9 bg-emerald-500/25 border-2 border-emerald-400/80 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-sm">
-          <span className="font-extrabold text-emerald-300 flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            Layer 3 (CORE BARRIER): EVOH (38 mol% Ethylene)
+        <div className="h-9 bg-blue-50 border-2 border-blue-500 rounded-lg flex items-center justify-between px-3 text-[11px] shadow-2xs">
+          <span className="font-extrabold text-blue-950 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            Layer 2 (STRUCTURAL CORE): PE100 HDPE High-Density Resin
           </span>
-          <span className="text-emerald-200 text-[10px] font-bold bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-700/50">
-            5µm &middot; 99.9% Oxygen &amp; Aroma Block
+          <span className="text-blue-800 text-[10px] font-bold bg-blue-100 px-2 py-0.5 rounded border border-blue-300">
+            MRS 10.0 MPa Hoop Stress @ 50-Year Life
           </span>
         </div>
-        <div className="h-5 bg-amber-500/15 border border-amber-500/30 rounded-lg flex items-center justify-between px-3 text-[10px]">
-          <span className="text-amber-300 font-medium">Layer 4: Maleic Anhydride Grafted PE Tie Layer</span>
-          <span className="text-slate-400 text-[9px]">2.5µm &middot; Interlayer Bonding</span>
-        </div>
-        <div className="h-7 bg-indigo-600/25 border border-indigo-500/40 rounded-lg flex items-center justify-between px-3 text-[11px]">
-          <span className="font-bold text-indigo-300 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-            Layer 5 (Food Contact Sealant): Metallocene LLDPE
+        <div className="h-7 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-between px-3 text-[11px]">
+          <span className="font-bold text-slate-900 flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-600" />
+            Layer 3 (Smooth Inner Bore): Anti-Microbial CPVC Smooth Wall
           </span>
-          <span className="text-slate-400 text-[10px]">10µm &middot; Hermetic Heat Sealability (110°C)</span>
+          <span className="text-slate-600 text-[10px]">Zero Scale &amp; Hazen-Williams C = 150 Flow</span>
         </div>
       </div>
     </div>
@@ -616,10 +863,8 @@ export default function WorldAtlasPage() {
                   </div>
                 </div>
 
-                {/* Technical SVG Barrier Diagram for Packaging Domain */}
-                {selectedIndustry.id === 'packaging' && (
-                  <PackagingBarrierDiagram />
-                )}
+                {/* Technical SVG Schematic Diagram for Selected Domain (Clean White Box) */}
+                <DomainTechnicalDiagram id={selectedIndustry.id} color={selectedIndustry.color} />
               </div>
 
               {/* Right: Technical Breakdown */}
