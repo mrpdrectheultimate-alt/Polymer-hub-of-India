@@ -15,7 +15,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
       {/* ── Top Compliance & Trust Bar (High-Contrast & Honest Claims) ── */}
       {showTrustBar && (
         <div className="bg-slate-50 border-b border-slate-200 py-3.5 px-4 sm:px-6">
-          <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-y-2.5 gap-x-6 text-xs font-mono font-medium">
+          <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-wrap items-center justify-between gap-y-2.5 gap-x-6 text-xs font-mono font-medium">
             <div className="flex items-center gap-2 text-slate-900">
               <Shield className="w-4 h-4 text-emerald-600" />
               <span>Privacy-First Architecture</span>
@@ -37,7 +37,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
       )}
 
       {/* ── Main Footer Links ── */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto px-4 sm:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-12">
           
           {/* Brand & Description Column */}
@@ -164,7 +164,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
 
       {/* ── Bottom Copyright & Dot Matrix Bar ── */}
       <div className="bg-slate-50 border-t border-slate-200 py-4 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 font-medium">
+        <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 font-medium">
           <p>
             &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering
           </p>
