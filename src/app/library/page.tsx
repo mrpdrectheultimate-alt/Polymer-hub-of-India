@@ -82,36 +82,43 @@ export default function DigitalLibraryPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-slate-900 flex flex-col font-sans">
       
-      {/* ── 1. HERO SECTION: Professional Academic White with Blue Accent ── */}
-      <section className="relative pt-12 pb-16 px-4 md:px-8 border-b border-slate-200/90 bg-white overflow-hidden shadow-2xs">
+      {/* ── 1. HERO SECTION: Dark Industrial Midnight Navy with Tricolor Glow & Glassmorphism ── */}
+      <section className="relative pt-14 pb-20 px-4 md:px-8 bg-[#0B172A] text-white overflow-hidden shadow-md">
+        {/* Ambient Radial Glow */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B172A] via-[#0B172A]/90 to-[#0B172A]" />
+        </div>
+
         <div className="max-w-6xl mx-auto space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#2563EB] font-mono text-xs font-bold uppercase tracking-wider">
-            <BookMarked className="w-4 h-4" /> PolymerHub Digital Library &middot; 3-Tier Visual System
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 font-mono text-xs font-bold uppercase tracking-wider shadow-sm">
+            <BookMarked className="w-4 h-4 text-amber-400" /> PolymerHub Digital Library &middot; 3-Tier Visual System
           </div>
 
-          <h1 className="font-display font-black text-3xl md:text-5xl text-slate-900 tracking-tight leading-tight uppercase">
+          <h1 className="font-display font-black text-3xl md:text-5xl text-white tracking-tight leading-tight uppercase">
             Curated Academic &amp; Industrial <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#2563EB] via-indigo-600 to-[#2563EB]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF9933] via-amber-300 to-[#138808]">
               Polymer Bookshelf
             </span>
           </h1>
 
-          <p className="text-sm md:text-base text-slate-600 max-w-3xl leading-relaxed font-normal">
-            Partitioned into <strong className="text-purple-700 font-semibold">Class A Originals</strong>, <strong className="text-emerald-700 font-semibold">Class B Open Access PDFs</strong>, and <strong className="text-blue-700 font-semibold">Class D Reference Cards</strong> for complete legal compliance and academic transparency.
+          <p className="text-sm md:text-base text-slate-300 max-w-3xl leading-relaxed font-light">
+            Partitioned into <strong className="text-purple-300 font-semibold">Class A Originals</strong>, <strong className="text-emerald-300 font-semibold">Class B Open Access PDFs</strong>, and <strong className="text-sky-300 font-semibold">Class D Reference Cards</strong> for complete legal compliance and academic transparency.
           </p>
 
-          {/* Quick Metrics Bar */}
+          {/* Quick Metrics Bar — Glassmorphic Dark Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 max-w-4xl">
             {STATS.map((stat, i) => {
               const Icon = stat.icon
               return (
-                <div key={i} className="bg-[#F8FAFC] border border-slate-200 rounded-xl p-3.5 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0">
-                    <Icon className="w-4 h-4 text-[#2563EB]" />
+                <div key={i} className="bg-white/10 backdrop-blur-md border border-white/15 rounded-xl p-3.5 flex items-center gap-3 shadow-xs">
+                  <div className="w-9 h-9 rounded-lg bg-amber-400/15 border border-amber-400/30 flex items-center justify-center shrink-0">
+                    <Icon className="w-4 h-4 text-amber-400" />
                   </div>
                   <div>
-                    <span className="font-display font-extrabold text-slate-900 text-base block leading-tight">{stat.value}</span>
-                    <span className="font-mono text-[10px] text-slate-500 uppercase font-medium">{stat.label}</span>
+                    <span className="font-display font-extrabold text-white text-base block leading-tight">{stat.value}</span>
+                    <span className="font-mono text-[10px] text-slate-300 uppercase font-medium">{stat.label}</span>
                   </div>
                 </div>
               )
@@ -119,6 +126,9 @@ export default function DigitalLibraryPage() {
           </div>
 
         </div>
+
+        {/* Tricolor Bottom Accent Line */}
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#FF9933] via-white to-[#138808]" />
       </section>
 
       {/* ── 2. LEGAL PARTITIONING EXPLANATION BANNER ── */}
