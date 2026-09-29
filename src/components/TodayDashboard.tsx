@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹112.40', unit: '/kg', change: '+0.5%', isUp: true, location: 'Hazira/Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹118.50', unit: '/kg', change: '+0.5%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹114.80', unit: '/kg', change: '+0.5%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹102.80', unit: '/kg', change: '+0.8%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹107.50', unit: '/kg', change: '+0.5%', isUp: true, location: 'Silvassa' },
-  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹249.20', unit: '/kg', change: '+0.5%', isUp: true, location: 'Nhava Sheva' },
-  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹293.50', unit: '/kg', change: '+0.5%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹167.50', unit: '/kg', change: '+0.4%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹85.00', unit: '/kg', change: '+0.9%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹76.50', unit: '/kg', change: '+0.8%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹113.10', unit: '/kg', change: '+0.6%', isUp: true, location: 'Hazira/Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹119.20', unit: '/kg', change: '+0.6%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹115.40', unit: '/kg', change: '+0.5%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹103.20', unit: '/kg', change: '+0.4%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹108.20', unit: '/kg', change: '+0.6%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹250.50', unit: '/kg', change: '+0.5%', isUp: true, location: 'Nhava Sheva' },
+  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹294.80', unit: '/kg', change: '+0.4%', isUp: true, location: 'Thane' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹168.20', unit: '/kg', change: '+0.4%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹85.60', unit: '/kg', change: '+0.7%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹77.20', unit: '/kg', change: '+0.9%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
