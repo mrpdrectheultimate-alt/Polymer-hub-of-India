@@ -29,6 +29,7 @@ import {
   Building2
 } from 'lucide-react'
 import Footer from '@/components/Footer'
+import HomepageMap from '@/components/map/HomepageMap'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
 import { VERIFIED_INDUSTRY_EVENTS } from '@/lib/industry_events_data'
 
@@ -272,6 +273,9 @@ export default function HomePage() {
           <div className="w-0.5 h-5 bg-[#94A3B8]/60 rounded-full animate-bounce" />
         </div>
       </section>
+
+      {/* ─── INTERACTIVE PLATFORM ORIENTATION MAP & GUIDE ─── */}
+      <HomepageMap />
 
       {/* ─── ONE PLATFORM ECOSYSTEM STRIP ─── */}
       <section className="bg-slate-900 py-6 border-y border-slate-800 text-white">

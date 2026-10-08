@@ -16,6 +16,7 @@ const NAV = [
   {
     label: 'Learn',
     items: [
+      { label: 'Start Here 🗺️', href: '/start', icon: BookOpen, desc: 'Complete sitemap & learning guide', color: '#7C3AED' },
       { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
       { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '50 specialized textbook volumes', color: '#1D4ED8' },
       { label: 'GATE XE-F Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
