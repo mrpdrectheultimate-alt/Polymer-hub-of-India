@@ -44,6 +44,7 @@ const NAV = [
   {
     label: 'Tools',
     items: [
+      { label: 'Master Formula Library', href: '/formulas', icon: BookOpen, desc: 'GATE 2026 XE-F & 19 subjects formula library', color: '#2563EB' },
       { label: 'Engineering Calculators', href: '/calculators', icon: Calculator, desc: 'Tonnage, cooling & shrinkage solvers', color: '#CA8A04' },
       { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Rosato injection & extrusion fixes', color: '#EA580C' },
       { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 35+ polymers & ASTM properties', color: '#1D4ED8' },
