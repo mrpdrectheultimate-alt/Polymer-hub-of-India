@@ -35,16 +35,23 @@ const SUBJECT_OPTIONS = [
   { slug: 'all', name: 'All 19 Subjects' },
   { slug: 'polymer-chemistry', name: 'Polymer Chemistry' },
   { slug: 'polymer-processing', name: 'Polymer Processing' },
-  { slug: 'polymer-testing', name: 'Polymer Testing & Characterization' },
   { slug: 'mould-design', name: 'Mould & Die Design' },
-  { slug: 'rubber-technology', name: 'Rubber & Elastomer Technology' },
-  { slug: 'plastic-packaging', name: 'Plastic Packaging Technology' },
-  { slug: 'polymer-composites', name: 'Polymer Composites & Fiber Engineering' },
-  { slug: 'sustainable-plastics', name: 'Sustainable Plastics & Circular Economy' },
-  { slug: 'color-science-masterbatch', name: 'Color Science & Spectrophotometry' },
-  { slug: 'entrepreneurship-plastics', name: 'Entrepreneurship & Factory Setup' },
   { slug: 'polymer-rheology', name: 'Polymer Rheology & Melt Flow' },
-  { slug: 'bioprocessing-biopolymers', name: 'Bioprocessing & Biopolymers' }
+  { slug: 'polymer-testing', name: 'Polymer Testing & Quality Control' },
+  { slug: 'plastic-packaging-engineering', name: 'Plastic Packaging Engineering' },
+  { slug: 'sustainable-plastics', name: 'Sustainable Plastics & Circular Economy' },
+  { slug: 'recycling-technology', name: 'Recycling Technology & Processing' },
+  { slug: 'rubber-technology', name: 'Rubber & Elastomer Technology' },
+  { slug: 'polymer-composites', name: 'Polymer Composites & Fiber Engineering' },
+  { slug: 'additives-compounding', name: 'Additives & Compounding Technology' },
+  { slug: 'life-cycle-assessment', name: 'Life Cycle Assessment (LCA)' },
+  { slug: 'color-science-masterbatches', name: 'Color Science & Masterbatch Technology' },
+  { slug: 'entrepreneurship-plastics', name: 'Plastics Entrepreneurship & Factory Setup' },
+  { slug: 'medical-plastics', name: 'Medical Plastics & Biocompatibility' },
+  { slug: 'digital-twins-plastics', name: 'Digital Twins, Industry 4.0 & AI' },
+  { slug: 'bioprocessing-fermentation', name: 'Bioprocessing & Microbial Fermentation' },
+  { slug: 'robotics-plastics', name: 'Robotics & Automation in Plastics' },
+  { slug: 'polymer-nanotechnology', name: 'Polymer Nanotechnology & Nanocomposites' }
 ]
 
 const TAXONOMY_TYPES: { code: FormulaType | 'ALL'; name: string }[] = [
@@ -100,45 +107,43 @@ export default function FormulasMasterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col font-sans selection:bg-amber-500 selection:text-slate-950">
+    <div className="min-h-screen bg-[#FAF8F5] text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
       {/* Top Banner & Hero Header */}
-      <section className="relative pt-28 pb-16 px-4 sm:px-6 lg:px-8 border-b border-slate-800 bg-gradient-to-b from-[#091327] via-[#050C1A] to-[#030712] overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
-
+      <section className="relative pt-24 pb-14 px-4 sm:px-6 lg:px-8 border-b border-slate-200 bg-white shadow-xs overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-mono text-xs font-semibold mb-6 uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono text-xs font-bold mb-5 uppercase tracking-wider shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
             PolymerHub Engineering Knowledge Layer · GATE 2026 Ready
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white mb-6">
-            Master Polymer Science & Engineering <br />
-            <span className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 bg-clip-text text-transparent">
-              Canonical Formula Library & Solvers
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-4 font-display">
+            Master Polymer Science &amp; Engineering <br />
+            <span className="bg-gradient-to-r from-blue-700 via-indigo-700 to-emerald-700 bg-clip-text text-transparent">
+              Canonical Formula Library &amp; Solvers
             </span>
           </h1>
 
-          <p className="max-w-3xl mx-auto text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
+          <p className="max-w-3xl mx-auto text-sm sm:text-base text-slate-600 leading-relaxed mb-8 font-normal">
             Every mathematical relation, kinetic equation, rheological model, and shop-floor parameter mapped across all 216 curriculum lessons. KaTeX rendered, dimensionally verified, and backed by industrial worked examples.
           </p>
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-4xl mx-auto pt-2">
-            <div className="bg-[#0B172E]/80 border border-slate-800 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-amber-400 font-mono">19</div>
-              <div className="text-xs text-slate-400 font-medium">Curriculum Subjects</div>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
+              <div className="text-3xl font-black text-blue-700 font-display">19</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">Curriculum Subjects</div>
             </div>
-            <div className="bg-[#0B172E]/80 border border-slate-800 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-blue-400 font-mono">216</div>
-              <div className="text-xs text-slate-400 font-medium">Mapped Lessons</div>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
+              <div className="text-3xl font-black text-emerald-700 font-display">216</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">Mapped Lessons</div>
             </div>
-            <div className="bg-[#0B172E]/80 border border-slate-800 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-purple-400 font-mono">GATE</div>
-              <div className="text-xs text-slate-400 font-medium">XE-F Syllabus Aligned</div>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
+              <div className="text-3xl font-black text-purple-700 font-display">GATE</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">XE-F Syllabus Aligned</div>
             </div>
-            <div className="bg-[#0B172E]/80 border border-slate-800 rounded-xl p-4 text-center">
-              <div className="text-2xl font-black text-emerald-400 font-mono">100%</div>
-              <div className="text-xs text-slate-400 font-medium">Worked Shop Examples</div>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
+              <div className="text-3xl font-black text-amber-700 font-display">100%</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">Worked Shop Examples</div>
             </div>
           </div>
         </div>
@@ -147,7 +152,7 @@ export default function FormulasMasterPage() {
       {/* Main Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
         {/* Search & Multi-Filter Panel */}
-        <div className="bg-[#081225] border border-slate-800 rounded-2xl p-5 sm:p-6 mb-8 shadow-xl space-y-5">
+        <div className="bg-white border-2 border-slate-200 rounded-2xl p-5 sm:p-6 mb-8 shadow-sm space-y-5">
           {/* Search Row */}
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
             <div className="relative flex-1 w-full">
@@ -157,12 +162,12 @@ export default function FormulasMasterPage() {
                 placeholder="Search formulas, LaTeX symbols (e.g., Xn, Tg, OTR, tau), keywords, or lessons..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-[#040A17] border border-slate-700/80 rounded-xl pl-12 pr-4 py-3.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-amber-400 transition"
+                className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl pl-12 pr-4 py-3.5 text-sm text-slate-900 placeholder-slate-400 focus:bg-white focus:outline-none focus:border-blue-600 transition shadow-xs"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-slate-500 hover:text-slate-900 font-bold"
                 >
                   Clear
                 </button>
@@ -170,54 +175,54 @@ export default function FormulasMasterPage() {
             </div>
 
             {/* View Mode Switcher */}
-            <div className="flex items-center bg-[#040A17] border border-slate-800 rounded-xl p-1.5 w-full md:w-auto justify-center">
+            <div className="flex items-center bg-slate-100 border border-slate-200 rounded-xl p-1.5 w-full md:w-auto justify-center">
               <button
                 onClick={() => setActiveView('cards')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
                   activeView === 'cards'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <BookOpen className="w-3.5 h-3.5" />
+                <BookOpen className="w-3.5 h-3.5 text-blue-600" />
                 Formula Cards
               </button>
               <button
                 onClick={() => setActiveView('calculators')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
                   activeView === 'calculators'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <Calculator className="w-3.5 h-3.5" />
+                <Calculator className="w-3.5 h-3.5 text-amber-600" />
                 Interactive Solvers
               </button>
               <button
                 onClick={() => setActiveView('cheatsheet')}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
                   activeView === 'cheatsheet'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
+                    ? 'bg-white text-slate-900 shadow-sm border border-slate-200'
+                    : 'text-slate-600 hover:text-slate-900'
                 }`}
               >
-                <FileText className="w-3.5 h-3.5" />
+                <FileText className="w-3.5 h-3.5 text-purple-600" />
                 GATE Cheat Sheet
               </button>
             </div>
           </div>
 
           {/* Secondary Filters Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 pt-3 border-t border-slate-800/80 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 pt-4 border-t border-slate-200 text-xs">
             {/* Subject Selector */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                Subject
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+                Subject ({SUBJECT_OPTIONS.length - 1})
               </label>
               <select
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
-                className="w-full bg-[#040A17] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600"
               >
                 {SUBJECT_OPTIONS.map((sub) => (
                   <option key={sub.slug} value={sub.slug}>
@@ -229,13 +234,13 @@ export default function FormulasMasterPage() {
 
             {/* Type T1-T12 */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
                 Taxonomy Type
               </label>
               <select
                 value={selectedType}
                 onChange={(e) => setSelectedType(e.target.value as FormulaType | 'ALL')}
-                className="w-full bg-[#040A17] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600"
               >
                 {TAXONOMY_TYPES.map((t) => (
                   <option key={t.code} value={t.code}>
@@ -247,13 +252,13 @@ export default function FormulasMasterPage() {
 
             {/* Difficulty */}
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400 mb-1">
-                Difficulty
+              <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-600 mb-1">
+                Difficulty Level
               </label>
               <select
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value as FormulaDifficulty | 'ALL')}
-                className="w-full bg-[#040A17] border border-slate-700/80 rounded-lg px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-amber-400"
+                className="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-800 focus:bg-white focus:outline-none focus:border-blue-600"
               >
                 {DIFFICULTY_LEVELS.map((lvl) => (
                   <option key={lvl.code} value={lvl.code}>
@@ -264,39 +269,39 @@ export default function FormulasMasterPage() {
             </div>
 
             {/* GATE Toggle */}
-            <div className="flex items-center gap-2 pt-5">
+            <div className="flex items-center gap-2 pt-4">
               <input
                 type="checkbox"
                 id="gateToggle"
                 checked={isGateOnly}
                 onChange={(e) => setIsGateOnly(e.target.checked)}
-                className="rounded border-slate-700 bg-[#040A17] text-amber-400 focus:ring-amber-400"
+                className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500 cursor-pointer"
               />
-              <label htmlFor="gateToggle" className="text-xs font-semibold text-slate-300 cursor-pointer">
-                GATE 2026 Only
+              <label htmlFor="gateToggle" className="text-xs font-bold text-slate-800 cursor-pointer flex items-center gap-1">
+                <Award className="w-3.5 h-3.5 text-purple-600" /> GATE 2026 Only
               </label>
             </div>
 
             {/* Shopfloor Toggle */}
-            <div className="flex items-center gap-2 pt-5">
+            <div className="flex items-center gap-2 pt-4">
               <input
                 type="checkbox"
                 id="shopfloorToggle"
                 checked={isShopfloorOnly}
                 onChange={(e) => setIsShopfloorOnly(e.target.checked)}
-                className="rounded border-slate-700 bg-[#040A17] text-emerald-400 focus:ring-emerald-400"
+                className="w-4 h-4 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer"
               />
-              <label htmlFor="shopfloorToggle" className="text-xs font-semibold text-slate-300 cursor-pointer">
-                Shop-Floor Only
+              <label htmlFor="shopfloorToggle" className="text-xs font-bold text-slate-800 cursor-pointer flex items-center gap-1">
+                <Wrench className="w-3.5 h-3.5 text-emerald-600" /> Shop-Floor Only
               </label>
             </div>
           </div>
         </div>
 
         {/* Results Header Count */}
-        <div className="flex items-center justify-between mb-6 text-xs text-slate-400">
+        <div className="flex items-center justify-between mb-6 text-xs text-slate-600 font-medium">
           <div>
-            Showing <span className="font-bold text-amber-400 font-mono">{filteredFormulas.length}</span> formulas
+            Showing <span className="font-extrabold text-blue-700 font-mono text-sm">{filteredFormulas.length}</span> verified formulas
           </div>
 
           {(selectedSubject !== 'all' || selectedType !== 'ALL' || selectedDifficulty !== 'ALL' || isGateOnly || isShopfloorOnly || searchQuery) && (
@@ -309,7 +314,7 @@ export default function FormulasMasterPage() {
                 setIsGateOnly(false)
                 setIsShopfloorOnly(false)
               }}
-              className="text-amber-400 hover:text-amber-300 underline font-medium"
+              className="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer"
             >
               Reset All Filters
             </button>
@@ -348,20 +353,20 @@ export default function FormulasMasterPage() {
 
         {/* ================= VIEW 3: GATE REVISION CHEAT SHEET ================= */}
         {activeView === 'cheatsheet' && (
-          <div className="bg-[#081225] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="p-6 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between">
+          <div className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-6 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-amber-400" />
-                  GATE 2026 XE-F & CIPET Master Revision Matrix
+                <h2 className="text-lg font-black text-slate-900 flex items-center gap-2 font-display">
+                  <FileText className="w-5 h-5 text-blue-600" />
+                  GATE 2026 XE-F &amp; CIPET Master Revision Matrix
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-600 mt-1">
                   High-density formula cheat sheet for rapid exam revision and plant floor reference.
                 </p>
               </div>
               <button
                 onClick={() => window.print()}
-                className="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white px-4 py-2 rounded-lg border border-slate-700 transition"
+                className="flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white px-4 py-2.5 rounded-xl transition shadow-xs cursor-pointer"
               >
                 <Printer className="w-4 h-4" />
                 Print / Save PDF
@@ -371,7 +376,7 @@ export default function FormulasMasterPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse font-sans text-xs">
                 <thead>
-                  <tr className="bg-[#040A17] border-b border-slate-800 text-slate-400 font-mono text-[11px] uppercase">
+                  <tr className="bg-slate-100/80 border-b border-slate-200 text-slate-600 font-mono text-[11px] uppercase">
                     <th className="p-3 pl-4">ID</th>
                     <th className="p-3">Formula Name</th>
                     <th className="p-3">Subject</th>
@@ -381,27 +386,27 @@ export default function FormulasMasterPage() {
                     <th className="p-3 pr-4">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 text-slate-300">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {filteredFormulas.map((item) => (
-                    <tr key={item.formula_id} className="hover:bg-slate-900/40 transition">
-                      <td className="p-3 pl-4 font-mono font-bold text-amber-400 text-[11px]">
+                    <tr key={item.formula_id} className="hover:bg-slate-50/70 transition">
+                      <td className="p-3 pl-4 font-mono font-bold text-blue-700 text-[11px]">
                         {item.formula_id}
                       </td>
-                      <td className="p-3 font-bold text-white">{item.name}</td>
-                      <td className="p-3 font-mono text-blue-400">{item.subject_name}</td>
-                      <td className="p-3 font-mono text-purple-400 font-bold">{item.type_code}</td>
-                      <td className="p-3 font-mono font-bold text-amber-300 bg-slate-950/40 rounded">
+                      <td className="p-3 font-bold text-slate-900">{item.name}</td>
+                      <td className="p-3 font-mono text-slate-600 font-medium">{item.subject_name}</td>
+                      <td className="p-3 font-mono text-purple-700 font-bold">{item.type_code}</td>
+                      <td className="p-3 font-mono font-bold text-slate-900 bg-slate-50 rounded">
                         {item.equation_display}
                       </td>
-                      <td className="p-3 font-mono text-[11px] text-slate-400 max-w-xs">
+                      <td className="p-3 font-mono text-[11px] text-slate-500 max-w-xs">
                         {item.variables.map((v) => `${v.symbol} (${v.unit})`).join(', ')}
                       </td>
                       <td className="p-3 pr-4">
                         <Link
                           href={`/formulas/${item.slug}`}
-                          className="text-amber-400 hover:underline font-mono text-[11px]"
+                          className="text-blue-600 hover:underline font-mono text-[11px] font-bold"
                         >
-                          Detail →
+                          Detail &rarr;
                         </Link>
                       </td>
                     </tr>

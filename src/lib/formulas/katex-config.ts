@@ -1,5 +1,5 @@
-// src/lib/formulas/katex-config.ts — Safe KaTeX Math Rendering Configuration & Accessibility Utility
 import katex from 'katex'
+import 'katex/dist/katex.min.css'
 import { Formula } from '@/types/formulas'
 
 export function renderFormulaLatex(latex: string, displayMode: boolean = true): string {

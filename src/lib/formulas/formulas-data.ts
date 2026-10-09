@@ -837,8 +837,8 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
     slug: 'fickian-film-oxygen-transmission-rate',
     name: 'Fickian Film Oxygen Transmission Rate (OTR)',
     short_name: 'OTR Barrier Formula',
-    subject_id: 'plastic-packaging',
-    subject_name: 'Plastic Packaging Technology',
+    subject_id: 'plastic-packaging-engineering',
+    subject_name: 'Plastic Packaging Engineering',
     category: 'Barrier Physics',
     type_code: 'T7',
     type_label: 'Transport / Barrier',
@@ -997,8 +997,8 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
     slug: 'cie-lab-delta-e-1976-color-difference',
     name: 'CIE L*a*b* Delta-E 1976 Color Difference Formula',
     short_name: 'CIE Delta-E 1976',
-    subject_id: 'color-science-masterbatch',
-    subject_name: 'Color Science & Spectrophotometry',
+    subject_id: 'color-science-masterbatches',
+    subject_name: 'Color Science & Masterbatch Technology',
     category: 'Color Matching & Quality Control',
     type_code: 'T9',
     type_label: 'Testing / Standards',
@@ -1154,4 +1154,1431 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
     verified_at: '2026-10-08',
     reviewed_by: 'PolymerHub Academic Editorial Board'
   }
+,
+  // ==================== 1. POLYMER CHEMISTRY (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-CHEM-004',
+    slug: 'flory-fox-equation-tg-molecular-weight',
+    name: 'Flory-Fox Equation (Tg Dependence on Molecular Weight)',
+    short_name: 'Flory-Fox Equation',
+    subject_id: 'polymer-chemistry',
+    subject_name: 'Polymer Chemistry',
+    category: 'Thermodynamics & Transitions',
+    type_code: 'T2',
+    type_label: 'Thermodynamics',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: 'T_g = T_{g,\infty} - \frac{K_{ff}}{\overline{M}_n}',
+    equation_display: 'Tg = Tg_infinity - (Kff / Mn)',
+    description: 'Relates the glass transition temperature (Tg) of a linear polymer to its number-average molecular weight (Mn) based on chain-end free volume theory.',
+    when_to_use: 'Use when estimating the glass transition temperature of oligomers or lower molecular weight polymers before reaching the high-MW asymptotic plateau Tg,infinity.',
+    assumptions: [
+      'Chain ends possess higher free volume than chain middle segments',
+      'Linear homopolymer chains without long-chain branching',
+      'Equilibrium free volume state at transition'
+    ],
+    common_mistakes: [
+      'Using weight-average Mw instead of number-average Mn',
+      'Forgetting that temperatures in theoretical free volume equations must be in Kelvin before converting to Celsius'
+    ],
+    variables: [
+      { symbol: 'T_g', meaning: 'Glass transition temperature at given Mn', unit: '°C (or K)', dimension: 'Temperature', required: true },
+      { symbol: 'T_{g,\infty}', meaning: 'Asymptotic Tg at infinite molecular weight', unit: '°C', dimension: 'Temperature', required: true, example_value: '100', min: -100, max: 300, step: 1, default_num: 100 },
+      { symbol: 'K_{ff}', meaning: 'Flory-Fox constant for polymer', unit: 'K·g/mol', dimension: 'Temperature·Mass/Mole', required: true, example_value: '180000', min: 10000, max: 500000, step: 5000, default_num: 180000 },
+      { symbol: '\overline{M}_n', meaning: 'Number-average molecular weight', unit: 'g/mol', dimension: 'Mass/Mole', required: true, example_value: '25000', min: 1000, max: 200000, step: 1000, default_num: 25000 }
+    ],
+    examples: [
+      {
+        title: 'Polystyrene Tg Prediction at Mn = 25,000 g/mol',
+        problem_statement: 'For Polystyrene, Tg,infinity is 100°C (373 K) and Kff is 1.8 × 10^5 K·g/mol. Calculate Tg for a polystyrene sample with Mn = 25,000 g/mol.',
+        given_values: { 'Tg_infinity': '100°C', 'Kff': '180,000 K·g/mol', 'Mn': '25,000 g/mol' },
+        steps: [
+          'Identify formula: Tg = Tg_infinity - (Kff / Mn)',
+          'Calculate depression: 180,000 / 25,000 = 7.2°C',
+          'Calculate Tg: 100°C - 7.2°C = 92.8°C'
+        ],
+        final_answer: 'Tg = 92.8°C',
+        unit: '°C',
+        engineering_interpretation: 'The presence of chain ends lowers Tg by 7.2°C compared to high-MW polystyrene, indicating reduced thermal stability for short-chain oligomeric grades.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'Tg_inf', name: 'Asymptotic Tg,inf (°C)', unit: '°C', defaultVal: 100, min: -50, max: 350, step: 1 },
+        { symbol: 'Kff', name: 'Flory-Fox Constant Kff', unit: 'K·g/mol', defaultVal: 180000, min: 20000, max: 400000, step: 5000 },
+        { symbol: 'Mn', name: 'Number-Average Mn', unit: 'g/mol', defaultVal: 25000, min: 2000, max: 150000, step: 1000 }
+      ],
+      calculate: (inputs) => {
+        const tgInf = inputs.Tg_inf || 100
+        const kff = inputs.Kff || 180000
+        const mn = inputs.Mn || 25000
+        const depression = kff / mn
+        const tg = tgInf - depression
+        return {
+          value: Math.round(tg * 10) / 10,
+          formatted: `${Math.round(tg * 10) / 10} °C (${Math.round((tg + 273.15) * 10) / 10} K)`,
+          unit: '°C',
+          note: `Depression due to chain-end free volume is ${Math.round(depression * 10) / 10} °C.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-CHEM-003'],
+    lesson_links: [{ lesson_id: 'glass-transition-temperature-and-free-volume-theory', lesson_name: 'Glass Transition Temperature (Tg) & Free Volume Theory', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'Principles of Polymer Chemistry', author: 'Paul J. Flory', publisher: 'Cornell University Press', edition: '1st Edition', year: 1953, page: '347-350', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+  {
+    formula_id: 'PH-FORM-CHEM-005',
+    slug: 'mark-houwink-sakurada-intrinsic-viscosity',
+    name: 'Mark-Houwink-Sakurada Equation (Intrinsic Viscosity to MW)',
+    short_name: 'Mark-Houwink Equation',
+    subject_id: 'polymer-chemistry',
+    subject_name: 'Polymer Chemistry',
+    category: 'Polymer Characterization',
+    type_code: 'T9',
+    type_label: 'Testing / Standards',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: '[\eta] = K \cdot \overline{M}_v^a',
+    equation_display: '[eta] = K * (Mv)^a',
+    description: 'Empirical relation connecting limiting viscosity number (intrinsic viscosity [eta]) of a dilute polymer solution to viscosity-average molecular weight (Mv).',
+    when_to_use: 'Use when determining polymer molecular weight via capillary Ubbelohde viscometry in a specified solvent and temperature.',
+    assumptions: [
+      'Dilute solution regime where polymer coils do not overlap (c < c*)',
+      'Known Mark-Houwink constants K and a for the specific polymer-solvent-temperature system',
+      'Newtonian solvent behavior at zero shear limit'
+    ],
+    common_mistakes: [
+      'Using K and a values for a different solvent or temperature',
+      'Confusing intrinsic viscosity [eta] (dL/g or mL/g) with dynamic melt viscosity (Pa·s)'
+    ],
+    variables: [
+      { symbol: '[\eta]', meaning: 'Intrinsic viscosity (limiting viscosity number)', unit: 'dL/g', dimension: 'Volume/Mass', required: true },
+      { symbol: 'K', meaning: 'Mark-Houwink constant', unit: 'dL/g', dimension: 'Volume/Mass', required: true, example_value: '0.00016', min: 0.00001, max: 0.01, step: 0.00001, default_num: 0.00016 },
+      { symbol: 'a', meaning: 'Mark-Houwink exponent (conformation parameter)', unit: 'dimensionless', dimension: 'dimensionless', required: true, example_value: '0.70', min: 0.5, max: 1.0, step: 0.01, default_num: 0.70 },
+      { symbol: '\overline{M}_v', meaning: 'Viscosity-average molecular weight', unit: 'g/mol', dimension: 'Mass/Mole', required: true, example_value: '120000', min: 5000, max: 2000000, step: 5000, default_num: 120000 }
+    ],
+    examples: [
+      {
+        title: 'High-Density Polyethylene Mv in Decalin at 135°C',
+        problem_statement: 'For HDPE in decalin at 135°C, K = 6.2 × 10^-4 dL/g and a = 0.70. If measured [eta] = 2.15 dL/g, determine the viscosity-average molecular weight Mv.',
+        given_values: { '[eta]': '2.15 dL/g', 'K': '6.2e-4 dL/g', 'a': '0.70' },
+        steps: [
+          'Rearrange formula: Mv = ([eta] / K)^(1/a)',
+          'Compute [eta]/K: 2.15 / (6.2e-4) = 3467.74',
+          'Raise to power 1/0.70 (1.4286): (3467.74)^1.4286 = 115,200 g/mol'
+        ],
+        final_answer: 'Mv = 115,200 g/mol',
+        unit: 'g/mol',
+        engineering_interpretation: 'The intrinsic viscosity of 2.15 dL/g corresponds to high molecular weight extrusion pipe grade HDPE suitable for PE-100 pressure pipe applications.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'K_val', name: 'Mark-Houwink K (×10^-4 dL/g)', unit: '×10^-4 dL/g', defaultVal: 6.2, min: 0.5, max: 20, step: 0.1 },
+        { symbol: 'a_val', name: 'Exponent a', unit: 'dimensionless', defaultVal: 0.70, min: 0.50, max: 0.90, step: 0.01 },
+        { symbol: 'eta_val', name: 'Intrinsic Viscosity [eta]', unit: 'dL/g', defaultVal: 2.15, min: 0.2, max: 10, step: 0.05 }
+      ],
+      calculate: (inputs) => {
+        const k = (inputs.K_val || 6.2) * 1e-4
+        const a = inputs.a_val || 0.70
+        const eta = inputs.eta_val || 2.15
+        const mv = Math.pow(eta / k, 1 / a)
+        return {
+          value: Math.round(mv),
+          formatted: `${Math.round(mv).toLocaleString()} g/mol`,
+          unit: 'g/mol',
+          note: `Conformation exponent a = ${a} indicates good polymer-solvent interaction.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-CHEM-001'],
+    lesson_links: [{ lesson_id: 'molecular-weight-averages-and-dilute-solution-viscometry', lesson_name: 'Molecular Weight Averages & Dilute Solution Viscometry', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'Polymer Physics', author: 'Michael Rubinstein & Ralph Colby', publisher: 'Oxford University Press', edition: '1st Edition', year: 2003, page: '38-42', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 2. POLYMER PROCESSING (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-PROC-003',
+    slug: 'single-screw-extruder-drag-flow-rate',
+    name: 'Single-Screw Extruder Drag Flow Rate (Throughput Capacity)',
+    short_name: 'Extruder Drag Flow',
+    subject_id: 'polymer-processing',
+    subject_name: 'Polymer Processing',
+    category: 'Extrusion Technology',
+    type_code: 'T5',
+    type_label: 'Processing / Machine',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'Q_d = \frac{1}{2} \pi^2 D^2 H N \sin\theta \cos\theta',
+    equation_display: 'Qd = 0.5 * pi^2 * D^2 * H * N * sin(theta) * cos(theta)',
+    description: 'Calculates theoretical open-discharge volumetric drag flow rate Qd generated by the rotating screw in the metering zone of a single-screw plastics extruder.',
+    when_to_use: 'Use when sizing single-screw extruders or estimating maximum theoretical melt throughput before subtracting pressure flow backflow.',
+    assumptions: [
+      'Isothermal Newtonian melt behavior in metering channel',
+      'Flat plate channel unwrapping approximation (H << D)',
+      'No wall slip at barrel or screw surfaces'
+    ],
+    common_mistakes: [
+      'Forgetting that actual output Q is lower than Qd due to head pressure backflow Qp and leakage Ql',
+      'Using screw speed in RPM instead of rev/second when computing in SI units'
+    ],
+    variables: [
+      { symbol: 'Q_d', meaning: 'Volumetric drag flow rate', unit: 'cm³/s (or kg/h)', dimension: 'Volume/Time', required: true },
+      { symbol: 'D', meaning: 'Screw outside diameter', unit: 'mm', dimension: 'Length', required: true, example_value: '65', min: 20, max: 250, step: 5, default_num: 65 },
+      { symbol: 'H', meaning: 'Metering channel depth', unit: 'mm', dimension: 'Length', required: true, example_value: '3.5', min: 1, max: 15, step: 0.5, default_num: 3.5 },
+      { symbol: 'N', meaning: 'Screw rotational speed', unit: 'RPM', dimension: 'Frequency', required: true, example_value: '80', min: 10, max: 250, step: 5, default_num: 80 },
+      { symbol: '\theta', meaning: 'Screw flight helix angle (standard square pitch is 17.65°)', unit: 'degrees', dimension: 'Angle', required: true, example_value: '17.65', min: 10, max: 30, step: 0.1, default_num: 17.65 }
+    ],
+    examples: [
+      {
+        title: '65 mm HDPE Pipe Extruder Metering Drag Output',
+        problem_statement: 'A 65 mm single-screw extruder operates at 80 RPM with metering channel depth H = 3.5 mm and standard square pitch helix angle theta = 17.65°. Melt density is 0.76 g/cm³. Calculate volumetric drag output and mass throughput in kg/h.',
+        given_values: { 'D': '65 mm', 'H': '3.5 mm', 'N': '80 RPM', 'theta': '17.65°', 'rho': '0.76 g/cm³' },
+        steps: [
+          'Convert units: D = 6.5 cm, H = 0.35 cm, N = 80/60 = 1.333 rev/s',
+          'Calculate angle term: sin(17.65°) * cos(17.65°) = 0.3032 * 0.9529 = 0.2889',
+          'Compute Qd = 0.5 * pi^2 * (6.5)^2 * 0.35 * 1.333 * 0.2889 = 28.18 cm³/s',
+          'Calculate mass throughput: 28.18 cm³/s * 0.76 g/cm³ * 3600 / 1000 = 77.1 kg/h'
+        ],
+        final_answer: 'Qd = 28.2 cm³/s (77.1 kg/h)',
+        unit: 'kg/h',
+        engineering_interpretation: 'At zero head pressure, maximum theoretical throughput is 77.1 kg/h. In actual pipe extrusion against 200 bar die pressure, net output will be approx 70–80% of Qd (55–62 kg/h).',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'D_mm', name: 'Screw Diameter D (mm)', unit: 'mm', defaultVal: 65, min: 25, max: 150, step: 5 },
+        { symbol: 'H_mm', name: 'Channel Depth H (mm)', unit: 'mm', defaultVal: 3.5, min: 1, max: 10, step: 0.2 },
+        { symbol: 'N_rpm', name: 'Screw Speed (RPM)', unit: 'RPM', defaultVal: 80, min: 10, max: 200, step: 5 },
+        { symbol: 'melt_rho', name: 'Melt Density (g/cm³)', unit: 'g/cm³', defaultVal: 0.76, min: 0.6, max: 1.4, step: 0.02 }
+      ],
+      calculate: (inputs) => {
+        const D = (inputs.D_mm || 65) / 10
+        const H = (inputs.H_mm || 3.5) / 10
+        const N = (inputs.N_rpm || 80) / 60
+        const rho = inputs.melt_rho || 0.76
+        const thetaRad = (17.65 * Math.PI) / 180
+        const qdVol = 0.5 * Math.PI * Math.PI * D * D * H * N * Math.sin(thetaRad) * Math.cos(thetaRad)
+        const massKgh = (qdVol * rho * 3600) / 1000
+        return {
+          value: Math.round(massKgh * 10) / 10,
+          formatted: `${Math.round(massKgh * 10) / 10} kg/h (${Math.round(qdVol * 10) / 10} cm³/s)`,
+          unit: 'kg/h',
+          note: 'Theoretical maximum drag flow at zero head pressure.'
+        }
+      }
+    },
+    related_ids: ['PH-FORM-PROC-001', 'PH-FORM-PROC-002'],
+    lesson_links: [{ lesson_id: 'single-screw-extrusion-drag-flow-pressure-flow-and-die-characteristic', lesson_name: 'Single Screw Extrusion Drag Flow, Pressure Flow & Die Characteristic', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'Principles of Polymer Processing', author: 'Zeev Tadmor & Costas Gogos', publisher: 'Wiley-Interscience', edition: '2nd Edition', year: 2006, page: '360-375', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 3. MOULD DESIGN (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-MOULD-002',
+    slug: 'injection-mould-cavity-shrinkage-sizing',
+    name: 'Injection Mould Cavity Shrinkage Dimension Sizing Formula',
+    short_name: 'Mould Cavity Sizing',
+    subject_id: 'mould-design',
+    subject_name: 'Mould & Die Design',
+    category: 'Mould Cavity Engineering',
+    type_code: 'T5',
+    type_label: 'Processing / Machine',
+    difficulty: 'foundation',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'D_c = D_p \cdot (1 + S_l)',
+    equation_display: 'Dc = Dp * (1 + Sl)',
+    description: 'Calculates the required machined mould cavity dimension (Dc) from the desired cold molded plastic part dimension (Dp) and polymer linear shrinkage rate (Sl).',
+    when_to_use: 'Use during CNC machining and EDM electrode sizing of injection mould cavities and cores to ensure final molded parts meet drawing tolerances.',
+    assumptions: [
+      'Uniform isotropic shrinkage across part section',
+      'Standard ambient measurement at 23°C / 50% RH after 24-48 hours relaxation',
+      'Optimum pack and hold pressure applied during moulding'
+    ],
+    common_mistakes: [
+      'Ignoring differential shrinkage between flow direction and transverse direction in fiber-filled resins',
+      'Neglecting post-molding crystallization shrinkage in semi-crystalline POM, PA, and PBT'
+    ],
+    variables: [
+      { symbol: 'D_c', meaning: 'Machined mould cavity dimension', unit: 'mm', dimension: 'Length', required: true },
+      { symbol: 'D_p', meaning: 'Required nominal part drawing dimension', unit: 'mm', dimension: 'Length', required: true, example_value: '50.00', min: 1, max: 1000, step: 0.1, default_num: 50.00 },
+      { symbol: 'S_l', meaning: 'Linear shrinkage rate fraction (e.g., 2% = 0.020)', unit: 'fraction (mm/mm)', dimension: 'dimensionless', required: true, example_value: '0.020', min: 0.001, max: 0.050, step: 0.001, default_num: 0.020 }
+    ],
+    examples: [
+      {
+        title: '50.00 mm POM Acetal Gear Diameter Cavity Sizing',
+        problem_statement: 'A precision acetal (POM homopolymer) spur gear requires finished outside diameter Dp = 50.00 mm. Acetal linear shrinkage is 2.0% (Sl = 0.020). Determine the CNC cavity machining diameter.',
+        given_values: { 'Dp': '50.00 mm', 'Sl': '0.020 (2.0%)' },
+        steps: [
+          'Apply shrinkage equation: Dc = Dp * (1 + Sl)',
+          'Substitute values: Dc = 50.00 * (1 + 0.020)',
+          'Compute cavity dimension: Dc = 50.00 * 1.020 = 51.00 mm'
+        ],
+        final_answer: 'Dc = 51.00 mm',
+        unit: 'mm',
+        engineering_interpretation: 'The CNC toolpath must cut the mould cavity to exactly 51.00 mm (+0.02/-0.00 mm) so that after cooling and post-mold shrinkage, the gear contracts to the nominal 50.00 mm drawing dimension.',
+        difficulty: 'foundation'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'Dp_val', name: 'Nominal Part Dimension Dp (mm)', unit: 'mm', defaultVal: 50.0, min: 5, max: 500, step: 0.5 },
+        { symbol: 'Sl_pct', name: 'Linear Shrinkage Rate (%)', unit: '%', defaultVal: 2.0, min: 0.2, max: 4.5, step: 0.1 }
+      ],
+      calculate: (inputs) => {
+        const dp = inputs.Dp_val || 50.0
+        const sl = (inputs.Sl_pct || 2.0) / 100
+        const dc = dp * (1 + sl)
+        const diff = dc - dp
+        return {
+          value: Math.round(dc * 1000) / 1000,
+          formatted: `Dc = ${(Math.round(dc * 1000) / 1000).toFixed(3)} mm`,
+          unit: 'mm',
+          note: `Mould steel cavity is oversized by +${(Math.round(diff * 1000) / 1000).toFixed(3)} mm to compensate for resin cooling contraction.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-MOULD-001', 'PH-FORM-PROC-001'],
+    lesson_links: [{ lesson_id: 'cavity-design-shrinkage-estimation-and-parting-line-selection', lesson_name: 'Cavity Design, Shrinkage Estimation & Parting Line Selection', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Injection Molds for Beginners', author: 'Rainer Dangel', publisher: 'Hanser', edition: '2nd Edition', year: 2020, page: '82-88', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 4. POLYMER RHEOLOGY (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-RHEO-002',
+    slug: 'wlf-equation-temperature-shift-factor',
+    name: 'Williams-Landel-Ferry (WLF) Shift Factor Equation',
+    short_name: 'WLF Equation',
+    subject_id: 'polymer-rheology',
+    subject_name: 'Polymer Rheology & Melt Flow',
+    category: 'Time-Temperature Superposition (TTS)',
+    type_code: 'T4',
+    type_label: 'Rheology / Flow',
+    difficulty: 'advanced',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: '\log a_T = \frac{-C_1 (T - T_g)}{C_2 + (T - T_g)}',
+    equation_display: 'log(aT) = -C1 * (T - Tg) / (C2 + (T - Tg))',
+    description: 'Calculates the horizontal shift factor aT for constructing viscoelastic master curves across temperatures from Tg up to Tg + 100°C based on fractional free volume expansion.',
+    when_to_use: 'Use when applying Time-Temperature Superposition (TTS) to predict long-term polymer creep, relaxation modulus, and dynamic shear storage/loss moduli.',
+    assumptions: [
+      'Temperature regime is between Tg and Tg + 100°C',
+      'Universal constants C1 = 17.44 and C2 = 51.6 K for reference state at Tg',
+      'Free volume increases linearly above Tg'
+    ],
+    common_mistakes: [
+      'Applying the WLF equation at temperatures far above Tg + 100°C (Arrhenius relation applies at T > Tg + 100°C)',
+      'Mixing up Celsius and Kelvin temperature differences'
+    ],
+    variables: [
+      { symbol: '\log a_T', meaning: 'Logarithm of temperature shift factor', unit: 'dimensionless', dimension: 'dimensionless', required: true },
+      { symbol: 'T', meaning: 'Experimental test temperature', unit: '°C (or K)', dimension: 'Temperature', required: true, example_value: '130', min: -50, max: 300, step: 1, default_num: 130 },
+      { symbol: 'T_g', meaning: 'Polymer glass transition temperature', unit: '°C (or K)', dimension: 'Temperature', required: true, example_value: '100', min: -100, max: 250, step: 1, default_num: 100 },
+      { symbol: 'C_1', meaning: 'Universal WLF constant C1', unit: 'dimensionless', dimension: 'dimensionless', required: true, example_value: '17.44', min: 10, max: 25, step: 0.1, default_num: 17.44 },
+      { symbol: 'C_2', meaning: 'Universal WLF constant C2', unit: 'K', dimension: 'Temperature', required: true, example_value: '51.6', min: 30, max: 80, step: 0.5, default_num: 51.6 }
+    ],
+    examples: [
+      {
+        title: 'Polystyrene Rheological Time Shift at 30°C Above Tg',
+        problem_statement: 'For Polystyrene with Tg = 100°C, calculate the shift factor log(aT) and shift multiplier aT at test temperature T = 130°C using standard WLF constants C1 = 17.44 and C2 = 51.6 K.',
+        given_values: { 'T': '130°C', 'Tg': '100°C', 'C1': '17.44', 'C2': '51.6 K' },
+        steps: [
+          'Calculate temperature difference: T - Tg = 130 - 100 = 30 K',
+          'Evaluate numerator: -17.44 * 30 = -523.2',
+          'Evaluate denominator: 51.6 + 30 = 81.6',
+          'Calculate log(aT): -523.2 / 81.6 = -6.41',
+          'Calculate aT: 10^(-6.41) = 3.89 × 10^-7'
+        ],
+        final_answer: 'log(aT) = -6.41 (aT = 3.89 × 10^-7)',
+        unit: 'dimensionless',
+        engineering_interpretation: 'At 130°C, molecular relaxation processes occur approximately 2.5 million times faster than at Tg, compressing long-term creep timescales into laboratory testing windows.',
+        difficulty: 'advanced'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'T_exp', name: 'Test Temperature T (°C)', unit: '°C', defaultVal: 130, min: -20, max: 250, step: 1 },
+        { symbol: 'T_glass', name: 'Glass Transition Tg (°C)', unit: '°C', defaultVal: 100, min: -80, max: 200, step: 1 },
+        { symbol: 'C1_val', name: 'WLF Constant C1', unit: 'dimensionless', defaultVal: 17.44, min: 10, max: 25, step: 0.1 },
+        { symbol: 'C2_val', name: 'WLF Constant C2', unit: 'K', defaultVal: 51.6, min: 30, max: 80, step: 0.5 }
+      ],
+      calculate: (inputs) => {
+        const T = inputs.T_exp || 130
+        const Tg = inputs.T_glass || 100
+        const C1 = inputs.C1_val || 17.44
+        const C2 = inputs.C2_val || 51.6
+        const deltaT = T - Tg
+        if (C2 + deltaT <= 0) {
+          return { value: 0, formatted: 'Invalid Temperature (Outside WLF Range)', unit: 'log(aT)', status: 'critical', note: 'Denominator C2 + (T - Tg) must be > 0.' }
+        }
+        const logAt = (-C1 * deltaT) / (C2 + deltaT)
+        const at = Math.pow(10, logAt)
+        return {
+          value: Math.round(logAt * 100) / 100,
+          formatted: `log(aT) = ${(Math.round(logAt * 100) / 100).toFixed(2)} (aT = ${at.toExponential(2)})`,
+          unit: 'dimensionless',
+          note: `Temperature shift of ${deltaT} K above Tg.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-RHEO-001'],
+    lesson_links: [{ lesson_id: 'viscoelasticity-and-time-temperature-superposition-wlf-equation', lesson_name: 'Viscoelasticity & Time-Temperature Superposition (WLF Equation)', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'paper', title: 'Temperature Dependence of Relaxation Mechanisms in Amorphous Polymers', author: 'M.L. Williams, R.F. Landel, J.D. Ferry', publisher: 'J. Am. Chem. Soc.', edition: 'Vol 77', year: 1955, page: '3701-3707', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 5. POLYMER TESTING (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-TEST-002',
+    slug: 'dsc-degree-of-crystallinity-formula',
+    name: 'DSC Degree of Crystallinity Percentage Formula',
+    short_name: 'DSC Crystallinity (Xc)',
+    subject_id: 'polymer-testing',
+    subject_name: 'Polymer Testing & Quality Control',
+    category: 'Thermal Characterization',
+    type_code: 'T9',
+    type_label: 'Testing / Standards',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'X_c = \frac{\Delta H_m - \Delta H_{cc}}{\Delta H_m^0 \cdot (1 - w_f)} \times 100',
+    equation_display: 'Xc = [ (Delta Hm - Delta Hcc) / (Delta Hm0 * (1 - wf)) ] * 100',
+    description: 'Determines the weight percentage degree of crystallinity (Xc) in semi-crystalline polymers from Differential Scanning Calorimetry (DSC) endothermic melting enthalpy and cold crystallization enthalpy.',
+    when_to_use: 'Use when analyzing polymer morphology, injection molding cooling rates, annealing effects, and barrier/mechanical stiffness properties.',
+    assumptions: [
+      'Known theoretical 100% crystalline enthalpy Delta Hm0 from literature',
+      'Linear or sigmoidal baseline subtraction across melting transition peak',
+      'Accurately determined inorganic filler weight fraction wf'
+    ],
+    common_mistakes: [
+      'Ignoring cold crystallization enthalpy Delta Hcc in PET or PLA',
+      'Forgetting to subtract inorganic filler weight fraction (1 - wf) in glass-filled compounds'
+    ],
+    variables: [
+      { symbol: 'X_c', meaning: 'Degree of crystallinity', unit: '%', dimension: 'dimensionless', required: true },
+      { symbol: '\Delta H_m', meaning: 'Measured melting enthalpy peak area', unit: 'J/g', dimension: 'Energy/Mass', required: true, example_value: '95.5', min: 10, max: 250, step: 0.5, default_num: 95.5 },
+      { symbol: '\Delta H_{cc}', meaning: 'Cold crystallization enthalpy (if present)', unit: 'J/g', dimension: 'Energy/Mass', required: false, example_value: '0.0', min: 0, max: 100, step: 0.5, default_num: 0.0 },
+      { symbol: '\Delta H_m^0', meaning: 'Melting enthalpy of 100% crystalline polymer', unit: 'J/g', dimension: 'Energy/Mass', required: true, example_value: '207.1', min: 50, max: 350, step: 1, default_num: 207.1 },
+      { symbol: 'w_f', meaning: 'Weight fraction of non-crystallizable filler/reinforcement', unit: 'fraction', dimension: 'dimensionless', required: false, example_value: '0.0', min: 0, max: 0.6, step: 0.05, default_num: 0.0 }
+    ],
+    examples: [
+      {
+        title: 'Isotactic Polypropylene (iPP) DSC Crystallinity Measurement',
+        problem_statement: 'A moulded Polypropylene sample displays a DSC melting peak enthalpy Delta Hm = 98.4 J/g. Given that 100% crystalline iPP has Delta Hm0 = 207.1 J/g and the sample has no filler (wf = 0), calculate Xc.',
+        given_values: { 'Delta Hm': '98.4 J/g', 'Delta Hm0': '207.1 J/g', 'Delta Hcc': '0 J/g', 'wf': '0' },
+        steps: [
+          'Apply formula: Xc = (Delta Hm - Delta Hcc) / (Delta Hm0 * (1 - wf)) * 100',
+          'Substitute values: Xc = (98.4 - 0) / (207.1 * 1.0) * 100',
+          'Calculate: 98.4 / 207.1 * 100 = 47.51%'
+        ],
+        final_answer: 'Xc = 47.5%',
+        unit: '%',
+        engineering_interpretation: 'The moulded PP part has 47.5% crystalline lamellae, providing the expected balance of flexural modulus (>1300 MPa) and impact toughness.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'dH_m', name: 'Melting Enthalpy Delta Hm (J/g)', unit: 'J/g', defaultVal: 98.4, min: 10, max: 250, step: 0.5 },
+        { symbol: 'dH_cc', name: 'Cold Cryst. Delta Hcc (J/g)', unit: 'J/g', defaultVal: 0.0, min: 0, max: 80, step: 0.5 },
+        { symbol: 'dH_zero', name: '100% Cryst. Delta Hm0 (J/g)', unit: 'J/g', defaultVal: 207.1, min: 50, max: 300, step: 1 },
+        { symbol: 'w_filler', name: 'Filler Weight Fraction (0-0.5)', unit: 'fraction', defaultVal: 0.0, min: 0, max: 0.5, step: 0.05 }
+      ],
+      calculate: (inputs) => {
+        const dHm = inputs.dH_m || 98.4
+        const dHcc = inputs.dH_cc || 0.0
+        const dHm0 = inputs.dH_zero || 207.1
+        const wf = inputs.w_filler || 0.0
+        const netEnthalpy = Math.max(0, dHm - dHcc)
+        const xc = (netEnthalpy / (dHm0 * (1 - wf))) * 100
+        return {
+          value: Math.round(xc * 10) / 10,
+          formatted: `Xc = ${Math.round(xc * 10) / 10}%`,
+          unit: '%',
+          note: `Net heat of fusion: ${Math.round(netEnthalpy * 10) / 10} J/g.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-TEST-001'],
+    lesson_links: [{ lesson_id: 'dsc-and-tga-crystallinity-and-thermal-degradation', lesson_name: 'DSC & TGA Crystallinity & Thermal Degradation', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Thermal Analysis of Polymers: Fundamentals and Applications', author: 'Joseph D. Menczel', publisher: 'Wiley', edition: '1st Edition', year: 2009, page: '112-118', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 6. PLASTIC PACKAGING (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-PACK-002',
+    slug: 'water-vapor-transmission-rate-wvtr-film',
+    name: 'Water Vapor Transmission Rate (WVTR) Through Barrier Films',
+    short_name: 'WVTR Barrier Formula',
+    subject_id: 'plastic-packaging-engineering',
+    subject_name: 'Plastic Packaging Engineering',
+    category: 'Barrier & Permeation',
+    type_code: 'T7',
+    type_label: 'Transport / Barrier',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'WVTR = \frac{P_{H_2O} \cdot \Delta p_{H_2O}}{l}',
+    equation_display: 'WVTR = (P_H2O * Delta_p_H2O) / l',
+    description: 'Calculates the steady-state water vapor transmission rate (WVTR) across a barrier packaging film under specified relative humidity and temperature gradients (ASTM F1249 / ISO 15106).',
+    when_to_use: 'Use when engineering moisture barrier films for pharmaceutical blister packs, snack packaging, and desiccated electronic moisture-sensitive components.',
+    assumptions: [
+      'Steady-state Fickian diffusion with constant permeability coefficient',
+      '100% relative humidity on upstream side and 0% on downstream dry sensor side',
+      'No pinholes, micro-voids, or flex-crack defects'
+    ],
+    common_mistakes: [
+      'Confusing OTR (Oxygen Transmission Rate) units with WVTR (Water Vapor Transmission Rate) units',
+      'Ignoring temperature dependence (WVTR approximately doubles every 10°C temperature rise)'
+    ],
+    variables: [
+      { symbol: 'WVTR', meaning: 'Water vapor transmission rate', unit: 'g/(m²·day)', dimension: 'Mass/(Area·Time)', required: true },
+      { symbol: 'P_{H_2O}', meaning: 'Water vapor permeability of polymer', unit: 'g·mil/(100 in²·day) or g·mm/(m²·day)', dimension: 'Permeability', required: true, example_value: '0.08', min: 0.001, max: 5.0, step: 0.005, default_num: 0.08 },
+      { symbol: 'l', meaning: 'Film barrier thickness', unit: 'μm (microns)', dimension: 'Length', required: true, example_value: '25', min: 5, max: 250, step: 5, default_num: 25 }
+    ],
+    examples: [
+      {
+        title: 'Biaxially Oriented Polypropylene (BOPP) 25 μm Moisture Barrier',
+        problem_statement: 'A metallized BOPP film has thickness l = 25 μm and water vapor permeance coefficient producing WVTR = 0.85 g/(m²·day) at 38°C / 90% RH. Calculate moisture ingress over 180 days across a 0.04 m² pouch.',
+        given_values: { 'WVTR': '0.85 g/(m²·day)', 'Area': '0.04 m²', 'Time': '180 days' },
+        steps: [
+          'Calculate daily transmission: 0.85 g/(m²·day) * 0.04 m² = 0.034 g/day',
+          'Multiply by shelf life: 0.034 g/day * 180 days = 6.12 grams of moisture'
+        ],
+        final_answer: '6.12 grams moisture ingress',
+        unit: 'grams',
+        engineering_interpretation: 'The 25 μm metallized BOPP barrier successfully limits moisture ingress to under 6.5 g, maintaining crispness and preventing rancidity for dry snack shelf life.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'film_wvtr', name: 'Film WVTR (g/m²·day)', unit: 'g/m²·day', defaultVal: 0.85, min: 0.05, max: 25, step: 0.1 },
+        { symbol: 'pouch_area', name: 'Package Surface Area (m²)', unit: 'm²', defaultVal: 0.04, min: 0.01, max: 0.5, step: 0.01 },
+        { symbol: 'shelf_days', name: 'Shelf Life Duration (Days)', unit: 'Days', defaultVal: 180, min: 10, max: 730, step: 10 }
+      ],
+      calculate: (inputs) => {
+        const wvtr = inputs.film_wvtr || 0.85
+        const area = inputs.pouch_area || 0.04
+        const days = inputs.shelf_days || 180
+        const totalWater = wvtr * area * days
+        return {
+          value: Math.round(totalWater * 100) / 100,
+          formatted: `${(Math.round(totalWater * 100) / 100).toFixed(2)} grams H2O`,
+          unit: 'grams',
+          note: `Daily moisture ingress: ${(wvtr * area).toFixed(4)} g/day.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-PACK-001'],
+    lesson_links: [{ lesson_id: 'barrier-polymers-evoh-pvdc-and-gas-permeability-math', lesson_name: 'Barrier Polymers (EVOH, PVDC) & Gas Permeability Math', relationship: 'applied' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Plastic Packaging: Properties, Processing, Applications, and Regulations', author: 'Susan E. M. Selke & John D. Culter', publisher: 'Hanser', edition: '3rd Edition', year: 2016, page: '240-248', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 7. SUSTAINABLE PLASTICS (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-SUST-002',
+    slug: 'biobased-carbon-content-percentage-astm-d6866',
+    name: 'Biobased Carbon Content Percentage Formula (ASTM D6866)',
+    short_name: 'Biobased Carbon Content',
+    subject_id: 'sustainable-plastics',
+    subject_name: 'Sustainable Plastics & Circular Economy',
+    category: 'Bio-Content Standards',
+    type_code: 'T11',
+    type_label: 'Sustainability / LCA',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: '\text{Biobased Carbon \%} = \frac{^{14}\text{C}_{sample}}{^{14}\text{C}_{modern}} \times 100',
+    equation_display: 'Biobased Carbon % = (14C_sample / 14C_modern) * 100',
+    description: 'Measures the percentage of renewable modern bio-based carbon relative to total organic carbon in polymers using Accelerator Mass Spectrometry (AMS) radiocarbon dating (ASTM D6866).',
+    when_to_use: 'Use when certifying bio-PE, bio-PET, PLA blends, and USDA BioPreferred label compliance.',
+    assumptions: [
+      'Petrochemical fossil carbon contains zero detectable 14C (half-life 5730 years; fossil feedstocks are >100 million years old)',
+      'Modern atmospheric biological carbon has standard 14C activity reference',
+      'Clean organic combustion to graphite target for AMS detection'
+    ],
+    common_mistakes: [
+      'Confusing biobased carbon percentage (fraction of carbon atoms) with total biobased product weight fraction (which includes oxygen/hydrogen)',
+      'Assuming biodegradable polymers are automatically 100% biobased (e.g., PBAT is fossil-derived biodegradable)'
+    ],
+    variables: [
+      { symbol: 'Biobased\% ', meaning: 'Biobased carbon content', unit: '% of Total Organic Carbon', dimension: 'fraction', required: true },
+      { symbol: '^{14}\text{C}_{sample}', meaning: 'Measured 14C isotope activity in sample', unit: 'pMC (percent Modern Carbon)', dimension: 'Activity', required: true, example_value: '31.5', min: 0, max: 120, step: 0.5, default_num: 31.5 },
+      { symbol: '^{14}\text{C}_{modern}', meaning: 'Standard modern reference radiocarbon activity', unit: 'pMC', dimension: 'Activity', required: true, example_value: '100.0', min: 95, max: 105, step: 0.1, default_num: 100.0 }
+    ],
+    examples: [
+      {
+        title: 'Bio-PET Beverage Bottle Resin Biobased Carbon Verification',
+        problem_statement: 'Bio-PET synthesized from bio-based ethylene glycol (30 wt% of PET molecule) and fossil PTA has 14C sample activity measured at 20.0 pMC against 100 pMC modern standard. Calculate biobased carbon content.',
+        given_values: { '14C_sample': '20.0 pMC', '14C_modern': '100.0 pMC' },
+        steps: [
+          'Apply ASTM D6866 formula: Biobased Carbon % = (20.0 / 100.0) * 100',
+          'Calculate: 20.0%'
+        ],
+        final_answer: '20.0% Biobased Carbon',
+        unit: '%',
+        engineering_interpretation: 'The Bio-PET bottle contains 20% renewable biogenic carbon atoms (derived from sugarcane bio-MEG), meeting USDA BioPreferred certification minimum threshold for biobased polyester.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'pMC_sample', name: 'Measured 14C Activity (pMC)', unit: 'pMC', defaultVal: 20.0, min: 0, max: 110, step: 0.5 },
+        { symbol: 'pMC_ref', name: 'Modern Reference Activity (pMC)', unit: 'pMC', defaultVal: 100.0, min: 95, max: 105, step: 0.5 }
+      ],
+      calculate: (inputs) => {
+        const sample = inputs.pMC_sample || 20.0
+        const ref = inputs.pMC_ref || 100.0
+        const bioPct = (sample / ref) * 100
+        return {
+          value: Math.round(bioPct * 10) / 10,
+          formatted: `${Math.round(bioPct * 10) / 10}% Biobased Carbon`,
+          unit: '%',
+          note: bioPct >= 20 ? 'Qualifies for USDA BioPreferred certification.' : 'Below minimum biobased threshold for certification.'
+        }
+      }
+    },
+    related_ids: ['PH-FORM-SUST-001'],
+    lesson_links: [{ lesson_id: 'pla-synthesis-properties-industrial-composting', lesson_name: 'PLA Synthesis, Properties & Industrial Composting', relationship: 'applied' }],
+    tool_links: [],
+    sources: [{ source_type: 'standard', title: 'Standard Test Methods for Determining the Biobased Content of Solid, Liquid, and Gaseous Samples Using Radiocarbon Analysis', author: 'ASTM Committee D20', publisher: 'ASTM International', edition: 'ASTM D6866-24', year: 2024, page: '1-12', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 8. RECYCLING TECHNOLOGY ====================
+  {
+    formula_id: 'PH-FORM-RECY-001',
+    slug: 'mechanical-recycling-mass-balance-flake-yield',
+    name: 'Mechanical Recycling Mass Balance & Washing Flake Yield',
+    short_name: 'Recycling Flake Yield',
+    subject_id: 'recycling-technology',
+    subject_name: 'Recycling Technology & Processing',
+    category: 'Mechanical Recycling Operations',
+    type_code: 'T11',
+    type_label: 'Sustainability / LCA',
+    difficulty: 'foundation',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'Y_{flake} = \frac{M_{clean\_flake}}{M_{raw\_bales}} \times 100',
+    equation_display: 'Y_flake = (M_clean_flake / M_raw_bales) * 100',
+    description: 'Calculates the net industrial yield percentage of clean, hot-washed flakes produced from raw baled post-consumer plastic waste after accounting for label, cap, dirt, and moisture losses.',
+    when_to_use: 'Use when budgeting PET bottle washing plants, calculating recycling unit economics, and verifying mass-balance audits for CPCB EPR recycling credits.',
+    assumptions: [
+      'Accurate weighbridge mass tracking for input bales and output gaylords/silos',
+      'Moisture content of finished clean flakes is <1.0% after spin drying',
+      'All reject streams (sludge, labels, PO caps, fines) are mass-accounted'
+    ],
+    common_mistakes: [
+      'Neglecting moisture in incoming wet bales during rainy season',
+      'Failing to separate polyolefin cap yield (HDPE/PP) from clear PET flake yield'
+    ],
+    variables: [
+      { symbol: 'Y_{flake}', meaning: 'Net clean flake recovery yield', unit: '%', dimension: 'fraction', required: true },
+      { symbol: 'M_{clean\_flake}', meaning: 'Mass of clean hot-washed flakes produced', unit: 'Tonnes', dimension: 'Mass', required: true, example_value: '720', min: 10, max: 10000, step: 10, default_num: 720 },
+      { symbol: 'M_{raw\_bales}', meaning: 'Mass of raw incoming post-consumer bales', unit: 'Tonnes', dimension: 'Mass', required: true, example_value: '1000', min: 10, max: 10000, step: 10, default_num: 1000 }
+    ],
+    examples: [
+      {
+        title: '1,000 Tonne PET Bottle Washing Plant Yield Audit',
+        problem_statement: 'A recycling wash plant in Gujarat processes 1,000 Tonnes of post-consumer baled PET bottles. Process losses: 12% moisture & dirt, 6% PP/HDPE bottle caps, 8% PVC/OPP labels and fines, 2% color reject bottles. Determine clean rPET flake yield.',
+        given_values: { 'Input Bales': '1,000 Tonnes', 'Total Loss': '12% + 6% + 8% + 2% = 28%' },
+        steps: [
+          'Calculate total percentage loss: 28%',
+          'Calculate clean flake mass: 1,000 Tonnes * (1 - 0.28) = 720 Tonnes',
+          'Calculate yield: (720 / 1000) * 100 = 72.0%'
+        ],
+        final_answer: 'Yield = 72.0% (720 Tonnes Clean rPET Flakes)',
+        unit: '%',
+        engineering_interpretation: 'A 72% net flake yield is benchmark performance for Indian municipal collection streams. The 60 Tonnes of separated HDPE/PP caps represent a secondary revenue stream at ₹45–55/kg.',
+        difficulty: 'foundation'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'bale_input', name: 'Raw Bale Input (Tonnes)', unit: 'Tonnes', defaultVal: 1000, min: 10, max: 5000, step: 25 },
+        { symbol: 'dirt_loss', name: 'Dirt & Moisture Loss (%)', unit: '%', defaultVal: 12.0, min: 2, max: 25, step: 0.5 },
+        { symbol: 'label_loss', name: 'Labels & Adhesives Loss (%)', unit: '%', defaultVal: 8.0, min: 2, max: 15, step: 0.5 },
+        { symbol: 'cap_fraction', name: 'Caps & Closures Separated (%)', unit: '%', defaultVal: 6.0, min: 2, max: 10, step: 0.5 }
+      ],
+      calculate: (inputs) => {
+        const input = inputs.bale_input || 1000
+        const dirt = inputs.dirt_loss || 12.0
+        const labels = inputs.label_loss || 8.0
+        const caps = inputs.cap_fraction || 6.0
+        const totalLossPct = dirt + labels + caps + 2.0
+        const cleanFlake = input * (1 - totalLossPct / 100)
+        const yieldPct = (cleanFlake / input) * 100
+        return {
+          value: Math.round(yieldPct * 10) / 10,
+          formatted: `${Math.round(yieldPct * 10) / 10}% Yield (${Math.round(cleanFlake)} Tonnes Flake)`,
+          unit: '%',
+          note: `Total reject loss is ${totalLossPct}%. Also generates ${Math.round((input * caps) / 100)} Tonnes PO caps.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-SUST-001'],
+    lesson_links: [{ lesson_id: 'mechanical-recycling-sorting-washing-decontamination-pelletizing', lesson_name: 'Mechanical Recycling: Sorting, Washing, Decontamination & Pelletizing', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Recycling of Plastics', author: 'Francesco Paolo La Mantia', publisher: 'ChemTec Publishing', edition: '1st Edition', year: 2002, page: '145-152', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 9. RUBBER TECHNOLOGY (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-RUBB-002',
+    slug: 'mooney-rivlin-rubber-strain-energy-density',
+    name: 'Mooney-Rivlin Strain Energy Density Equation (Hyperelasticity)',
+    short_name: 'Mooney-Rivlin Model',
+    subject_id: 'rubber-technology',
+    subject_name: 'Rubber & Elastomer Technology',
+    category: 'Hyperelastic Constitutive Models',
+    type_code: 'T6',
+    type_label: 'Mechanics / Strength',
+    difficulty: 'advanced',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: 'W = C_{10} (I_1 - 3) + C_{01} (I_2 - 3)',
+    equation_display: 'W = C10 * (I1 - 3) + C01 * (I2 - 3)',
+    description: 'Phenomenological hyperelastic model expressing strain energy density function W for vulcanized elastomers undergoing moderate deformations up to 100–200% strain.',
+    when_to_use: 'Use in FEA nonlinear simulation of rubber O-rings, tyres, engine mounts, and elastomeric seals undergoing large elastic deformation.',
+    assumptions: [
+      'Isotropic, incompressible material behavior (I3 = 1)',
+      'Valid for moderate elongation ratios (lambda < 2.5) before non-Gaussian strain hardening',
+      'Reversible hyperelastic deformation without Mullins stress-softening effect'
+    ],
+    common_mistakes: [
+      'Extrapolating beyond 250% elongation where finite chain extensibility causes severe upward stress deviation',
+      'Using linear Hooke’s law Young’s modulus E for large deformation rubber problems'
+    ],
+    variables: [
+      { symbol: 'W', meaning: 'Strain energy density per unit undeformed volume', unit: 'MJ/m³ (or MPa)', dimension: 'Energy/Volume', required: true },
+      { symbol: 'C_{10}', meaning: 'First Mooney-Rivlin material constant (crosslink network term)', unit: 'MPa', dimension: 'Pressure', required: true, example_value: '0.40', min: 0.05, max: 5.0, step: 0.05, default_num: 0.40 },
+      { symbol: 'C_{01}', meaning: 'Second Mooney-Rivlin material constant (chain entanglement term)', unit: 'MPa', dimension: 'Pressure', required: true, example_value: '0.10', min: 0.01, max: 2.0, step: 0.01, default_num: 0.10 },
+      { symbol: 'I_1', meaning: 'First invariant of Cauchy-Green deformation tensor', unit: 'dimensionless', dimension: 'dimensionless', required: true, example_value: '3.25', min: 3.0, max: 10.0, step: 0.05, default_num: 3.25 },
+      { symbol: 'I_2', meaning: 'Second invariant of Cauchy-Green deformation tensor', unit: 'dimensionless', dimension: 'dimensionless', required: true, example_value: '3.25', min: 3.0, max: 10.0, step: 0.05, default_num: 3.25 }
+    ],
+    examples: [
+      {
+        title: 'Natural Rubber Tyre Tread Strain Energy at 50% Elongation',
+        problem_statement: 'For vulcanized NR compound with C10 = 0.40 MPa and C01 = 0.10 MPa under uniaxial stretch lambda = 1.5 (50% tensile strain). Calculate invariants I1, I2 and strain energy density W.',
+        given_values: { 'lambda': '1.5', 'C10': '0.40 MPa', 'C01': '0.10 MPa' },
+        steps: [
+          'For uniaxial incompressible stretch: I1 = lambda^2 + 2/lambda = 1.5^2 + 2/1.5 = 2.25 + 1.333 = 3.583',
+          'Calculate I2 = 2*lambda + 1/lambda^2 = 2*1.5 + 1/2.25 = 3.0 + 0.444 = 3.444',
+          'Evaluate W: 0.40 * (3.583 - 3) + 0.10 * (3.444 - 3)',
+          'W = 0.40 * 0.583 + 0.10 * 0.444 = 0.2332 + 0.0444 = 0.278 MPa'
+        ],
+        final_answer: 'W = 0.278 MJ/m³ (0.278 MPa)',
+        unit: 'MJ/m³',
+        engineering_interpretation: 'The compound stores 0.278 MJ/m³ elastic strain energy at 50% extension. Initial shear modulus G = 2*(C10 + C01) = 2*(0.40 + 0.10) = 1.00 MPa, with Young’s modulus E approx 3.0 MPa.',
+        difficulty: 'advanced'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'lambda_val', name: 'Uniaxial Stretch Ratio (lambda)', unit: 'extension ratio', defaultVal: 1.5, min: 1.05, max: 2.5, step: 0.05 },
+        { symbol: 'c10_val', name: 'Constant C10', unit: 'MPa', defaultVal: 0.40, min: 0.05, max: 2.0, step: 0.05 },
+        { symbol: 'c01_val', name: 'Constant C01', unit: 'MPa', defaultVal: 0.10, min: 0.01, max: 1.0, step: 0.01 }
+      ],
+      calculate: (inputs) => {
+        const lam = inputs.lambda_val || 1.5
+        const c10 = inputs.c10_val || 0.40
+        const c01 = inputs.c01_val || 0.10
+        const I1 = lam * lam + 2 / lam
+        const I2 = 2 * lam + 1 / (lam * lam)
+        const W = c10 * (I1 - 3) + c01 * (I2 - 3)
+        const G = 2 * (c10 + c01)
+        return {
+          value: Math.round(W * 1000) / 1000,
+          formatted: `W = ${(Math.round(W * 1000) / 1000).toFixed(3)} MJ/m³`,
+          unit: 'MJ/m³',
+          note: `Initial shear modulus G0 = ${(Math.round(G * 100) / 100).toFixed(2)} MPa; Young's Modulus E0 ≈ ${(Math.round(3 * G * 100) / 100).toFixed(2)} MPa.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-RUBB-001'],
+    lesson_links: [{ lesson_id: 'vulcanization-kinetics-and-crosslink-density-measurement', lesson_name: 'Vulcanization Kinetics & Crosslink Density Measurement', relationship: 'applied' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'The Physics of Rubber Elasticity', author: 'L.R.G. Treloar', publisher: 'Oxford University Press', edition: '3rd Edition', year: 2005, page: '211-224', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 10. POLYMER COMPOSITES (ADDITIONAL) ====================
+  {
+    formula_id: 'PH-FORM-COMP-002',
+    slug: 'reuss-transverse-rule-of-mixtures-modulus',
+    name: 'Reuss Transverse Rule of Mixtures Modulus (Inverse / Series Model)',
+    short_name: 'Reuss Transverse Modulus',
+    subject_id: 'polymer-composites',
+    subject_name: 'Polymer Composites & Fiber Engineering',
+    category: 'Micromechanics',
+    type_code: 'T8',
+    type_label: 'Composites',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: '\frac{1}{E_2} = \frac{V_f}{E_f} + \frac{1 - V_f}{E_m}',
+    equation_display: '1 / E2 = (Vf / Ef) + ((1 - Vf) / Em)',
+    description: 'Calculates the lower-bound transverse elastic modulus (E2) perpendicular to fiber alignment in continuous unidirectional fiber-reinforced composites under isostress assumption.',
+    when_to_use: 'Use when calculating laminate ABD stiffness matrices, finite element composite ply orientations, and assessing matrix-dominated transverse stiffness.',
+    assumptions: [
+      'Constant stress across fiber and matrix (isostress / series model)',
+      'Perfect fiber-matrix interfacial bonding without voids',
+      'Linear elastic isotropic matrix and transversely isotropic fibers'
+    ],
+    common_mistakes: [
+      'Using Voigt parallel rule of mixtures for transverse loading direction',
+      'Forgetting to invert the result (E2 = 1 / [Vf/Ef + Vm/Em])'
+    ],
+    variables: [
+      { symbol: 'E_2', meaning: 'Transverse composite Young’s modulus', unit: 'GPa', dimension: 'Pressure', required: true },
+      { symbol: 'V_f', meaning: 'Fiber volume fraction (0.1 to 0.7)', unit: 'fraction', dimension: 'dimensionless', required: true, example_value: '0.60', min: 0.1, max: 0.8, step: 0.05, default_num: 0.60 },
+      { symbol: 'E_f', meaning: 'Fiber tensile modulus', unit: 'GPa', dimension: 'Pressure', required: true, example_value: '230.0', min: 50, max: 600, step: 10, default_num: 230.0 },
+      { symbol: 'E_m', meaning: 'Polymer matrix tensile modulus', unit: 'GPa', dimension: 'Pressure', required: true, example_value: '3.5', min: 1.0, max: 10.0, step: 0.1, default_num: 3.5 }
+    ],
+    examples: [
+      {
+        title: 'Carbon Fiber / Epoxy Prepreg Transverse Modulus E2',
+        problem_statement: 'A unidirectional carbon fiber epoxy aerospace prepreg has fiber volume fraction Vf = 0.60. Carbon fiber modulus Ef = 230 GPa, epoxy matrix modulus Em = 3.5 GPa. Calculate longitudinal E1 (Voigt) and transverse E2 (Reuss).',
+        given_values: { 'Vf': '0.60', 'Ef': '230 GPa', 'Em': '3.5 GPa' },
+        steps: [
+          'Calculate Voigt E1: 0.60 * 230 + 0.40 * 3.5 = 138 + 1.4 = 139.4 GPa',
+          'Calculate Reuss 1/E2: (0.60 / 230) + (0.40 / 3.5)',
+          'Term 1: 0.60 / 230 = 0.00261',
+          'Term 2: 0.40 / 3.5 = 0.11429',
+          'Sum = 0.11690 => Invert E2 = 1 / 0.11690 = 8.55 GPa'
+        ],
+        final_answer: 'E2 = 8.55 GPa (compared to E1 = 139.4 GPa)',
+        unit: 'GPa',
+        engineering_interpretation: 'While longitudinal modulus E1 reaches 139.4 GPa due to high-stiffness carbon fibers, transverse modulus E2 is only 8.55 GPa (matrix dominated), illustrating extreme mechanical anisotropy and necessitating cross-ply [0/90] or quasi-isotropic [0/±45/90] layup sequences.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'V_fib', name: 'Fiber Volume Fraction Vf', unit: 'fraction', defaultVal: 0.60, min: 0.1, max: 0.75, step: 0.05 },
+        { symbol: 'E_fib', name: 'Fiber Modulus Ef (GPa)', unit: 'GPa', defaultVal: 230.0, min: 30, max: 500, step: 10 },
+        { symbol: 'E_mat', name: 'Matrix Modulus Em (GPa)', unit: 'GPa', defaultVal: 3.5, min: 1.0, max: 8.0, step: 0.2 }
+      ],
+      calculate: (inputs) => {
+        const vf = inputs.V_fib || 0.60
+        const ef = inputs.E_fib || 230.0
+        const em = inputs.E_mat || 3.5
+        const vm = 1 - vf
+        const invE2 = vf / ef + vm / em
+        const e2 = 1 / invE2
+        const e1 = vf * ef + vm * em
+        return {
+          value: Math.round(e2 * 10) / 10,
+          formatted: `E2 = ${Math.round(e2 * 10) / 10} GPa (vs E1 = ${Math.round(e1 * 10) / 10} GPa)`,
+          unit: 'GPa',
+          note: `Anisotropy ratio E1/E2 is ${Math.round((e1 / e2) * 10) / 10}x.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-COMP-001'],
+    lesson_links: [{ lesson_id: 'micromechanics-and-rule-of-mixtures-for-composites', lesson_name: 'Micromechanics & Rule of Mixtures for Composites', relationship: 'derived' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'Mechanics of Composite Materials', author: 'Robert M. Jones', publisher: 'CRC Press', edition: '2nd Edition', year: 1998, page: '92-99', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 11. ADDITIVES & COMPOUNDING ====================
+  {
+    formula_id: 'PH-FORM-ADD-001',
+    slug: 'phr-to-weight-percentage-compounding-conversion',
+    name: 'Parts Per Hundred Resin (PHR) to Weight Percentage Conversion',
+    short_name: 'PHR to Weight %',
+    subject_id: 'additives-compounding',
+    subject_name: 'Additives & Compounding Technology',
+    category: 'Formulation Mathematics',
+    type_code: 'T1',
+    type_label: 'Definition / Identity',
+    difficulty: 'foundation',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: 'w_i = \frac{\text{PHR}_i}{100 + \sum_{j} \text{PHR}_j} \times 100',
+    equation_display: 'wi = [ PHR_i / (100 + Sum(PHR_j)) ] * 100',
+    description: 'Converts rubber and plastics recipe formulations written in Parts Per Hundred Resin (PHR) into exact weight percentage (wt%) for gravimetric feeder calibration.',
+    when_to_use: 'Use when preparing twin-screw extruder loss-in-weight gravimetric feeder setpoints from laboratory rubber/PVC master formulation recipes.',
+    assumptions: [
+      'Resin base is fixed at exactly 100 parts by definition',
+      'All liquid and solid components summed in mass units',
+      'Zero volatile solvent loss during weighing'
+    ],
+    common_mistakes: [
+      'Assuming PHR is identical to percentage (e.g., 40 PHR plasticizer is NOT 40% of the formulation)',
+      'Forgetting to sum all additives in the denominator (plasticizer, stabilizer, filler, lubricant)'
+    ],
+    variables: [
+      { symbol: 'w_i', meaning: 'Weight percentage of ingredient i', unit: 'wt%', dimension: 'fraction', required: true },
+      { symbol: '\text{PHR}_i', meaning: 'Parts per hundred resin of component i', unit: 'PHR', dimension: 'fraction', required: true, example_value: '40.0', min: 0.1, max: 200, step: 0.5, default_num: 40.0 },
+      { symbol: '\sum \text{PHR}_j', meaning: 'Sum of all additives in formulation', unit: 'PHR', dimension: 'fraction', required: true, example_value: '60.0', min: 0.5, max: 300, step: 1.0, default_num: 60.0 }
+    ],
+    examples: [
+      {
+        title: 'Flexible PVC Cable Compound DOP Plasticizer Conversion',
+        problem_statement: 'A flexible PVC formulation contains: 100 PHR PVC resin, 40 PHR DOP plasticizer, 15 PHR CaCO3 filler, 3 PHR Ca-Zn stabilizer, 2 PHR lubricants. Total additives = 60 PHR. Convert 40 PHR DOP into wt%.',
+        given_values: { 'PHR_DOP': '40', 'Total Additives': '60 PHR', 'Base Resin': '100 PHR' },
+        steps: [
+          'Total batch weight = 100 (PVC) + 60 (Additives) = 160 parts',
+          'Calculate wt% DOP = (40 / 160) * 100 = 25.0 wt%',
+          'Calculate wt% PVC = (100 / 160) * 100 = 62.5 wt%'
+        ],
+        final_answer: '25.0 wt% DOP (PVC = 62.5 wt%)',
+        unit: 'wt%',
+        engineering_interpretation: '40 PHR DOP equals exactly 25.0% by weight of the final compound. A twin-screw loss-in-weight feeder must dose DOP liquid at 25.0% of total plant throughput rate.',
+        difficulty: 'foundation'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'target_phr', name: 'Additive Dosage (PHR)', unit: 'PHR', defaultVal: 40.0, min: 0.5, max: 150, step: 0.5 },
+        { symbol: 'total_additive_phr', name: 'Total All Additives (PHR)', unit: 'PHR', defaultVal: 60.0, min: 1.0, max: 250, step: 1.0 }
+      ],
+      calculate: (inputs) => {
+        const target = inputs.target_phr || 40.0
+        const total = inputs.total_additive_phr || 60.0
+        const denom = 100 + total
+        const wtPct = (target / denom) * 100
+        const baseResinPct = (100 / denom) * 100
+        return {
+          value: Math.round(wtPct * 10) / 10,
+          formatted: `${Math.round(wtPct * 10) / 10} wt% (Resin is ${Math.round(baseResinPct * 10) / 10} wt%)`,
+          unit: 'wt%',
+          note: `Total batch mass is ${denom} parts per 100 parts resin.`
+        }
+      }
+    },
+    related_ids: [],
+    lesson_links: [{ lesson_id: 'pvc-formulation-heat-stabilizers-plasticizers-lubricants', lesson_name: 'PVC Formulation: Heat Stabilizers, Plasticizers & Lubricants', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Plastics Additives Handbook', author: 'Hans Zweifel', publisher: 'Hanser', edition: '5th Edition', year: 2001, page: '427-435', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 12. LIFE CYCLE ASSESSMENT (LCA) ====================
+  {
+    formula_id: 'PH-FORM-LCA-001',
+    slug: 'global-warming-potential-gwp-carbon-footprint',
+    name: 'Global Warming Potential (GWP) Carbon Footprint per kg Resin',
+    short_name: 'GWP Carbon Footprint',
+    subject_id: 'life-cycle-assessment',
+    subject_name: 'Life Cycle Assessment (LCA)',
+    category: 'Environmental Metrics',
+    type_code: 'T11',
+    type_label: 'Sustainability / LCA',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: true,
+    equation_latex: '\text{GWP} = \sum_{i} (m_i \cdot EF_i) + (E_{elec} \cdot EF_{grid})',
+    equation_display: 'GWP = Sum(m_i * EF_i) + (E_elec * EF_grid)',
+    description: 'Computes cradle-to-gate Global Warming Potential (GWP in kg CO2e / kg polymer) according to ISO 14040/14044 methodology by summing raw material emissions and plant electrical grid consumption.',
+    when_to_use: 'Use when preparing Environmental Product Declarations (EPD), corporate ESG greenhouse gas reports, and comparing virgin vs recycled resin environmental offsets.',
+    assumptions: [
+      'Cradle-to-gate boundary (feedstock extraction, cracking, polymerization, and granulation)',
+      'Indian regional electrical grid emission factor EF_grid approx 0.82 kg CO2e / kWh',
+      'Standard 100-year GWP horizon factors from IPCC AR6'
+    ],
+    common_mistakes: [
+      'Comparing cradle-to-gate figures with cradle-to-grave figures (which include end-of-life incineration)',
+      'Using European grid electricity factors (0.25–0.40) for manufacturing plants located in India (0.82)'
+    ],
+    variables: [
+      { symbol: '\text{GWP}', meaning: 'Global Warming Potential', unit: 'kg CO2e / kg polymer', dimension: 'Mass/Mass', required: true },
+      { symbol: 'm_i \cdot EF_i', meaning: 'Feedstock embodied carbon emissions', unit: 'kg CO2e / kg', dimension: 'Mass/Mass', required: true, example_value: '1.80', min: 0.1, max: 10.0, step: 0.1, default_num: 1.80 },
+      { symbol: 'E_{elec}', meaning: 'Plant electrical energy consumption', unit: 'kWh / kg', dimension: 'Energy/Mass', required: true, example_value: '0.45', min: 0.1, max: 3.0, step: 0.05, default_num: 0.45 },
+      { symbol: 'EF_{grid}', meaning: 'Electrical grid carbon intensity factor', unit: 'kg CO2e / kWh', dimension: 'Mass/Energy', required: true, example_value: '0.82', min: 0.2, max: 1.2, step: 0.02, default_num: 0.82 }
+    ],
+    examples: [
+      {
+        title: 'Virgin HDPE vs 100% Recycled rHDPE Carbon Footprint Comparison',
+        problem_statement: 'Virgin HDPE has cradle-to-gate monomer carbon 1.70 kg CO2e/kg and polymerization energy 0.40 kWh/kg. Recycled rHDPE wash/extrusion requires zero virgin monomer (0.15 kg CO2e/kg transport/chemicals) and 0.50 kWh/kg electrical energy. Compute GWP for both at EF_grid = 0.82 kg CO2e/kWh.',
+        given_values: { 'Virgin Monomer': '1.70', 'Virgin Elec': '0.40 kWh', 'Recycled Feed': '0.15', 'Recycled Elec': '0.50 kWh', 'EF_grid': '0.82' },
+        steps: [
+          'Virgin GWP = 1.70 + (0.40 * 0.82) = 1.70 + 0.328 = 2.03 kg CO2e / kg',
+          'Recycled GWP = 0.15 + (0.50 * 0.82) = 0.15 + 0.410 = 0.56 kg CO2e / kg',
+          'Calculate carbon reduction: (2.03 - 0.56) / 2.03 * 100 = 72.4%'
+        ],
+        final_answer: 'Virgin: 2.03 kg CO2e/kg | Recycled: 0.56 kg CO2e/kg (72.4% Reduction)',
+        unit: 'kg CO2e / kg',
+        engineering_interpretation: 'Switching 1,000 Tonnes of virgin HDPE to rHDPE saves 1,470 Tonnes of net CO2 equivalent emissions, unlocking substantial EPR environmental benefit credits.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'feed_ef', name: 'Feedstock Embodied Carbon (kg CO2e/kg)', unit: 'kg CO2e/kg', defaultVal: 1.70, min: 0.1, max: 5.0, step: 0.1 },
+        { symbol: 'elec_kwh', name: 'Plant Energy Usage (kWh/kg)', unit: 'kWh/kg', defaultVal: 0.45, min: 0.1, max: 2.5, step: 0.05 },
+        { symbol: 'grid_ef', name: 'Grid Factor (kg CO2e/kWh)', unit: 'kg CO2e/kWh', defaultVal: 0.82, min: 0.2, max: 1.1, step: 0.02 }
+      ],
+      calculate: (inputs) => {
+        const feed = inputs.feed_ef || 1.70
+        const elec = inputs.elec_kwh || 0.45
+        const grid = inputs.grid_ef || 0.82
+        const total = feed + elec * grid
+        return {
+          value: Math.round(total * 100) / 100,
+          formatted: `${(Math.round(total * 100) / 100).toFixed(2)} kg CO2e / kg resin`,
+          unit: 'kg CO2e/kg',
+          note: `Electricity accounts for ${Math.round(((elec * grid) / total) * 100)}% of total carbon footprint.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-SUST-001'],
+    lesson_links: [{ lesson_id: 'life-cycle-assessment-iso-14040-carbon-footprint-and-circularity-metrics', lesson_name: 'Life Cycle Assessment: ISO 14040, Carbon Footprint & Circularity Metrics', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'standard', title: 'Environmental management — Life cycle assessment — Requirements and guidelines', author: 'ISO TC 207', publisher: 'International Organization for Standardization', edition: 'ISO 14044:2006', year: 2006, page: '1-46', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 13. MEDICAL PLASTICS ====================
+  {
+    formula_id: 'PH-FORM-MED-001',
+    slug: 'higuchi-model-polymeric-drug-release',
+    name: 'Higuchi Model for Fickian Drug Release from Polymeric Matrices',
+    short_name: 'Higuchi Drug Release',
+    subject_id: 'medical-plastics',
+    subject_name: 'Medical Plastics & Biocompatibility',
+    category: 'Biomedical Delivery Systems',
+    type_code: 'T7',
+    type_label: 'Transport / Barrier',
+    difficulty: 'advanced',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: 'M_t = A \sqrt{D \cdot (2C_0 - C_s) \cdot C_s \cdot t}',
+    equation_display: 'Mt = A * sqrt(D * (2*C0 - Cs) * Cs * t)',
+    description: 'Classical square-root-of-time kinetic relation describing diffusion-controlled drug release from planar non-degradable polymeric matrices (EVA, PDMS, PMMA).',
+    when_to_use: 'Use when modeling transdermal patches, contraceptive implants, or biomedical stent coatings where drug release is governed by Fickian matrix diffusion.',
+    assumptions: [
+      'Initial drug loading C0 is much greater than drug solubility Cs in matrix (C0 >> Cs)',
+      'Pseudo-steady state diffusion with planar one-dimensional release geometry',
+      'Constant diffusion coefficient D without polymer matrix swelling or dissolution'
+    ],
+    common_mistakes: [
+      'Applying the Higuchi model to biodegradable polymers undergoing surface erosion',
+      'Forgetting that release fraction plotted against sqrt(t) must yield a straight line passing through the origin'
+    ],
+    variables: [
+      { symbol: 'M_t / A', meaning: 'Cumulative drug released per unit surface area', unit: 'mg/cm²', dimension: 'Mass/Area', required: true },
+      { symbol: 'C_0', meaning: 'Initial drug concentration in polymer matrix', unit: 'mg/cm³', dimension: 'Mass/Volume', required: true, example_value: '50.0', min: 5, max: 200, step: 1, default_num: 50.0 },
+      { symbol: 'C_s', meaning: 'Drug saturation solubility in polymer matrix', unit: 'mg/cm³', dimension: 'Mass/Volume', required: true, example_value: '2.5', min: 0.1, max: 20, step: 0.1, default_num: 2.5 },
+      { symbol: 'D', meaning: 'Drug diffusion coefficient in polymer matrix', unit: 'cm²/s', dimension: 'Area/Time', required: true, example_value: '1.2e-8', min: 1e-10, max: 1e-6, step: 1e-9, default_num: 1.2e-8 },
+      { symbol: 't', meaning: 'Release time duration', unit: 'hours', dimension: 'Time', required: true, example_value: '24', min: 1, max: 720, step: 1, default_num: 24 }
+    ],
+    examples: [
+      {
+        title: 'Silicone PDMS Subdermal Implant Drug Release',
+        problem_statement: 'A planar silicone implant with area A = 2.0 cm² contains initial drug load C0 = 50 mg/cm³ and solubility Cs = 2.0 mg/cm³. Diffusion coefficient D = 1.0 × 10^-8 cm²/s. Calculate cumulative drug released after 24 hours (86,400 s).',
+        given_values: { 'A': '2.0 cm²', 'C0': '50 mg/cm³', 'Cs': '2.0 mg/cm³', 'D': '1.0e-8 cm²/s', 't': '86,400 s' },
+        steps: [
+          'Calculate term (2*C0 - Cs) * Cs: (100 - 2) * 2 = 98 * 2 = 196 mg²/cm^6',
+          'Multiply by D * t: 1.0e-8 * 86,400 * 196 = 8.64e-4 * 196 = 0.1693 mg²/cm^4',
+          'Take square root: sqrt(0.1693) = 0.4115 mg/cm²',
+          'Multiply by area A = 2.0 cm²: Mt = 2.0 * 0.4115 = 0.823 mg'
+        ],
+        final_answer: 'Mt = 0.823 mg released in 24 hours',
+        unit: 'mg',
+        engineering_interpretation: 'The square-root-of-time dependence delivers 0.82 mg in the first 24 hours. Release rate gradually decreases as the depletion boundary recedes into the polymeric matrix.',
+        difficulty: 'advanced'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'C0_val', name: 'Initial Drug Load C0 (mg/cm³)', unit: 'mg/cm³', defaultVal: 50.0, min: 10, max: 150, step: 5 },
+        { symbol: 'Cs_val', name: 'Drug Solubility Cs (mg/cm³)', unit: 'mg/cm³', defaultVal: 2.0, min: 0.2, max: 10, step: 0.2 },
+        { symbol: 'A_val', name: 'Matrix Surface Area (cm²)', unit: 'cm²', defaultVal: 2.0, min: 0.5, max: 10, step: 0.5 },
+        { symbol: 't_hours', name: 'Time Duration (hours)', unit: 'hours', defaultVal: 24, min: 1, max: 168, step: 1 }
+      ],
+      calculate: (inputs) => {
+        const C0 = inputs.C0_val || 50.0
+        const Cs = inputs.Cs_val || 2.0
+        const A = inputs.A_val || 2.0
+        const tSec = (inputs.t_hours || 24) * 3600
+        const D = 1.0e-8
+        const term = D * (2 * C0 - Cs) * Cs * tSec
+        const mtPerA = Math.sqrt(term)
+        const mt = A * mtPerA
+        return {
+          value: Math.round(mt * 1000) / 1000,
+          formatted: `${(Math.round(mt * 1000) / 1000).toFixed(3)} mg total released`,
+          unit: 'mg',
+          note: `Release flux is ${(Math.round(mtPerA * 1000) / 1000).toFixed(3)} mg/cm².`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-PACK-001'],
+    lesson_links: [{ lesson_id: 'biocompatible-polymers-iso-10993-usp-class-vi-and-sterilization', lesson_name: 'Biocompatible Polymers: ISO 10993, USP Class VI & Sterilization', relationship: 'applied' }],
+    tool_links: [],
+    sources: [{ source_type: 'paper', title: 'Mechanism of Sustained-Action Medication: Theoretical Analysis of Rate of Release of Solid Drugs Dispersed in Solid Matrices', author: 'Takeru Higuchi', publisher: 'J. Pharm. Sci.', edition: 'Vol 52', year: 1963, page: '1145-1149', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 14. DIGITAL TWINS & AI ====================
+  {
+    formula_id: 'PH-FORM-DIGI-001',
+    slug: 'cavity-pressure-integral-injection-mould-work',
+    name: 'Cavity Pressure Integral (Mould Cavity Energy Work Done)',
+    short_name: 'Cavity Pressure Integral',
+    subject_id: 'digital-twins-plastics',
+    subject_name: 'Digital Twins, Industry 4.0 & AI',
+    category: 'In-Line Sensor Analytics',
+    type_code: 'T12',
+    type_label: 'Control / Automation',
+    difficulty: 'intermediate',
+    is_gate: false,
+    is_shopfloor: true,
+    equation_latex: 'W_{cav} = \int_{t_{inj}}^{t_{freeze}} P_{cav}(t) \, dt',
+    equation_display: 'W_cav = Integral [ P_cav(t) * dt ] from t_inj to t_freeze',
+    description: 'Integral of the cavity pressure sensor signal curve over time (bar·s). Serves as the primary Digital Twin metric for automated 100% part quality classification and sink/flash defect prediction.',
+    when_to_use: 'Use in piezoelectric cavity pressure monitoring systems (Kistler / RJG eDART) for real-time robotic reject degating.',
+    assumptions: [
+      'Cavity pressure sensor flush-mounted near gate or at end-of-fill',
+      'Continuous sampling rate of at least 100–500 Hz',
+      'Stable melt temperature and screw recovery dynamics'
+    ],
+    common_mistakes: [
+      'Using hydraulic injection pressure instead of actual in-cavity melt pressure',
+      'Failing to reset piezoelectric charge amplifier baseline between shots'
+    ],
+    variables: [
+      { symbol: 'W_{cav}', meaning: 'Cavity pressure curve integral', unit: 'bar·s', dimension: 'Pressure·Time', required: true },
+      { symbol: 'P_{peak}', meaning: 'Peak holding cavity pressure', unit: 'bar', dimension: 'Pressure', required: true, example_value: '450', min: 100, max: 1500, step: 10, default_num: 450 },
+      { symbol: 't_{pack}', meaning: 'Packing and hold duration', unit: 'seconds', dimension: 'Time', required: true, example_value: '4.5', min: 0.5, max: 30, step: 0.5, default_num: 4.5 }
+    ],
+    examples: [
+      {
+        title: 'RJG eDART Cavity Pressure Integral Tolerance Monitoring',
+        problem_statement: 'An automotive lens cavity pressure curve averages 420 bar over a 4.0 s pack/hold time with trapezoidal shape factor 0.85. Calculate W_cav and classify if nominal tolerance is 1400 ± 50 bar·s.',
+        given_values: { 'P_avg': '420 bar', 't': '4.0 s', 'shape': '0.85' },
+        steps: [
+          'Calculate integral: W_cav = 420 bar * 4.0 s * 0.85 = 1,428 bar·s',
+          'Compare to tolerance: 1400 ± 50 bar·s => 1350 to 1450 bar·s',
+          'Evaluate: 1428 bar·s falls within specification window'
+        ],
+        final_answer: 'W_cav = 1,428 bar·s (PASS / In-Tolerance)',
+        unit: 'bar·s',
+        engineering_interpretation: 'W_cav of 1,428 bar·s confirms correct cavity packing without short shot or flash. The robot places the part in the pass chute.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'P_peak_bar', name: 'Peak Cavity Pressure (bar)', unit: 'bar', defaultVal: 420, min: 100, max: 1200, step: 10 },
+        { symbol: 't_hold_s', name: 'Hold Time (s)', unit: 's', defaultVal: 4.0, min: 0.5, max: 20, step: 0.5 },
+        { symbol: 'shape_factor', name: 'Curve Shape Factor (0.7-0.95)', unit: 'ratio', defaultVal: 0.85, min: 0.6, max: 1.0, step: 0.05 }
+      ],
+      calculate: (inputs) => {
+        const p = inputs.P_peak_bar || 420
+        const t = inputs.t_hold_s || 4.0
+        const s = inputs.shape_factor || 0.85
+        const wCav = p * t * s
+        return {
+          value: Math.round(wCav),
+          formatted: `W_cav = ${Math.round(wCav)} bar·s`,
+          unit: 'bar·s',
+          note: wCav < 1000 ? 'Low pressure integral — risk of sink marks or short shot.' : 'Good packing density.'
+        }
+      }
+    },
+    related_ids: ['PH-FORM-PROC-001'],
+    lesson_links: [{ lesson_id: 'cavity-pressure-sensors-and-industry-4-0-closed-loop-control', lesson_name: 'Cavity Pressure Sensors & Industry 4.0 Closed-Loop Control', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Cavity Pressure Technology in Injection Molding', author: 'Kistler Instrumente AG', publisher: 'Kistler Application Manual', edition: '4th Edition', year: 2021, page: '22-29', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 15. BIOPROCESSING & FERMENTATION ====================
+  {
+    formula_id: 'PH-FORM-BIO-001',
+    slug: 'monod-kinetics-pha-microbial-biopolymer-growth',
+    name: 'Monod Specific Microbial Growth Rate for PHA Biopolymers',
+    short_name: 'Monod Growth Kinetics',
+    subject_id: 'bioprocessing-fermentation',
+    subject_name: 'Bioprocessing & Microbial Fermentation',
+    category: 'Fermentation Kinetics',
+    type_code: 'T3',
+    type_label: 'Kinetics / Rate',
+    difficulty: 'intermediate',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: '\mu = \mu_{max} \frac{[S]}{K_s + [S]}',
+    equation_display: 'mu = mu_max * ( [S] / (Ks + [S]) )',
+    description: 'Empirical model relating the specific microbial growth rate mu of polymer-producing bacteria (such as Cupriavidus necator producing PHB) to limiting carbon substrate concentration [S].',
+    when_to_use: 'Use when modeling fed-batch bioreactors for bacterial polyhydroxyalkanoate (PHA/PHB) biosynthesis to optimize biomass growth before nutrient-limiting polymer accumulation phase.',
+    assumptions: [
+      'Single growth-limiting substrate (e.g., glucose, glycerol, or volatile fatty acids)',
+      'No substrate inhibition or toxic metabolite accumulation',
+      'Homogeneous mixing throughout the agitated bioreactor vessel'
+    ],
+    common_mistakes: [
+      'Confusing biomass growth phase with PHA polymer accumulation phase (PHA accumulates when nitrogen/phosphorus is limited)',
+      'Forgetting that at high substrate concentrations [S] >> Ks, the growth rate reaches asymptotic mu_max'
+    ],
+    variables: [
+      { symbol: '\mu', meaning: 'Specific microbial growth rate', unit: 'h⁻¹', dimension: '1/Time', required: true },
+      { symbol: '\mu_{max}', meaning: 'Maximum specific growth rate', unit: 'h⁻¹', dimension: '1/Time', required: true, example_value: '0.35', min: 0.05, max: 1.5, step: 0.05, default_num: 0.35 },
+      { symbol: '[S]', meaning: 'Limiting substrate concentration (glucose)', unit: 'g/L', dimension: 'Mass/Volume', required: true, example_value: '5.0', min: 0.1, max: 100, step: 0.5, default_num: 5.0 },
+      { symbol: 'K_s', meaning: 'Substrate affinity constant (half-velocity constant)', unit: 'g/L', dimension: 'Mass/Volume', required: true, example_value: '0.50', min: 0.05, max: 10, step: 0.05, default_num: 0.50 }
+    ],
+    examples: [
+      {
+        title: 'Cupriavidus necator Growth Rate for PHB Production',
+        problem_statement: 'In a 10,000 L fermenter producing polyhydroxybutyrate (PHB), Cupriavidus necator has mu_max = 0.36 h^-1 and Ks = 0.40 g/L for glucose. Calculate specific growth rate mu when glucose concentration is maintained at [S] = 3.6 g/L.',
+        given_values: { 'mu_max': '0.36 h^-1', 'Ks': '0.40 g/L', '[S]': '3.6 g/L' },
+        steps: [
+          'Apply Monod equation: mu = mu_max * [S] / (Ks + [S])',
+          'Substitute values: mu = 0.36 * 3.6 / (0.40 + 3.6)',
+          'Evaluate denominator: 0.40 + 3.6 = 4.0 g/L',
+          'Calculate mu: 0.36 * (3.6 / 4.0) = 0.36 * 0.90 = 0.324 h^-1'
+        ],
+        final_answer: 'mu = 0.324 h⁻¹ (Doubling time t_d = 2.14 hours)',
+        unit: 'h⁻¹',
+        engineering_interpretation: 'At 3.6 g/L glucose, the culture grows at 90% of its maximum potential rate, rapidly building bacterial cell density before nutrient starvation triggers intracellular PHB granule accumulation.',
+        difficulty: 'intermediate'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'mu_max_val', name: 'Max Growth Rate mu_max (h⁻¹)', unit: 'h⁻¹', defaultVal: 0.36, min: 0.1, max: 1.0, step: 0.02 },
+        { symbol: 'S_conc', name: 'Substrate Concentration [S] (g/L)', unit: 'g/L', defaultVal: 3.6, min: 0.1, max: 50, step: 0.2 },
+        { symbol: 'Ks_val', name: 'Monod Constant Ks (g/L)', unit: 'g/L', defaultVal: 0.40, min: 0.05, max: 5.0, step: 0.05 }
+      ],
+      calculate: (inputs) => {
+        const muMax = inputs.mu_max_val || 0.36
+        const S = inputs.S_conc || 3.6
+        const Ks = inputs.Ks_val || 0.40
+        const mu = muMax * (S / (Ks + S))
+        const doublingTime = Math.log(2) / mu
+        return {
+          value: Math.round(mu * 1000) / 1000,
+          formatted: `mu = ${(Math.round(mu * 1000) / 1000).toFixed(3)} h⁻¹`,
+          unit: 'h⁻¹',
+          note: `Biomass doubling time td = ${(Math.round(doublingTime * 10) / 10).toFixed(1)} hours.`
+        }
+      }
+    },
+    related_ids: ['PH-FORM-CHEM-001'],
+    lesson_links: [{ lesson_id: 'microbial-fermentation-kinetics-and-pha-polyhydroxyalkanoate-production', lesson_name: 'Microbial Fermentation Kinetics & PHA Production', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'textbook', title: 'Bioprocess Engineering: Basic Concepts', author: 'Michael L. Shuler & Fikret Kargi', publisher: 'Prentice Hall', edition: '2nd Edition', year: 2002, page: '160-168', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 16. ROBOTICS IN MANUFACTURING ====================
+  {
+    formula_id: 'PH-FORM-ROBO-001',
+    slug: 'cartesian-robot-demoulding-takeout-time',
+    name: '3-Axis Cartesian Robot Demoulding Take-Out Time Formula',
+    short_name: 'Robot Demoulding Time',
+    subject_id: 'robotics-plastics',
+    subject_name: 'Robotics & Automation in Plastics',
+    category: 'Automation Cycle Time',
+    type_code: 'T12',
+    type_label: 'Control / Automation',
+    difficulty: 'foundation',
+    is_gate: false,
+    is_shopfloor: true,
+    equation_latex: 't_{takeout} = t_{enter} + t_{grip} + t_{strip} + t_{exit}',
+    equation_display: 't_takeout = t_enter + t_grip + t_strip + t_exit',
+    description: 'Calculates the mould-open time consumed by a high-speed top-entry Cartesian servo robot entering the mould space, gripping parts with end-of-arm tooling (EOAT), stripping from ejector pins, and exiting to safe clearance.',
+    when_to_use: 'Use when calculating injection moulding overall cycle time and maximizing machine throughput in high-cavity packaging and medical moulding lines.',
+    assumptions: [
+      'Full servo acceleration and deceleration trajectories with S-curve smoothing',
+      'Vacuum switch confirmation feedback time is included in t_grip',
+      'Mould opening stroke is sufficient for EOAT clearance'
+    ],
+    common_mistakes: [
+      'Assuming robot cycle time equals total machine cycle time (robot runs in parallel with cooling while mould is closed)',
+      'Forgetting that only the mould-open portion (take-out time) directly increases overall cycle time'
+    ],
+    variables: [
+      { symbol: 't_{takeout}', meaning: 'Total mould open take-out delay', unit: 'seconds', dimension: 'Time', required: true },
+      { symbol: 't_{enter}', meaning: 'Robot vertical axis entry time into cavity', unit: 'seconds', dimension: 'Time', required: true, example_value: '0.45', min: 0.1, max: 3.0, step: 0.05, default_num: 0.45 },
+      { symbol: 't_{grip}', meaning: 'Vacuum suction cup build & sensor confirmation', unit: 'seconds', dimension: 'Time', required: true, example_value: '0.15', min: 0.05, max: 1.0, step: 0.05, default_num: 0.15 },
+      { symbol: 't_{strip}', meaning: 'Ejector stroke forward & part extraction', unit: 'seconds', dimension: 'Time', required: true, example_value: '0.25', min: 0.1, max: 2.0, step: 0.05, default_num: 0.25 },
+      { symbol: 't_{exit}', meaning: 'Robot ascent out of mould to safe clearance', unit: 'seconds', dimension: 'Time', required: true, example_value: '0.45', min: 0.1, max: 3.0, step: 0.05, default_num: 0.45 }
+    ],
+    examples: [
+      {
+        title: 'High-Speed 32-Cavity Bottle Cap Demoulding Robot',
+        problem_statement: 'A 32-cavity beverage closure mould uses a high-speed side-entry servo robot. Entry time = 0.35 s, vacuum grip = 0.10 s, ejector assist strip = 0.15 s, exit time = 0.35 s. Calculate total take-out time and percentage of 5.5 s overall cycle.',
+        given_values: { 't_enter': '0.35 s', 't_grip': '0.10 s', 't_strip': '0.15 s', 't_exit': '0.35 s', 'Total Cycle': '5.5 s' },
+        steps: [
+          'Sum take-out components: 0.35 + 0.10 + 0.15 + 0.35 = 0.95 seconds',
+          'Calculate cycle fraction: (0.95 / 5.5) * 100 = 17.27%'
+        ],
+        final_answer: 't_takeout = 0.95 seconds (17.3% of cycle)',
+        unit: 'seconds',
+        engineering_interpretation: 'The robot take-out time is under 1.0 second, allowing a fast 5.5 second overall cycle yielding over 20,900 caps per hour from a single 32-cavity mould.',
+        difficulty: 'foundation'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 't_in', name: 'Entry Time (s)', unit: 's', defaultVal: 0.35, min: 0.1, max: 2.0, step: 0.05 },
+        { symbol: 't_vac', name: 'Vacuum Grip Time (s)', unit: 's', defaultVal: 0.10, min: 0.05, max: 0.8, step: 0.05 },
+        { symbol: 't_ext', name: 'Strip/Eject Time (s)', unit: 's', defaultVal: 0.15, min: 0.05, max: 1.0, step: 0.05 },
+        { symbol: 't_out', name: 'Exit Time (s)', unit: 's', defaultVal: 0.35, min: 0.1, max: 2.0, step: 0.05 }
+      ],
+      calculate: (inputs) => {
+        const tin = inputs.t_in || 0.35
+        const tvac = inputs.t_vac || 0.10
+        const text = inputs.t_ext || 0.15
+        const tout = inputs.t_out || 0.35
+        const total = tin + tvac + text + tout
+        return {
+          value: Math.round(total * 100) / 100,
+          formatted: `t_takeout = ${(Math.round(total * 100) / 100).toFixed(2)} seconds`,
+          unit: 'seconds',
+          note: 'Mould open time delay added to cycle.'
+        }
+      }
+    },
+    related_ids: ['PH-FORM-PROC-001', 'PH-FORM-PROC-002'],
+    lesson_links: [{ lesson_id: 'cartesian-and-6-axis-articulated-robots-for-demoulding-and-degating', lesson_name: 'Cartesian & 6-Axis Articulated Robots for Demoulding & Degating', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'handbook', title: 'Robotics and Automation in the Plastics Industry', author: 'Christian Hopmann', publisher: 'Hanser', edition: '1st Edition', year: 2018, page: '45-52', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  },
+
+  // ==================== 17. POLYMER NANOTECHNOLOGY ====================
+  {
+    formula_id: 'PH-FORM-NANO-001',
+    slug: 'percolation-threshold-conductive-nanocomposites',
+    name: 'Electrical Percolation Threshold in Carbon Nanotube Nanocomposites',
+    short_name: 'Percolation Threshold',
+    subject_id: 'polymer-nanotechnology',
+    subject_name: 'Polymer Nanotechnology & Nanocomposites',
+    category: 'Nanocomposite Conductivity',
+    type_code: 'T6',
+    type_label: 'Mechanics / Strength',
+    difficulty: 'advanced',
+    is_gate: true,
+    is_shopfloor: false,
+    equation_latex: '\sigma = \sigma_0 (\phi - \phi_c)^t \quad \text{for } \phi > \phi_c',
+    equation_display: 'sigma = sigma_0 * (phi - phi_c)^t',
+    description: 'Power-law scaling equation describing the sharp insulator-to-conductor transition in polymer nanocomposites filled with conductive nanoparticles (carbon nanotubes, graphene, or carbon black).',
+    when_to_use: 'Use when formulating electrically conductive plastics for Electrostatic Discharge (ESD) protection, EMI shielding, and fuel tank grounding.',
+    assumptions: [
+      'Volume fraction phi is above the critical percolation threshold phi_c',
+      'Uniform dispersion without severe agglomeration',
+      'Universal critical exponent t approx 1.6 to 2.0 for three-dimensional random networks'
+    ],
+    common_mistakes: [
+      'Assuming spherical particle percolation threshold (approx 16 vol%) applies to high aspect ratio CNTs (which percolate at <0.5 vol%)',
+      'Applying the equation below the percolation threshold phi < phi_c'
+    ],
+    variables: [
+      { symbol: '\sigma', meaning: 'Electrical conductivity of nanocomposite', unit: 'S/m', dimension: 'Conductivity', required: true },
+      { symbol: '\sigma_0', meaning: 'Conductivity scaling factor (filler intrinsic conductivity)', unit: 'S/m', dimension: 'Conductivity', required: true, example_value: '10000', min: 100, max: 1000000, step: 1000, default_num: 10000 },
+      { symbol: '\phi', meaning: 'Volume fraction of conductive nanofiller', unit: 'volume fraction', dimension: 'dimensionless', required: true, example_value: '0.025', min: 0.001, max: 0.20, step: 0.002, default_num: 0.025 },
+      { symbol: '\phi_c', meaning: 'Critical percolation threshold volume fraction', unit: 'volume fraction', dimension: 'dimensionless', required: true, example_value: '0.008', min: 0.001, max: 0.10, step: 0.001, default_num: 0.008 },
+      { symbol: 't', meaning: 'Critical universal conductivity exponent', unit: 'dimensionless', dimension: 'dimensionless', required: true, example_value: '2.0', min: 1.3, max: 2.5, step: 0.1, default_num: 2.0 }
+    ],
+    examples: [
+      {
+        title: 'Multi-Walled Carbon Nanotube (MWCNT) / Polycarbonate ESD Compound',
+        problem_statement: 'MWCNTs dispersed in Polycarbonate have percolation threshold phi_c = 0.008 (0.8 vol%). Scaling factor sigma0 = 1.0 × 10^4 S/m, exponent t = 2.0. Calculate conductivity at filler loading phi = 0.025 (2.5 vol%).',
+        given_values: { 'phi_c': '0.008', 'phi': '0.025', 'sigma0': '10,000 S/m', 't': '2.0' },
+        steps: [
+          'Calculate effective volume above threshold: phi - phi_c = 0.025 - 0.008 = 0.017',
+          'Raise to power t = 2.0: (0.017)^2 = 2.89 × 10^-4',
+          'Multiply by sigma0: 10,000 * 2.89 × 10^-4 = 2.89 S/m'
+        ],
+        final_answer: 'sigma = 2.89 S/m (Volume Resistivity rho = 0.35 Ohm·m)',
+        unit: 'S/m',
+        engineering_interpretation: 'The conductivity jumps by over 14 orders of magnitude from base PC (10^-14 S/m) to 2.89 S/m, placing the compound firmly in the ESD and EMI shielding protection range.',
+        difficulty: 'advanced'
+      }
+    ],
+    calc_config: {
+      inputs: [
+        { symbol: 'phi_vol', name: 'Filler Loading phi (vol fraction)', unit: 'vol fraction', defaultVal: 0.025, min: 0.002, max: 0.10, step: 0.002 },
+        { symbol: 'phi_c_val', name: 'Percolation Threshold phi_c', unit: 'vol fraction', defaultVal: 0.008, min: 0.001, max: 0.05, step: 0.001 },
+        { symbol: 'sigma0_val', name: 'Scaling Factor sigma_0 (S/m)', unit: 'S/m', defaultVal: 10000, min: 500, max: 50000, step: 500 },
+        { symbol: 'exp_t', name: 'Exponent t', unit: 'dimensionless', defaultVal: 2.0, min: 1.4, max: 2.5, step: 0.1 }
+      ],
+      calculate: (inputs) => {
+        const phi = inputs.phi_vol || 0.025
+        const phic = inputs.phi_c_val || 0.008
+        const sigma0 = inputs.sigma0_val || 10000
+        const t = inputs.exp_t || 2.0
+        if (phi <= phic) {
+          return { value: 0, formatted: 'Insulating State (phi <= phi_c)', unit: 'S/m', status: 'warning', note: 'Below percolation threshold; network is not interconnected.' }
+        }
+        const delta = phi - phic
+        const sigma = sigma0 * Math.pow(delta, t)
+        return {
+          value: Math.round(sigma * 100) / 100,
+          formatted: `sigma = ${(Math.round(sigma * 100) / 100).toFixed(2)} S/m`,
+          unit: 'S/m',
+          note: 'Electrically conductive percolation network formed.'
+        }
+      }
+    },
+    related_ids: ['PH-FORM-COMP-001'],
+    lesson_links: [{ lesson_id: 'carbon-nanotubes-and-graphene-percolation-threshold-and-conductivity', lesson_name: 'Carbon Nanotubes & Graphene: Percolation Threshold & Conductivity', relationship: 'introduced' }],
+    tool_links: [],
+    sources: [{ source_type: 'paper', title: 'Electrical Conductivity of Carbon Nanotube-Polymer Composites', author: 'W. Bauhofer & J.Z. Kovacs', publisher: 'Composites Science and Technology', edition: 'Vol 69', year: 2009, page: '1486-1498', verified_at: '2026-10-09' }],
+    status: 'published',
+    verified_at: '2026-10-09',
+    reviewed_by: 'PolymerHub Academic Editorial Board'
+  }
+
 ]
