@@ -28,6 +28,16 @@ export default function FormulaDetailPage({ params }: { params: Promise<{ slug: 
   const formula = getFormulaBySlug(slug)
   const [copied, setCopied] = useState(false)
 
+  const [calcInputs, setCalcInputs] = useState<Record<string, number>>(() => {
+    const initial: Record<string, number> = {}
+    if (formula?.calc_config) {
+      formula.calc_config.inputs.forEach((inp) => {
+        initial[inp.symbol] = inp.defaultVal
+      })
+    }
+    return initial
+  })
+
   if (!formula) {
     notFound()
   }
@@ -37,6 +47,22 @@ export default function FormulaDetailPage({ params }: { params: Promise<{ slug: 
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
+
+  const handleCalcChange = (symbol: string, val: number) => {
+    setCalcInputs((prev) => ({ ...prev, [symbol]: val }))
+  }
+
+  const handleResetInputs = () => {
+    const reset: Record<string, number> = {}
+    if (formula?.calc_config) {
+      formula.calc_config.inputs.forEach((inp) => {
+        reset[inp.symbol] = inp.defaultVal
+      })
+    }
+    setCalcInputs(reset)
+  }
+
+  const calcResult = formula.calc_config ? formula.calc_config.calculate(calcInputs) : null
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white">
@@ -116,6 +142,87 @@ export default function FormulaDetailPage({ params }: { params: Promise<{ slug: 
             Plain Formula: <span className="text-slate-900 font-bold">{formula.equation_display}</span>
           </div>
         </section>
+
+        {/* Live Interactive Parameter Solver */}
+        {formula.calc_config && calcResult && (
+          <section className="bg-white border-2 border-amber-300 rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-amber-100">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-200">
+                  <Calculator className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-slate-900 font-display">
+                    Live Engineering Parameter Solver
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Input your production or test values below for instant, verified output.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-1 rounded font-extrabold uppercase">
+                  Verified Engine
+                </span>
+                <button
+                  onClick={handleResetInputs}
+                  className="text-xs text-slate-500 hover:text-slate-800 font-mono underline cursor-pointer"
+                >
+                  Reset Defaults
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+              {formula.calc_config.inputs.map((inp) => (
+                <div key={inp.symbol} className="bg-slate-50 border border-slate-200 rounded-xl p-3">
+                  <label className="block text-xs font-bold text-slate-700 font-mono mb-1 truncate">
+                    {inp.name} <span className="text-slate-500 font-normal">({inp.unit})</span>
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      step={inp.step || 0.1}
+                      min={inp.min}
+                      max={inp.max}
+                      value={calcInputs[inp.symbol] ?? inp.defaultVal}
+                      onChange={(e) => handleCalcChange(inp.symbol, parseFloat(e.target.value) || 0)}
+                      className="w-full bg-white border-2 border-slate-300 focus:border-blue-600 rounded-lg px-3 py-2 text-sm text-slate-900 font-mono focus:outline-none focus:ring-1 focus:ring-blue-600 shadow-2xs font-bold"
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400">
+                      {inp.symbol}
+                    </span>
+                  </div>
+                  {inp.min !== undefined && inp.max !== undefined && (
+                    <div className="text-[10px] text-slate-600 font-mono mt-1 font-medium">
+                      Range: {inp.min} – {inp.max} {inp.unit}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Output Hero Box */}
+            <div className="bg-gradient-to-r from-amber-50 via-white to-amber-50/50 border-2 border-amber-300 rounded-xl p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <span className="text-xs text-amber-900 font-bold uppercase font-mono block mb-1">
+                  Calculated Engineering Result:
+                </span>
+                <div className="text-2xl sm:text-3xl font-black text-amber-900 font-mono">
+                  {calcResult.formatted}
+                </div>
+              </div>
+
+              {calcResult.note && (
+                <div className="bg-white border border-amber-200 rounded-lg p-3 text-xs text-slate-700 md:max-w-md font-sans shadow-2xs">
+                  <span className="font-bold text-amber-900 block mb-0.5">Engineering Verification:</span>
+                  {calcResult.note}
+                </div>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* When to Use & Physical Guidance */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-6">

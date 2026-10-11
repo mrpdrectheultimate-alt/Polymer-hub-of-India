@@ -30,6 +30,7 @@ export interface GateSection {
   totalLessons: number
   relevanceStars: number
   link: string
+  formulaLink?: string
   description: string
 }
 

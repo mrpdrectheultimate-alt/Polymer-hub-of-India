@@ -160,26 +160,21 @@ export default function MapPageContent() {
                       <h3 className="font-bold text-sm text-slate-900 font-display">{option.goalText}</h3>
                     </div>
 
-                    <div className="text-xs space-y-2 pt-3 border-t border-slate-100">
-                      <div>
-                        <span className="text-[10px] text-slate-500 uppercase font-mono block font-semibold">Primary Target:</span>
-                        <Link
-                          href={option.primaryDestination.link}
-                          className="font-bold text-blue-700 hover:text-blue-900 inline-flex items-center gap-1 font-mono text-xs"
-                        >
-                          <span>{option.primaryDestination.name}</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
-                      </div>
-                      <div>
-                        <span className="text-[10px] text-slate-500 uppercase font-mono block font-semibold">Secondary Tool:</span>
-                        <Link
-                          href={option.secondaryDestination.link}
-                          className="text-slate-600 hover:text-slate-900 inline-flex items-center gap-1 font-mono text-[11px]"
-                        >
-                          <span>{option.secondaryDestination.name}</span>
-                        </Link>
-                      </div>
+                    <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                      <Link
+                        href={option.primaryDestination.link}
+                        className="w-full inline-flex items-center justify-between py-2 px-3 bg-blue-50 hover:bg-blue-100 text-blue-900 border border-blue-200 rounded-xl font-bold font-mono text-xs transition"
+                      >
+                        <span>{option.primaryDestination.name}</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
+                      </Link>
+                      <Link
+                        href={option.secondaryDestination.link}
+                        className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 font-mono text-[11px] px-1 font-medium transition"
+                      >
+                        <span className="text-slate-400">Tool:</span>
+                        <span>{option.secondaryDestination.name}</span>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -229,13 +224,32 @@ export default function MapPageContent() {
                     <span className="font-medium">Curriculum Lessons:</span>
                     <span className="text-emerald-700 font-bold">{sec.totalLessons} Lessons</span>
                   </div>
-                  <Link
-                    href={sec.link}
-                    className="w-full inline-flex items-center justify-center gap-1.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white rounded-xl transition shadow-xs font-mono uppercase tracking-wider"
-                  >
-                    <span>Study Section Lessons</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
-                  </Link>
+                  <div className="grid grid-cols-2 gap-2 pt-1">
+                    <Link
+                      href={sec.link}
+                      className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-900 hover:bg-slate-800 text-xs font-bold text-white rounded-xl transition shadow-xs font-mono uppercase tracking-wider text-center"
+                    >
+                      <span>Lessons</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-amber-400" />
+                    </Link>
+                    {sec.formulaLink ? (
+                      <Link
+                        href={sec.formulaLink}
+                        className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 bg-blue-50 hover:bg-blue-100 text-xs font-bold text-blue-800 border border-blue-200 rounded-xl transition font-mono uppercase tracking-wider text-center"
+                      >
+                        <Calculator className="w-3.5 h-3.5 text-blue-600" />
+                        <span>Formulas</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/formulas"
+                        className="inline-flex items-center justify-center gap-1.5 py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 rounded-xl transition font-mono uppercase tracking-wider text-center"
+                      >
+                        <Calculator className="w-3.5 h-3.5" />
+                        <span>Formulas</span>
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

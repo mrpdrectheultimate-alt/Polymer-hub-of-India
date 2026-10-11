@@ -36,8 +36,8 @@ export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
       link: '/subjects'
     },
     secondaryLinks: [
-      { label: 'Polymer Chemistry (Start Here)', link: '/subjects', badge: '15 Lessons' },
-      { label: 'Polymer Processing & Extrusion', link: '/subjects', badge: '20 Lessons' },
+      { label: 'Polymer Chemistry (Start Here)', link: '/subjects/polymer-chemistry', badge: '15 Lessons' },
+      { label: 'Polymer Processing & Extrusion', link: '/subjects/polymer-processing', badge: '20 Lessons' },
       { label: 'Reference Reading Room', link: '/library', badge: '50 Textbooks' },
       { label: 'AI Polymer Copilot', link: '/ai-tutor', badge: 'RAG AI' }
     ]
@@ -92,7 +92,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Chemistry', 'Additives & Compounding'],
     totalLessons: 27,
     relevanceStars: 5,
-    link: '/subjects',
+    link: '/subjects/polymer-chemistry',
+    formulaLink: '/formulas?subject=polymer-chemistry',
     description: 'Polymerization kinetics, step-growth Carothers, free radical addition, Mayo-Lewis copolymerization, Ziegler-Natta catalysis.'
   },
   {
@@ -102,7 +103,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Testing & Characterization', 'Polymer Rheology'],
     totalLessons: 21,
     relevanceStars: 5,
-    link: '/subjects',
+    link: '/subjects/polymer-testing',
+    formulaLink: '/formulas?subject=polymer-testing',
     description: 'Molecular weight averages (Mn, Mw, Mz), GPC, DSC thermal crystallization Xc, TGA degradation, DMA viscoelasticity.'
   },
   {
@@ -112,7 +114,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Chemistry', 'Polymer Composites'],
     totalLessons: 27,
     relevanceStars: 4,
-    link: '/subjects',
+    link: '/subjects/polymer-chemistry',
+    formulaLink: '/formulas?subject=polymer-chemistry',
     description: 'Thermoplastics (PE, PP, PVC, PS, PET, PA, PC), thermosets (Epoxy, PF), elastomers, structure-property relationships.'
   },
   {
@@ -122,7 +125,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Composites & Fiber Engineering', 'Polymer Nanotechnology'],
     totalLessons: 20,
     relevanceStars: 4,
-    link: '/subjects',
+    link: '/subjects/polymer-composites',
+    formulaLink: '/formulas?subject=polymer-composites',
     description: 'Flory-Huggins thermodynamic miscibility, Rule of Mixtures (Voigt/Reuss), Halpin-Tsai model, carbon/glass fiber volume fraction.'
   },
   {
@@ -132,7 +136,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Rubber & Elastomer Technology', 'Sustainable Plastics'],
     totalLessons: 24,
     relevanceStars: 4,
-    link: '/subjects',
+    link: '/subjects/rubber-technology',
+    formulaLink: '/formulas?subject=rubber-technology',
     description: 'Sulfur vulcanization, Flory-Rehner crosslink density, carbon black reinforcement, antioxidant photostabilization.'
   },
   {
@@ -142,7 +147,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Rheology & Melt Flow Mechanics'],
     totalLessons: 11,
     relevanceStars: 5,
-    link: '/subjects',
+    link: '/subjects/polymer-rheology',
+    formulaLink: '/formulas?subject=polymer-rheology',
     description: 'Pseudoplastic shear thinning, Power-Law model, Carreau-Yasuda, Bagley entrance correction, Rabinowitsch shear rate, WLF equation.'
   },
   {
@@ -152,7 +158,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Processing', 'Mould & Die Design'],
     totalLessons: 32,
     relevanceStars: 5,
-    link: '/subjects',
+    link: '/subjects/polymer-processing',
+    formulaLink: '/formulas?subject=polymer-processing',
     description: 'Injection molding cycle dynamics, press clamping tonnage, extruder single-screw throughput, blow molding parison control.'
   },
   {
@@ -162,7 +169,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Polymer Testing & Characterization'],
     totalLessons: 10,
     relevanceStars: 4,
-    link: '/subjects',
+    link: '/subjects/polymer-testing',
+    formulaLink: '/formulas?subject=polymer-testing',
     description: 'ASTM D638 tensile stress-strain, ASTM D256 Izod impact, ASTM D1238 Melt Flow Index (MFI), Shore hardness, HDT & Vicat.'
   },
   {
@@ -172,7 +180,8 @@ export const GATE_SECTIONS: GateSection[] = [
     subjects: ['Advanced Recycling & Waste Processing', 'Life Cycle Assessment (LCA)'],
     totalLessons: 18,
     relevanceStars: 3,
-    link: '/subjects',
+    link: '/subjects/recycling-technology',
+    formulaLink: '/formulas?subject=recycling-technology',
     description: 'Mechanical wash lines, chemical pyrolysis depolymerization, CPCB EPR plastic credit guidelines, ISO 14040 LCA GWP carbon footprint.'
   }
 ]
@@ -224,8 +233,8 @@ export const GOAL_OPTIONS: GoalOption[] = [
     id: 'goal-factory',
     goalText: 'Plan a Plastics Recycling or Extrusion Factory',
     iconName: 'Building2',
-    primaryDestination: { name: 'Plastics Entrepreneurship', link: '/subjects' },
-    secondaryDestination: { name: 'BEP Financial Formula', link: '/formulas' }
+    primaryDestination: { name: 'Plastics Entrepreneurship', link: '/subjects/entrepreneurship-plastics' },
+    secondaryDestination: { name: 'BEP Financial Formula', link: '/formulas?subject=entrepreneurship-plastics' }
   }
 ]
 
@@ -243,7 +252,7 @@ export const FIRST_WEEK_STEPS: FirstWeekStep[] = [
     title: 'Start Polymer Chemistry Lesson 1',
     action: 'Master foundation polymerization mechanisms & degree of polymerization.',
     destination: 'Polymer Chemistry Subject',
-    link: '/subjects',
+    link: '/subjects/polymer-chemistry',
     iconName: 'FlaskConical'
   },
   {

@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -29,6 +30,7 @@ import Footer from '@/components/Footer'
 import { FormulaCard } from '@/components/formulas/FormulaCard'
 import { MASTER_CANONICAL_FORMULAS } from '@/lib/formulas/formulas-data'
 import { filterFormulas } from '@/lib/formulas/formulas-search'
+import { renderFormulaLatex } from '@/lib/formulas/katex-config'
 import { FormulaType, FormulaDifficulty } from '@/types/formulas'
 
 const SUBJECT_OPTIONS = [
@@ -78,15 +80,27 @@ const DIFFICULTY_LEVELS: { code: FormulaDifficulty | 'ALL'; name: string }[] = [
   { code: 'research', name: '🔴 Research / Professional' }
 ]
 
-export default function FormulasMasterPage() {
+function FormulasContent() {
+  const searchParams = useSearchParams()
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedSubject, setSelectedSubject] = useState('all')
+  const [selectedSubject, setSelectedSubject] = useState(() => searchParams.get('subject') || 'all')
   const [selectedType, setSelectedType] = useState<FormulaType | 'ALL'>('ALL')
   const [selectedDifficulty, setSelectedDifficulty] = useState<FormulaDifficulty | 'ALL'>('ALL')
-  const [isGateOnly, setIsGateOnly] = useState(false)
+  const [isGateOnly, setIsGateOnly] = useState(() => searchParams.get('gate') === 'true')
   const [isShopfloorOnly, setIsShopfloorOnly] = useState(false)
-  const [activeView, setActiveView] = useState<'cards' | 'calculators' | 'cheatsheet'>('cards')
+  const [activeView, setActiveView] = useState<'cards' | 'calculators' | 'cheatsheet'>(() => {
+    const v = searchParams.get('view')
+    return v === 'calculators' || v === 'cheatsheet' ? v : 'cards'
+  })
   const [savedFormulaIds, setSavedFormulaIds] = useState<string[]>([])
+
+  useEffect(() => {
+    const s = searchParams.get('subject')
+    if (s) setSelectedSubject(s)
+    const v = searchParams.get('view')
+    if (v === 'calculators' || v === 'cheatsheet' || v === 'cards') setActiveView(v)
+    if (searchParams.get('gate') === 'true') setIsGateOnly(true)
+  }, [searchParams])
 
   // Filtered Formulas using Search Engine
   const filteredFormulas = useMemo(() => {
@@ -344,6 +358,7 @@ export default function FormulasMasterPage() {
                 <FormulaCard
                   key={formula.formula_id}
                   formula={formula}
+                  defaultTab="solver"
                   onSaveToggle={toggleSaveFormula}
                   isSaved={savedFormulaIds.includes(formula.formula_id)}
                 />
@@ -395,8 +410,11 @@ export default function FormulasMasterPage() {
                       <td className="p-3 font-bold text-slate-900">{item.name}</td>
                       <td className="p-3 font-mono text-slate-600 font-medium">{item.subject_name}</td>
                       <td className="p-3 font-mono text-purple-700 font-bold">{item.type_code}</td>
-                      <td className="p-3 font-mono font-bold text-slate-900 bg-slate-50 rounded">
-                        {item.equation_display}
+                      <td className="p-3 bg-slate-50 border border-slate-200 rounded px-2.5 py-1.5 text-center min-w-[200px]">
+                        <div
+                          className="text-xs sm:text-sm font-bold text-slate-900 select-all overflow-x-auto py-1"
+                          dangerouslySetInnerHTML={{ __html: renderFormulaLatex(item.equation_latex) }}
+                        />
                       </td>
                       <td className="p-3 font-mono text-[11px] text-slate-500 max-w-xs">
                         {item.variables.map((v) => `${v.symbol} (${v.unit})`).join(', ')}
@@ -420,5 +438,19 @@ export default function FormulasMasterPage() {
 
       <Footer />
     </div>
+  )
+}
+
+export default function FormulasMasterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF8F5] flex items-center justify-center font-mono text-slate-500 text-sm">
+          Loading Master Formula Library &amp; Solvers...
+        </div>
+      }
+    >
+      <FormulasContent />
+    </Suspense>
   )
 }
