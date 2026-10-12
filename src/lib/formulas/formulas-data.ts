@@ -737,6 +737,28 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
         difficulty: 'advanced'
       }
     ],
+    calc_config: {
+      inputs: [
+        { symbol: 'v2', name: 'Rubber Vol Fraction (v₂)', unit: 'fraction', defaultVal: 0.22, min: 0.05, max: 0.60, step: 0.01 },
+        { symbol: 'V1', name: 'Solvent Molar Vol (V₁)', unit: 'cm³/mol', defaultVal: 106.3, min: 50, max: 200, step: 1.0 },
+        { symbol: 'chi', name: 'Flory-Huggins Parameter (χ)', unit: 'fraction', defaultVal: 0.39, min: 0.1, max: 0.9, step: 0.01 }
+      ],
+      calculate: (vals) => {
+        const v2 = Math.max(0.01, Math.min(0.95, vals.v2 ?? 0.22))
+        const V1 = Math.max(1, vals.V1 ?? 106.3)
+        const chi = vals.chi ?? 0.39
+
+        const num = -(Math.log(1 - v2) + v2 + chi * Math.pow(v2, 2))
+        const denom = V1 * (Math.pow(v2, 1 / 3) - v2 / 2)
+        const nue = denom > 0 ? num / denom : 0
+
+        const formatted = (nue * 1e4).toFixed(2) + ' × 10⁻⁴ mol/cm³'
+        const note = nue > 1.5e-4 
+          ? 'Adequate crosslinking density for tire treads and automotive elastomeric mounts.'
+          : 'Under-cured network; potential risk of compression set or excessive swelling.'
+        return { value: nue, formatted, unit: 'mol/cm³', note }
+      }
+    },
     related_ids: ['PH-FORM-CHEM-001'],
     lesson_links: [
       { lesson_id: 'vulcanization-kinetics-and-crosslink-density-measurement', lesson_name: 'Vulcanization Kinetics & Crosslink Density Measurement', relationship: 'introduced' }
@@ -925,7 +947,7 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
     difficulty: 'foundation',
     is_gate: false,
     is_shopfloor: true,
-    equation_latex: 'EPR_{obligation} = M_{sales} \\cdot \\%_{target} \\cdot (1 - w_{recycled})',
+    equation_latex: 'EPR_{obligation} = M_{sales} \\cdot f_{target} \\cdot (1 - w_{recycled})',
     equation_display: 'EPR_credit (Tonnes) = M_sales * Target_% * (1 - Recycled_%)',
     description: 'Calculates the net metric tonnes of CPCB plastic recycling credits an Indian Brand Owner/FMCG manufacturer must procure under MoEFCC EPR rules.',
     when_to_use: 'Use when auditing corporate ESG compliance or estimating annual plastic credit purchases under Indian environmental regulations.',
@@ -1723,7 +1745,7 @@ export const MASTER_CANONICAL_FORMULAS: Formula[] = [
     difficulty: 'intermediate',
     is_gate: true,
     is_shopfloor: true,
-    equation_latex: '\\text{Biobased Carbon \\%} = \\frac{^{14}\\text{C}_{sample}}{^{14}\\text{C}_{modern}} \\times 100',
+    equation_latex: 'X_{bio} = \\frac{^{14}\\text{C}_{sample}}{^{14}\\text{C}_{modern}} \\times 100 \\; [\\%]',
     equation_display: 'Biobased Carbon % = (14C_sample / 14C_modern) * 100',
     description: 'Measures the percentage of renewable modern bio-based carbon relative to total organic carbon in polymers using Accelerator Mass Spectrometry (AMS) radiocarbon dating (ASTM D6866).',
     when_to_use: 'Use when certifying bio-PE, bio-PET, PLA blends, and USDA BioPreferred label compliance.',
