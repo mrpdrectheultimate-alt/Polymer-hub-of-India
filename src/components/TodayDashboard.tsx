@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹119.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Hazira/Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹126.10', unit: '/kg', change: '+0.2%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹122.20', unit: '/kg', change: '+0.2%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹108.90', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹114.50', unit: '/kg', change: '+0.3%', isUp: true, location: 'Silvassa' },
-  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹258.60', unit: '/kg', change: '+0.2%', isUp: true, location: 'Nhava Sheva' },
-  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹303.50', unit: '/kg', change: '+0.2%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹175.60', unit: '/kg', change: '+0.2%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹92.80', unit: '/kg', change: '+0.4%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹87.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹120.30', unit: '/kg', change: '+0.4%', isUp: true, location: 'Hazira/Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹126.50', unit: '/kg', change: '+0.3%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹122.60', unit: '/kg', change: '+0.3%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹109.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹114.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹259.00', unit: '/kg', change: '+0.2%', isUp: true, location: 'Nhava Sheva' },
+  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹304.00', unit: '/kg', change: '+0.2%', isUp: true, location: 'Thane' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹176.00', unit: '/kg', change: '+0.2%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹93.20', unit: '/kg', change: '+0.4%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹87.60', unit: '/kg', change: '+0.5%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1931',
-  headline: 'DuPont Announces Neoprene — The World’s First Commercial Synthetic Rubber',
-  body: 'In October 1931, Wallace Carothers and his research team at DuPont’s Experimental Station publicly announced polychloroprene (DuPrene, later named Neoprene), the world’s first commercially viable synthetic elastomer exhibiting unprecedented oil, heat, and ozone resistance.',
+  year: '1974',
+  headline: 'Paul J. Flory Awarded Nobel Prize in Chemistry for Macromolecular Physical Chemistry',
+  body: 'In October 1974, the Royal Swedish Academy of Sciences awarded the Nobel Prize in Chemistry to Paul J. Flory for his fundamental theoretical and experimental achievements in the physical chemistry of macromolecules, establishing the Flory-Huggins solution theory, chain conformation statistics, and the theta state concept essential to all polymer physics.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
