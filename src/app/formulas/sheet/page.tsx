@@ -6,6 +6,7 @@ import { Printer, ArrowLeft, BookOpen, Award, FileText, Filter } from 'lucide-re
 import Footer from '@/components/Footer'
 import { MASTER_CANONICAL_FORMULAS } from '@/lib/formulas/formulas-data'
 import { renderFormulaLatex } from '@/lib/formulas/katex-config'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 export default function FormulaSheetPage() {
   const [filterGateOnly, setFilterGateOnly] = useState(false)
@@ -29,10 +30,10 @@ export default function FormulaSheetPage() {
             </Link>
             <h1 className="text-3xl font-black text-slate-900 flex items-center gap-3 font-display">
               <FileText className="w-7 h-7 text-blue-600" />
-              GATE 2026 XE-F &amp; CIPET Master Revision Formula Sheet
+              GATE {GATE_CONFIG.year} {GATE_CONFIG.paperCode} &amp; CIPET Master Revision Formula Sheet
             </h1>
             <p className="text-xs text-slate-600 mt-1 font-medium">
-              High-density subject-wise formula cheat sheet for rapid exam revision &amp; shop-floor reference.
+              High-density subject-wise formula cheat sheet for rapid exam revision &amp; shop-floor reference ({GATE_CONFIG.organizingInstitute} Aligned).
             </p>
           </div>
 
@@ -46,7 +47,7 @@ export default function FormulaSheetPage() {
               }`}
             >
               <Award className="w-4 h-4 text-purple-600" />
-              <span>{filterGateOnly ? 'Showing GATE Only' : 'Filter GATE XE-F'} ({gateCount})</span>
+              <span>{filterGateOnly ? `Showing GATE ${GATE_CONFIG.paperCode} Only` : `Filter GATE ${GATE_CONFIG.paperCode}`} ({gateCount})</span>
             </button>
 
             <button
@@ -65,7 +66,7 @@ export default function FormulaSheetPage() {
         <div className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm print:border-none print:shadow-none">
           <div className="p-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between print:bg-white print:border-b-2 print:border-slate-900">
             <span className="text-xs font-mono font-bold text-blue-700 print:text-slate-900">
-              Showing {displayFormulas.length} Formulas {filterGateOnly ? '(GATE XE-F Syllabus Filter)' : `(${gateCount} GATE XE-F Tagged)`}
+              Showing {displayFormulas.length} Formulas {filterGateOnly ? `(GATE ${GATE_CONFIG.paperCode} Syllabus Filter)` : `(${gateCount} GATE ${GATE_CONFIG.paperCode} Tagged)`}
             </span>
             <span className="text-[11px] font-mono text-slate-500 font-medium print:text-slate-700">PolymerHub Official Curriculum Sheet</span>
           </div>

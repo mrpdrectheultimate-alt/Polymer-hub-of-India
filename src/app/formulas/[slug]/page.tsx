@@ -21,6 +21,7 @@ import {
 import Footer from '@/components/Footer'
 import { getFormulaBySlug } from '@/lib/formulas/formulas-search'
 import { renderFormulaLatex, getFormulaAccessibleLabel } from '@/lib/formulas/katex-config'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 import { useState } from 'react'
 
 export default function FormulaDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -87,7 +88,7 @@ export default function FormulaDetailPage({ params }: { params: Promise<{ slug: 
             {formula.is_gate && (
               <span className="bg-purple-50 text-purple-800 border border-purple-200 font-mono text-[11px] font-bold px-2.5 py-0.5 rounded flex items-center gap-1">
                 <Award className="w-3.5 h-3.5 text-purple-600" />
-                GATE 2026 Syllabus
+                GATE {GATE_CONFIG.year} Syllabus ({GATE_CONFIG.paperCode})
               </span>
             )}
             {formula.is_shopfloor && (

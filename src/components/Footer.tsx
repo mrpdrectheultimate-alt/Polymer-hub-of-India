@@ -124,7 +124,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
               </li>
               <li>
                 <Link href="/careers" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
-                  SPE Career Pathways
+                  Plastics Career Pathways
                 </Link>
               </li>
             </ul>
@@ -174,7 +174,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
         {/* Legal Fair Dealing Disclaimer Banner */}
         <div className="mt-8 pt-6 border-t border-slate-200/80 text-[11px] text-slate-500 font-sans leading-relaxed">
           <p>
-            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India is a non-commercial educational index and polymer engineering knowledge platform. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under <strong className="text-slate-700">Section 52(1)(i) of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for non-commercial academic research, instruction, and educational indexing.
+            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India is an educational knowledge platform and engineering learning resource. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under fair dealing provisions of <strong className="text-slate-700">Section 52 of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for academic research, instruction, and educational indexing.
           </p>
         </div>
 

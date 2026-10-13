@@ -15,6 +15,7 @@ import {
   Flag,
   PlayCircle
 } from 'lucide-react'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 // ─── GATE Questions (30 questions mapped to 216 lessons) ───────────────────────
 
@@ -599,7 +600,7 @@ export default function GATEMockPage() {
           <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 mb-2">
             <Trophy className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
-              GATE XE-F Polymer Science &amp; Engineering &middot; Timed Practice Mock
+              GATE XE5 Polymer Science &amp; Engineering &middot; Timed Practice Mock
             </span>
           </div>
 
@@ -611,7 +612,7 @@ export default function GATEMockPage() {
           </h1>
 
           <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed font-light">
-            Timed practice simulation strictly aligned with GATE (XE-F / CY / CH) syllabus standards. Includes authentic negative marking (&minus;1/3 &amp; &minus;2/3) and instant rationale breakdown.
+            Timed practice simulation strictly aligned with GATE XE5 (Polymer Science &amp; Engineering, IIT Madras) syllabus standards. Includes authentic negative marking (&minus;1/3 &amp; &minus;2/3) and instant rationale breakdown.
           </p>
 
           {/* Quick Metrics */}
@@ -680,7 +681,7 @@ export default function GATEMockPage() {
               <PlayCircle className="w-5 h-5" /> Start GATE Timed Practice Mock &mdash; 60 Minutes
             </button>
             <p className="text-[11px] font-mono text-slate-500 text-center">
-              * Educational simulation aligned with GATE XE-F Polymer Science &amp; Engineering syllabus standards.
+              * Educational simulation aligned with GATE XE5 Polymer Science &amp; Engineering syllabus standards ({GATE_CONFIG.organizingInstitute}).
             </p>
           </div>
         )}

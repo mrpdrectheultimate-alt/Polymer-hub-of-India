@@ -1,24 +1,25 @@
 // src/lib/map/map-data.ts — Master Site Map & Learning Guide Structural Data
-import { HomepageMapCard, GateSection, GoalOption, SubjectMapItem, FirstWeekStep } from '@/types/map'
+import { HomepageMapCard, GateSection, GoalOption, FirstWeekStep } from '@/types/map'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
   {
     id: 'gate-prep',
     icon: 'GraduationCap',
-    title: 'Prepare for GATE 2026',
-    subtitle: 'Mapped to XE-F Syllabus',
-    description: '9 official sections · 216 curriculum lessons · Timed mock tests · Formula revision cheat sheet.',
+    title: `Prepare for GATE ${GATE_CONFIG.year}`,
+    subtitle: `Mapped to ${GATE_CONFIG.paperCode} Syllabus`,
+    description: `9 official sections · 190 of 216 curriculum lessons mapped · Timed mock tests · Formula cheat sheet · Organized by ${GATE_CONFIG.organizingInstitute}.`,
     color: '#7C3AED',
     bgColor: '#F5F3FF',
     borderColor: '#DDD6FE',
     primaryCta: {
-      label: 'Start GATE Preparation →',
+      label: 'Start GATE Preparation',
       link: '/gate-mock'
     },
     secondaryLinks: [
-      { label: 'GATE XE-F Mock Arena', link: '/gate-mock', badge: '30 Qs · 60m' },
+      { label: `GATE ${GATE_CONFIG.paperCode} Mock Arena`, link: '/gate-mock', badge: '30 Qs · 60m' },
       { label: 'GATE Formula Cheat Sheet', link: '/formulas/sheet', badge: 'Print PDF' },
-      { label: 'Practice MCQs by Topic', link: '/practice', badge: '1,500+ MCQs' },
+      { label: 'Practice MCQs by Topic', link: '/practice', badge: '1,080+ MCQs' },
       { label: 'Syllabus Section Map', link: '/start#gate-sections', badge: '9 Sections' }
     ]
   },
@@ -32,13 +33,13 @@ export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
     bgColor: '#EFF6FF',
     borderColor: '#BFDBFE',
     primaryCta: {
-      label: 'Explore All 19 Subjects →',
+      label: 'Explore All 19 Subjects',
       link: '/subjects'
     },
     secondaryLinks: [
       { label: 'Polymer Chemistry (Start Here)', link: '/subjects/polymer-chemistry', badge: '15 Lessons' },
       { label: 'Polymer Processing & Extrusion', link: '/subjects/polymer-processing', badge: '20 Lessons' },
-      { label: 'Reference Reading Room', link: '/library', badge: '50 Textbooks' },
+      { label: 'Reference Reading Room', link: '/library', badge: '20 Books' },
       { label: 'AI Polymer Copilot', link: '/ai-tutor', badge: 'RAG AI' }
     ]
   },
@@ -47,16 +48,16 @@ export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
     icon: 'Wrench',
     title: 'Use Engineering Tools',
     subtitle: 'Calculators · Solvers · Specs',
-    description: '280+ formulas · 12 live calculators · Rosato defect troubleshooter · 35+ ASTM polymer specs.',
+    description: '280+ formulas · 32 interactive verified solvers · Rosato moulding defect troubleshooter · 35+ ASTM polymer specs.',
     color: '#CA8A04',
     bgColor: '#FEFCE8',
     borderColor: '#FEF08A',
     primaryCta: {
-      label: 'Open Engineering Tools →',
+      label: 'Open Engineering Tools',
       link: '/formulas'
     },
     secondaryLinks: [
-      { label: 'Master Formula Library', link: '/formulas', badge: '280+ Solvers' },
+      { label: 'Master Formula Library', link: '/formulas', badge: '32 Solvers' },
       { label: 'Injection & Cooling Calculators', link: '/calculators', badge: '12 Solvers' },
       { label: 'Defect Troubleshooter', link: '/troubleshooter', badge: 'Rosato Guide' },
       { label: 'Property Comparator', link: '/comparator', badge: '35+ Resins' }
@@ -67,18 +68,18 @@ export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
     icon: 'MessageCircle',
     title: 'Ask & Connect',
     subtitle: 'AI Tutor · Forum · Careers',
-    description: 'Instant AI problem solving · CIPET & student Q&A forum · 6 specialized polymer career tracks.',
+    description: 'Instant AI problem solving · CIPET & student Q&A forum · Specialized polymer career tracks & student portfolios.',
     color: '#15803D',
     bgColor: '#F0FDF4',
     borderColor: '#BBF7D0',
     primaryCta: {
-      label: 'Get Guidance & Connect →',
+      label: 'Get Guidance & Connect',
       link: '/ai-tutor'
     },
     secondaryLinks: [
       { label: 'Ask Polymer AI Copilot', link: '/ai-tutor', badge: 'Instant AI' },
       { label: 'Student Q&A Forum', link: '/forum', badge: 'Community' },
-      { label: 'SPE Career Pathways', link: '/careers', badge: '₹4–40 LPA' },
+      { label: 'Plastics Career Pathways', link: '/careers', badge: '₹4–40 LPA' },
       { label: 'Student Projects Showcase', link: '/projects', badge: 'Portfolios' }
     ]
   }
@@ -160,7 +161,7 @@ export const GATE_SECTIONS: GateSection[] = [
     relevanceStars: 5,
     link: '/subjects/polymer-processing',
     formulaLink: '/formulas?subject=polymer-processing',
-    description: 'Injection molding cycle dynamics, press clamping tonnage, extruder single-screw throughput, blow molding parison control.'
+    description: 'Injection moulding cycle dynamics, press clamping tonnage, extruder single-screw throughput, blow moulding parison control.'
   },
   {
     id: 'gate-sec-8',
@@ -189,9 +190,9 @@ export const GATE_SECTIONS: GateSection[] = [
 export const GOAL_OPTIONS: GoalOption[] = [
   {
     id: 'goal-gate',
-    goalText: 'Prepare for GATE 2026 XE-F Exam',
+    goalText: `Prepare for GATE ${GATE_CONFIG.year} (${GATE_CONFIG.paperCode})`,
     iconName: 'GraduationCap',
-    primaryDestination: { name: 'GATE XE-F Mock Arena', link: '/gate-mock' },
+    primaryDestination: { name: `GATE ${GATE_CONFIG.paperCode} Mock Arena`, link: '/gate-mock' },
     secondaryDestination: { name: 'GATE Formula Sheet', link: '/formulas/sheet' }
   },
   {
@@ -210,14 +211,14 @@ export const GOAL_OPTIONS: GoalOption[] = [
   },
   {
     id: 'goal-defect',
-    goalText: 'Troubleshoot Molding Defects on Shop-Floor',
+    goalText: 'Troubleshoot Moulding Defects on Shop-Floor',
     iconName: 'Wrench',
     primaryDestination: { name: 'Defect Troubleshooter', link: '/troubleshooter' },
     secondaryDestination: { name: 'Process Calculators', link: '/calculators' }
   },
   {
     id: 'goal-market',
-    goalText: 'Track Today’s Resin Spot Prices & EPR Rates',
+    goalText: 'Track Today’s Indicative Spot Prices & EPR Rates',
     iconName: 'Flame',
     primaryDestination: { name: 'Today in Plastics', link: '/today' },
     secondaryDestination: { name: 'EPR Credit Guide', link: '/today' }
@@ -235,6 +236,13 @@ export const GOAL_OPTIONS: GoalOption[] = [
     iconName: 'Building2',
     primaryDestination: { name: 'Plastics Entrepreneurship', link: '/subjects/entrepreneurship-plastics' },
     secondaryDestination: { name: 'BEP Financial Formula', link: '/formulas?subject=entrepreneurship-plastics' }
+  },
+  {
+    id: 'goal-research',
+    goalText: 'Explore Research Papers, Patents & Innovations',
+    iconName: 'Sparkles',
+    primaryDestination: { name: 'Research Portal', link: '/research' },
+    secondaryDestination: { name: 'Daily Intelligence', link: '/today' }
   }
 ]
 
@@ -242,7 +250,7 @@ export const FIRST_WEEK_STEPS: FirstWeekStep[] = [
   {
     day: 1,
     title: 'Take the GATE Diagnostic Quiz',
-    action: 'Assess your starting knowledge level across core polymer topics.',
+    action: `Assess your baseline knowledge across core polymer topics for GATE ${GATE_CONFIG.year}.`,
     destination: 'GATE Mock Arena',
     link: '/gate-mock',
     iconName: 'Award'

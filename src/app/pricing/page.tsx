@@ -120,8 +120,8 @@ const FAQS = [
     a: 'Premium users get access to 8 industrial engineering calculators (clamping tonnage, cooling cycle, shrinkage, runner pressure drop) and priority email support within 24 hours.'
   },
   {
-    q: 'Is this useful for GATE Polymer Science & Engineering (XE-F)?',
-    a: 'Yes. Our curriculum covers all GATE XE-F topics, mathematical derivations, formula cheat-sheets, and simulated computer-based mock tests with negative marking.'
+    q: 'Is this useful for GATE Polymer Science & Engineering (XE5)?',
+    a: 'Yes. Our curriculum covers all GATE XE5 topics (IIT Madras 2027 cycle), mathematical derivations, formula cheat-sheets, and simulated computer-based mock tests with negative marking.'
   },
 ]
 

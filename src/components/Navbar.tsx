@@ -18,8 +18,8 @@ const NAV = [
     items: [
       { label: 'Start Here 🗺️', href: '/start', icon: BookOpen, desc: 'Complete sitemap & learning guide', color: '#7C3AED' },
       { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
-      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '50 specialized textbook volumes', color: '#1D4ED8' },
-      { label: 'GATE XE-F Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
+      { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '20 curated reference books & guides', color: '#1D4ED8' },
+      { label: 'GATE XE5 Mock Test', href: '/gate-mock', icon: Trophy, desc: '30 questions · 60 min · negative marking', color: '#7C3AED' },
       { label: 'Polymer AI Copilot', href: '/ai-tutor', icon: Brain, desc: 'RAG-grounded technical assistant', color: '#15803D' },
       { label: 'Practice Questions', href: '/practice', icon: Zap, desc: '50+ MCQs across all subjects', color: '#CA8A04' },
       { label: 'Student Forum', href: '/forum', icon: MessageCircle, desc: 'Ask classmates, get answers', color: '#7C3AED' },
@@ -45,7 +45,7 @@ const NAV = [
   {
     label: 'Tools',
     items: [
-      { label: 'Master Formula Library', href: '/formulas', icon: BookOpen, desc: 'GATE 2026 XE-F & 19 subjects formula library', color: '#2563EB' },
+      { label: 'Master Formula Library', href: '/formulas', icon: BookOpen, desc: 'GATE 2027 XE5 & 19 subjects formula library', color: '#2563EB' },
       { label: 'Engineering Calculators', href: '/calculators', icon: Calculator, desc: 'Tonnage, cooling & shrinkage solvers', color: '#CA8A04' },
       { label: 'Defect Troubleshooter', href: '/troubleshooter', icon: Wrench, desc: 'Rosato injection & extrusion fixes', color: '#EA580C' },
       { label: 'Property Comparator', href: '/comparator', icon: Scale, desc: 'Compare 35+ polymers & ASTM properties', color: '#1D4ED8' },

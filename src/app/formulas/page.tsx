@@ -32,6 +32,7 @@ import { MASTER_CANONICAL_FORMULAS } from '@/lib/formulas/formulas-data'
 import { filterFormulas } from '@/lib/formulas/formulas-search'
 import { renderFormulaLatex } from '@/lib/formulas/katex-config'
 import { FormulaType, FormulaDifficulty } from '@/types/formulas'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 const SUBJECT_OPTIONS = [
   { slug: 'all', name: 'All 19 Subjects' },
@@ -57,19 +58,19 @@ const SUBJECT_OPTIONS = [
 ]
 
 const TAXONOMY_TYPES: { code: FormulaType | 'ALL'; name: string }[] = [
-  { code: 'ALL', name: 'All Types (T1–T12)' },
-  { code: 'T1', name: 'T1 · Definition / Identity' },
-  { code: 'T2', name: 'T2 · Thermodynamics' },
-  { code: 'T3', name: 'T3 · Kinetics / Rate' },
-  { code: 'T4', name: 'T4 · Rheology / Flow' },
-  { code: 'T5', name: 'T5 · Processing / Machine' },
-  { code: 'T6', name: 'T6 · Mechanics / Strength' },
-  { code: 'T7', name: 'T7 · Transport / Barrier' },
-  { code: 'T8', name: 'T8 · Composites' },
-  { code: 'T9', name: 'T9 · Testing / Standards' },
-  { code: 'T10', name: 'T10 · Statistics / Quality' },
-  { code: 'T11', name: 'T11 · Sustainability / LCA' },
-  { code: 'T12', name: 'T12 · Control / Automation' }
+  { code: 'ALL', name: 'All Categories (T1–T12)' },
+  { code: 'T1', name: 'T1 · Definitions & Chemical Identities' },
+  { code: 'T2', name: 'T2 · Thermodynamics & Phase Equilibria' },
+  { code: 'T3', name: 'T3 · Kinetics & Polymerization Rates' },
+  { code: 'T4', name: 'T4 · Rheology & Melt Viscosity Models' },
+  { code: 'T5', name: 'T5 · Processing Machinery & Parameters' },
+  { code: 'T6', name: 'T6 · Mechanics, Strength & Failure' },
+  { code: 'T7', name: 'T7 · Transport & Barrier Permeation' },
+  { code: 'T8', name: 'T8 · Composites & Micromechanics' },
+  { code: 'T9', name: 'T9 · Testing Protocols & Standards' },
+  { code: 'T10', name: 'T10 · Factory Economics & Quality Control' },
+  { code: 'T11', name: 'T11 · Sustainability, Recycling & LCA' },
+  { code: 'T12', name: 'T12 · Process Control & Automation' }
 ]
 
 const DIFFICULTY_LEVELS: { code: FormulaDifficulty | 'ALL'; name: string }[] = [
@@ -127,7 +128,7 @@ function FormulasContent() {
         <div className="max-w-7xl mx-auto relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 font-mono text-xs font-bold mb-5 uppercase tracking-wider shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-blue-600 animate-pulse" />
-            PolymerHub Engineering Knowledge Layer · GATE 2026 Ready
+            PolymerHub Engineering Knowledge Layer · GATE {GATE_CONFIG.year} Ready
           </div>
 
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-slate-900 mb-4 font-display">
@@ -148,16 +149,16 @@ function FormulasContent() {
               <div className="text-xs text-slate-600 font-semibold mt-1">Curriculum Subjects</div>
             </div>
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
-              <div className="text-3xl font-black text-emerald-700 font-display">216</div>
-              <div className="text-xs text-slate-600 font-semibold mt-1">Mapped Lessons</div>
+              <div className="text-3xl font-black text-emerald-700 font-display">190 / 216</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">Lessons Mapped to GATE</div>
             </div>
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
-              <div className="text-3xl font-black text-purple-700 font-display">GATE</div>
-              <div className="text-xs text-slate-600 font-semibold mt-1">XE-F Syllabus Aligned</div>
+              <div className="text-3xl font-black text-purple-700 font-display">GATE {GATE_CONFIG.paperCode}</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">{GATE_CONFIG.organizingInstitute} Aligned</div>
             </div>
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center shadow-xs">
-              <div className="text-3xl font-black text-amber-700 font-display">100%</div>
-              <div className="text-xs text-slate-600 font-semibold mt-1">Worked Shop Examples</div>
+              <div className="text-3xl font-black text-amber-700 font-display">280+</div>
+              <div className="text-xs text-slate-600 font-semibold mt-1">Formulas Mapped</div>
             </div>
           </div>
         </div>
@@ -292,7 +293,7 @@ function FormulasContent() {
                 className="w-4 h-4 rounded border-slate-300 text-purple-600 focus:ring-purple-500 cursor-pointer"
               />
               <label htmlFor="gateToggle" className="text-xs font-bold text-slate-800 cursor-pointer flex items-center gap-1">
-                <Award className="w-3.5 h-3.5 text-purple-600" /> GATE 2026 Only
+                <Award className="w-3.5 h-3.5 text-purple-600" /> GATE {GATE_CONFIG.year} ({GATE_CONFIG.paperCode}) Only
               </label>
             </div>
 
@@ -315,7 +316,7 @@ function FormulasContent() {
         {/* Results Header Count */}
         <div className="flex items-center justify-between mb-6 text-xs text-slate-600 font-medium">
           <div>
-            Showing <span className="font-extrabold text-blue-700 font-mono text-sm">{filteredFormulas.length}</span> verified formulas
+            Showing <span className="font-extrabold text-blue-700 font-mono text-sm">{filteredFormulas.length}</span> of 280+ curriculum formulas ({MASTER_CANONICAL_FORMULAS.length} interactive solvers active)
           </div>
 
           {(selectedSubject !== 'all' || selectedType !== 'ALL' || selectedDifficulty !== 'ALL' || isGateOnly || isShopfloorOnly || searchQuery) && (
@@ -373,7 +374,7 @@ function FormulasContent() {
               <div>
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2 font-display">
                   <FileText className="w-5 h-5 text-blue-600" />
-                  GATE 2026 XE-F &amp; CIPET Master Revision Matrix
+                  GATE {GATE_CONFIG.year} {GATE_CONFIG.paperCode} &amp; CIPET Master Revision Matrix
                 </h2>
                 <p className="text-xs text-slate-600 mt-1">
                   High-density formula cheat sheet for rapid exam revision and plant floor reference.

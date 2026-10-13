@@ -170,7 +170,7 @@ export const PREDEFINED_PROJECTS: PredefinedProject[] = [
     equipment: ['Injection molding machine', 'Melt temp sensors', 'Part dimensions jig'],
     deliverable: 'DOE statistical analysis sheets and optimized processing window card.',
     curriculum_match: 'Polymer Processing',
-    why_matters: 'Minimizes cooling cycles and eliminates common molding defects like warpage and sink marks.',
+    why_matters: 'Minimizes cooling cycles and eliminates common moulding defects like warpage and sink marks.',
     real_world_app: 'High-volume production lines for automotive and consumer parts.'
   },
   {

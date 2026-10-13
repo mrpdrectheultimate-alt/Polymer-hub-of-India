@@ -157,8 +157,8 @@ const GATE_FALLBACK_QUESTIONS: Question[] = [
 const KNOWLEDGE_CATEGORIES: SubjectCategory[] = [
   {
     id: 'core-gate',
-    title: 'Core GATE XE-F Syllabus Units',
-    badge: 'GATE 2026 Focus',
+    title: 'Core GATE XE5 Syllabus Units',
+    badge: 'GATE 2027 Focus',
     subjects: [
       { slug: 'polymer-chemistry', name: 'Polymer Chemistry', questionsCount: 45, accuracy: 82, color: '#2563EB', isCoreGate: true },
       { slug: 'polymer-processing', name: 'Polymer Processing', questionsCount: 40, accuracy: 71, color: '#EA580C', isCoreGate: true },

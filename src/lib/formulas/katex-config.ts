@@ -1,25 +1,11 @@
-import katex from 'katex'
 import 'katex/dist/katex.min.css'
 import { Formula } from '@/types/formulas'
+import { renderFormula, validateLatex } from './latex-utils'
+
+export { renderFormula, validateLatex }
 
 export function renderFormulaLatex(latex: string, displayMode: boolean = true): string {
-  try {
-    return katex.renderToString(latex, {
-      displayMode,
-      throwOnError: false,
-      errorColor: '#EF4444',
-      strict: false,
-      trust: true,
-      macros: {
-        '\\R': '\\mathbb{R}',
-        '\\N': '\\mathbb{N}',
-        '\\Z': '\\mathbb{Z}',
-      },
-    })
-  } catch (err) {
-    console.error('KaTeX rendering error:', err)
-    return `<span className="font-mono text-amber-300 font-bold">${latex}</span>`
-  }
+  return renderFormula(latex, displayMode)
 }
 
 export function getFormulaAccessibleLabel(formula: Formula): string {

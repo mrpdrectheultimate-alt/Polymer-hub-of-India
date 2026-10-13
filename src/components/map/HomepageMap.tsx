@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { HOMEPAGE_MAP_CARDS } from '@/lib/map/map-data'
 import { searchPlatformMap, MapSearchResult } from '@/lib/map/map-utils'
+import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 const ICON_MAP: Record<string, React.ElementType> = {
   GraduationCap,
@@ -55,7 +56,7 @@ export default function HomepageMap() {
           </h2>
 
           <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-            PolymerHub connects 19 subjects, 216 curriculum lessons, 280+ formulas, 12 live solvers, and 50 textbooks into one structured engineering learning platform. Choose your objective below:
+            PolymerHub connects 19 subjects, 216 curriculum lessons, 280+ formulas, 32 interactive solvers, and 20 curated reference books into one structured engineering learning platform. Choose your objective below:
           </p>
         </div>
 
@@ -150,7 +151,7 @@ export default function HomepageMap() {
                   {/* Secondary Quick Access Links */}
                   <div className="space-y-2 mb-8">
                     <span className="text-[11px] font-bold text-slate-600 uppercase tracking-wider block font-mono">
-                      Quick Platform Routes:
+                      Quick links:
                     </span>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                       {card.secondaryLinks.map((sec, idx) => (
@@ -189,7 +190,7 @@ export default function HomepageMap() {
           <div className="space-y-1 text-center md:text-left">
             <h4 className="text-lg font-black text-slate-900 flex items-center justify-center md:justify-start gap-2 font-display">
               <Sparkles className="w-5 h-5 text-blue-600" />
-              Need a Complete 19-Subject &amp; GATE XE-F Section Map?
+              Need a Complete 19-Subject &amp; GATE {GATE_CONFIG.paperCode} Section Map?
             </h4>
             <p className="text-xs text-slate-600 font-medium">
               Explore the full interactive sitemap directory, 7-day beginner onboarding guide, and GATE 9-section matrix.
@@ -200,7 +201,7 @@ export default function HomepageMap() {
             href="/start"
             className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs px-6 py-3.5 rounded-xl shadow-sm transition flex-shrink-0 font-mono uppercase tracking-wider cursor-pointer"
           >
-            <span>Open Full Interactive Map (/start)</span>
+            <span>Open Full Interactive Platform Map</span>
             <ExternalLink className="w-4 h-4" />
           </Link>
         </div>

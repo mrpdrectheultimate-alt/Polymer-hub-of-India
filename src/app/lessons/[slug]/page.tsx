@@ -244,7 +244,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
                     2
                   </span>
                   <p className="text-xs text-slate-700 font-sans leading-snug">
-                    <strong className="text-slate-900">Process &amp; Quality:</strong> Predict viscosity behavior, solve molding defects, and apply ASTM/ISO testing standards.
+                    <strong className="text-slate-900">Process &amp; Quality:</strong> Predict viscosity behavior, solve moulding defects, and apply ASTM/ISO testing standards.
                   </p>
                 </div>
               </div>

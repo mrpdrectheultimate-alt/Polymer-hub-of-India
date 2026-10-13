@@ -314,7 +314,7 @@ export default function StudyGroupsPage() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g., Gate 2026 Polymer Rheology Circle"
+                    placeholder="e.g., GATE 2027 XE5 Polymer Rheology Circle"
                     className="w-full px-4 py-2.5 text-xs bg-slate-50 border-2 border-slate-200 rounded-xl font-medium text-slate-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
