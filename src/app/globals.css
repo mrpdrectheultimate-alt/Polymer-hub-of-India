@@ -39,10 +39,12 @@
     color-scheme: light;
 
     /* FONT FAMILIES */
-    --font-display: 'Space Grotesk', sans-serif;   /* Headlines ONLY */
-    --font-body: 'Inter', system-ui, sans-serif;   /* Body & UI */
-    --font-mono: 'JetBrains Mono', monospace;      /* Equations & Data */
-    --font-serif: 'Lora', serif;                   /* Historical quotes ONLY */
+    --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;   /* Headlines ONLY */
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;             /* Body & UI */
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;     /* Equations & Data */
+    --font-serif: 'Lora', Georgia, Cambria, "Times New Roman", Times, serif;                             /* Historical quotes ONLY */
+    --font-hindi: 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-sans-fallback: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     /* FLUID TYPE SCALE */
     --text-display: clamp(3rem, 6vw, 5rem);        /* Hero */
