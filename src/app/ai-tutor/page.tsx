@@ -77,7 +77,7 @@ const ENGINEERING_PROMPTS = [
     sourceHint: 'Lesson 5.2 · Viscoelasticity & Shear Rheology'
   },
   {
-    category: 'GATE XE-F Prep',
+    category: 'GATE XE5 Prep',
     title: 'Carothers Equation & Gel Point',
     prompt: 'How do you calculate the critical extent of reaction (Pc) for trifunctional monomer polycondensation using the Carothers equation?',
     sourceHint: 'Lesson 2.1 · Step-Growth Kinetics'
@@ -89,7 +89,7 @@ const ENGINEERING_PROMPTS = [
 const PROMPT_MODES = [
   { id: 'explain', label: 'Teach', prefix: 'Teach me the core engineering principles of: ' },
   { id: 'solve', label: 'Calculate', prefix: 'Provide a step-by-step engineering calculation with formulas for: ' },
-  { id: 'quiz', label: 'Test', prefix: 'Generate a GATE XE-F standard numerical problem with step-by-step derivation on: ' },
+  { id: 'quiz', label: 'Test', prefix: 'Generate a GATE XE5 standard numerical problem with step-by-step derivation on: ' },
   { id: 'formulate', label: 'Analyze', prefix: 'Analyze the material properties, compounding formulation, and processing window for: ' },
 ]
 
@@ -580,7 +580,7 @@ export default function AITutorPage() {
           >
             <span className="flex items-center gap-2">
               <Compass className="w-3.5 h-3.5 text-[#4ADE80]" />
-              GATE XE-F Mock
+              GATE XE5 Mock
             </span>
             <ArrowRight className="w-3 h-3 text-[#555555]" />
           </Link>
@@ -779,7 +779,7 @@ export default function AITutorPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Ask about tensile strength, mold flow, or GATE XE-F..."
+                    placeholder="Ask about tensile strength, mould flow, or GATE XE5..."
                     disabled={loading}
                     className="w-full text-sm sm:text-base text-[#ececec] font-sans resize-none focus:outline-none placeholder:text-[#737373] bg-transparent leading-relaxed"
                     rows={2}

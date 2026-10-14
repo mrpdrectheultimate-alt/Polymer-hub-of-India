@@ -295,7 +295,7 @@ function generateLessonHTML(
       <div class="page-break"></div>
       <div class="quiz-container">
         <h2>9. Interactive Knowledge & Exam Quiz</h2>
-        <p class="quiz-subtitle">Verified Assessment Questions aligned with AICTE & GATE XE-F Standards</p>
+        <p class="quiz-subtitle">Verified Assessment Questions aligned with AICTE & GATE XE5 Standards</p>
         ${questionsHTML}
       </div>
     `
@@ -641,7 +641,7 @@ function generateLessonHTML(
 
   <!-- Lesson Header -->
   <div class="header">
-    <div class="sub-brand">${subjectName} &middot; Lesson ${lesson.order_index + 1} &middot; GATE XE-F / AICTE Aligned</div>
+    <div class="sub-brand">${subjectName} &middot; Lesson ${lesson.order_index + 1} &middot; GATE XE5 / AICTE Aligned</div>
     <h1 class="title">${lesson.title}</h1>
     <div class="meta-bar">
       <span>Subject: <strong>${subjectName}</strong></span>

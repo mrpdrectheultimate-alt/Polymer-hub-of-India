@@ -358,7 +358,7 @@ export const VERIFIED_INDUSTRY_EVENTS: IndustryEvent[] = [
     isAnchorEvent: false,
     idealFor: [
       'B.Tech / M.Tech / PhD Polymer Science Researchers',
-      'GATE XE-F Aspirants & Academic Faculty',
+      'GATE XE5 Aspirants & Academic Faculty',
       'Nanotechnology & Polymer Matrix Scientists',
       'Biopolymer & Biodegradable Material Developers'
     ],

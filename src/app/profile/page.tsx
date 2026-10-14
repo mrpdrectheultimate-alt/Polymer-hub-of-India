@@ -19,7 +19,7 @@ import {
 const EDUCATION_LEVELS = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Graduated', 'Working Professional']
 const TARGET_PATHS = [
   { value: 'job', label: '🏭 Industry Operations & Tooling' },
-  { value: 'gate', label: '📝 Crack GATE XE-F / PSU' },
+  { value: 'gate', label: '📝 Crack GATE XE5 / PSU' },
   { value: 'business', label: '🏗️ Plastics & Mould Manufacturing' },
   { value: 'rnd', label: '🔬 Advanced Polymer R&D' },
   { value: 'industry', label: '⚙️ Processing & Compounding' },

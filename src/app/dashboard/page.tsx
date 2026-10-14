@@ -88,7 +88,7 @@ type SubjectStat = {
 }
 
 const TARGET_LABELS: Record<string, string> = {
-  'gate-xe': 'GATE XE-F Polymer Exam',
+  'gate-xe': 'GATE XE5 Polymer Exam',
   'cipet-exam': 'CIPET JEE / PGD-PPT Entrance',
   'industry-job': 'Plant Operations & Mould Engineer',
   'higher-studies': 'M.Tech / MS in Polymer Science',
@@ -134,7 +134,7 @@ export default function DashboardPage() {
         full_name: (session?.user?.user_metadata?.full_name as string) || 'Evaluator Engineer',
         avatar_url: (session?.user?.user_metadata?.avatar_url as string) || null,
         bio: 'Polymer engineering student & technical evaluator.',
-        goals: 'Master processing parameters and clear GATE XE-F.',
+        goals: 'Master processing parameters and clear GATE XE5.',
         college_name: 'Polymer Engineering Institute',
         education_level: 'B.Tech / CIPET / Diploma',
         target_path: 'gate-xe',
@@ -555,11 +555,11 @@ export default function DashboardPage() {
 
             {/* ── Right Column (1 Col) ── */}
             <div className="space-y-6">
-              {/* GATE XE-F Readiness Meter */}
+              {/* GATE XE5 Readiness Meter */}
               <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] bg-blue-50 px-2.5 py-0.5 rounded-md border border-blue-200">
-                    GATE XE-F Polymer Exam
+                    GATE XE5 Polymer Exam
                   </span>
                   <span className="text-xs font-mono font-bold text-slate-500">Target 2027</span>
                 </div>
@@ -676,7 +676,7 @@ export default function DashboardPage() {
             <div className="p-4 sm:p-5 border-b border-slate-100 bg-slate-50/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h3 className="font-display text-base font-bold text-slate-900">Accredited Polymer Curriculum (19 Disciplines)</h3>
-                <p className="text-xs text-slate-500 font-sans mt-0.5">216 in-depth engineering lessons aligned with AICTE &amp; GATE XE-F standards.</p>
+                <p className="text-xs text-slate-500 font-sans mt-0.5">216 in-depth engineering lessons aligned with AICTE &amp; GATE XE5 standards.</p>
               </div>
               <div className="flex items-center gap-3">
                 <input

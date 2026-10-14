@@ -580,7 +580,7 @@ function MentorCard({
   onSubmitMatch: (mentorId: string, customMsg: string) => void
   requested: boolean
 }) {
-  const [topic, setTopic] = useState('GATE XE-F Exam Strategy & High-Weightage Chapters')
+  const [topic, setTopic] = useState('GATE XE5 Exam Strategy & High-Weightage Chapters')
   const [customMsg, setCustomMsg] = useState('')
   const [submitted, setSubmitted] = useState(requested)
 
@@ -680,7 +680,7 @@ function MentorCard({
                   onChange={(e) => setTopic(e.target.value)}
                   className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono font-medium text-slate-900 focus:border-blue-600 focus:outline-none"
                 >
-                  <option value="GATE XE-F Exam Strategy & High-Weightage Chapters">GATE XE-F Exam Strategy &amp; Syllabus</option>
+                  <option value="GATE XE5 Exam Strategy & High-Weightage Chapters">GATE XE5 Exam Strategy &amp; Syllabus</option>
                   <option value="Injection Moulding & Tooling Shop-Floor Defect Solutions">Injection Moulding &amp; Tooling Defects</option>
                   <option value="R&D Formulation & Polyolefin Additives">R&amp;D Formulation &amp; Additives</option>
                   <option value="Placement Prep & Resume Review for Petrochemical Firms">Placement Prep &amp; Resume Review</option>
@@ -753,7 +753,7 @@ function MentorCard({
 
 function DiscussionTab() {
   const CHANNELS = [
-    { title: 'GATE XE-F Discussion Board', desc: 'Strategy, syllabus notes, previous year question walk-throughs & polymer physics calculations.', href: '/forum', tag: 'ACADEMIC', color: 'border-blue-200 bg-blue-50 text-blue-800' },
+    { title: 'GATE XE5 Discussion Board', desc: 'Strategy, syllabus notes, previous year question walk-throughs & polymer physics calculations.', href: '/forum', tag: 'ACADEMIC', color: 'border-blue-200 bg-blue-50 text-blue-800' },
     { title: 'Industrial Mould & Die Troubleshooting', desc: 'Real shop-floor defect diagnosis: short shots, sink marks, flash, jetting, and barrel thermal profiling.', href: '/troubleshooter', tag: 'SHOP-FLOOR', color: 'border-amber-200 bg-amber-50 text-amber-900' },
     { title: 'Campus Placement & Core Salary Insights', desc: 'Interview experiences for Reliance, IOCL, Supreme, Haldia, SRF & Polymer R&D Trainee roles.', href: '/careers', tag: 'CAREERS', color: 'border-emerald-200 bg-emerald-50 text-emerald-800' },
     { title: 'Biopolymers, Circular Economy & EPR Laws', desc: 'Recycling standards, PLA/PHA biodegradation kinetics, and PWM Rules 2026 compliance discussions.', href: '/forum', tag: 'CIRCULARITY', color: 'border-purple-200 bg-purple-50 text-purple-800' },

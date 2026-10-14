@@ -300,7 +300,7 @@ export default function SubjectPracticePage() {
                 </span>
                 {currentQuestion.is_gate_relevant && (
                   <span className="font-mono text-[10px] font-bold border border-amber-200 text-amber-800 bg-amber-50 px-2.5 py-0.5 rounded-lg uppercase tracking-wider flex items-center gap-1">
-                    <Target className="w-3 h-3 text-amber-600" /> GATE XE-F Relevant
+                    <Target className="w-3 h-3 text-amber-600" /> GATE XE5 Relevant
                   </span>
                 )}
                 {currentQuestion.topic && (

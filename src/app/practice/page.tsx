@@ -345,7 +345,7 @@ export default function PracticePage() {
             >
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F59E0B]/20 border border-[#F59E0B]/40 text-[#FBBF24] text-xs font-mono font-bold tracking-wider uppercase shadow-sm">
                 <Zap className="h-3.5 w-3.5" />
-                GATE XE-F Practice Engine 3.0
+                GATE XE5 Practice Engine 3.0
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white leading-[1.15] pb-1 tracking-tight">
@@ -423,7 +423,7 @@ export default function PracticePage() {
                       Polymer Rheology
                     </span>
                     <span className="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 font-mono text-[10px] font-bold">
-                      GATE XE-F
+                      GATE XE5
                     </span>
                   </div>
 
@@ -569,7 +569,7 @@ export default function PracticePage() {
             
             <div className="lg:col-span-4 text-center lg:text-left border-b lg:border-b-0 lg:border-r border-white/15 pb-6 lg:pb-0 lg:pr-6">
               <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider block mb-1">
-                GATE XE-F Benchmark
+                GATE XE5 Benchmark
               </span>
               <h2 className="text-2xl sm:text-3xl font-black text-white">GATE Readiness Score</h2>
               <div className="mt-4 inline-flex items-baseline gap-2">

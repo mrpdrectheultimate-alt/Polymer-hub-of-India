@@ -222,7 +222,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
                   <Target className="w-4 h-4" />
                 </div>
                 <h2 className="font-display text-base font-bold text-slate-900">
-                  01 · Why This Matters in Industry &amp; GATE XE-F
+                  01 · Why This Matters in Industry &amp; GATE XE5
                 </h2>
               </div>
 

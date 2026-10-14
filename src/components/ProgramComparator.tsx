@@ -86,7 +86,7 @@ export default function ProgramComparator({ programs }: Props) {
       return {
         rank: p.ranking,
         strength: p.degree_type === 'B.Tech'
-          ? 'Comprehensive Engineering Foundation, GATE XE-F Preparation & Higher Studies (M.Tech/MS)'
+          ? 'Comprehensive Engineering Foundation, GATE XE5 Preparation & Higher Studies (M.Tech/MS)'
           : p.degree_type === 'Diploma'
           ? 'Industrial Shop-Floor Tooling, CAD/CAM Mould Design & Direct Plant Placements'
           : 'Advanced Material Synthesis & Polymer R&D Laboratory Practice'
@@ -221,7 +221,7 @@ export default function ProgramComparator({ programs }: Props) {
               </span>
               <p className="text-slate-700 font-medium leading-relaxed">
                 {polyA.degree_type === 'B.Tech' ? (
-                  <>If you want a <strong>4-year engineering foundation</strong> for GATE XE-F, R&amp;D careers, or global masters (MS), choose <strong>{polyA.institution}</strong>. If you want <strong>hands-on factory toolroom training &amp; rapid placement</strong>, choose <strong>{polyB.institution}</strong>.</>
+                  <>If you want a <strong>4-year engineering foundation</strong> for GATE XE5, R&amp;D careers, or global masters (MS), choose <strong>{polyA.institution}</strong>. If you want <strong>hands-on factory toolroom training &amp; rapid placement</strong>, choose <strong>{polyB.institution}</strong>.</>
                 ) : (
                   <>Choose <strong>{polyA.institution}</strong> for specialized regional manufacturing expertise, or <strong>{polyB.institution}</strong> for broader technical and academic flexibility.</>
                 )}
