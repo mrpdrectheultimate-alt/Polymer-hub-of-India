@@ -114,7 +114,7 @@ export default function TermsPage() {
               <ShieldCheck className="w-4 h-4" /> 7-Day Money-Back Guarantee
             </p>
             <p className="text-emerald-900 leading-relaxed">
-              If you are unsatisfied with your Premium subscription for any reason within 7 days of initial purchase, contact support@polymerhub.in for a full, no-questions-asked refund processed via Razorpay.
+              If you are unsatisfied with your Premium subscription for any reason within 7 days of initial purchase, contact support@polymerhubofindia.com for a full, no-questions-asked refund processed via Razorpay.
             </p>
           </div>
         </section>
@@ -134,8 +134,8 @@ export default function TermsPage() {
               View Privacy Policy &rarr;
             </Link>
             <span>&bull;</span>
-            <a href="mailto:legal@polymerhub.in" className="text-blue-400 hover:underline">
-              Contact Legal Officer &rarr;
+            <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 hover:underline">
+              Contact Support &amp; Legal &rarr;
             </a>
           </div>
         </section>

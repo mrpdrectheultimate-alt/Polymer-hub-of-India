@@ -10,7 +10,7 @@ const vapidKeys = {
 
 if (vapidKeys.publicKey && vapidKeys.privateKey) {
   webpush.setVapidDetails(
-    'mailto:admin@polymerhub.in',
+    'mailto:support@polymerhubofindia.com',
     vapidKeys.publicKey,
     vapidKeys.privateKey
   )

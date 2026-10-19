@@ -65,7 +65,7 @@ export default function HodDashboardPage() {
         .single()
 
       if (!licenseData) {
-        setError(`No active institutional license found for "${profile.college_name}". Contact admin@polymerhub.in for academic batch licenses.`)
+        setError(`No active institutional license found for "${profile.college_name}". Contact founder@polymerhubofindia.com or support@polymerhubofindia.com for academic batch licenses.`)
         setLoading(false)
         return
       }

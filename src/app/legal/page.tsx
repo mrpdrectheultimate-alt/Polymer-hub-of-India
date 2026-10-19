@@ -200,10 +200,10 @@ export default function LegalProvenancePage() {
 
           <div className="pt-2 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-300">
             <a 
-              href="mailto:legal@polymerhub.in?subject=Formal%20Copyright%20Notice" 
+              href="mailto:support@polymerhubofindia.com?subject=Formal%20Copyright%20Notice" 
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl font-bold transition-all"
             >
-              <Mail className="w-4 h-4" /> Contact Designated Legal Officer (legal@polymerhub.in)
+              <Mail className="w-4 h-4" /> Contact Designated Compliance &amp; Legal Team (support@polymerhubofindia.com)
             </a>
             <span className="text-emerald-400 font-bold">✓ Guaranteed Action within 48 Business Hours</span>
           </div>

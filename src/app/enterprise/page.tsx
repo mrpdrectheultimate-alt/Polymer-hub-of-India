@@ -325,7 +325,12 @@ export default function EnterpriseLandingPage() {
             <div className="text-center space-y-1">
               <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider block">Custom Onboarding</span>
               <h3 className="font-display text-2xl sm:text-3xl font-black text-slate-900 uppercase">Enterprise Inquiry &amp; Demo</h3>
-              <p className="text-xs sm:text-sm text-slate-500 font-medium">Submit your details to configure a corporate or college plan.</p>
+              <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                Submit your details to configure a corporate or college plan, or email us directly at{' '}
+                <a href="mailto:founder@polymerhubofindia.com" className="text-[#2563EB] font-bold hover:underline">
+                  founder@polymerhubofindia.com
+                </a>
+              </p>
             </div>
 
             {submitted ? (
@@ -333,7 +338,11 @@ export default function EnterpriseLandingPage() {
                 <CheckCircle className="w-12 h-12 text-emerald-600 mx-auto" />
                 <h4 className="font-display text-lg font-bold text-emerald-950 uppercase">Request Successfully Registered!</h4>
                 <p className="text-xs text-emerald-800 max-w-md mx-auto leading-relaxed font-medium">
-                  Thank you for your inquiry. A PolymerHub institutional advisor will contact your department within 24 hours to set up your preview environment.
+                  Thank you for your inquiry. A PolymerHub institutional advisor will contact your department within 24 hours to set up your preview environment (or reach us directly at{' '}
+                  <a href="mailto:founder@polymerhubofindia.com" className="font-bold underline">
+                    founder@polymerhubofindia.com
+                  </a>
+                  ).
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}

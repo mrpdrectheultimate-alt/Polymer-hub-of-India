@@ -137,7 +137,8 @@ export default function PrivacyPolicyPage() {
           </p>
           <div className="pt-2 text-xs font-mono text-slate-300 space-y-1">
             <p><strong>Platform:</strong> Polymer Hub of India</p>
-            <p><strong>Grievance Email:</strong> <a href="mailto:privacy@polymerhub.in" className="text-blue-400 hover:underline">privacy@polymerhub.in</a></p>
+            <p><strong>Grievance &amp; Privacy Email:</strong> <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 hover:underline">support@polymerhubofindia.com</a></p>
+            <p><strong>General Inquiries:</strong> <a href="mailto:hello@polymerhubofindia.com" className="text-blue-400 hover:underline">hello@polymerhubofindia.com</a></p>
             <p><strong>Response Timeline:</strong> Within 48 business hours.</p>
           </div>
         </section>

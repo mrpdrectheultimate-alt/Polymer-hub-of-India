@@ -130,7 +130,7 @@ export default function DashboardPage() {
     setProfile(
       userProfile ?? {
         id: userId,
-        email: session?.user?.email ?? 'engineer@polymerhub.in',
+        email: session?.user?.email ?? 'engineer@polymerhubofindia.com',
         full_name: (session?.user?.user_metadata?.full_name as string) || 'Evaluator Engineer',
         avatar_url: (session?.user?.user_metadata?.avatar_url as string) || null,
         bio: 'Polymer engineering student & technical evaluator.',

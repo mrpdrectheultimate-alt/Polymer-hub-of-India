@@ -48,9 +48,31 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
             <p className="text-slate-600 text-xs leading-relaxed max-w-sm font-normal">
               India&apos;s dedicated Plastic Polymer Engineering knowledge platform for B.Tech &amp; Diploma students, faculty, and industry professionals.
             </p>
+
+            {/* Official Contact Channels */}
+            <div className="pt-1 space-y-1.5 text-xs text-slate-600">
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] font-bold text-slate-800 uppercase tracking-wide w-16">Support:</span>
+                <a href="mailto:support@polymerhubofindia.com" className="hover:text-[#2563EB] font-medium transition-colors">
+                  support@polymerhubofindia.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] font-bold text-slate-800 uppercase tracking-wide w-16">Inquiries:</span>
+                <a href="mailto:hello@polymerhubofindia.com" className="hover:text-[#2563EB] font-medium transition-colors">
+                  hello@polymerhubofindia.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] font-bold text-slate-800 uppercase tracking-wide w-16">Founder:</span>
+                <a href="mailto:founder@polymerhubofindia.com" className="hover:text-[#2563EB] font-medium transition-colors">
+                  founder@polymerhubofindia.com
+                </a>
+              </div>
+            </div>
             
             {/* Social Icons */}
-            <div className="flex items-center gap-2.5 pt-2">
+            <div className="flex items-center gap-2.5 pt-1">
               <a
                 href="https://twitter.com"
                 target="_blank"
@@ -165,6 +187,11 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
                 <Link href="/terms" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
                   Terms of Service
                 </Link>
+              </li>
+              <li>
+                <a href="mailto:support@polymerhubofindia.com" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                  Contact &amp; Support
+                </a>
               </li>
             </ul>
           </div>
