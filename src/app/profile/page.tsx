@@ -178,9 +178,6 @@ export default function ProfilePage() {
           graduation_year: form.graduation_year ? parseInt(form.graduation_year) : null,
           target_path: form.target_path || null,
           avatar_url: uploadedAvatarUrl,
-          is_hod: form.is_hod,
-          is_recruiter: form.is_recruiter,
-          recruiter_company: form.is_recruiter ? form.recruiter_company : null,
           updated_at: new Date().toISOString(),
         })
         .eq('id', session.user.id)

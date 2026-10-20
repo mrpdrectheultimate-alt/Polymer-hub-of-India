@@ -1,15 +1,22 @@
 // src/app/api/hod/seats/route.ts
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
+
+const getAdminSupabase = () => {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+  return createAdminClient(url, key)
+}
 
 export async function GET() {
   try {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json({ error: 'Unauthorized: Please log in' }, { status: 401 })
     }
 
     // Get user profile
@@ -24,25 +31,32 @@ export async function GET() {
     }
 
     if (!profile.is_hod) {
-      return NextResponse.json({ error: 'Unauthorized: HOD access required' }, { status: 403 })
+      return NextResponse.json({ error: 'Unauthorized: HOD institutional access required' }, { status: 403 })
     }
 
+    if (!profile.college_name) {
+      return NextResponse.json({ error: 'No college affiliation set in your profile' }, { status: 400 })
+    }
+
+    const adminSupabase = getAdminSupabase()
+
     // Get institution license
-    const { data: license } = await supabase
+    const { data: license } = await adminSupabase
       .from('institution_licenses')
       .select('*')
       .eq('college_name', profile.college_name)
       .single()
 
     // Get students from same college
-    const { data: students } = await supabase
+    const { data: students } = await adminSupabase
       .from('profiles')
-      .select('id, full_name, email, subscription_status, xp_points, current_streak')
+      .select('id, full_name, email, subscription_status, xp_points, current_streak, college_name')
       .eq('college_name', profile.college_name)
       .neq('id', user.id)
+      .order('xp_points', { ascending: false })
 
     return NextResponse.json({
-      license: license || { total_seats: 0, allocated_seats: 0, college_name: profile.college_name },
+      license: license || { total_seats: 0, allocated_seats: 0, college_name: profile.college_name, is_active: false },
       students: students || []
     })
   } catch (error) {
@@ -59,7 +73,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { studentId, action } = await request.json()
+    const body = await request.json()
+    const studentId = body.studentId || body.student_id
+    const action = body.action
+
+    if (!studentId || !action) {
+      return NextResponse.json({ error: 'Missing studentId or action' }, { status: 400 })
+    }
 
     // Verify HOD status
     const { data: profile } = await supabase
@@ -72,24 +92,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized: HOD access required' }, { status: 403 })
     }
 
+    const adminSupabase = getAdminSupabase()
+
     // Get license
-    const { data: license } = await supabase
+    const { data: license } = await adminSupabase
       .from('institution_licenses')
       .select('*')
       .eq('college_name', profile.college_name)
       .single()
 
     if (!license) {
-      return NextResponse.json({ error: 'No license found for this college' }, { status: 400 })
+      return NextResponse.json({ error: 'No institutional license found for this college' }, { status: 400 })
     }
 
     if (action === 'allocate') {
       if (license.allocated_seats >= license.total_seats) {
-        return NextResponse.json({ error: 'No seats available' }, { status: 400 })
+        return NextResponse.json({ error: 'No remaining institutional seats available' }, { status: 400 })
       }
 
       // Update student to premium (strictly scoped to same college)
-      const { error: studentUpdateErr } = await supabase
+      const { error: studentUpdateErr } = await adminSupabase
         .from('profiles')
         .update({ subscription_status: 'premium' })
         .eq('id', studentId)
@@ -100,14 +122,14 @@ export async function POST(request: Request) {
       }
 
       // Increment allocated seats
-      await supabase
+      await adminSupabase
         .from('institution_licenses')
         .update({ allocated_seats: license.allocated_seats + 1 })
         .eq('college_name', profile.college_name)
 
     } else if (action === 'revoke') {
       // Update student to free (strictly scoped to same college)
-      const { error: studentRevokeErr } = await supabase
+      const { error: studentRevokeErr } = await adminSupabase
         .from('profiles')
         .update({ subscription_status: 'free' })
         .eq('id', studentId)
@@ -118,7 +140,7 @@ export async function POST(request: Request) {
       }
 
       // Decrement allocated seats
-      await supabase
+      await adminSupabase
         .from('institution_licenses')
         .update({ allocated_seats: Math.max(0, license.allocated_seats - 1) })
         .eq('college_name', profile.college_name)

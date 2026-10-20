@@ -1,16 +1,15 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { Users, Search, Flame, Star, ShieldAlert, ArrowLeft, BarChart3 } from 'lucide-react'
+import { Users, Search, Flame, Star, ShieldAlert, ArrowLeft, BarChart3, CheckCircle2, AlertCircle } from 'lucide-react'
 
 type CollegeLicense = {
-  id: string
+  id?: string
   college_name: string
   total_seats: number
   allocated_seats: number
-  is_active: boolean
+  is_active?: boolean
 }
 
 type StudentProfile = {
@@ -24,8 +23,6 @@ type StudentProfile = {
 }
 
 export default function HodDashboardPage() {
-  const supabase = createClient()
-
   const [license, setLicense] = useState<CollegeLicense | null>(null)
   const [students, setStudents] = useState<StudentProfile[]>([])
   const [loading, setLoading] = useState(true)
@@ -38,55 +35,34 @@ export default function HodDashboardPage() {
     setLoading(true)
     setError(null)
     try {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        setError('Please log in with your HOD institutional account.')
+      const res = await fetch('/api/hod/seats')
+      if (res.status === 401) {
+        setError('Please log in with your verified institutional account.')
+        setLoading(false)
+        return
+      }
+      if (res.status === 403) {
+        setError('Access Restricted: Head of Department (HOD) verification required. Contact founder@polymerhubofindia.com or support@polymerhubofindia.com to verify your departmental credentials.')
         setLoading(false)
         return
       }
 
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('college_name')
-        .eq('id', session.user.id)
-        .single()
-
-      if (!profile?.college_name) {
-        setError('No institutional affiliation found on your profile. Please specify your college in profile settings.')
+      const data = await res.json()
+      if (data.error) {
+        setError(data.error)
         setLoading(false)
         return
       }
 
-      // Fetch license
-      const { data: licenseData } = await supabase
-        .from('college_licenses')
-        .select('*')
-        .eq('college_name', profile.college_name)
-        .single()
-
-      if (!licenseData) {
-        setError(`No active institutional license found for "${profile.college_name}". Contact founder@polymerhubofindia.com or support@polymerhubofindia.com for academic batch licenses.`)
-        setLoading(false)
-        return
-      }
-
-      setLicense(licenseData)
-
-      // Fetch students
-      const { data: studentsData } = await supabase
-        .from('profiles')
-        .select('id, full_name, email, college_name, subscription_status, xp_points, current_streak')
-        .eq('college_name', profile.college_name)
-        .order('xp_points', { ascending: false })
-
-      setStudents(studentsData || [])
+      setLicense(data.license)
+      setStudents(data.students || [])
     } catch (err) {
-      console.error(err)
-      setError('An error occurred loading your dashboard.')
+      console.error('Failed to load institutional seats:', err)
+      setError('An error occurred connecting to the institutional seat manager.')
     } finally {
       setLoading(false)
     }
-  }, [supabase])
+  }, [])
 
   useEffect(() => {
     loadData()
@@ -98,18 +74,18 @@ export default function HodDashboardPage() {
       const res = await fetch('/api/hod/seats', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ student_id: studentId, action })
+        body: JSON.stringify({ studentId, action })
       })
 
-      if (!res.ok) {
-        const errorData = await res.json()
-        alert(errorData.error || 'Failed to update seat status')
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        alert(data.error || 'Failed to update seat status')
       } else {
         await loadData()
       }
     } catch (err) {
-      console.error(err)
-      alert('Error updating seat allocation')
+      console.error('Seat allocation error:', err)
+      alert('Error updating seat allocation. Please try again.')
     } finally {
       setActionLoadingId(null)
     }
@@ -154,7 +130,7 @@ export default function HodDashboardPage() {
 
   const totalSeats = license?.total_seats || 0
   const allocatedSeats = license?.allocated_seats || 0
-  const availableSeats = totalSeats - allocatedSeats
+  const availableSeats = Math.max(0, totalSeats - allocatedSeats)
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] py-10 px-4 sm:px-6">
@@ -198,119 +174,115 @@ export default function HodDashboardPage() {
           </div>
         </div>
 
-        {/* Seats allocation manager */}
-        <div className="border border-slate-200/90 rounded-3xl bg-white overflow-hidden shadow-xs">
-          <div className="border-b border-slate-100 px-6 py-4 flex justify-between items-center flex-wrap gap-4 bg-slate-50">
-            <h2 className="font-display text-base font-bold text-slate-900 flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#2563EB]" /> Student Licensing List
-            </h2>
-            <div className="flex gap-1.5">
-              <button
-                onClick={() => setStatusFilter('all')}
-                className={`font-mono text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${statusFilter === 'all' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200'}`}
+        {/* Student Table & Filters */}
+        <div className="border border-slate-200/90 rounded-3xl p-6 sm:p-8 bg-white shadow-xs space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h2 className="font-display text-xl font-bold text-slate-900">Enrolled Department Students</h2>
+              <p className="text-xs text-slate-500 font-mono mt-0.5">Allocate or revoke Premium Pro seats per student account</p>
+            </div>
+            
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-64">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  placeholder="Search students..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs outline-none focus:border-[#2563EB]"
+                />
+              </div>
+
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as 'all' | 'premium' | 'free')}
+                className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono outline-none"
               >
-                All ({students.length})
-              </button>
-              <button
-                onClick={() => setStatusFilter('premium')}
-                className={`font-mono text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${statusFilter === 'premium' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200'}`}
-              >
-                Premium ({students.filter(s => s.subscription_status === 'premium').length})
-              </button>
-              <button
-                onClick={() => setStatusFilter('free')}
-                className={`font-mono text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ${statusFilter === 'free' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-600 hover:bg-slate-200'}`}
-              >
-                Free ({students.filter(s => s.subscription_status !== 'premium').length})
-              </button>
+                <option value="all">All Status</option>
+                <option value="premium">Premium Only</option>
+                <option value="free">Free Tier</option>
+              </select>
             </div>
           </div>
 
-          {/* Search bar */}
-          <div className="border-b border-slate-100 p-4 bg-white flex items-center gap-3">
-            <Search className="w-4 h-4 text-slate-400 flex-shrink-0" />
-            <input
-              type="text"
-              placeholder="Search students by name or email..."
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              className="bg-transparent border-0 outline-none text-xs sm:text-sm w-full font-sans placeholder:text-slate-400 text-slate-900"
-            />
-          </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="border-b border-slate-100 bg-slate-50 font-mono text-[10px] text-slate-500 uppercase tracking-wider text-left">
-                  <th className="px-6 py-3">Student</th>
-                  <th className="px-6 py-3">Email</th>
-                  <th className="px-6 py-3">XP Points</th>
-                  <th className="px-6 py-3">Active Streak</th>
-                  <th className="px-6 py-3">Plan Status</th>
-                  <th className="px-6 py-3 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-sans text-xs sm:text-sm text-slate-800">
-                {filteredStudents.map(student => (
-                  <tr key={student.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-bold flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-xl border border-slate-200 bg-blue-50 text-[#2563EB] flex items-center justify-center font-mono font-bold text-xs">
-                        {(student.full_name || 'S')[0].toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="font-bold text-slate-900">{student.full_name || 'Unnamed Student'}</div>
-                        <div className="text-[10px] font-mono text-slate-400">Student</div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 font-mono text-xs text-slate-600">{student.email}</td>
-                    <td className="px-6 py-4">
-                      <span className="font-mono text-xs font-bold text-slate-900 flex items-center gap-1">
-                        <Star className="w-3.5 h-3.5 text-amber-500 fill-current" /> {student.xp_points.toLocaleString()} XP
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="font-mono text-xs font-bold text-slate-900 flex items-center gap-1">
-                        <Flame className="w-3.5 h-3.5 text-orange-500 fill-current" /> {student.current_streak} days
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`font-mono text-[10px] font-bold uppercase px-2.5 py-1 rounded-lg border ${student.subscription_status === 'premium' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                        {student.subscription_status === 'premium' ? '👑 Premium' : 'Free Plan'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-center">
-                      {student.subscription_status === 'premium' ? (
-                        <button
-                          onClick={() => handleSeatAction(student.id, 'revoke')}
-                          disabled={actionLoadingId !== null}
-                          className="border border-red-200 bg-red-50 hover:bg-red-100 text-red-700 font-mono text-[10px] font-bold uppercase px-3 py-1.5 rounded-lg transition-all"
-                        >
-                          Revoke Seat
-                        </button>
-                      ) : (
-                        <button
-                          onClick={() => handleSeatAction(student.id, 'allocate')}
-                          disabled={actionLoadingId !== null || availableSeats <= 0}
-                          className={`font-mono text-[10px] font-bold uppercase px-3 py-1.5 rounded-lg transition-all ${availableSeats <= 0 ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed' : 'bg-[#2563EB] hover:bg-blue-700 text-white shadow-xs'}`}
-                        >
-                          Allocate Seat
-                        </button>
-                      )}
-                    </td>
+          {filteredStudents.length === 0 ? (
+            <div className="py-12 text-center text-slate-400 font-mono text-xs">
+              No students found from {license?.college_name}.
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs">
+                <thead>
+                  <tr className="border-b border-slate-100 font-mono text-[10px] text-slate-400 uppercase tracking-wider">
+                    <th className="pb-3 font-semibold">Student</th>
+                    <th className="pb-3 font-semibold">Status</th>
+                    <th className="pb-3 font-semibold">XP Points</th>
+                    <th className="pb-3 font-semibold">Streak</th>
+                    <th className="pb-3 font-semibold text-right">Seat Action</th>
                   </tr>
-                ))}
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredStudents.map((student) => {
+                    const isPremium = student.subscription_status === 'premium'
+                    const isLoading = actionLoadingId === student.id
 
-                {filteredStudents.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="px-6 py-10 text-center font-mono text-xs text-slate-400">
-                      No students found matching filters
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
+                    return (
+                      <tr key={student.id} className="hover:bg-slate-50/50">
+                        <td className="py-3.5 pr-4">
+                          <div className="font-bold text-slate-900">{student.full_name || 'Anonymous Student'}</div>
+                          <div className="font-mono text-[11px] text-slate-400">{student.email}</div>
+                        </td>
+                        <td className="py-3.5 pr-4">
+                          {isPremium ? (
+                            <span className="font-mono text-[10px] font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md inline-flex items-center gap-1">
+                              <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                              <span>Premium (Active)</span>
+                            </span>
+                          ) : (
+                            <span className="font-mono text-[10px] font-bold text-slate-600 bg-slate-100 border border-slate-200 px-2 py-0.5 rounded-md">
+                              Free Tier
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3.5 pr-4 font-mono font-bold text-slate-700">
+                          <span className="inline-flex items-center gap-1">
+                            <Star className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                            <span>{student.xp_points || 0} XP</span>
+                          </span>
+                        </td>
+                        <td className="py-3.5 pr-4 font-mono text-slate-600">
+                          <span className="inline-flex items-center gap-1">
+                            <Flame className="w-3.5 h-3.5 text-orange-500" />
+                            <span>{student.current_streak || 0} days</span>
+                          </span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          {isPremium ? (
+                            <button
+                              onClick={() => handleSeatAction(student.id, 'revoke')}
+                              disabled={isLoading}
+                              className="px-3 py-1.5 border border-red-200 text-red-700 bg-red-50/50 hover:bg-red-100 rounded-lg font-mono text-[11px] font-bold transition-colors disabled:opacity-50 cursor-pointer"
+                            >
+                              {isLoading ? 'Updating...' : 'Revoke Seat'}
+                            </button>
+                          ) : (
+                            <button
+                              onClick={() => handleSeatAction(student.id, 'allocate')}
+                              disabled={isLoading || availableSeats === 0}
+                              className="px-3 py-1.5 bg-[#2563EB] hover:bg-blue-700 text-white rounded-lg font-mono text-[11px] font-bold transition-colors shadow-2xs disabled:opacity-50 cursor-pointer"
+                            >
+                              {isLoading ? 'Updating...' : availableSeats === 0 ? 'No Seats' : 'Allocate Seat'}
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
       </div>

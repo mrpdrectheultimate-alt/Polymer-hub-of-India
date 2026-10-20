@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { headers } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 import {
   ArrowLeft,
@@ -105,19 +106,13 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
       }, { onConflict: 'user_id,lesson_id' })
 
       try {
-        const headerStore = await headers()
-        const host = headerStore.get('host') || 'localhost:3000'
-        const protocol = host.includes('localhost') ? 'http' : 'https'
-        await fetch(`${protocol}://${host}/api/xp/award`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'cookie': headerStore.get('cookie') || ''
-          },
-          body: JSON.stringify({ action: 'lesson_complete', reference: lesson.slug })
+        await awardUserXP(supabase, {
+          userId: session.user.id,
+          action: 'lesson_start',
+          reference: lesson.slug,
         })
       } catch (err) {
-        console.error('Failed to award lesson XP:', err)
+        console.error('Failed to award lesson start XP:', err)
       }
     }
   }
@@ -338,7 +333,7 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
                   </div>
                   <LessonShareBar
                     lessonTitle={lesson.title}
-                    lessonUrl={`https://polymer-hub-six.vercel.app/lessons/${lesson.slug}`}
+                    lessonUrl={`https://polymerhubofindia.com/lessons/${lesson.slug}`}
                     subjectName={subjectName}
                     lessonSummary={lesson.summary}
                   />

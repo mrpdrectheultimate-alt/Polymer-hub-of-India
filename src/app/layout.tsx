@@ -45,8 +45,8 @@ export default function RootLayout({
               '@graph': [
                 {
                   '@type': 'WebSite',
-                  '@id': 'https://polymer-hub-six.vercel.app/#website',
-                  url: 'https://polymer-hub-six.vercel.app',
+                  '@id': 'https://polymerhubofindia.com/#website',
+                  url: 'https://polymerhubofindia.com',
                   name: 'PolymerHub',
                   description: "India's Plastic Polymer Engineering Knowledge Platform",
                   inLanguage: 'en-IN',
@@ -54,16 +54,16 @@ export default function RootLayout({
                     '@type': 'SearchAction',
                     target: {
                       '@type': 'EntryPoint',
-                      urlTemplate: 'https://polymer-hub-six.vercel.app/subjects?q={search_term_string}',
+                      urlTemplate: 'https://polymerhubofindia.com/subjects?q={search_term_string}',
                     },
                     'query-input': 'required name=search_term_string',
                   },
                 },
                 {
                   '@type': 'EducationalOrganization',
-                  '@id': 'https://polymer-hub-six.vercel.app/#organization',
+                  '@id': 'https://polymerhubofindia.com/#organization',
                   name: 'PolymerHub',
-                  url: 'https://polymer-hub-six.vercel.app',
+                  url: 'https://polymerhubofindia.com',
                   description: "India's first knowledge platform for Plastic Polymer Engineering students",
                   areaServed: 'IN',
                   educationalCredentialAwarded: 'Polymer Engineering Knowledge Certificate',
@@ -75,13 +75,13 @@ export default function RootLayout({
                 },
                 {
                   '@type': 'Course',
-                  '@id': 'https://polymer-hub-six.vercel.app/#course',
+                  '@id': 'https://polymerhubofindia.com/#course',
                   name: 'Complete B.Tech Plastic Polymer Engineering Curriculum',
                   description: '216 world-class lessons across 19 subjects: Polymer Chemistry, Processing, Mould Design, Testing, Rubber Technology, Recycling, Sustainable Plastics, Composites, Medical Plastics, Rheology, Additives, Packaging, LCA, Masterbatches, Nanotechnology, Bioprocessing, Robotics, Digital Twins, and Entrepreneurship',
                   provider: {
                     '@type': 'Organization',
                     name: 'PolymerHub',
-                    url: 'https://polymer-hub-six.vercel.app',
+                    url: 'https://polymerhubofindia.com',
                   },
                   courseCode: 'PPE-COMPLETE',
                   educationalLevel: 'Undergraduate',
@@ -97,7 +97,7 @@ export default function RootLayout({
                     priceCurrency: 'INR',
                     priceValidUntil: '2026-12-31',
                     availability: 'https://schema.org/InStock',
-                    url: 'https://polymer-hub-six.vercel.app/pricing',
+                    url: 'https://polymerhubofindia.com/pricing',
                   },
                   numberOfCredits: 216,
                   teaches: [

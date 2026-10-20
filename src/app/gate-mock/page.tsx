@@ -563,8 +563,35 @@ export default function GATEMockPage() {
 
   const confirmSubmit = () => {
     setIsSubmitModalOpen(false)
-    setTimeTaken(Math.round((Date.now() - startTime) / 1000))
+    const elapsed = Math.round((Date.now() - startTime) / 1000)
+    setTimeTaken(elapsed)
     setState('submitted')
+
+    // Evaluate and award GATE mock XP
+    try {
+      const totalMarks = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
+      let scored = 0
+      GATE_QUESTIONS.forEach(q => {
+        if (answers[q.id] === q.correct) {
+          scored += q.marks
+        } else if (answers[q.id] !== undefined) {
+          scored -= q.marks / 3
+        }
+      })
+      const finalScore = Math.max(0, scored)
+      const pct = (finalScore / totalMarks) * 100
+
+      if (pct >= 50) {
+        const action = pct >= 75 ? 'gate_top' : 'gate_pass'
+        fetch('/api/xp/award', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, reference: `gate-mock-${new Date().toISOString().split('T')[0]}` })
+        }).catch(err => console.warn('GATE mock XP award error:', err))
+      }
+    } catch (e) {
+      console.warn('GATE mock XP calculation failed:', e)
+    }
   }
 
   const handleSelect = (optIdx: number) => {

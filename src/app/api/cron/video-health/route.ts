@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createClient as createServerClient } from '@/lib/supabase/server';
 import { createClient } from '@supabase/supabase-js';
+import { isUserAdmin } from '@/lib/admin';
 
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization');
@@ -19,10 +20,10 @@ export async function GET(request: Request) {
       if (session) {
         const { data: profile } = await userClient
           .from('profiles')
-          .select('is_admin')
+          .select('role')
           .eq('id', session.user.id)
           .single();
-        if (profile?.is_admin) {
+        if (isUserAdmin(session.user, profile)) {
           isAuthorized = true;
         }
       }

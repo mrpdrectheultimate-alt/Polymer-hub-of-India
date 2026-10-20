@@ -49,7 +49,7 @@ You must return a JSON array containing exactly 5 items, matching this JSON sche
         apiKey: process.env.OPENROUTER_API_KEY,
         baseURL: 'https://openrouter.ai/api/v1',
         defaultHeaders: {
-          'HTTP-Referer': 'https://polymer-hub-six.vercel.app',
+          'HTTP-Referer': 'https://polymerhubofindia.com',
           'X-Title': 'Polymer Hub of India',
         }
       })

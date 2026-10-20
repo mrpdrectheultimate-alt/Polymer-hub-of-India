@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Daily Polymer Intelligence | PolymerHub India',
     description: 'Real-time petrochem spot benchmarks, EPR policies, biopolymers R&D & syllabus-connected industry briefs.',
-    url: 'https://polymerhub.in/today',
+    url: 'https://polymerhubofindia.com/today',
     siteName: 'PolymerHub India',
     images: [
       {

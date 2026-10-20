@@ -215,7 +215,7 @@ export default function PlaylistPlayerPage() {
       fetch('/api/xp/award', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'lesson_complete', referenceId: videoId })
+        body: JSON.stringify({ action: 'video_complete', referenceId: videoId })
       }).catch(console.error)
 
       toast({

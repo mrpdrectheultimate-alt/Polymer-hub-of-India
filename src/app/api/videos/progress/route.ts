@@ -1,6 +1,7 @@
 // src/app/api/videos/progress/route.ts
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { awardUserXP } from '@/lib/xp'
 
 // GET — fetch user's watch progress for all videos
 export async function GET() {
@@ -46,11 +47,15 @@ export async function POST(request: Request) {
 
     // Award XP for completing a video
     if (completed) {
-      await fetch('/api/xp/award', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'lesson_complete', referenceId: videoId }),
-      }).catch(() => {}) // non-blocking
+      try {
+        await awardUserXP(supabase, {
+          userId: user.id,
+          action: 'video_complete',
+          reference: videoId
+        })
+      } catch (xpErr) {
+        console.warn('Video XP award failed:', xpErr)
+      }
     }
 
     return NextResponse.json({ success: true })

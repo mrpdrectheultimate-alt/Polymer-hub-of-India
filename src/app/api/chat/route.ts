@@ -215,6 +215,27 @@ ${context ? `\nRELEVANT CURRICULUM CONTEXT:\n${context}` : ''}`
       }
     }
 
+    // Direct Google Gemini fallback if OpenRouter is unconfigured or failed
+    if (!answer && process.env.GEMINI_API_KEY) {
+      try {
+        const { GoogleGenerativeAI } = await import('@google/generative-ai')
+        const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+        const geminiModel = genAI.getGenerativeModel({
+          model: 'gemini-1.5-flash',
+          systemInstruction,
+          generationConfig: { temperature: 0.3, maxOutputTokens: 1024 }
+        })
+        const prompt = `${(history || []).map((m: { role: string; content: string }) => `${m.role === 'user' ? 'Student' : 'Tutor'}: ${m.content}`).join('\n')}\nStudent: ${message}`
+        const result = await geminiModel.generateContent(prompt)
+        const geminiText = result.response.text()
+        if (geminiText && geminiText.trim().length > 0) {
+          answer = geminiText
+        }
+      } catch (geminiErr) {
+        console.warn('Direct Gemini fallback failed:', geminiErr)
+      }
+    }
+
     if (!answer) {
       return NextResponse.json(
         { error: 'AI Copilot is momentarily calibrating. Please try asking again in a few seconds.' },

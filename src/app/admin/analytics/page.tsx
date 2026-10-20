@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { isUserAdmin } from '@/lib/admin'
 import Link from 'next/link'
 import {
   Users, BookOpen, Brain, TrendingUp, Trophy, BarChart2, FlaskConical,
@@ -110,10 +111,21 @@ export default function AdminAnalyticsPage() {
   // ── Init Authorized & Analytics Data ──────────────────────────────────────
   useEffect(() => {
     const load = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) { window.location.href = '/login'; return }
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { window.location.href = '/login'; return }
 
-      // Simple admin check — email verification could be stricter
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+      if (!isUserAdmin(user, profile)) {
+        setAuthorized(false)
+        setLoading(false)
+        return
+      }
+
       setAuthorized(true)
 
       // ── Overview stats ────────────────────────────────────────────────────

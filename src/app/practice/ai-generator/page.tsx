@@ -75,7 +75,7 @@ export default function AIGeneratorPage() {
           body: JSON.stringify({ action, reference: `ai-quiz-${topic.slice(0, 15)}` }),
         })
         const data = await res.json()
-        if (res.ok && data.xp_points) {
+        if (res.ok && (data.total_xp || data.xp_points || data.xp_earned)) {
           setXpEarned(finalPct === 100 ? 50 : 30)
         }
       } catch (e) {

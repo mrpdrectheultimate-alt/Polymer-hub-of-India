@@ -1,6 +1,7 @@
 // src/app/api/study-groups/route.ts
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { awardUserXP } from '@/lib/xp'
 
 export async function GET() {
   try {
@@ -81,15 +82,10 @@ export async function POST(req: NextRequest) {
 
       // Award XP for joining/creating a study group
       try {
-        const host = req.headers.get('host') || 'localhost:3000'
-        const protocol = host.includes('localhost') ? 'http' : 'https'
-        await fetch(`${protocol}://${host}/api/xp/award`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'cookie': req.headers.get('cookie') || ''
-          },
-          body: JSON.stringify({ action: 'study_group_join', reference: newGroup.id })
+        await awardUserXP(supabase, {
+          userId,
+          action: 'study_group_join',
+          reference: newGroup.id
         })
       } catch (e) {
         console.warn('Failed to award study group XP:', e)
@@ -117,15 +113,10 @@ export async function POST(req: NextRequest) {
 
       // Award XP for joining a study group
       try {
-        const host = req.headers.get('host') || 'localhost:3000'
-        const protocol = host.includes('localhost') ? 'http' : 'https'
-        await fetch(`${protocol}://${host}/api/xp/award`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'cookie': req.headers.get('cookie') || ''
-          },
-          body: JSON.stringify({ action: 'study_group_join', reference: groupId })
+        await awardUserXP(supabase, {
+          userId,
+          action: 'study_group_join',
+          reference: groupId
         })
       } catch (e) {
         console.warn('Failed to award study group XP:', e)

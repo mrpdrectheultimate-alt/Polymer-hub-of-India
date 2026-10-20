@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { MessageSquarePlus, Star, Bug, Lightbulb, BookOpen, Heart, CheckCircle, Eye } from 'lucide-react'
+import { MessageSquarePlus, Star, Bug, Lightbulb, BookOpen, Heart, CheckCircle, Eye, ShieldAlert, ArrowLeft } from 'lucide-react'
 
 type Feedback = {
   id: string
@@ -36,9 +35,9 @@ const STATUS_CONFIG: Record<string, { label: string; color: string }> = {
 const RATING_LABELS = ['', 'Very Poor', 'Poor', 'Okay', 'Good', 'Excellent']
 
 export default function AdminFeedbackPage() {
-  const supabase = createClient()
   const [feedback, setFeedback] = useState<Feedback[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [filterType, setFilterType] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
   const [selectedItem, setSelectedItem] = useState<Feedback | null>(null)
@@ -47,28 +46,70 @@ export default function AdminFeedbackPage() {
 
   const loadFeedback = useCallback(async () => {
     setLoading(true)
-    let query = supabase.from('feedback').select('*').order('created_at', { ascending: false })
-    if (filterType !== 'all') query = query.eq('type', filterType)
-    if (filterStatus !== 'all') query = query.eq('status', filterStatus)
-    const { data } = await query.limit(100)
-    setFeedback(data ?? [])
-    setLoading(false)
-  }, [filterType, filterStatus, supabase])
+    setError(null)
+    try {
+      const params = new URLSearchParams()
+      if (filterType !== 'all') params.set('type', filterType)
+      if (filterStatus !== 'all') params.set('status', filterStatus)
+
+      const res = await fetch(`/api/admin/feedback?${params.toString()}`)
+      if (res.status === 401 || res.status === 403) {
+        setError('Forbidden: Administrative access required to view feedback submissions.')
+        setLoading(false)
+        return
+      }
+
+      const data = await res.json()
+      if (data.error) {
+        setError(data.error)
+      } else {
+        setFeedback(data.feedback ?? [])
+      }
+    } catch (err) {
+      console.error('Failed to load admin feedback:', err)
+      setError('An error occurred connecting to the admin feedback service.')
+    } finally {
+      setLoading(false)
+    }
+  }, [filterType, filterStatus])
 
   useEffect(() => { loadFeedback() }, [loadFeedback])
 
   const updateStatus = async (id: string, status: string) => {
-    await supabase.from('feedback').update({ status }).eq('id', id)
-    setFeedback(prev => prev.map(f => f.id === id ? { ...f, status } : f))
-    if (selectedItem?.id === id) setSelectedItem(prev => prev ? { ...prev, status } : null)
+    try {
+      const res = await fetch('/api/admin/feedback', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status })
+      })
+
+      if (res.ok) {
+        setFeedback(prev => prev.map(f => f.id === id ? { ...f, status } : f))
+        if (selectedItem?.id === id) setSelectedItem(prev => prev ? { ...prev, status } : null)
+      }
+    } catch (err) {
+      console.error('Failed to update status:', err)
+    }
   }
 
   const saveNote = async () => {
     if (!selectedItem) return
     setSavingNote(true)
-    await supabase.from('feedback').update({ admin_note: adminNote }).eq('id', selectedItem.id)
-    setFeedback(prev => prev.map(f => f.id === selectedItem.id ? { ...f, admin_note: adminNote } : f))
-    setSavingNote(false)
+    try {
+      const res = await fetch('/api/admin/feedback', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: selectedItem.id, adminNote })
+      })
+
+      if (res.ok) {
+        setFeedback(prev => prev.map(f => f.id === selectedItem.id ? { ...f, admin_note: adminNote } : f))
+      }
+    } catch (err) {
+      console.error('Failed to save note:', err)
+    } finally {
+      setSavingNote(false)
+    }
   }
 
   const counts = {
@@ -79,154 +120,160 @@ export default function AdminFeedbackPage() {
     praise: feedback.filter(f => f.type === 'praise').length,
   }
 
-  const avgRating = feedback.filter(f => f.rating).length > 0
-    ? (feedback.filter(f => f.rating).reduce((a, b) => a + (b.rating ?? 0), 0) / feedback.filter(f => f.rating).length).toFixed(1)
-    : '—'
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-canvas flex items-center justify-center p-6">
+        <div className="font-mono text-xs uppercase tracking-widest text-slate-500 animate-pulse">Loading feedback records...</div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-canvas flex items-center justify-center p-6">
+        <div className="max-w-md w-full border-4 border-ink p-8 bg-white shadow-hard text-center">
+          <ShieldAlert className="w-12 h-12 text-crimson mx-auto mb-4" />
+          <h2 className="font-display text-xl font-black text-ink uppercase mb-2">Access Restricted</h2>
+          <p className="text-xs text-ink/70 leading-relaxed mb-6 font-mono">{error}</p>
+          <div className="flex gap-3 justify-center">
+            <Link href="/dashboard" className="cn-btn-black text-xs">
+              Return to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen bg-canvas">
-      <div className="h-2 bg-violet" />
+    <div className="min-h-screen bg-canvas p-6 md:p-10 text-ink">
+      <div className="max-w-7xl mx-auto space-y-6">
 
-      {/* Header */}
-      <div className="border-b-4 border-ink bg-ink px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-violet border-4 border-violet flex items-center justify-center">
-            <MessageSquarePlus className="w-4 h-4 text-white" />
-          </div>
+        {/* Header */}
+        <div className="flex items-center justify-between flex-wrap gap-4 border-b-4 border-ink pb-6">
           <div>
-            <div className="font-display text-lg font-black text-white">Student Feedback Inbox</div>
-            <div className="font-mono text-[9px] text-white/40 uppercase tracking-wider">Admin — read everything students send</div>
+            <div className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest">Administrative Control</div>
+            <h1 className="font-display text-2xl md:text-3xl font-black text-ink uppercase tracking-tight flex items-center gap-2">
+              <span>📋</span> User Feedback &amp; Issues Desk
+            </h1>
+            <p className="font-mono text-xs text-ink/60 mt-1">Real-time incoming bug reports, feature requests, and inquiries</p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <Link href="/admin/analytics" className="cn-btn-white text-xs">Analytics</Link>
+            <Link href="/admin/today" className="cn-btn-white text-xs">Daily News Editor</Link>
+            <Link href="/admin/videos" className="cn-btn-white text-xs">Videos</Link>
+            <Link href="/dashboard" className="cn-btn-black text-xs flex items-center gap-1.5">
+              <ArrowLeft className="w-3.5 h-3.5" /> Dashboard
+            </Link>
           </div>
         </div>
-        <Link href="/admin/analytics" className="border-2 border-white/30 text-white font-mono text-[9px] px-3 py-1.5 hover:bg-white/10 transition-colors uppercase">
-          ← Analytics
-        </Link>
-      </div>
 
-      {/* Stats strip */}
-      <div className="border-b-4 border-ink grid grid-cols-3 sm:grid-cols-6 divide-x-4 divide-ink">
-        {[
-          { val: counts.total, label: 'Total', color: '#7C3AED' },
-          { val: counts.new, label: 'New', color: '#EA580C' },
-          { val: counts.bugs, label: 'Bugs', color: '#EA580C' },
-          { val: counts.features, label: 'Features', color: '#CA8A04' },
-          { val: counts.praise, label: 'Praise', color: '#15803D' },
-          { val: avgRating, label: 'Avg Rating', color: '#CA8A04' },
-        ].map(s => (
-          <div key={s.label} className="p-4 text-center" style={{ backgroundColor: s.color + '10' }}>
-            <div className="font-display text-2xl font-black" style={{ color: s.color }}>{s.val}</div>
-            <div className="font-mono text-[8px] text-ink/40 uppercase tracking-wider mt-0.5">{s.label}</div>
+        {/* Metric Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+          <div className="border-4 border-ink p-4 bg-white shadow-hard-sm">
+            <div className="font-mono text-[9px] text-ink/50 uppercase tracking-wider">Total Submissions</div>
+            <div className="font-display text-2xl font-black text-ink mt-1">{counts.total}</div>
           </div>
-        ))}
-      </div>
-
-      {/* Filters */}
-      <div className="border-b-4 border-ink px-6 py-3 flex gap-3 flex-wrap">
-        <div className="flex gap-2 flex-wrap">
-          {['all', 'bug', 'feature', 'content', 'praise', 'general'].map(t => {
-            const cfg = t !== 'all' ? TYPE_CONFIG[t] : { color: '#0A0A0A', bg: '#F9FAFB' }
-            return (
-              <button key={t} onClick={() => setFilterType(t)}
-                className="font-mono text-[9px] font-black border-4 border-ink px-3 py-1.5 uppercase transition-all"
-                style={{ backgroundColor: filterType === t ? cfg.color : 'white', color: filterType === t ? 'white' : '#6B7280' }}>
-                {t === 'all' ? 'All Types' : TYPE_CONFIG[t].label}
-              </button>
-            )
-          })}
+          <div className="border-4 border-ink p-4 bg-amber-50 shadow-hard-sm">
+            <div className="font-mono text-[9px] text-amber-800 uppercase tracking-wider font-bold">New / Unreviewed</div>
+            <div className="font-display text-2xl font-black text-amber-900 mt-1">{counts.new}</div>
+          </div>
+          <div className="border-4 border-ink p-4 bg-orange-50 shadow-hard-sm">
+            <div className="font-mono text-[9px] text-orange-800 uppercase tracking-wider font-bold">Bugs</div>
+            <div className="font-display text-2xl font-black text-orange-900 mt-1">{counts.bugs}</div>
+          </div>
+          <div className="border-4 border-ink p-4 bg-yellow-50 shadow-hard-sm">
+            <div className="font-mono text-[9px] text-yellow-800 uppercase tracking-wider font-bold">Feature Requests</div>
+            <div className="font-display text-2xl font-black text-yellow-900 mt-1">{counts.features}</div>
+          </div>
+          <div className="border-4 border-ink p-4 bg-emerald-50 shadow-hard-sm">
+            <div className="font-mono text-[9px] text-emerald-800 uppercase tracking-wider font-bold">Love / Praise</div>
+            <div className="font-display text-2xl font-black text-emerald-900 mt-1">{counts.praise}</div>
+          </div>
         </div>
-        <div className="flex gap-2 flex-wrap ml-auto">
-          {['all', 'new', 'reviewing', 'planned', 'resolved'].map(s => {
-            const cfg = s !== 'all' ? STATUS_CONFIG[s] : { color: '#0A0A0A' }
-            return (
-              <button key={s} onClick={() => setFilterStatus(s)}
-                className="font-mono text-[9px] font-black border-4 border-ink px-3 py-1.5 uppercase transition-all"
-                style={{ backgroundColor: filterStatus === s ? cfg.color : 'white', color: filterStatus === s ? 'white' : '#6B7280' }}>
-                {s === 'all' ? 'All Status' : STATUS_CONFIG[s].label}
-              </button>
-            )
-          })}
+
+        {/* Filters */}
+        <div className="flex gap-2 flex-wrap items-center">
+          <span className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest">Filter Type:</span>
+          {['all', 'bug', 'feature', 'content', 'praise', 'general'].map(t => (
+            <button key={t} onClick={() => setFilterType(t)}
+              className={`font-mono text-[10px] font-bold px-3 py-1 border-2 border-ink uppercase tracking-wider transition-all ${filterType === t ? 'bg-ink text-white' : 'bg-white text-ink hover:bg-canvas'}`}>
+              {t}
+            </button>
+          ))}
+          <span className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest ml-4">Status:</span>
+          {['all', 'new', 'reviewing', 'planned', 'resolved'].map(s => (
+            <button key={s} onClick={() => setFilterStatus(s)}
+              className={`font-mono text-[10px] font-bold px-3 py-1 border-2 border-ink uppercase tracking-wider transition-all ${filterStatus === s ? 'bg-ink text-white' : 'bg-white text-ink hover:bg-canvas'}`}>
+              {s}
+            </button>
+          ))}
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Main layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
-        {/* Feedback list */}
-        <div className="space-y-3">
-          {loading ? (
-            <div className="border-4 border-ink p-8 text-center shadow-hard">
-              <div className="font-display text-lg font-black text-ink animate-pulse">Loading feedback...</div>
-            </div>
-          ) : feedback.length === 0 ? (
-            <div className="border-4 border-ink border-dashed p-12 text-center">
-              <MessageSquarePlus className="w-10 h-10 mx-auto mb-3 text-ink/20" />
-              <p className="font-display text-xl font-black text-ink/30">No feedback yet</p>
-              <p className="font-mono text-[10px] text-ink/30 uppercase tracking-wider mt-1">Students will start sending as they use the platform</p>
-            </div>
-          ) : (
-            feedback.map(item => {
-              const cfg = TYPE_CONFIG[item.type] ?? TYPE_CONFIG.general
-              const Icon = cfg.icon
-              const statusCfg = STATUS_CONFIG[item.status] ?? STATUS_CONFIG.new
-              const isSelected = selectedItem?.id === item.id
+          {/* List column */}
+          <div className="space-y-3">
+            {feedback.length === 0 ? (
+              <div className="border-4 border-ink border-dashed p-12 text-center bg-white">
+                <p className="font-display text-lg font-black text-ink/30">No feedback matching filters</p>
+              </div>
+            ) : (
+              feedback.map(item => {
+                const typeCfg = TYPE_CONFIG[item.type] ?? TYPE_CONFIG.general
+                const statusCfg = STATUS_CONFIG[item.status] ?? STATUS_CONFIG.new
+                const isSelected = selectedItem?.id === item.id
 
-              return (
-                <button key={item.id} onClick={() => { setSelectedItem(item); setAdminNote(item.admin_note ?? '') }}
-                  className="w-full text-left border-4 border-ink overflow-hidden transition-all"
-                  style={{
-                    boxShadow: isSelected ? `4px 4px 0px 0px ${cfg.color}` : '2px 2px 0px 0px #0A0A0A',
-                    backgroundColor: isSelected ? cfg.bg : 'white',
-                  }}>
-                  <div className="border-b-4 border-ink px-4 py-2 flex items-center justify-between flex-wrap gap-2"
-                    style={{ backgroundColor: isSelected ? cfg.color : '#F9FAFB' }}>
-                    <div className="flex items-center gap-2">
-                      <Icon className="w-3.5 h-3.5" style={{ color: isSelected ? 'white' : cfg.color }} />
-                      <span className="font-mono text-[9px] font-black uppercase tracking-wider" style={{ color: isSelected ? 'white' : cfg.color }}>{cfg.label}</span>
+                return (
+                  <div key={item.id} onClick={() => { setSelectedItem(item); setAdminNote(item.admin_note ?? '') }}
+                    className={`border-4 border-ink p-4 bg-white cursor-pointer transition-all shadow-hard-sm hover:shadow-hard ${isSelected ? 'ring-4 ring-blue' : ''}`}>
+                    <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-mono text-[9px] font-black border-2 border-ink px-2 py-0.5 uppercase tracking-wider"
+                          style={{ backgroundColor: typeCfg.bg, color: typeCfg.color }}>
+                          {typeCfg.label}
+                        </span>
+                        <span className="font-mono text-[9px] font-bold text-white px-2 py-0.5 uppercase"
+                          style={{ backgroundColor: statusCfg.color }}>
+                          {statusCfg.label}
+                        </span>
+                      </div>
+                      <span className="font-mono text-[9px] text-ink/40">{new Date(item.created_at).toLocaleDateString('en-IN')}</span>
+                    </div>
+
+                    <p className="text-xs text-ink font-medium line-clamp-2 leading-relaxed">{item.message}</p>
+
+                    <div className="flex items-center justify-between mt-3 pt-2 border-t-2 border-ink/10 text-[10px] font-mono text-ink/50">
+                      <span>{item.user_name || item.user_email || 'Anonymous Student'}</span>
                       {item.rating && (
-                        <div className="flex items-center gap-0.5">
-                          {[1, 2, 3, 4, 5].map(starIdx => (
-                            <Star key={starIdx} className="w-2.5 h-2.5" style={{ color: starIdx <= item.rating! ? '#CA8A04' : '#D1D5DB', fill: starIdx <= item.rating! ? '#CA8A04' : 'none' }} />
-                          ))}
-                        </div>
+                        <span className="flex items-center gap-0.5 font-bold text-amber-600">
+                          <Star className="w-3 h-3 fill-amber-500 text-amber-500" /> {item.rating}/5
+                        </span>
                       )}
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-[8px] font-black border px-1.5 py-0.5 uppercase"
-                        style={{ borderColor: statusCfg.color, color: isSelected ? 'white' : statusCfg.color }}>
-                        {statusCfg.label}
-                      </span>
-                      <span className="font-mono text-[8px] text-ink/40" style={{ color: isSelected ? 'white' : undefined }}>
-                        {new Date(item.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
-                      </span>
-                    </div>
                   </div>
-                  <div className="px-4 py-3">
-                    <p className="text-sm text-ink font-medium leading-relaxed line-clamp-2">{item.message}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      {item.user_name && <span className="font-mono text-[8px] text-ink/50">{item.user_name}</span>}
-                      {item.user_email && <span className="font-mono text-[8px] text-ink/40">{item.user_email}</span>}
-                      {item.page_url && <span className="font-mono text-[8px] text-ink/30">{item.page_url}</span>}
-                    </div>
-                  </div>
-                </button>
-              )
-            })
-          )}
-        </div>
+                )
+              })
+            )}
+          </div>
 
-        {/* Detail panel */}
-        <div>
+          {/* Detail panel */}
           {selectedItem ? (
-            <div className="border-4 border-ink overflow-hidden shadow-hard h-fit bg-white">
-              <div className="border-b-4 border-ink px-5 py-3 flex items-center justify-between"
-                style={{ backgroundColor: TYPE_CONFIG[selectedItem.type]?.color ?? '#7C3AED' }}>
-                <span className="font-mono text-[10px] font-black text-white uppercase tracking-widest">Feedback Detail</span>
-                <button onClick={() => setSelectedItem(null)} className="border-2 border-white/30 text-white w-6 h-6 flex items-center justify-center hover:bg-white/10 text-xs">✕</button>
+            <div className="border-4 border-ink p-6 bg-white shadow-hard space-y-5 sticky top-6">
+              <div className="flex items-center justify-between border-b-2 border-ink/20 pb-4">
+                <div>
+                  <div className="font-mono text-[9px] font-bold text-ink/40 uppercase tracking-widest">Detail View</div>
+                  <h3 className="font-display text-lg font-black text-ink uppercase">Feedback Item</h3>
+                </div>
+                <button onClick={() => setSelectedItem(null)} className="font-mono text-xs text-ink/50 hover:text-ink">✕ Close</button>
               </div>
-              <div className="p-5 space-y-4">
-                {/* Meta */}
+
+              <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-3">
                   <div className="border-4 border-ink p-3 bg-canvas">
-                    <div className="font-mono text-[8px] text-ink/40 uppercase tracking-wider mb-0.5">Type</div>
+                    <div className="font-mono text-[8px] text-ink/40 uppercase tracking-wider mb-0.5">Category</div>
                     <div className="font-mono text-sm font-black" style={{ color: TYPE_CONFIG[selectedItem.type]?.color }}>
                       {TYPE_CONFIG[selectedItem.type]?.label}
                     </div>

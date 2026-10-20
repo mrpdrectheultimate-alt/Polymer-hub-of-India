@@ -99,7 +99,7 @@ Make the tone encouraging, highly professional, and engineering-focused.`
         apiKey: process.env.OPENROUTER_API_KEY,
         baseURL: 'https://openrouter.ai/api/v1',
         defaultHeaders: {
-          'HTTP-Referer': 'https://polymer-hub-six.vercel.app',
+          'HTTP-Referer': 'https://polymerhubofindia.com',
           'X-Title': 'Polymer Hub of India',
         }
       })

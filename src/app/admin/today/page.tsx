@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { Plus, Check, AlertCircle, Trash2, Eye, FlaskConical, ShieldCheck } from 'lucide-react'
 import Link from 'next/link'
@@ -91,30 +91,40 @@ const QUICK_SOURCES = [
 ]
 
 export default function AdminTodayPage() {
-  const supabase = createClient()
   const [form, setForm] = useState<FormData>(EMPTY_FORM)
   const [status, setStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
   const [todayCount, setTodayCount] = useState<number | null>(null)
   const [recentEntries, setRecentEntries] = useState<RecentEntry[]>([])
-  const [loaded, setLoaded] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  const loadRecent = async () => {
-    const today = new Date().toISOString().split('T')[0]
-    const { data, error } = await supabase
-      .from('daily_updates')
-      .select('id, headline, category, region, is_featured, publish_date, source_name, editorial_status')
-      .eq('publish_date', today)
-      .order('created_at', { ascending: false })
+  const loadRecent = useCallback(async () => {
+    try {
+      const res = await fetch('/api/admin/today')
+      if (res.status === 401 || res.status === 403) {
+        setAuthError('Forbidden: Administrative access required to publish and manage daily updates.')
+        setLoading(false)
+        return
+      }
 
-    if (!error && data) {
-      setRecentEntries(data as RecentEntry[])
-      setTodayCount(data.length)
+      const data = await res.json()
+      if (data.entries) {
+        const today = new Date().toISOString().split('T')[0]
+        setRecentEntries(data.entries)
+        const todayItems = data.entries.filter((e: RecentEntry) => e.publish_date === today)
+        setTodayCount(todayItems.length)
+      }
+    } catch (err) {
+      console.error('Failed to load recent updates:', err)
+    } finally {
+      setLoading(false)
     }
-    setLoaded(true)
-  }
+  }, [])
 
-  if (!loaded) loadRecent()
+  useEffect(() => {
+    loadRecent()
+  }, [loadRecent])
 
   const handleSubmit = async () => {
     if (!form.headline.trim() || !form.summary.trim() || !form.source_name.trim()) {
@@ -126,44 +136,73 @@ export default function AdminTodayPage() {
     setStatus('saving')
     setErrorMsg('')
 
-    const { error } = await supabase
-      .from('daily_updates')
-      .insert({
-        headline: form.headline.trim(),
-        summary: form.summary.trim(),
-        source_name: form.source_name.trim(),
-        source_url: form.source_url.trim() || null,
-        image_url: form.image_url.trim() || null,
-        image_credit: form.image_credit.trim() || null,
-        category: form.category,
-        region: form.region,
-        related_lesson_slug: form.related_lesson_slug.trim() || null,
-        related_subject_slug: form.related_subject_slug.trim() || null,
-        is_featured: form.is_featured,
-        publish_date: form.publish_date,
-        editorial_status: form.editorial_status,
-        is_published: form.editorial_status === 'published',
+    try {
+      const res = await fetch('/api/admin/today', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
       })
 
-    if (error) {
+      const data = await res.json()
+      if (!res.ok || data.error) {
+        setStatus('error')
+        setErrorMsg(data.error || 'Failed to save update')
+      } else {
+        setStatus('success')
+        setForm({ ...EMPTY_FORM, publish_date: form.publish_date })
+        loadRecent()
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch (err) {
       setStatus('error')
-      setErrorMsg(error.message)
-    } else {
-      setStatus('success')
-      setForm({ ...EMPTY_FORM, publish_date: form.publish_date })
-      loadRecent()
-      setTimeout(() => setStatus('idle'), 3000)
+      setErrorMsg(err instanceof Error ? err.message : 'Network error')
     }
   }
 
   const handleDelete = async (id: string) => {
     if (!confirm('Delete this entry?')) return
-    await supabase.from('daily_updates').delete().eq('id', id)
-    loadRecent()
+    try {
+      const res = await fetch(`/api/admin/today?id=${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        loadRecent()
+      } else {
+        const data = await res.json()
+        alert(data.error || 'Failed to delete')
+      }
+    } catch (err) {
+      console.error('Delete error:', err)
+    }
   }
 
   const setQuickSource = (src: { name: string; url: string }) => {
     setForm((f) => ({ ...f, source_name: src.name, source_url: src.url }))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <div className="font-mono text-xs uppercase tracking-widest text-slate-500 animate-pulse">Loading daily updates manager...</div>
+      </div>
+    )
+  }
+
+  if (authError) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
+        <div className="max-w-md w-full border-4 border-slate-900 p-8 bg-white shadow-[6px_6px_0px_0px_#0A1628] rounded-2xl text-center space-y-4">
+          <div className="w-12 h-12 bg-red-100 border-2 border-red-500 rounded-full flex items-center justify-center mx-auto text-red-600">
+            <AlertCircle className="w-6 h-6" />
+          </div>
+          <h2 className="font-display text-xl font-black text-slate-950 uppercase">Access Restricted</h2>
+          <p className="text-xs text-slate-600 leading-relaxed font-mono">{authError}</p>
+          <div className="pt-2">
+            <Link href="/dashboard" className="px-5 py-2.5 bg-slate-900 text-white font-mono text-xs font-bold uppercase rounded-xl hover:bg-slate-800 transition-all inline-block">
+              Return to Dashboard
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (

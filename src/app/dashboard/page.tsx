@@ -102,6 +102,7 @@ export default function DashboardPage() {
   const [recentActivity, setRecentActivity] = useState<RecentActivityItem[]>([])
   const [badges, setBadges] = useState<UserBadge[]>([])
   const [totalLessons, setTotalLessons] = useState(0)
+  const [quizzesPassedCount, setQuizzesPassedCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'overview' | 'subjects'>('overview')
   const [subjectSearch, setSubjectSearch] = useState('')
@@ -180,6 +181,8 @@ export default function DashboardPage() {
     setBadges((userBadges as unknown as UserBadge[]) ?? [])
 
     const progressList: LessonProgress[] = progress ?? []
+    const actualQuizzesPassed = progressList.filter(p => p.quiz_passed).length
+    setQuizzesPassedCount((userProfile as { total_quizzes_passed?: number | null } | null)?.total_quizzes_passed ?? actualQuizzesPassed)
     const lessonMap = new Map((allLessons ?? []).map(l => [l.id, l]))
 
     // Subject statistics
@@ -238,7 +241,7 @@ export default function DashboardPage() {
 
   const isPremium = profile.subscription_status === 'premium' || profile.subscription_status === 'active'
   const totalCompleted = subjectStats.reduce((a, b) => a + b.completed, 0)
-  const quizzesPassed = subjectStats.reduce((a, b) => a + b.completed, 0)
+  const quizzesPassed = quizzesPassedCount
   const allScores = subjectStats.filter(s => s.avgScore !== null).map(s => s.avgScore!)
   const avgScore = allScores.length > 0 ? Math.round(allScores.reduce((a, b) => a + b, 0) / allScores.length) : null
   const aiQueriesLeft = Math.max(0, 10 - (profile.ai_queries_today ?? 0))

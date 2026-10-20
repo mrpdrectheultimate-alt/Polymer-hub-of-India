@@ -79,7 +79,7 @@ export default function RazorpayCheckout({
         currency,
         name: 'PolymerHub',
         description: `${planName} — ₹${amount}`,
-        image: 'https://polymer-hub-six.vercel.app/logo.png',
+        image: 'https://polymerhubofindia.com/logo.png',
         order_id,
         prefill: {
           name: user_name,

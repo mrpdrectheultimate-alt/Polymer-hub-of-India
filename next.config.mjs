@@ -52,16 +52,6 @@ const nextConfig = {
           },
         ],
       },
-      // Immutable static assets caching
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
       {
         source: '/(logo-.*|images/.*|.*\\.(?:png|jpg|jpeg|webp|svg|ico|avif))',
         headers: [

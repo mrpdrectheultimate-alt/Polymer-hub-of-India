@@ -2,7 +2,7 @@
 // Centralized SEO metadata for all pages
 // Import and use in page.tsx files
 
-export const BASE_URL = 'https://polymer-hub-six.vercel.app'
+export const BASE_URL = 'https://polymerhubofindia.com'
 
 export const DEFAULT_METADATA = {
   metadataBase: new URL(BASE_URL),
@@ -37,7 +37,7 @@ export const DEFAULT_METADATA = {
     url: BASE_URL,
     siteName: 'PolymerHub',
     title: 'PolymerHub — India\'s Plastic Polymer Engineering Platform',
-    description: '155 world-class lessons. AI Tutor. Practice Questions. Daily Industry News. Career Guidance. Built for PPE students in India.',
+    description: '216 world-class lessons. AI Tutor. Practice Questions. Daily Industry News. Career Guidance. Built for PPE students in India.',
     images: [
       {
         url: `${BASE_URL}/logo-banner.jpg`,
@@ -50,7 +50,7 @@ export const DEFAULT_METADATA = {
   twitter: {
     card: 'summary_large_image' as const,
     title: 'PolymerHub — India\'s Plastic Polymer Engineering Platform',
-    description: '155 world-class lessons. AI Tutor grounded in your syllabus. Practice MCQs. Daily plastics industry news.',
+    description: '216 world-class lessons. AI Tutor grounded in your syllabus. Practice MCQs. Daily plastics industry news.',
     images: [`${BASE_URL}/og-image.png`],
   },
   robots: {

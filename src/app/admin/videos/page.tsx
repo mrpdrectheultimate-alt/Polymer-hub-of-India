@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { Play, ShieldAlert, CheckCircle, AlertTriangle, Search, Loader2, Edit3, ArrowLeft, RefreshCw } from 'lucide-react'
 import { extractYouTubeVideoId, getYouTubeCanonicalUrl } from '@/lib/youtube'
+import { isUserAdmin } from '@/lib/admin'
 import { toast } from '@/hooks/use-toast'
 
 interface DBVideo {
@@ -37,30 +38,50 @@ export default function AdminVideosPage() {
 
   const checkAuthAndLoad = useCallback(async () => {
     setLoading(true)
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       window.location.href = '/login'
       return
     }
+
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (!isUserAdmin(user, profile)) {
+      setAuthorized(false)
+      setLoading(false)
+      return
+    }
+
     setAuthorized(true)
 
-    // Select * to handle schema drift dynamically without crashes
-    const { data, error } = await supabase
-      .from('videos')
-      .select('*')
-      .order('title', { ascending: true })
-
-    if (error) {
-      console.error('Error fetching videos:', error)
+    // Fetch via secure admin endpoint
+    try {
+      const res = await fetch('/api/admin/videos')
+      if (res.ok) {
+        const data = await res.json()
+        setVideos(data.videos ?? [])
+      } else {
+        const errData = await res.json()
+        toast({
+          title: 'Error',
+          description: errData.error || 'Failed to load video library records.',
+          variant: 'destructive'
+        })
+      }
+    } catch (err) {
+      console.error('Error fetching videos:', err)
       toast({
         title: 'Error',
         description: 'Failed to load video library records.',
         variant: 'destructive'
       })
-    } else {
-      setVideos(data ?? [])
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }, [supabase])
 
   useEffect(() => {
@@ -113,13 +134,15 @@ export default function AdminVideosPage() {
         updateData.failure_reason = failureReason
       }
 
-      // 2. Mutate in Supabase
-      const { error } = await supabase
-        .from('videos')
-        .update(updateData)
-        .eq('id', editingVideo.id)
+      // 2. Mutate via secure Admin API
+      const res = await fetch('/api/admin/videos', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: editingVideo.id, updates: updateData })
+      })
 
-      if (error) throw error
+      const resData = await res.json()
+      if (!res.ok || resData.error) throw new Error(resData.error || 'Failed to update video record')
 
       toast({
         title: 'Video Updated',

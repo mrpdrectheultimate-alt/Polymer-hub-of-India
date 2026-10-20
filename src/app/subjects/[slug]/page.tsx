@@ -346,7 +346,7 @@ export default async function SubjectDetailPage({
             <WhatsAppShare
               type="subject"
               title={subject.name}
-              url={`https://polymer-hub-six.vercel.app/subjects/${resolvedParams.slug}`}
+              url={`https://polymerhubofindia.com/subjects/${resolvedParams.slug}`}
               compact={true}
             />
           </div>
