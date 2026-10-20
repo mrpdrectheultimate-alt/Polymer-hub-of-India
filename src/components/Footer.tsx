@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Shield, BookOpen, Layers, CheckCircle2, Send } from 'lucide-react'
+import { Shield, BookOpen, Layers, CheckCircle2, Send, X } from 'lucide-react'
+import { AnimatePresence } from 'framer-motion'
 import { Logo } from './Logo'
-import { ContactModal } from './ContactModal'
+import { InlineContactComposer } from './InlineContactComposer'
 import { ContactChannel } from '@/lib/contact'
 
 interface FooterProps {
@@ -13,6 +14,10 @@ interface FooterProps {
 
 export default function Footer({ showTrustBar = false }: FooterProps) {
   const [activeChannel, setActiveChannel] = useState<ContactChannel | null>(null)
+
+  const toggleChannel = (channel: ContactChannel) => {
+    setActiveChannel((current) => (current === channel ? null : channel))
+  }
 
   return (
     <footer className="bg-white text-slate-700 text-xs border-t border-slate-200 font-sans">
@@ -54,70 +59,169 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
               India&apos;s dedicated Plastic Polymer Engineering knowledge platform for B.Tech &amp; Diploma students, faculty, and industry professionals.
             </p>
 
-            {/* Interactive In-App Contact Gateway Channels */}
-            <div className="pt-1 space-y-2 text-xs">
+            {/* Interactive In-App Contact Gateway Channels (Expand Inline in Footer) */}
+            <div id="footer-contact-channels" className="pt-1 space-y-2.5 text-xs">
               <span className="font-mono text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
                 Instant In-App Contact Channels:
               </span>
 
               {/* Support Channel */}
-              <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-blue-400 hover:bg-blue-50/30 transition-all group">
-                <div className="flex items-center gap-2 truncate pr-2">
-                  <span className="font-mono text-[9px] font-bold text-blue-700 bg-blue-100/80 border border-blue-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                    Support
-                  </span>
-                  <span className="text-slate-700 font-mono text-[11px] truncate">
-                    support@polymerhubofindia.com
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveChannel('support')}
-                  className="px-2.5 py-1 bg-white group-hover:bg-[#2563EB] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#2563EB] rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
+              <div className="space-y-2">
+                <div
+                  onClick={() => toggleChannel('support')}
+                  className={`flex items-center justify-between p-2.5 rounded-xl transition-all cursor-pointer group ${
+                    activeChannel === 'support'
+                      ? 'bg-blue-50/80 border-2 border-blue-500 shadow-sm'
+                      : 'bg-slate-50 border border-slate-200/80 hover:border-blue-400 hover:bg-blue-50/30'
+                  }`}
                 >
-                  <Send className="w-2.5 h-2.5 text-amber-500 group-hover:text-amber-300" />
-                  <span>Send</span>
-                </button>
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    <span className="font-mono text-[9px] font-bold text-blue-700 bg-blue-100/80 border border-blue-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                      Support
+                    </span>
+                    <span className="text-slate-700 font-mono text-[11px] truncate">
+                      support@polymerhubofindia.com
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toggleChannel('support')
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0 ${
+                      activeChannel === 'support'
+                        ? 'bg-blue-600 text-white border border-blue-600'
+                        : 'bg-white group-hover:bg-[#2563EB] text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-[#2563EB]'
+                    }`}
+                  >
+                    {activeChannel === 'support' ? (
+                      <>
+                        <X className="w-2.5 h-2.5 text-white" />
+                        <span>Close</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-2.5 h-2.5 text-amber-500 group-hover:text-amber-300" />
+                        <span>Send</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {activeChannel === 'support' && (
+                    <InlineContactComposer
+                      channel="support"
+                      onClose={() => setActiveChannel(null)}
+                    />
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Inquiries Channel */}
-              <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-emerald-400 hover:bg-emerald-50/30 transition-all group">
-                <div className="flex items-center gap-2 truncate pr-2">
-                  <span className="font-mono text-[9px] font-bold text-emerald-800 bg-emerald-100/80 border border-emerald-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                    Inquiries
-                  </span>
-                  <span className="text-slate-700 font-mono text-[11px] truncate">
-                    hello@polymerhubofindia.com
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveChannel('inquiries')}
-                  className="px-2.5 py-1 bg-white group-hover:bg-emerald-600 text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-emerald-600 rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
+              <div className="space-y-2">
+                <div
+                  onClick={() => toggleChannel('inquiries')}
+                  className={`flex items-center justify-between p-2.5 rounded-xl transition-all cursor-pointer group ${
+                    activeChannel === 'inquiries'
+                      ? 'bg-emerald-50/80 border-2 border-emerald-500 shadow-sm'
+                      : 'bg-slate-50 border border-slate-200/80 hover:border-emerald-400 hover:bg-emerald-50/30'
+                  }`}
                 >
-                  <Send className="w-2.5 h-2.5 text-emerald-600 group-hover:text-emerald-200" />
-                  <span>Send</span>
-                </button>
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    <span className="font-mono text-[9px] font-bold text-emerald-800 bg-emerald-100/80 border border-emerald-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                      Inquiries
+                    </span>
+                    <span className="text-slate-700 font-mono text-[11px] truncate">
+                      hello@polymerhubofindia.com
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toggleChannel('inquiries')
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0 ${
+                      activeChannel === 'inquiries'
+                        ? 'bg-emerald-600 text-white border border-emerald-600'
+                        : 'bg-white group-hover:bg-emerald-600 text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-emerald-600'
+                    }`}
+                  >
+                    {activeChannel === 'inquiries' ? (
+                      <>
+                        <X className="w-2.5 h-2.5 text-white" />
+                        <span>Close</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-2.5 h-2.5 text-emerald-600 group-hover:text-emerald-200" />
+                        <span>Send</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {activeChannel === 'inquiries' && (
+                    <InlineContactComposer
+                      channel="inquiries"
+                      onClose={() => setActiveChannel(null)}
+                    />
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Founder Channel */}
-              <div className="flex items-center justify-between p-2 rounded-xl bg-slate-50 border border-slate-200/80 hover:border-amber-400 hover:bg-amber-50/30 transition-all group">
-                <div className="flex items-center gap-2 truncate pr-2">
-                  <span className="font-mono text-[9px] font-bold text-amber-800 bg-amber-100/80 border border-amber-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
-                    Founder
-                  </span>
-                  <span className="text-slate-700 font-mono text-[11px] truncate">
-                    founder@polymerhubofindia.com
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveChannel('founder')}
-                  className="px-2.5 py-1 bg-white group-hover:bg-amber-600 text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-amber-600 rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0"
+              <div className="space-y-2">
+                <div
+                  onClick={() => toggleChannel('founder')}
+                  className={`flex items-center justify-between p-2.5 rounded-xl transition-all cursor-pointer group ${
+                    activeChannel === 'founder'
+                      ? 'bg-amber-50/80 border-2 border-amber-500 shadow-sm'
+                      : 'bg-slate-50 border border-slate-200/80 hover:border-amber-400 hover:bg-amber-50/30'
+                  }`}
                 >
-                  <Send className="w-2.5 h-2.5 text-amber-600 group-hover:text-amber-200" />
-                  <span>Send</span>
-                </button>
+                  <div className="flex items-center gap-2 truncate pr-2">
+                    <span className="font-mono text-[9px] font-bold text-amber-800 bg-amber-100/80 border border-amber-200 px-2 py-0.5 rounded-md uppercase tracking-wider">
+                      Founder
+                    </span>
+                    <span className="text-slate-700 font-mono text-[11px] truncate">
+                      founder@polymerhubofindia.com
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      toggleChannel('founder')
+                    }}
+                    className={`px-2.5 py-1 rounded-lg font-mono text-[10px] font-bold uppercase transition-all shadow-2xs flex items-center gap-1 cursor-pointer shrink-0 ${
+                      activeChannel === 'founder'
+                        ? 'bg-amber-600 text-white border border-amber-600'
+                        : 'bg-white group-hover:bg-amber-600 text-slate-700 group-hover:text-white border border-slate-200 group-hover:border-amber-600'
+                    }`}
+                  >
+                    {activeChannel === 'founder' ? (
+                      <>
+                        <X className="w-2.5 h-2.5 text-white" />
+                        <span>Close</span>
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-2.5 h-2.5 text-amber-600 group-hover:text-amber-200" />
+                        <span>Send</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                <AnimatePresence>
+                  {activeChannel === 'founder' && (
+                    <InlineContactComposer
+                      channel="founder"
+                      onClose={() => setActiveChannel(null)}
+                    />
+                  )}
+                </AnimatePresence>
               </div>
             </div>
             
@@ -241,7 +345,13 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
               <li>
                 <button
                   type="button"
-                  onClick={() => setActiveChannel('support')}
+                  onClick={() => {
+                    toggleChannel('support')
+                    const elem = document.getElementById('footer-contact-channels')
+                    if (elem) {
+                      elem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+                    }
+                  }}
                   className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors cursor-pointer text-left flex items-center gap-1.5"
                 >
                   <span>Contact &amp; Support Desk</span>
@@ -277,13 +387,6 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
           </div>
         </div>
       </div>
-
-      {/* ── Global In-App Contact Gateway Modal ── */}
-      <ContactModal
-        channel={activeChannel}
-        isOpen={activeChannel !== null}
-        onClose={() => setActiveChannel(null)}
-      />
 
     </footer>
   )
