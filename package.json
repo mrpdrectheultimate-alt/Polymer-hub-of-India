@@ -37,6 +37,7 @@
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
+    "resend": "^6.34.1",
     "rss-parser": "^3.13.0",
     "shadcn": "^4.11.0",
     "tailwind-merge": "^3.6.0",
