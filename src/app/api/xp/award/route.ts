@@ -5,15 +5,15 @@ import { awardUserXP } from '@/lib/xp'
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
     const body = await req.json()
     const action = body.action
     const reference = body.reference ?? body.referenceId ?? body.simulationId ?? null
 
     const result = await awardUserXP(supabase, {
-      userId: session.user.id,
+      userId: user.id,
       action,
       reference
     })

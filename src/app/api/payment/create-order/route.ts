@@ -9,9 +9,9 @@ export async function POST(request: Request) {
       key_secret: process.env.RAZORPAY_KEY_SECRET || 'mock_secret',
     })
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     const { data: profile } = await supabase
       .from('profiles')
       .select('subscription_status, full_name')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
     if (profile?.subscription_status === 'premium') {
@@ -36,10 +36,10 @@ export async function POST(request: Request) {
     const order = await razorpay.orders.create({
       amount: amountInPaise,
       currency: 'INR',
-      receipt: `ph_${session.user.id.slice(0, 8)}_${Date.now()}`,
+      receipt: `ph_${user.id.slice(0, 8)}_${Date.now()}`,
       notes: {
-        user_id: session.user.id,
-        email: session.user.email ?? '',
+        user_id: user.id,
+        email: user.email ?? '',
         plan: planName,
       },
     })
@@ -48,8 +48,8 @@ export async function POST(request: Request) {
       order_id: order.id,
       amount: order.amount,
       currency: order.currency,
-      user_name: profile?.full_name ?? session.user.email?.split('@')[0] ?? 'Student',
-      user_email: session.user.email ?? '',
+      user_name: profile?.full_name ?? user.email?.split('@')[0] ?? 'Student',
+      user_email: user.email ?? '',
     })
 
   } catch (error: unknown) {

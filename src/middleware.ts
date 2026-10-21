@@ -62,7 +62,7 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Fast-path: Only refresh session on authenticated / protected routes or API routes
+  // Fast-path: Only refresh and validate session on authenticated / protected routes or API routes
   if (
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/profile') ||
@@ -70,7 +70,7 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/hod') ||
     pathname.startsWith('/api')
   ) {
-    await supabase.auth.getSession()
+    await supabase.auth.getUser()
   }
 
   // Enterprise Security & Performance Headers (A+ Grade Compliance)

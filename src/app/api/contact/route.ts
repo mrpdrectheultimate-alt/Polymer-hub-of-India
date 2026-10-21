@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
     // 4. Persistence Layer: Always record securely in Supabase (Dual-Resilience Pattern)
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
     const formattedMessage = `[Role: ${role || 'Not specified'}]\n[Subject: ${subject.trim()}]\n\n${message.trim()}`
 
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     const feedbackType = channel === 'support' ? 'bug' : 'general'
 
     const { error: dbError } = await supabase.from('feedback').insert({
-      user_id: session?.user?.id || null,
+      user_id: user?.id || null,
       type: feedbackType,
       rating: null,
       message: formattedMessage,

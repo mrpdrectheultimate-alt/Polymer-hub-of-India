@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { verifyRazorpaySignature } from '@/lib/security'
 
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
@@ -50,17 +51,16 @@ export async function POST(req: NextRequest) {
       subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
     }
 
-    // Upgrade user to premium
-    const { error: updateError } = await supabase
+    // Upgrade user to premium via elevated admin client (protected from client manipulation)
+    const adminSupabase = getAdminClient()
+    const { error: updateError } = await adminSupabase
       .from('profiles')
       .update({
         subscription_status: 'premium',
         subscription_end_date: subscriptionEnd.toISOString(),
-        razorpay_payment_id,
-        razorpay_order_id,
         updated_at: now.toISOString(),
       })
-      .eq('id', session.user.id)
+      .eq('id', user.id)
 
     if (updateError) {
       console.error('Profile update error:', updateError)
@@ -68,8 +68,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Log payment in payment_history table
-    const { error: historyError } = await supabase.from('payment_history').insert({
-      user_id: session.user.id,
+    const { error: historyError } = await adminSupabase.from('payment_history').insert({
+      user_id: user.id,
       razorpay_order_id,
       razorpay_payment_id,
       amount: isAnnualPlan ? 1429 : 149,

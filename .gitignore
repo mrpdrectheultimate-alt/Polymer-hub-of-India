@@ -26,7 +26,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
+.env*
+!.env.example.local
 
 # vercel
 .vercel
@@ -41,6 +42,7 @@ scratch/
 
 .vercel
 .env*
+!.env.example
 
 build.log
 build_clean.log

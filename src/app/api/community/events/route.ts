@@ -43,13 +43,13 @@ export async function POST(request: NextRequest) {
       .single()
 
     // Check for authenticated session
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (session?.user) {
+    if (user) {
       // Authenticated registration
       const { data: registration, error: regError } = await supabase
         .from('event_registrations')
-        .insert({ user_id: session.user.id, event_id })
+        .insert({ user_id: user.id, event_id })
         .select()
         .single()
 
@@ -60,20 +60,20 @@ export async function POST(request: NextRequest) {
       // Award +10 XP for registered student
       try {
         const { error: rpcErr } = await supabase.rpc('increment_xp', {
-          p_user_id: session.user.id,
+          p_user_id: user.id,
           p_amount: 10,
           p_reason: 'webinar_registration',
         })
         if (rpcErr) {
           await awardUserXP(supabase, {
-            userId: session.user.id,
+            userId: user.id,
             action: 'webinar_registration',
             reference: event_id
           })
         }
       } catch {
         await awardUserXP(supabase, {
-          userId: session.user.id,
+          userId: user.id,
           action: 'webinar_registration',
           reference: event_id
         }).catch(err => console.warn('Fallback webinar XP error:', err))
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         authenticated: true,
-        registration: registration || { event_id, user_id: session.user.id },
+        registration: registration || { event_id, user_id: user.id },
         meeting_url: eventData?.meeting_url || 'https://meet.google.com/polymer-hub-live',
         xp_awarded: 10,
         message: 'Successfully registered! Virtual seat reserved & +10 XP awarded.',

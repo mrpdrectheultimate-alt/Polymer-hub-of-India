@@ -26,7 +26,7 @@ type QuizQuestion = {
 export async function GET(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
     // Get lesson slug
     const slug = req.nextUrl.searchParams.get('slug')
@@ -62,11 +62,11 @@ export async function GET(req: NextRequest) {
     }
 
     let studentName = 'Engineering Scholar'
-    if (session) {
+    if (user) {
       const { data: profile } = await supabase
         .from('profiles')
         .select('full_name')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single()
       if (profile?.full_name) {
         studentName = profile.full_name
@@ -75,7 +75,7 @@ export async function GET(req: NextRequest) {
       // Log download
       try {
         await supabase.from('pdf_download_log').insert({
-          user_id: session.user.id,
+          user_id: user.id,
           lesson_id: lesson.id,
           downloaded_at: new Date().toISOString()
         })

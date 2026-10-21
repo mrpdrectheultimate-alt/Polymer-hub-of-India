@@ -7,8 +7,8 @@ export async function POST(request: Request) {
     const supabase = createClient()
 
     // 1. Auth check
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
 
     // 4. Save the attempt with submissionId idempotency check
     const attemptPayload = {
-      user_id: session.user.id,
+      user_id: user.id,
       quiz_id: quizId,
       lesson_id: lessonId,
       score_percentage: scorePercentage,
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     const { data: existingProgress } = await supabase
       .from('user_progress')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .eq('lesson_id', lessonId)
       .single()
 
@@ -108,7 +108,7 @@ export async function POST(request: Request) {
       status: string
       completed_at?: string
     } = {
-      user_id: session.user.id,
+      user_id: user.id,
       lesson_id: lessonId,
       quiz_attempts: newAttemptsCount,
       quiz_score: highestScore,
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
     if (passed) {
       try {
         await awardUserXP(supabase, {
-          userId: session.user.id,
+          userId: user.id,
           action: correctCount === totalQuestions ? 'quiz_perfect' : 'quiz_pass',
           reference: lessonId
         })

@@ -6,8 +6,8 @@ import { awardUserXP } from '@/lib/xp'
 export async function GET() {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    const userId = session?.user.id
+    const { data: { user } } = await supabase.auth.getUser()
+    const userId = user?.id
 
     // Fetch study groups with member details and subject details
     const { data: groups, error: groupsError } = await supabase
@@ -45,10 +45,10 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
-    const userId = session.user.id
+    const userId = user.id
     const body = await req.json()
     const { action, groupId, name, description, subjectId, isPublic = true } = body
 

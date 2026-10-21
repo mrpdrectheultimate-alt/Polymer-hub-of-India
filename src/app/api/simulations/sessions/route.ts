@@ -6,15 +6,15 @@ import { awardUserXP } from '@/lib/xp'
 export async function GET() {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { data, error } = await supabase
       .from('virtual_lab_sessions')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
     if (error) throw error
@@ -29,8 +29,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from('virtual_lab_sessions')
       .insert({
-        user_id: session.user.id,
+        user_id: user.id,
         lab_id,
         parameters: typeof parameters === 'string' ? JSON.parse(parameters) : parameters,
         results: typeof results === 'string' ? JSON.parse(results) : results,
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     // Award +15 XP with streak & badge tracking
     try {
       await awardUserXP(supabase, {
-        userId: session.user.id,
+        userId: user.id,
         action: 'simulation_run',
         reference: lab_id
       })

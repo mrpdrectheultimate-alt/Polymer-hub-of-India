@@ -1,43 +1,55 @@
 'use client'
 
 import { useState, useEffect, Suspense } from 'react'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
 import { Logo } from '@/components/Logo'
-import { createClient } from '@/lib/supabase/client'
 import { 
   Mail, 
+  KeyRound, 
   Shield, 
-  CheckCircle, 
+  ArrowRight, 
   Lock, 
-  ArrowRight,
-  BookOpen,
-  Cpu,
-  Users,
-  AlertCircle,
-  KeyRound,
+  AlertCircle, 
+  CheckCircle, 
+  BookOpen, 
+  Cpu, 
+  Users, 
   Sparkles,
   Layers,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  UserPlus,
+  LogIn
 } from 'lucide-react'
 
-function LoginContent() {
+export interface LoginPageProps {
+  initialMode?: 'login' | 'signup'
+}
+
+function LoginContent({ initialMode }: LoginPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const nextRedirect = searchParams.get('next') || '/dashboard'
+
+  // Auth mode: 'login' | 'signup'
+  const [authMode, setAuthMode] = useState<'login' | 'signup'>(() => {
+    if (initialMode) return initialMode
+    return searchParams.get('mode') === 'signup' ? 'signup' : 'login'
+  })
 
   // Input states
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   
-  // Auth flow states: 'magic' | 'password'
+  // Auth method states: 'magic' | 'password'
   const [authMethod, setAuthMethod] = useState<'magic' | 'password'>('magic')
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [, setIsLoaded] = useState(false)
 
   const supabase = createClient()
 
@@ -45,8 +57,8 @@ function LoginContent() {
     setIsLoaded(true)
     // Check if already logged in
     async function checkSession() {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session) {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
         router.push(nextRedirect)
       }
     }
@@ -61,12 +73,12 @@ function LoginContent() {
     setSuccessMessage('')
 
     try {
-      if (authMethod === 'magic') {
-        const cleanEmail = email.trim().toLowerCase()
-        if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
-          throw new Error('Please enter a valid email address.')
-        }
+      const cleanEmail = email.trim().toLowerCase()
+      if (!cleanEmail || !cleanEmail.includes('@') || !cleanEmail.includes('.')) {
+        throw new Error('Please enter a valid email address.')
+      }
 
+      if (authMethod === 'magic') {
         const { error: authError } = await supabase.auth.signInWithOtp({
           email: cleanEmail,
           options: {
@@ -76,39 +88,52 @@ function LoginContent() {
 
         if (authError) throw new Error(authError.message)
 
-        setSuccessMessage(`Magic sign-in link dispatched to ${cleanEmail}! Click the link in your email to enter.`)
+        setSuccessMessage(`Magic link dispatched to ${cleanEmail}! Click the link in your email to enter.`)
       } 
       else if (authMethod === 'password') {
-        const cleanEmail = email.trim().toLowerCase()
-        if (!cleanEmail || !cleanEmail.includes('@')) {
-          throw new Error('Please enter a valid email address.')
-        }
         if (!password || password.length < 6) {
-          throw new Error('Please enter your account password (at least 6 characters).')
+          throw new Error('Password must be at least 6 characters long.')
         }
 
-        const { error: authError } = await supabase.auth.signInWithPassword({
-          email: cleanEmail,
-          password: password,
-        })
+        if (authMode === 'login') {
+          const { error: authError } = await supabase.auth.signInWithPassword({
+            email: cleanEmail,
+            password: password,
+          })
 
-        if (authError) {
-          // If user doesn't exist yet, attempt automatic sign up
-          if (authError.message.toLowerCase().includes('invalid login credentials')) {
-            const { error: signUpError } = await supabase.auth.signUp({
-              email: cleanEmail,
-              password: password,
-            })
-            if (signUpError) throw new Error(signUpError.message)
+          if (authError) {
+            if (authError.message.toLowerCase().includes('invalid login credentials')) {
+              throw new Error('Invalid email or password. Please verify your credentials or switch to Create Account.')
+            }
+            throw new Error(authError.message)
+          }
+
+          setSuccessMessage('Authenticated successfully! Entering platform...')
+          router.push(nextRedirect)
+        } else {
+          // Sign up flow
+          const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+            email: cleanEmail,
+            password: password,
+            options: {
+              emailRedirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(nextRedirect)}`,
+            },
+          })
+
+          if (signUpError) {
+            if (signUpError.message.toLowerCase().includes('already registered')) {
+              throw new Error('An account with this email already exists. Please switch to Sign In.')
+            }
+            throw new Error(signUpError.message)
+          }
+
+          if (signUpData.session) {
             setSuccessMessage('Account created and authenticated successfully! Redirecting...')
             setTimeout(() => router.push(nextRedirect), 1000)
-            return
+          } else {
+            setSuccessMessage(`Account created! A verification link has been sent to ${cleanEmail}. Please check your inbox to activate your account.`)
           }
-          throw new Error(authError.message)
         }
-
-        setSuccessMessage('Authenticated successfully! Entering platform...')
-        router.push(nextRedirect)
       }
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : 'Authentication failed. Please try again.')
@@ -163,7 +188,7 @@ function LoginContent() {
         initial={{ opacity: 1, y: 0 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-[460px] relative z-10"
+        className="w-full max-w-[480px] relative z-10"
       >
         <div className="relative bg-white rounded-3xl border border-slate-200 shadow-xl p-8 sm:p-10">
           
@@ -176,13 +201,39 @@ function LoginContent() {
             <p className="text-xs text-slate-600 font-mono font-medium mt-2">India&apos;s Polymer Engineering Platform</p>
           </div>
 
+          {/* ─── PRIMARY MODE SELECTOR: SIGN IN VS CREATE ACCOUNT ─── */}
+          <div className="flex bg-slate-100 p-1 rounded-2xl mb-6 border border-slate-200">
+            <button
+              type="button"
+              onClick={() => { setAuthMode('login'); setErrorMessage(''); setSuccessMessage(''); }}
+              className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                authMode === 'login' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>Sign In</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => { setAuthMode('signup'); setErrorMessage(''); setSuccessMessage(''); }}
+              className={`flex-1 py-2.5 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                authMode === 'signup' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <UserPlus className="w-3.5 h-3.5" />
+              <span>Create Account</span>
+            </button>
+          </div>
+
           {/* Welcome Header */}
           <div className="text-center mb-6">
             <h1 className="text-2xl font-black font-display text-slate-900 tracking-tight">
-              Welcome back, engineer.
+              {authMode === 'login' ? 'Welcome back, engineer.' : 'Join PolymerHub of India'}
             </h1>
             <p className="text-xs text-slate-600 mt-1 font-normal">
-              Sign in to access accredited lessons, simulators, and AI copilot.
+              {authMode === 'login' 
+                ? 'Sign in to access accredited lessons, simulators, and AI copilot.' 
+                : 'Create your free engineering account to unlock all syllabus modules & tools.'}
             </p>
           </div>
 
@@ -204,13 +255,13 @@ function LoginContent() {
             </span>
           </div>
 
-          {/* ─── AUTH METHOD TOGGLE TABS ─── */}
-          <div className="flex bg-slate-100 p-1 rounded-2xl mb-6 border border-slate-200">
+          {/* ─── AUTH METHOD TOGGLE TABS (Magic Link vs Password) ─── */}
+          <div className="flex bg-slate-50 p-1 rounded-xl mb-6 border border-slate-200">
             <button
               type="button"
               onClick={() => { setAuthMethod('magic'); setErrorMessage(''); }}
-              className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                authMethod === 'magic' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              className={`flex-1 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                authMethod === 'magic' ? 'bg-white text-slate-900 shadow-xs border border-slate-200' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
               ✉️ Magic Link
@@ -218,11 +269,11 @@ function LoginContent() {
             <button
               type="button"
               onClick={() => { setAuthMethod('password'); setErrorMessage(''); }}
-              className={`flex-1 py-2 rounded-xl text-xs font-mono font-bold transition-all cursor-pointer ${
-                authMethod === 'password' ? 'bg-[#2563EB] text-white shadow-xs' : 'text-slate-700 hover:text-slate-900'
+              className={`flex-1 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
+                authMethod === 'password' ? 'bg-white text-slate-900 shadow-xs border border-slate-200' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
-              🔑 Email &amp; Password
+              🔑 Password
             </button>
           </div>
 
@@ -251,7 +302,7 @@ function LoginContent() {
             {authMethod === 'password' && (
               <div>
                 <label className="block text-xs font-mono font-bold text-slate-800 mb-1.5 uppercase tracking-wider">
-                  Password
+                  Password {authMode === 'signup' ? '(Minimum 6 characters)' : ''}
                 </label>
                 <div className="relative">
                   <KeyRound className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
@@ -271,8 +322,8 @@ function LoginContent() {
             <div className="flex items-center gap-1.5 text-[11px] font-mono text-slate-500">
               <Lock className="h-3 w-3 text-emerald-600 shrink-0" />
               <span>
-                {authMethod === 'magic' && "We'll send a secure passwordless sign-in link."}
-                {authMethod === 'password' && "Instant secure authentication with your credentials."}
+                {authMethod === 'magic' && "We'll send a secure passwordless sign-in link to your email."}
+                {authMethod === 'password' && (authMode === 'login' ? "Secure login with your account credentials." : "Create your account with your chosen password.")}
               </span>
             </div>
 
@@ -301,11 +352,16 @@ function LoginContent() {
               {isLoading ? (
                 <>
                   <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>Authenticating...</span>
+                  <span>Processing...</span>
                 </>
               ) : authMethod === 'magic' ? (
                 <>
                   <span>Send Secure Magic Link</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              ) : authMode === 'signup' ? (
+                <>
+                  <span>Create Free Account</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               ) : (
@@ -316,6 +372,33 @@ function LoginContent() {
               )}
             </button>
           </form>
+
+          {/* Mode Switch Helper */}
+          <div className="mt-4 text-center">
+            {authMode === 'login' ? (
+              <p className="text-xs font-mono text-slate-600">
+                Don&apos;t have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode('signup'); setErrorMessage(''); setSuccessMessage(''); }}
+                  className="font-bold text-[#2563EB] hover:underline cursor-pointer"
+                >
+                  Create one for free
+                </button>
+              </p>
+            ) : (
+              <p className="text-xs font-mono text-slate-600">
+                Already have an account?{' '}
+                <button
+                  type="button"
+                  onClick={() => { setAuthMode('login'); setErrorMessage(''); setSuccessMessage(''); }}
+                  className="font-bold text-[#2563EB] hover:underline cursor-pointer"
+                >
+                  Sign in here
+                </button>
+              </p>
+            )}
+          </div>
 
           {/* ===== 1-CLICK INSTANT DEMO PASS ===== */}
           <div className="mt-5 pt-5 border-t border-slate-200 space-y-3">
@@ -333,7 +416,7 @@ function LoginContent() {
               <button 
                 type="button"
                 onClick={() => handleOAuthLogin('google')}
-                className="flex-1 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2 text-xs font-mono font-semibold text-slate-800"
+                className="flex-1 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2 text-xs font-mono font-semibold text-slate-800 cursor-pointer"
               >
                 <svg className="h-4 w-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -346,7 +429,7 @@ function LoginContent() {
               <button 
                 type="button"
                 onClick={() => handleOAuthLogin('github')}
-                className="flex-1 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2 text-xs font-mono font-semibold text-slate-800"
+                className="flex-1 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:border-slate-300 transition-all flex items-center justify-center gap-2 text-xs font-mono font-semibold text-slate-800 cursor-pointer"
               >
                 <svg className="h-4 w-4 text-slate-700 fill-current" viewBox="0 0 24 24">
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
@@ -411,7 +494,7 @@ function LoginContent() {
   )
 }
 
-export default function LoginPage() {
+export default function LoginPage({ initialMode }: LoginPageProps) {
   return (
     <Suspense
       fallback={
@@ -420,7 +503,7 @@ export default function LoginPage() {
         </div>
       }
     >
-      <LoginContent />
+      <LoginContent initialMode={initialMode} />
     </Suspense>
   )
 }

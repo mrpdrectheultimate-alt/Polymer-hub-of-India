@@ -147,17 +147,19 @@ export default function ProfilePage() {
 
       if (avatarFile) {
         const ext = avatarFile.name.split('.').pop()
-        const path = `avatars/${session.user.id}.${ext}`
+        const path = `${session.user.id}.${ext}`
         const { error: uploadError } = await supabase.storage
           .from('avatars')
           .upload(path, avatarFile, { upsert: true })
 
         if (uploadError) {
+          console.warn('Avatar upload to primary bucket failed, trying fallback path:', uploadError)
+          const fallbackPath = `${session.user.id}/${Date.now()}.${ext}`
           const { error: fallbackErr } = await supabase.storage
-            .from('public')
-            .upload(path, avatarFile, { upsert: true })
+            .from('avatars')
+            .upload(fallbackPath, avatarFile, { upsert: true })
           if (!fallbackErr) {
-            const { data: { publicUrl } } = supabase.storage.from('public').getPublicUrl(path)
+            const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(fallbackPath)
             uploadedAvatarUrl = publicUrl
           }
         } else {

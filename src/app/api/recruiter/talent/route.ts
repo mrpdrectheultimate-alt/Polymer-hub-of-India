@@ -1,16 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { isUserAdmin } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
-
-// Create a service role client to query all profiles bypass RLS (secure server-side)
-const createAdminClient = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  return createSupabaseClient(supabaseUrl, serviceRoleKey)
-}
 
 export async function GET(request: Request) {
   try {
@@ -39,7 +32,7 @@ export async function GET(request: Request) {
     const branch = searchParams.get('branch') || ''
     const targetPath = searchParams.get('targetPath') || ''
 
-    const adminSupabase = createAdminClient()
+    const adminSupabase = getAdminClient()
 
     let query = adminSupabase
       .from('profiles')

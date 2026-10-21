@@ -5,15 +5,15 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET() {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { data, error } = await supabase
       .from('library_flashcards')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .order('created_at', { ascending: false })
 
     if (error) throw error
@@ -28,8 +28,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from('library_flashcards')
       .insert({
-        user_id: session.user.id,
+        user_id: user.id,
         book_id,
         chapter_id,
         front,
@@ -64,8 +64,8 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -80,7 +80,7 @@ export async function DELETE(request: Request) {
       .from('library_flashcards')
       .delete()
       .eq('id', id)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
 
     if (error) throw error
 

@@ -5,15 +5,15 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET() {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const { data, error } = await supabase
       .from('resume_profiles')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .maybeSingle()
 
     if (error) throw error
@@ -28,8 +28,8 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from('resume_profiles')
       .upsert({
-        user_id: session.user.id,
+        user_id: user.id,
         full_name,
         email,
         phone,

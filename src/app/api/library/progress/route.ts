@@ -5,8 +5,8 @@ import { createClient } from '@/lib/supabase/server'
 export async function GET(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     let query = supabase
       .from('library_reading_progress')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .eq('book_id', bookId)
 
     if (chapterId) {
@@ -42,8 +42,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -58,7 +58,7 @@ export async function POST(request: Request) {
     const { data: existing, error: fetchError } = await supabase
       .from('library_reading_progress')
       .select('*')
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
       .eq('book_id', book_id)
       .eq('chapter_id', chapter_id)
       .maybeSingle()
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       const { data, error } = await supabase
         .from('library_reading_progress')
         .insert({
-          user_id: session.user.id,
+          user_id: user.id,
           book_id,
           chapter_id,
           progress_percent: progress_percent ?? 0,
@@ -100,14 +100,13 @@ export async function POST(request: Request) {
 
     // Award minor XP points for reading progress milestones (e.g. 5 XP per chapter completed)
     if (result && result.progress_percent >= 90 && (!existing || existing.progress_percent < 90)) {
-      // Trigger reward XP
-      await supabase.from('profiles').select('xp_points').eq('id', session.user.id).single().then(async ({ data }) => {
+      await supabase.from('profiles').select('xp_points').eq('id', user.id).single().then(async ({ data }) => {
         if (data) {
           const currentXp = data.xp_points || 0
           await supabase
             .from('profiles')
             .update({ xp_points: currentXp + 5 })
-            .eq('id', session.user.id)
+            .eq('id', user.id)
         }
       })
     }

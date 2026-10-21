@@ -1,15 +1,9 @@
 // src/app/api/hod/seats/route.ts
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 export const dynamic = 'force-dynamic'
-
-const getAdminSupabase = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  return createAdminClient(url, key)
-}
 
 export async function GET() {
   try {
@@ -38,7 +32,7 @@ export async function GET() {
       return NextResponse.json({ error: 'No college affiliation set in your profile' }, { status: 400 })
     }
 
-    const adminSupabase = getAdminSupabase()
+    const adminSupabase = getAdminClient()
 
     // Get institution license
     const { data: license } = await adminSupabase
@@ -92,7 +86,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized: HOD access required' }, { status: 403 })
     }
 
-    const adminSupabase = getAdminSupabase()
+    const adminSupabase = getAdminClient()
 
     // Get license
     const { data: license } = await adminSupabase

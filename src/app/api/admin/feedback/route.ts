@@ -1,16 +1,10 @@
 // src/app/api/admin/feedback/route.ts — Secure Admin Feedback Management API
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { isUserAdmin } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
-
-const getAdminSupabase = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  return createAdminClient(url, key)
-}
 
 async function verifyAdminAuth() {
   const supabase = createClient()
@@ -41,7 +35,7 @@ export async function GET(request: Request) {
     const type = searchParams.get('type')
     const status = searchParams.get('status')
 
-    const adminSupabase = getAdminSupabase()
+    const adminSupabase = getAdminClient()
     let query = adminSupabase
       .from('feedback')
       .select('*')
@@ -84,7 +78,7 @@ export async function PATCH(request: Request) {
     if (status) updates.status = status
     if (adminNote !== undefined) updates.admin_note = adminNote
 
-    const adminSupabase = getAdminSupabase()
+    const adminSupabase = getAdminClient()
     const { data, error } = await adminSupabase
       .from('feedback')
       .update(updates)

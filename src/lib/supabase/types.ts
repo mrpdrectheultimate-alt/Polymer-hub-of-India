@@ -15,46 +15,91 @@ export interface Database {
           email: string | null
           full_name: string | null
           subscription_status: 'free' | 'premium'
+          subscription_end_date?: string | null
           queries_used: number
           queries_reset_at: string
+          ai_queries_today?: number | null
+          ai_queries_reset_at?: string | null
           created_at: string
           is_recruiter: boolean | null
           recruiter_company: string | null
           college_name: string | null
           xp_points: number | null
           current_streak: number | null
+          longest_streak?: number | null
+          last_active_date?: string | null
           total_lessons_completed: number | null
           total_quizzes_passed: number | null
+          role?: string | null
+          is_admin?: boolean | null
+          is_hod?: boolean | null
+          avatar_url?: string | null
+          bio?: string | null
+          goals?: string | null
+          education_level?: string | null
+          branch?: string | null
+          graduation_year?: number | null
+          target_path?: string | null
         }
         Insert: {
           id: string
           email?: string | null
           full_name?: string | null
           subscription_status?: 'free' | 'premium'
+          subscription_end_date?: string | null
           queries_used?: number
           queries_reset_at?: string
+          ai_queries_today?: number | null
+          ai_queries_reset_at?: string | null
           created_at?: string
           is_recruiter?: boolean | null
           recruiter_company?: string | null
           college_name?: string | null
           xp_points?: number | null
           current_streak?: number | null
+          longest_streak?: number | null
+          last_active_date?: string | null
           total_lessons_completed?: number | null
           total_quizzes_passed?: number | null
+          role?: string | null
+          is_admin?: boolean | null
+          is_hod?: boolean | null
+          avatar_url?: string | null
+          bio?: string | null
+          goals?: string | null
+          education_level?: string | null
+          branch?: string | null
+          graduation_year?: number | null
+          target_path?: string | null
         }
         Update: {
           email?: string | null
           full_name?: string | null
           subscription_status?: 'free' | 'premium'
+          subscription_end_date?: string | null
           queries_used?: number
           queries_reset_at?: string
+          ai_queries_today?: number | null
+          ai_queries_reset_at?: string | null
           is_recruiter?: boolean | null
           recruiter_company?: string | null
           college_name?: string | null
           xp_points?: number | null
           current_streak?: number | null
+          longest_streak?: number | null
+          last_active_date?: string | null
           total_lessons_completed?: number | null
           total_quizzes_passed?: number | null
+          role?: string | null
+          is_admin?: boolean | null
+          is_hod?: boolean | null
+          avatar_url?: string | null
+          bio?: string | null
+          goals?: string | null
+          education_level?: string | null
+          branch?: string | null
+          graduation_year?: number | null
+          target_path?: string | null
         }
       }
       subjects: {
@@ -222,8 +267,11 @@ export interface Database {
           id: string
           user_id: string
           screenshot_url: string | null
-          status: 'pending' | 'approved' | 'rejected'
+          status: 'pending' | 'approved' | 'rejected' | 'created' | 'paid' | 'failed' | 'expired'
           amount: number
+          plan_code?: string | null
+          razorpay_order_id?: string | null
+          metadata?: Json | null
           created_at: string
           reviewed_at: string | null
         }
@@ -231,15 +279,51 @@ export interface Database {
           id?: string
           user_id: string
           screenshot_url?: string | null
-          status?: 'pending' | 'approved' | 'rejected'
+          status?: 'pending' | 'approved' | 'rejected' | 'created' | 'paid' | 'failed' | 'expired'
           amount?: number
+          plan_code?: string | null
+          razorpay_order_id?: string | null
+          metadata?: Json | null
           created_at?: string
           reviewed_at?: string | null
         }
         Update: {
           screenshot_url?: string | null
-          status?: 'pending' | 'approved' | 'rejected'
+          status?: 'pending' | 'approved' | 'rejected' | 'created' | 'paid' | 'failed' | 'expired'
+          amount?: number
+          plan_code?: string | null
+          razorpay_order_id?: string | null
+          metadata?: Json | null
           reviewed_at?: string | null
+        }
+      }
+      gate_mock_attempts: {
+        Row: {
+          id: string
+          user_id: string
+          score: number
+          total_marks: number
+          accuracy_pct: number
+          time_taken_seconds: number
+          question_breakdown: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          score: number
+          total_marks: number
+          accuracy_pct: number
+          time_taken_seconds?: number
+          question_breakdown?: Json | null
+          created_at?: string
+        }
+        Update: {
+          score?: number
+          total_marks?: number
+          accuracy_pct?: number
+          time_taken_seconds?: number
+          question_breakdown?: Json | null
         }
       }
       sponsored_challenges: {

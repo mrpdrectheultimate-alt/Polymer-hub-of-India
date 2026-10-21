@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient as createServerClient } from '@/lib/supabase/server';
-import { createClient } from '@supabase/supabase-js';
+import { getAdminClient } from '@/lib/supabase/admin';
 import { isUserAdmin } from '@/lib/admin';
 
 export async function GET(request: Request) {
@@ -16,14 +16,14 @@ export async function GET(request: Request) {
     // 2. Check authenticated admin session
     try {
       const userClient = createServerClient();
-      const { data: { session } } = await userClient.auth.getSession();
-      if (session) {
+      const { data: { user } } = await userClient.auth.getUser();
+      if (user) {
         const { data: profile } = await userClient
           .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
+          .select('role, is_admin')
+          .eq('id', user.id)
           .single();
-        if (isUserAdmin(session.user, profile)) {
+        if (isUserAdmin(user, profile)) {
           isAuthorized = true;
         }
       }
@@ -36,14 +36,7 @@ export async function GET(request: Request) {
     return new Response('Unauthorized', { status: 401 });
   }
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseKey) {
-    return NextResponse.json({ error: 'Supabase credentials missing' }, { status: 500 });
-  }
-
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabase = getAdminClient();
   const runId = `cron_${Date.now()}`;
   const startedAt = new Date().toISOString();
 

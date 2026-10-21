@@ -1,15 +1,9 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { awardUserXP } from '@/lib/xp'
 
 export const dynamic = 'force-dynamic'
-
-const getAdminSupabase = () => {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-  return createAdminClient(url, key)
-}
 
 export async function GET(request: Request) {
   try {
@@ -87,7 +81,7 @@ export async function POST(request: Request) {
       const currentUpvotes = project?.upvotes || 0
 
       // Increment count via service client to bypass RLS ownership restriction
-      const adminSupabase = getAdminSupabase()
+      const adminSupabase = getAdminClient()
       const { error: updateError } = await adminSupabase
         .from('student_projects')
         .update({ upvotes: currentUpvotes + 1 })

@@ -33,8 +33,8 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     const { data, error } = await supabase
       .from('research_pitches')
       .insert({
-        user_id: session.user.id,
+        user_id: user.id,
         title,
         description,
         subject_slug,
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     // Award +10 XP for starting a research pitch!
     try {
       await awardUserXP(supabase, {
-        userId: session.user.id,
+        userId: user.id,
         action: 'research_pitch',
         reference: data.id
       })
@@ -81,8 +81,8 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -97,7 +97,7 @@ export async function DELETE(request: Request) {
       .from('research_pitches')
       .delete()
       .eq('id', id)
-      .eq('user_id', session.user.id)
+      .eq('user_id', user.id)
 
     if (error) throw error
 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 
 export async function POST(request: Request) {
   try {
@@ -14,34 +14,27 @@ export async function POST(request: Request) {
 
     // 2. REQUIRE AUTHENTICATED ADMIN SESSION
     const supabaseUserClient = createClient()
-    const { data: { session } } = await supabaseUserClient.auth.getSession()
+    const { data: { user } } = await supabaseUserClient.auth.getUser()
 
-    if (!session) {
+    if (!user) {
       return NextResponse.json({ error: 'Authentication required for simulation.' }, { status: 401 })
     }
 
     const { data: callerProfile } = await supabaseUserClient
       .from('profiles')
-      .select('role')
-      .eq('id', session.user.id)
+      .select('role, is_admin')
+      .eq('id', user.id)
       .single()
 
-    if (!callerProfile || (callerProfile.role !== 'admin' && callerProfile.role !== 'organization_owner')) {
+    if (!callerProfile || (callerProfile.role !== 'admin' && callerProfile.role !== 'organization_owner' && !callerProfile.is_admin)) {
       return NextResponse.json({ error: 'Forbidden: Admin access required.' }, { status: 403 })
     }
 
-    const { userId } = await request.json()
-    const targetUserId = userId || session.user.id
+    const { userId } = await request.json().catch(() => ({}))
+    const targetUserId = userId || user.id
 
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-    if (!supabaseUrl || !supabaseServiceKey) {
-      return NextResponse.json({ error: 'Supabase environment configuration error' }, { status: 500 })
-    }
-
-    // 3. SECURE ADMIN PROMOTION
-    const supabaseAdmin = createAdminClient(supabaseUrl, supabaseServiceKey)
+    // 3. SECURE ADMIN PROMOTION VIA CENTRALIZED SERVICE-ROLE CLIENT
+    const supabaseAdmin = getAdminClient()
 
     const { data: profile, error: profileError } = await supabaseAdmin
       .from('profiles')

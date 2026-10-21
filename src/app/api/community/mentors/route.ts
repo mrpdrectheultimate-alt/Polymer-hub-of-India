@@ -44,14 +44,14 @@ export async function POST(request: NextRequest) {
       .single()
 
     // Check for authenticated session
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (session?.user) {
+    if (user) {
       // Submit mentorship match request for signed-in user
       const { data: match, error: matchError } = await supabase
         .from('mentorship_matches')
         .insert({
-          student_id: session.user.id,
+          student_id: user.id,
           mentor_id,
           message: message || null,
           status: 'pending',
@@ -66,20 +66,20 @@ export async function POST(request: NextRequest) {
       // Award +25 XP
       try {
         const { error: rpcErr } = await supabase.rpc('increment_xp', {
-          p_user_id: session.user.id,
+          p_user_id: user.id,
           p_amount: 25,
           p_reason: 'mentorship_request',
         })
         if (rpcErr) {
           await awardUserXP(supabase, {
-            userId: session.user.id,
+            userId: user.id,
             action: 'mentorship_request',
             reference: mentor_id
           })
         }
       } catch {
         await awardUserXP(supabase, {
-          userId: session.user.id,
+          userId: user.id,
           action: 'mentorship_request',
           reference: mentor_id
         }).catch(err => console.warn('Fallback mentor XP error:', err))
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({
         success: true,
         authenticated: true,
-        match: match || { mentor_id, student_id: session.user.id },
+        match: match || { mentor_id, student_id: user.id },
         mentor_name: mentorData?.name,
         xp_awarded: 25,
         message: `Mentorship request sent to ${mentorData?.name || 'mentor'}! You will receive contact details within 48h. +25 XP awarded.`,

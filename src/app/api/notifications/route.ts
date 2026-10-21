@@ -20,8 +20,8 @@ if (vapidKeys.publicKey && vapidKeys.privateKey) {
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
     const body = await req.json()
     const { action } = body
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       const { error } = await supabase
         .from('push_subscriptions')
         .insert({
-          user_id: session.user.id,
+          user_id: user.id,
           subscription
         })
 
@@ -47,11 +47,11 @@ export async function POST(req: NextRequest) {
     if (action === 'send') {
       const { data: callerProfile } = await supabase
         .from('profiles')
-        .select('role, email')
-        .eq('id', session.user.id)
+        .select('role, email, is_admin')
+        .eq('id', user.id)
         .single()
 
-      if (!callerProfile || !isUserAdmin(session.user, callerProfile)) {
+      if (!callerProfile || !isUserAdmin(user, callerProfile)) {
         return NextResponse.json({ error: 'Forbidden: Admin access required to dispatch notifications' }, { status: 403 })
       }
 

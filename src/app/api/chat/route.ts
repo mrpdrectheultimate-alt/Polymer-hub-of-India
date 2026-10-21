@@ -18,14 +18,14 @@ const FALLBACK_MODELS = [
 export async function POST(req: NextRequest) {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
+    const { data: { user } } = await supabase.auth.getUser()
 
     let isGuest = false
     let isPremium = false
     let guestQueriesUsed = 0
     let userQueriesToday = 0
 
-    if (!session) {
+    if (!user) {
       isGuest = true
       const guestCookie = req.cookies.get('ph_guest_ai_count')?.value
       guestQueriesUsed = guestCookie ? parseInt(guestCookie, 10) : 0
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
       const { data: profile } = await supabase
         .from('profiles')
         .select('ai_queries_today, ai_queries_reset_at, subscription_status')
-        .eq('id', session.user.id)
+        .eq('id', user.id)
         .single()
 
       isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
           await supabase.from('profiles').update({
             ai_queries_today: 0,
             ai_queries_reset_at: now.toISOString(),
-          }).eq('id', session.user.id)
+          }).eq('id', user.id)
         } else if (userQueriesToday >= 15) {
           return NextResponse.json(
             { error: 'Daily limit of 15 queries reached. Upgrade to Premium for unlimited queries.' },
@@ -244,11 +244,11 @@ ${context ? `\nRELEVANT CURRICULUM CONTEXT:\n${context}` : ''}`
     }
 
     // ── Update query count ────────────────────────────────────────────────────
-    if (session && !isPremium) {
+    if (user && !isPremium) {
       try {
         await supabase.from('profiles')
           .update({ ai_queries_today: userQueriesToday + 1 })
-          .eq('id', session.user.id)
+          .eq('id', user.id)
       } catch (profileErr) {
         console.warn('Profile query count update skipped:', profileErr)
       }

@@ -16,6 +16,7 @@ import {
   PlayCircle
 } from 'lucide-react'
 import { GATE_CONFIG } from '@/lib/config/gate-config'
+import { createClient } from '@/lib/supabase/client'
 
 // ─── GATE Questions (30 questions mapped to 216 lessons) ───────────────────────
 
@@ -567,7 +568,7 @@ export default function GATEMockPage() {
     setTimeTaken(elapsed)
     setState('submitted')
 
-    // Evaluate and award GATE mock XP
+    // Evaluate and award GATE mock XP + Persist attempt history
     try {
       const totalMarks = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
       let scored = 0
@@ -580,6 +581,32 @@ export default function GATEMockPage() {
       })
       const finalScore = Math.max(0, scored)
       const pct = (finalScore / totalMarks) * 100
+
+      // Persist to Supabase if authenticated
+      const supabase = createClient()
+      supabase.auth.getUser().then(async ({ data: { user } }) => {
+        if (user) {
+          try {
+            await supabase.from('gate_mock_attempts').insert({
+              user_id: user.id,
+              score: parseFloat(finalScore.toFixed(2)),
+              total_marks: totalMarks,
+              accuracy_pct: parseFloat(pct.toFixed(2)),
+              time_taken_seconds: elapsed,
+              question_breakdown: GATE_QUESTIONS.map(q => ({
+                id: q.id,
+                selected: answers[q.id] ?? null,
+                correct: q.correct,
+                isCorrect: answers[q.id] === q.correct,
+                marks: q.marks,
+                subject: q.subject
+              }))
+            })
+          } catch (dbErr) {
+            console.warn('GATE mock attempt persistence skipped:', dbErr)
+          }
+        }
+      }).catch(authErr => console.warn('GATE mock auth check error:', authErr))
 
       if (pct >= 50) {
         const action = pct >= 75 ? 'gate_top' : 'gate_pass'

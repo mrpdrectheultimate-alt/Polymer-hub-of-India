@@ -10,10 +10,10 @@ export const dynamic = 'force-dynamic'
 export async function GET() {
   try {
     const supabase = createClient()
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
 
-    const userId = session.user.id
+    const userId = user.id
 
     // ── Fetch all data in parallel ────────────────────────────────────────────
     const [
