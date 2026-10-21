@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { Database } from '@/lib/supabase/types'
+import { awardUserXP } from '@/lib/xp'
 
 type ChallengeSubmission = Database['public']['Tables']['challenge_submissions']['Row']
 
@@ -102,8 +103,12 @@ export async function POST(request: Request) {
     })
 
     if (xpError) {
-      console.error('XP Award failed:', xpError)
-      // We don't fail the submission if XP award triggers an issue (fallback safely)
+      console.warn('Postgres RPC award_xp skipped/failed, falling back to awardUserXP:', xpError.message)
+      await awardUserXP(supabase, {
+        userId: user.id,
+        action: 'challenge_submission',
+        reference: challengeId
+      }).catch(err => console.warn('Fallback XP award error:', err))
     }
 
     return NextResponse.json({ success: true, xp_awarded: 50 })

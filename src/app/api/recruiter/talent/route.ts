@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { isUserAdmin } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,11 +23,12 @@ export async function GET(request: Request) {
     // Verify recruiter status
     const { data: profile } = await supabase
       .from('profiles')
-      .select('is_recruiter, recruiter_company')
+      .select('is_recruiter, recruiter_company, role, email')
       .eq('id', user.id)
       .single()
 
-    if (!profile || !profile.is_recruiter) {
+    const admin = isUserAdmin(user, profile)
+    if (!profile || (!profile.is_recruiter && !admin)) {
       return NextResponse.json({ error: 'Unauthorized: Recruiter access required' }, { status: 403 })
     }
 

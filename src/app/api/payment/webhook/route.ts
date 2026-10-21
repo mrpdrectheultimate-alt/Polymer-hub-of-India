@@ -49,6 +49,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Missing user_id in payment payload' }, { status: 400 })
     }
 
+    const isAnnualPayment = Boolean(payment && payment.amount >= 100000)
+    const webhookPlan = isAnnualPayment ? 'premium_annual' : 'premium_monthly'
+
     // 3. Execute Atomic Database RPC Function for Event Deduplication & Entitlement Update
     const { data: result, error: rpcError } = await supabase.rpc('process_payment_webhook_event', {
       p_event_id: eventId,
@@ -60,7 +63,7 @@ export async function POST(req: NextRequest) {
       p_amount: payment ? payment.amount / 100 : 0,
       p_currency: payment?.currency || 'INR',
       p_status: eventType === 'payment.captured' ? 'success' : 'failed',
-      p_plan: 'premium_monthly'
+      p_plan: webhookPlan
     })
 
     if (rpcError) {
@@ -68,7 +71,11 @@ export async function POST(req: NextRequest) {
       if (eventType === 'payment.captured' && userId) {
         const now = new Date()
         const subscriptionEnd = new Date(now)
-        subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
+        if (isAnnualPayment) {
+          subscriptionEnd.setFullYear(subscriptionEnd.getFullYear() + 1)
+        } else {
+          subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
+        }
 
         await supabase.from('profiles').update({
           subscription_status: 'premium',
@@ -85,7 +92,7 @@ export async function POST(req: NextRequest) {
           amount: payment.amount / 100,
           currency: payment.currency,
           status: 'success',
-          plan: 'premium_monthly',
+          plan: webhookPlan,
           paid_at: now.toISOString(),
         }, { onConflict: 'razorpay_payment_id' })
       }

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-
 import { createClient } from '@/lib/supabase/server'
+import { isUserAdmin } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,22 +12,25 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // Verify HOD status
+    // Verify HOD status or Admin role
     const { data: profile } = await supabase
       .from('profiles')
-      .select('college_name, is_hod')
+      .select('college_name, is_hod, role, email')
       .eq('id', user.id)
       .single()
 
-    if (!profile || !profile.is_hod || !profile.college_name) {
+    const admin = isUserAdmin(user, profile)
+    if (!profile || (!profile.is_hod && !admin)) {
       return NextResponse.json({ error: 'Unauthorized: HOD access required' }, { status: 403 })
     }
+
+    const targetCollege = profile.college_name || 'CIPET Chennai'
 
     // 1. Get all students from this college
     const { data: students } = await supabase
       .from('profiles')
       .select('id, full_name, email, subscription_status, xp_points, current_streak, total_lessons_completed, total_quizzes_passed')
-      .eq('college_name', profile.college_name)
+      .eq('college_name', targetCollege)
       .neq('id', user.id)
 
     const studentIds = (students || []).map(s => s.id)

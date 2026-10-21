@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 // GET /api/community/events — list all events (public)
 // POST /api/community/events — register for an event (authenticated or guest, +10 XP)
@@ -58,13 +59,24 @@ export async function POST(request: NextRequest) {
 
       // Award +10 XP for registered student
       try {
-        await supabase.rpc('increment_xp', {
+        const { error: rpcErr } = await supabase.rpc('increment_xp', {
           p_user_id: session.user.id,
           p_amount: 10,
           p_reason: 'webinar_registration',
         })
+        if (rpcErr) {
+          await awardUserXP(supabase, {
+            userId: session.user.id,
+            action: 'webinar_registration',
+            reference: event_id
+          })
+        }
       } catch {
-        // Best-effort XP
+        await awardUserXP(supabase, {
+          userId: session.user.id,
+          action: 'webinar_registration',
+          reference: event_id
+        }).catch(err => console.warn('Fallback webinar XP error:', err))
       }
 
       return NextResponse.json({

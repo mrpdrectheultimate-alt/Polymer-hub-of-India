@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 export const dynamic = 'force-dynamic'
 
@@ -69,7 +70,12 @@ export async function POST(request: Request) {
       })
 
       if (xpError) {
-        console.error('XP Award failed:', xpError)
+        console.warn('Postgres RPC award_xp skipped/failed, falling back to awardUserXP:', xpError.message)
+        await awardUserXP(supabase, {
+          userId: submission.user_id,
+          action: 'challenge_accepted',
+          reference: submission.challenge_id
+        }).catch(err => console.warn('Fallback review XP award error:', err))
       }
     }
 

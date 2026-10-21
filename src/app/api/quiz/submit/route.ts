@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 export async function POST(request: Request) {
   try {
@@ -123,6 +124,18 @@ export async function POST(request: Request) {
     await supabase
       .from('user_progress')
       .upsert(progressUpdate, { onConflict: 'user_id,lesson_id' })
+
+    if (passed) {
+      try {
+        await awardUserXP(supabase, {
+          userId: session.user.id,
+          action: correctCount === totalQuestions ? 'quiz_perfect' : 'quiz_pass',
+          reference: lessonId
+        })
+      } catch (xpErr) {
+        console.warn('Quiz XP award skipped:', xpErr)
+      }
+    }
 
     return NextResponse.json({
       scorePercentage,

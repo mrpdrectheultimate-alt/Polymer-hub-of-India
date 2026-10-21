@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createAdminClient } from '@supabase/supabase-js'
+import { awardUserXP } from '@/lib/xp'
 
 export const dynamic = 'force-dynamic'
 
@@ -126,6 +127,16 @@ export async function POST(request: Request) {
 
     if (insertError) {
       return NextResponse.json({ error: insertError.message }, { status: 500 })
+    }
+
+    try {
+      await awardUserXP(supabase, {
+        userId: user.id,
+        action: 'project_submit',
+        reference: newProject.id
+      })
+    } catch (xpErr) {
+      console.warn('Project submit XP error:', xpErr)
     }
 
     return NextResponse.json({ success: true, project: newProject })

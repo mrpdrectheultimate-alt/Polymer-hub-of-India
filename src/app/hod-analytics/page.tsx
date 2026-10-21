@@ -96,7 +96,7 @@ export default function HODAnalyticsPage() {
     try {
       const res = await fetch('/api/hod/analytics')
       if (res.status === 403) {
-        setError('HOD Access Denied. Enable HOD mode in your Profile settings to view analytics.')
+        setError('Access Restricted: Head of Department (HOD) verification required. Contact founder@polymerhubofindia.com or support@polymerhubofindia.com to verify your departmental credentials.')
         setLoading(false)
         return
       }

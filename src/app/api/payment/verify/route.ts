@@ -15,6 +15,8 @@ export async function POST(req: NextRequest) {
       razorpay_order_id,
       razorpay_payment_id,
       razorpay_signature,
+      isAnnual,
+      amount,
     } = await req.json()
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -38,10 +40,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
     }
 
-    // Calculate subscription end date (1 month from now)
+    // Calculate subscription end date (1 year for annual, 1 month for monthly)
+    const isAnnualPlan = Boolean(isAnnual) || Number(amount) >= 1000
     const now = new Date()
     const subscriptionEnd = new Date(now)
-    subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
+    if (isAnnualPlan) {
+      subscriptionEnd.setFullYear(subscriptionEnd.getFullYear() + 1)
+    } else {
+      subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
+    }
 
     // Upgrade user to premium
     const { error: updateError } = await supabase
@@ -65,10 +72,10 @@ export async function POST(req: NextRequest) {
       user_id: session.user.id,
       razorpay_order_id,
       razorpay_payment_id,
-      amount: 149,
+      amount: isAnnualPlan ? 1429 : 149,
       currency: 'INR',
       status: 'success',
-      plan: 'premium_monthly',
+      plan: isAnnualPlan ? 'premium_annual' : 'premium_monthly',
       paid_at: now.toISOString(),
     })
 

@@ -1,6 +1,7 @@
 // src/app/api/simulations/sessions/route.ts
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 export async function GET() {
   try {
@@ -55,15 +56,16 @@ export async function POST(request: Request) {
 
     if (error) throw error
 
-    // Award +15 XP to the student's profile!
-    await supabase.from('profiles').select('xp_points').eq('id', session.user.id).single().then(async ({ data: profile }) => {
-      if (profile) {
-        await supabase
-          .from('profiles')
-          .update({ xp_points: (profile.xp_points || 0) + 15 })
-          .eq('id', session.user.id)
-      }
-    })
+    // Award +15 XP with streak & badge tracking
+    try {
+      await awardUserXP(supabase, {
+        userId: session.user.id,
+        action: 'simulation_run',
+        reference: lab_id
+      })
+    } catch (xpErr) {
+      console.warn('Simulation session XP award skipped:', xpErr)
+    }
 
     return NextResponse.json(data)
   } catch (err) {

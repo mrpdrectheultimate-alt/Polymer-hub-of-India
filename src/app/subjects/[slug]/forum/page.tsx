@@ -265,6 +265,12 @@ export default function SubjectForumPage() {
     if (error) {
       setErrorMsg(error.message)
     } else if (data) {
+      fetch('/api/xp/award', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forum_question', reference: newTitle.trim() })
+      }).catch(err => console.warn('Subject forum question XP error:', err))
+
       setNewTitle('')
       setNewBody('')
       setNewLessonId('')
@@ -294,6 +300,12 @@ export default function SubjectForumPage() {
     if (error) {
       setErrorMsg(error.message)
     } else {
+      fetch('/api/xp/award', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forum_answer', reference: activeQuestionId })
+      }).catch(err => console.warn('Subject forum answer XP error:', err))
+
       setNewAnswerBody('')
       await loadAnswers()
       await loadQuestions()

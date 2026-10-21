@@ -1,6 +1,7 @@
 // src/app/api/notifications/route.ts
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import { isUserAdmin } from '@/lib/admin'
 import webpush from 'web-push'
 
 const vapidKeys = {
@@ -44,6 +45,16 @@ export async function POST(req: NextRequest) {
     }
 
     if (action === 'send') {
+      const { data: callerProfile } = await supabase
+        .from('profiles')
+        .select('role, email')
+        .eq('id', session.user.id)
+        .single()
+
+      if (!callerProfile || !isUserAdmin(session.user, callerProfile)) {
+        return NextResponse.json({ error: 'Forbidden: Admin access required to dispatch notifications' }, { status: 403 })
+      }
+
       const { targetUserId, title, body: noteBody, url } = body
       if (!targetUserId) return NextResponse.json({ error: 'Target user ID missing' }, { status: 400 })
 

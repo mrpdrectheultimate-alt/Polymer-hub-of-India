@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import Razorpay from 'razorpay'
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID || 'mock_id',
@@ -15,6 +15,9 @@ export async function POST() {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
+    const body = await request.json().catch(() => ({}))
+    const isAnnual = Boolean(body.isAnnual) || Number(body.amount) >= 1000
+
     // Check not already premium
     const { data: profile } = await supabase
       .from('profiles')
@@ -26,15 +29,18 @@ export async function POST() {
       return NextResponse.json({ error: 'Already premium' }, { status: 400 })
     }
 
-    // Create Razorpay order — ₹149/month
+    // Determine plan and price in paise
+    const amountInPaise = isAnnual ? 142900 : 14900
+    const planName = isAnnual ? 'premium_annual' : 'premium_monthly'
+
     const order = await razorpay.orders.create({
-      amount: 14900,          // amount in paise (₹149 = 14900 paise)
+      amount: amountInPaise,
       currency: 'INR',
       receipt: `ph_${session.user.id.slice(0, 8)}_${Date.now()}`,
       notes: {
         user_id: session.user.id,
         email: session.user.email ?? '',
-        plan: 'premium_monthly',
+        plan: planName,
       },
     })
 

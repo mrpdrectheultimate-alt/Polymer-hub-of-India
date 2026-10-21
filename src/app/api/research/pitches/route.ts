@@ -1,6 +1,7 @@
 // src/app/api/research/pitches/route.ts
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 export async function GET(request: Request) {
   try {
@@ -60,14 +61,15 @@ export async function POST(request: Request) {
     if (error) throw error
 
     // Award +10 XP for starting a research pitch!
-    await supabase.from('profiles').select('xp_points').eq('id', session.user.id).single().then(async ({ data: profile }) => {
-      if (profile) {
-        await supabase
-          .from('profiles')
-          .update({ xp_points: (profile.xp_points || 0) + 10 })
-          .eq('id', session.user.id)
-      }
-    })
+    try {
+      await awardUserXP(supabase, {
+        userId: session.user.id,
+        action: 'research_pitch',
+        reference: data.id
+      })
+    } catch (xpErr) {
+      console.warn('Research pitch XP award skipped:', xpErr)
+    }
 
     return NextResponse.json(data)
   } catch (err) {

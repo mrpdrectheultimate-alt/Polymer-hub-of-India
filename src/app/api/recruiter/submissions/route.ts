@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { isUserAdmin } from '@/lib/admin'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,19 +15,22 @@ export async function GET() {
     // Verify recruiter
     const { data: profile } = await supabase
       .from('profiles')
-      .select('is_recruiter, recruiter_company')
+      .select('is_recruiter, recruiter_company, role, email')
       .eq('id', user.id)
       .single()
 
-    if (!profile || !profile.is_recruiter || !profile.recruiter_company) {
+    const admin = isUserAdmin(user, profile)
+    if (!profile || ((!profile.is_recruiter || !profile.recruiter_company) && !admin)) {
       return NextResponse.json({ error: 'Unauthorized: Recruiter access required' }, { status: 403 })
     }
+
+    const companyName = profile.recruiter_company || 'Reliance Petrochemicals'
 
     // Fetch challenges sponsored by this company
     const { data: challenges } = await supabase
       .from('sponsored_challenges')
       .select('id')
-      .eq('company_name', profile.recruiter_company)
+      .eq('company_name', companyName)
 
     const challengeIds = (challenges || []).map(c => c.id)
 
@@ -70,13 +74,16 @@ export async function POST(request: Request) {
     // Verify recruiter
     const { data: profile } = await supabase
       .from('profiles')
-      .select('is_recruiter, recruiter_company')
+      .select('is_recruiter, recruiter_company, role, email')
       .eq('id', user.id)
       .single()
 
-    if (!profile || !profile.is_recruiter || !profile.recruiter_company) {
+    const admin = isUserAdmin(user, profile)
+    if (!profile || ((!profile.is_recruiter || !profile.recruiter_company) && !admin)) {
       return NextResponse.json({ error: 'Unauthorized: Recruiter access required' }, { status: 403 })
     }
+
+    const companyName = profile.recruiter_company || 'Reliance Petrochemicals'
 
     const { title, description, prizePool, difficulty, deadline, criteria } = await request.json()
 
@@ -93,7 +100,7 @@ export async function POST(request: Request) {
         difficulty: difficulty || 'Medium',
         deadline: new Date(deadline).toISOString(),
         criteria,
-        company_name: profile.recruiter_company
+        company_name: companyName
       })
       .select()
       .single()

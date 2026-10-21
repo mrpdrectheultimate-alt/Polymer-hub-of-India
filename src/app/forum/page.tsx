@@ -149,6 +149,11 @@ function AskModal({
       setError(insertErr.message)
       setSubmitting(false)
     } else {
+      fetch('/api/xp/award', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forum_question', reference: title.trim() })
+      }).catch(err => console.warn('Forum question XP error:', err))
       onSubmit()
       onClose()
     }
@@ -305,7 +310,7 @@ function QuestionDetail({
     if (!answerBody.trim() || !currentUserId || submitting) return
     setSubmitting(true)
 
-    await supabase.from('forum_answers').insert({
+    const { error: ansError } = await supabase.from('forum_answers').insert({
       question_id: question.id,
       user_id: currentUserId,
       body: answerBody.trim(),
@@ -313,8 +318,32 @@ function QuestionDetail({
       is_accepted: false,
     })
 
+    if (!ansError) {
+      fetch('/api/xp/award', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'forum_answer', reference: question.id })
+      }).catch(err => console.warn('Forum answer XP error:', err))
+    }
+
     setAnswerBody('')
     setSubmitting(false)
+    loadAnswers()
+    onUpdate()
+  }
+
+  const handleAcceptAnswer = async (ansId: string, authorId: string) => {
+    if (!currentUserId || currentUserId !== question.user_id) return
+
+    await supabase.from('forum_answers').update({ is_accepted: true }).eq('id', ansId)
+    await supabase.from('forum_questions').update({ is_resolved: true }).eq('id', question.id)
+
+    fetch('/api/xp/award', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'accepted_answer', reference: ansId })
+    }).catch(err => console.warn('Accepted answer XP error:', err))
+
     loadAnswers()
     onUpdate()
   }
@@ -433,9 +462,21 @@ function QuestionDetail({
                   <span className="text-slate-400 font-mono">· {ansTime}</span>
                 </div>
 
-                <div className="flex items-center gap-1.5 font-mono text-xs text-slate-500">
-                  <ThumbsUp className="w-3.5 h-3.5 text-slate-400" />
-                  <span>{ans.upvotes} helpful</span>
+                <div className="flex items-center gap-3">
+                  {currentUserId === question.user_id && !ans.is_accepted && !question.is_resolved && (
+                    <button
+                      type="button"
+                      onClick={() => handleAcceptAnswer(ans.id, ans.user_id)}
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-300 px-2 py-1 rounded-lg transition-all cursor-pointer"
+                    >
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                      <span>Accept as Solution</span>
+                    </button>
+                  )}
+                  <div className="flex items-center gap-1.5 font-mono text-xs text-slate-500">
+                    <ThumbsUp className="w-3.5 h-3.5 text-slate-400" />
+                    <span>{ans.upvotes} helpful</span>
+                  </div>
                 </div>
               </div>
             </div>

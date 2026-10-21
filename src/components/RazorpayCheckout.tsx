@@ -63,7 +63,11 @@ export default function RazorpayCheckout({
         return
       }
 
-      const orderRes = await fetch('/api/payment/create-order', { method: 'POST' })
+      const orderRes = await fetch('/api/payment/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isAnnual, amount })
+      })
       if (!orderRes.ok) {
         // Fallback to manual screenshot payment flow
         setIsModalOpen(true)
@@ -107,6 +111,8 @@ export default function RazorpayCheckout({
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
+                isAnnual,
+                amount,
               }),
             })
 

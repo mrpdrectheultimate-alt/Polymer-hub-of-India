@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { awardUserXP } from '@/lib/xp'
 
 // GET /api/community/mentors — list active mentors (public)
 // POST /api/community/mentors — submit a mentorship match request (authenticated or guest with email, +25 XP)
@@ -64,13 +65,24 @@ export async function POST(request: NextRequest) {
 
       // Award +25 XP
       try {
-        await supabase.rpc('increment_xp', {
+        const { error: rpcErr } = await supabase.rpc('increment_xp', {
           p_user_id: session.user.id,
           p_amount: 25,
           p_reason: 'mentorship_request',
         })
+        if (rpcErr) {
+          await awardUserXP(supabase, {
+            userId: session.user.id,
+            action: 'mentorship_request',
+            reference: mentor_id
+          })
+        }
       } catch {
-        // Best-effort XP
+        await awardUserXP(supabase, {
+          userId: session.user.id,
+          action: 'mentorship_request',
+          reference: mentor_id
+        }).catch(err => console.warn('Fallback mentor XP error:', err))
       }
 
       return NextResponse.json({
