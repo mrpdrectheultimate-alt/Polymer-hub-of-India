@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { Newspaper } from 'lucide-react'
 import TodayDashboard from '@/components/TodayDashboard'
 import MarketSparkline from '@/components/MarketSparkline'
+import { TODAY_CURATED_UPDATES } from '@/lib/data/today-updates'
 
 interface DBUpdate {
   id: string
@@ -54,17 +55,18 @@ export const metadata: Metadata = {
 }
 
 const TICKER_DATA = [
-  { name: 'Reliance Repol PP', price: '₹122.80/kg', change: '+0.2%', isUp: true, points: [120.8, 121.2, 121.6, 121.9, 122.2, 122.5, 122.8] },
-  { name: 'Reliance Relene HDPE', price: '₹130.60/kg', change: '+0.2%', isUp: true, points: [128.8, 129.1, 129.4, 129.7, 130.0, 130.3, 130.6] },
-  { name: 'GAIL G-Lex LLDPE', price: '₹124.90/kg', change: '+0.2%', isUp: true, points: [123.1, 123.4, 123.7, 124.0, 124.3, 124.6, 124.9] },
-  { name: 'Finolex PVC K-67', price: '₹111.20/kg', change: '+0.3%', isUp: true, points: [109.5, 109.8, 110.1, 110.4, 110.7, 110.9, 111.2] },
-  { name: 'Reliance Relpet PET', price: '₹117.40/kg', change: '+0.3%', isUp: true, points: [115.2, 115.6, 116.0, 116.4, 116.8, 117.1, 117.4] },
-  { name: 'SABIC Lexan PC', price: '₹262.80/kg', change: '+0.2%', isUp: true, points: [260.0, 260.5, 261.0, 261.5, 262.0, 262.4, 262.8] },
-  { name: 'BASF Ultramid PA6', price: '₹307.80/kg', change: '+0.1%', isUp: true, points: [305.0, 305.5, 306.0, 306.5, 307.0, 307.4, 307.8] },
-  { name: 'LG Chem ABS', price: '₹178.80/kg', change: '+0.2%', isUp: true, points: [176.5, 176.8, 177.2, 177.6, 178.0, 178.4, 178.8] },
-  { name: 'Circular rPET Flakes', price: '₹96.20/kg', change: '+0.4%', isUp: true, points: [93.8, 94.2, 94.6, 95.0, 95.4, 95.8, 96.2] },
-  { name: 'Brent Crude Oil', price: '$96.10/bbl', change: '+0.3%', isUp: true, points: [94.2, 94.65, 95.10, 95.40, 95.60, 95.85, 96.10] },
-  { name: 'Indian EPR Credit (Rigid)', price: '₹3,040/ton', change: '+1.0%', isUp: true, points: [2880, 2910, 2940, 2960, 2980, 3010, 3040] },
+  { name: 'Reliance Repol PP', price: '₹94.80/kg', change: '+0.4%', isUp: true, points: [93.2, 93.6, 94.0, 94.3, 94.5, 94.6, 94.8] },
+  { name: 'Reliance Relene HDPE', price: '₹99.40/kg', change: '+0.3%', isUp: true, points: [98.1, 98.4, 98.8, 99.0, 99.1, 99.2, 99.4] },
+  { name: 'GAIL G-Lex LLDPE', price: '₹95.60/kg', change: '+0.2%', isUp: true, points: [94.5, 94.8, 95.0, 95.2, 95.3, 95.5, 95.6] },
+  { name: 'Finolex PVC K-67', price: '₹77.80/kg', change: '-0.3%', isUp: false, points: [78.5, 78.4, 78.2, 78.1, 78.0, 77.9, 77.8] },
+  { name: 'Reliance Relpet PET', price: '₹91.20/kg', change: '+0.5%', isUp: true, points: [89.8, 90.1, 90.4, 90.7, 90.9, 91.0, 91.2] },
+  { name: 'SABIC Lexan PC', price: '₹218.50/kg', change: '+0.1%', isUp: true, points: [216.0, 216.5, 217.0, 217.5, 218.0, 218.2, 218.5] },
+  { name: 'BASF Ultramid PA6', price: '₹248.60/kg', change: '+0.2%', isUp: true, points: [246.0, 246.5, 247.0, 247.5, 248.0, 248.3, 248.6] },
+  { name: 'LG Chem ABS', price: '₹141.20/kg', change: '+0.3%', isUp: true, points: [139.5, 139.8, 140.2, 140.5, 140.8, 141.0, 141.2] },
+  { name: 'Circular rPET Flakes', price: '₹74.50/kg', change: '+0.8%', isUp: true, points: [72.5, 72.9, 73.3, 73.7, 74.0, 74.2, 74.5] },
+  { name: 'Circular rHDPE Granules', price: '₹71.20/kg', change: '+0.6%', isUp: true, points: [69.5, 69.8, 70.2, 70.5, 70.8, 71.0, 71.2] },
+  { name: 'Brent Crude Oil', price: '$76.40/bbl', change: '+0.4%', isUp: true, points: [74.8, 75.1, 75.5, 75.8, 76.0, 76.2, 76.4] },
+  { name: 'CPCB EPR Credit (Cat-I)', price: '₹2,650/ton', change: '+1.2%', isUp: true, points: [2520, 2550, 2580, 2600, 2620, 2640, 2650] },
 ]
 
 function LiveTicker() {
@@ -72,7 +74,7 @@ function LiveTicker() {
     <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
       <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest z-10 shadow-md">
         <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-        Indicative Spot Benchmarks
+        Indicative Spot Benchmarks (22 Oct 2026)
       </div>
       <div className="overflow-hidden flex-1">
         <div className="flex animate-ticker whitespace-nowrap items-center">
@@ -80,7 +82,7 @@ function LiveTicker() {
             <div key={i} className="font-mono text-xs text-slate-300 font-medium px-6 border-r border-white/10 flex items-center gap-2">
               <span className="text-white font-bold">{item.name}</span>
               <span className="text-amber-400 font-bold">{item.price}</span>
-              <span className="text-emerald-400 font-bold text-[10px]">{item.change}</span>
+              <span className={`font-bold text-[10px] ${item.isUp ? 'text-emerald-400' : 'text-rose-400'}`}>{item.change}</span>
               <MarketSparkline isUp={item.isUp} points={item.points} width={64} height={20} />
             </div>
           ))}
@@ -100,7 +102,11 @@ export default async function TodayPage() {
     .eq('is_published', true)
     .order('published_at', { ascending: false })
 
-  const items = ((updatesData as unknown as DBUpdate[]) || []).map((item) => ({
+  const rawList = (updatesData && updatesData.length > 0)
+    ? (updatesData as unknown as DBUpdate[])
+    : TODAY_CURATED_UPDATES
+
+  const items = rawList.map((item) => ({
     id: item.id,
     headline: item.headline,
     summary: item.summary,
@@ -111,7 +117,7 @@ export default async function TodayPage() {
     visual_type: item.visual_type || null,
     rights_class: item.rights_class || null,
     category: item.category,
-    region: item.region || 'Global',
+    region: (item.region || 'Global') as 'India' | 'Global' | 'Regional',
     related_lesson_slug: item.related_lesson_slug,
     related_subject_slug: item.related_subject_slug,
     published_at: item.published_at,
