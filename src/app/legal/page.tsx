@@ -198,14 +198,28 @@ export default function LegalProvenancePage() {
             <p>4. Contact email and phone number.</p>
           </div>
 
+          <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700 text-xs font-mono text-slate-300 space-y-1">
+            <p className="text-amber-400 font-bold uppercase text-[10px]">Designated Grievance &amp; Compliance Officer (IT Rules 2021):</p>
+            <p><strong>Officer:</strong> Mr. L.P.K. Naidu (Director &amp; Head of Academic Compliance)</p>
+            <p><strong>Platform:</strong> Polymer Hub of India (NextGen India)</p>
+            <p><strong>Nodal Office:</strong> Technology Hub, Visakhapatnam, Andhra Pradesh – 530003, India</p>
+            <p><strong>Grievance Email:</strong> <a href="mailto:grievance@polymerhubofindia.com" className="text-blue-400 hover:underline">grievance@polymerhubofindia.com</a></p>
+            <p><strong>Statutory SLA:</strong> Acknowledgment within 24h &middot; Resolution within 15 days</p>
+          </div>
+
           <div className="pt-2 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-300">
             <a 
-              href="mailto:support@polymerhubofindia.com?subject=Formal%20Copyright%20Notice" 
+              href="mailto:grievance@polymerhubofindia.com?subject=Formal%20Copyright%20Notice" 
               className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-xl font-bold transition-all"
             >
-              <Mail className="w-4 h-4" /> Contact Designated Compliance &amp; Legal Team (support@polymerhubofindia.com)
+              <Mail className="w-4 h-4" /> File Grievance Notice (grievance@polymerhubofindia.com)
             </a>
-            <span className="text-emerald-400 font-bold">✓ Guaranteed Action within 48 Business Hours</span>
+            <div className="flex items-center gap-3">
+              <Link href="/refund" className="text-emerald-400 hover:underline">
+                Refund Policy &rarr;
+              </Link>
+              <span className="text-emerald-400 font-bold">✓ Guaranteed Action within 24–48 Hours</span>
+            </div>
           </div>
         </section>
 

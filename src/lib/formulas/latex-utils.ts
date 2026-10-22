@@ -17,8 +17,13 @@ export function renderFormula(latex: string, displayMode = true): string {
     })
   } catch (error) {
     console.error(`KaTeX render failed for: ${latex}`, error)
-    const escaped = latex.replace(/'/g, "\\'").replace(/"/g, '&quot;')
-    return `<span class="formula-error text-red-600 font-mono text-xs inline-flex items-center gap-1.5" role="alert"><span>Formula rendering fallback.</span><button onclick="navigator.clipboard.writeText('${escaped}')" class="underline text-blue-600 hover:text-blue-800 font-semibold cursor-pointer">Copy LaTeX</button></span>`
+    const safeEscaped = latex
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;')
+    return `<span class="formula-error text-red-600 font-mono text-xs inline-flex items-center gap-1.5" role="alert"><span>Formula rendering fallback:</span><code class="bg-red-50 text-red-700 px-1 py-0.5 rounded text-[11px] font-mono border border-red-200">${safeEscaped}</code></span>`
   }
 }
 

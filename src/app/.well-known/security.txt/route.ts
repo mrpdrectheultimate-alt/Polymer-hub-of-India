@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   const content = [
     'Contact: mailto:security@polymerhubofindia.com',
-    'Expires: 2027-09-01T00:00:00.000Z',
+    'Contact: mailto:grievance@polymerhubofindia.com',
+    'Expires: 2027-10-01T00:00:00.000Z',
     'Preferred-Languages: en, hi',
     'Canonical: https://polymerhubofindia.com/.well-known/security.txt',
-    'Policy: https://polymerhubofindia.com/terms',
+    'Policy: https://polymerhubofindia.com/legal',
+    'Acknowledgments: https://polymerhubofindia.com/legal',
   ].join('\n') + '\n'
 
   return new NextResponse(content, {

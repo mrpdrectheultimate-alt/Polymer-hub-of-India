@@ -126,21 +126,107 @@ export default function PrivacyPolicyPage() {
               <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
               <span><strong>Right to Data Portability:</strong> Request an export of your learning trajectory and course certificates in machine-readable JSON format.</span>
             </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Right to Withdraw Consent:</strong> You may withdraw your processing consent at any time via account settings or written grievance request.</span>
+            </li>
           </ul>
         </section>
 
-        {/* Section 4 */}
-        <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-3">
-          <h3 className="font-display text-xl font-bold text-amber-400">Data Protection Officer &amp; Grievance Redressal</h3>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
-            In compliance with the Information Technology (Reasonable Security Practices and Procedures and Sensitive Personal Data or Information) Rules and DPDP 2023:
+        {/* Section 4: Minor Data & Student Protection (DPDP Act Sec 9) */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">04.</span> Protection of Minors &amp; Students (DPDP Act Sec 9)
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            PolymerHub serves polytechnic, diploma, and undergraduate engineering students across India, some of whom may be under 18 years of age. In strict compliance with <strong>Section 9 of the DPDP Act 2023</strong>:
           </p>
-          <div className="pt-2 text-xs font-mono text-slate-300 space-y-1">
-            <p><strong>Platform:</strong> Polymer Hub of India</p>
-            <p><strong>Grievance &amp; Privacy Email:</strong> <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 hover:underline">support@polymerhubofindia.com</a></p>
-            <p><strong>General Inquiries:</strong> <a href="mailto:hello@polymerhubofindia.com" className="text-blue-400 hover:underline">hello@polymerhubofindia.com</a></p>
-            <p><strong>Response Timeline:</strong> Within 48 business hours.</p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Zero Behavioral Tracking &amp; Targeted Ads:</strong> PolymerHub does not track children&apos;s online behavior or serve targeted advertisements under any circumstances.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Harm Prevention Guarantee:</strong> We do not undertake any processing of personal data that is likely to cause any detrimental effect on the well-being of a student or minor.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Parental / Guardian Inquiries:</strong> Parents or guardians may review, correct, or request deletion of their child&apos;s educational records by contacting our Grievance Redressal Desk.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 5: Cookies & Local Storage Architecture */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">05.</span> Cookie &amp; Storage Architecture
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            We use strictly necessary and performance cookies under the DPDP Act consent guidelines:
+          </p>
+          <div className="overflow-x-auto text-xs">
+            <table className="w-full border-collapse border border-slate-200">
+              <thead className="bg-slate-50 text-slate-900 font-mono font-bold">
+                <tr>
+                  <th className="border border-slate-200 p-2 text-left">Cookie / Token</th>
+                  <th className="border border-slate-200 p-2 text-left">Category</th>
+                  <th className="border border-slate-200 p-2 text-left">Purpose &amp; Expiration</th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-600 divide-y divide-slate-200">
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">sb-*-auth-token</td>
+                  <td className="p-2">Essential</td>
+                  <td className="p-2">Encrypted Supabase JWT session authentication token (Session / 7 Days).</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">ph_guest_evaluator</td>
+                  <td className="p-2">Essential</td>
+                  <td className="p-2">Stores 24-hour instant guest pass for faculty and institutional evaluators (24 Hours).</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">polymerhub_cookie_consent</td>
+                  <td className="p-2">Preferences</td>
+                  <td className="p-2">Preserves user cookie preference selection under DPDP Act 2023 (1 Year).</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </section>
+
+        {/* Section 6: Statutory Grievance Redressal Officer */}
+        <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
+          <div className="flex items-center gap-2 text-amber-400 font-mono font-bold text-xs uppercase tracking-wider">
+            <ShieldCheck className="w-4 h-4" /> Statutory Mandatory Disclosure (IT Rules 2021 &middot; Rule 3(2))
+          </div>
+          <h3 className="font-display text-xl sm:text-2xl font-bold text-white">
+            Designated Grievance Redressal &amp; Data Protection Officer
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
+            In compliance with Rule 3(2) of the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, and Section 12 of the Digital Personal Data Protection Act, 2023, the details of our designated Grievance Officer and Data Protection Officer are published below:
+          </p>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-slate-300 bg-slate-800/80 p-5 rounded-xl border border-slate-700">
+            <div className="space-y-1.5">
+              <p className="text-slate-400 font-bold uppercase text-[10px]">Officer Details:</p>
+              <p><strong>Designated Officer:</strong> Mr. L.P.K. Naidu</p>
+              <p><strong>Designation:</strong> Director &amp; Head of Academic Compliance</p>
+              <p><strong>Platform:</strong> Polymer Hub of India (NextGen India)</p>
+              <p><strong>Nodal Office:</strong> Technology Hub, Visakhapatnam, Andhra Pradesh – 530003, India</p>
+            </div>
+            <div className="space-y-1.5">
+              <p className="text-slate-400 font-bold uppercase text-[10px]">Contact &amp; Statutory Timelines:</p>
+              <p><strong>Grievance Email:</strong> <a href="mailto:grievance@polymerhubofindia.com" className="text-amber-400 hover:underline">grievance@polymerhubofindia.com</a></p>
+              <p><strong>Support Desk:</strong> <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 hover:underline">support@polymerhubofindia.com</a></p>
+              <p><strong>Statutory Acknowledgment:</strong> Within 24 Hours</p>
+              <p><strong>Final Resolution:</strong> Within 15 Working Days</p>
+            </div>
+          </div>
+
+          <p className="text-[11px] text-slate-400 leading-relaxed font-light">
+            If your grievance is not resolved within the statutory period, you have the legal right under Section 13 of the DPDP Act 2023 to escalate your complaint to the <strong>Data Protection Board of India (DPBI)</strong>.
+          </p>
         </section>
 
       </div>

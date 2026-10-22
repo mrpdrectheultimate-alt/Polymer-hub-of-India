@@ -104,28 +104,86 @@ export default function TermsPage() {
         {/* Section 4: Subscriptions, Payments & Refunds */}
         <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
           <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
-            <span className="text-blue-600 font-mono text-base">04.</span> Subscriptions, Pricing &amp; Refund Policy
+            <span className="text-blue-600 font-mono text-base">04.</span> Subscriptions, Payments &amp; Cancellation
           </h2>
           <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
             All core curriculum lessons remain permanently free. Premium subscriptions (₹149/mo or ₹1,429/yr) unlock unlimited AI tutoring, downloadable offline PDF study packs, and verified completion certificates.
           </p>
-          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-xs sm:text-sm text-emerald-950 space-y-1">
+          <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-xs sm:text-sm text-emerald-950 space-y-2">
             <p className="font-bold flex items-center gap-1.5 text-emerald-800">
-              <ShieldCheck className="w-4 h-4" /> 7-Day Money-Back Guarantee
+              <ShieldCheck className="w-4 h-4" /> 7-Day Money-Back Guarantee &amp; Cancellation Policy
             </p>
             <p className="text-emerald-900 leading-relaxed">
-              If you are unsatisfied with your Premium subscription for any reason within 7 days of initial purchase, contact support@polymerhubofindia.com for a full, no-questions-asked refund processed via Razorpay.
+              If you are unsatisfied with your Premium subscription for any reason within 7 days of initial purchase, contact support@polymerhubofindia.com for a full, no-questions-asked refund processed via Razorpay. For detailed claim steps, bank turnaround times, and cancellation rules, review our dedicated policy:
+            </p>
+            <Link
+              href="/refund"
+              className="inline-flex items-center gap-1.5 font-bold text-emerald-800 underline hover:text-emerald-950 font-mono text-xs pt-1"
+            >
+              View Complete Cancellation, Refund &amp; Digital Fulfillment Policy &rarr;
+            </Link>
+          </div>
+        </section>
+
+        {/* Section 5: Academic & Examination Disclaimers (GATE XE-F) */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">05.</span> Examination Non-Affiliation Disclaimer (GATE XE-F)
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            PolymerHub of India provides practice mock exams, question sets, and syllabus guidance for competitive examinations including <strong>GATE XE-F (Polymer Science and Engineering)</strong>.
+          </p>
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-1.5">
+            <p className="font-bold text-slate-900">Nominative Fair Use Notice:</p>
+            <p className="text-slate-600 leading-relaxed">
+              The Graduate Aptitude Test in Engineering (GATE) is an official national examination conducted jointly by the Indian Institute of Science (IISc Bangalore) and seven Indian Institutes of Technology (IIT Bombay, IIT Delhi, IIT Guwahati, IIT Kanpur, IIT Kharagpur, IIT Madras, IIT Roorkee) on behalf of the National Coordination Board (NCB)-GATE, Department of Higher Education, Ministry of Education, Government of India.
+            </p>
+            <p className="text-slate-600 leading-relaxed">
+              PolymerHub of India is an independent academic resource. It is <strong>NOT affiliated with, authorized by, sponsored by, or endorsed by IITs, IISc, or the Ministry of Education</strong>. The acronym &quot;GATE&quot; and related subject codes are referenced strictly nominatively under Section 30 of the Trade Marks Act 1999 to identify relevant curriculum study material.
             </p>
           </div>
         </section>
 
-        {/* Section 5: Legal Jurisdiction & Intermediary Safe Harbor */}
-        <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-3">
-          <h3 className="font-display text-xl font-bold text-amber-400">Jurisdiction, Safe Harbor &amp; Dispute Resolution</h3>
+        {/* Section 6: AI Tutor & Engineering Calculations Safe Harbor */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">06.</span> Engineering Solvers &amp; AI Safety Safe Harbor
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Calculations generated by our engineering solvers (tonnage, cooling time, shrinkage, rheology) and AI Tutor responses are intended strictly for educational study, academic revision, and preliminary technical estimation:
+          </p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+              <span><strong>No Industrial Warranty:</strong> PolymerHub disclaims all liability for real-world tooling damages, part shrinkage failures, machine mechanical errors, or commercial manufacturing defects resulting from reliance on theoretical calculator outputs.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Critical Applications:</strong> In safety-critical sectors (aerospace, medical polymers, automotive structural components), formulas must be validated by certified laboratory testing under ASTM/ISO standards and licensed professional engineering personnel.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 7: Legal Jurisdiction & Statutory Grievance Redressal */}
+        <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
+          <h3 className="font-display text-xl font-bold text-amber-400">Jurisdiction &amp; Statutory Grievance Redressal</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             These Terms are governed by the laws of India, including the Indian Copyright Act 1957 (Sec 52 Fair Dealing), Information Technology Act 2000 (Sec 79 Intermediary Protection), and DPDP Act 2023. Any dispute shall be subject to the exclusive jurisdiction of the competent courts of India.
           </p>
+          
+          <div className="bg-slate-800/80 p-4 rounded-xl border border-slate-700 text-xs font-mono text-slate-300 space-y-1">
+            <p className="text-amber-400 font-bold uppercase text-[10px]">Statutory Grievance Officer (IT Rules 2021):</p>
+            <p><strong>Officer Name:</strong> Mr. L.P.K. Naidu (Director &amp; Designated Compliance Officer)</p>
+            <p><strong>Nodal Office:</strong> Technology Hub, Visakhapatnam, Andhra Pradesh – 530003, India</p>
+            <p><strong>Grievance Email:</strong> <a href="mailto:grievance@polymerhubofindia.com" className="text-blue-400 hover:underline">grievance@polymerhubofindia.com</a></p>
+            <p><strong>Response Timelines:</strong> Acknowledgment within 24 hours &middot; Final resolution within 15 working days.</p>
+          </div>
+
           <div className="pt-2 flex flex-wrap gap-4 text-xs font-mono text-slate-400">
+            <Link href="/refund" className="text-emerald-400 font-bold hover:underline">
+              Cancellation &amp; Refund Policy &rarr;
+            </Link>
+            <span>&bull;</span>
             <Link href="/legal" className="text-amber-400 font-bold hover:underline">
               Legal &amp; Provenance Charter &rarr;
             </Link>
@@ -133,10 +191,6 @@ export default function TermsPage() {
             <Link href="/privacy" className="text-blue-400 hover:underline">
               View Privacy Policy &rarr;
             </Link>
-            <span>&bull;</span>
-            <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 hover:underline">
-              Contact Support &amp; Legal &rarr;
-            </a>
           </div>
         </section>
 

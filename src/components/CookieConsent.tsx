@@ -38,6 +38,9 @@ export default function CookieConsent() {
   const saveChoice = (updated: CookiePreferences) => {
     try {
       localStorage.setItem('polymerhub_cookie_consent', JSON.stringify(updated))
+      const maxAge = 365 * 24 * 60 * 60
+      const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:'
+      document.cookie = `ph_cookie_consent=${encodeURIComponent(JSON.stringify(updated))}; path=/; max-age=${maxAge}; SameSite=Lax${isHttps ? '; Secure' : ''}`
     } catch {
       // ignore
     }

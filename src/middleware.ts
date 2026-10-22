@@ -62,11 +62,17 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Fast-path: Only refresh and validate session on authenticated / protected routes or API routes
-  if (
+  // Fast-path: Enforce authentication on admin routes and refresh sessions on protected paths
+  if (pathname.startsWith('/admin')) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) {
+      const loginUrl = new URL('/login', request.url)
+      loginUrl.searchParams.set('next', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+  } else if (
     pathname.startsWith('/dashboard') ||
     pathname.startsWith('/profile') ||
-    pathname.startsWith('/admin') ||
     pathname.startsWith('/hod') ||
     pathname.startsWith('/api')
   ) {

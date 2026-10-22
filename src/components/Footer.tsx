@@ -343,6 +343,17 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/refund" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors flex items-center justify-between">
+                  <span>Cancellation &amp; Refund</span>
+                  <span className="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">7-Day</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/.well-known/security.txt" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                  Security Disclosure (RFC 9116)
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   onClick={() => {
@@ -364,9 +375,12 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
         </div>
 
         {/* Legal Fair Dealing Disclaimer Banner */}
-        <div className="mt-8 pt-6 border-t border-slate-200/80 text-[11px] text-slate-500 font-sans leading-relaxed">
+        <div className="mt-8 pt-6 border-t border-slate-200/80 text-[11px] text-slate-500 font-sans leading-relaxed space-y-2">
           <p>
-            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India is an educational knowledge platform and engineering learning resource. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under fair dealing provisions of <strong className="text-slate-700">Section 52 of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for academic research, instruction, and educational indexing.
+            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India (NextGen India) is an educational knowledge platform and engineering learning resource. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under fair dealing provisions of <strong className="text-slate-700">Section 52 of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for academic research, instruction, and educational indexing.
+          </p>
+          <p className="text-[10px] text-slate-400 font-mono">
+            Compliant with DPDP Act 2023 &middot; Consumer Protection (E-Commerce) Rules 2020 &middot; Statutory Grievance Redressal: <a href="mailto:grievance@polymerhubofindia.com" className="text-blue-600 underline">grievance@polymerhubofindia.com</a> (Acknowledgment within 24h &middot; Resolution within 15d).
           </p>
         </div>
 
