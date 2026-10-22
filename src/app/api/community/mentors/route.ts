@@ -15,7 +15,8 @@ export async function GET() {
       .order('experience_years', { ascending: false })
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Fetch mentors error:', error.message)
+      return NextResponse.json({ error: 'Failed to fetch mentors' }, { status: 500 })
     }
 
     return NextResponse.json({ mentors: mentors || [] })

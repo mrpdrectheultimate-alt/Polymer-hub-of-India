@@ -3,11 +3,27 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { CONTACT_CHANNELS, ContactChannel } from '@/lib/contact'
 import { Resend } from 'resend'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: Request) {
   try {
+    // 0. Sliding-window IP rate limiting: max 5 submissions per minute per IP
+    const clientIp = getClientIp(request)
+    const rateLimit = checkRateLimit(`contact:${clientIp}`, { limit: 5, windowMs: 60 * 1000 })
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: 'Too many submissions. Please wait a moment before sending another message.' },
+        { 
+          status: 429,
+          headers: {
+            'Retry-After': Math.ceil((rateLimit.reset - Date.now()) / 1000).toString(),
+          }
+        }
+      )
+    }
+
     const body = await request.json()
     const {
       name,

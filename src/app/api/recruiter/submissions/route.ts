@@ -51,7 +51,7 @@ export async function GET() {
 
     if (error) {
       console.error('Fetch submissions error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to retrieve challenge submissions' }, { status: 500 })
     }
 
     return NextResponse.json({ submissions: submissions || [] })
@@ -106,7 +106,8 @@ export async function POST(request: Request) {
       .single()
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Create challenge db error:', error.message)
+      return NextResponse.json({ error: 'Failed to create challenge' }, { status: 500 })
     }
 
     return NextResponse.json({ success: true, challenge: data })

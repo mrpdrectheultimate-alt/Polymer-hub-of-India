@@ -24,7 +24,8 @@ export async function GET(request: Request) {
     const { data: projects, error } = await query
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Fetch projects error:', error.message)
+      return NextResponse.json({ error: 'Failed to retrieve projects' }, { status: 500 })
     }
 
     return NextResponse.json({ projects })
@@ -68,7 +69,8 @@ export async function POST(request: Request) {
         .insert({ user_id: user.id, project_id: projectId })
 
       if (upvoteInsertError) {
-        return NextResponse.json({ error: upvoteInsertError.message }, { status: 500 })
+        console.error('Project upvote error:', upvoteInsertError.message)
+        return NextResponse.json({ error: 'Failed to record upvote' }, { status: 500 })
       }
 
       // Fetch current upvotes
@@ -88,7 +90,8 @@ export async function POST(request: Request) {
         .eq('id', projectId)
 
       if (updateError) {
-        return NextResponse.json({ error: updateError.message }, { status: 500 })
+        console.error('Project upvote update error:', updateError.message)
+        return NextResponse.json({ error: 'Failed to update upvote count' }, { status: 500 })
       }
 
       return NextResponse.json({ success: true, upvotes: currentUpvotes + 1 })
@@ -120,7 +123,8 @@ export async function POST(request: Request) {
       .single()
 
     if (insertError) {
-      return NextResponse.json({ error: insertError.message }, { status: 500 })
+      console.error('Project insert error:', insertError.message)
+      return NextResponse.json({ error: 'Failed to submit project' }, { status: 500 })
     }
 
     try {

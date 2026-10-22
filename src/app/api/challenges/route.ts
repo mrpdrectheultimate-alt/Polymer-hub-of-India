@@ -18,7 +18,8 @@ export async function GET() {
       .order('deadline', { ascending: true })
 
     if (chalError) {
-      return NextResponse.json({ error: chalError.message }, { status: 500 })
+      console.error('Fetch challenges error:', chalError.message)
+      return NextResponse.json({ error: 'Failed to retrieve challenges' }, { status: 500 })
     }
 
     // Get user session to attach submission statuses
@@ -91,7 +92,8 @@ export async function POST(request: Request) {
       if (subError.code === '23505') {
         return NextResponse.json({ error: 'You have already submitted a solution to this challenge.' }, { status: 400 })
       }
-      return NextResponse.json({ error: subError.message }, { status: 500 })
+      console.error('Challenge submission error:', subError.message)
+      return NextResponse.json({ error: 'Failed to submit challenge solution' }, { status: 500 })
     }
 
     // Award +50 XP immediately using our Postgres RPC function

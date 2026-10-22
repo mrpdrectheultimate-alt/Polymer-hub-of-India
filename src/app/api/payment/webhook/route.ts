@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 import crypto from 'crypto'
 import { verifyRazorpayWebhookSignature } from '@/lib/security'
@@ -7,13 +7,7 @@ export const dynamic = 'force-dynamic'
 
 export async function POST(req: NextRequest) {
   try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
     const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET
-
-    if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: 'Supabase service configuration missing' }, { status: 500 })
-    }
 
     if (!webhookSecret) {
       return NextResponse.json({ error: 'Webhook secret configuration missing' }, { status: 500 })
@@ -38,7 +32,7 @@ export async function POST(req: NextRequest) {
     const eventType = event.event || 'unknown'
     const payloadHash = crypto.createHash('sha256').update(body).digest('hex')
 
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    const supabase = getAdminClient()
 
     // 2. Extract payment entity
     const payment = event.payload?.payment?.entity

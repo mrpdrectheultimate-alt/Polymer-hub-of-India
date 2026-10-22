@@ -41,6 +41,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const targetPath = safeRedirectPath(next)
+  const defaultFallback = type === 'recovery' ? '/auth/reset-password' : '/dashboard'
+  const targetPath = next ? safeRedirectPath(next) : defaultFallback
   return NextResponse.redirect(new URL(targetPath, origin))
 }

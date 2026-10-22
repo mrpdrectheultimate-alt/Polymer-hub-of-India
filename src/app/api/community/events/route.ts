@@ -14,7 +14,8 @@ export async function GET() {
       .order('event_date', { ascending: true })
 
     if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Fetch events error:', error.message)
+      return NextResponse.json({ error: 'Failed to retrieve events' }, { status: 500 })
     }
 
     return NextResponse.json({ events: events || [] })

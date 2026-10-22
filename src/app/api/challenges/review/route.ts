@@ -57,7 +57,8 @@ export async function POST(request: Request) {
       .eq('id', submissionId)
 
     if (updateError) {
-      return NextResponse.json({ error: updateError.message }, { status: 500 })
+      console.error('Challenge review update error:', updateError.message)
+      return NextResponse.json({ error: 'Failed to update challenge review status' }, { status: 500 })
     }
 
     // If accepted, award +200 XP bonus
