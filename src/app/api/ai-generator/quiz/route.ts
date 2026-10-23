@@ -3,7 +3,12 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { createClient } from '@/lib/supabase/server'
 import OpenAI from 'openai'
 
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest']
+const OPENROUTER_MODELS = [
+  'google/gemini-2.5-flash',
+  'deepseek/deepseek-chat',
+  'meta-llama/llama-3.3-70b-instruct',
+]
 
 export async function POST(req: NextRequest) {
   try {
@@ -44,39 +49,65 @@ You must return a JSON array containing exactly 5 items, matching this JSON sche
 
     let responseText = ''
 
-    if (process.env.OPENROUTER_API_KEY) {
-      const openai = new OpenAI({
-        apiKey: process.env.OPENROUTER_API_KEY,
-        baseURL: 'https://openrouter.ai/api/v1',
-        defaultHeaders: {
-          'HTTP-Referer': 'https://polymerhubofindia.com',
-          'X-Title': 'Polymer Hub of India',
+    // ── Tier 1: Direct Google Gemini ─────────────────────────────────────────
+    if (process.env.GEMINI_API_KEY) {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+      for (const modelName of GEMINI_MODELS) {
+        try {
+          const model = genAI.getGenerativeModel({
+            model: modelName,
+            generationConfig: {
+              responseMimeType: 'application/json',
+              temperature: 0.7,
+            },
+          })
+          const result = await model.generateContent(prompt)
+          const text = result.response.text()
+          if (text && text.trim().length > 0) {
+            responseText = text.trim()
+            break
+          }
+        } catch (mErr) {
+          console.warn(`AI Quiz Direct Gemini ${modelName} failed:`, mErr)
         }
-      })
+      }
+    }
 
-      const response = await openai.chat.completions.create({
-        model: 'google/gemini-flash-1.5',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-      })
+    // ── Tier 2: OpenRouter Multi-Model Cascade ───────────────────────────────
+    if (!responseText && process.env.OPENROUTER_API_KEY) {
+      try {
+        const openai = new OpenAI({
+          apiKey: process.env.OPENROUTER_API_KEY,
+          baseURL: 'https://openrouter.ai/api/v1',
+          defaultHeaders: {
+            'HTTP-Referer': 'https://polymerhubofindia.com',
+            'X-Title': 'Polymer Hub of India',
+          }
+        })
 
-      responseText = response.choices[0].message.content || ''
-    } else if (process.env.GEMINI_API_KEY && genAI) {
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        generationConfig: {
-          responseMimeType: 'application/json',
-          temperature: 0.7,
-        },
-      })
-      const result = await model.generateContent(prompt)
-      responseText = result.response.text()
-    } else {
-      return NextResponse.json({ error: 'AI configuration is missing.' }, { status: 500 })
+        for (const model of OPENROUTER_MODELS) {
+          try {
+            const response = await openai.chat.completions.create({
+              model,
+              messages: [{ role: 'user', content: prompt }],
+              temperature: 0.7,
+            })
+            const content = response.choices?.[0]?.message?.content
+            if (content && content.trim()) {
+              responseText = content.trim()
+              break
+            }
+          } catch (modelErr) {
+            console.warn(`AI Quiz OpenRouter model ${model} failed:`, modelErr)
+          }
+        }
+      } catch (orErr) {
+        console.warn('AI Quiz OpenRouter client failed:', orErr)
+      }
     }
 
     if (!responseText) {
-      throw new Error('Empty response from AI engine')
+      throw new Error('AI engines are temporarily unavailable. Please retry in a moment.')
     }
 
     // Clean JSON response if it contains markdown code fences

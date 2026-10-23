@@ -5,7 +5,12 @@ import OpenAI from 'openai'
 
 export const dynamic = 'force-dynamic'
 
-const genAI = process.env.GEMINI_API_KEY ? new GoogleGenerativeAI(process.env.GEMINI_API_KEY) : null
+const GEMINI_MODELS = ['gemini-2.5-flash', 'gemini-flash-latest']
+const OPENROUTER_MODELS = [
+  'google/gemini-2.5-flash',
+  'deepseek/deepseek-chat',
+  'meta-llama/llama-3.3-70b-instruct',
+]
 
 export async function GET() {
   try {
@@ -32,7 +37,6 @@ export async function GET() {
     if (!subjects || !lessons) {
       return NextResponse.json({ error: 'Failed to load course metadata.' }, { status: 500 })
     }
-
 
     // Aggregate performance per subject
     const subjectProfile = subjects.map(sub => {
@@ -94,34 +98,84 @@ Make the tone encouraging, highly professional, and engineering-focused.`
 
     let plan = ''
 
-    if (process.env.OPENROUTER_API_KEY) {
-      const openai = new OpenAI({
-        apiKey: process.env.OPENROUTER_API_KEY,
-        baseURL: 'https://openrouter.ai/api/v1',
-        defaultHeaders: {
-          'HTTP-Referer': 'https://polymerhubofindia.com',
-          'X-Title': 'Polymer Hub of India',
+    // ── Tier 1: Direct Google Gemini ─────────────────────────────────────────
+    if (process.env.GEMINI_API_KEY) {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+      for (const modelName of GEMINI_MODELS) {
+        try {
+          const model = genAI.getGenerativeModel({
+            model: modelName,
+            generationConfig: { temperature: 0.2, maxOutputTokens: 1500 },
+          })
+          const result = await model.generateContent(prompt)
+          const text = result.response.text()
+          if (text && text.trim().length > 0) {
+            plan = text.trim()
+            break
+          }
+        } catch (mErr) {
+          console.warn(`AI Focus Plan Direct Gemini ${modelName} failed:`, mErr)
         }
-      })
+      }
+    }
 
-      const response = await openai.chat.completions.create({
-        model: 'google/gemini-flash-1.5',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.2,
-      })
+    // ── Tier 2: OpenRouter Multi-Model Cascade ───────────────────────────────
+    if (!plan && process.env.OPENROUTER_API_KEY) {
+      try {
+        const openai = new OpenAI({
+          apiKey: process.env.OPENROUTER_API_KEY,
+          baseURL: 'https://openrouter.ai/api/v1',
+          defaultHeaders: {
+            'HTTP-Referer': 'https://polymerhubofindia.com',
+            'X-Title': 'Polymer Hub of India',
+          }
+        })
 
-      plan = response.choices[0].message.content || ''
-    } else if (process.env.GEMINI_API_KEY && genAI) {
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-1.5-flash',
-        generationConfig: {
-          temperature: 0.2,
-        },
-      })
-      const result = await model.generateContent(prompt)
-      plan = result.response.text()
-    } else {
-      return NextResponse.json({ error: 'AI configuration is missing.' }, { status: 500 })
+        for (const model of OPENROUTER_MODELS) {
+          try {
+            const response = await openai.chat.completions.create({
+              model,
+              messages: [{ role: 'user', content: prompt }],
+              temperature: 0.2,
+              max_tokens: 1500,
+            })
+            const content = response.choices?.[0]?.message?.content
+            if (content && content.trim()) {
+              plan = content.trim()
+              break
+            }
+          } catch (modelErr) {
+            console.warn(`AI Focus Plan OpenRouter model ${model} failed:`, modelErr)
+          }
+        }
+      } catch (orErr) {
+        console.warn('AI Focus Plan OpenRouter failed:', orErr)
+      }
+    }
+
+    // ── Tier 3: Zero-Downtime Rule-Based Focus Plan Fallback ───────────────────
+    if (!plan) {
+      plan = `### 1. Performance Overview & Strengths
+You are developing foundational knowledge in Polymer Engineering and Material Sciences. To build industrial readiness, prioritize key engineering fundamentals across injection moulding, melt rheology, and mechanical testing (ASTM D638, ASTM D256).
+
+### 2. 4-Week Study Focus Plan
+- **Week 1: Fundamentals of Polymer Chemistry & Rheology** — Focus on molecular weight distribution, shear thinning behavior, and melt flow index (ASTM D1238).
+- **Week 2: Injection Moulding & Extrusion Process Engineering** — Master temperature profiling, injection speed vs. pressure switchover, and defect elimination (sink marks, warpage, flash).
+- **Week 3: Tool & Mould Design** — Study runner balancing, draft angles, gate geometries, and conformal cooling circuits.
+- **Week 4: Quality Control & ASTM/ISO Testing** — Practice calculating tensile strength, flexural modulus, HDT (Heat Deflection Temp), and Izod impact resistance.
+
+### 3. Customized Career Pathways
+- **Tooling & Mould Design Engineer**: ₹4.5 - ₹10 LPA (Specializing in CAD/CAM, runner analysis, and mould manufacturing).
+- **Process Optimization Engineer**: ₹5.0 - ₹12 LPA (Specializing in plant floor cycle time reduction and scrap minimization).
+- **Polymer R&D / Compounding Specialist**: ₹6.0 - ₹15+ LPA (Masterbatches, engineering composites, recycling compatibilizers).
+
+### 4. Target Employers in India
+- **Reliance Industries Limited (RIL)** — Petrochemicals & Polymer Division (Hazira, Vadodara, Jamnagar)
+- **Supreme Industries** — Advanced Injection Moulding & Piping Solutions
+- **Uflex Ltd & Jindal Poly Films** — Flexible Packaging & BOPP/BOPET Films
+- **CIPET R&D / Tata Motors Polymer Division** — Automotive Lightweighting
+
+**Immediate Next Steps**: Complete the 216 curriculum modules in the PolymerHub Library, take the daily technical quizzes, and explore the Virtual Machinery Labs.`
     }
 
     return NextResponse.json({ plan })
