@@ -55,26 +55,27 @@ export const metadata: Metadata = {
 }
 
 const TICKER_DATA = [
-  { name: 'Reliance Repol PP', price: '₹94.80/kg', change: '+0.4%', isUp: true, points: [93.2, 93.6, 94.0, 94.3, 94.5, 94.6, 94.8] },
-  { name: 'Reliance Relene HDPE', price: '₹99.40/kg', change: '+0.3%', isUp: true, points: [98.1, 98.4, 98.8, 99.0, 99.1, 99.2, 99.4] },
-  { name: 'GAIL G-Lex LLDPE', price: '₹95.60/kg', change: '+0.2%', isUp: true, points: [94.5, 94.8, 95.0, 95.2, 95.3, 95.5, 95.6] },
-  { name: 'Finolex PVC K-67', price: '₹77.80/kg', change: '-0.3%', isUp: false, points: [78.5, 78.4, 78.2, 78.1, 78.0, 77.9, 77.8] },
-  { name: 'Reliance Relpet PET', price: '₹91.20/kg', change: '+0.5%', isUp: true, points: [89.8, 90.1, 90.4, 90.7, 90.9, 91.0, 91.2] },
-  { name: 'SABIC Lexan PC', price: '₹218.50/kg', change: '+0.1%', isUp: true, points: [216.0, 216.5, 217.0, 217.5, 218.0, 218.2, 218.5] },
-  { name: 'BASF Ultramid PA6', price: '₹248.60/kg', change: '+0.2%', isUp: true, points: [246.0, 246.5, 247.0, 247.5, 248.0, 248.3, 248.6] },
-  { name: 'LG Chem ABS', price: '₹141.20/kg', change: '+0.3%', isUp: true, points: [139.5, 139.8, 140.2, 140.5, 140.8, 141.0, 141.2] },
-  { name: 'Circular rPET Flakes', price: '₹74.50/kg', change: '+0.8%', isUp: true, points: [72.5, 72.9, 73.3, 73.7, 74.0, 74.2, 74.5] },
-  { name: 'Circular rHDPE Granules', price: '₹71.20/kg', change: '+0.6%', isUp: true, points: [69.5, 69.8, 70.2, 70.5, 70.8, 71.0, 71.2] },
-  { name: 'Brent Crude Oil', price: '$76.40/bbl', change: '+0.4%', isUp: true, points: [74.8, 75.1, 75.5, 75.8, 76.0, 76.2, 76.4] },
-  { name: 'CPCB EPR Credit (Cat-I)', price: '₹2,650/ton', change: '+1.2%', isUp: true, points: [2520, 2550, 2580, 2600, 2620, 2640, 2650] },
+  { name: 'Reliance Repol PP', price: '₹95.20/kg', change: '+0.4%', isUp: true, points: [93.6, 94.0, 94.3, 94.5, 94.6, 94.8, 95.2] },
+  { name: 'Reliance Relene HDPE', price: '₹99.80/kg', change: '+0.4%', isUp: true, points: [98.4, 98.8, 99.0, 99.1, 99.2, 99.4, 99.8] },
+  { name: 'GAIL G-Lex LLDPE', price: '₹96.10/kg', change: '+0.5%', isUp: true, points: [94.8, 95.0, 95.2, 95.3, 95.5, 95.6, 96.1] },
+  { name: 'Finolex PVC K-67', price: '₹78.20/kg', change: '+0.5%', isUp: true, points: [77.9, 77.8, 77.8, 77.9, 78.0, 78.1, 78.2] },
+  { name: 'Reliance Relpet PET', price: '₹91.80/kg', change: '+0.7%', isUp: true, points: [90.1, 90.4, 90.7, 90.9, 91.0, 91.2, 91.8] },
+  { name: 'SABIC Lexan PC', price: '₹219.00/kg', change: '+0.2%', isUp: true, points: [216.5, 217.0, 217.5, 218.0, 218.2, 218.5, 219.0] },
+  { name: 'BASF Ultramid PA6', price: '₹249.20/kg', change: '+0.2%', isUp: true, points: [246.5, 247.0, 247.5, 248.0, 248.3, 248.6, 249.2] },
+  { name: 'LG Chem ABS', price: '₹141.80/kg', change: '+0.4%', isUp: true, points: [139.8, 140.2, 140.5, 140.8, 141.0, 141.2, 141.8] },
+  { name: 'Circular rPET Flakes', price: '₹75.20/kg', change: '+0.9%', isUp: true, points: [72.9, 73.3, 73.7, 74.0, 74.2, 74.5, 75.2] },
+  { name: 'Circular rHDPE Granules', price: '₹71.80/kg', change: '+0.8%', isUp: true, points: [69.8, 70.2, 70.5, 70.8, 71.0, 71.2, 71.8] },
+  { name: 'Brent Crude Oil', price: '$76.85/bbl', change: '+0.6%', isUp: true, points: [75.1, 75.5, 75.8, 76.2, 76.4, 76.6, 76.85] },
+  { name: 'CPCB EPR Credit (Cat-I)', price: '₹2,720/ton', change: '+2.6%', isUp: true, points: [2550, 2580, 2600, 2620, 2640, 2650, 2720] },
 ]
 
-function LiveTicker() {
+function LiveTicker({ dateLabel }: { dateLabel?: string }) {
+  const displayDate = dateLabel || new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })
   return (
     <div className="bg-[#070F1E] border-b-2 border-slate-900 overflow-hidden h-11 flex items-center select-none">
       <div className="bg-[#F5C518] text-slate-950 font-mono text-xs font-black px-4 h-full flex items-center gap-1.5 flex-shrink-0 border-r-2 border-slate-900 uppercase tracking-widest z-10 shadow-md">
         <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
-        Indicative Spot Benchmarks (22 Oct 2026)
+        Indicative Spot Benchmarks ({displayDate})
       </div>
       <div className="overflow-hidden flex-1">
         <div className="flex animate-ticker whitespace-nowrap items-center">
