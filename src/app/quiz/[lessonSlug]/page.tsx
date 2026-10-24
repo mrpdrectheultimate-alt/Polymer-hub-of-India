@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
@@ -136,9 +136,10 @@ function ResultScreen({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function QuizPage({ params }: { params?: { lessonSlug: string } }) {
+export default function QuizPage({ params }: { params?: Promise<{ lessonSlug: string }> }) {
   const routeParams = useParams()
-  const lessonSlug = (routeParams?.lessonSlug as string) || params?.lessonSlug || ''
+  const resolved = params ? use(params) : null
+  const lessonSlug = (routeParams?.lessonSlug as string) || resolved?.lessonSlug || ''
   const supabase = createClient()
   const router = useRouter()
 

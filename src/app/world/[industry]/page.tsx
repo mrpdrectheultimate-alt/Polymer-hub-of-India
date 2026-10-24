@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, use } from 'react'
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
 import { 
@@ -783,9 +783,10 @@ const INDUSTRY_DATA: Record<string, {
   }
 }
 
-export default function IndustryDetailPage({ params }: { params?: { industry: string } }) {
+export default function IndustryDetailPage({ params }: { params?: Promise<{ industry: string }> }) {
   const routeParams = useParams()
-  const industryKey = ((routeParams?.industry as string) || params?.industry || '').toLowerCase()
+  const resolved = params ? use(params) : null
+  const industryKey = ((routeParams?.industry as string) || resolved?.industry || '').toLowerCase()
   const industry = INDUSTRY_DATA[industryKey]
   const [selectedTab, setSelectedTab] = useState<'overview' | 'materials' | 'processes' | 'standards' | 'troubleshooting' | 'curriculum' | 'careers'>('overview')
 

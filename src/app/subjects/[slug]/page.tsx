@@ -243,9 +243,9 @@ const DEFAULT_CONFIG: DomainConfig = {
 export default async function SubjectDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }> | { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const resolvedParams = await Promise.resolve(params)
+  const resolvedParams = await params
   const supabase = createClient()
 
   // Fetch subject
@@ -843,8 +843,8 @@ function LessonCard({
 
 // ─── Metadata Generator ─────────────────────────────────────────────────────
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
-  const resolvedParams = await Promise.resolve(params)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
   const supabase = createClient()
   const { data: subject } = await supabase
     .from('subjects')

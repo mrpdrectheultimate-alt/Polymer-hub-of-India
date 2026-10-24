@@ -54,8 +54,8 @@ const DOMAIN: Record<string, { color: string; bg: string; label: string; tag: st
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default async function LessonPage({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
-  const resolvedParams = await Promise.resolve(params)
+export default async function LessonPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
   const supabase = createClient()
 
   // Auth
@@ -458,8 +458,8 @@ export default async function LessonPage({ params }: { params: Promise<{ slug: s
 
 export const dynamic = 'force-dynamic'
 
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> | { slug: string } }) {
-  const resolvedParams = await Promise.resolve(params)
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params
   const supabase = createClient()
   const { data: lesson } = await supabase
     .from('lessons')
