@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Logo } from './Logo'
+import { ADMIN_EMAILS } from '@/lib/admin'
 
 import {
   Menu, X, ChevronDown, BookOpen, Brain, Zap, Trophy,
@@ -63,6 +64,7 @@ type Profile = {
   xp_points: number
   current_streak: number
   is_recruiter?: boolean | null
+  role?: string | null
 }
 
 export default function Navbar() {
@@ -80,7 +82,7 @@ export default function Navbar() {
       if (session) {
         const { data } = await supabase
           .from('profiles')
-          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter')
+          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter, role')
           .eq('id', session.user.id)
           .single()
         if (data) setProfile(data)
@@ -92,13 +94,18 @@ export default function Navbar() {
       setSession(session)
       if (session) {
         const { data } = await supabase.from('profiles')
-          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter')
+          .select('full_name, avatar_url, subscription_status, xp_points, current_streak, is_recruiter, role')
           .eq('id', session.user.id).single()
         if (data) setProfile(data)
       } else setProfile(null)
     })
     return () => subscription.unsubscribe()
   }, [supabase])
+
+  const isAdmin = Boolean(
+    (profile?.role === 'admin' || profile?.role === 'organization_owner') ||
+    (session?.user?.email && ADMIN_EMAILS.includes(session.user.email.toLowerCase()))
+  )
 
   useEffect(() => {
     setMobileOpen(false)
@@ -222,6 +229,13 @@ export default function Navbar() {
                     ⭐ Premium
                   </span>
                 )}
+                {isAdmin && (
+                  <Link href="/admin/feedback"
+                    className="font-mono text-[8px] font-black border-2 px-2 py-0.5 uppercase bg-amber-100 border-amber-600 text-amber-900 hover:bg-amber-200 transition-colors flex items-center gap-1 shadow-2xs"
+                    title="Administrative Feedback Desk & System Overview">
+                    🛡️ Admin Desk
+                  </Link>
+                )}
                 {profile?.is_recruiter && (
                   <Link href="/recruiter"
                     className="font-mono text-[8px] font-black border-2 px-2 py-0.5 uppercase bg-blue-50 border-blue-600 text-blue-600 hover:bg-blue-100 transition-colors">
@@ -281,7 +295,8 @@ export default function Navbar() {
 
             {/* Auth section */}
             {session ? (
-              <div className="border-b-4 border-black px-4 py-3 flex items-center gap-3 bg-black">
+              <>
+                <div className="border-b-4 border-black px-4 py-3 flex items-center gap-3 bg-black">
                 {profile?.avatar_url ? (
                   <img src={profile.avatar_url} alt="avatar"
                     className="w-10 h-10 object-cover border-2 border-yellow-400 flex-shrink-0 rounded-sm" />
@@ -305,6 +320,21 @@ export default function Navbar() {
                   Dashboard
                 </Link>
               </div>
+              {session && isAdmin && (
+                <div className="bg-amber-100 border-b-4 border-black px-4 py-2 flex items-center justify-between">
+                  <span className="font-mono text-[10px] font-black text-amber-950 uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-2 h-2 rounded-full bg-amber-600 animate-pulse" />
+                    Admin Clearance
+                  </span>
+                  <Link
+                    href="/admin/feedback"
+                    className="font-mono text-[10px] font-black uppercase bg-amber-500 hover:bg-amber-400 text-black border-2 border-black px-2.5 py-1 transition-colors"
+                  >
+                    Feedback Desk &rarr;
+                  </Link>
+                </div>
+              )}
+            </>
             ) : (
               <div className="border-b-4 border-black px-4 py-3 flex gap-3">
                 <Link href="/login"

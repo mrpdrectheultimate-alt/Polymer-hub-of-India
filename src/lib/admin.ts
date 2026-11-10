@@ -5,6 +5,10 @@ export const ADMIN_EMAILS = [
   'founder@polymerhubofindia.com',
   'admin@polymerhubofindia.com',
   'support@polymerhubofindia.com',
+  'lpknaiduchengala24@gmail.com',
+  'mrpdrectheultimate@gmail.com',
+  'mr.pdrecuniverse@gmail.com',
+  'mrpdrecuniverse@gmail.com',
 ]
 
 export interface AdminProfileCheck {

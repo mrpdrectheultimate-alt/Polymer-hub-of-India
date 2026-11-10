@@ -354,6 +354,12 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
                 </Link>
               </li>
               <li>
+                <Link href="/feedback" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors flex items-center justify-between">
+                  <span>Share Feedback / Report Bug</span>
+                  <span className="text-[10px] text-amber-700 font-mono font-bold bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">Feedback</span>
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   onClick={() => {
@@ -390,7 +396,7 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
       <div className="bg-slate-50 border-t border-slate-200 py-4 px-4 sm:px-6">
         <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 font-medium">
           <p>
-            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-[#2563EB] hover:underline">Legal &amp; Provenance</Link>
+            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-[#2563EB] hover:underline">Legal &amp; Provenance</Link> &middot; <Link href="/admin/feedback" className="text-slate-500 hover:text-slate-800 transition-colors">Admin Desk</Link>
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#0B132B]" title="Deep Navy" />
