@@ -10,8 +10,10 @@ import {
 } from 'lucide-react'
 import {
   IndustryEvent,
+  ALL_VERIFIED_INDUSTRY_EVENTS,
   VERIFIED_INDUSTRY_EVENTS,
   ARCHIVED_INDUSTRY_EVENTS,
+  partitionIndustryEvents,
   computeEventStatus,
   generateEventGoogleCalendarUrl
 } from '@/lib/industry_events_data'
@@ -49,6 +51,7 @@ type Tab = 'exhibitions' | 'webinars' | 'mentorship' | 'discussion'
 // ─── City Theme Palette ───────────────────────────────────────────────────────
 const CITY_THEMES: Record<string, { bg: string; text: string; border: string; accent: string }> = {
   Vadodara:    { bg: 'bg-blue-50', text: 'text-blue-800', border: 'border-blue-200', accent: 'from-blue-600 to-indigo-700' },
+  Kolkata:     { bg: 'bg-cyan-50', text: 'text-cyan-900', border: 'border-cyan-200', accent: 'from-cyan-600 to-blue-700' },
   Indore:      { bg: 'bg-amber-50', text: 'text-amber-900', border: 'border-amber-200', accent: 'from-amber-600 to-orange-600' },
   Gandhinagar: { bg: 'bg-sky-50', text: 'text-sky-900', border: 'border-sky-200', accent: 'from-sky-600 to-blue-700' },
   Kottayam:    { bg: 'bg-purple-50', text: 'text-purple-800', border: 'border-purple-200', accent: 'from-purple-600 to-indigo-700' },
@@ -826,6 +829,7 @@ export default function CommunityPage() {
   const [selectedCity, setSelectedCity] = useState('all')
   const [selectedType, setSelectedType] = useState('all')
 
+  const [industryEvents, setIndustryEvents] = useState<IndustryEvent[]>(ALL_VERIFIED_INDUSTRY_EVENTS)
   const [events, setEvents] = useState<CommunityEvent[]>([])
   const [mentors, setMentors] = useState<MentorProfile[]>([])
   const [loading, setLoading] = useState(true)
@@ -843,9 +847,10 @@ export default function CommunityPage() {
     async function loadData() {
       try {
         setLoading(true)
-        const [evRes, mRes] = await Promise.all([
+        const [evRes, mRes, indRes] = await Promise.all([
           fetch('/api/community/events'),
           fetch('/api/community/mentors'),
+          fetch('/api/community/industry-events').catch(() => null)
         ])
 
         if (evRes.ok) {
@@ -857,6 +862,13 @@ export default function CommunityPage() {
           const mData = await mRes.json()
           setMentors(mData.mentors || [])
         }
+
+        if (indRes && indRes.ok) {
+          const indData = await indRes.json()
+          if (Array.isArray(indData.events) && indData.events.length) {
+            setIndustryEvents(indData.events)
+          }
+        }
       } catch (err) {
         console.error('Failed to load community data:', err)
       } finally {
@@ -866,15 +878,29 @@ export default function CommunityPage() {
     loadData()
   }, [])
 
+  // Dynamic Partitioning into Upcoming and Concluded based on real date
+  const { live, upcoming, concluded } = useMemo(() => {
+    return partitionIndustryEvents(industryEvents, new Date())
+  }, [industryEvents])
+
+  // Extract unique cities dynamically from current events
+  const uniqueCities = useMemo(() => {
+    const cities = new Set<string>()
+    industryEvents.forEach((e) => {
+      if (e.city) cities.add(e.city)
+    })
+    return Array.from(cities).sort()
+  }, [industryEvents])
+
   // Filtered Industry Events
   const filteredIndustryEvents = useMemo(() => {
-    const dataset = eventFeedMode === 'upcoming' ? VERIFIED_INDUSTRY_EVENTS : ARCHIVED_INDUSTRY_EVENTS
+    const dataset = eventFeedMode === 'upcoming' ? upcoming : concluded
     return dataset.filter((ev) => {
       const matchCity = selectedCity === 'all' || ev.city.toLowerCase() === selectedCity.toLowerCase()
       const matchType = selectedType === 'all' || (selectedType === 'conference' ? ev.eventType === 'Academic Conference' : ev.eventType === 'Exhibition & Expo')
       return matchCity && matchType
     })
-  }, [eventFeedMode, selectedCity, selectedType])
+  }, [eventFeedMode, upcoming, concluded, selectedCity, selectedType])
 
   // Handle Event Register
   const handleRegister = useCallback(async (eventId: string) => {
@@ -1010,13 +1036,13 @@ export default function CommunityPage() {
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b-2 border-slate-200">
               <div>
                 <div className="inline-flex items-center gap-2 font-mono text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full uppercase tracking-wider border border-emerald-300 mb-2 shadow-xs">
-                  <CheckCircle size={13} className="text-emerald-600" /> Verified Industry Calendar &middot; Updated Sept 26, 2026
+                  <CheckCircle size={13} className="text-emerald-600" /> Verified Industry Calendar &middot; Real-Time Dynamic Scheduling (Nov 2026)
                 </div>
                 <h2 className="font-display text-2xl sm:text-3xl font-black text-slate-900">
                   Plastics &amp; Polymer Industry Exhibitions (2026 – 2027)
                 </h2>
                 <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-2xl leading-relaxed font-light">
-                  Hand-curated, verifiable events from official organizers (AIPMA, AIRIA, TAPMA, PMMAI, GSPMA). Includes direct source URLs, verified dates, and 1-click Google Calendar integration.
+                  Hand-curated, verifiable events from official organizers (AIPMA, AIRIA, TAPMA, IPF, PMMAI, GSPMA). Includes direct source URLs, verified dates, and 1-click Google Calendar integration.
                 </p>
               </div>
 
@@ -1028,17 +1054,11 @@ export default function CommunityPage() {
                   className="bg-white border-2 border-slate-300 rounded-xl px-3.5 py-2.5 text-xs font-mono font-bold text-slate-900 focus:border-blue-600 focus:outline-none shadow-sm cursor-pointer"
                 >
                   <option value="all">📍 All Cities</option>
-                  <option value="pune">Pune</option>
-                  <option value="vadodara">Vadodara</option>
-                  <option value="indore">Indore</option>
-                  <option value="raipur">Raipur</option>
-                  <option value="mumbai">Mumbai</option>
-                  <option value="new delhi">New Delhi</option>
-                  <option value="kottayam">Kottayam</option>
-                  <option value="chennai">Chennai</option>
-                  <option value="bengaluru">Bengaluru</option>
-                  <option value="hyderabad">Hyderabad</option>
-                  <option value="gandhinagar">Gandhinagar</option>
+                  {uniqueCities.map((city) => (
+                    <option key={city} value={city.toLowerCase()}>
+                      {city}
+                    </option>
+                  ))}
                 </select>
 
                 <select
@@ -1066,7 +1086,7 @@ export default function CommunityPage() {
               >
                 <span>📅 Upcoming Calendar</span>
                 <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px]">
-                  {VERIFIED_INDUSTRY_EVENTS.length}
+                  {upcoming.length}
                 </span>
               </button>
               <button
@@ -1080,7 +1100,7 @@ export default function CommunityPage() {
               >
                 <span>🏛️ Industry Archive</span>
                 <span className="bg-white/20 text-white px-2 py-0.5 rounded-full text-[10px]">
-                  {ARCHIVED_INDUSTRY_EVENTS.length}
+                  {concluded.length}
                 </span>
               </button>
             </div>

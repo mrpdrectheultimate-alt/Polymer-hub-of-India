@@ -17,7 +17,8 @@ import {
   ExternalLink,
   Users,
   Database,
-  ArrowLeft
+  ArrowLeft,
+  Building2
 } from 'lucide-react'
 
 export default function AdminHubPage() {
@@ -29,7 +30,8 @@ export default function AdminHubPage() {
     feedbackTotal: 0,
     feedbackNew: 0,
     updatesTotal: 0,
-    profilesTotal: 0
+    profilesTotal: 0,
+    eventsTotal: 26
   })
 
   useEffect(() => {
@@ -59,19 +61,28 @@ export default function AdminHubPage() {
             { count: fbCount },
             { count: fbNewCount },
             { count: updCount },
-            { count: profCount }
+            { count: profCount },
+            evRes
           ] = await Promise.all([
             supabase.from('feedback').select('*', { count: 'exact', head: true }),
             supabase.from('feedback').select('*', { count: 'exact', head: true }).eq('status', 'new'),
             supabase.from('daily_updates').select('*', { count: 'exact', head: true }),
-            supabase.from('profiles').select('*', { count: 'exact', head: true })
+            supabase.from('profiles').select('*', { count: 'exact', head: true }),
+            fetch('/api/community/industry-events').catch(() => null)
           ])
+
+          let eventsCount = 26
+          if (evRes && evRes.ok) {
+            const evData = await evRes.json()
+            eventsCount = evData.stats?.total || evData.events?.length || 26
+          }
 
           setStats({
             feedbackTotal: fbCount ?? 0,
             feedbackNew: fbNewCount ?? 0,
             updatesTotal: updCount ?? 0,
-            profilesTotal: profCount ?? 0
+            profilesTotal: profCount ?? 0,
+            eventsTotal: eventsCount
           })
         }
       } catch (err) {
@@ -123,6 +134,17 @@ export default function AdminHubPage() {
   }
 
   const ADMIN_MODULES = [
+    {
+      title: 'Exhibitions & Industry Events Desk',
+      desc: 'Govern national trade expos (Plastivision, Indplas, PackPlus, PLASTFOCUS), adjust rescheduled dates, and add newly announced expos.',
+      href: '/admin/events',
+      icon: Building2,
+      color: '#0D9488',
+      bg: '#F0FDFA',
+      badge: `${stats.eventsTotal} Tracked`,
+      badgeColor: 'bg-teal-100 text-teal-900 border border-teal-300',
+      actionText: 'Manage Exhibitions'
+    },
     {
       title: 'Feedback & Inquiries Desk',
       desc: 'Inspect incoming bug reports, feature suggestions, curriculum notes, and user praise with status workflows.',
@@ -237,7 +259,7 @@ export default function AdminHubPage() {
             <h2 className="font-mono text-xs font-black uppercase tracking-widest text-ink/60">
               Operational Management Consoles
             </h2>
-            <span className="font-mono text-[10px] text-slate-500">4 Core Consoles Active</span>
+            <span className="font-mono text-[10px] text-slate-500">5 Core Consoles Active</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
