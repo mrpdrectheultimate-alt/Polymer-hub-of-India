@@ -140,7 +140,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="bg-canvas text-ink antialiased font-sans">
-        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
         <Suspense fallback={null}><ScrollRestoration /></Suspense>
         <PerformanceMonitor />
         <ServiceWorkerRegister />

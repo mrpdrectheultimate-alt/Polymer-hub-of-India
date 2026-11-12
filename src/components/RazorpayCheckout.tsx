@@ -124,6 +124,9 @@ export default function RazorpayCheckout({
           ondismiss: () => {
             setLoading(false)
           },
+          escape: true,
+          handleback: true,
+          confirm_close: false,
         },
         handler: async (response: {
           razorpay_order_id: string
