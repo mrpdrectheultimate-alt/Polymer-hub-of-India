@@ -18,7 +18,8 @@ import {
   Users,
   Database,
   ArrowLeft,
-  Building2
+  Building2,
+  CreditCard
 } from 'lucide-react'
 
 export default function AdminHubPage() {
@@ -31,7 +32,9 @@ export default function AdminHubPage() {
     feedbackNew: 0,
     updatesTotal: 0,
     profilesTotal: 0,
-    eventsTotal: 26
+    eventsTotal: 26,
+    subscribersTotal: 0,
+    pendingPaymentsTotal: 0,
   })
 
   useEffect(() => {
@@ -62,12 +65,16 @@ export default function AdminHubPage() {
             { count: fbNewCount },
             { count: updCount },
             { count: profCount },
+            { count: premCount },
+            { count: pendPayCount },
             evRes
           ] = await Promise.all([
             supabase.from('feedback').select('*', { count: 'exact', head: true }),
             supabase.from('feedback').select('*', { count: 'exact', head: true }).eq('status', 'new'),
             supabase.from('daily_updates').select('*', { count: 'exact', head: true }),
             supabase.from('profiles').select('*', { count: 'exact', head: true }),
+            supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('subscription_status', 'premium'),
+            supabase.from('payment_requests').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
             fetch('/api/community/industry-events').catch(() => null)
           ])
 
@@ -82,7 +89,9 @@ export default function AdminHubPage() {
             feedbackNew: fbNewCount ?? 0,
             updatesTotal: updCount ?? 0,
             profilesTotal: profCount ?? 0,
-            eventsTotal: eventsCount
+            eventsTotal: eventsCount,
+            subscribersTotal: premCount ?? 0,
+            pendingPaymentsTotal: pendPayCount ?? 0,
           })
         }
       } catch (err) {
@@ -189,6 +198,17 @@ export default function AdminHubPage() {
       badgeColor: 'bg-purple-100 text-purple-900 border border-purple-300',
       actionText: 'Inspect Videos'
     },
+    {
+      title: 'Payments & Subscriptions Desk',
+      desc: 'Govern Razorpay transaction orders, verify manual UPI screenshot receipts, and issue instant premium access overrides.',
+      href: '/admin/payments',
+      icon: CreditCard,
+      color: '#2563EB',
+      bg: '#EFF6FF',
+      badge: `${stats.subscribersTotal} Premium Members`,
+      badgeColor: 'bg-emerald-100 text-emerald-900 border border-emerald-300',
+      actionText: 'Manage Payments'
+    },
   ]
 
   return (
@@ -259,7 +279,7 @@ export default function AdminHubPage() {
             <h2 className="font-mono text-xs font-black uppercase tracking-widest text-ink/60">
               Operational Management Consoles
             </h2>
-            <span className="font-mono text-[10px] text-slate-500">5 Core Consoles Active</span>
+            <span className="font-mono text-[10px] text-slate-500">6 Operational Consoles Active</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

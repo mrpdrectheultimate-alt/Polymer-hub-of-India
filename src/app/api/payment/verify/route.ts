@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { getAdminClient } from '@/lib/supabase/admin'
 import { verifyRazorpaySignature } from '@/lib/security'
+import { awardUserXP } from '@/lib/xp'
 
 export async function POST(req: NextRequest) {
   try {
@@ -9,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+      return NextResponse.json({ error: 'Not authenticated', code: 'UNAUTHENTICATED' }, { status: 401 })
     }
 
     const {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     // Timing-safe HMAC verification
     const secret = process.env.RAZORPAY_KEY_SECRET
-    if (!secret) {
+    if (!secret || secret.includes('xxxx') || secret === 'mock_secret') {
       return NextResponse.json({ error: 'Payment gateway configuration error' }, { status: 500 })
     }
 
@@ -38,6 +39,7 @@ export async function POST(req: NextRequest) {
     )
 
     if (!isValid) {
+      console.error('Invalid signature on order:', razorpay_order_id, 'payment:', razorpay_payment_id)
       return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
     }
 
@@ -51,6 +53,9 @@ export async function POST(req: NextRequest) {
       subscriptionEnd.setMonth(subscriptionEnd.getMonth() + 1)
     }
 
+    const planCode = isAnnualPlan ? 'premium_annual' : 'premium_monthly'
+    const planAmount = isAnnualPlan ? 1429 : 149
+
     // Upgrade user to premium via elevated admin client (protected from client manipulation)
     const adminSupabase = getAdminClient()
     const { error: updateError } = await adminSupabase
@@ -58,6 +63,8 @@ export async function POST(req: NextRequest) {
       .update({
         subscription_status: 'premium',
         subscription_end_date: subscriptionEnd.toISOString(),
+        razorpay_payment_id,
+        razorpay_order_id,
         updated_at: now.toISOString(),
       })
       .eq('id', user.id)
@@ -67,24 +74,39 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Failed to upgrade account' }, { status: 500 })
     }
 
-    // Log payment in payment_history table
-    const { error: historyError } = await adminSupabase.from('payment_history').insert({
+    // Upsert payment in payment_history table
+    const { error: historyError } = await adminSupabase.from('payment_history').upsert({
       user_id: user.id,
       razorpay_order_id,
       razorpay_payment_id,
-      amount: isAnnualPlan ? 1429 : 149,
+      amount: planAmount,
       currency: 'INR',
       status: 'success',
-      plan: isAnnualPlan ? 'premium_annual' : 'premium_monthly',
+      plan: planCode,
       paid_at: now.toISOString(),
-    })
+    }, { onConflict: 'razorpay_payment_id' })
 
     if (historyError) {
       console.error('Payment history logging error:', historyError)
-      // We don't block the response since premium was successfully activated on the profile
     }
 
-    return NextResponse.json({ success: true, message: 'Premium activated successfully' })
+    // Award +100 XP to user profile for upgrading
+    try {
+      await awardUserXP(adminSupabase, {
+        userId: user.id,
+        action: 'premium_upgrade',
+        reference: razorpay_payment_id,
+      })
+    } catch (xpErr) {
+      console.warn('Could not award premium XP bonus:', xpErr)
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Premium activated successfully',
+      plan: planCode,
+      subscription_end_date: subscriptionEnd.toISOString(),
+    })
 
   } catch (error: unknown) {
     console.error('Verify payment error:', error)

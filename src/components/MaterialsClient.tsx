@@ -192,7 +192,7 @@ export default function MaterialsClient({ materials, isPremiumUser }: MaterialsC
                   className="w-full inline-flex items-center justify-center gap-1 bg-[#F97316] hover:bg-[#EA6C0A] text-white text-xs font-bold py-2.5 rounded-xl transition-all shadow-sm shadow-orange-500/10"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
-                  Upgrade for ₹99/mo
+                  Upgrade for ₹149/mo
                 </Link>
               </div>
             ) : (

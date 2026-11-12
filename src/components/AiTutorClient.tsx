@@ -252,7 +252,7 @@ export default function AiTutorClient({ initialQueriesUsed, isPremium, userFullN
               Need Unlimited Queries?
             </div>
             <p className="text-[11px] text-amber-700/80 leading-relaxed">
-              Upgrade to Premium for ₹99/month and remove all daily limits. Get unlimited answers grounded in B.Tech PPE notes.
+              Upgrade to Premium for ₹149/month and remove all daily limits. Get unlimited answers grounded in B.Tech PPE notes.
             </p>
             <Link
               href="/pricing"

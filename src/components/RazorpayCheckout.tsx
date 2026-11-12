@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { QrCode } from 'lucide-react'
+import { Zap, ShieldCheck } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 import PaymentModal from '@/components/PaymentModal'
 
 interface RazorpayInstance {
@@ -27,7 +28,7 @@ type RazorpayCheckoutProps = {
 
 export default function RazorpayCheckout({
   buttonText = 'Get Premium — ₹149/mo',
-  buttonClass = 'w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-blue-700 transition-all text-sm flex items-center justify-center gap-2',
+  buttonClass = 'w-full py-3.5 rounded-xl font-bold text-white bg-[#2563EB] hover:bg-blue-700 transition-all text-sm flex items-center justify-center gap-2 shadow-xs cursor-pointer',
   planName = 'Premium Engineer',
   amount = 149,
   isAnnual = false,
@@ -38,8 +39,20 @@ export default function RazorpayCheckout({
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const handlePayment = async () => {
-    // If Razorpay live public key is missing or in staging, directly open UPI Screenshot Payment Modal
-    if (!process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID === 'mock_id') {
+    // 1. Check if user is logged in
+    const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/pricing'
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
+      return
+    }
+
+    const clientKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+
+    // If client public key is placeholder or missing, fallback to manual UPI modal
+    if (!clientKey || clientKey.includes('xxxx') || clientKey === 'mock_id') {
       setIsModalOpen(true)
       return
     }
@@ -47,6 +60,7 @@ export default function RazorpayCheckout({
     setLoading(true)
 
     try {
+      // 2. Ensure Razorpay Checkout SDK is loaded
       if (!window.Razorpay) {
         const script = document.createElement('script')
         script.src = 'https://checkout.razorpay.com/v1/checkout.js'
@@ -63,26 +77,44 @@ export default function RazorpayCheckout({
         return
       }
 
+      // 3. Create server-side Razorpay order
       const orderRes = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ isAnnual, amount })
       })
+
+      const orderData = await orderRes.json().catch(() => ({}))
+
       if (!orderRes.ok) {
-        // Fallback to manual screenshot payment flow
+        if (orderData.code === 'ALREADY_PREMIUM') {
+          alert('You already have an active Premium membership!')
+          router.push('/dashboard')
+          setLoading(false)
+          return
+        }
+
+        if (orderData.code === 'UNAUTHENTICATED') {
+          router.push(`/login?redirect=${encodeURIComponent(window.location.pathname)}`)
+          setLoading(false)
+          return
+        }
+
+        // Fallback to manual screenshot payment flow if keys aren't ready on server
         setIsModalOpen(true)
         setLoading(false)
         return
       }
 
-      const { order_id, amount: orderAmount, currency, user_name, user_email } = await orderRes.json()
+      const { order_id, amount: orderAmount, currency, user_name, user_email } = orderData
 
+      // 4. Configure Razorpay modal options
       const options: Record<string, unknown> = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        key: clientKey,
         amount: orderAmount,
-        currency,
-        name: 'PolymerHub',
-        description: `${planName} — ₹${amount}`,
+        currency: currency || 'INR',
+        name: 'PolymerHub of India',
+        description: `${planName} (${isAnnual ? 'Annual — ₹1,429/yr' : 'Monthly — ₹149/mo'})`,
         image: 'https://polymerhubofindia.com/logo.png',
         order_id,
         prefill: {
@@ -90,8 +122,8 @@ export default function RazorpayCheckout({
           email: user_email,
         },
         theme: {
-          color: '#2563EB',
-          backdrop_color: '#0B172A',
+          color: '#0A1628',
+          backdrop_color: 'rgba(10, 22, 40, 0.85)',
         },
         modal: {
           ondismiss: () => {
@@ -124,6 +156,8 @@ export default function RazorpayCheckout({
             }
           } catch {
             router.push('/payment/failed')
+          } finally {
+            setLoading(false)
           }
         },
       }
@@ -135,7 +169,8 @@ export default function RazorpayCheckout({
       })
       rzp.open()
 
-    } catch {
+    } catch (err) {
+      console.warn('Razorpay checkout initialization error:', err)
       // Graceful fallback to UPI screenshot modal
       setIsModalOpen(true)
       setLoading(false)
@@ -153,7 +188,7 @@ export default function RazorpayCheckout({
           'Opening payment...'
         ) : (
           <span className="flex items-center gap-1.5 justify-center">
-            <QrCode className="w-4 h-4" /> {buttonText}
+            <Zap className="w-4 h-4 fill-amber-300 text-amber-300" /> {buttonText}
           </span>
         )}
       </button>

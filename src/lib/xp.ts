@@ -22,6 +22,7 @@ export const XP_VALUES: Record<string, number> = {
   webinar_registration: 10,
   mentorship_request:   25,
   project_submit:       25,
+  premium_upgrade:      100,
 }
 
 export interface AwardXPParams {
