@@ -49,14 +49,6 @@ export default function RazorpayCheckout({
       return
     }
 
-    const clientKey = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
-
-    // If client public key is placeholder or missing, fallback to manual UPI modal
-    if (!clientKey || clientKey.includes('xxxx') || clientKey === 'mock_id') {
-      setIsModalOpen(true)
-      return
-    }
-
     setLoading(true)
 
     try {
@@ -69,12 +61,6 @@ export default function RazorpayCheckout({
           script.onerror = () => resolve(false)
           document.body.appendChild(script)
         })
-      }
-
-      if (!window.Razorpay) {
-        setIsModalOpen(true)
-        setLoading(false)
-        return
       }
 
       // 3. Create server-side Razorpay order
@@ -106,11 +92,18 @@ export default function RazorpayCheckout({
         return
       }
 
-      const { order_id, amount: orderAmount, currency, user_name, user_email } = orderData
+      const { order_id, amount: orderAmount, currency, user_name, user_email, key_id: serverKey } = orderData
+      const activeKey = serverKey || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+
+      if (!activeKey || activeKey.includes('xxxx') || activeKey === 'mock_id') {
+        setIsModalOpen(true)
+        setLoading(false)
+        return
+      }
 
       // 4. Configure Razorpay modal options
       const options: Record<string, unknown> = {
-        key: clientKey,
+        key: activeKey,
         amount: orderAmount,
         currency: currency || 'INR',
         name: 'PolymerHub of India',
@@ -160,6 +153,12 @@ export default function RazorpayCheckout({
             setLoading(false)
           }
         },
+      }
+
+      if (!window.Razorpay) {
+        setIsModalOpen(true)
+        setLoading(false)
+        return
       }
 
       const rzp = new window.Razorpay(options)
