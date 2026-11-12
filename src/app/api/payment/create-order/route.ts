@@ -4,8 +4,8 @@ import Razorpay from 'razorpay'
 
 export async function POST(request: Request) {
   try {
-    const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
-    const keySecret = process.env.RAZORPAY_KEY_SECRET
+    const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_live_TzIN4Zla77kVzF'
+    const keySecret = process.env.RAZORPAY_KEY_SECRET || 'NV1YGwZYxrbMZxxmAeMRpk9O'
 
     const isPlaceholder = !keyId || !keySecret || 
       keyId.includes('xxxx') || keyId === 'mock_id' || 

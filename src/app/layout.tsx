@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next'
+import Script from 'next/script'
 import './globals.css'
 import { Suspense } from 'react'
 import ScrollRestoration from '@/components/ScrollRestoration'
@@ -139,6 +140,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="bg-canvas text-ink antialiased font-sans">
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <Suspense fallback={null}><ScrollRestoration /></Suspense>
         <PerformanceMonitor />
         <ServiceWorkerRegister />

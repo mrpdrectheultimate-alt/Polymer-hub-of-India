@@ -93,7 +93,7 @@ export default function RazorpayCheckout({
       }
 
       const { order_id, amount: orderAmount, currency, user_name, user_email, key_id: serverKey } = orderData
-      const activeKey = serverKey || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+      const activeKey = serverKey || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_live_TzIN4Zla77kVzF'
 
       if (!activeKey || activeKey.includes('xxxx') || activeKey === 'mock_id') {
         setIsModalOpen(true)
