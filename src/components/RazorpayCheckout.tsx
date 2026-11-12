@@ -67,12 +67,14 @@ export default function RazorpayCheckout({
       const orderRes = await fetch('/api/payment/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
         body: JSON.stringify({ isAnnual, amount })
       })
 
       const orderData = await orderRes.json().catch(() => ({}))
 
       if (!orderRes.ok) {
+        console.error('Create order error response:', orderRes.status, orderData)
         if (orderData.code === 'ALREADY_PREMIUM') {
           alert('You already have an active Premium membership!')
           router.push('/dashboard')
@@ -96,6 +98,7 @@ export default function RazorpayCheckout({
       const activeKey = serverKey || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_live_TzIN4Zla77kVzF'
 
       if (!activeKey || activeKey.includes('xxxx') || activeKey === 'mock_id') {
+        console.error('Active Razorpay key is invalid or placeholder:', activeKey)
         setIsModalOpen(true)
         setLoading(false)
         return
@@ -116,7 +119,6 @@ export default function RazorpayCheckout({
         },
         theme: {
           color: '#0A1628',
-          backdrop_color: 'rgba(10, 22, 40, 0.85)',
         },
         modal: {
           ondismiss: () => {
