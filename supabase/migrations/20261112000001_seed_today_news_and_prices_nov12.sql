@@ -170,3 +170,4 @@ ON CONFLICT (headline) DO UPDATE SET
   is_published = EXCLUDED.is_published,
   editorial_status = EXCLUDED.editorial_status,
   updated_at = now();
+
