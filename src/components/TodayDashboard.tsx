@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹98.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Hazira / Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹104.10', unit: '/kg', change: '+0.4%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹100.20', unit: '/kg', change: '+0.4%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹82.10', unit: '/kg', change: '+0.6%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹95.80', unit: '/kg', change: '+0.4%', isUp: true, location: 'Silvassa' },
-  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹223.80', unit: '/kg', change: '+0.2%', isUp: true, location: 'Nhava Sheva' },
-  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹253.90', unit: '/kg', change: '+0.2%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹146.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹79.90', unit: '/kg', change: '+0.5%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹76.50', unit: '/kg', change: '+0.5%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹99.10', unit: '/kg', change: '+0.3%', isUp: true, location: 'Hazira / Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹104.40', unit: '/kg', change: '+0.3%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹100.50', unit: '/kg', change: '+0.3%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹82.40', unit: '/kg', change: '+0.4%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹96.10', unit: '/kg', change: '+0.3%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹224.20', unit: '/kg', change: '+0.2%', isUp: true, location: 'Nhava Sheva' },
+  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹254.20', unit: '/kg', change: '+0.1%', isUp: true, location: 'Thane' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹146.60', unit: '/kg', change: '+0.3%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹80.30', unit: '/kg', change: '+0.5%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹76.90', unit: '/kg', change: '+0.5%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1951',
-  headline: 'J. Paul Hogan & Robert Banks at Phillips Petroleum Discover Crystalline Polypropylene & Linear HDPE',
-  body: 'In November 1951, American research chemists J. Paul Hogan and Robert Banks discovered that propylene and ethylene could be polymerized into dense, crystalline polymers at moderate pressures using a chromium oxide catalyst on silica (the renowned Phillips catalyst), laying the bedrock for modern polyolefin processing and global commercial plastics manufacturing.',
+  year: '1907',
+  headline: 'Dr. Leo Hendrik Baekeland Demonstrates the "Bakelizer" Autoclave, Synthesizing the First Synthetic Plastic (Bakelite)',
+  body: 'On November 13, 1907, Belgian-American chemist Dr. Leo Hendrik Baekeland successfully demonstrated the operation of his high-pressure steam autoclave—the Bakelizer—in his Yonkers laboratory. By precisely controlling heat and pressure to suppress volatile foaming from gaseous condensation byproducts, he synthesized thermosetting phenol-formaldehyde (Bakelite), inaugurating the modern Age of Synthetic Polymers.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
