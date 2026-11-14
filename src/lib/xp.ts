@@ -56,7 +56,34 @@ export async function awardUserXP(
     }
   }
 
-  // 1. Award XP log entry
+  // 1. Check idempotency if a unique reference (e.g. payment ID or attempt ID) is provided
+  if (reference) {
+    const { data: existingLog } = await supabase
+      .from('xp_log')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('action', action)
+      .eq('reference', reference)
+      .limit(1)
+
+    if (existingLog && existingLog.length > 0) {
+      const { data: currentProfile } = await supabase
+        .from('profiles')
+        .select('xp_points, current_streak')
+        .eq('id', userId)
+        .single()
+
+      return {
+        success: true,
+        xp_earned: 0,
+        total_xp: currentProfile?.xp_points ?? 0,
+        new_badges: [],
+        streak: currentProfile?.current_streak ?? 0
+      }
+    }
+  }
+
+  // 2. Award XP log entry
   await supabase.from('xp_log').insert({
     user_id: userId,
     action,
@@ -64,7 +91,7 @@ export async function awardUserXP(
     reference: reference ?? null
   })
 
-  // 2. Fetch current profile
+  // 3. Fetch current profile
   const { data: profile } = await supabase
     .from('profiles')
     .select('xp_points, current_streak, longest_streak, total_lessons_completed, total_quizzes_passed, last_active_date')

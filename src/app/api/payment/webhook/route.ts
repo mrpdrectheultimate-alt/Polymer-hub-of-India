@@ -56,8 +56,19 @@ export async function POST(req: NextRequest) {
 
     // 3. Handle successful payment events: 'payment.captured' or 'order.paid'
     if (eventType === 'payment.captured' || eventType === 'order.paid') {
+      // Fetch current profile to preserve unexpired subscription days
+      const { data: currentProfile } = await supabase
+        .from('profiles')
+        .select('subscription_end_date, subscription_status')
+        .eq('id', userId)
+        .single()
+
       const now = new Date()
-      const subscriptionEnd = new Date(now)
+      const baseDate = (currentProfile?.subscription_status === 'premium' && currentProfile?.subscription_end_date && new Date(currentProfile.subscription_end_date) > now)
+        ? new Date(currentProfile.subscription_end_date)
+        : now
+
+      const subscriptionEnd = new Date(baseDate)
       if (isAnnualPayment) {
         subscriptionEnd.setFullYear(subscriptionEnd.getFullYear() + 1)
       } else {
@@ -78,16 +89,17 @@ export async function POST(req: NextRequest) {
         p_plan: webhookPlan
       })
 
-      // Fallback or ensure profile and XP are updated
-      if (rpcError || !result || result.status !== 'success') {
-        await supabase.from('profiles').update({
-          subscription_status: 'premium',
-          subscription_end_date: subscriptionEnd.toISOString(),
-          razorpay_payment_id: paymentId,
-          razorpay_order_id: orderId,
-          updated_at: now.toISOString(),
-        }).eq('id', userId)
+      // Guarantee profile entitlement reflects exact plan duration (365 days for annual, 30 days for monthly)
+      await supabase.from('profiles').update({
+        subscription_status: 'premium',
+        subscription_end_date: subscriptionEnd.toISOString(),
+        razorpay_payment_id: paymentId,
+        razorpay_order_id: orderId,
+        updated_at: now.toISOString(),
+      }).eq('id', userId)
 
+      // Ensure payment history record is logged even if RPC was bypassed
+      if (rpcError || !result || result.status !== 'success') {
         await supabase.from('payment_history').upsert({
           user_id: userId,
           razorpay_order_id: orderId,

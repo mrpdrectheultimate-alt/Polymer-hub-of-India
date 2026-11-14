@@ -45,7 +45,7 @@ export default function RazorpayCheckout({
 
     if (!user) {
       const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/pricing'
-      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`)
+      router.push(`/login?next=${encodeURIComponent(currentPath)}&redirect=${encodeURIComponent(currentPath)}`)
       return
     }
 
@@ -133,20 +133,46 @@ export default function RazorpayCheckout({
           razorpay_payment_id: string
           razorpay_signature: string
         }) => {
-          try {
-            const verifyRes = await fetch('/api/payment/verify', {
+          const verifyPayload = {
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+            isAnnual,
+            amount,
+          }
+
+          const callVerify = async () => {
+            return await fetch('/api/payment/verify', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_signature: response.razorpay_signature,
-                isAnnual,
-                amount,
-              }),
+              body: JSON.stringify(verifyPayload),
             })
+          }
 
-            if (verifyRes.ok) {
+          try {
+            // First verification attempt
+            let verifyRes = await callVerify().catch(() => null)
+
+            // Resilient retry: If mobile browser reconnected with jitter, retry after 1.5s
+            if (!verifyRes || !verifyRes.ok) {
+              await new Promise((r) => setTimeout(r, 1500))
+              verifyRes = await callVerify().catch(() => null)
+            }
+
+            if (verifyRes && verifyRes.ok) {
+              onSuccess?.()
+              router.push('/payment/success')
+              return
+            }
+
+            // Fallback safety check: In case webhook already activated premium
+            const { data: latestProfile } = await supabase
+              .from('profiles')
+              .select('subscription_status')
+              .eq('id', user.id)
+              .single()
+
+            if (latestProfile?.subscription_status === 'premium') {
               onSuccess?.()
               router.push('/payment/success')
             } else {

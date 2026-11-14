@@ -31,20 +31,30 @@ export async function POST(request: Request) {
     const body = await request.json().catch(() => ({}))
     const isAnnual = Boolean(body.isAnnual) || Number(body.amount) >= 1000
 
-    // Check if user is already premium
+    // Check if user is actively premium (unexpired)
     const { data: profile } = await supabase
       .from('profiles')
       .select('subscription_status, full_name, subscription_end_date')
       .eq('id', user.id)
       .single()
 
-    if (profile?.subscription_status === 'premium') {
-      return NextResponse.json({ 
-        error: 'Already premium',
-        message: 'You already possess an active Premium membership.',
-        code: 'ALREADY_PREMIUM',
-        subscription_end_date: profile.subscription_end_date
-      }, { status: 400 })
+    const now = new Date()
+    const isActivelySubscribed = profile?.subscription_status === 'premium' && 
+      profile.subscription_end_date && 
+      new Date(profile.subscription_end_date) > now
+
+    // If active and not upgrading from monthly to annual, check if renewal window (< 7 days) applies
+    if (isActivelySubscribed && !isAnnual) {
+      const remainingMs = new Date(profile.subscription_end_date!).getTime() - now.getTime()
+      const remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24))
+      if (remainingDays > 7) {
+        return NextResponse.json({ 
+          error: 'Already premium',
+          message: `You already possess an active Premium membership with ${remainingDays} days remaining.`,
+          code: 'ALREADY_PREMIUM',
+          subscription_end_date: profile.subscription_end_date
+        }, { status: 400 })
+      }
     }
 
     const razorpay = new Razorpay({

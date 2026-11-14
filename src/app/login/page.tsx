@@ -33,7 +33,7 @@ export interface LoginPageProps {
 function LoginContent({ initialMode }: LoginPageProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const nextRedirect = searchParams.get('next') || '/dashboard'
+  const nextRedirect = searchParams.get('next') || searchParams.get('redirect') || '/dashboard'
 
   // Auth mode: 'login' | 'signup' | 'forgot'
   const [authMode, setAuthMode] = useState<'login' | 'signup' | 'forgot'>(() => {
