@@ -290,7 +290,22 @@ export default function AdminFeedbackPage() {
                   )}
                   {selectedItem.user_email && (
                     <div className="border-4 border-ink p-3 bg-canvas">
-                      <div className="font-mono text-[8px] text-ink/40 uppercase tracking-wider mb-0.5">Email</div>
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="font-mono text-[8px] text-ink/40 uppercase tracking-wider">Email</span>
+                        <a
+                          href={`mailto:${selectedItem.user_email}?subject=${encodeURIComponent(
+                            `PolymerHub Support: Regarding your feedback on ${selectedItem.page_url || 'PolymerHub'}`
+                          )}&body=${encodeURIComponent(
+                            `Hi ${selectedItem.user_name || 'there'},\n\nThank you for reaching out to us.\n\nWe have reviewed and resolved the issue you reported:\n"${selectedItem.message}"\n\nEverything is now working smoothly. You can access the platform here:\nhttps://polymerhubofindia.com/pricing\n\nIf you have any further questions, feel free to reply directly to this email or reach us on WhatsApp at +91 81253 58468.\n\nWarm regards,\nFounder & Engineering Team\nPolymerHub of India`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-mono text-[9px] font-bold text-white bg-blue px-2 py-0.5 border border-ink hover:opacity-90 inline-flex items-center gap-1"
+                          title="Open mail client with prefilled response"
+                        >
+                          ✉️ Send Reply
+                        </a>
+                      </div>
                       <a href={`mailto:${selectedItem.user_email}`} className="font-mono text-xs font-bold text-blue hover:underline truncate block">{selectedItem.user_email}</a>
                     </div>
                   )}
