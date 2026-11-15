@@ -127,10 +127,17 @@ export default function RootLayout({
             }),
           }}
         />
-        {/* Favicon */}
+        {/* Favicon & Search Engine Brand Icons */}
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon-48x48.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512x512.png" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         {/* PWA & Light Theme Enforcement */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#1D4ED8" />
