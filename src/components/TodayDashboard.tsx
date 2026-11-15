@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1863',
-  headline: 'Birth of Dr. Leo Hendrik Baekeland — Father of the Modern Plastics Industry & Inventor of Bakelite',
-  body: 'On November 14, 1863, Belgian-American chemist Dr. Leo Hendrik Baekeland was born in Ghent, Belgium. In 1907, he invented and patented Bakelite (phenol-formaldehyde), the world\'s first fully synthetic thermosetting resin that retained its shape under heat and electricity, laying the foundation for modern global polymer science and commercial plastics engineering.',
+  year: '1901',
+  headline: 'Birth of Karl Ziegler — Inventor of Coordination Polymerization Catalysts & 1963 Nobel Laureate in Chemistry',
+  body: 'On November 15, 1901, Nobel laureate Dr. Karl Ziegler was born in Helsa, Germany. In 1953, he discovered the revolutionary organometallic coordination catalysts (Ziegler-Natta catalysts based on titanium halides and alkylaluminium complexes) enabling the low-pressure, stereospecific coordination polymerization of ethylene into high-density polyethylene (HDPE). His work fundamentally transformed global polymer industrial manufacturing, earning him the 1963 Nobel Prize in Chemistry alongside Giulio Natta.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
