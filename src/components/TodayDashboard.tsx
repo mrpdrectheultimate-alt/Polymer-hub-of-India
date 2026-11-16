@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1901',
-  headline: 'Birth of Karl Ziegler — Inventor of Coordination Polymerization Catalysts & 1963 Nobel Laureate in Chemistry',
-  body: 'On November 15, 1901, Nobel laureate Dr. Karl Ziegler was born in Helsa, Germany. In 1953, he discovered the revolutionary organometallic coordination catalysts (Ziegler-Natta catalysts based on titanium halides and alkylaluminium complexes) enabling the low-pressure, stereospecific coordination polymerization of ethylene into high-density polyethylene (HDPE). His work fundamentally transformed global polymer industrial manufacturing, earning him the 1963 Nobel Prize in Chemistry alongside Giulio Natta.',
+  year: '1971',
+  headline: 'Commercial Introduction of Kevlar® Aramid Fiber — The Miracle Polymer of High-Modulus Ballistics',
+  body: 'On November 16, 1971, DuPont formally announced the commercial availability of Kevlar® (poly-para-phenylene terephthalamide), invented in 1965 by research chemist Stephanie Kwolek. Featuring rigid, rod-like molecular chains locked in a liquid crystalline solution and oriented during dry-jet wet spinning, Kevlar exhibited an unprecedented strength-to-weight ratio five times stronger than steel, revolutionizing bullet-resistant composite armor, aerospace airframes, radial racing tires, and deep-sea telecommunication cables.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {

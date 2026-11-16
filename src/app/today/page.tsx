@@ -65,7 +65,7 @@ const TICKER_DATA = [
   { name: 'LG Chem ABS', price: '₹146.60/kg', change: '+0.0%', isUp: true, points: [145.2, 145.5, 145.8, 146.0, 146.2, 146.6, 146.6] },
   { name: 'Circular rPET Flakes', price: '₹80.30/kg', change: '+0.0%', isUp: true, points: [78.8, 79.1, 79.5, 79.7, 79.9, 80.3, 80.3] },
   { name: 'Circular rHDPE Granules', price: '₹76.90/kg', change: '+0.0%', isUp: true, points: [75.4, 75.7, 76.1, 76.3, 76.5, 76.9, 76.9] },
-  { name: 'Brent Crude Oil', price: '$81.25/bbl', change: '+0.2%', isUp: true, points: [79.85, 80.15, 80.30, 80.45, 80.85, 81.10, 81.25] },
+  { name: 'Brent Crude Oil', price: '$81.50/bbl', change: '+0.3%', isUp: true, points: [80.15, 80.30, 80.45, 80.85, 81.10, 81.25, 81.50] },
   { name: 'CPCB EPR Credit (Cat-I)', price: '₹3,060/ton', change: '+0.0%', isUp: true, points: [2970, 2990, 3020, 3030, 3040, 3060, 3060] },
 ]
 
