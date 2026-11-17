@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹99.10', unit: '/kg', change: '+0.0%', isUp: true, location: 'Hazira / Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹104.40', unit: '/kg', change: '+0.0%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹100.50', unit: '/kg', change: '+0.0%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹82.40', unit: '/kg', change: '+0.0%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹96.10', unit: '/kg', change: '+0.0%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹99.30', unit: '/kg', change: '+0.2%', isUp: true, location: 'Hazira / Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹104.60', unit: '/kg', change: '+0.2%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹100.70', unit: '/kg', change: '+0.2%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹82.60', unit: '/kg', change: '+0.2%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹96.30', unit: '/kg', change: '+0.2%', isUp: true, location: 'Silvassa' },
   { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹224.20', unit: '/kg', change: '+0.0%', isUp: true, location: 'Nhava Sheva' },
   { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹254.20', unit: '/kg', change: '+0.0%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹146.60', unit: '/kg', change: '+0.0%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹80.30', unit: '/kg', change: '+0.0%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹76.90', unit: '/kg', change: '+0.0%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹146.80', unit: '/kg', change: '+0.1%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹80.50', unit: '/kg', change: '+0.2%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹77.10', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1971',
-  headline: 'Commercial Introduction of Kevlar® Aramid Fiber — The Miracle Polymer of High-Modulus Ballistics',
-  body: 'On November 16, 1971, DuPont formally announced the commercial availability of Kevlar® (poly-para-phenylene terephthalamide), invented in 1965 by research chemist Stephanie Kwolek. Featuring rigid, rod-like molecular chains locked in a liquid crystalline solution and oriented during dry-jet wet spinning, Kevlar exhibited an unprecedented strength-to-weight ratio five times stronger than steel, revolutionizing bullet-resistant composite armor, aerospace airframes, radial racing tires, and deep-sea telecommunication cables.',
+  year: '2000',
+  headline: 'ACS Historic Chemical Landmark Dedication — Wallace Carothers & the Macromolecular Synthesis of Nylon',
+  body: 'On November 17, 2000, the American Chemical Society (ACS) designated the pioneering polymer research of Dr. Wallace Hume Carothers and the invention of Nylon 66 as a National Historic Chemical Landmark at DuPont Experimental Station. In the 1930s, Carothers\' systematic condensation polymerization of hexamethylenediamine and adipic acid provided the definitive empirical proof for Hermann Staudinger\'s macromolecular hypothesis, transforming polymer science from empirical folklore into a rigorous organic chemistry discipline and giving birth to the modern synthetic fiber and engineering plastics industries.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
