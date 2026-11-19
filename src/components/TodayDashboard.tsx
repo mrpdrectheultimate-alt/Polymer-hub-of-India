@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹99.50', unit: '/kg', change: '+0.2%', isUp: true, location: 'Hazira / Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹104.90', unit: '/kg', change: '+0.3%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹100.90', unit: '/kg', change: '+0.2%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹82.80', unit: '/kg', change: '+0.2%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹96.50', unit: '/kg', change: '+0.2%', isUp: true, location: 'Silvassa' },
-  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹224.50', unit: '/kg', change: '+0.1%', isUp: true, location: 'Nhava Sheva' },
-  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹254.40', unit: '/kg', change: '+0.1%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹147.00', unit: '/kg', change: '+0.1%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹80.70', unit: '/kg', change: '+0.2%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹77.30', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹99.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Hazira / Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹105.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹101.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹83.10', unit: '/kg', change: '+0.4%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹96.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹224.70', unit: '/kg', change: '+0.1%', isUp: true, location: 'Nhava Sheva' },
+  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹254.60', unit: '/kg', change: '+0.1%', isUp: true, location: 'Thane' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹147.20', unit: '/kg', change: '+0.1%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹81.00', unit: '/kg', change: '+0.4%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹77.50', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1953',
-  headline: 'Karl Ziegler Files Landmark Patent for Low-Pressure Olefin Coordination Catalysts',
-  body: 'On November 18, 1953, German chemist Dr. Karl Ziegler filed the historic patent application (Ger. Pat. 973,626) describing organometallic coordination catalysts based on titanium halides and alkylaluminium compounds. This monumental discovery enabled the polymerization of ethylene into high-density polyethylene (HDPE) under ambient pressures and mild temperatures, bypassing extreme 1,000–3,000 atm radical processes and laying the groundwork for Ziegler-Natta stereospecific catalysis, which earned Ziegler and Giulio Natta the 1963 Nobel Prize in Chemistry.',
+  year: '1978',
+  headline: 'Imperial Chemical Industries (ICI) Researchers Successfully Synthesize the First Batch of PEEK Ultra-Polymer',
+  body: 'On November 19, 1978, research polymer scientists at Imperial Chemical Industries (ICI) in Welwyn Garden City, UK, achieved the first successful laboratory batch synthesis of Polyetheretherketone (PEEK) via nucleophilic step-growth polycondensation of 4,4′-difluorobenzophenone and hydroquinone in diphenyl sulfone. The breakthrough yielded an ultra-high-performance semi-crystalline engineering thermoplastic with a continuous operating temperature of 260°C, extreme chemical resistance, and biocompatibility, which went on to revolutionize aerospace structural components, subsea energy seals, and orthopedic spinal implants (later commercialized under the Victrex brand).',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
