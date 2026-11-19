@@ -186,12 +186,13 @@ const KNOWLEDGE_CATEGORIES: SubjectCategory[] = [
     title: 'Smart Molding & Emerging Frontiers',
     badge: 'Industry 4.0',
     subjects: [
-      { slug: 'digital-twins-ai', name: 'Digital Twins & AI Molding', questionsCount: 18, accuracy: 50, color: '#6D28D9' },
-      { slug: 'polymer-nanotechnology', name: 'Nanotechnology & Nanocomposites', questionsCount: 22, accuracy: 66, color: '#7C3AED' },
-      { slug: 'robotics-automation', name: 'Robotics & Automation in Plastics', questionsCount: 15, accuracy: 70, color: '#DC2626' },
-      { slug: 'color-science-masterbatch', name: 'Color Science & Spectrophotometry', questionsCount: 16, accuracy: 72, color: '#E11D48' },
-      { slug: 'lca-sustainability', name: 'Life Cycle Assessment (LCA)', questionsCount: 15, accuracy: 65, color: '#0891B2' },
-      { slug: 'entrepreneurship-plastics', name: 'Entrepreneurship & Factory Setup', questionsCount: 20, accuracy: 90, color: '#CA8A04' },
+      { slug: 'bioprocessing-fermentation', name: 'Bioprocessing & Fermentation', questionsCount: 20, accuracy: 68, color: '#059669' },
+      { slug: 'digital-twins-plastics', name: 'Digital Twins & AI Molding', questionsCount: 20, accuracy: 50, color: '#6D28D9' },
+      { slug: 'polymer-nanotechnology', name: 'Nanotechnology & Nanocomposites', questionsCount: 20, accuracy: 66, color: '#7C3AED' },
+      { slug: 'robotics-plastics', name: 'Robotics & Automation in Plastics', questionsCount: 20, accuracy: 70, color: '#DC2626' },
+      { slug: 'color-science-masterbatches', name: 'Color Science & Spectrophotometry', questionsCount: 20, accuracy: 72, color: '#E11D48' },
+      { slug: 'life-cycle-assessment', name: 'Life Cycle Assessment (LCA)', questionsCount: 20, accuracy: 65, color: '#0891B2' },
+      { slug: 'entrepreneurship-plastics', name: 'Entrepreneurship & Factory Setup', questionsCount: 40, accuracy: 90, color: '#CA8A04' },
     ]
   }
 ]
