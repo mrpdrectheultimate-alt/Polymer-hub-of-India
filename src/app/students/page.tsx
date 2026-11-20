@@ -63,7 +63,7 @@ const STUDENT_PILLARS = [
     desc: 'Solve splay, sink marks, warpage, and diesel effect with real metallurgical and thermodynamic corrective actions.',
     tag: 'Interview Weapon',
     color: '#059669',
-    href: '/defects',
+    href: '/troubleshooter',
   },
   {
     icon: Calculator,
@@ -79,7 +79,7 @@ const STUDENT_PILLARS = [
     desc: '24/7 technical doubt-clearing trained specifically on polymer chemistry, rheology, and processing science.',
     tag: 'RAG Powered',
     color: '#DC2626',
-    href: '/chat',
+    href: '/ai-tutor',
   },
   {
     icon: TrendingUp,

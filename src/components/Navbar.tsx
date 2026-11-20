@@ -17,6 +17,7 @@ const NAV = [
   {
     label: 'Learn',
     items: [
+      { label: 'Campus & Students 🎓', href: '/students', icon: GraduationCap, desc: 'Free student hub & campus workshops', color: '#059669' },
       { label: 'Start Here 🗺️', href: '/start', icon: BookOpen, desc: 'Complete sitemap & learning guide', color: '#7C3AED' },
       { label: 'All 19 Subjects', href: '/subjects', icon: BookOpen, desc: '19 subjects · 216 lessons', color: '#1D4ED8' },
       { label: 'Reference Library', href: '/library', icon: BookOpen, desc: '20 curated reference books & guides', color: '#1D4ED8' },
@@ -201,6 +202,15 @@ export default function Navbar() {
                 </div>
               ))}
             </div>
+
+            {/* Direct Campus & Students Pill */}
+            <Link
+              href="/students"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-xs font-black uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-300 hover:bg-emerald-600 hover:text-white transition-all shadow-xs"
+            >
+              <GraduationCap className="w-3.5 h-3.5 text-emerald-600 group-hover:text-white" />
+              <span>Students Hub 🎓</span>
+            </Link>
           </div>
 
           {/* Desktop right */}
@@ -348,6 +358,27 @@ export default function Navbar() {
                 </Link>
               </div>
             )}
+
+            {/* Campus & Students Mobile Direct Link */}
+            <div className="border-b-4 border-black bg-emerald-50">
+              <Link
+                href="/students"
+                className="flex items-center justify-between px-4 py-3 text-emerald-950 hover:bg-emerald-100 transition-colors"
+              >
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-600 text-white flex items-center justify-center border-2 border-black">
+                    <GraduationCap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="font-mono text-xs font-black uppercase tracking-wider">Campus &amp; Students Hub 🎓</div>
+                    <div className="font-mono text-[9px] text-emerald-700">Free student portal, formulas &amp; GATE series</div>
+                  </div>
+                </div>
+                <span className="font-mono text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded border border-black uppercase">
+                  Free &rarr;
+                </span>
+              </Link>
+            </div>
 
             {/* Nav sections */}
             {NAV.map(section => (

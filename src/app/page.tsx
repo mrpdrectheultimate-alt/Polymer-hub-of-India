@@ -241,6 +241,15 @@ export default function HomePage() {
               </div>
               <div>
                 <Link
+                  href="/students"
+                  className="px-8 py-3.5 rounded-xl font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-400 shadow-sm transition-all flex items-center gap-2 text-xs uppercase tracking-wider"
+                >
+                  🎓 Campus &amp; Students Hub
+                  <ChevronRight className="h-4 w-4" />
+                </Link>
+              </div>
+              <div>
+                <Link
                   href="/subjects"
                   className="px-8 py-3.5 rounded-xl font-mono font-bold text-[#1E293B] bg-white/90 hover:bg-white border border-[#E2E8F0] shadow-sm transition-all flex items-center gap-2 text-xs uppercase tracking-wider hover:border-[#CBD5E1]"
                 >
