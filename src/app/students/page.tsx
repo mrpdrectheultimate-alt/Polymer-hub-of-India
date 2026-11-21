@@ -14,12 +14,18 @@ import {
   FileText, 
   QrCode, 
   Users, 
-  ShieldCheck,
-  TrendingUp,
-  HelpCircle,
-  ExternalLink
+  ShieldCheck, 
+  TrendingUp, 
+  HelpCircle, 
+  ExternalLink,
+  Building,
+  Target,
+  MessageSquare,
+  Flame,
+  Star
 } from 'lucide-react'
 import Footer from '@/components/Footer'
+import StudentInteractiveDemo from '@/components/students/StudentInteractiveDemo'
 
 export const metadata: Metadata = {
   title: 'Student Hub & Campus Learning Portal | PolymerHub India',
@@ -39,6 +45,28 @@ export const metadata: Metadata = {
     ],
   },
 }
+
+const ACADEMIC_HUBS = [
+  { name: 'CIPET (All 42+ Centres)', note: 'Hyderabad, Ahmedabad, Chennai, Bhubaneswar, Lucknow, Bhopal' },
+  { name: 'ICT Mumbai', note: 'Department of Polymer & Surface Engineering' },
+  { name: 'MIT-WPU Pune', note: 'School of Polymer Engineering' },
+  { name: 'L.D. College of Engineering', note: 'Rubber & Plastics Technology, Ahmedabad' },
+  { name: 'Anna University Chennai', note: 'Department of Rubber and Plastics' },
+  { name: 'HBTU Kanpur', note: 'School of Chemical Technology — Plastic Tech' },
+  { name: 'COEP Technological University', note: 'Metallurgy & Materials / Polymers, Pune' },
+  { name: 'IIT Roorkee / IIT Kharagpur', note: 'Polymer Science & Engineering' },
+]
+
+const TARGET_RECRUITERS = [
+  { name: 'Reliance Industries', desc: 'Repol PP & Relene HDPE' },
+  { name: 'Supreme Industries', desc: 'Piping & Injection Moulding' },
+  { name: 'Tata AutoComp Systems', desc: 'Automotive Plastics' },
+  { name: 'Nilkamal Limited', desc: 'Moulded Furniture & Crates' },
+  { name: 'Motherson Sumi Systems', desc: 'Precision Automotive Injection' },
+  { name: 'Finolex Industries', desc: 'PVC Resins & Pipe Compounds' },
+  { name: 'EPL Limited (Essel)', desc: 'Multilayer Laminate Tubes' },
+  { name: 'Alok Masterbatches', desc: 'Colour Science & Compounding' },
+]
 
 const STUDENT_PILLARS = [
   {
@@ -96,28 +124,52 @@ const STUDENT_PROFILES = [
     title: 'CIPET Diploma & PGD-PPT Trainees',
     focus: 'Processing, Moulding & Quality Control',
     bullets: [
-      'Master injection moulding parameter setup and defect prevention',
-      'Learn ASTM D638, ASTM D1238, and ISO testing standards',
-      'Prepare for shop-floor supervisory and QC roles'
+      'Master injection moulding parameter setup, cycle time, and defect prevention',
+      'Learn ASTM D638, ASTM D1238, and ISO testing standards inside out',
+      'Prepare for shop-floor supervisory, mould technician, and QC executive roles'
     ]
   },
   {
     title: 'B.Tech / B.E Plastics & Polymer Students',
     focus: 'Semester Exams & GATE XE-F 2027',
     bullets: [
-      'Pass semester exams with structured LaTeX derivations',
-      'Practice 458+ multi-choice and numerical questions',
-      'Build competitive depth in rheology, blends & composites'
+      'Pass semester university exams with structured LaTeX mathematical derivations',
+      'Practice 458+ multi-choice and numerical questions across all 9 syllabus sections',
+      'Build competitive depth in rheology, polymer blends, and advanced composites'
     ]
   },
   {
     title: 'Final-Year Students & Job Seekers',
     focus: 'Campus Placements (Reliance, Supreme, Tata)',
     bullets: [
-      'Crack technical rounds with real industrial defect case studies',
-      'Understand resin selection, drying dew points, and mould cooling',
-      'Download formula reference cheat-sheets for quick revision'
+      'Crack core technical interviews with real industrial defect case studies',
+      'Understand resin selection, drying dew points, and mould thermal cooling',
+      'Download formula reference cheat-sheets for last-minute revision before rounds'
     ]
+  }
+]
+
+const STUDENT_TESTIMONIALS = [
+  {
+    name: 'Rahul Verma',
+    role: 'PGD-PPT Final Year',
+    college: 'CIPET Ahmedabad',
+    quote: 'The Rosato defect troubleshooter alone saved me in my Supreme Industries technical interview. Instead of generic answers, I explained parting-line vent depth and adiabatic compression burn marks.',
+    badge: 'Placed at Supreme Industries'
+  },
+  {
+    name: 'Sneha Kulkarni',
+    role: 'B.Tech Polymer Engineering',
+    college: 'MIT-WPU Pune',
+    quote: 'Every GATE numerical in polymer physics has step-by-step derivations here. The Carothers formula breakdown and Ballman-Shusman cooling times are clearer than any textbook or coaching notes.',
+    badge: 'GATE XE-F Aspirant'
+  },
+  {
+    name: 'Mohammed Arshad',
+    role: 'Diploma in Plastics Technology (DPT)',
+    college: 'CIPET Hyderabad',
+    quote: 'Having live daily spot resin prices and 8 injection calculators on my mobile phone makes shop-floor lab sessions effortless. The whole batch uses PolymerHub daily.',
+    badge: 'Top 5% in Semester Lab'
   }
 ]
 
@@ -125,18 +177,23 @@ export default function StudentsLandingPage() {
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-slate-900 pb-20 overflow-x-hidden">
       {/* ── Top Campus Announcement Bar ── */}
-      <div className="bg-[#070F1E] border-b border-white/10 py-2 px-4 text-center">
-        <p className="text-xs font-mono font-medium text-amber-400">
-          🎓 Welcome Students & Faculty &middot; Free Curriculum Access Across All 19 AICTE &amp; CIPET Polymer Subjects
-        </p>
+      <div className="bg-[#070F1E] border-b border-white/10 py-2.5 px-4 text-center">
+        <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-2 text-xs font-mono font-medium text-amber-400">
+          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span>🎓 Welcome Students &amp; Faculty &middot; Free 100% Curriculum Access Across All 19 AICTE &amp; CIPET Polymer Subjects</span>
+          <span className="hidden sm:inline text-white/40">|</span>
+          <Link href="/practice" className="hidden sm:inline text-white hover:text-amber-300 underline font-bold">
+            Try 458+ Free GATE XE-F Questions &rarr;
+          </Link>
+        </div>
       </div>
 
       {/* ── Hero Section ── */}
-      <section className="bg-[#0A1628] text-white py-16 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.15)_0%,transparent_70%)] pointer-events-none" />
+      <section className="bg-[#0A1628] text-white py-16 sm:py-20 px-4 sm:px-6 border-b-2 border-slate-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(59,130,246,0.18)_0%,transparent_70%)] pointer-events-none" />
         
         <div className="max-w-6xl mx-auto text-center space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5">
+          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 shadow-sm">
             <GraduationCap className="w-4 h-4 text-amber-400" />
             <span className="text-xs font-mono font-bold tracking-widest uppercase text-white/90">
               India&apos;s #1 Dedicated Polymer Engineering Learning Platform
@@ -151,7 +208,7 @@ export default function StudentsLandingPage() {
           </h1>
 
           <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-light leading-relaxed">
-            Free structured learning for Diploma, B.Tech, and CIPET students. Access 216+ lessons, 458+ GATE practice numericals, shop-floor defect troubleshooters, and instant AI tutor doubt-solving.
+            Free structured learning for Diploma, B.Tech, and CIPET students across India. Access 216+ lessons, 458+ GATE practice numericals, shop-floor defect troubleshooters, and instant AI tutor doubt-solving.
           </p>
 
           {/* Dual CTAs */}
@@ -169,20 +226,20 @@ export default function StudentsLandingPage() {
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 text-white font-bold px-8 py-3.5 rounded-xl border border-white/20 transition-all text-sm"
             >
               <Award className="w-4 h-4 text-amber-400" />
-              Practice GATE XE-F Questions
+              Solve GATE XE-F Practice Series
             </Link>
           </div>
 
           {/* Social Proof Bar */}
-          <div className="pt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-mono text-slate-400">
+          <div className="pt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-mono text-slate-300">
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 19 Specialized Subjects
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 216 Complete Lessons
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 216 Curriculum Lessons
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 1,538 Verified Questions
+              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 458+ GATE Questions
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" /> 100% Free Core Tier
@@ -191,14 +248,58 @@ export default function StudentsLandingPage() {
         </div>
       </section>
 
+      {/* ── Academic Hubs Alignment Strip ── */}
+      <section className="bg-white border-b-2 border-slate-900 py-6 px-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+            <span className="font-mono text-xs font-black uppercase text-slate-500 tracking-wider">
+              Curriculum Aligned &amp; Designed For Students Across India:
+            </span>
+            <span className="text-[11px] font-mono text-blue-600 font-bold">
+              AICTE Model Curriculum &middot; CIPET Syllabi &middot; GATE XE Paper F
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {ACADEMIC_HUBS.map((hub) => (
+              <div
+                key={hub.name}
+                className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-left hover:border-blue-400 transition-all"
+              >
+                <div className="font-mono text-xs font-bold text-slate-900 truncate">{hub.name}</div>
+                <div className="font-mono text-[10px] text-slate-500 truncate mt-0.5">{hub.note}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Interactive 5-Second Lab Sandbox (Centerpiece Component) ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-6">
+        <div className="text-center space-y-2 mb-8">
+          <span className="text-xs font-mono font-bold text-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-200 uppercase tracking-widest inline-block">
+            ⚡ Test Drive PolymerHub
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 uppercase">
+            Experience the Tools You Get in 5 Seconds
+          </h2>
+          <p className="text-slate-600 max-w-xl mx-auto text-sm">
+            Drag the sliders or tap defect options below to see how our engineering solvers work in real time.
+          </p>
+        </div>
+
+        {/* Embedded Interactive Client Component */}
+        <StudentInteractiveDemo />
+      </section>
+
       {/* ── The 6 Core Student Weapons ── */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
         <div className="text-center space-y-2 mb-12">
           <span className="text-xs font-mono font-bold text-amber-600 uppercase tracking-widest">
             Built For Indian Polymer &amp; Plastics Students
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 uppercase">
-            What You Can Do in 5 Minutes on PolymerHub
+            What You Can Do on PolymerHub
           </h2>
           <p className="text-slate-600 max-w-xl mx-auto text-sm">
             Everything you need to top your semester exams, crack GATE XE-F, and ace your technical job interviews.
@@ -244,7 +345,7 @@ export default function StudentsLandingPage() {
         </div>
       </section>
 
-      {/* ── Who It Is For ── */}
+      {/* ── Tailored Student Personas ── */}
       <section className="bg-slate-100 border-y-2 border-slate-900 py-16 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto space-y-12">
           <div className="text-center space-y-2">
@@ -277,8 +378,132 @@ export default function StudentsLandingPage() {
         </div>
       </section>
 
+      {/* ── Target Placement Recruiters Strip ── */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+        <div className="text-center space-y-2 mb-8">
+          <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 uppercase tracking-widest inline-block">
+            💼 Campus Placements &amp; Industry Career Weapon
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 uppercase">
+            Prepare for Technical Rounds at Top Employers
+          </h2>
+          <p className="text-slate-600 max-w-xl mx-auto text-sm">
+            Learn the exact polymer grades, processing windows, and defect troubleshooting tested by premier campus interviewers.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {TARGET_RECRUITERS.map((rec) => (
+            <div
+              key={rec.name}
+              className="bg-white p-4 rounded-2xl border-2 border-slate-900 shadow-[3px_3px_0px_0px_rgba(15,23,42,1)] space-y-1"
+            >
+              <div className="font-mono text-xs font-black text-slate-900">{rec.name}</div>
+              <div className="font-mono text-[10px] text-slate-500">{rec.desc}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Student Reviews & Campus Testimonials ── */}
+      <section className="bg-[#0A1628] text-white border-y-2 border-slate-900 py-16 px-4 sm:px-6">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <div className="text-center space-y-2">
+            <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-widest">
+              From Classrooms to Shop-Floors
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-white uppercase">
+              What Students Are Saying
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {STUDENT_TESTIMONIALS.map((t, idx) => (
+              <div
+                key={idx}
+                className="bg-slate-900/90 rounded-2xl p-6 border-2 border-white/20 shadow-xl space-y-4 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center gap-1 text-amber-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400" />
+                    ))}
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light italic">
+                    &quot;{t.quote}&quot;
+                  </p>
+                </div>
+
+                <div className="pt-4 border-t border-white/10 space-y-1">
+                  <div className="font-bold text-white text-sm">{t.name}</div>
+                  <div className="text-xs font-mono text-slate-400">{t.role} &middot; {t.college}</div>
+                  <div className="inline-block font-mono text-[10px] font-bold text-emerald-400 bg-emerald-950/80 px-2 py-0.5 rounded border border-emerald-800">
+                    {t.badge}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Become a PolymerHub Campus Lead (Ambassador Program) ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16">
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="space-y-2">
+              <span className="inline-flex items-center gap-1.5 bg-amber-400 text-slate-950 font-mono text-xs font-black px-3 py-1 rounded-full uppercase border border-slate-900 shadow-2xs">
+                <Flame className="w-3.5 h-3.5" /> Campus Leadership Role
+              </span>
+              <h2 className="text-2xl sm:text-4xl font-black text-slate-950 uppercase tracking-tight">
+                Become a PolymerHub Campus Lead
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-700 max-w-xl">
+                Represent PolymerHub at your college or CIPET centre. Lead study circles, host peer problem-solving sessions, and earn recognized leadership credentials.
+              </p>
+            </div>
+
+            <div className="bg-white p-4 rounded-2xl border-2 border-slate-900 text-center shrink-0">
+              <span className="font-mono text-[10px] uppercase font-bold text-slate-500 block">Student Lead Reward</span>
+              <span className="text-2xl font-black text-emerald-600 font-display">₹35 / Signup</span>
+              <span className="font-mono text-[10px] text-slate-600 block mt-0.5">+ Free Lifetime Access</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
+            <div className="bg-white p-4 rounded-xl border border-slate-300 space-y-1">
+              <div className="font-bold text-slate-900 uppercase">⭐ Free Lifetime Premium</div>
+              <p className="text-slate-600 text-[11px]">Unlimited AI queries, all 458+ GATE questions, and offline PDF formula sheets.</p>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-slate-300 space-y-1">
+              <div className="font-bold text-slate-900 uppercase">📜 Certificate of Leadership</div>
+              <p className="text-slate-600 text-[11px]">Official credentials signed by PolymerHub leadership for your LinkedIn and CV.</p>
+            </div>
+
+            <div className="bg-white p-4 rounded-xl border border-slate-300 space-y-1">
+              <div className="font-bold text-slate-900 uppercase">🤝 Founder Mentorship</div>
+              <p className="text-slate-600 text-[11px]">Direct monthly masterminds on industry hiring trends and polymer research.</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
+            <a
+              href="mailto:contact@polymerhubofindia.com?subject=Application%20for%20PolymerHub%20Campus%20Lead&body=Hi%20PolymerHub%20Team%2C%0A%0AI%20am%20interested%20in%20becoming%20the%20Campus%20Lead%20for%20my%20college.%0A%0AName%3A%0ACollege%20%2F%20CIPET%20Centre%3A%0ABranch%20%26%20Year%3A%0APhone%20Number%3A%0A"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-slate-950 hover:bg-slate-800 text-white font-bold px-8 py-3.5 rounded-xl border-2 border-slate-900 text-xs font-mono uppercase tracking-wider transition-all"
+            >
+              Apply as Campus Lead &rarr;
+            </a>
+
+            <span className="text-xs font-mono text-slate-600">
+              Only 2 Campus Leads appointed per college / CIPET centre.
+            </span>
+          </div>
+        </div>
+      </section>
+
       {/* ── Campus Visit & Workshop Request ── */}
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-16 text-center space-y-6">
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12 text-center space-y-6">
         <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] space-y-6">
           <div className="inline-flex items-center gap-2 bg-amber-400/20 border border-amber-400/30 text-amber-300 rounded-full px-4 py-1 text-xs font-mono font-bold uppercase">
             🏛️ For HODs, Faculty &amp; Student Chapter Leads
