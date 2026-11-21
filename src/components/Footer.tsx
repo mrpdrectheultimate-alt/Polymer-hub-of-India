@@ -228,6 +228,30 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-1">
               <a
+                href="https://whatsapp.com/channel/0029Vb9GCBDGU3BNTFEMeR3l"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp Channel"
+                title="Join PolymerHub Official WhatsApp Channel"
+                className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-900 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all shadow-xs"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.668-.699c.969.54 1.769.816 2.792.817h.005c3.18 0 5.767-2.587 5.768-5.766.001-3.181-2.585-5.767-5.768-5.767zm3.393 8.163c-.144.405-.837.774-1.17.824-.311.045-.694.072-2.127-.518-1.748-.72-2.883-2.483-2.971-2.599-.088-.116-.708-.941-.708-1.794 0-.853.447-1.273.607-1.446.16-.174.348-.217.464-.217.116 0 .232.001.333.006.107.005.25-.041.391.297.144.348.491 1.199.534 1.286.044.087.073.189.015.305-.059.116-.088.188-.175.29-.087.102-.183.228-.261.306-.087.087-.179.182-.077.356.101.174.45 1.742 1.488 2.665.342.304.629.499.845.568.216.069.412.06.567.037.174-.026.536-.219.611-.431.076-.212.076-.393.053-.431-.022-.038-.088-.06-.188-.11zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.176L2 22l4.981-1.396A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.25c-1.637 0-3.161-.462-4.457-1.261l-.32-.198-2.956.775.789-2.882-.218-.346A8.209 8.209 0 013.75 12c0-4.549 3.701-8.25 8.25-8.25 4.549 0 8.25 3.701 8.25 8.25 0 4.549-3.701 8.25-8.25 8.25z"/>
+                </svg>
+              </a>
+              <a
+                href="https://t.me/polymerhubofindia"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram Channel"
+                title="Join PolymerHub Official Telegram Channel"
+                className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-900 hover:bg-[#0088cc] hover:text-white hover:border-[#0088cc] transition-all shadow-xs"
+              >
+                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/>
+                </svg>
+              </a>
+              <a
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"

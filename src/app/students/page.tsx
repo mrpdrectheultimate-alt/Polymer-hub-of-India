@@ -502,6 +502,89 @@ export default function StudentsLandingPage() {
         </div>
       </section>
 
+      {/* ── Official Student Community Channels (WhatsApp & Telegram) ── */}
+      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+        <div className="bg-white rounded-3xl p-8 border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] space-y-6">
+          <div className="text-center space-y-2 max-w-2xl mx-auto">
+            <span className="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 font-mono text-xs font-black px-3 py-1 rounded-full uppercase border border-emerald-300">
+              <Users className="w-3.5 h-3.5" /> All-India Student Masterminds
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-950 uppercase tracking-tight">
+              Join India&apos;s Dedicated Polymer Communities
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Connect directly with thousands of plastics and polymer students from CIPET, ICT Mumbai, MIT Pune, and colleges across India.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* WhatsApp Card */}
+            <div className="bg-[#FAF8F5] p-6 rounded-2xl border-2 border-slate-900 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-xl bg-[#25D366] text-white flex items-center justify-center border-2 border-slate-900 shadow-xs">
+                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.668-.699c.969.54 1.769.816 2.792.817h.005c3.18 0 5.767-2.587 5.768-5.766.001-3.181-2.585-5.767-5.768-5.767zm3.393 8.163c-.144.405-.837.774-1.17.824-.311.045-.694.072-2.127-.518-1.748-.72-2.883-2.483-2.971-2.599-.088-.116-.708-.941-.708-1.794 0-.853.447-1.273.607-1.446.16-.174.348-.217.464-.217.116 0 .232.001.333.006.107.005.25-.041.391.297.144.348.491 1.199.534 1.286.044.087.073.189.015.305-.059.116-.088.188-.175.29-.087.102-.183.228-.261.306-.087.087-.179.182-.077.356.101.174.45 1.742 1.488 2.665.342.304.629.499.845.568.216.069.412.06.567.037.174-.026.536-.219.611-.431.076-.212.076-.393.053-.431-.022-.038-.088-.06-.188-.11zM12 2C6.477 2 2 6.477 2 12c0 1.891.524 3.662 1.435 5.176L2 22l4.981-1.396A9.957 9.957 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 18.25c-1.637 0-3.161-.462-4.457-1.261l-.32-.198-2.956.775.789-2.882-.218-.346A8.209 8.209 0 013.75 12c0-4.549 3.701-8.25 8.25-8.25 4.549 0 8.25 3.701 8.25 8.25 0 4.549-3.701 8.25-8.25 8.25z"/>
+                    </svg>
+                  </div>
+                  <span className="font-mono text-[10px] font-bold text-emerald-800 bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 rounded-full uppercase">
+                    Official Channel
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-bold text-lg text-slate-900">Polymer Hub of India (WhatsApp)</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed font-light">
+                    Instant updates on domestic spot resin prices, moulding defect troubleshooting guides, and technical interview placement drops.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://whatsapp.com/channel/0029Vb9GCBDGU3BNTFEMeR3l"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20ba59] text-slate-950 font-bold px-6 py-3 rounded-xl border-2 border-slate-900 text-xs font-mono uppercase tracking-wider transition-all shadow-xs"
+              >
+                Join WhatsApp Channel &rarr;
+              </a>
+            </div>
+
+            {/* Telegram Card */}
+            <div className="bg-[#FAF8F5] p-6 rounded-2xl border-2 border-slate-900 space-y-4 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="w-12 h-12 rounded-xl bg-[#0088CC] text-white flex items-center justify-center border-2 border-slate-900 shadow-xs">
+                    <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .34z"/>
+                    </svg>
+                  </div>
+                  <span className="font-mono text-[10px] font-bold text-blue-800 bg-blue-100 border border-blue-300 px-2.5 py-0.5 rounded-full uppercase">
+                    GATE XE-F Mastermind
+                  </span>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="font-bold text-lg text-slate-900">PolymerHub GATE Mastermind (Telegram)</h3>
+                  <p className="text-xs text-slate-600 leading-relaxed font-light">
+                    Daily 8:00 AM numerical derivations (Carothers, Ballman-Shusman cooling, Rule of Mixtures) and downloadable revision PDFs.
+                  </p>
+                </div>
+              </div>
+
+              <a
+                href="https://t.me/polymerhubofindia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#0088CC] hover:bg-[#0077b5] text-white font-bold px-6 py-3 rounded-xl border-2 border-slate-900 text-xs font-mono uppercase tracking-wider transition-all shadow-xs"
+              >
+                Join Telegram Mastermind &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── Campus Visit & Workshop Request ── */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 py-12 text-center space-y-6">
         <div className="bg-[#0A1628] text-white rounded-3xl p-8 sm:p-12 border-2 border-slate-900 shadow-[6px_6px_0px_0px_rgba(15,23,42,1)] space-y-6">
