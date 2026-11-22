@@ -8,8 +8,9 @@ import InteractiveDemo from '@/components/landing/InteractiveDemo'
 import AudienceCards from '@/components/landing/AudienceCards'
 import FeatureShowcase from '@/components/landing/FeatureShowcase'
 import GateSection from '@/components/landing/GateSection'
-import IndustrySection from '@/components/landing/IndustrySection'
 import ComparisonTable from '@/components/landing/ComparisonTable'
+import IndustrySection from '@/components/landing/IndustrySection'
+import StudentTestimonials from '@/components/landing/StudentTestimonials'
 import PricingSection from '@/components/landing/PricingSection'
 import CommunitySection from '@/components/landing/CommunitySection'
 import FounderSection from '@/components/landing/FounderSection'
@@ -91,13 +92,16 @@ export default function LaunchLandingPage() {
       {/* 9. Dedicated GATE XE-F Section */}
       <GateSection />
 
-      {/* 10. Live Industry Intelligence & Spot Price Benchmarks */}
-      <IndustrySection />
-
-      {/* 11. Honest Category Comparison Table */}
+      {/* 10. Honest Category Comparison Table */}
       <ComparisonTable />
 
-      {/* 12. Transparent Pricing (Free Forever vs ₹149/mo) */}
+      {/* 11. Live Industry Intelligence & Spot Price Benchmarks */}
+      <IndustrySection />
+
+      {/* 12. Student Feedback & Credibility */}
+      <StudentTestimonials />
+
+      {/* 13. Transparent Pricing (Free Forever vs ₹149/mo) */}
       <PricingSection />
 
       {/* 13. Official Community Network (WhatsApp & Telegram) */}

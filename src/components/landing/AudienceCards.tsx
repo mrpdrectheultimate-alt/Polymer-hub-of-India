@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { GraduationCap, Trophy, Factory, ArrowRight, BookOpen, Wrench, FileText, CheckCircle2 } from 'lucide-react'
+import { GraduationCap, Trophy, Factory, ArrowRight, CheckCircle2 } from 'lucide-react'
 
 export default function AudienceCards() {
   const tracks = [
@@ -10,14 +10,14 @@ export default function AudienceCards() {
       icon: GraduationCap,
       iconColor: 'text-emerald-600',
       iconBg: 'bg-emerald-50 border-emerald-200',
-      desc: 'Master fundamentals with 216 lessons across 19 subjects aligned with AICTE and CIPET syllabi. Prepare for semester exams, laboratory vivas, and campus placement interviews.',
-      highlights: [
-        'Curriculum-mapped notes & diagrams',
-        'End-of-lesson knowledge checks & XP',
-        '3D molecular models & CPK structures',
+      benefits: [
+        '19 Semester subjects & 216 structured university lessons',
+        'Laboratory viva manuals, testing standards & 3D models',
+        'Master formula library with step-by-step derivations',
+        'Student project ideas & technical career roadmaps',
       ],
       href: '/subjects',
-      cta: 'Explore 19 Subjects',
+      cta: 'Explore Student Resources',
     },
     {
       title: 'GATE XE-F Aspirants',
@@ -26,13 +26,13 @@ export default function AudienceCards() {
       icon: Trophy,
       iconColor: 'text-purple-600',
       iconBg: 'bg-purple-50 border-purple-200',
-      desc: 'Build dedicated polymer preparation for GATE Engineering Sciences (XE Paper F). Master formula derivations, solve numericals, and take simulated 60-minute mock exams.',
-      highlights: [
-        'Official XE5/XE-F syllabus alignment',
-        'Formula library with step-by-step derivations',
-        'Simulated mock tests with negative marking',
+      benefits: [
+        'Dedicated Engineering Sciences (Paper F) syllabus coverage',
+        'Daily morning numerical practice questions & formulas',
+        'Timed 60-minute simulated CBT mock examination',
+        'Dedicated peer study mastermind community on Telegram',
       ],
-      href: '#gate-xef',
+      href: '/gate-xe-f',
       cta: 'Explore GATE Preparation',
     },
     {
@@ -42,11 +42,11 @@ export default function AudienceCards() {
       icon: Factory,
       iconColor: 'text-blue-600',
       iconBg: 'bg-blue-50 border-blue-200',
-      desc: 'Solve real production challenges on the factory floor. Diagnose moulding defects with Rosato protocols, calculate clamp tonnages, and track daily domestic polymer spot benchmarks.',
-      highlights: [
-        '8 industrial engineering solvers',
-        'Rosato-calibrated defect diagnostics',
-        'Daily Indian resin spot benchmarks',
+      benefits: [
+        '8 Shop-floor engineering calculators (tonnage, cooling, shrinkage)',
+        'Rosato-grounded injection & extrusion defect troubleshooter',
+        'Daily domestic polymer spot price benchmarks (PP, PE, PVC, PET)',
+        'ASTM/ISO resin comparator & material property datasheets',
       ],
       href: '/calculators',
       cta: 'Explore Engineering Tools',
@@ -54,7 +54,7 @@ export default function AudienceCards() {
   ]
 
   return (
-    <section id="audience" className="py-20 bg-white border-b border-slate-200">
+    <section id="audience" className="py-20 sm:py-24 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -66,7 +66,7 @@ export default function AudienceCards() {
             Where do you want to start?
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-2 font-sans">
-            PolymerHub adapts to your goals &mdash; whether you are an undergraduate student, GATE aspirant, or shop-floor manufacturing professional.
+            PolymerHub adapts directly to your current professional or academic milestone.
           </p>
         </div>
 
@@ -89,19 +89,15 @@ export default function AudienceCards() {
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-xl text-slate-900 mb-2.5">
+                  <h3 className="font-display font-bold text-xl text-slate-900 mb-4">
                     {track.title}
                   </h3>
 
-                  <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed mb-6">
-                    {track.desc}
-                  </p>
-
-                  <div className="space-y-2.5 pt-4 border-t border-slate-200/80 mb-6">
-                    {track.highlights.map((item) => (
-                      <div key={item} className="flex items-center gap-2 text-xs text-slate-700 font-sans">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-                        <span>{item}</span>
+                  <div className="space-y-3 pt-3 border-t border-slate-200/80 mb-8">
+                    {track.benefits.map((benefit) => (
+                      <div key={benefit} className="flex items-start gap-2.5 text-xs text-slate-700 font-sans leading-snug">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>{benefit}</span>
                       </div>
                     ))}
                   </div>
@@ -109,10 +105,10 @@ export default function AudienceCards() {
 
                 <Link
                   href={track.href}
-                  className="w-full py-3.5 rounded-xl bg-white hover:bg-slate-900 text-slate-900 hover:text-white border-2 border-slate-900 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-xs"
+                  className="w-full py-3.5 rounded-xl bg-white hover:bg-slate-900 text-slate-900 hover:text-white border-2 border-slate-900 font-mono font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-2 shadow-xs group"
                 >
                   <span>{track.cta}</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
             )

@@ -9,97 +9,95 @@ import {
   Brain, 
   TrendingUp, 
   ArrowRight, 
-  Sparkles,
-  Layers,
-  FileText
+  Layers
 } from 'lucide-react'
 
 export default function FeatureShowcase() {
   const features = [
     {
       title: 'Structured Curriculum',
-      stat: '19 Subjects · 216 Lessons',
-      desc: 'Complete progression from Step-Growth Kinetics and Rheology to Injection Moulding, Composites, and Circular Packaging.',
+      summary: 'Organised lessons and subject-wise learning.',
+      stat: '19 Subjects &middot; 216 Lessons',
+      desc: 'Complete progression from step-growth kinetics and rheology to injection moulding, composites, and circular packaging.',
       icon: BookOpen,
       color: '#2563EB',
       bg: '#EFF6FF',
       href: '/subjects',
-      badge: 'Curriculum Core',
     },
     {
       title: '3D Molecular & Product Lab',
-      stat: '100+ Interactive Models',
-      desc: 'Inspect real 3D atomic repeat units with CPK element rendering, alongside finished commercial parts and heavy processing machines.',
+      summary: 'Visualise molecular and material concepts.',
+      stat: '100+ Interactive 3D Models',
+      desc: 'Inspect atomic repeat units with CPK rendering, commercial finished plastic components, and heavy processing machinery in 3D.',
       icon: Atom,
       color: '#7C3AED',
       bg: '#F5F3FF',
       href: '/materials',
-      badge: '3D Interactive',
     },
     {
-      title: 'Master Formula Library',
+      title: 'Formula Library',
+      summary: 'Technical formulas and quick references.',
       stat: '98 Canonical Equations',
-      desc: 'Formulas with LaTeX KaTeX formatting, dimensional analysis, variable bounds, and worked step-by-step engineering examples.',
+      desc: 'Mathematical formulas formatted in LaTeX KaTeX, with dimensional checks, variable bounds, and worked engineering examples.',
       icon: Scale,
       color: '#059669',
       bg: '#ECFDF5',
       href: '/formulas',
-      badge: 'GATE & Industry',
     },
     {
-      title: '8 Industrial Calculators',
-      stat: 'ASTM / ISO Solvers',
-      desc: 'Calculate press clamping force, mold cooling cycle times, cavity shrinkage sizing, and extruder screw shear rates in seconds.',
+      title: 'Engineering Calculators',
+      summary: 'Practical calculations for engineering work.',
+      stat: '8 Industrial Solvers',
+      desc: 'Calculate press clamping force, mould cooling cycle times, cavity shrinkage sizing, and extruder shear rates in seconds.',
       icon: Calculator,
       color: '#D97706',
       bg: '#FFFBEB',
       href: '/calculators',
-      badge: 'Plant Solvers',
     },
     {
       title: 'Defect Troubleshooter',
-      stat: 'Rosato Handbook Standard',
-      desc: 'Diagnose sink marks, short shots, warpage, and flash with machine parameter adjustments, test protocols, and root causes.',
+      summary: 'Understand defects, causes and solutions.',
+      stat: 'Rosato Handbook Diagnostics',
+      desc: 'Shop-floor diagnostic rules for sink marks, splay, short shots, flash, and warpage with exact machine parameter adjustments.',
       icon: Wrench,
-      color: '#EA580C',
-      bg: '#FFF7ED',
+      color: '#DC2626',
+      bg: '#FEF2F2',
       href: '/troubleshooter',
-      badge: 'Diagnostics',
     },
     {
-      title: '21 Virtual Lab Simulators',
-      stat: 'ASTM / ISO Test Benches',
-      desc: 'Simulate Tensile tests (ASTM D638), Melt Flow Index (D1238), DSC thermal transitions, and Izod impact resistance in the browser.',
+      title: 'Virtual Lab Simulations',
+      summary: 'Learn through interactive technical concepts.',
+      stat: '21 ASTM & ISO Simulators',
+      desc: 'Perform virtual tensile stress-strain pull tests, Izod/Charpy impact fracturing, and Melt Flow Index (MFI) barrel extrusions.',
       icon: FlaskConical,
-      color: '#0284C7',
-      bg: '#F0F9FF',
+      color: '#0891B2',
+      bg: '#ECFEFF',
       href: '/simulations',
-      badge: 'Virtual Lab',
     },
     {
-      title: 'RAG AI Polymer Copilot',
-      stat: 'Grounded in Curriculum',
+      title: 'AI Polymer Copilot',
+      summary: 'AI-assisted study and technical learning support.',
+      stat: 'RAG Grounded in Curriculum',
       desc: 'Ask complex technical queries and get accurate answers grounded strictly in PolymerHub lessons with cited sources and formulas.',
       icon: Brain,
       color: '#15803D',
       bg: '#F0FDF4',
       href: '/ai-tutor',
-      badge: 'AI Copilot',
     },
     {
       title: 'Daily Industry Intelligence',
-      stat: 'Live Spot Benchmarks',
+      summary: 'Industry updates, news and market information.',
+      stat: 'Domestic Spot Benchmarks',
       desc: 'Track daily domestic ex-plant resin spot prices (PP, PE, PVC, PET, PC, ABS) and verified Indian petrochemical R&D news.',
       icon: TrendingUp,
       color: '#4F46E5',
       bg: '#EEF2FF',
       href: '/today',
-      badge: 'Daily Intelligence',
     },
   ]
 
   return (
-    <section id="features" className="py-20 bg-slate-50 border-b border-slate-200">
+    <section id="ecosystem" className="py-20 sm:py-24 bg-slate-50 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -108,41 +106,41 @@ export default function FeatureShowcase() {
             <Layers className="w-3.5 h-3.5 text-blue-600" /> Platform Architecture
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-950 tracking-tight">
-            A complete polymer engineering ecosystem.
+            The PolymerHub ecosystem.
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-2 font-sans">
-            Every feature connects directly to the underlying knowledge base &mdash; built for rigorous academic mastery and real factory utility.
+          <p className="text-slate-600 text-base sm:text-lg mt-3 font-sans leading-relaxed">
+            Eight integrated technical capabilities connecting university classroom theory directly to factory-floor reality.
           </p>
         </div>
 
-        {/* 8 Feature Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 8 Feature Cards Grid with Generous Spacing */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feat) => {
             const Icon = feat.icon
             return (
               <div
                 key={feat.title}
-                className="bg-white rounded-2xl border-2 border-slate-200 p-6 flex flex-col justify-between hover:border-blue-600 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group"
+                className="bg-white rounded-3xl border-2 border-slate-200 p-6 flex flex-col justify-between hover:border-blue-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <div 
-                      className="w-11 h-11 rounded-xl flex items-center justify-center border shadow-2xs"
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center border shadow-xs"
                       style={{ backgroundColor: feat.bg, borderColor: `${feat.color}40` }}
                     >
-                      <Icon className="w-5 h-5" style={{ color: feat.color }} />
+                      <Icon className="w-6 h-6" style={{ color: feat.color }} />
                     </div>
                     <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 border border-slate-200">
-                      {feat.badge}
+                      {feat.stat}
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-display font-bold text-lg text-slate-900 group-hover:text-blue-600 transition-colors">
                     {feat.title}
                   </h3>
 
-                  <div className="text-xs font-mono font-bold text-slate-500 mt-0.5 mb-2">
-                    {feat.stat}
+                  <div className="text-xs font-sans font-medium text-blue-700 mt-1 mb-2.5">
+                    {feat.summary}
                   </div>
 
                   <p className="text-xs text-slate-600 font-sans leading-relaxed">
@@ -150,12 +148,12 @@ export default function FeatureShowcase() {
                   </p>
                 </div>
 
-                <div className="mt-5 pt-4 border-t border-slate-100">
+                <div className="mt-6 pt-4 border-t border-slate-100">
                   <Link
                     href={feat.href}
                     className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-blue-600 group-hover:text-blue-700 transition-colors"
                   >
-                    <span>Launch Module</span>
+                    <span>Explore Module</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>

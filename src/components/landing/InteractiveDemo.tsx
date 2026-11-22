@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Wrench, Calculator, Trophy, ArrowRight, CheckCircle2, XCircle, AlertTriangle, Sparkles, RotateCcw } from 'lucide-react'
+import { BookOpen, Calculator, Wrench, ArrowRight, CheckCircle2, XCircle, Sparkles, RotateCcw } from 'lucide-react'
 
 // ─── 1. DEFECT DATA ────────────────────────────────────────────────────────────
 const DEMO_DEFECTS = [
@@ -11,8 +11,8 @@ const DEMO_DEFECTS = [
     name: 'Sink Marks',
     severity: 'Moderate',
     process: 'Injection Moulding',
-    cause: 'Insufficient holding pressure or premature gate freeze-off causing the molten core to contract away from cavity walls.',
-    fix: 'Increase holding pressure by 10–15% and extend hold time by 1.5 seconds until gate freeze-off is confirmed by part weight.',
+    cause: 'Insufficient holding pressure or premature gate freeze-off causing the molten core to contract away from cavity walls during cooling.',
+    fix: 'Increase holding pressure by 10–15% and extend hold time by 1.5 seconds until gate freeze-off is confirmed by part weight measurement.',
     source: 'Rosato Injection Molding Handbook & SPI Standards',
   },
   {
@@ -20,8 +20,8 @@ const DEMO_DEFECTS = [
     name: 'Short Shots',
     severity: 'Critical',
     process: 'Injection Moulding',
-    cause: 'Inadequate injection pressure, low melt temperature, or inadequate mold venting causing incomplete cavity fill.',
-    fix: 'Increase injection speed/pressure, check barrel heating zones, and verify cavity parting line vent depth (0.02–0.04 mm for PP).',
+    cause: 'Inadequate injection pressure, low melt temperature, or blocked mould venting causing incomplete cavity fill before freeze-off.',
+    fix: 'Increase injection speed/pressure, check barrel heating band zones, and verify cavity parting line vent depth (0.02–0.04 mm for PP).',
     source: 'ASTM D3641 Guidelines',
   },
   {
@@ -29,363 +29,407 @@ const DEMO_DEFECTS = [
     name: 'Part Warpage',
     severity: 'Moderate',
     process: 'Mould Cooling',
-    cause: 'Non-uniform cooling rates between core and cavity sides or differential crystallization shrinkage.',
-    fix: 'Equalize core/cavity water circuit temperatures and ensure cooling channel pitch-to-depth ratio is within 2.0 to 2.5× diameter.',
+    cause: 'Non-uniform cooling rates between core and cavity mould halves, creating differential volumetric crystallization shrinkage.',
+    fix: 'Equalize core/cavity water circuit temperatures and ensure cooling channel pitch-to-depth ratio is maintained within 2.0 to 2.5× diameter.',
     source: 'Ballman-Dutton Cooling Equations',
   },
   {
     id: 'flash',
     name: 'Parting Line Flash',
-    severity: 'Minor / Moderate',
+    severity: 'Moderate',
     process: 'Clamping System',
-    cause: 'Cavity pressure exceeds machine clamping tonnage across total projected area, forcing mould halves apart.',
-    fix: 'Reduce injection peak pressure or transfer part to a higher clamp-tonnage injection press with higher platen rigidity.',
+    cause: 'Peak cavity pressure exceeds machine clamping tonnage across total projected area, forcing mould parting faces apart.',
+    fix: 'Reduce peak injection packing pressure or transfer production to a higher clamp-tonnage machine with greater platen rigidity.',
     source: 'Euromap 12 Machine Standards',
   },
 ]
 
-// ─── 2. CALCULATOR DATA ────────────────────────────────────────────────────────
-// Clamping Tonnage: F = (Area * Pressure / 1000) * SafetyFactor
+// ─── 2. CALCULATOR FORMULA ─────────────────────────────────────────────────────
 function calculateClamp(areaCm2: number, cavities: number, pressureBar: number) {
   const totalArea = areaCm2 * cavities
   const tonnage = (totalArea * pressureBar) / 1000 * 1.15 // 15% safety factor
-  return Math.round(tonnage * 10) / 10
+  const forceKn = totalArea * (pressureBar / 10) * 1.15
+  return {
+    tonnage: Math.round(tonnage * 10) / 10,
+    forceKn: Math.round(forceKn),
+    totalArea,
+  }
 }
 
-// ─── 3. GATE QUESTION DATA ─────────────────────────────────────────────────────
-const DEMO_GATE_QUESTION = {
-  question: 'In step-growth (condensation) polymerization of Nylon 6,6 from stoichiometric equimolar monomers (f_avg = 2.0), according to the Carothers equation, what extent of reaction (p) is required to achieve a number-average degree of polymerization (Xn) of 100?',
+// ─── 3. SAMPLE LESSON DATA ─────────────────────────────────────────────────────
+const DEMO_QUIZ = {
+  question: 'In the step-growth polymerization of Nylon 6,6 from stoichiometric equimolar monomers (f_avg = 2.0), according to the Carothers equation, what extent of reaction (p) is required to achieve a number-average degree of polymerization (Xn) of 100?',
   options: [
     { label: 'A. 0.900 (90% conversion)', isCorrect: false },
     { label: 'B. 0.950 (95% conversion)', isCorrect: false },
     { label: 'C. 0.990 (99% conversion)', isCorrect: true },
     { label: 'D. 0.999 (99.9% conversion)', isCorrect: false },
   ],
-  derivation: 'Carothers Equation for equimolar stoichiometric bifunctional monomers: Xn = 1 / (1 - p). Rearranging for p: 1 - p = 1 / 100 = 0.01 ⇒ p = 0.99 (99% conversion). This mathematically proves why step-growth polycondensations require near-total conversion (>99%) to achieve structural molecular weights.',
+  derivation: 'Carothers Equation: Xn = 1 / (1 - p). Rearranging for p: 1 - p = 1 / 100 = 0.01 ⇒ p = 0.99 (99% conversion). This mathematically proves why step-growth condensation polymerizations require near-total conversion (>99%) to achieve usable structural molecular weight.',
 }
 
 export default function InteractiveDemo() {
-  const [activeTab, setActiveTab] = useState<'defect' | 'calc' | 'gate'>('defect')
+  const [activeTab, setActiveTab] = useState<'learn' | 'calculate' | 'troubleshoot'>('learn')
 
-  // Defect state
-  const [selectedDefect, setSelectedDefect] = useState(DEMO_DEFECTS[0])
-
-  // Calc state
+  // Calculator state
   const [area, setArea] = useState(120)
   const [cavities, setCavities] = useState(4)
   const [pressure, setPressure] = useState(400)
 
-  // GATE question state
+  // Defect state
+  const [selectedDefect, setSelectedDefect] = useState(DEMO_DEFECTS[0])
+
+  // Quiz state
   const [selectedOption, setSelectedOption] = useState<number | null>(null)
   const [revealed, setRevealed] = useState(false)
 
-  const computedTonnage = calculateClamp(area, cavities, pressure)
+  const calcResult = calculateClamp(area, cavities, pressure)
 
   return (
-    <section id="interactive-demo" className="py-20 bg-white border-b border-slate-200">
+    <section id="interactive-demo" className="py-20 sm:py-24 bg-white border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Interactive Aha Experience
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Interactive Platform Preview
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-950 tracking-tight">
-            Try PolymerHub right now. No signup required.
+            Explore PolymerHub before signing up.
           </h2>
           <p className="text-slate-600 text-sm sm:text-base mt-2 font-sans">
-            Test real engineering diagnostics, interactive calculations, or GATE problem-solving before creating an account.
+            Try an actual sample lesson, run a live engineering calculation, or troubleshoot a factory defect. No account or payment required.
           </p>
         </div>
 
-        {/* Tab Selector */}
+        {/* 3 Interactive Mode Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1 max-w-xl w-full justify-center">
+          <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1 max-w-2xl w-full justify-center">
+            
             <button
-              onClick={() => setActiveTab('defect')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                activeTab === 'defect'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
+              onClick={() => setActiveTab('learn')}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'learn'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
               }`}
             >
-              <Wrench className="w-4 h-4" />
-              <span>1. Defect Troubleshooter</span>
+              <BookOpen className="w-4 h-4" />
+              <span>1. Learn (Technical Lesson)</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('calc')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                activeTab === 'calc'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
+              onClick={() => setActiveTab('calculate')}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'calculate'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
               }`}
             >
               <Calculator className="w-4 h-4" />
-              <span>2. Clamp Calculator</span>
+              <span>2. Calculate (Live Solver)</span>
             </button>
 
             <button
-              onClick={() => setActiveTab('gate')}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
-                activeTab === 'gate'
-                  ? 'bg-blue-600 text-white shadow-sm'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/60'
+              onClick={() => setActiveTab('troubleshoot')}
+              className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
+                activeTab === 'troubleshoot'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
               }`}
             >
-              <Trophy className="w-4 h-4" />
-              <span>3. GATE Question</span>
+              <Wrench className="w-4 h-4" />
+              <span>3. Troubleshoot (Defect Fixer)</span>
             </button>
+
           </div>
         </div>
 
-        {/* Dynamic Interactive Window */}
-        <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 border-2 border-slate-800 shadow-2xl max-w-4xl mx-auto">
+        {/* Interactive Working Container */}
+        <div className="max-w-4xl mx-auto bg-slate-900 text-white rounded-3xl border-2 border-slate-800 p-6 sm:p-8 shadow-2xl">
           
-          {/* TAB 1: DEFECT TROUBLESHOOTER */}
-          {activeTab === 'defect' && (
+          {/* TAB 1: LEARN (Sample Technical Lesson) */}
+          {activeTab === 'learn' && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold block mb-1">
-                    Select a Shop-Floor Moulding Defect:
+                  <span className="text-[11px] font-mono font-bold text-blue-400 uppercase tracking-wider">
+                    Polymer Chemistry &middot; Lesson 4
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {DEMO_DEFECTS.map((defect) => (
-                      <button
-                        key={defect.id}
-                        onClick={() => setSelectedDefect(defect)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all cursor-pointer ${
-                          selectedDefect.id === defect.id
-                            ? 'bg-blue-500 text-white shadow-xs'
-                            : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                        }`}
-                      >
-                        {defect.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="text-right shrink-0">
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">Standard Reference</span>
-                  <span className="text-xs font-mono font-bold text-slate-200">Rosato Guidelines</span>
-                </div>
-              </div>
-
-              {/* Defect Output Card */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded">
-                      Process: {selectedDefect.process}
-                    </span>
-                    <span className="text-xs font-mono font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 px-2 py-0.5 rounded">
-                      {selectedDefect.severity} Severity
-                    </span>
-                  </div>
-                  <h3 className="text-xl font-bold font-display text-white">
-                    {selectedDefect.name}
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                    Carothers Equation &amp; Molecular Weight Growth
                   </h3>
-                  <div className="text-xs text-slate-300 leading-relaxed font-sans">
-                    <strong className="text-slate-100 font-bold block mb-1">Root Engineering Cause:</strong>
-                    {selectedDefect.cause}
-                  </div>
                 </div>
+                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-mono font-bold">
+                  Curriculum Sample
+                </span>
+              </div>
 
-                <div className="space-y-3 bg-blue-950/40 p-4 rounded-xl border border-blue-900/40 flex flex-col justify-between">
-                  <div>
-                    <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider block mb-1">
-                      Recommended Parameter Adjustment:
-                    </span>
-                    <p className="text-xs sm:text-sm text-slate-200 font-sans leading-relaxed">
-                      {selectedDefect.fix}
-                    </p>
+              <div className="prose prose-invert max-w-none text-xs sm:text-sm text-slate-300 font-sans leading-relaxed space-y-3">
+                <p>
+                  In step-growth polycondensation (e.g., Nylon 6,6, PET polyesters), polymer chains grow through stepwise condensation of functional end-groups. Unlike chain-growth addition polymerizations where high molecular weight polymers form almost instantaneously, step-growth requires exceptionally high functional group conversion ($p &gt; 98\%$) to reach commercial mechanical properties.
+                </p>
+                
+                <div className="p-4 bg-slate-800/90 rounded-2xl border border-slate-700 font-mono text-xs text-slate-200 space-y-2">
+                  <div className="text-blue-400 font-bold text-xs uppercase">Canonical Carothers Derivation:</div>
+                  <div className="text-sm font-bold text-white bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                    X_n = 1 / (1 - p) &emsp; &middot; &emsp; p_c = 2 / f_avg
                   </div>
-                  <div className="pt-2 border-t border-blue-900/60 text-[10px] font-mono text-slate-400">
-                    Source: {selectedDefect.source}
+                  <div className="text-slate-400 text-[11px]">
+                    Where <code className="text-amber-400">X_n</code> is the number-average degree of polymerization, <code className="text-amber-400">p</code> is the extent of reaction, and <code className="text-amber-400">p_c</code> is the critical gel conversion for multifunctional systems.
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 text-xs font-mono">
-                <span className="text-slate-400">Want to diagnose flash, splay, jetting, or knit lines?</span>
-                <Link href="/troubleshooter" className="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1">
-                  Open Full Troubleshooter &rarr;
-                </Link>
+              {/* In-Lesson Interactive Quiz */}
+              <div className="pt-4 border-t border-slate-800">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                    Interactive Knowledge Check:
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-slate-200 font-sans mb-4">
+                  {DEMO_QUIZ.question}
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+                  {DEMO_QUIZ.options.map((opt, idx) => {
+                    const isSelected = selectedOption === idx
+                    let btnStyle = 'bg-slate-800/80 hover:bg-slate-700/80 border-slate-700 text-slate-200'
+                    if (revealed) {
+                      if (opt.isCorrect) btnStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold'
+                      else if (isSelected) btnStyle = 'bg-rose-950/80 border-rose-500 text-rose-200'
+                    } else if (isSelected) {
+                      btnStyle = 'bg-blue-600 border-blue-400 text-white font-bold'
+                    }
+
+                    return (
+                      <button
+                        key={opt.label}
+                        onClick={() => {
+                          setSelectedOption(idx)
+                          setRevealed(true)
+                        }}
+                        className={`p-3 rounded-xl border text-left text-xs font-mono transition-all flex items-center justify-between cursor-pointer ${btnStyle}`}
+                      >
+                        <span>{opt.label}</span>
+                        {revealed && opt.isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
+                        {revealed && isSelected && !opt.isCorrect && <XCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {revealed && (
+                  <div className="p-4 rounded-xl bg-slate-800/90 border border-slate-700 text-xs font-sans text-slate-300 leading-relaxed space-y-2">
+                    <div className="font-mono text-emerald-400 font-bold uppercase text-[11px] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4" /> Mathematical Derivation:
+                    </div>
+                    <div>{DEMO_QUIZ.derivation}</div>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          {/* TAB 2: CLAMP CALCULATOR */}
-          {activeTab === 'calc' && (
+          {/* TAB 2: CALCULATE (Live Engineering Solver) */}
+          {activeTab === 'calculate' && (
             <div className="space-y-6">
-              <div className="pb-4 border-b border-slate-800">
-                <span className="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold block mb-1">
-                  ASTM D3641 / ISO 294 Clamping Tonnage Formula:
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                <div>
+                  <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+                    Tooling &amp; Machinery &middot; Industrial Solver
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                    Injection Mould Clamping Tonnage Solver
+                  </h3>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-mono font-bold">
+                  Working Tool
                 </span>
-                <p className="text-xs text-slate-400 font-mono">
-                  Formula: Clamp (Tons) = (Projected Area cm² × Cavities × Cavity Pressure bar / 1000) × 1.15 Safety Factor
-                </p>
               </div>
 
-              {/* Sliders Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Part Area (cm²):</span>
-                    <strong className="text-white">{area} cm²</strong>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                {/* Input 1: Projected Area */}
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                    <span>Part Projected Area:</span>
+                    <span className="font-bold text-amber-400">{area} cm&sup2;</span>
                   </div>
                   <input
                     type="range"
-                    min={20}
-                    max={500}
-                    step={10}
+                    min="20"
+                    max="500"
+                    step="10"
                     value={area}
                     onChange={(e) => setArea(Number(e.target.value))}
-                    className="w-full accent-blue-500 cursor-pointer"
+                    className="w-full accent-amber-500 cursor-pointer"
                   />
-                  <span className="text-[10px] font-mono text-slate-500 block">Single part projected area</span>
+                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                    <span>20 cm&sup2;</span>
+                    <span>500 cm&sup2;</span>
+                  </div>
                 </div>
 
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Mould Cavities:</span>
-                    <strong className="text-white">{cavities} Cavities</strong>
+                {/* Input 2: Cavity Count */}
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                    <span>Cavity Multiplier:</span>
+                    <span className="font-bold text-amber-400">{cavities} Cavities</span>
                   </div>
                   <input
                     type="range"
-                    min={1}
-                    max={16}
-                    step={1}
+                    min="1"
+                    max="16"
+                    step="1"
                     value={cavities}
                     onChange={(e) => setCavities(Number(e.target.value))}
-                    className="w-full accent-blue-500 cursor-pointer"
+                    className="w-full accent-amber-500 cursor-pointer"
                   />
-                  <span className="text-[10px] font-mono text-slate-500 block">Number of tool cavities</span>
+                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                    <span>1 Cavity</span>
+                    <span>16 Cavities</span>
+                  </div>
                 </div>
 
-                <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Cavity Pressure:</span>
-                    <strong className="text-white">{pressure} bar</strong>
+                {/* Input 3: Cavity Pressure */}
+                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                    <span>Cavity Pressure:</span>
+                    <span className="font-bold text-amber-400">{pressure} bar</span>
                   </div>
                   <input
                     type="range"
-                    min={200}
-                    max={800}
-                    step={25}
+                    min="200"
+                    max="800"
+                    step="25"
                     value={pressure}
                     onChange={(e) => setPressure(Number(e.target.value))}
-                    className="w-full accent-blue-500 cursor-pointer"
+                    className="w-full accent-amber-500 cursor-pointer"
                   />
-                  <span className="text-[10px] font-mono text-slate-500 block">Typical for PP/HDPE</span>
+                  <div className="flex justify-between text-[10px] font-mono text-slate-500">
+                    <span>200 bar (PE/PP)</span>
+                    <span>800 bar (PC/PA)</span>
+                  </div>
                 </div>
+
               </div>
 
-              {/* Calculated Result Card */}
-              <div className="bg-gradient-to-r from-blue-950 to-indigo-950 p-6 rounded-2xl border border-blue-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Real-Time Calculation Output Box */}
+              <div className="p-6 bg-gradient-to-r from-amber-500/10 via-slate-800 to-slate-800 rounded-2xl border-2 border-amber-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-xs font-mono text-blue-300 uppercase tracking-wider block mb-1">
-                    Minimum Required Machine Clamp:
-                  </span>
-                  <div className="text-3xl sm:text-4xl font-extrabold font-display text-white">
-                    {computedTonnage} <span className="text-lg font-sans font-normal text-slate-300">Metric Tons</span>
+                  <div className="text-xs font-mono uppercase text-amber-400 font-bold">
+                    Calculated Machine Requirement (15% Safety Margin):
                   </div>
-                  <span className="text-[11px] font-mono text-slate-400 mt-1 block">
-                    Recommended Machine Class: {Math.ceil(computedTonnage / 25) * 25} Ton Press
-                  </span>
+                  <div className="text-3xl sm:text-4xl font-extrabold font-mono text-white mt-1">
+                    {calcResult.tonnage} Metric Tons
+                  </div>
+                  <div className="text-xs font-mono text-slate-400 mt-1">
+                    Total Clamping Force: <strong className="text-slate-200">{calcResult.forceKn} kN</strong> across {calcResult.totalArea} cm&sup2; projected area.
+                  </div>
                 </div>
 
                 <Link
                   href="/calculators"
-                  className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shrink-0"
+                  className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md shrink-0"
                 >
-                  <span>Explore All 8 Solvers</span>
+                  <span>All 8 Calculators</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
           )}
 
-          {/* TAB 3: GATE QUESTION */}
-          {activeTab === 'gate' && (
+          {/* TAB 3: TROUBLESHOOT (Injection Moulding Defect Fixer) */}
+          {activeTab === 'troubleshoot' && (
             <div className="space-y-6">
-              <div className="pb-3 border-b border-slate-800 flex items-center justify-between">
-                <span className="text-xs font-mono uppercase tracking-wider text-amber-400 font-bold">
-                  GATE XE-F Practice &middot; Condensation Kinetics (2 Marks)
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+                <div>
+                  <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                    Shop-Floor Processing &middot; Defect Diagnostics
+                  </span>
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                    Injection Moulding Troubleshooting Engine
+                  </h3>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-mono font-bold">
+                  Rosato Grounded
                 </span>
-                {revealed && (
-                  <button
-                    onClick={() => { setSelectedOption(null); setRevealed(false) }}
-                    className="text-xs font-mono text-slate-400 hover:text-white flex items-center gap-1 cursor-pointer"
-                  >
-                    <RotateCcw className="w-3 h-3" /> Reset
-                  </button>
-                )}
               </div>
 
-              <p className="text-sm sm:text-base text-slate-100 font-sans leading-relaxed">
-                {DEMO_GATE_QUESTION.question}
-              </p>
-
-              {/* Options Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {DEMO_GATE_QUESTION.options.map((opt, idx) => {
-                  const isChosen = selectedOption === idx
-                  let btnColor = 'bg-slate-950 border-slate-800 text-slate-200 hover:border-slate-600'
-                  if (revealed) {
-                    if (opt.isCorrect) btnColor = 'bg-emerald-950/70 border-emerald-500 text-emerald-200'
-                    else if (isChosen && !opt.isCorrect) btnColor = 'bg-rose-950/70 border-rose-500 text-rose-200'
-                  } else if (isChosen) {
-                    btnColor = 'bg-blue-950 border-blue-500 text-white'
-                  }
-
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                {DEMO_DEFECTS.map((defect) => {
+                  const isSelected = selectedDefect.id === defect.id
                   return (
                     <button
-                      key={opt.label}
-                      disabled={revealed}
-                      onClick={() => {
-                        setSelectedOption(idx)
-                        setRevealed(true)
-                      }}
-                      className={`p-3.5 rounded-xl border text-left text-xs font-mono font-semibold transition-all cursor-pointer ${btnColor}`}
+                      key={defect.id}
+                      onClick={() => setSelectedDefect(defect)}
+                      className={`p-3 rounded-xl border text-left font-mono text-xs transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-blue-600 border-blue-400 text-white font-bold shadow-md'
+                          : 'bg-slate-800/80 hover:bg-slate-700/80 border-slate-700 text-slate-300'
+                      }`}
                     >
-                      {opt.label}
+                      <div className="truncate">{defect.name}</div>
+                      <div className="text-[10px] opacity-75 mt-0.5">{defect.severity}</div>
                     </button>
                   )
                 })}
               </div>
 
-              {/* Derivation reveal */}
-              {revealed && (
-                <div className="p-5 rounded-2xl bg-blue-950/50 border border-blue-800/80 space-y-2 animate-in fade-in duration-300">
-                  <div className="flex items-center gap-2">
-                    {selectedOption === 2 ? (
-                      <span className="text-xs font-mono font-bold text-emerald-400 flex items-center gap-1">
-                        <CheckCircle2 className="w-4 h-4" /> Correct Answer: Option C (99%)
-                      </span>
-                    ) : (
-                      <span className="text-xs font-mono font-bold text-rose-400 flex items-center gap-1">
-                        <XCircle className="w-4 h-4" /> Incorrect. Correct Answer is Option C (99%)
-                      </span>
-                    )}
+              <div className="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-700">
+                  <div>
+                    <span className="text-xs font-mono text-slate-400 uppercase">Selected Defect:</span>
+                    <h4 className="text-xl font-bold font-display text-white">{selectedDefect.name}</h4>
                   </div>
-                  <p className="text-xs text-slate-200 font-sans leading-relaxed pt-1">
-                    <strong className="text-white block mb-0.5 font-bold">Step-by-Step Derivation:</strong>
-                    {DEMO_GATE_QUESTION.derivation}
-                  </p>
+                  <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-amber-400 font-bold">
+                    {selectedDefect.process}
+                  </span>
                 </div>
-              )}
 
-              <div className="flex items-center justify-between pt-2 text-xs font-mono">
-                <span className="text-slate-400">Ready to practice more syllabus-mapped questions?</span>
-                <Link href="/gate-mock" className="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1">
-                  Take Full 60-Min Mock &rarr;
-                </Link>
+                <div className="space-y-3 font-sans text-xs sm:text-sm">
+                  <div>
+                    <span className="font-mono text-[11px] font-bold text-rose-400 uppercase block mb-1">
+                      Physical Root Cause:
+                    </span>
+                    <p className="text-slate-300 leading-relaxed">
+                      {selectedDefect.cause}
+                    </p>
+                  </div>
+
+                  <div>
+                    <span className="font-mono text-[11px] font-bold text-emerald-400 uppercase block mb-1">
+                      Shop-Floor Recommended Parameter Fix:
+                    </span>
+                    <p className="text-emerald-200 leading-relaxed font-medium bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/30">
+                      {selectedDefect.fix}
+                    </p>
+                  </div>
+
+                  <div className="pt-2 text-[11px] font-mono text-slate-500">
+                    Source: {selectedDefect.source}
+                  </div>
+                </div>
               </div>
+
             </div>
           )}
+
+          {/* Bottom Conversion Prompt */}
+          <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs font-mono text-slate-400">
+              Ready to access all 216 lessons, 8 industrial solvers &amp; GATE XE-F mocks?
+            </span>
+            <Link
+              href="/login?mode=signup"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md shrink-0"
+            >
+              <span>Create Free Account</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
 
         </div>
 

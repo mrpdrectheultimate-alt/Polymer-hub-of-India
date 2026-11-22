@@ -10,12 +10,13 @@ export default function LandingNavbar() {
 
   const navLinks = [
     { label: 'Platform', href: '#why-polymerhub' },
-    { label: 'Interactive Demo', href: '#interactive-demo' },
-    { label: 'Who It Is For', href: '#audience' },
+    { label: 'Live Demo', href: '#interactive-demo' },
+    { label: 'Ecosystem', href: '#ecosystem' },
     { label: 'GATE XE-F', href: '#gate-xef' },
     { label: 'Comparison', href: '#comparison' },
     { label: 'Pricing', href: '#pricing' },
     { label: 'Community', href: '#community' },
+    { label: 'FAQ', href: '#faq' },
   ]
 
   return (
