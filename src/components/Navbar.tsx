@@ -146,6 +146,11 @@ export default function Navbar() {
 
   const isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
 
+  // Dedicated campaign landing pages (/launch, /landing) use LandingNavbar exclusively
+  if (pathname === '/launch' || pathname === '/landing') {
+    return null
+  }
+
   return (
     <>
       {/* ── NAVBAR ─────────────────────────────────────────────────────────────

@@ -143,7 +143,7 @@ export default function FeedbackWidget() {
     setError('')
   }
 
-  if (isAiTutorPage) return null
+  if (isAiTutorPage || pathname === '/launch' || pathname === '/landing') return null
 
   return (
     <>

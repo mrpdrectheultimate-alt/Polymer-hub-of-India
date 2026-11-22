@@ -32,7 +32,6 @@ import Footer from '@/components/Footer'
 import HomepageMap from '@/components/map/HomepageMap'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
 import { VERIFIED_INDUSTRY_EVENTS } from '@/lib/industry_events_data'
-import AnnouncementBar from '@/components/landing/AnnouncementBar'
 
 // ==================== DATA ====================
 
@@ -183,9 +182,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden font-sans">
       
-      {/* ─── GLOBAL ANNOUNCEMENT BANNER ─── */}
-      <AnnouncementBar />
-
       {/* ─── HERO SECTION ─── */}
       <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0">
