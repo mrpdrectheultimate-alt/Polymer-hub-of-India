@@ -1,846 +1,118 @@
-'use client'
-
-import { useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { 
-  ArrowRight, 
-  BookOpen, 
-  GraduationCap, 
-  Users, 
-  Play, 
-  ChevronRight, 
-  Sparkles, 
-  CheckCircle, 
-  Factory, 
-  Target, 
-  Cpu, 
-  Brain, 
-  ShieldCheck,
-  Layers,
-  Calendar,
-  MapPin,
-  ExternalLink,
-  FlaskConical,
-  Atom,
-  Scale,
-  Compass,
-  Zap,
-  Building2
-} from 'lucide-react'
+import { Metadata } from 'next'
+import AnnouncementBar from '@/components/landing/AnnouncementBar'
+import LandingNavbar from '@/components/landing/LandingNavbar'
+import Hero from '@/components/landing/Hero'
+import ProofStrip from '@/components/landing/ProofStrip'
+import WhyPolymerHub from '@/components/landing/WhyPolymerHub'
+import InteractiveDemo from '@/components/landing/InteractiveDemo'
+import AudienceCards from '@/components/landing/AudienceCards'
+import FeatureShowcase from '@/components/landing/FeatureShowcase'
+import GateSection from '@/components/landing/GateSection'
+import IndustrySection from '@/components/landing/IndustrySection'
+import ComparisonTable from '@/components/landing/ComparisonTable'
+import PricingSection from '@/components/landing/PricingSection'
+import CommunitySection from '@/components/landing/CommunitySection'
+import FounderSection from '@/components/landing/FounderSection'
+import FAQSection from '@/components/landing/FAQSection'
+import FinalCTA from '@/components/landing/FinalCTA'
 import Footer from '@/components/Footer'
-import HomepageMap from '@/components/map/HomepageMap'
-import { ThreeDViewer } from '@/components/ThreeDViewer'
-import { VERIFIED_INDUSTRY_EVENTS } from '@/lib/industry_events_data'
 
-// ==================== DATA ====================
-
-const FEATURED_SUBJECTS = [
-  { id: 'polymer-chemistry', name: 'Polymer Chemistry', icon: '🧪', lessons: 15, level: 'Foundation', description: 'Synthesis, kinetics, molecular weight distribution, and structure-property relationships' },
-  { id: 'polymer-processing', name: 'Polymer Processing', icon: '⚙️', lessons: 20, level: 'Core', description: 'Extrusion, injection molding, blow molding, and thermoforming parameters' },
-  { id: 'mould-design', name: 'Mould Design', icon: '🔧', lessons: 12, level: 'Advanced', description: 'Runner systems, gate design, cooling thermodynamics, and CAD simulation' },
-  { id: 'polymer-testing', name: 'Polymer Testing', icon: '📊', lessons: 10, level: 'Core', description: 'Tensile, impact, DSC, TGA, DMA, and Shore hardness ASTM standards' },
-  { id: 'polymer-composites', name: 'Composites', icon: '🧪', lessons: 16, level: 'Advanced', description: 'CFRP prepregs, carbon fibers, autoclave curing, and lightweighting' },
-  { id: 'sustainable-plastics', name: 'Sustainable Plastics', icon: '♻️', lessons: 18, level: 'Advanced', description: 'PLA, PHA, bio-PE, and circular mono-material barrier formulations' },
-]
-
-const ALL_SUBJECTS = [
-  ...FEATURED_SUBJECTS,
-  { id: 'rubber-technology', name: 'Rubber Technology', icon: '⚡', lessons: 9, level: 'Core', description: 'Vulcanization chemistry, elastomers, and tyre manufacturing' },
-  { id: 'medical-plastics', name: 'Medical Plastics', icon: '🏥', lessons: 12, level: 'Advanced', description: 'ISO 10993 biocompatibility, drug delivery, and cleanroom molding' },
-  { id: 'plastic-packaging-engineering', name: 'Plastic Packaging', icon: '📦', lessons: 16, level: 'Advanced', description: 'Barrier EVOH co-extrusion, PET bottle blowing, and food contact' },
-  { id: 'additives-compounding', name: 'Additives & Compounding', icon: '🧬', lessons: 16, level: 'Advanced', description: 'Antioxidants, UV stabilizers, plasticizers, and twin-screw mixing' },
-  { id: 'polymer-rheology', name: 'Rheology & Flow', icon: '🌊', lessons: 9, level: 'Core', description: 'Non-Newtonian flow, shear-thinning viscosity, and die swell physics' },
-  { id: 'polymer-nanotechnology', name: 'Polymer Nanotech', icon: '🔬', lessons: 6, level: 'Core', description: 'Carbon nanotubes, exfoliated graphene, and nano-barrier enhancement' },
-  { id: 'bioprocessing-fermentation', name: 'Bioprocessing', icon: '🧫', lessons: 6, level: 'Core', description: 'Microbial fermentation, enzymes, and bio-based polymer production' },
-  { id: 'robotics-plastics', name: 'Robotics in Mfg', icon: '🤖', lessons: 6, level: 'Core', description: 'Cartesian retrieval robots, ultrasonic degating, and plant automation' },
-  { id: 'digital-twins-plastics', name: 'Digital Twins & AI', icon: '💻', lessons: 6, level: 'Core', description: 'Cavity pressure sensors, 3D printing, and predictive ML maintenance' },
-  { id: 'color-science-masterbatches', name: 'Color Science', icon: '🎨', lessons: 8, level: 'Core', description: 'CIELAB color space, TiO2 dispersion, and pigment masterbatching' },
-  { id: 'life-cycle-assessment', name: 'Life Cycle Assessment', icon: '🌍', lessons: 6, level: 'Core', description: 'ISO 14040, cradle-to-grave carbon footprinting, and EPR offsets' },
-  { id: 'entrepreneurship-plastics', name: 'Entrepreneurship', icon: '💼', lessons: 11, level: 'Core', description: 'Plastics business setup, PMEGP/MUDRA financing, and BIS norms' },
-  { id: 'recycling-technology', name: 'Recycling Technology', icon: '♻️', lessons: 12, level: 'Core', description: 'NIR optical sorting, chemical pyrolysis, and circular recycling' },
-]
-
-const STATS = [
-  { value: '216', label: 'Lessons', icon: <BookOpen className="h-5 w-5" /> },
-  { value: '19', label: 'Subjects', icon: <GraduationCap className="h-5 w-5" /> },
-  { value: '357+', label: 'Videos', icon: <Play className="h-5 w-5" /> },
-  { value: '5,000+', label: 'Waitlist Signups', icon: <Users className="h-5 w-5" /> },
-]
-
-const ECOSYSTEM_STEPS = [
-  { step: '01', action: 'LEARN', label: '216 Curriculum Lessons', icon: <BookOpen size={16} />, href: '/subjects' },
-  { step: '02', action: 'UNDERSTAND', label: '100+ 3D Polymer Models', icon: <Atom size={16} />, href: '/materials' },
-  { step: '03', action: 'CALCULATE', label: '8 Industrial Solvers', icon: <Scale size={16} />, href: '/calculators' },
-  { step: '04', action: 'CONNECT', label: 'Industry Expos & Summits', icon: <Building2 size={16} />, href: '/community' },
-  { step: '05', action: 'ASK', label: 'Polymer AI Copilot', icon: <Brain size={16} />, href: '/ai-tutor' },
-]
-
-const HOMEPAGE_3D_SAMPLES = [
-  {
-    id: 'pe',
-    name: 'Polyethylene (PE)',
-    formula: '(C₂H₄)ₙ',
-    model_type: 'molecule_polyethylene',
-    monomer: 'Ethylene (CH₂=CH₂)',
-    cru: '–[CH₂–CH₂]ₙ–',
-    category: 'Commodity Polyolefin',
-    desc: 'Linear aliphatic chain; world\'s most manufactured polymer for high-pressure pipes, films, and blow-moulded containers.'
+export const metadata: Metadata = {
+  title: 'PolymerHub of India — Master Polymer Engineering | From Molecules to Manufacturing',
+  description: "Building India's dedicated, integrated learning and engineering platform for polymer science, plastics manufacturing technology, practical solvers, and GATE XE-F preparation.",
+  keywords: [
+    'polymer engineering',
+    'plastics technology',
+    'GATE XE-F',
+    'GATE polymer science',
+    'CIPET learning',
+    'injection moulding defect troubleshooting',
+    'clamping tonnage calculator',
+    'polymer chemistry',
+    'mould design',
+    'extrusion parameters',
+    'PolymerHub India'
+  ],
+  openGraph: {
+    title: 'PolymerHub of India — Master Polymer Engineering',
+    description: '19 subjects, 216 curriculum lessons, 8 industrial calculators, 100+ 3D models, and dedicated GATE XE-F preparation. 100% Free Core Access.',
+    url: 'https://polymerhubofindia.com',
+    siteName: 'PolymerHub of India',
+    images: [
+      {
+        url: 'https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200&h=630&auto=format&fit=crop&q=80',
+        width: 1200,
+        height: 630,
+        alt: 'PolymerHub of India — Polymer Science and Plastics Engineering Platform',
+      },
+    ],
+    locale: 'en_IN',
+    type: 'website',
   },
-  {
-    id: 'pp',
-    name: 'Polypropylene (PP)',
-    formula: '(C₃H₆)ₙ',
-    model_type: 'molecule_polypropylene',
-    monomer: 'Propylene (CH₂=CH–CH₃)',
-    cru: '–[CH₂–CH(CH₃)]ₙ–',
-    category: 'Commodity Polyolefin',
-    desc: 'Isotactic helical structure with pendant methyl group; exceptional fatigue resistance for automotive bumpers & living hinges.'
+  twitter: {
+    card: 'summary_large_image',
+    title: 'PolymerHub of India — Master Polymer Engineering',
+    description: "India's dedicated platform for plastics and polymer engineers. From molecules to manufacturing.",
+    images: ['https://images.unsplash.com/photo-1581093458791-9f3c3900df4b?w=1200&h=630&auto=format&fit=crop&q=80'],
   },
-  {
-    id: 'pvc',
-    name: 'Polyvinyl Chloride (PVC)',
-    formula: '(C₂H₃Cl)ₙ',
-    model_type: 'molecule_pvc',
-    monomer: 'Vinyl Chloride (CH₂=CH–Cl)',
-    cru: '–[CH₂–CH(Cl)]ₙ–',
-    category: 'Vinyl Polymer',
-    desc: 'Chlorinated backbone with dipole interactions; dominant choice for potable water pipes, window profiles, and cables.'
+  alternates: {
+    canonical: 'https://polymerhubofindia.com',
   },
-  {
-    id: 'pa66',
-    name: 'Nylon 6,6 (PA66)',
-    formula: '(C₁₂H₂₂N₂O₂)ₙ',
-    model_type: 'molecule_nylon',
-    monomer: 'Hexamethylenediamine + Adipic Acid',
-    cru: '–[NH–(CH₂)₆–NH–CO–(CH₂)₄–CO]ₙ–',
-    category: 'Engineering Thermoplastic',
-    desc: 'High crystalline interchain hydrogen bonding; delivers superior mechanical strength for industrial gears and automotive parts.'
-  },
-  {
-    id: 'pet',
-    name: 'PET (Polyester)',
-    formula: '(C₁₀H₈O₄)ₙ',
-    model_type: 'molecule_pet',
-    monomer: 'Terephthalic Acid (PTA) + MEG',
-    cru: '–[CO–C₆H₄–CO–O–(CH₂)₂–O]ₙ–',
-    category: 'Aromatic Polyester',
-    desc: 'Aromatic ester linkage; delivers high gas barrier properties for stretch-blow beverage bottles and textile fibres.'
-  },
-  {
-    id: 'peek',
-    name: 'PEEK',
-    formula: '(C₁₉H₁₂O₃)ₙ',
-    model_type: 'molecule_peek',
-    monomer: '4,4′-Difluorobenzophenone + Hydroquinone',
-    cru: '–[O–C₆H₄–O–C₆H₄–CO–C₆H₄]ₙ–',
-    category: 'High-Performance Polymer',
-    desc: 'Ether-ketone aromatic backbone with 343°C Tm; replaces aerospace aluminium in avionics brackets and medical implants.'
-  }
-]
-
-const TOOLS = [
-  { name: 'Defect Troubleshooter', icon: '🔧', description: 'Diagnose sink marks, warpage, flash, and voids with root causes from Rosato', href: '/troubleshooter' },
-  { name: 'Polymer Comparator', icon: '⚖️', description: 'Compare 35+ polymer systems and 1,000+ TDS grades side-by-side', href: '/comparator' },
-  { name: 'Industrial Calculators', icon: '🧮', description: '8 engineering tools for clamping tonnage, cooling cycle time, and shrinkage', href: '/calculators' },
-  { name: 'Material Database & 3D Lab', icon: '📊', description: '35+ base polymers with complete ASTM properties and 100+ 3D models', href: '/materials' },
-]
-
-const INDUSTRIES = [
-  { name: 'Automotive & EV', slug: 'automotive', icon: '🚗', description: 'Under-the-hood PA66, bumper PP compounds, and battery flame retardants' },
-  { name: 'Medical Devices', slug: 'medical', icon: '🏥', description: 'ISO 10993 biocompatible PEEK implants & gamma-sterilized syringes' },
-  { name: 'Circular Packaging', slug: 'packaging', icon: '♻️', description: '7-layer EVOH high barrier films and 100% rPET preform blowing' },
-  { name: 'Aerospace Composites', slug: 'aerospace', icon: '🚀', description: 'Autoclave-cured CFRP prepregs for ISRO rocket fairings and fuselages' },
-]
-
-const PILLARS = [
-  {
-    title: 'GATE XE5 & CIPET Syllabus',
-    desc: 'Structured across 19 subjects covering step-growth kinetics, rheology, viscoelastic constitutive models, and mould design.',
-    icon: '🎓'
-  },
-  {
-    title: 'ASTM / ISO Virtual Test Benches',
-    desc: 'Interactive stress-strain tensile curves, non-Newtonian melt rheology models, and mold cooling cycle calculators.',
-    icon: '📊'
-  },
-  {
-    title: 'RAG-Grounded AI Engineering Tutor',
-    desc: 'Instant step-by-step mathematical derivations and troubleshooting advice grounded exclusively in the curriculum.',
-    icon: '🧠'
-  }
-]
+}
 
 export default function HomePage() {
-  const [showAllSubjects, setShowAllSubjects] = useState(false)
-  const [demoQuestion, setDemoQuestion] = useState('')
-  const [selected3DSample, setSelected3DSample] = useState(HOMEPAGE_3D_SAMPLES[0])
-
-  const displayedSubjects = showAllSubjects ? ALL_SUBJECTS : FEATURED_SUBJECTS
-  const upcomingEvents = VERIFIED_INDUSTRY_EVENTS.slice(0, 3)
-
   return (
-    <div className="min-h-screen bg-white text-slate-900 overflow-x-hidden font-sans">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
       
-      {/* ─── HERO SECTION ─── */}
-      <section className="relative min-h-[85vh] flex items-center overflow-hidden bg-white">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/hero/students-polymer-lab.jpg"
-            alt="Students innovating with polymers in a modern laboratory"
-            fill
-            className="object-cover object-center opacity-85"
-            priority
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-white/40" />
-          <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-white to-transparent" />
-        </div>
+      {/* 1. Global Announcement Banner (Direct WhatsApp & LaunchBase Hook) */}
+      <AnnouncementBar />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 sm:py-24">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-[#E2E8F0] text-[#2563EB] text-xs sm:text-sm font-mono font-bold mb-6 shadow-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
-              Built for India&apos;s Polymer Engineering Students &amp; Industry
-            </div>
+      {/* 2. Focused Landing Header */}
+      <LandingNavbar />
 
-            <h1 className="text-[clamp(3rem,6vw,5rem)] font-extrabold text-slate-900 leading-[1.1] tracking-tight font-display">
-              Master Polymer Engineering.
-              <span className="block bg-gradient-to-r from-[#2563EB] via-blue-700 to-[#16A34A] bg-clip-text text-transparent pb-2.5 pt-1">
-                From Molecules to Manufacturing.
-              </span>
-            </h1>
+      {/* 3. Hero Section (Above the fold 5-second clarity hook) */}
+      <Hero />
 
-            <p className="text-base sm:text-lg md:text-xl text-slate-700 max-w-2xl mt-4 leading-relaxed font-normal">
-              Master polymer science with structured lessons, 3D molecular models, industrial engineering solvers, and an AI copilot.
-            </p>
+      {/* 4. Verified Platform Proof Strip */}
+      <ProofStrip />
 
-            {/* Equal 4-Card Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 max-w-3xl">
-              {STATS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="bg-white/95 backdrop-blur-md border border-slate-200 p-4 rounded-2xl shadow-xs flex flex-col justify-between h-full hover:border-blue-400 transition-all"
-                >
-                  <div className="text-3xl font-extrabold text-[#2563EB] font-display tabular-nums tracking-tight">{stat.value}</div>
-                  <div className="text-xs sm:text-sm text-slate-600 mt-1 font-sans font-medium">{stat.label}</div>
-                </div>
-              ))}
-            </div>
+      {/* 5. Why PolymerHub Exists (The Fragmented Knowledge Narrative) */}
+      <WhyPolymerHub />
 
-            {/* CTAs */}
-            <div className="flex flex-wrap gap-4 mt-8">
-              <div>
-                <Link
-                  href="/login"
-                  className="px-8 py-3.5 rounded-xl font-mono font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-md transition-all flex items-center gap-2 text-xs uppercase tracking-wider hover:shadow-lg"
-                >
-                  Start Learning Free
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-              <div>
-                <Link
-                  href="/students"
-                  className="px-8 py-3.5 rounded-xl font-mono font-bold text-emerald-900 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-400 shadow-sm transition-all flex items-center gap-2 text-xs uppercase tracking-wider"
-                >
-                  🎓 Campus &amp; Students Hub
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </div>
-              <div>
-                <Link
-                  href="/subjects"
-                  className="px-8 py-3.5 rounded-xl font-mono font-bold text-[#1E293B] bg-white/90 hover:bg-white border border-[#E2E8F0] shadow-sm transition-all flex items-center gap-2 text-xs uppercase tracking-wider hover:border-[#CBD5E1]"
-                >
-                  Explore 19 Subjects
-                  <ChevronRight className="h-4 w-4" />
-                </Link>
-              </div>
-            </div>
+      {/* 6. Interactive Aha Demonstration (Non-gated Defect / Calc / GATE preview) */}
+      <InteractiveDemo />
 
-            {/* Honest Compliance Badges */}
-            <div className="flex flex-wrap items-center gap-3 mt-6 text-xs text-[#475569] font-medium">
-              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs font-mono text-[11px]">
-                <CheckCircle className="h-3.5 w-3.5 text-[#16A34A]" />
-                Made in India
-              </span>
-              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs font-mono text-[11px]">
-                <Target className="h-3.5 w-3.5 text-[#2563EB]" />
-                Curriculum Aligned to AICTE Model Guidelines &amp; GATE XE5
-              </span>
-              <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs font-mono text-[11px]">
-                <Cpu className="h-3.5 w-3.5 text-[#2563EB]" />
-                Polymer AI Copilot
-              </span>
-            </div>
-          </div>
-        </div>
+      {/* 7. Audience Pathways (College/CIPET vs GATE vs Shop Floor) */}
+      <AudienceCards />
 
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#94A3B8] z-20 pointer-events-none">
-          <span className="text-[9px] font-mono uppercase tracking-widest">Scroll</span>
-          <div className="w-0.5 h-5 bg-[#94A3B8]/60 rounded-full animate-bounce" />
-        </div>
-      </section>
+      {/* 8. Full Ecosystem Feature Showcase */}
+      <FeatureShowcase />
 
-      {/* ─── INTERACTIVE PLATFORM ORIENTATION MAP & GUIDE ─── */}
-      <HomepageMap />
+      {/* 9. Dedicated GATE XE-F Section */}
+      <GateSection />
 
-      {/* ─── ONE PLATFORM ECOSYSTEM STRIP ─── */}
-      <section className="bg-slate-900 py-6 border-y border-slate-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2 shrink-0">
-              <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse" />
-              <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-300">
-                The PolymerHub Ecosystem:
-              </span>
-            </div>
+      {/* 10. Live Industry Intelligence & Spot Price Benchmarks */}
+      <IndustrySection />
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 w-full md:w-auto">
-              {ECOSYSTEM_STEPS.map((eco) => (
-                <Link
-                  key={eco.step}
-                  href={eco.href}
-                  className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all text-left group"
-                >
-                  <div className="p-1.5 rounded-lg bg-blue-600/50 text-blue-300 group-hover:text-white shrink-0">
-                    {eco.icon}
-                  </div>
-                  <div>
-                    <div className="font-mono text-[10px] font-black text-amber-400">{eco.step} &middot; {eco.action}</div>
-                    <div className="text-[11px] font-medium text-slate-200 line-clamp-1">{eco.label}</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 11. Honest Category Comparison Table */}
+      <ComparisonTable />
 
-      {/* ─── FLAGSHIP FEATURE: INTERACTIVE 3D POLYMER EXPLORER ─── */}
-      <section className="bg-gradient-to-b from-white via-slate-50 to-white py-20 border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-100 text-blue-800 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-                <Atom className="w-3.5 h-3.5 text-blue-600" /> Interactive Molecular Hub &middot; 100+ Models
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-900 tracking-tight">
-                Understand Polymers Beyond the Textbook.
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-base mt-1 max-w-2xl">
-                Explore real atomic coordinates, constitutional repeating units (CRU), and 3D stereochemistry in real-time.
-              </p>
-            </div>
+      {/* 12. Transparent Pricing (Free Forever vs ₹149/mo) */}
+      <PricingSection />
 
-            <Link
-              href="/materials"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#2563EB] hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition-all self-start md:self-auto shrink-0"
-            >
-              Launch 3D Explorer &rarr;
-            </Link>
-          </div>
+      {/* 13. Official Community Network (WhatsApp & Telegram) */}
+      <CommunitySection />
 
-          {/* Interactive 3D Showcase Widget */}
-          <div className="bg-white border-2 border-slate-200 rounded-3xl p-6 sm:p-8 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left: 3D Stage (7 cols) */}
-            <div className="lg:col-span-7 space-y-4">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-black bg-slate-900 text-white px-3 py-1 rounded-lg uppercase">
-                    {selected3DSample.category}
-                  </span>
-                  <span className="font-mono text-xs font-bold text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-lg">
-                    {selected3DSample.formula}
-                  </span>
-                </div>
-                <span className="text-[11px] font-mono text-slate-400">
-                  Drag 360° to rotate &middot; Scroll to zoom
-                </span>
-              </div>
+      {/* 14. Founder & Mission Story (Ch. LPK Naidu) */}
+      <FounderSection />
 
-              <div className="bg-slate-950 rounded-2xl p-4 shadow-2xl border-2 border-slate-900 relative overflow-hidden h-[340px] flex items-center justify-center">
-                <ThreeDViewer modelType={selected3DSample.model_type} name={selected3DSample.name} isModal={true} interactive={true} width={500} height={340} />
-              </div>
+      {/* 15. Frequently Asked Questions */}
+      <FAQSection />
 
-              {/* Standard CPK Atom Legend */}
-              <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono text-slate-700">
-                <span className="font-bold text-slate-900 flex items-center gap-1">
-                  <Atom size={14} className="text-blue-600" /> CPK Legend:
-                </span>
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#374151] inline-block" /> C (Carbon)</span>
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#E2E8F0] border border-slate-400 inline-block" /> H (Hydrogen)</span>
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#EF4444] inline-block" /> O (Oxygen)</span>
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#2563EB] inline-block" /> N (Nitrogen)</span>
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#10B981] inline-block" /> Cl (Chlorine)</span>
-                  <span className="flex items-center gap-1"><span className="w-2.5 h-2.5 rounded-full bg-[#06B6D4] inline-block" /> F (Fluorine)</span>
-                </div>
-              </div>
-            </div>
+      {/* 16. Final Sticky Call-to-Action */}
+      <FinalCTA />
 
-            {/* Right: Interactive Switcher & Chemistry Identity (5 cols) */}
-            <div className="lg:col-span-5 space-y-5">
-              <div>
-                <span className="text-xs font-mono font-bold uppercase text-slate-400 block mb-2">
-                  Select Model to Inspect:
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  {HOMEPAGE_3D_SAMPLES.map((sample) => (
-                    <button
-                      key={sample.id}
-                      onClick={() => setSelected3DSample(sample)}
-                      className={`p-2.5 rounded-xl border text-xs font-mono font-bold transition-all text-center cursor-pointer ${
-                        selected3DSample.id === sample.id
-                          ? 'bg-blue-600 border-blue-600 text-white shadow-md'
-                          : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
-                      }`}
-                    >
-                      {sample.name.split(' ')[0]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Selected Polymer Chemistry Card */}
-              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
-                <h3 className="font-display font-black text-xl text-slate-900">
-                  {selected3DSample.name}
-                </h3>
-                <p className="text-xs text-slate-600 font-sans leading-relaxed">
-                  {selected3DSample.desc}
-                </p>
-
-                <div className="space-y-2 pt-2 border-t border-slate-200 text-xs font-mono">
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Monomer:</span>
-                    <strong className="text-slate-900 text-right">{selected3DSample.monomer}</strong>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-slate-500">Repeat Unit (CRU):</span>
-                    <strong className="text-blue-800 text-right">{selected3DSample.cru}</strong>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href="/materials"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 text-white font-mono font-bold text-xs uppercase tracking-wider py-3.5 px-4 rounded-xl shadow-md transition-all"
-                >
-                  <FlaskConical size={14} className="text-amber-400" /> Open Full 3D Laboratory (100+ Models) &rarr;
-                </Link>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* ─── LIVE INDUSTRY EVENTS SECTION (THE DIFFERENTIATOR) ─── */}
-      <section className="bg-white py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider mb-2">
-                <Building2 className="w-3.5 h-3.5 text-emerald-600" /> Industry Connection &middot; Verified Schedule
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-slate-900">
-                The Polymer Industry &mdash; Live
-              </h2>
-              <p className="text-slate-600 text-xs sm:text-sm mt-0.5">
-                Upcoming Indian plastic exhibitions, machinery expos, and technical conferences for student networking.
-              </p>
-            </div>
-
-            <Link
-              href="/community"
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-mono font-bold uppercase tracking-wider transition-all self-start sm:self-auto shadow-xs"
-            >
-              View All Industry Events &rarr;
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {upcomingEvents.map((event) => (
-              <div
-                key={event.id}
-                className="bg-[#F8FAFC] rounded-3xl border-2 border-slate-200 p-6 flex flex-col justify-between hover:border-blue-600 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
-              >
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="font-mono text-[11px] font-black bg-blue-600 text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-2xs">
-                      {event.monthYearBadge}
-                    </span>
-                    <span className="font-mono text-xs font-bold text-slate-600 flex items-center gap-1">
-                      <MapPin size={13} className="text-rose-500" /> {event.city}, {event.state}
-                    </span>
-                  </div>
-
-                  <h3 className="font-display font-bold text-base text-slate-900 group-hover:text-blue-600 transition-colors leading-snug">
-                    {event.title}
-                  </h3>
-
-                  <p className="text-xs text-slate-600 font-sans line-clamp-2 leading-relaxed">
-                    {event.focus}
-                  </p>
-
-                  <div className="pt-2">
-                    <span className="text-[11px] font-mono text-slate-500 flex items-center gap-1">
-                      <Calendar size={13} className="text-blue-500" /> {event.dateDisplay}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-4 border-t border-slate-200 flex items-center justify-between">
-                  <span className="font-mono text-[10px] font-bold text-slate-500">
-                    Organizer: {event.organizer.split(' ')[0]}
-                  </span>
-                  <Link
-                    href="/community"
-                    className="inline-flex items-center gap-1 text-xs font-mono font-bold text-blue-600 group-hover:translate-x-1 transition-transform"
-                  >
-                    View Event Details &rarr;
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── LEARNING PATHS ─── */}
-      <section className="bg-white py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Choose Your Path</span>
-            <h2 className="text-3xl font-bold font-display text-[#111827] mt-2">Where should you start?</h2>
-            <p className="text-[#64748B] text-sm mt-1 max-w-2xl mx-auto">PolymerHub adapts to your goals &mdash; whether you are an undergraduate student, shop-floor professional, or GATE aspirant.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              {
-                icon: <GraduationCap className="h-7 w-7 text-[#2563EB]" />,
-                title: '🎓 B.Tech & Diploma Student',
-                description: 'Build fundamentals from scratch. Master core polymer chemistry, structure, and processing equations.',
-                path: '/subjects'
-              },
-              {
-                icon: <Factory className="h-7 w-7 text-[#2563EB]" />,
-                title: '🏭 Industry Process Engineer',
-                description: 'Solve real manufacturing defects on the shop floor with Rosato diagnostics and clamp tonnage calculators.',
-                path: '/troubleshooter'
-              },
-              {
-                icon: <Target className="h-7 w-7 text-[#2563EB]" />,
-                title: '🎯 GATE XE5 Aspirant',
-                description: 'Prepare systematically with topic-wise quizzes, formula flashcards, and full-length simulated mock tests.',
-                path: '/gate-mock'
-              }
-            ].map((path) => (
-              <div
-                key={path.title}
-                className="bg-[#F8FAFC] rounded-3xl border border-[#E2E8F0] p-6 hover:shadow-md hover:-translate-y-1 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center mb-4">
-                    {path.icon}
-                  </div>
-                  <h3 className="text-lg font-bold font-display text-[#111827]">{path.title}</h3>
-                  <p className="text-xs sm:text-sm text-[#64748B] mt-2 leading-relaxed font-sans">{path.description}</p>
-                </div>
-                <Link href={path.path} className="inline-flex items-center gap-1.5 mt-6 text-xs font-mono font-bold uppercase tracking-wider text-[#2563EB] hover:text-blue-700 transition-all group">
-                  Start Path
-                  <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FEATURED & ALL SUBJECTS ─── */}
-      <section className="bg-[#FAFAFA] py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Curriculum Matrix</span>
-                <Sparkles className="h-3.5 w-3.5 text-amber-500" />
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#111827]">
-                {showAllSubjects ? 'All 19 Polymer Subjects' : 'Featured Core Subjects'}
-              </h2>
-              <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">The core of polymer engineering &mdash; structured for deep conceptual clarity</p>
-            </div>
-            
-            <button
-              onClick={() => setShowAllSubjects(!showAllSubjects)}
-              className="px-4 py-2 rounded-xl bg-white border border-[#CBD5E1] text-[#2563EB] hover:bg-blue-50 text-xs font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all self-start sm:self-auto shadow-xs"
-            >
-              {showAllSubjects ? 'Show Featured 6' : 'View All 19 Subjects (216 Lessons)'}
-              <ChevronRight className={'h-4 w-4 transition-transform ' + (showAllSubjects ? 'rotate-90' : '')} />
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {displayedSubjects.map((subject) => (
-              <div
-                key={subject.id}
-                className="group bg-white rounded-3xl border border-[#E2E8F0] overflow-hidden hover:border-[#2563EB] hover:shadow-md hover:-translate-y-1 transition-all flex flex-col justify-between"
-              >
-                <Link href={'/subjects/' + subject.id} className="p-6 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-4 mb-3">
-                      <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-2xl flex-shrink-0 shadow-xs">
-                        {subject.icon}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-base text-[#111827] group-hover:text-[#2563EB] transition-colors font-display">
-                          {subject.name}
-                        </h3>
-                        <p className="text-[#94A3B8] text-xs font-mono">{subject.lessons} lessons</p>
-                      </div>
-                    </div>
-                    <p className="text-xs sm:text-sm text-[#64748B] line-clamp-2 leading-relaxed font-sans">{subject.description}</p>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-[#F1F5F9]">
-                    <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-lg bg-blue-50 text-[#2563EB] border border-blue-200">
-                      {subject.level}
-                    </span>
-                    <span className="text-xs font-mono text-[#2563EB] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                      Explore <ArrowRight className="h-3 w-3" />
-                    </span>
-                  </div>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── AI TUTOR ─── */}
-      <section className="bg-[#1E40AF] py-16 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col lg:flex-row items-center gap-8">
-            <div className="flex-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-mono font-bold uppercase tracking-wider mb-3">
-                <Brain className="h-3.5 w-3.5 text-amber-300" />
-                AI Tutor &middot; Powered by Your Curriculum
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold font-display text-white leading-tight">
-                Your Polymer Engineering Copilot
-              </h2>
-              <p className="text-white/85 text-xs sm:text-sm mt-2 max-w-xl font-light leading-relaxed">
-                Ask technical questions and get answers grounded in PolymerHub&apos;s 216 curriculum lessons &mdash; 
-                calibrated for exams and shop-floor diagnostics.
-              </p>
-              
-              <div className="mt-6 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-4 max-w-xl shadow-xl">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-7 h-7 rounded-xl bg-amber-400 flex items-center justify-center text-xs font-bold text-slate-950 font-mono">
-                    AI
-                  </div>
-                  <span className="text-white text-xs font-mono font-bold">PolymerHub AI Specialist</span>
-                  <span className="text-emerald-300 text-[10px] font-mono">● Online</span>
-                </div>
-                <div className="bg-white/5 rounded-xl p-3 mb-3 border border-white/10">
-                  <p className="text-white/90 text-xs sm:text-sm">
-                    <span className="text-amber-300 font-bold font-mono">You:</span> Why does increasing injection pressure sometimes cause flash?
-                  </p>
-                  <p className="text-white/90 text-xs sm:text-sm mt-2 leading-relaxed">
-                    <span className="text-emerald-300 font-bold font-mono">AI:</span> Flash occurs when injection pressure exceeds the effective clamp tonnage across the projected area, forcing molten polymer into the parting line.
-                  </p>
-                  <div className="flex items-center gap-2 mt-2 text-[10px] text-white/60 font-mono">
-                    <span>📘 Source:</span>
-                    <span>Polymer Processing &middot; Lesson 12</span>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <input 
-                    type="text" 
-                    value={demoQuestion}
-                    onChange={(e) => setDemoQuestion(e.target.value)}
-                    placeholder="Ask any polymer question (e.g. Carothers equation, MFI)..."
-                    className="flex-1 px-4 py-2.5 rounded-xl bg-white/15 border border-white/25 text-white placeholder:text-white/50 text-xs focus:outline-none focus:ring-2 focus:ring-amber-300 font-sans"
-                  />
-                  <Link
-                    href={'/ai-tutor?prompt=' + encodeURIComponent(demoQuestion || 'Explain the Carothers equation for step-growth polymerization')}
-                    className="px-4 py-2.5 rounded-xl bg-white text-[#2563EB] hover:bg-slate-100 font-mono font-bold text-xs uppercase tracking-wider flex items-center gap-1 transition-all"
-                  >
-                    Ask <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0">
-              <Link
-                href="/ai-tutor"
-                className="px-8 py-4 rounded-2xl font-mono font-bold text-slate-900 bg-white hover:bg-slate-100 transition-all flex items-center gap-2 shadow-xl text-xs uppercase tracking-wider hover:shadow-2xl"
-              >
-                Launch AI Tutor Workspace
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── ENGINEERING TOOLS ─── */}
-      <section className="bg-white py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Engineering Tools</span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#111827]">Calculate &middot; Diagnose &middot; Compare</h2>
-            <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">Do not just learn theory &mdash; use it. These tools turn engineering calculations into actionable plant decisions.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {TOOLS.map((tool) => (
-              <div
-                key={tool.name}
-                className="bg-[#F8FAFC] rounded-3xl border border-[#E2E8F0] p-6 hover:border-[#2563EB] hover:shadow-md hover:-translate-y-1 transition-all flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-start justify-between">
-                    <div className="text-3xl">{tool.icon}</div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-white border border-[#E2E8F0] text-slate-600">
-                      Standards-Based Model
-                    </span>
-                  </div>
-                  <h3 className="font-bold font-display text-[#111827] text-base mt-3">{tool.name}</h3>
-                  <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed font-sans">{tool.description}</p>
-                </div>
-                
-                <div>
-                  <div className="mt-4 p-2.5 bg-white rounded-xl border border-[#E2E8F0] text-[10px] font-mono text-[#64748B] flex items-center justify-between shadow-2xs">
-                    <span>Interactive Solver Ready</span>
-                    <span className="text-[#2563EB] font-bold">&rarr;</span>
-                  </div>
-                  
-                  <Link
-                    href={tool.href}
-                    className="inline-flex items-center gap-1 mt-3 text-xs font-mono font-bold uppercase tracking-wider text-[#2563EB] hover:text-blue-700 transition-colors group"
-                  >
-                    Launch Tool
-                    <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── APPLIED SECTORS ─── */}
-      <section className="bg-[#FAFAFA] py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Applied Sectors</span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#111827]">See Polymers in Action</h2>
-            <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">Connect classroom chemistry to modern automotive, biomedical, and aerospace supply chains.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {INDUSTRIES.map((industry) => (
-              <div
-                key={industry.name}
-                className="bg-white rounded-3xl border border-[#E2E8F0] p-6 hover:border-[#2563EB] hover:shadow-md hover:-translate-y-1 transition-all text-center flex flex-col justify-between"
-              >
-                <div>
-                  <div className="w-14 h-14 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-2xl mx-auto mb-3 shadow-2xs">
-                    {industry.icon}
-                  </div>
-                  <h3 className="font-bold font-display text-[#111827] text-base">{industry.name}</h3>
-                  <p className="text-xs text-[#64748B] mt-1.5 leading-relaxed font-sans">{industry.description}</p>
-                </div>
-                <Link
-                  href={'/world/' + industry.slug}
-                  className="inline-flex items-center justify-center gap-1 mt-4 text-xs font-mono font-bold uppercase tracking-wider text-[#2563EB] hover:text-blue-700 transition-colors group"
-                >
-                  Explore Sector
-                  <ArrowRight className="h-3 w-3 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CURRICULUM PILLARS (HONEST COMPLIANCE BADGES) ─── */}
-      <section className="bg-white py-16 border-t border-[#F1F5F9]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Built for Technical Excellence</span>
-            <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#111827] mt-2">The PolymerHub Engineering Standard</h2>
-            <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">Engineered specifically for undergraduate exams, GATE XE5 preparation, and plastics manufacturing.</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PILLARS.map((pillar) => (
-              <div
-                key={pillar.title}
-                className="bg-[#F8FAFC] rounded-3xl border border-[#E2E8F0] p-6 shadow-xs flex flex-col justify-between hover:shadow-md hover:-translate-y-1 transition-all"
-              >
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-2xl mb-4">
-                    {pillar.icon}
-                  </div>
-                  <h3 className="font-bold font-display text-base text-[#111827] mb-2">{pillar.title}</h3>
-                  <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed font-sans">{pillar.desc}</p>
-                </div>
-                <div className="mt-4 pt-4 border-t border-slate-200/80 flex items-center gap-1.5 text-blue-700 text-xs font-mono font-bold">
-                  <ShieldCheck className="w-4 h-4 text-[#2563EB]" /> Comprehensive Syllabus Coverage
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FINAL CALL TO ACTION ─── */}
-      <section className="bg-slate-900 py-20 text-white border-t border-slate-800">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-extrabold font-display text-white">
-              Your polymer engineering journey starts here
-            </h2>
-            <p className="text-slate-300 text-xs sm:text-sm md:text-base mt-4 max-w-2xl mx-auto font-normal leading-relaxed">
-              Join students and engineers mastering polymer science and manufacturing parameters across India. Start learning today &mdash; it is completely free.
-            </p>
-            <div className="mt-8">
-              <Link
-                href="/login"
-                className="px-10 py-4 rounded-xl font-mono font-bold text-white bg-[#2563EB] hover:bg-blue-700 shadow-lg transition-all inline-flex items-center gap-2 text-xs uppercase tracking-wider hover:shadow-2xl hover:scale-105"
-              >
-                Start Learning Free
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-8 text-xs font-mono text-slate-400">
-              <span>📚 216 Lessons</span>
-              <span className="w-px h-4 bg-white/20" />
-              <span>🎓 19 Subjects</span>
-              <span className="w-px h-4 bg-white/20" />
-              <span>🧬 100+ 3D Models</span>
-              <span className="w-px h-4 bg-white/20" />
-              <span>🔧 8 Engineering Tools</span>
-              <span className="w-px h-4 bg-white/20" />
-              <span>🧠 Polymer AI Copilot</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CLEAN GLOBAL FOOTER */}
+      {/* 17. Comprehensive Global Footer with Legal Charter & In-App Contact */}
       <Footer showTrustBar />
 
     </div>
