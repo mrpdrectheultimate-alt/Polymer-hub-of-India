@@ -16,8 +16,8 @@ export default function AudienceCards() {
         'End-of-lesson knowledge checks & XP',
         '3D molecular models & CPK structures',
       ],
-      href: '/students',
-      cta: 'Explore Student Hub',
+      href: '/subjects',
+      cta: 'Explore 19 Subjects',
     },
     {
       title: 'GATE XE-F Aspirants',

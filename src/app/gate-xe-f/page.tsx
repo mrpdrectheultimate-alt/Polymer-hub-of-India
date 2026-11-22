@@ -215,13 +215,24 @@ export default function GateXeFPage() {
             </p>
           </div>
 
-          <Link
-            href="/gate-mock"
-            className="px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg shrink-0"
-          >
-            <span>Start Practice Mock</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <Link
+              href="/gate-mock"
+              className="w-full sm:w-auto px-8 py-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
+            >
+              <span>Start Practice Mock</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="https://t.me/polymerhubofindia"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
+            >
+              <span>Telegram Group 🎯</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
         </div>
 
       </main>

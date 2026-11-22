@@ -279,8 +279,8 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/students" className="text-emerald-700 hover:text-emerald-800 font-bold transition-colors flex items-center gap-1.5">
-                  🎓 Campus &amp; Students Hub
+                <Link href="/launch" className="text-blue-700 hover:text-blue-800 font-bold transition-colors flex items-center gap-1.5">
+                  🚀 Launch Overview
                 </Link>
               </li>
               <li>

@@ -255,10 +255,10 @@ export default function HomePage() {
               </div>
               <div>
                 <Link
-                  href="/students"
+                  href="/subjects"
                   className="px-6 py-3.5 rounded-xl font-mono font-bold text-slate-800 bg-white hover:bg-slate-50 border border-slate-200 shadow-sm transition-all flex items-center gap-1.5 text-xs uppercase tracking-wider"
                 >
-                  🎓 Campus Portal
+                  Explore 19 Subjects
                 </Link>
               </div>
               <div>

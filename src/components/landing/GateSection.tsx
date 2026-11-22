@@ -127,6 +127,15 @@ export default function GateSection() {
                 <span>View Full GATE XE-F Guide</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
+              <a
+                href="https://t.me/polymerhubofindia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2.5 rounded-xl bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-500/30 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+              >
+                <span>Join Telegram Mastermind 🎯</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
 

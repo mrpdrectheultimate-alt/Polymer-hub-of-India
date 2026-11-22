@@ -38,7 +38,7 @@ export default function CommunitySection() {
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed mb-6">
-                Receive daily morning engineering formulas, daily domestic polymer spot price intelligence, BIS standards updates, and campus event alerts directly on WhatsApp.
+                Official community for B.Tech, Diploma, and CIPET plastics &amp; polymer engineering students across India. Daily morning formulas, spot price intelligence, and platform updates.
               </p>
 
               <div className="space-y-2 text-xs font-mono text-slate-600 mb-6">
@@ -67,22 +67,22 @@ export default function CommunitySection() {
                   <Send className="w-6 h-6" />
                 </div>
                 <span className="text-[10px] font-mono font-bold px-2.5 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
-                  GATE Mastermind
+                  GATE Mastermind 🎯
                 </span>
               </div>
 
               <h3 className="font-display font-bold text-2xl text-slate-900 mb-2">
-                GATE XE-F Community
+                PolymerHub GATE XE-F Mastermind
               </h3>
 
               <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed mb-6">
-                A dedicated peer mastermind for GATE Engineering Sciences Paper F aspirants. Discuss complex Carothers derivations, solve numericals, and share notes.
+                Official community for GATE Engineering Sciences (XE Paper F) aspirants. Master polymer science, solve challenging numericals, and discuss PYQs with fellow aspirants.
               </p>
 
               <div className="space-y-2 text-xs font-mono text-slate-600 mb-6">
-                <div>&bull; Daily numerical problem discussion</div>
-                <div>&bull; Formula derivation sheets &amp; PYQ solutions</div>
-                <div>&bull; Peer doubt resolution &amp; study accountability</div>
+                <div>&bull; Daily morning numerical question (8:00 AM)</div>
+                <div>&bull; Full mathematical derivations (Carothers, rheology)</div>
+                <div>&bull; Downloadable revision formula sheets &amp; PYQs</div>
               </div>
             </div>
 
@@ -92,7 +92,7 @@ export default function CommunitySection() {
               rel="noopener noreferrer"
               className="w-full py-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-2 shadow-sm"
             >
-              <span>Join Telegram Community</span>
+              <span>Join Telegram Mastermind</span>
               <ArrowRight className="w-4 h-4" />
             </a>
           </div>

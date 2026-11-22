@@ -37,7 +37,7 @@ export const HOMEPAGE_MAP_CARDS: HomepageMapCard[] = [
       link: '/subjects'
     },
     secondaryLinks: [
-      { label: 'Campus & Student Hub 🎓', link: '/students', badge: 'Free Portal' },
+      { label: 'Launch Overview 🚀', link: '/launch', badge: 'Overview' },
       { label: 'Polymer Chemistry (Start Here)', link: '/subjects/polymer-chemistry', badge: '15 Lessons' },
       { label: 'Polymer Processing & Extrusion', link: '/subjects/polymer-processing', badge: '20 Lessons' },
       { label: 'Reference Reading Room', link: '/library', badge: '20 Books' },
