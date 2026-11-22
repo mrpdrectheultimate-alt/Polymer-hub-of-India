@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Flame, TrendingUp, ArrowRight, ShieldCheck, ExternalLink, Calendar, MapPin } from 'lucide-react'
-import { INDIAN_POLYMER_PRICES } from '@/components/TodayDashboard'
-import { TODAY_CURATED_UPDATES } from '@/lib/data/today-updates'
+import { INDIAN_POLYMER_PRICES, TODAY_CURATED_UPDATES } from '@/lib/data/today-updates'
 
 export default function IndustrySection() {
   const featuredNews = TODAY_CURATED_UPDATES.slice(0, 3)
