@@ -86,7 +86,7 @@ export default function InteractiveDemo() {
   const calcResult = calculateClamp(area, cavities, pressure)
 
   return (
-    <section id="interactive-demo" className="py-20 sm:py-24 bg-[#070A12] text-white border-b border-slate-800">
+    <section id="interactive-demo" className="py-20 sm:py-24 bg-[#0A122A] text-white border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

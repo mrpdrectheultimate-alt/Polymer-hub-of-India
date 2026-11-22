@@ -13,7 +13,7 @@ export default function GateSection() {
   ]
 
   return (
-    <section id="gate-xef" className="py-20 sm:py-24 bg-[#070A12] border-b border-slate-800 text-white relative">
+    <section id="gate-xef" className="py-20 sm:py-24 bg-[#0A122A] border-b border-slate-800 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

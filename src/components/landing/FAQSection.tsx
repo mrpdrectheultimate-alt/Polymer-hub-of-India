@@ -61,11 +61,11 @@ export default function FAQSection() {
       a: (
         <span>
           You can reach our team anytime at{' '}
-          <a href="mailto:support@polymerhubofindia.com" className="text-blue-400 underline font-semibold">
+          <a href="mailto:support@polymerhubofindia.com" className="text-blue-600 underline font-semibold">
             support@polymerhubofindia.com
           </a>{' '}
           or message the founder directly at{' '}
-          <a href="mailto:founder@polymerhubofindia.com" className="text-blue-400 underline font-semibold">
+          <a href="mailto:founder@polymerhubofindia.com" className="text-blue-600 underline font-semibold">
             founder@polymerhubofindia.com
           </a>. You can also use the contact composer in the website footer or message our WhatsApp community channel.
         </span>
@@ -78,18 +78,18 @@ export default function FAQSection() {
   }
 
   return (
-    <section id="faq" className="py-20 sm:py-24 bg-[#0B101D] border-b border-slate-800 text-white relative">
+    <section id="faq" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <HelpCircle className="w-3.5 h-3.5 text-blue-400" /> Frequently Asked Questions
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <HelpCircle className="w-3.5 h-3.5 text-blue-600" /> Frequently Asked Questions
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-white tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-950 tracking-tight leading-tight">
             Frequently Asked Questions
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base mt-3 font-sans">
+          <p className="text-slate-600 text-sm sm:text-base mt-3 font-sans">
             Straightforward answers to the most common questions from students, aspirants, and engineers.
           </p>
         </div>
@@ -101,26 +101,26 @@ export default function FAQSection() {
             return (
               <div
                 key={faq.q}
-                className="bg-[#070A12] rounded-2xl border border-slate-800 overflow-hidden transition-all hover:border-blue-500/40 shadow-lg"
+                className="bg-slate-50 rounded-2xl border-2 border-slate-200 overflow-hidden transition-all hover:border-blue-400 shadow-xs"
               >
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full py-4 sm:py-5 px-6 text-left flex items-center justify-between gap-4 hover:bg-slate-900/50 transition-colors cursor-pointer"
+                  className="w-full py-4 sm:py-5 px-6 text-left flex items-center justify-between gap-4 hover:bg-slate-100/60 transition-colors cursor-pointer"
                   aria-expanded={isOpen}
                 >
-                  <span className="font-display font-bold text-sm sm:text-base text-white">
+                  <span className="font-display font-bold text-sm sm:text-base text-slate-950">
                     {idx + 1}. {faq.q}
                   </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${
-                      isOpen ? 'rotate-180 text-blue-400' : ''
+                    className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-200 ${
+                      isOpen ? 'rotate-180 text-blue-600' : ''
                     }`}
                   />
                 </button>
 
                 {isOpen && (
-                  <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-slate-300 font-sans leading-relaxed border-t border-slate-800/80 animate-in fade-in duration-150">
+                  <div className="px-6 pb-5 pt-2 text-xs sm:text-sm text-slate-600 font-sans leading-relaxed border-t border-slate-200/80 animate-in fade-in duration-150">
                     {faq.a}
                   </div>
                 )}

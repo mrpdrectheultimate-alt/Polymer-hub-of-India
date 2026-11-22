@@ -63,7 +63,7 @@ export const metadata: Metadata = {
 
 export default function LaunchLandingPage() {
   return (
-    <div className="min-h-screen bg-[#070A12] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
       
       {/* 1. Global Announcement Banner (Direct WhatsApp & LaunchBase Hook) */}
       <AnnouncementBar />
@@ -71,37 +71,34 @@ export default function LaunchLandingPage() {
       {/* 2. Focused Landing Header */}
       <LandingNavbar />
 
-      {/* 3. Hero Section (Above the fold 5-second clarity hook) */}
+      {/* 3. Hero Section (Centered AgentHub/Claude Style with Direct Waitlist Engine & Window Mockup) */}
       <Hero />
 
-      {/* 4. Verified Platform Proof Strip */}
-      <ProofStrip />
-
-      {/* 5. Why PolymerHub Exists (The Fragmented Knowledge Narrative) */}
+      {/* 4. Why PolymerHub Exists (The Fragmented Knowledge Narrative) */}
       <WhyPolymerHub />
 
-      {/* 6. Interactive Aha Demonstration (Non-gated Defect / Calc / GATE preview) */}
+      {/* 5. Interactive Aha Demonstration (Non-gated Defect / Calc / GATE preview) */}
       <InteractiveDemo />
 
-      {/* 7. Audience Pathways (College/CIPET vs GATE vs Shop Floor) */}
+      {/* 6. Audience Pathways (College/CIPET vs GATE vs Shop Floor) */}
       <AudienceCards />
 
-      {/* 8. Full Ecosystem Feature Showcase */}
+      {/* 7. Full Ecosystem Feature Showcase */}
       <FeatureShowcase />
 
-      {/* 9. Dedicated GATE XE-F Section */}
+      {/* 8. Dedicated GATE XE-F Section */}
       <GateSection />
 
-      {/* 10. Honest Category Comparison Table */}
+      {/* 9. Honest Category Comparison Table (AgentHub Matrix Style) */}
       <ComparisonTable />
 
-      {/* 11. Live Industry Intelligence & Spot Price Benchmarks */}
+      {/* 10. Live Industry Intelligence & Spot Price Benchmarks */}
       <IndustrySection />
 
-      {/* 12. Student Feedback & Credibility */}
+      {/* 11. Student Feedback & Credibility */}
       <StudentTestimonials />
 
-      {/* 13. Transparent Pricing (Free Forever vs ₹149/mo) */}
+      {/* 12. Transparent Pricing (Free Forever vs ₹149/mo) */}
       <PricingSection />
 
       {/* 13. Official Community Network (WhatsApp & Telegram) */}
@@ -117,7 +114,7 @@ export default function LaunchLandingPage() {
       <FinalCTA />
 
       {/* 17. Comprehensive Global Footer with Legal Charter & In-App Contact */}
-      <Footer showTrustBar theme="dark" />
+      <Footer showTrustBar theme="light" />
 
     </div>
   )

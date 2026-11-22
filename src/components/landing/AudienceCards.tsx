@@ -6,10 +6,10 @@ export default function AudienceCards() {
     {
       title: 'College & CIPET Students',
       badge: 'Academics & Semester Exams',
-      badgeColor: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
+      badgeColor: 'bg-emerald-50 text-emerald-800 border-emerald-200',
       icon: GraduationCap,
-      iconColor: 'text-emerald-400',
-      iconBg: 'bg-emerald-500/10 border-emerald-500/30',
+      iconColor: 'text-emerald-600',
+      iconBg: 'bg-emerald-50 border-emerald-200',
       benefits: [
         '19 Semester subjects & 216 structured university lessons',
         'Laboratory viva manuals, testing standards & 3D models',
@@ -22,10 +22,10 @@ export default function AudienceCards() {
     {
       title: 'GATE XE-F Aspirants',
       badge: 'Competitive Exam Focus',
-      badgeColor: 'bg-purple-500/10 text-purple-300 border-purple-500/30',
+      badgeColor: 'bg-purple-50 text-purple-800 border-purple-200',
       icon: Trophy,
-      iconColor: 'text-purple-400',
-      iconBg: 'bg-purple-500/10 border-purple-500/30',
+      iconColor: 'text-purple-600',
+      iconBg: 'bg-purple-50 border-purple-200',
       benefits: [
         'Dedicated Engineering Sciences (Paper F) syllabus coverage',
         'Daily morning numerical practice questions & formulas',
@@ -38,10 +38,10 @@ export default function AudienceCards() {
     {
       title: 'Plant & Process Engineers',
       badge: 'Shop-Floor Manufacturing',
-      badgeColor: 'bg-blue-500/10 text-blue-300 border-blue-500/30',
+      badgeColor: 'bg-blue-50 text-blue-800 border-blue-200',
       icon: Factory,
-      iconColor: 'text-blue-400',
-      iconBg: 'bg-blue-500/10 border-blue-500/30',
+      iconColor: 'text-blue-600',
+      iconBg: 'bg-blue-50 border-blue-200',
       benefits: [
         '8 Shop-floor engineering calculators (tonnage, cooling, shrinkage)',
         'Rosato-grounded injection & extrusion defect troubleshooter',
@@ -54,58 +54,58 @@ export default function AudienceCards() {
   ]
 
   return (
-    <section id="audience" className="py-20 sm:py-24 bg-[#0A0E1A] text-white border-b border-slate-800">
+    <section id="audience" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            Targeted Learning Tracks
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            Choose Your Learning Pathway
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-950 tracking-tight">
             Where do you want to start?
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base mt-2 font-sans">
-            PolymerHub adapts directly to your current professional or academic milestone.
+          <p className="text-slate-600 text-base sm:text-lg mt-3 font-sans leading-relaxed">
+            Select the pathway that matches your immediate goal. Everything connects under your unified PolymerHub account.
           </p>
         </div>
 
-        {/* 3 Persona Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        {/* 3 Pathway Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {tracks.map((track) => {
             const Icon = track.icon
             return (
               <div
                 key={track.title}
-                className="bg-slate-900/80 rounded-3xl border border-slate-800 p-7 flex flex-col justify-between hover:border-blue-500/60 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1 transition-all duration-300 group"
+                className="bg-white rounded-3xl border-2 border-slate-200 p-8 shadow-sm hover:shadow-xl hover:border-blue-500 transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-xs ${track.iconBg}`}>
-                      <Icon className={`w-6 h-6 ${track.iconColor}`} />
+                  <div className="flex items-center justify-between mb-6">
+                    <div className={`w-14 h-14 rounded-2xl ${track.iconBg} border flex items-center justify-center ${track.iconColor} group-hover:scale-105 transition-transform shadow-xs`}>
+                      <Icon className="w-7 h-7" />
                     </div>
-                    <span className={`text-[10px] font-mono font-bold px-2.5 py-1 rounded-full border ${track.badgeColor}`}>
+                    <span className={`text-[10px] font-mono font-bold px-3 py-1 rounded-full border ${track.badgeColor}`}>
                       {track.badge}
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-xl text-white mb-4">
+                  <h3 className="font-display font-bold text-xl sm:text-2xl text-slate-950 mb-4 group-hover:text-blue-600 transition-colors">
                     {track.title}
                   </h3>
 
-                  <div className="space-y-3 pt-3 border-t border-slate-800 mb-8">
-                    {track.benefits.map((benefit) => (
-                      <div key={benefit} className="flex items-start gap-2.5 text-xs text-slate-300 font-sans leading-snug">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                        <span>{benefit}</span>
-                      </div>
+                  <ul className="space-y-3 mb-8">
+                    {track.benefits.map((b) => (
+                      <li key={b} className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-600 font-sans leading-snug">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                        <span>{b}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
                 <Link
                   href={track.href}
-                  className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-blue-600 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-2 border border-slate-700 hover:border-blue-500 shadow-md group"
+                  className="w-full py-3.5 px-4 rounded-xl bg-slate-900 group-hover:bg-blue-600 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all text-center flex items-center justify-center gap-2 shadow-sm"
                 >
                   <span>{track.cta}</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

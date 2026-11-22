@@ -1,120 +1,182 @@
-import { Sparkles } from 'lucide-react'
+import { Check, X, Sparkles } from 'lucide-react'
 
 export default function ComparisonTable() {
-  const comparisons = [
+  const features = [
     {
-      category: 'YouTube',
-      purpose: 'Video learning & visual walk-throughs',
-      approach: 'Structured 216-lesson curriculum with integrated interactive 3D visual models and knowledge checks.',
+      name: 'Structured University Curriculum',
+      desc: '19 subjects & 216 lessons mapped to Indian college & CIPET syllabi',
+      youtube: 'Fragmented playlists',
+      textbooks: 'Dense, static text',
+      coaching: 'Generic engineering only',
+      polymerhub: 'Complete 216-lesson sequence',
     },
     {
-      category: 'NPTEL & MOOCs',
-      purpose: 'Broad academic semester video lectures',
-      approach: 'Polymer-focused curriculum combining theoretical principles with 8 shop-floor engineering calculators.',
+      name: 'Master Formula Library with Derivations',
+      desc: '98 equations formatted in LaTeX with step-by-step proofs',
+      youtube: false,
+      textbooks: 'Unverified manual proofs',
+      coaching: 'Brief summary sheets',
+      polymerhub: '98 full LaTeX derivations',
     },
     {
-      category: 'Textbooks & Scanned PDFs',
-      purpose: 'In-depth domain theory & documentation',
-      approach: 'Searchable digital learning, structured notes, and 98 canonical formula derivations formatted in LaTeX.',
+      name: 'Shop-Floor Press & Tooling Solvers',
+      desc: '8 industrial engineering calculators (clamp force, cooling, shrinkage)',
+      youtube: false,
+      textbooks: false,
+      coaching: false,
+      polymerhub: '8 interactive solvers with units',
     },
     {
-      category: 'Generic Exam Preparation Sites',
-      purpose: 'General engineering MCQ test practice',
-      approach: 'Polymer-specific GATE XE-F preparation with paper-specific numerical derivations and timed CBT mock engine.',
+      name: 'Dedicated GATE XE-F CBT Engine',
+      desc: 'Official 60-minute timed mock tests, NAT questions, and negative marking',
+      youtube: false,
+      textbooks: false,
+      coaching: 'General aptitude only',
+      polymerhub: 'Full Paper F simulated CBT',
     },
     {
-      category: 'Industry News Portals',
-      purpose: 'High-level commercial news & market articles',
-      approach: 'Daily petrochem intelligence and domestic resin spot benchmarks linked directly to academic lesson topics.',
+      name: 'Moulding Defect Diagnostic Matrices',
+      desc: '24 shop-floor injection moulding defects with parameter adjustments',
+      youtube: 'Scattered clips',
+      textbooks: 'High-level theory only',
+      coaching: false,
+      polymerhub: 'Rosato-grounded decision tree',
     },
     {
-      category: 'Specialist Material Databases',
-      purpose: 'Isolated raw property data sheets',
-      approach: 'Integrated ASTM property comparator, interactive 3D crystal structures, and processing parameter guidance.',
+      name: 'Live Petrochem Spot Price Intelligence',
+      desc: 'Daily Reliance/IOCL plant-gate benchmarks & CPCB EPR policies',
+      youtube: false,
+      textbooks: false,
+      coaching: false,
+      polymerhub: 'Updated daily benchmarks',
     },
     {
-      category: 'Isolated Calculator Scripts',
-      purpose: 'Single, disconnected mathematical formulas',
-      approach: 'Eight production-grade shop-floor solvers (tonnage, cooling, shrinkage) in one unified engineering workspace.',
+      name: '3D Molecular & Machine Simulator',
+      desc: 'Interactive 3D crystal structures, repeat units, and machine assemblies',
+      youtube: 'Static video clips',
+      textbooks: '2D flat diagrams',
+      coaching: false,
+      polymerhub: 'Interactive 3D WebGL viewer',
     },
     {
-      category: 'PolymerHub of India',
-      purpose: 'Integrated polymer learning & engineering',
-      approach: 'One connected digital platform bringing theory, processing, calculations, and GATE preparation together.',
-      isPolymerHub: true,
+      name: 'Zero-Cost Core Learning Access',
+      desc: 'Curriculum lessons, formulas, troubleshooter, and community free forever',
+      youtube: 'Free with ads',
+      textbooks: '₹1,500+ per textbook',
+      coaching: '₹15,000–₹45,000 fees',
+      polymerhub: '100% Free core learning',
     },
   ]
 
   return (
-    <section id="comparison" className="py-20 sm:py-24 bg-[#070A12] text-white border-b border-slate-800">
+    <section id="comparison" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 border border-blue-500/30 text-blue-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            Resource Landscape &middot; Objective Comparison
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" /> Objective Comparison
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
-            Why use multiple disconnected resources?
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-950 tracking-tight">
+            The other options were never built for this.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg mt-3 font-sans leading-relaxed">
-            Different educational and industry tools serve different purposes. PolymerHub connects the fragmented pieces of polymer education into one unified digital workspace.
-          </p>
-          <p className="text-xs text-slate-500 mt-2 font-mono">
-            Illustrative category-level comparison &middot; Built to highlight the benefits of an integrated learning approach
+          <p className="text-slate-600 text-base sm:text-lg mt-3 font-sans leading-relaxed">
+            When you try to learn polymer engineering from generic coaching centers or fragmented web videos, you spend more time searching than learning.
           </p>
         </div>
 
-        {/* Comparison Table Container with Mobile Horizontal Scroll */}
-        <div className="overflow-x-auto -mx-4 sm:mx-0 pb-4">
-          <div className="min-w-[720px] px-4 sm:px-0">
-            <div className="bg-slate-900/90 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-slate-800 bg-slate-950/80 text-slate-300 font-mono text-xs uppercase tracking-wider">
-                    <th className="py-4 px-6 font-bold w-1/4">Resource Category</th>
-                    <th className="py-4 px-6 text-slate-400 font-bold w-1/3">Primary Purpose</th>
-                    <th className="py-4 px-6 text-blue-300 font-bold w-5/12 bg-blue-950/50 border-l border-blue-900/40">
-                      PolymerHub Integrated Approach
-                    </th>
+        {/* High-Contrast Comparison Table Container (AgentHub Style) */}
+        <div className="bg-white rounded-3xl border-2 border-slate-200 shadow-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse min-w-[700px]">
+              
+              {/* Table Header */}
+              <thead>
+                <tr className="border-b-2 border-slate-200 bg-slate-50 text-xs font-mono text-slate-700 uppercase">
+                  <th className="py-5 px-6 font-bold w-[34%]">
+                    Capability / Resource
+                  </th>
+                  <th className="py-5 px-4 font-bold text-center w-[16%] text-slate-500">
+                    YouTube &amp; Videos
+                  </th>
+                  <th className="py-5 px-4 font-bold text-center w-[16%] text-slate-500">
+                    Textbooks &amp; PDFs
+                  </th>
+                  <th className="py-5 px-4 font-bold text-center w-[16%] text-slate-500">
+                    Generic Coaching
+                  </th>
+                  <th className="py-5 px-6 font-black text-center w-[18%] bg-blue-600 text-white text-sm">
+                    PolymerHub
+                  </th>
+                </tr>
+              </thead>
+
+              {/* Table Body */}
+              <tbody className="divide-y divide-slate-200 text-xs sm:text-sm font-sans">
+                {features.map((f, idx) => (
+                  <tr key={f.name} className={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/50'}>
+                    
+                    {/* Feature Name & Description */}
+                    <td className="py-4 px-6">
+                      <div className="font-bold text-slate-950">
+                        {f.name}
+                      </div>
+                      <div className="text-xs text-slate-500 font-normal mt-0.5">
+                        {f.desc}
+                      </div>
+                    </td>
+
+                    {/* YouTube */}
+                    <td className="py-4 px-4 text-center text-slate-600 text-xs">
+                      {typeof f.youtube === 'boolean' ? (
+                        f.youtube ? <Check className="w-4 h-4 text-emerald-600 mx-auto" /> : <X className="w-4 h-4 text-slate-300 mx-auto" />
+                      ) : (
+                        <span>{f.youtube}</span>
+                      )}
+                    </td>
+
+                    {/* Textbooks */}
+                    <td className="py-4 px-4 text-center text-slate-600 text-xs">
+                      {typeof f.textbooks === 'boolean' ? (
+                        f.textbooks ? <Check className="w-4 h-4 text-emerald-600 mx-auto" /> : <X className="w-4 h-4 text-slate-300 mx-auto" />
+                      ) : (
+                        <span>{f.textbooks}</span>
+                      )}
+                    </td>
+
+                    {/* Generic Coaching */}
+                    <td className="py-4 px-4 text-center text-slate-600 text-xs">
+                      {typeof f.coaching === 'boolean' ? (
+                        f.coaching ? <Check className="w-4 h-4 text-emerald-600 mx-auto" /> : <X className="w-4 h-4 text-slate-300 mx-auto" />
+                      ) : (
+                        <span>{f.coaching}</span>
+                      )}
+                    </td>
+
+                    {/* PolymerHub (Highlighted Column) */}
+                    <td className="py-4 px-6 text-center font-bold text-blue-900 bg-blue-50/80 border-l border-r border-blue-200">
+                      <div className="flex items-center justify-center gap-1.5 text-xs text-blue-700 font-mono font-bold">
+                        <Check className="w-4 h-4 text-blue-600 shrink-0" />
+                        <span>{f.polymerhub}</span>
+                      </div>
+                    </td>
+
                   </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-800/80 text-xs font-sans">
-                  {comparisons.map((row) => (
-                    <tr 
-                      key={row.category} 
-                      className={`transition-colors ${
-                        row.isPolymerHub 
-                          ? 'bg-blue-950/40 font-medium border-t-2 border-blue-500/50' 
-                          : 'hover:bg-slate-850/60'
-                      }`}
-                    >
-                      <td className="py-4 px-6 font-bold text-white">
-                        {row.isPolymerHub ? (
-                          <div className="flex items-center gap-2 text-blue-400 font-extrabold text-sm font-display">
-                            <Sparkles className="w-4 h-4 text-blue-400" />
-                            <span>{row.category}</span>
-                          </div>
-                        ) : (
-                          <span className="text-slate-200 text-sm font-display font-bold">{row.category}</span>
-                        )}
-                      </td>
-                      <td className="py-4 px-6 text-slate-400 leading-relaxed font-sans">
-                        {row.purpose}
-                      </td>
-                      <td className={`py-4 px-6 leading-relaxed border-l ${
-                        row.isPolymerHub 
-                          ? 'border-blue-900/50 text-blue-200 font-semibold bg-blue-950/30' 
-                          : 'border-slate-800/80 text-slate-300'
-                      }`}>
-                        {row.approach}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+
+            </table>
           </div>
+        </div>
+
+        {/* Bottom CTA Hook */}
+        <div className="mt-8 text-center">
+          <a
+            href="#waitlist"
+            className="inline-flex items-center gap-2 text-xs font-mono font-bold text-blue-600 hover:text-blue-800 transition-colors uppercase tracking-wider"
+          >
+            <span>Lock in your free access and join 1,240+ students on the priority waitlist &rarr;</span>
+          </a>
         </div>
 
       </div>

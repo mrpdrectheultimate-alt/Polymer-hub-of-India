@@ -17,11 +17,12 @@ export default function FeatureShowcase() {
     {
       title: 'Structured Curriculum',
       summary: 'Organised lessons and subject-wise learning.',
-      stat: '19 Subjects &middot; 216 Lessons',
+      stat: '19 Subjects · 216 Lessons',
       desc: 'Complete progression from step-growth kinetics and rheology to injection moulding, composites, and circular packaging.',
       icon: BookOpen,
-      color: '#3B82F6',
-      bg: '#1E3A8A',
+      color: '#2563EB',
+      bg: '#EFF6FF',
+      border: '#BFDBFE',
       href: '/subjects',
     },
     {
@@ -30,8 +31,9 @@ export default function FeatureShowcase() {
       stat: '100+ Interactive 3D Models',
       desc: 'Inspect atomic repeat units with CPK rendering, commercial finished plastic components, and heavy processing machinery in 3D.',
       icon: Atom,
-      color: '#A855F7',
-      bg: '#581C87',
+      color: '#9333EA',
+      bg: '#FAF5FF',
+      border: '#E9D5FF',
       href: '/materials',
     },
     {
@@ -40,8 +42,9 @@ export default function FeatureShowcase() {
       stat: '98 Canonical Equations',
       desc: 'Mathematical formulas formatted in LaTeX KaTeX, with dimensional checks, variable bounds, and worked engineering examples.',
       icon: Scale,
-      color: '#10B981',
-      bg: '#064E3B',
+      color: '#059669',
+      bg: '#ECFDF5',
+      border: '#A7F3D0',
       href: '/formulas',
     },
     {
@@ -50,114 +53,118 @@ export default function FeatureShowcase() {
       stat: '8 Industrial Solvers',
       desc: 'Calculate press clamping force, mould cooling cycle times, cavity shrinkage sizing, and extruder shear rates in seconds.',
       icon: Calculator,
-      color: '#F59E0B',
-      bg: '#78350F',
+      color: '#D97706',
+      bg: '#FFFBEB',
+      border: '#FDE68A',
       href: '/calculators',
     },
     {
       title: 'Defect Troubleshooter',
       summary: 'Understand defects, causes and solutions.',
       stat: 'Rosato Handbook Diagnostics',
-      desc: 'Shop-floor diagnostic rules for sink marks, splay, short shots, flash, and warpage with exact machine parameter adjustments.',
+      desc: 'Diagnostic decision matrices covering 24 injection moulding defects with practical shop-floor parameter adjustments.',
       icon: Wrench,
-      color: '#EF4444',
-      bg: '#7F1D1D',
+      color: '#E11D48',
+      bg: '#FFF1F2',
+      border: '#FECDD3',
       href: '/troubleshooter',
     },
     {
-      title: 'Virtual Lab Simulations',
-      summary: 'Learn through interactive technical concepts.',
-      stat: '21 ASTM & ISO Simulators',
-      desc: 'Perform virtual tensile stress-strain pull tests, Izod/Charpy impact fracturing, and Melt Flow Index (MFI) barrel extrusions.',
+      title: 'Virtual Testing Laboratory',
+      summary: 'Simulate standard test procedures.',
+      stat: '21 ASTM & ISO Standards',
+      desc: 'Simulate tensile testing, flexural modulus, Izod impact, HDT, and Melt Flow Index (MFI) with ASTM/ISO protocols.',
       icon: FlaskConical,
-      color: '#06B6D4',
-      bg: '#164E63',
+      color: '#0D9488',
+      bg: '#F0FDFA',
+      border: '#99F6E4',
       href: '/simulations',
     },
     {
-      title: 'AI Polymer Copilot',
-      summary: 'AI-assisted study and technical learning support.',
-      stat: 'RAG Grounded in Curriculum',
-      desc: 'Ask complex technical queries and get accurate answers grounded strictly in PolymerHub lessons with cited sources and formulas.',
+      title: 'GATE XE-F Mock Engine',
+      summary: 'Official CBT examination practice.',
+      stat: '60-Min Timed Simulator',
+      desc: 'Simulated examination interface matching official GATE XE-F layout with MCQ, MSQ, NAT questions and marking schemes.',
       icon: Brain,
-      color: '#22C55E',
-      bg: '#14532D',
-      href: '/ai-tutor',
+      color: '#4F46E5',
+      bg: '#EEF2FF',
+      border: '#C7D2FE',
+      href: '/gate-mock',
     },
     {
-      title: 'Daily Industry Intelligence',
-      summary: 'Industry updates, news and market information.',
-      stat: 'Domestic Spot Benchmarks',
-      desc: 'Track daily domestic ex-plant resin spot prices (PP, PE, PVC, PET, PC, ABS) and verified Indian petrochemical R&D news.',
+      title: 'Live Industry Intelligence',
+      summary: 'Indian spot benchmarks & daily dispatches.',
+      stat: 'Reliance & IOCL Spot Tracking',
+      desc: 'Daily plant-gate resin spot prices, CPCB circulars, and polymer processing industry news mapped to relevant academic subjects.',
       icon: TrendingUp,
-      color: '#6366F1',
-      bg: '#312E81',
+      color: '#0284C7',
+      bg: '#F0F9FF',
+      border: '#BAE6FD',
       href: '/today',
     },
   ]
 
   return (
-    <section id="ecosystem" className="py-20 sm:py-24 bg-[#0B101D] text-white border-b border-slate-800">
+    <section id="ecosystem" className="py-20 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 border border-blue-500/30 text-blue-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <Layers className="w-3.5 h-3.5 text-blue-400" /> Platform Architecture
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <Layers className="w-3.5 h-3.5 text-blue-600" /> Platform Architecture
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
-            The PolymerHub ecosystem.
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display text-slate-950 tracking-tight">
+            A complete polymer engineering ecosystem.
           </h2>
-          <p className="text-slate-400 text-base sm:text-lg mt-3 font-sans leading-relaxed">
-            Eight integrated technical capabilities connecting university classroom theory directly to factory-floor reality.
+          <p className="text-slate-600 text-base sm:text-lg mt-3 font-sans leading-relaxed">
+            Eight integrated modules built to support every stage of learning, research, exam preparation, and manufacturing engineering.
           </p>
         </div>
 
-        {/* 8 Feature Cards Grid with Generous Spacing */}
+        {/* 8-Feature Card Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feat) => {
-            const Icon = feat.icon
+          {features.map((feature) => {
+            const Icon = feature.icon
             return (
-              <div
-                key={feat.title}
-                className="bg-slate-900/80 rounded-3xl border border-slate-800 p-6 flex flex-col justify-between hover:border-blue-500/60 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1 transition-all duration-300 group"
+              <Link
+                key={feature.title}
+                href={feature.href}
+                className="bg-white rounded-2xl border-2 border-slate-200 p-6 flex flex-col justify-between hover:border-blue-500 hover:shadow-xl transition-all duration-200 group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div 
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center border shadow-xs"
-                      style={{ backgroundColor: `${feat.color}15`, borderColor: `${feat.color}40` }}
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center transition-transform group-hover:scale-105"
+                      style={{ backgroundColor: feature.bg, border: `1px solid ${feature.border}` }}
                     >
-                      <Icon className="w-6 h-6" style={{ color: feat.color }} />
+                      <Icon className="w-6 h-6" style={{ color: feature.color }} />
                     </div>
-                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
-                      {feat.stat}
+                    <span
+                      className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border"
+                      style={{ color: feature.color, borderColor: feature.border, backgroundColor: feature.bg }}
+                    >
+                      {feature.stat.split('·')[0]}
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-lg text-white group-hover:text-blue-400 transition-colors">
-                    {feat.title}
+                  <h3 className="font-display font-bold text-base sm:text-lg text-slate-950 mb-1.5 group-hover:text-blue-600 transition-colors">
+                    {feature.title}
                   </h3>
 
-                  <div className="text-xs font-sans font-medium text-blue-400 mt-1 mb-2.5">
-                    {feat.summary}
+                  <div className="text-[11px] font-mono text-slate-500 font-semibold mb-3">
+                    {feature.stat}
                   </div>
 
-                  <p className="text-xs text-slate-400 font-sans leading-relaxed">
-                    {feat.desc}
+                  <p className="text-xs text-slate-600 font-sans leading-relaxed">
+                    {feature.desc}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-800">
-                  <Link
-                    href={feat.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-blue-400 group-hover:text-blue-300 transition-colors"
-                  >
-                    <span>Explore Module</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
+                <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-bold text-blue-600 group-hover:text-blue-700">
+                  <span>Explore Feature</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
