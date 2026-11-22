@@ -63,7 +63,7 @@ export const metadata: Metadata = {
 
 export default function LaunchLandingPage() {
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen bg-[#070A12] text-slate-100 font-sans selection:bg-blue-600 selection:text-white">
       
       {/* 1. Global Announcement Banner (Direct WhatsApp & LaunchBase Hook) */}
       <AnnouncementBar />
@@ -117,7 +117,7 @@ export default function LaunchLandingPage() {
       <FinalCTA />
 
       {/* 17. Comprehensive Global Footer with Legal Charter & In-App Contact */}
-      <Footer showTrustBar />
+      <Footer showTrustBar theme="dark" />
 
     </div>
   )

@@ -1,19 +1,22 @@
-import Image from 'next/image'
 import Link from 'next/link'
-import { Heart, Mail, Sparkles, MapPin, GraduationCap, Code2, ArrowRight } from 'lucide-react'
+import { Mail, Sparkles, MapPin, ArrowRight } from 'lucide-react'
 
 export default function FounderSection() {
   return (
-    <section id="founder" className="py-20 bg-white border-b border-slate-200">
+    <section id="founder" className="py-20 sm:py-24 bg-[#070A12] border-b border-slate-800 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        <div className="bg-slate-900 text-white rounded-3xl border-2 border-slate-800 p-8 sm:p-12 shadow-2xl max-w-5xl mx-auto">
-          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+        <div className="bg-gradient-to-br from-[#0B101D] via-[#0F172A] to-[#0B101D] text-white rounded-3xl border border-blue-900/40 p-8 sm:p-12 shadow-2xl max-w-5xl mx-auto relative overflow-hidden">
+          
+          {/* Subtle Ambient Radial Glow */}
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
+
+          <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 relative z-10">
             
-            {/* Left: Founder Avatar / Badge */}
+            {/* Left: Founder Avatar / Monogram */}
             <div className="flex-shrink-0 text-center space-y-3">
-              <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl overflow-hidden border-4 border-blue-500 shadow-2xl mx-auto bg-slate-800 flex items-center justify-center">
-                <span className="font-display font-black text-4xl sm:text-5xl text-blue-400">
+              <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl overflow-hidden border-2 border-blue-500/50 shadow-[0_0_35px_rgba(37,99,235,0.25)] mx-auto bg-gradient-to-br from-blue-950 to-slate-900 flex items-center justify-center">
+                <span className="font-display font-black text-4xl sm:text-5xl text-blue-400 tracking-tight">
                   LN
                 </span>
               </div>
@@ -21,7 +24,7 @@ export default function FounderSection() {
                 <h3 className="font-display font-bold text-xl text-white">
                   Ch. LPK Naidu
                 </h3>
-                <p className="text-xs font-mono text-blue-400 mt-0.5">
+                <p className="text-xs font-mono text-blue-400 mt-0.5 font-medium">
                   Founder &amp; Lead Architect
                 </p>
                 <div className="flex items-center justify-center gap-1.5 text-[11px] font-mono text-slate-400 mt-1">
@@ -33,11 +36,11 @@ export default function FounderSection() {
 
             {/* Right: The Mission & Narrative */}
             <div className="space-y-4 text-slate-300">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30 text-xs font-mono font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-300 border border-blue-500/30 text-xs font-mono font-bold uppercase tracking-wider">
                 <Sparkles className="w-3.5 h-3.5 text-blue-400" /> The Mission Behind PolymerHub
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold font-display text-white leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-display text-white leading-tight">
                 Built by a student engineer for India&apos;s polymer community.
               </h2>
 
@@ -52,14 +55,14 @@ export default function FounderSection() {
               <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono">
                 <a
                   href="mailto:founder@polymerhubofindia.com"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-white border border-slate-700/80 transition-colors shadow-sm"
                 >
                   <Mail className="w-3.5 h-3.5 text-amber-400" />
                   <span>founder@polymerhubofindia.com</span>
                 </a>
                 <Link
                   href="/about"
-                  className="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1"
+                  className="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 transition-colors"
                 >
                   <span>Read Full About Story</span>
                   <ArrowRight className="w-3.5 h-3.5" />

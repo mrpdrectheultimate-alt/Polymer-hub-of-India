@@ -86,32 +86,32 @@ export default function InteractiveDemo() {
   const calcResult = calculateClamp(area, cavities, pressure)
 
   return (
-    <section id="interactive-demo" className="py-20 sm:py-24 bg-white border-b border-slate-200">
+    <section id="interactive-demo" className="py-20 sm:py-24 bg-[#070A12] text-white border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Interactive Platform Preview
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" /> Interactive Platform Preview
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-950 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
             Explore PolymerHub before signing up.
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base mt-2 font-sans">
+          <p className="text-slate-400 text-sm sm:text-base mt-2 font-sans">
             Try an actual sample lesson, run a live engineering calculation, or troubleshoot a factory defect. No account or payment required.
           </p>
         </div>
 
         {/* 3 Interactive Mode Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1 max-w-2xl w-full justify-center">
+          <div className="bg-slate-900 p-1.5 rounded-2xl border border-slate-800 flex flex-wrap gap-1 max-w-2xl w-full justify-center">
             
             <button
               onClick={() => setActiveTab('learn')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'learn'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -122,8 +122,8 @@ export default function InteractiveDemo() {
               onClick={() => setActiveTab('calculate')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'calculate'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <Calculator className="w-4 h-4" />
@@ -134,8 +134,8 @@ export default function InteractiveDemo() {
               onClick={() => setActiveTab('troubleshoot')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'troubleshoot'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'text-slate-700 hover:text-slate-900 hover:bg-slate-200/70'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
               }`}
             >
               <Wrench className="w-4 h-4" />

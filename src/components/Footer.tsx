@@ -10,36 +10,38 @@ import { ContactChannel } from '@/lib/contact'
 
 interface FooterProps {
   showTrustBar?: boolean
+  theme?: 'light' | 'dark'
 }
 
-export default function Footer({ showTrustBar = false }: FooterProps) {
+export default function Footer({ showTrustBar = false, theme = 'light' }: FooterProps) {
   const [activeChannel, setActiveChannel] = useState<ContactChannel | null>(null)
+  const isDark = theme === 'dark'
 
   const toggleChannel = (channel: ContactChannel) => {
     setActiveChannel((current) => (current === channel ? null : channel))
   }
 
   return (
-    <footer className="bg-white text-slate-700 text-xs border-t border-slate-200 font-sans">
+    <footer className={`${isDark ? 'bg-[#070A12] text-slate-300 border-slate-800' : 'bg-white text-slate-700 border-slate-200'} text-xs border-t font-sans`}>
       
       {/* ── Top Compliance & Trust Bar (High-Contrast & Honest Claims) ── */}
       {showTrustBar && (
-        <div className="bg-slate-50 border-b border-slate-200 py-3.5 px-4 sm:px-6">
+        <div className={`${isDark ? 'bg-[#0B101D] border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-900'} border-b py-3.5 px-4 sm:px-6`}>
           <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-wrap items-center justify-between gap-y-2.5 gap-x-6 text-xs font-mono font-medium">
-            <div className="flex items-center gap-2 text-slate-900">
-              <Shield className="w-4 h-4 text-emerald-600" />
+            <div className={`flex items-center gap-2 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+              <Shield className="w-4 h-4 text-emerald-500" />
               <span>Privacy-First Architecture</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-900">
-              <BookOpen className="w-4 h-4 text-[#2563EB]" />
+            <div className={`flex items-center gap-2 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+              <BookOpen className="w-4 h-4 text-blue-400" />
               <span>19 Subjects &middot; 216 Curriculum Lessons</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-900">
-              <Layers className="w-4 h-4 text-amber-600" />
+            <div className={`flex items-center gap-2 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+              <Layers className="w-4 h-4 text-amber-400" />
               <span>ASTM &amp; ISO Standard Aligned</span>
             </div>
-            <div className="flex items-center gap-2 text-slate-900">
-              <CheckCircle2 className="w-4 h-4 text-[#2563EB]" />
+            <div className={`flex items-center gap-2 ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+              <CheckCircle2 className="w-4 h-4 text-blue-400" />
               <span>Made in India for Global Engineers</span>
             </div>
           </div>
@@ -53,9 +55,9 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
           {/* Brand & Description Column */}
           <div className="md:col-span-2 space-y-4">
             <div className="mb-2">
-              <Logo variant="full" theme="light" />
+              <Logo variant="full" theme={isDark ? 'dark' : 'light'} />
             </div>
-            <p className="text-slate-600 text-xs leading-relaxed max-w-sm font-normal">
+            <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-xs leading-relaxed max-w-sm font-normal`}>
               India&apos;s dedicated Plastic Polymer Engineering knowledge platform for B.Tech &amp; Diploma students, faculty, and industry professionals.
             </p>
 
@@ -274,32 +276,32 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
 
           {/* Column 2: LEARN */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
+            <h4 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
               LEARN
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/launch" className="text-blue-700 hover:text-blue-800 font-bold transition-colors flex items-center gap-1.5">
+                <Link href="/launch" className="text-blue-500 hover:text-blue-400 font-bold transition-colors flex items-center gap-1.5">
                   🚀 Launch Overview
                 </Link>
               </li>
               <li>
-                <Link href="/subjects" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/subjects" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   All 19 Subjects
                 </Link>
               </li>
               <li>
-                <Link href="/materials" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/materials" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Materials Database
                 </Link>
               </li>
               <li>
-                <Link href="/ai-tutor" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/ai-tutor" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   AI Polymer Copilot
                 </Link>
               </li>
               <li>
-                <Link href="/library" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/library" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Reading Room &amp; Books
                 </Link>
               </li>
@@ -308,27 +310,27 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
 
           {/* Column 3: EXPLORE */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
+            <h4 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
               EXPLORE
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/world" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/world" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   The World of Plastic
                 </Link>
               </li>
               <li>
-                <Link href="/history" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/history" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   164 Years History
                 </Link>
               </li>
               <li>
-                <Link href="/today" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/today" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Daily Industry News
                 </Link>
               </li>
               <li>
-                <Link href="/careers" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/careers" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Plastics Career Pathways
                 </Link>
               </li>
@@ -337,55 +339,55 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
 
           {/* Column 4: TOOLS & LEGAL */}
           <div className="space-y-3">
-            <h4 className="font-mono text-xs font-bold text-slate-900 uppercase tracking-wider">
+            <h4 className={`font-mono text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
               TOOLS &amp; LEGAL
             </h4>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link href="/formulas" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/formulas" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Master Formula Library
                 </Link>
               </li>
               <li>
-                <Link href="/troubleshooter" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/troubleshooter" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Defect Troubleshooter
                 </Link>
               </li>
               <li>
-                <Link href="/comparator" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/comparator" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Polymer Comparator
                 </Link>
               </li>
               <li>
-                <Link href="/legal" className="text-amber-700 hover:text-amber-900 font-bold transition-colors">
+                <Link href="/legal" className="text-amber-500 hover:text-amber-400 font-bold transition-colors">
                   Legal &amp; Provenance Charter
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/privacy" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/terms" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/refund" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors flex items-center justify-between">
+                <Link href="/refund" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors flex items-center justify-between`}>
                   <span>Cancellation &amp; Refund</span>
-                  <span className="text-[10px] text-emerald-700 font-mono font-bold bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">7-Day</span>
+                  <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border ${isDark ? 'text-emerald-400 bg-emerald-950 border-emerald-800' : 'text-emerald-700 bg-emerald-50 border-emerald-200'}`}>7-Day</span>
                 </Link>
               </li>
               <li>
-                <Link href="/.well-known/security.txt" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors">
+                <Link href="/.well-known/security.txt" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Security Disclosure (RFC 9116)
                 </Link>
               </li>
               <li>
-                <Link href="/feedback" className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors flex items-center justify-between">
+                <Link href="/feedback" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors flex items-center justify-between`}>
                   <span>Share Feedback / Report Bug</span>
-                  <span className="text-[10px] text-amber-700 font-mono font-bold bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">Feedback</span>
+                  <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border ${isDark ? 'text-amber-400 bg-amber-950 border-amber-800' : 'text-amber-700 bg-amber-50 border-amber-200'}`}>Feedback</span>
                 </Link>
               </li>
               <li>
@@ -398,10 +400,10 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
                       elem.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
                     }
                   }}
-                  className="text-slate-700 hover:text-[#2563EB] font-medium transition-colors cursor-pointer text-left flex items-center gap-1.5"
+                  className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors cursor-pointer text-left flex items-center gap-1.5`}
                 >
                   <span>Contact &amp; Support Desk</span>
-                  <span className="text-[10px] text-blue-600 font-mono font-bold bg-blue-50 px-1.5 py-0.2 rounded border border-blue-200">Instant</span>
+                  <span className={`text-[10px] font-mono font-bold px-1.5 py-0.2 rounded border ${isDark ? 'text-blue-400 bg-blue-950 border-blue-800' : 'text-blue-600 bg-blue-50 border-blue-200'}`}>Instant</span>
                 </button>
               </li>
             </ul>
@@ -410,22 +412,22 @@ export default function Footer({ showTrustBar = false }: FooterProps) {
         </div>
 
         {/* Legal Fair Dealing Disclaimer Banner */}
-        <div className="mt-8 pt-6 border-t border-slate-200/80 text-[11px] text-slate-500 font-sans leading-relaxed space-y-2">
+        <div className={`mt-8 pt-6 border-t ${isDark ? 'border-slate-800/80 text-slate-400' : 'border-slate-200/80 text-slate-500'} text-[11px] font-sans leading-relaxed space-y-2`}>
           <p>
-            <strong className="text-slate-800 font-semibold">Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India (NextGen India) is an educational knowledge platform and engineering learning resource. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under fair dealing provisions of <strong className="text-slate-700">Section 52 of the Indian Copyright Act 1957</strong> and <strong className="text-slate-700">Section 79 of the Information Technology Act 2000</strong> for academic research, instruction, and educational indexing.
+            <strong className={`${isDark ? 'text-slate-200' : 'text-slate-800'} font-semibold`}>Statutory Academic &amp; Legal Notice:</strong> PolymerHub of India (NextGen India) is an educational knowledge platform and engineering learning resource. All trademarks, brand names, ISBNs, patent numbers, standards designations (ASTM/ISO), and university titles referenced herein belong to their respective owners and are cited under fair dealing provisions of <strong className={isDark ? 'text-slate-300' : 'text-slate-700'}>Section 52 of the Indian Copyright Act 1957</strong> and <strong className={isDark ? 'text-slate-300' : 'text-slate-700'}>Section 79 of the Information Technology Act 2000</strong> for academic research, instruction, and educational indexing.
           </p>
-          <p className="text-[10px] text-slate-400 font-mono">
-            Compliant with DPDP Act 2023 &middot; Consumer Protection (E-Commerce) Rules 2020 &middot; Statutory Grievance Redressal: <a href="mailto:grievance@polymerhubofindia.com" className="text-blue-600 underline">grievance@polymerhubofindia.com</a> (Acknowledgment within 24h &middot; Resolution within 15d).
+          <p className={`text-[10px] font-mono ${isDark ? 'text-slate-400' : 'text-slate-400'}`}>
+            Compliant with DPDP Act 2023 &middot; Consumer Protection (E-Commerce) Rules 2020 &middot; Statutory Grievance Redressal: <a href="mailto:grievance@polymerhubofindia.com" className="text-blue-400 underline">grievance@polymerhubofindia.com</a> (Acknowledgment within 24h &middot; Resolution within 15d).
           </p>
         </div>
 
       </div>
 
       {/* ── Bottom Copyright & Dot Matrix Bar ── */}
-      <div className="bg-slate-50 border-t border-slate-200 py-4 px-4 sm:px-6">
-        <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-600 font-medium">
+      <div className={`${isDark ? 'bg-[#04060A] border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-600'} border-t py-4 px-4 sm:px-6`}>
+        <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono font-medium">
           <p>
-            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-[#2563EB] hover:underline">Legal &amp; Provenance</Link> &middot; <Link href="/admin/feedback" className="text-slate-500 hover:text-slate-800 transition-colors">Admin Desk</Link>
+            &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-blue-400 hover:underline">Legal &amp; Provenance</Link> &middot; <Link href="/admin/feedback" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'} transition-colors`}>Admin Desk</Link>
           </p>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#0B132B]" title="Deep Navy" />

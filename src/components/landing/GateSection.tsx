@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Trophy, Clock, Target, CheckCircle2, ArrowRight, BookOpen, AlertCircle, Sparkles, Scale } from 'lucide-react'
+import { Trophy, Clock, Target, CheckCircle2, ArrowRight, AlertCircle, Scale } from 'lucide-react'
 import { GATE_CONFIG } from '@/lib/config/gate-config'
 
 export default function GateSection() {
@@ -13,12 +13,12 @@ export default function GateSection() {
   ]
 
   return (
-    <section id="gate-xef" className="py-20 bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 text-white border-b border-slate-800">
+    <section id="gate-xef" className="py-20 sm:py-24 bg-[#070A12] border-b border-slate-800 text-white relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-4">
             <Trophy className="w-3.5 h-3.5 text-amber-400" /> Dedicated GATE XE-F Preparation
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display tracking-tight text-white leading-tight">
@@ -47,10 +47,10 @@ export default function GateSection() {
               {syllabusUnits.map((unit) => (
                 <div
                   key={unit.code}
-                  className="bg-slate-800/80 border border-slate-700/80 rounded-xl p-4 hover:border-amber-400/60 transition-all"
+                  className="bg-[#0B101D] border border-slate-800 rounded-xl p-4 hover:border-amber-400/50 transition-all shadow-md"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                    <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
                       {unit.code}
                     </span>
                     <h4 className="font-display font-bold text-xs sm:text-sm text-white">
@@ -65,7 +65,7 @@ export default function GateSection() {
             </div>
 
             {/* Honest Boundary Note */}
-            <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700 text-xs text-slate-400 font-sans leading-relaxed flex items-start gap-3">
+            <div className="p-4 rounded-xl bg-[#0B101D]/60 border border-slate-800 text-xs text-slate-400 font-sans leading-relaxed flex items-start gap-3">
               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <strong className="text-slate-200 block mb-0.5 font-bold">Important Scope Notice:</strong>
@@ -75,8 +75,8 @@ export default function GateSection() {
           </div>
 
           {/* Right: Simulated Mock Test Card (5 cols) */}
-          <div className="lg:col-span-5 bg-slate-800/90 border-2 border-slate-700 rounded-3xl p-6 sm:p-7 shadow-2xl space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-700">
+          <div className="lg:col-span-5 bg-[#0B101D] border border-blue-900/50 hover:border-blue-500/50 rounded-3xl p-6 sm:p-7 shadow-[0_0_40px_rgba(37,99,235,0.12)] space-y-5 transition-all">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <span className="font-mono text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Mock Engine
               </span>
@@ -112,7 +112,7 @@ export default function GateSection() {
               </div>
             </div>
 
-            <div className="pt-3 border-t border-slate-700 space-y-2">
+            <div className="pt-3 border-t border-slate-800 space-y-2">
               <Link
                 href="/gate-mock"
                 className="w-full py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
@@ -122,7 +122,7 @@ export default function GateSection() {
               </Link>
               <Link
                 href="/gate-xe-f"
-                className="w-full py-2.5 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
               >
                 <span>View Full GATE XE-F Guide</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -131,7 +131,7 @@ export default function GateSection() {
                 href="https://t.me/polymerhubofindia"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 rounded-xl bg-blue-900/60 hover:bg-blue-800 text-blue-200 border border-blue-500/30 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
+                className="w-full py-2.5 rounded-xl bg-blue-950/60 hover:bg-blue-900/60 text-blue-300 border border-blue-500/30 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5"
               >
                 <span>Join Telegram Mastermind 🎯</span>
                 <ArrowRight className="w-3.5 h-3.5" />

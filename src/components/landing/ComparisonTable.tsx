@@ -1,4 +1,4 @@
-import { Check, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 
 export default function ComparisonTable() {
   const comparisons = [
@@ -46,66 +46,66 @@ export default function ComparisonTable() {
   ]
 
   return (
-    <section id="comparison" className="py-20 sm:py-24 bg-white border-b border-slate-200">
+    <section id="comparison" className="py-20 sm:py-24 bg-[#070A12] text-white border-b border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-800 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950 border border-blue-500/30 text-blue-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
             Resource Landscape &middot; Objective Comparison
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-950 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
             Why use multiple disconnected resources?
           </h2>
-          <p className="text-slate-600 text-base sm:text-lg mt-3 font-sans leading-relaxed">
+          <p className="text-slate-400 text-base sm:text-lg mt-3 font-sans leading-relaxed">
             Different educational and industry tools serve different purposes. PolymerHub connects the fragmented pieces of polymer education into one unified digital workspace.
           </p>
-          <p className="text-xs text-slate-400 mt-2 font-mono">
+          <p className="text-xs text-slate-500 mt-2 font-mono">
             Illustrative category-level comparison &middot; Built to highlight the benefits of an integrated learning approach
           </p>
         </div>
 
         {/* Comparison Table Container with Mobile Horizontal Scroll */}
         <div className="overflow-x-auto -mx-4 sm:mx-0 pb-4">
-          <div className="min-w-[700px] px-4 sm:px-0">
-            <div className="bg-white rounded-3xl border-2 border-slate-200 shadow-md overflow-hidden">
+          <div className="min-w-[720px] px-4 sm:px-0">
+            <div className="bg-slate-900/90 rounded-3xl border border-slate-800 shadow-2xl overflow-hidden">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b-2 border-slate-200 bg-slate-100 text-slate-900 font-mono text-xs uppercase tracking-wider">
+                  <tr className="border-b border-slate-800 bg-slate-950/80 text-slate-300 font-mono text-xs uppercase tracking-wider">
                     <th className="py-4 px-6 font-bold w-1/4">Resource Category</th>
-                    <th className="py-4 px-6 text-slate-700 font-bold w-1/3">Primary Purpose</th>
-                    <th className="py-4 px-6 text-blue-900 font-bold w-5/12 bg-blue-50/70 border-l border-blue-100">
+                    <th className="py-4 px-6 text-slate-400 font-bold w-1/3">Primary Purpose</th>
+                    <th className="py-4 px-6 text-blue-300 font-bold w-5/12 bg-blue-950/50 border-l border-blue-900/40">
                       PolymerHub Integrated Approach
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-200 text-xs font-sans">
+                <tbody className="divide-y divide-slate-800/80 text-xs font-sans">
                   {comparisons.map((row) => (
                     <tr 
                       key={row.category} 
                       className={`transition-colors ${
                         row.isPolymerHub 
-                          ? 'bg-blue-50/60 font-medium border-t-2 border-blue-300' 
-                          : 'hover:bg-slate-50'
+                          ? 'bg-blue-950/40 font-medium border-t-2 border-blue-500/50' 
+                          : 'hover:bg-slate-850/60'
                       }`}
                     >
-                      <td className="py-4 px-6 font-bold text-slate-900">
+                      <td className="py-4 px-6 font-bold text-white">
                         {row.isPolymerHub ? (
-                          <div className="flex items-center gap-2 text-blue-700 font-extrabold text-sm font-display">
-                            <Sparkles className="w-4 h-4 text-blue-600" />
+                          <div className="flex items-center gap-2 text-blue-400 font-extrabold text-sm font-display">
+                            <Sparkles className="w-4 h-4 text-blue-400" />
                             <span>{row.category}</span>
                           </div>
                         ) : (
-                          <span className="text-slate-800 text-sm font-display font-bold">{row.category}</span>
+                          <span className="text-slate-200 text-sm font-display font-bold">{row.category}</span>
                         )}
                       </td>
-                      <td className="py-4 px-6 text-slate-600 leading-relaxed font-sans">
+                      <td className="py-4 px-6 text-slate-400 leading-relaxed font-sans">
                         {row.purpose}
                       </td>
                       <td className={`py-4 px-6 leading-relaxed border-l ${
                         row.isPolymerHub 
-                          ? 'border-blue-200 text-blue-950 font-semibold bg-blue-50/80' 
-                          : 'border-slate-100 text-slate-800'
+                          ? 'border-blue-900/50 text-blue-200 font-semibold bg-blue-950/30' 
+                          : 'border-slate-800/80 text-slate-300'
                       }`}>
                         {row.approach}
                       </td>
