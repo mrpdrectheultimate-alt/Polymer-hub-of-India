@@ -9,7 +9,7 @@ export default function AnnouncementBar() {
   if (!visible) return null
 
   return (
-    <aside aria-label="Community Announcement" className="relative bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 text-white text-xs py-2.5 px-4 sm:px-6 shadow-sm z-50">
+    <aside aria-label="Community Announcement" className="relative bg-gradient-to-r from-blue-700 via-indigo-700 to-blue-900 text-white text-xs py-2.5 px-4 sm:px-6 shadow-sm z-10">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
         <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap mx-auto sm:mx-0">
           <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/20 text-white text-[10px] font-mono font-bold uppercase tracking-wider shrink-0">

@@ -41,6 +41,7 @@ const NAV = [
       { label: 'Education Hub', href: '/education', icon: GraduationCap, desc: '84 programs & 17 scholarships', color: '#7C3AED' },
       { label: 'Research Hub', href: '/research', icon: FlaskConical, desc: 'Academic papers & patent filing', color: '#1D4ED8' },
       { label: '3D Virtual Labs', href: '/simulations', icon: Zap, desc: 'Interactive polymer 3D simulations', color: '#CA8A04' },
+      { label: 'GATE XE-F Guide 🎯', href: '/gate-xe-f', icon: Trophy, desc: 'Paper syllabus, PYQs & strategy', color: '#2563EB' },
     ]
   },
   {
@@ -53,6 +54,7 @@ const NAV = [
       { label: 'Materials & 3D Lab', href: '/materials', icon: FlaskConical, desc: '100+ 3D models & Indian trade names', color: '#7C3AED' },
       { label: 'Career Tracks', href: '/careers', icon: Trophy, desc: '6 career tracks · ₹4–40 LPA', color: '#15803D' },
       { label: 'Enterprise Portal', href: '/enterprise', icon: Building, desc: 'Corporate training & solutions', color: '#15803D' },
+      { label: 'GATE Mock Exam Simulator', href: '/gate-mock', icon: Trophy, desc: 'Strict 60-min timed CBT test engine', color: '#7C3AED' },
     ]
   },
 ]
@@ -112,14 +114,24 @@ export default function Navbar() {
     setActiveDropdown(null)
   }, [pathname])
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click or Escape key
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       if (!target.closest('[data-navbar]')) setActiveDropdown(null)
     }
+    const keyHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActiveDropdown(null)
+        setMobileOpen(false)
+      }
+    }
     document.addEventListener('mousedown', handler)
-    return () => document.removeEventListener('mousedown', handler)
+    document.addEventListener('keydown', keyHandler)
+    return () => {
+      document.removeEventListener('mousedown', handler)
+      document.removeEventListener('keydown', keyHandler)
+    }
   }, [])
 
   // Prevent body scroll when mobile menu open
@@ -143,7 +155,7 @@ export default function Navbar() {
       ──────────────────────────────────────────────────────────────────────── */}
       <nav
         data-navbar
-        className="sticky top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-xs h-[72px] sm:h-[76px] 2xl:h-[84px] gpu-accelerated"
+        className="sticky top-0 left-0 right-0 z-[100] bg-white border-b border-slate-200 shadow-xs h-[72px] sm:h-[76px] 2xl:h-[84px] gpu-accelerated"
       >
         <div className="h-full max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto px-4 sm:px-6 2xl:px-8 flex items-center justify-between gap-4 2xl:gap-8">
 
@@ -163,12 +175,12 @@ export default function Navbar() {
                     }}
                   >
                     {section.label}
-                    <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${activeDropdown === section.label ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === section.label ? 'rotate-180' : ''}`} />
                   </button>
 
                   {activeDropdown === section.label && (
                     <div
-                      className="absolute top-full left-0 mt-1.5 w-[560px] 2xl:w-[620px] grid grid-cols-2 p-3 gap-1.5 rounded-2xl border-2 border-slate-900 bg-white z-50 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150"
+                      className="absolute top-full left-0 mt-2 w-[640px] 2xl:w-[700px] grid grid-cols-2 p-3 gap-1.5 rounded-2xl border-2 border-slate-900 bg-white z-[110] shadow-2xl animate-in fade-in slide-in-from-top-2 duration-150"
                       style={{ boxShadow: '4px 4px 0px 0px #0A0A0A' }}
                     >
                       {section.items.map(item => {
@@ -178,8 +190,12 @@ export default function Navbar() {
                           <Link
                             key={item.href}
                             href={item.href}
-                            className="flex items-start gap-3 p-2.5 rounded-xl border border-transparent hover:border-slate-200 hover:bg-slate-900 hover:text-white group transition-all"
-                            style={{ backgroundColor: isActive ? '#0A0A0A' : undefined, color: isActive ? 'white' : undefined }}
+                            onClick={() => setActiveDropdown(null)}
+                            className={`flex items-start gap-3 p-2.5 rounded-xl border transition-all group ${
+                              isActive
+                                ? 'bg-blue-50 border-blue-200 text-blue-950'
+                                : 'border-transparent hover:bg-slate-50 hover:border-slate-200 text-slate-800'
+                            }`}
                           >
                             <div
                               className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 text-white shadow-xs group-hover:scale-105 transition-transform mt-0.5"
@@ -188,8 +204,10 @@ export default function Navbar() {
                               <Icon className="w-4 h-4 text-white" />
                             </div>
                             <div className="flex-1 min-w-0">
-                              <div className="font-mono text-xs font-bold uppercase tracking-wider truncate">{item.label}</div>
-                              <div className={`font-mono text-[10px] leading-tight line-clamp-1 mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500 group-hover:text-slate-300'}`}>
+                              <div className="font-sans text-xs sm:text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                                {item.label}
+                              </div>
+                              <div className="font-sans text-[11px] sm:text-xs text-slate-500 font-normal leading-snug line-clamp-1 mt-0.5">
                                 {item.desc}
                               </div>
                             </div>
@@ -399,8 +417,8 @@ export default function Navbar() {
                         <Icon className="w-4 h-4 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="font-mono text-xs font-bold uppercase tracking-wider truncate">{item.label}</div>
-                        <div className={`font-mono text-[9px] truncate mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
+                        <div className="font-sans text-xs font-bold uppercase tracking-wider truncate">{item.label}</div>
+                        <div className={`font-sans text-[11px] truncate mt-0.5 ${isActive ? 'text-slate-300' : 'text-slate-500'}`}>
                           {item.desc}
                         </div>
                       </div>
