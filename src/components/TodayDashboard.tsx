@@ -49,16 +49,16 @@ export interface PolymerPriceIndex {
 }
 
 export const INDIAN_POLYMER_PRICES: PolymerPriceIndex[] = [
-  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹100.30', unit: '/kg', change: '+0.2%', isUp: true, location: 'Hazira / Dahej' },
-  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹105.70', unit: '/kg', change: '+0.2%', isUp: true, location: 'Mumbai Ex-Plant' },
-  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹101.80', unit: '/kg', change: '+0.3%', isUp: true, location: 'Pata Plant' },
-  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹83.40', unit: '/kg', change: '+0.1%', isUp: true, location: 'Ratnagiri' },
-  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹97.30', unit: '/kg', change: '+0.2%', isUp: true, location: 'Silvassa' },
-  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹225.20', unit: '/kg', change: '+0.1%', isUp: true, location: 'Nhava Sheva' },
-  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹255.10', unit: '/kg', change: '+0.1%', isUp: true, location: 'Thane' },
-  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹147.70', unit: '/kg', change: '+0.1%', isUp: true, location: 'Satnoor' },
-  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹81.50', unit: '/kg', change: '+0.2%', isUp: true, location: 'Delhi NCR' },
-  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹78.00', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
+  { polymer: 'Polypropylene (PP)', grade: 'H030SG (Raffia)', producer: 'Reliance Repol', price: '₹100.40', unit: '/kg', change: '+0.1%', isUp: true, location: 'Hazira / Dahej' },
+  { polymer: 'HDPE', grade: 'F5400 (Film / Blow)', producer: 'Reliance Relene', price: '₹105.80', unit: '/kg', change: '+0.1%', isUp: true, location: 'Mumbai Ex-Plant' },
+  { polymer: 'LLDPE', grade: 'F2001 (Film Grade)', producer: 'GAIL G-Lex', price: '₹101.90', unit: '/kg', change: '+0.1%', isUp: true, location: 'Pata Plant' },
+  { polymer: 'PVC Suspension', grade: 'K-67 (Pipe Grade)', producer: 'Finolex / DCW', price: '₹83.50', unit: '/kg', change: '+0.1%', isUp: true, location: 'Ratnagiri' },
+  { polymer: 'PET Bottle Grade', grade: 'AS01 (IV 0.80)', producer: 'Reliance Relpet', price: '₹97.40', unit: '/kg', change: '+0.1%', isUp: true, location: 'Silvassa' },
+  { polymer: 'Polycarbonate (PC)', grade: 'Lexan 141R (Moulding)', producer: 'SABIC India', price: '₹225.30', unit: '/kg', change: '+0.1%', isUp: true, location: 'Nhava Sheva' },
+  { polymer: 'Polyamide 6 (Nylon)', grade: 'Ultramid B3S (Natural)', producer: 'BASF India', price: '₹255.30', unit: '/kg', change: '+0.1%', isUp: true, location: 'Thane' },
+  { polymer: 'ABS Resin', grade: 'HI-121 (Injection)', producer: 'LG Chem / Bhansali', price: '₹147.80', unit: '/kg', change: '+0.1%', isUp: true, location: 'Satnoor' },
+  { polymer: 'Circular rPET', grade: 'Food-Contact Flakes', producer: 'EPR Recyclers India', price: '₹81.60', unit: '/kg', change: '+0.1%', isUp: true, location: 'Delhi NCR' },
+  { polymer: 'Circular rHDPE', grade: 'Blue Drum Granules', producer: 'EPR Recyclers India', price: '₹78.20', unit: '/kg', change: '+0.3%', isUp: true, location: 'Ahmedabad' },
 ]
 
 const SHOP_FLOOR_TIPS = [
@@ -80,9 +80,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1991',
-  headline: 'Exxon Chemical Files Landmark Priority Patent for Exxpol Single-Site Metallocene Polyethylene Catalyst Technology',
-  body: 'On November 21, 1991, Exxon Chemical Company filed its foundational priority patent describing the industrial synthesis of Linear Low-Density Polyethylene (LLDPE) using single-site metallocene catalyst systems (commercialized under the Exxpol technology platform). In contrast to conventional multi-sited Ziegler-Natta catalysts that produced broad molecular weight distributions and heterogeneous comonomer incorporation, single-site zirconocene catalysts enabled precise, uniform short-chain branching and exceptionally narrow molecular weight distributions (Mw/Mn ≈ 2.0). The breakthrough revolutionized global flexible packaging, enabling converters to down-gauge multi-layer blown films by up to 35% while dramatically enhancing dart-drop puncture resistance, optical clarity, and low-temperature hot-tack seal strength.',
+  year: '1918',
+  headline: 'Birth of Dr. Louis H. Barnett, Pioneer of Large-Scale Consumer Thermoplastics Moulding',
+  body: 'On November 22, 1918, pioneering chemical engineer Dr. Louis H. Barnett was born. In 1948, he founded Loma Plastics, spearheading the commercial transition from metals to large-tonnage injection-moulded polyolefins. Barnett revolutionized consumer housewares by engineering the world\'s first all-polyethylene garbage cans, seamless clothes hampers, and injection-moulded bread boxes, proving to industrial converters globally that high-flow polyethylene could replace stamped steel and wood with superior corrosion resistance, lower tare weight, and integrated structural hinges.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
