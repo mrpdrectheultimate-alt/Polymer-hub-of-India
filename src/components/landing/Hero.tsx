@@ -111,7 +111,7 @@ export default function Hero() {
               </div>
               <div>
                 <div className="font-mono text-[9px] text-emerald-400 font-bold uppercase">Domestic Spot</div>
-                <div className="font-mono text-xs font-bold text-white">Reliance PP: ₹100.40/kg (+0.1%)</div>
+                <div className="font-mono text-xs font-bold text-white">Reliance PP: ₹100.80/kg (+0.4%)</div>
               </div>
             </div>
           </div>
@@ -208,12 +208,12 @@ export default function Hero() {
                     </div>
                   </div>
                   <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">
-                    +0.1% Firm
+                    +0.4% Firm
                   </span>
                 </div>
                 <div className="p-2.5 bg-[#090E1C] rounded-lg border border-slate-800 font-mono text-[11px] text-slate-300 space-y-0.5">
                   <div className="text-[10px] text-slate-500">Ex-Works Plant Gate:</div>
-                  <div className="font-bold text-white text-sm">₹100.40/kg</div>
+                  <div className="font-bold text-white text-sm">₹100.80/kg</div>
                   <div className="text-[10px] text-slate-400">Grade: H030SG &middot; Hazira</div>
                 </div>
               </div>

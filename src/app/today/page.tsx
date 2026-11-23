@@ -55,18 +55,18 @@ export const metadata: Metadata = {
 }
 
 const TICKER_DATA = [
-  { name: 'Reliance Repol PP', price: '₹100.40/kg', change: '+0.1%', isUp: true, points: [99.3, 99.5, 99.8, 100.1, 100.1, 100.3, 100.4] },
-  { name: 'Reliance Relene HDPE', price: '₹105.80/kg', change: '+0.1%', isUp: true, points: [104.6, 104.9, 105.2, 105.5, 105.5, 105.7, 105.8] },
-  { name: 'GAIL G-Lex LLDPE', price: '₹101.90/kg', change: '+0.1%', isUp: true, points: [100.7, 100.9, 101.2, 101.5, 101.5, 101.8, 101.9] },
-  { name: 'Finolex PVC K-67', price: '₹83.50/kg', change: '+0.1%', isUp: true, points: [82.6, 82.8, 83.1, 83.3, 83.3, 83.4, 83.5] },
-  { name: 'Reliance Relpet PET', price: '₹97.40/kg', change: '+0.1%', isUp: true, points: [96.3, 96.5, 96.8, 97.1, 97.1, 97.3, 97.4] },
-  { name: 'SABIC Lexan PC', price: '₹225.30/kg', change: '+0.1%', isUp: true, points: [224.2, 224.5, 224.7, 225.0, 225.0, 225.2, 225.3] },
-  { name: 'BASF Ultramid PA6', price: '₹255.30/kg', change: '+0.1%', isUp: true, points: [254.2, 254.4, 254.6, 254.9, 254.9, 255.1, 255.3] },
-  { name: 'LG Chem ABS', price: '₹147.80/kg', change: '+0.1%', isUp: true, points: [146.8, 147.0, 147.2, 147.5, 147.5, 147.7, 147.8] },
-  { name: 'Circular rPET Flakes', price: '₹81.60/kg', change: '+0.1%', isUp: true, points: [80.5, 80.7, 81.0, 81.3, 81.3, 81.5, 81.6] },
-  { name: 'Circular rHDPE Granules', price: '₹78.20/kg', change: '+0.3%', isUp: true, points: [77.1, 77.3, 77.5, 77.8, 77.8, 78.0, 78.2] },
-  { name: 'Brent Crude Oil', price: '$82.90/bbl', change: '+0.1%', isUp: true, points: [81.85, 82.10, 82.45, 82.70, 82.70, 82.85, 82.90] },
-  { name: 'CPCB EPR Credit (Cat-I)', price: '₹3,130/ton', change: '+0.3%', isUp: true, points: [3060, 3060, 3080, 3100, 3100, 3120, 3130] },
+  { name: 'Reliance Repol PP', price: '₹100.80/kg', change: '+0.4%', isUp: true, points: [99.5, 99.8, 100.1, 100.4, 100.4, 100.6, 100.8] },
+  { name: 'Reliance Relene HDPE', price: '₹106.20/kg', change: '+0.4%', isUp: true, points: [104.9, 105.2, 105.5, 105.8, 105.8, 106.0, 106.2] },
+  { name: 'GAIL G-Lex LLDPE', price: '₹102.30/kg', change: '+0.4%', isUp: true, points: [101.0, 101.3, 101.6, 101.9, 101.9, 102.1, 102.3] },
+  { name: 'Finolex PVC K-67', price: '₹83.90/kg', change: '+0.5%', isUp: true, points: [82.8, 83.1, 83.3, 83.5, 83.5, 83.7, 83.9] },
+  { name: 'Reliance Relpet PET', price: '₹97.90/kg', change: '+0.5%', isUp: true, points: [96.5, 96.8, 97.1, 97.4, 97.4, 97.6, 97.9] },
+  { name: 'SABIC Lexan PC', price: '₹225.80/kg', change: '+0.2%', isUp: true, points: [224.5, 224.8, 225.0, 225.3, 225.3, 225.5, 225.8] },
+  { name: 'BASF Ultramid PA6', price: '₹255.90/kg', change: '+0.2%', isUp: true, points: [254.5, 254.8, 255.0, 255.3, 255.3, 255.6, 255.9] },
+  { name: 'LG Chem ABS', price: '₹148.20/kg', change: '+0.3%', isUp: true, points: [147.0, 147.2, 147.5, 147.8, 147.8, 148.0, 148.2] },
+  { name: 'Circular rPET Flakes', price: '₹82.10/kg', change: '+0.6%', isUp: true, points: [80.8, 81.0, 81.3, 81.6, 81.6, 81.8, 82.1] },
+  { name: 'Circular rHDPE Granules', price: '₹78.60/kg', change: '+0.5%', isUp: true, points: [77.4, 77.6, 77.9, 78.2, 78.2, 78.4, 78.6] },
+  { name: 'Brent Crude Oil', price: '$83.25/bbl', change: '+0.4%', isUp: true, points: [82.10, 82.40, 82.70, 82.90, 82.90, 83.10, 83.25] },
+  { name: 'CPCB EPR Credit (Cat-I)', price: '₹3,180/ton', change: '+1.6%', isUp: true, points: [3080, 3100, 3120, 3130, 3130, 3150, 3180] },
 ]
 
 function LiveTicker({ dateLabel }: { dateLabel?: string }) {

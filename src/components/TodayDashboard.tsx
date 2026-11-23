@@ -60,9 +60,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1918',
-  headline: 'Birth of Dr. Louis H. Barnett, Pioneer of Large-Scale Consumer Thermoplastics Moulding',
-  body: 'On November 22, 1918, pioneering chemical engineer Dr. Louis H. Barnett was born. In 1948, he founded Loma Plastics, spearheading the commercial transition from metals to large-tonnage injection-moulded polyolefins. Barnett revolutionized consumer housewares by engineering the world\'s first all-polyethylene garbage cans, seamless clothes hampers, and injection-moulded bread boxes, proving to industrial converters globally that high-flow polyethylene could replace stamped steel and wood with superior corrosion resistance, lower tare weight, and integrated structural hinges.',
+  year: '1954',
+  headline: 'Phillips Petroleum Files Landmark Patent on Chromium Catalytic High-Density Polyethylene (Marlex)',
+  body: 'On November 23, 1954, research chemists J. Paul Hogan and Robert L. Banks filed pivotal patent disclosures documenting the low-pressure catalytic polymerization of ethylene over silica-supported chromium oxide (the Phillips catalyst). The process enabled the commercial synthesis of linear, high-density polyethylene (HDPE, trade named Marlex) with crystalline densities exceeding 0.96 g/cm³ and high tensile modulus. This breakthrough eliminated the severe 1,000–3,000 bar autoclave pressures demanded by high-pressure LDPE, directly pioneering modern extrusion blow moulding of rigid chemical drums, fuel containers, and continuous municipal pressure piping worldwide.',
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
