@@ -16,7 +16,7 @@ import CommunitySection from '@/components/landing/CommunitySection'
 import FounderSection from '@/components/landing/FounderSection'
 import FAQSection from '@/components/landing/FAQSection'
 import FinalCTA from '@/components/landing/FinalCTA'
-import Footer from '@/components/Footer'
+import LandingFooter from '@/components/landing/LandingFooter'
 
 export const metadata: Metadata = {
   title: 'PolymerHub of India — Master Polymer Engineering | From Molecules to Manufacturing',
@@ -113,8 +113,8 @@ export default function LaunchLandingPage() {
       {/* 16. Final Sticky Call-to-Action */}
       <FinalCTA />
 
-      {/* 17. Comprehensive Global Footer with Legal Charter & In-App Contact */}
-      <Footer showTrustBar theme="light" />
+      {/* 17. Focused Landing Footer with Direct Navigation & Legal Charter */}
+      <LandingFooter />
 
     </div>
   )

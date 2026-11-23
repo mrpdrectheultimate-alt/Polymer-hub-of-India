@@ -178,10 +178,31 @@ export default function LegalProvenancePage() {
           </ul>
         </section>
 
-        {/* Section 7: Notice & Expedited Takedown Protocol */}
+        {/* Section 7: Landing Page Previews & Nominative Industry References */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <Database className="w-5 h-5 text-blue-600" />
+            <span className="text-blue-600 font-mono text-base">07.</span> Landing Page Previews &amp; Nominative Fair Use
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            All educational previews, interactive calculators, formula proofs, and domestic resin pricing dispatches featured on our landing page (<code className="text-blue-600 font-mono">/launch</code> or <code className="text-blue-600 font-mono">/landing</code>) are governed under statutory fair dealing and nominative fair use:
+          </p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Nominative Trademark Reference:</strong> Mention of commercial resin grades (such as Reliance Repol PP, Relene HDPE, GAIL G-Lex LLDPE, Finolex PVC, SABIC Lexan PC, and BASF Ultramid) and proprietary machinery (such as Trexel MuCell) is strictly nominative under <strong>Section 30 of the Trade Marks Act 1999</strong> to illustrate real-world materials and spot markets.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Algorithmic Educational Demonstrations:</strong> Calculations (e.g. clamp force tonnage, Carothers conversion kinetics) and troubleshooting decision trees (Rosato Handbook diagnostics) are rendered for academic evaluation without commercial endorsement.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 8: Notice & Expedited Takedown Protocol */}
         <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
           <div className="flex items-center gap-2 text-amber-400 font-mono font-bold text-xs uppercase tracking-wider">
-            <AlertTriangle className="w-4 h-4" /> Formal Notice &amp; Takedown Protocol (48-Hour Guarantee)
+            <AlertTriangle className="w-4 h-4" /> 08. Formal Notice &amp; Takedown Protocol (48-Hour Guarantee)
           </div>
           <h3 className="font-display text-xl font-bold text-white">
             Copyright Grievance &amp; DMCA Agent

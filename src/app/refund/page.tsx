@@ -181,10 +181,34 @@ export default function RefundPolicyPage() {
           </ul>
         </section>
 
-        {/* Section 5: Billing Desk & Grievance Contact */}
+        {/* Section 5: Landing Page Waitlist & Launch Promotional Codes */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">05.</span> Landing Page Waitlist &amp; Early-Bird Codes
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Special guidelines apply to users participating in our pre-launch waitlist program on <code className="text-blue-600 font-mono">/launch</code> or <code className="text-blue-600 font-mono">/landing</code>:
+          </p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Zero Financial Obligation During Waitlist:</strong> Joining the waitlist does not trigger any financial charge, card authorization, or automatic debit.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Full Refund Guarantee on Early-Bird Rates:</strong> When early-bird members redeem their 50% discount voucher or ₹74/mo launch pass, our standard 100% money-back guarantee applies for 7 full calendar days following checkout.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Safe Reversion to Free Tier:</strong> If a refund is requested on a launch subscription, the user is immediately refunded in full and their account safely reverts to the 100% Free Core Learning tier without penalty.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 6: Billing Desk & Grievance Contact */}
         <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
           <h3 className="font-display text-xl font-bold text-amber-400">
-            Billing Support &amp; Grievance Redressal
+            06. Billing Support &amp; Grievance Redressal
           </h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             If you have questions regarding an existing transaction, need assistance with invoice generation, or wish to follow up on a pending refund:

@@ -164,9 +164,41 @@ export default function TermsPage() {
           </ul>
         </section>
 
-        {/* Section 7: Legal Jurisdiction & Statutory Grievance Redressal */}
+        {/* Section 7: Landing Page, Pre-Launch Waitlist & Promotional Offers */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-blue-600 font-mono text-base">07.</span> Landing Page, Launch Waitlist &amp; Early-Bird Offers
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            By visiting our landing page (<code className="text-blue-600 font-mono">/launch</code> or <code className="text-blue-600 font-mono">/landing</code>) or enrolling in our pre-launch priority waitlist, you agree to the following terms:
+          </p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Zero-Cost Waitlist Enrollment:</strong> Joining the PolymerHub priority waitlist is 100% free with no credit card required and no automatic billing obligation.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Algorithmic Queue Positions:</strong> Queue numbers are allocated chronologically based on verified registration timestamp to coordinate phased platform onboarding.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Early-Bird Vouchers &amp; Launch Discounts:</strong> Promotional codes (such as 50% discount vouchers or ₹74/mo introductory pricing) are personal to the registered waitlist email, non-transferable, and redeemable solely during the official launch activation period.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Interactive Demonstrations:</strong> Live previews available on the landing page (including clamp force calculator, Carothers kinetics quiz, and defect troubleshooting matrices) are provided for academic exploration and preliminary evaluation.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Core Access Guarantee:</strong> PolymerHub guarantees that upon full release, access to all 19 core academic subjects (216 curriculum lessons), the 3D molecular viewer, and basic defect troubleshooting remains 100% free forever for all verified students.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 8: Legal Jurisdiction & Statutory Grievance Redressal */}
         <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
-          <h3 className="font-display text-xl font-bold text-amber-400">Jurisdiction &amp; Statutory Grievance Redressal</h3>
+          <h3 className="font-display text-xl font-bold text-amber-400">08. Jurisdiction &amp; Statutory Grievance Redressal</h3>
           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-light">
             These Terms are governed by the laws of India, including the Indian Copyright Act 1957 (Sec 52 Fair Dealing), Information Technology Act 2000 (Sec 79 Intermediary Protection), and DPDP Act 2023. Any dispute shall be subject to the exclusive jurisdiction of the competent courts of India.
           </p>

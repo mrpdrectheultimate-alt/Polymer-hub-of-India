@@ -75,7 +75,7 @@ export default function CookieConsent() {
               </span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed mt-1">
-              PolymerHub uses essential cookies for secure sessions and anonymous analytics to improve engineering lessons.
+              PolymerHub uses essential cookies and local tokens for secure sessions, waitlist queue position verification, and anonymous analytics under DPDP Act 2023.
               <Link href="/privacy" className="text-blue-400 hover:underline ml-1 font-semibold">
                 Privacy Policy &rarr;
               </Link>

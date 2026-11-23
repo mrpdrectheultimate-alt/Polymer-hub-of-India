@@ -86,6 +86,10 @@ export default function PrivacyPolicyPage() {
               <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
               <span><strong>Billing Data:</strong> Transaction tokens processed via RBI-authorized payment gateways (Razorpay). PolymerHub does not store credit/debit card numbers on its servers.</span>
             </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Landing Page &amp; Launch Waitlist:</strong> When joining our pre-launch waitlist via <code className="text-blue-600 font-mono">/launch</code> or <code className="text-blue-600 font-mono">/landing</code>, we collect your email address, engineering track/persona (Student, GATE Aspirant, Plant Engineer, Academician), referral source, and registration timestamp. This information is used solely to issue your algorithmic priority queue position, early-bird 50% discount vouchers, and launch notifications. We do not sell or lease waitlist contact lists to third-party marketing brokers.</span>
+            </li>
           </ul>
         </section>
 
@@ -189,6 +193,16 @@ export default function PrivacyPolicyPage() {
                   <td className="p-2 font-mono font-semibold text-slate-900">polymerhub_cookie_consent</td>
                   <td className="p-2">Preferences</td>
                   <td className="p-2">Preserves user cookie preference selection under DPDP Act 2023 (1 Year).</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">ph_waitlist_pos</td>
+                  <td className="p-2">Waitlist Engine</td>
+                  <td className="p-2">Stores verified algorithmic queue position and early-bird discount token for landing page participants (30 Days).</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">polymerhub_launch_session</td>
+                  <td className="p-2">Interactive Demo</td>
+                  <td className="p-2">Temporarily retains non-gated interactive calculator parameters and defect diagnostic selections on the landing page (Session).</td>
                 </tr>
               </tbody>
             </table>
