@@ -33,7 +33,7 @@ export default function WhyPolymerHub() {
   ]
 
   return (
-    <section id="why-polymerhub" className="py-20 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">
+    <section id="why-polymerhub" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -86,28 +86,28 @@ export default function WhyPolymerHub() {
         </div>
 
         {/* The PolymerHub Solution Banner */}
-        <div className="bg-gradient-to-r from-[#0B132B] via-[#101F42] to-[#0A122A] text-white rounded-3xl p-8 sm:p-12 border-2 border-blue-500/40 shadow-xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white rounded-3xl p-8 sm:p-12 border-2 border-blue-400 shadow-xl shadow-blue-500/20 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
             <div className="space-y-4 max-w-2xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-mono font-bold uppercase tracking-wider">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> The Connected Answer
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white border border-white/30 text-xs font-mono font-bold uppercase tracking-wider">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-300" /> The Connected Answer
               </div>
               <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-display text-white">
                 PolymerHub connects the dots.
               </h3>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-sans">
+              <p className="text-blue-50 text-sm sm:text-base leading-relaxed font-sans">
                 A single digital home connecting academic lecture notes, mathematical formula derivations, 3D molecular structures, shop-floor defect diagnosis, and dedicated GATE XE-F preparation.
               </p>
             </div>
 
             <a
               href="#waitlist"
-              className="px-8 py-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg hover:shadow-xl shrink-0"
+              className="px-8 py-4 rounded-xl bg-white hover:bg-blue-50 text-blue-900 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-lg hover:shadow-xl shrink-0"
             >
               <span>Join Priority Waitlist</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-blue-600" />
             </a>
           </div>
         </div>

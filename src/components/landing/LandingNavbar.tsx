@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { Logo } from '@/components/Logo'
-import { Menu, X, ArrowRight, Sparkles } from 'lucide-react'
+import { Menu, X, ArrowRight } from 'lucide-react'
 
 export default function LandingNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -20,25 +20,25 @@ export default function LandingNavbar() {
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0A122A]/95 backdrop-blur-xl border-b border-slate-800 text-white">
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-slate-200 text-slate-900 shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
         
-        {/* Brand Logo with Dark Theme */}
+        {/* Brand Real and Main Official Logo with Light Theme */}
         <div className="flex items-center gap-3">
-          <Logo variant="full" theme="dark" />
-          <span className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-950/80 border border-blue-500/30 text-blue-300 text-[11px] font-mono font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse" />
+          <Logo variant="full" theme="light" href="/launch" />
+          <span className="hidden xl:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[11px] font-mono font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
             Launch Waitlist Active
           </span>
         </div>
 
         {/* Desktop Navigation Links */}
-        <nav className="hidden lg:flex items-center gap-6 text-xs font-mono font-bold tracking-wider text-slate-300 uppercase">
+        <nav className="hidden lg:flex items-center gap-6 text-xs font-mono font-bold tracking-wider text-slate-600 uppercase">
           {navLinks.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="hover:text-blue-400 transition-colors py-2"
+              className="hover:text-blue-600 transition-colors py-2"
             >
               {link.label}
             </a>
@@ -49,13 +49,13 @@ export default function LandingNavbar() {
         <div className="hidden sm:flex items-center gap-3">
           <Link
             href="/login"
-            className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-slate-300 hover:text-white hover:bg-slate-800/60 transition-all border border-slate-800"
+            className="px-4 py-2 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-slate-700 hover:text-slate-950 hover:bg-slate-100 transition-all border border-slate-300"
           >
             Sign In
           </Link>
           <a
             href="#waitlist"
-            className="px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-500 shadow-lg shadow-blue-600/30 transition-all flex items-center gap-1.5 hover:shadow-xl"
+            className="px-5 py-2.5 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-white bg-blue-600 hover:bg-blue-700 shadow-md shadow-blue-600/25 transition-all flex items-center gap-1.5 hover:shadow-lg"
           >
             <span>Join Waitlist</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -74,7 +74,7 @@ export default function LandingNavbar() {
             type="button"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle navigation menu"
-            className="p-2 rounded-xl text-slate-300 hover:bg-slate-800 border border-slate-700"
+            className="p-2 rounded-xl text-slate-700 hover:bg-slate-100 border border-slate-200"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -84,32 +84,32 @@ export default function LandingNavbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileOpen && (
-        <div className="lg:hidden bg-[#0B0F19] border-b border-slate-800 px-4 pt-3 pb-6 space-y-3 shadow-2xl">
+        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-3 pb-6 space-y-3 shadow-xl">
           <div className="grid grid-cols-2 gap-2 pt-2">
             {navLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="px-3 py-2.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono font-bold text-slate-300 uppercase hover:text-white hover:bg-slate-800 transition-colors"
+                className="px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-mono font-bold text-slate-700 uppercase hover:text-blue-600 hover:bg-blue-50 transition-colors"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="pt-3 border-t border-slate-800 flex flex-col gap-2">
+          <div className="pt-3 border-t border-slate-100 flex flex-col gap-2">
             <Link
               href="/login"
               onClick={() => setMobileOpen(false)}
-              className="w-full py-3 rounded-xl border border-slate-700 font-mono font-bold text-xs uppercase tracking-wider text-center text-slate-200"
+              className="w-full py-3 rounded-xl border border-slate-200 font-mono font-bold text-xs uppercase tracking-wider text-center text-slate-700 hover:bg-slate-50"
             >
               Sign In
             </Link>
             <a
               href="#waitlist"
               onClick={() => setMobileOpen(false)}
-              className="w-full py-3.5 rounded-xl bg-blue-600 font-mono font-bold text-xs uppercase tracking-wider text-center text-white shadow-md"
+              className="w-full py-3.5 rounded-xl bg-blue-600 font-mono font-bold text-xs uppercase tracking-wider text-center text-white shadow-md hover:bg-blue-700"
             >
               Join Priority Waitlist &rarr;
             </a>

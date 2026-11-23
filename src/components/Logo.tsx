@@ -9,12 +9,13 @@ interface LogoProps {
   /** 'light' = dark ink on white bg  |  'dark' = white on dark bg */
   theme?: 'light' | 'dark'
   className?: string
+  href?: string
 }
 
-export function Logo({ variant = 'full', theme = 'light', className = '' }: LogoProps) {
+export function Logo({ variant = 'full', theme = 'light', className = '', href = '/' }: LogoProps) {
   if (variant === 'icon') {
     return (
-      <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
+      <Link href={href} className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
         <Image
           src="/logo-icon.jpg"
           alt="Polymer Hub of India"
@@ -32,7 +33,7 @@ export function Logo({ variant = 'full', theme = 'light', className = '' }: Logo
   const src = theme === 'dark' ? '/logo-white.svg' : '/logo-official.png'
 
   return (
-    <Link href="/" className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
+    <Link href={href} className={`flex items-center flex-shrink-0 transition-opacity hover:opacity-90 ${className}`} aria-label="Polymer Hub of India — Home">
       <img
         src={src}
         alt="Polymer Hub of India — Knowledge • Innovation • Future"

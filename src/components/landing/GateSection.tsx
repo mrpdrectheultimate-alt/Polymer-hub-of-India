@@ -13,18 +13,18 @@ export default function GateSection() {
   ]
 
   return (
-    <section id="gate-xef" className="py-20 sm:py-24 bg-[#0A122A] border-b border-slate-800 text-white relative">
+    <section id="gate-xef" className="py-20 sm:py-24 bg-white border-b border-slate-200 text-slate-900 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 text-xs font-mono font-bold uppercase tracking-wider mb-4">
-            <Trophy className="w-3.5 h-3.5 text-amber-400" /> Dedicated GATE XE-F Preparation
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+            <Trophy className="w-3.5 h-3.5 text-amber-600" /> Dedicated GATE XE-F Preparation
           </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display tracking-tight text-white leading-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-display tracking-tight text-slate-950 leading-tight">
             Stop scattering your XE-F preparation across disconnected resources.
           </h2>
-          <p className="text-slate-300 text-base sm:text-lg mt-4 font-sans leading-relaxed">
+          <p className="text-slate-600 text-base sm:text-lg mt-4 font-sans leading-relaxed">
             GATE Engineering Sciences Paper F (Polymer Science and Engineering) is one of the highest-scoring XE sections when prepared systematically. PolymerHub consolidates syllabus learning, formula derivations, and simulated mock assessments into one environment.
           </p>
         </div>
@@ -34,11 +34,11 @@ export default function GateSection() {
           
           {/* Left: Syllabus Matrix (7 cols) */}
           <div className="lg:col-span-7 space-y-4">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+            <div className="flex items-center justify-between pb-2 border-b border-slate-200">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
                 Official {GATE_CONFIG.year} Syllabus Mapping ({GATE_CONFIG.paperCode} / {GATE_CONFIG.previousPaperCode})
               </span>
-              <span className="text-[11px] font-mono text-amber-400">
+              <span className="text-[11px] font-mono text-amber-700 font-bold">
                 Organizing: {GATE_CONFIG.organizingInstitute}
               </span>
             </div>
@@ -47,17 +47,17 @@ export default function GateSection() {
               {syllabusUnits.map((unit) => (
                 <div
                   key={unit.code}
-                  className="bg-[#0B101D] border border-slate-800 rounded-xl p-4 hover:border-amber-400/50 transition-all shadow-md"
+                  className="bg-slate-50 border border-slate-200 rounded-xl p-4 hover:border-amber-400 hover:bg-white hover:shadow-md transition-all"
                 >
                   <div className="flex items-center gap-2 mb-1.5">
-                    <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded bg-amber-500/15 text-amber-300 border border-amber-500/30">
+                    <span className="text-[10px] font-mono font-black px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-200">
                       {unit.code}
                     </span>
-                    <h4 className="font-display font-bold text-xs sm:text-sm text-white">
+                    <h4 className="font-display font-bold text-xs sm:text-sm text-slate-950">
                       {unit.name}
                     </h4>
                   </div>
-                  <p className="text-xs text-slate-400 font-sans leading-relaxed">
+                  <p className="text-xs text-slate-600 font-sans leading-relaxed">
                     {unit.desc}
                   </p>
                 </div>
@@ -65,17 +65,17 @@ export default function GateSection() {
             </div>
 
             {/* Honest Boundary Note */}
-            <div className="p-4 rounded-xl bg-[#0B101D]/60 border border-slate-800 text-xs text-slate-400 font-sans leading-relaxed flex items-start gap-3">
-              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 text-xs text-slate-700 font-sans leading-relaxed flex items-start gap-3">
+              <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-slate-200 block mb-0.5 font-bold">Important Scope Notice:</strong>
+                <strong className="text-slate-900 block mb-0.5 font-bold">Important Scope Notice:</strong>
                 PolymerHub provides deep, specialized preparation specifically for Section F (Polymer Science &amp; Engineering). General Aptitude and Section A (Engineering Mathematics) are separate requirements of the GATE XE paper.
               </div>
             </div>
           </div>
 
           {/* Right: Simulated Mock Test Card (5 cols) */}
-          <div className="lg:col-span-5 bg-[#0B101D] border border-blue-900/50 hover:border-blue-500/50 rounded-3xl p-6 sm:p-7 shadow-[0_0_40px_rgba(37,99,235,0.12)] space-y-5 transition-all">
+          <div className="lg:col-span-5 bg-slate-900 text-white rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-800 space-y-5 transition-all">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <span className="font-mono text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" /> Live Mock Engine

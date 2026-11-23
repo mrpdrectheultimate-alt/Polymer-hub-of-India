@@ -7,7 +7,7 @@ export default function IndustrySection() {
   const topPrices = INDIAN_POLYMER_PRICES.slice(0, 6)
 
   return (
-    <section id="industry" className="py-20 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">
+    <section id="industry" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

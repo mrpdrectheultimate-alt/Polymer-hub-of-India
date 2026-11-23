@@ -2,7 +2,7 @@ import { Check, Crown, ShieldCheck, ArrowRight, Sparkles } from 'lucide-react'
 
 export default function PricingSection() {
   return (
-    <section id="pricing" className="py-20 sm:py-24 bg-slate-50 text-slate-900 border-b border-slate-200">
+    <section id="pricing" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

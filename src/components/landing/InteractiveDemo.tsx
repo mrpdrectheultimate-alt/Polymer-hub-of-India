@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { BookOpen, Calculator, Wrench, ArrowRight, CheckCircle2, XCircle, Sparkles, RotateCcw } from 'lucide-react'
+import { BookOpen, Calculator, Wrench, ArrowRight, CheckCircle2, XCircle, Sparkles } from 'lucide-react'
 
 // ─── 1. DEFECT DATA ────────────────────────────────────────────────────────────
 const DEMO_DEFECTS = [
@@ -86,32 +86,32 @@ export default function InteractiveDemo() {
   const calcResult = calculateClamp(area, cavities, pressure)
 
   return (
-    <section id="interactive-demo" className="py-20 sm:py-24 bg-[#0A122A] text-white border-b border-slate-800">
+    <section id="interactive-demo" className="py-20 sm:py-24 bg-white text-slate-900 border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono font-bold uppercase tracking-wider mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-emerald-400" /> Interactive Platform Preview
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Interactive Platform Preview
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-white tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold font-display text-slate-950 tracking-tight">
             Explore PolymerHub before signing up.
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base mt-2 font-sans">
+          <p className="text-slate-600 text-sm sm:text-base mt-2 font-sans">
             Try an actual sample lesson, run a live engineering calculation, or troubleshoot a factory defect. No account or payment required.
           </p>
         </div>
 
         {/* 3 Interactive Mode Tabs */}
         <div className="flex justify-center mb-8">
-          <div className="bg-slate-900 p-1.5 rounded-2xl border border-slate-800 flex flex-wrap gap-1 max-w-2xl w-full justify-center">
+          <div className="bg-slate-100 p-1.5 rounded-2xl border border-slate-200 flex flex-wrap gap-1 max-w-2xl w-full justify-center">
             
             <button
               onClick={() => setActiveTab('learn')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'learn'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-white text-blue-600 shadow-md shadow-slate-200 border border-slate-200/80'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/60'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -122,8 +122,8 @@ export default function InteractiveDemo() {
               onClick={() => setActiveTab('calculate')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'calculate'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-white text-blue-600 shadow-md shadow-slate-200 border border-slate-200/80'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/60'
               }`}
             >
               <Calculator className="w-4 h-4" />
@@ -134,8 +134,8 @@ export default function InteractiveDemo() {
               onClick={() => setActiveTab('troubleshoot')}
               className={`flex items-center gap-2 px-5 py-3 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'troubleshoot'
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  ? 'bg-white text-blue-600 shadow-md shadow-slate-200 border border-slate-200/80'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-200/60'
               }`}
             >
               <Wrench className="w-4 h-4" />
@@ -146,61 +146,61 @@ export default function InteractiveDemo() {
         </div>
 
         {/* Interactive Working Container */}
-        <div className="max-w-4xl mx-auto bg-slate-900 text-white rounded-3xl border-2 border-slate-800 p-6 sm:p-8 shadow-2xl">
+        <div className="max-w-4xl mx-auto bg-white text-slate-900 rounded-3xl border-2 border-slate-200 p-6 sm:p-8 shadow-2xl">
           
           {/* TAB 1: LEARN (Sample Technical Lesson) */}
           {activeTab === 'learn' && (
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-blue-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-blue-600 uppercase tracking-wider">
                     Polymer Chemistry &middot; Lesson 4
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-950 mt-1">
                     Carothers Equation &amp; Molecular Weight Growth
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-mono font-bold">
+                <span className="px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-200 text-xs font-mono font-bold">
                   Curriculum Sample
                 </span>
               </div>
 
-              <div className="prose prose-invert max-w-none text-xs sm:text-sm text-slate-300 font-sans leading-relaxed space-y-3">
+              <div className="prose prose-slate max-w-none text-xs sm:text-sm text-slate-700 font-sans leading-relaxed space-y-3">
                 <p>
                   In step-growth polycondensation (e.g., Nylon 6,6, PET polyesters), polymer chains grow through stepwise condensation of functional end-groups. Unlike chain-growth addition polymerizations where high molecular weight polymers form almost instantaneously, step-growth requires exceptionally high functional group conversion ($p &gt; 98\%$) to reach commercial mechanical properties.
                 </p>
                 
-                <div className="p-4 bg-slate-800/90 rounded-2xl border border-slate-700 font-mono text-xs text-slate-200 space-y-2">
-                  <div className="text-blue-400 font-bold text-xs uppercase">Canonical Carothers Derivation:</div>
-                  <div className="text-sm font-bold text-white bg-slate-900/80 p-2.5 rounded-lg border border-slate-800">
+                <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 font-mono text-xs text-slate-800 space-y-2">
+                  <div className="text-blue-600 font-bold text-xs uppercase">Canonical Carothers Derivation:</div>
+                  <div className="text-sm font-bold text-slate-950 bg-white p-2.5 rounded-lg border border-slate-200">
                     X_n = 1 / (1 - p) &emsp; &middot; &emsp; p_c = 2 / f_avg
                   </div>
-                  <div className="text-slate-400 text-[11px]">
-                    Where <code className="text-amber-400">X_n</code> is the number-average degree of polymerization, <code className="text-amber-400">p</code> is the extent of reaction, and <code className="text-amber-400">p_c</code> is the critical gel conversion for multifunctional systems.
+                  <div className="text-slate-600 text-[11px]">
+                    Where <code className="text-amber-700 font-bold">X_n</code> is the number-average degree of polymerization, <code className="text-amber-700 font-bold">p</code> is the extent of reaction, and <code className="text-amber-700 font-bold">p_c</code> is the critical gel conversion for multifunctional systems.
                   </div>
                 </div>
               </div>
 
               {/* In-Lesson Interactive Quiz */}
-              <div className="pt-4 border-t border-slate-800">
+              <div className="pt-4 border-t border-slate-200">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                  <span className="text-xs font-mono font-bold text-amber-700 uppercase tracking-wider">
                     Interactive Knowledge Check:
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-200 font-sans mb-4">
+                <p className="text-xs sm:text-sm text-slate-800 font-sans mb-4">
                   {DEMO_QUIZ.question}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
                   {DEMO_QUIZ.options.map((opt, idx) => {
                     const isSelected = selectedOption === idx
-                    let btnStyle = 'bg-slate-800/80 hover:bg-slate-700/80 border-slate-700 text-slate-200'
+                    let btnStyle = 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
                     if (revealed) {
-                      if (opt.isCorrect) btnStyle = 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-bold'
-                      else if (isSelected) btnStyle = 'bg-rose-950/80 border-rose-500 text-rose-200'
+                      if (opt.isCorrect) btnStyle = 'bg-emerald-50 border-emerald-500 text-emerald-900 font-bold'
+                      else if (isSelected) btnStyle = 'bg-rose-50 border-rose-300 text-rose-800'
                     } else if (isSelected) {
-                      btnStyle = 'bg-blue-600 border-blue-400 text-white font-bold'
+                      btnStyle = 'bg-blue-600 border-blue-500 text-white font-bold'
                     }
 
                     return (
@@ -213,17 +213,17 @@ export default function InteractiveDemo() {
                         className={`p-3 rounded-xl border text-left text-xs font-mono transition-all flex items-center justify-between cursor-pointer ${btnStyle}`}
                       >
                         <span>{opt.label}</span>
-                        {revealed && opt.isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />}
-                        {revealed && isSelected && !opt.isCorrect && <XCircle className="w-4 h-4 text-rose-400 shrink-0" />}
+                        {revealed && opt.isCorrect && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+                        {revealed && isSelected && !opt.isCorrect && <XCircle className="w-4 h-4 text-rose-600 shrink-0" />}
                       </button>
                     )
                   })}
                 </div>
 
                 {revealed && (
-                  <div className="p-4 rounded-xl bg-slate-800/90 border border-slate-700 text-xs font-sans text-slate-300 leading-relaxed space-y-2">
-                    <div className="font-mono text-emerald-400 font-bold uppercase text-[11px] flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4" /> Mathematical Derivation:
+                  <div className="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200 text-xs font-sans text-slate-800 leading-relaxed space-y-2">
+                    <div className="font-mono text-emerald-800 font-bold uppercase text-[11px] flex items-center gap-1.5">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Mathematical Derivation:
                     </div>
                     <div>{DEMO_QUIZ.derivation}</div>
                   </div>
@@ -235,16 +235,16 @@ export default function InteractiveDemo() {
           {/* TAB 2: CALCULATE (Live Engineering Solver) */}
           {activeTab === 'calculate' && (
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-amber-700 uppercase tracking-wider">
                     Tooling &amp; Machinery &middot; Industrial Solver
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-950 mt-1">
                     Injection Mould Clamping Tonnage Solver
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-mono font-bold">
+                <span className="px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200 text-xs font-mono font-bold">
                   Working Tool
                 </span>
               </div>
@@ -252,10 +252,10 @@ export default function InteractiveDemo() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 
                 {/* Input 1: Projected Area */}
-                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
-                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-700">
                     <span>Part Projected Area:</span>
-                    <span className="font-bold text-amber-400">{area} cm&sup2;</span>
+                    <span className="font-bold text-amber-700">{area} cm&sup2;</span>
                   </div>
                   <input
                     type="range"
@@ -264,7 +264,7 @@ export default function InteractiveDemo() {
                     step="10"
                     value={area}
                     onChange={(e) => setArea(Number(e.target.value))}
-                    className="w-full accent-amber-500 cursor-pointer"
+                    className="w-full accent-amber-600 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] font-mono text-slate-500">
                     <span>20 cm&sup2;</span>
@@ -273,10 +273,10 @@ export default function InteractiveDemo() {
                 </div>
 
                 {/* Input 2: Cavity Count */}
-                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
-                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-700">
                     <span>Cavity Multiplier:</span>
-                    <span className="font-bold text-amber-400">{cavities} Cavities</span>
+                    <span className="font-bold text-amber-700">{cavities} Cavities</span>
                   </div>
                   <input
                     type="range"
@@ -285,7 +285,7 @@ export default function InteractiveDemo() {
                     step="1"
                     value={cavities}
                     onChange={(e) => setCavities(Number(e.target.value))}
-                    className="w-full accent-amber-500 cursor-pointer"
+                    className="w-full accent-amber-600 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] font-mono text-slate-500">
                     <span>1 Cavity</span>
@@ -294,10 +294,10 @@ export default function InteractiveDemo() {
                 </div>
 
                 {/* Input 3: Cavity Pressure */}
-                <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700 space-y-2">
-                  <div className="flex justify-between items-center text-xs font-mono text-slate-300">
+                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="flex justify-between items-center text-xs font-mono text-slate-700">
                     <span>Cavity Pressure:</span>
-                    <span className="font-bold text-amber-400">{pressure} bar</span>
+                    <span className="font-bold text-amber-700">{pressure} bar</span>
                   </div>
                   <input
                     type="range"
@@ -306,7 +306,7 @@ export default function InteractiveDemo() {
                     step="25"
                     value={pressure}
                     onChange={(e) => setPressure(Number(e.target.value))}
-                    className="w-full accent-amber-500 cursor-pointer"
+                    className="w-full accent-amber-600 cursor-pointer"
                   />
                   <div className="flex justify-between text-[10px] font-mono text-slate-500">
                     <span>200 bar (PE/PP)</span>
@@ -317,22 +317,22 @@ export default function InteractiveDemo() {
               </div>
 
               {/* Real-Time Calculation Output Box */}
-              <div className="p-6 bg-gradient-to-r from-amber-500/10 via-slate-800 to-slate-800 rounded-2xl border-2 border-amber-500/40 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="p-6 bg-gradient-to-r from-amber-50 to-orange-50/50 rounded-2xl border-2 border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs font-mono uppercase text-amber-400 font-bold">
+                  <div className="text-xs font-mono uppercase text-amber-800 font-bold">
                     Calculated Machine Requirement (15% Safety Margin):
                   </div>
-                  <div className="text-3xl sm:text-4xl font-extrabold font-mono text-white mt-1">
+                  <div className="text-3xl sm:text-4xl font-extrabold font-mono text-slate-950 mt-1">
                     {calcResult.tonnage} Metric Tons
                   </div>
-                  <div className="text-xs font-mono text-slate-400 mt-1">
-                    Total Clamping Force: <strong className="text-slate-200">{calcResult.forceKn} kN</strong> across {calcResult.totalArea} cm&sup2; projected area.
+                  <div className="text-xs font-mono text-slate-600 mt-1">
+                    Total Clamping Force: <strong className="text-slate-900">{calcResult.forceKn} kN</strong> across {calcResult.totalArea} cm&sup2; projected area.
                   </div>
                 </div>
 
                 <Link
                   href="/calculators"
-                  className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md shrink-0"
+                  className="px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md shrink-0"
                 >
                   <span>All 8 Calculators</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -344,16 +344,16 @@ export default function InteractiveDemo() {
           {/* TAB 3: TROUBLESHOOT (Injection Moulding Defect Fixer) */}
           {activeTab === 'troubleshoot' && (
             <div className="space-y-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-800">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-slate-200">
                 <div>
-                  <span className="text-[11px] font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                  <span className="text-[11px] font-mono font-bold text-emerald-700 uppercase tracking-wider">
                     Shop-Floor Processing &middot; Defect Diagnostics
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-bold font-display text-white mt-1">
+                  <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-950 mt-1">
                     Injection Moulding Troubleshooting Engine
                   </h3>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-mono font-bold">
+                <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono font-bold">
                   Rosato Grounded
                 </span>
               </div>
@@ -367,8 +367,8 @@ export default function InteractiveDemo() {
                       onClick={() => setSelectedDefect(defect)}
                       className={`p-3 rounded-xl border text-left font-mono text-xs transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-blue-600 border-blue-400 text-white font-bold shadow-md'
-                          : 'bg-slate-800/80 hover:bg-slate-700/80 border-slate-700 text-slate-300'
+                          ? 'bg-blue-600 border-blue-500 text-white font-bold shadow-md'
+                          : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700'
                       }`}
                     >
                       <div className="truncate">{defect.name}</div>
@@ -378,32 +378,32 @@ export default function InteractiveDemo() {
                 })}
               </div>
 
-              <div className="bg-slate-800/90 rounded-2xl border border-slate-700 p-6 space-y-4">
-                <div className="flex items-center justify-between pb-3 border-b border-slate-700">
+              <div className="bg-slate-50 rounded-2xl border border-slate-200 p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200">
                   <div>
-                    <span className="text-xs font-mono text-slate-400 uppercase">Selected Defect:</span>
-                    <h4 className="text-xl font-bold font-display text-white">{selectedDefect.name}</h4>
+                    <span className="text-xs font-mono text-slate-500 uppercase">Selected Defect:</span>
+                    <h4 className="text-xl font-bold font-display text-slate-950">{selectedDefect.name}</h4>
                   </div>
-                  <span className="font-mono text-xs px-2.5 py-1 rounded bg-slate-900 border border-slate-700 text-amber-400 font-bold">
+                  <span className="font-mono text-xs px-2.5 py-1 rounded bg-white border border-slate-200 text-amber-700 font-bold">
                     {selectedDefect.process}
                   </span>
                 </div>
 
                 <div className="space-y-3 font-sans text-xs sm:text-sm">
                   <div>
-                    <span className="font-mono text-[11px] font-bold text-rose-400 uppercase block mb-1">
+                    <span className="font-mono text-[11px] font-bold text-rose-700 uppercase block mb-1">
                       Physical Root Cause:
                     </span>
-                    <p className="text-slate-300 leading-relaxed">
+                    <p className="text-slate-700 leading-relaxed">
                       {selectedDefect.cause}
                     </p>
                   </div>
 
                   <div>
-                    <span className="font-mono text-[11px] font-bold text-emerald-400 uppercase block mb-1">
+                    <span className="font-mono text-[11px] font-bold text-emerald-800 uppercase block mb-1">
                       Shop-Floor Recommended Parameter Fix:
                     </span>
-                    <p className="text-emerald-200 leading-relaxed font-medium bg-emerald-950/40 p-3 rounded-xl border border-emerald-500/30">
+                    <p className="text-emerald-950 leading-relaxed font-medium bg-emerald-50 p-3 rounded-xl border border-emerald-200">
                       {selectedDefect.fix}
                     </p>
                   </div>
@@ -418,13 +418,13 @@ export default function InteractiveDemo() {
           )}
 
           {/* Bottom Conversion Prompt */}
-          <div className="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <span className="text-xs font-mono text-slate-400">
+          <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <span className="text-xs font-mono text-slate-600">
               Ready to access all 216 lessons, 8 industrial solvers &amp; GATE XE-F mocks?
             </span>
             <Link
               href="/login?mode=signup"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md shrink-0"
+              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-md shrink-0"
             >
               <span>Create Free Account</span>
               <ArrowRight className="w-3.5 h-3.5" />
