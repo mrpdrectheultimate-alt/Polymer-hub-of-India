@@ -26,9 +26,9 @@ export default function Hero() {
         </div>
 
         {/* 2. Grand Centered Headline */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-950 tracking-tight font-display leading-[1.08] max-w-4xl mx-auto">
+        <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold text-slate-950 tracking-tight font-display leading-[1.12] sm:leading-[1.1] max-w-4xl mx-auto">
           Master Polymer Engineering.
-          <span className="block bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 bg-clip-text text-transparent mt-2">
+          <span className="block bg-gradient-to-r from-blue-600 via-indigo-600 to-emerald-600 bg-clip-text text-transparent mt-2 pt-1 pb-3 sm:pb-4 -mb-2 leading-normal">
             From Molecules to Manufacturing.
           </span>
         </h1>

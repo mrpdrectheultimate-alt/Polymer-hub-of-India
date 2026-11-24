@@ -104,7 +104,7 @@ export default function LaunchLandingPage() {
       {/* 13. Official Community Network (WhatsApp & Telegram) */}
       <CommunitySection />
 
-      {/* 14. Founder & Mission Story (Ch. LPK Naidu) */}
+      {/* 14. Mission & Technical Architecture Initiative */}
       <FounderSection />
 
       {/* 15. Frequently Asked Questions */}
