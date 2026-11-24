@@ -21,9 +21,12 @@ import {
   Layers,
   Award,
   HelpCircle,
-  Check
+  Check,
+  Lock,
+  Unlock
 } from 'lucide-react'
 import { GATE_CONFIG } from '@/lib/config/gate-config'
+import { createClient } from '@/lib/supabase/server'
 import { 
   GATE_PYQ_ARCHIVE, 
   GATE_XE_SECTIONS_2027, 
@@ -117,7 +120,21 @@ const SYLLABUS_SECTIONS = [
   }
 ]
 
-export default function GateXeFPage() {
+export default async function GateXeFPage() {
+  const supabase = createClient()
+  const { data: { session } } = await supabase.auth.getSession()
+
+  let isPremium = false
+  if (session?.user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('subscription_status')
+      .eq('id', session.user.id)
+      .single()
+    isPremium = profile?.subscription_status === 'premium' || profile?.subscription_status === 'active'
+  }
+  const isLoggedIn = !!session?.user
+
   return (
     <div className="min-h-screen bg-[#FAF8F5] text-slate-900 font-sans pb-20">
       
@@ -131,9 +148,22 @@ export default function GateXeFPage() {
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Home
           </Link>
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono text-emerald-800 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-              11-Year PYQ Archive (2016–2026) Verified
-            </span>
+            {isPremium ? (
+              <span className="text-[11px] font-mono text-amber-900 font-bold bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-300 flex items-center gap-1">
+                ⭐ Premium GATE Access Unlocked
+              </span>
+            ) : isLoggedIn ? (
+              <span className="text-[11px] font-mono text-emerald-800 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Free Member Active
+              </span>
+            ) : (
+              <Link 
+                href="/login?next=/gate-xe-f"
+                className="text-[11px] font-mono text-blue-800 font-bold bg-blue-50 hover:bg-blue-100 px-2.5 py-0.5 rounded-full border border-blue-200 flex items-center gap-1 transition-colors"
+              >
+                Sign In for Full 11-Yr PYQs &rarr;
+              </Link>
+            )}
             <span className="text-[11px] font-mono text-blue-800 font-bold bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200">
               GATE {GATE_CONFIG.year} &middot; Paper Code {GATE_CONFIG.paperCode} (formerly {GATE_CONFIG.previousPaperCode})
             </span>
@@ -263,70 +293,122 @@ export default function GateXeFPage() {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {GATE_PYQ_ARCHIVE.map((pyq) => (
-              <div
-                key={pyq.year}
-                className="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm hover:shadow-md transition-all space-y-3"
-              >
-                <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 flex-wrap gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="font-display font-black text-xl text-slate-900">
-                      GATE {pyq.year}
-                    </span>
-                    <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-300">
-                      OI: {pyq.organizingInstitute}
-                    </span>
+            {GATE_PYQ_ARCHIVE.map((pyq) => {
+              const isSample = pyq.year >= 2025
+              const isUnlocked = isSample || isLoggedIn
+
+              return (
+                <div
+                  key={pyq.year}
+                  id={`pyq-${pyq.year}`}
+                  className="bg-white rounded-2xl border-2 border-slate-900 p-5 shadow-sm hover:shadow-md transition-all space-y-3"
+                >
+                  <div className="flex items-center justify-between border-b border-slate-100 pb-2.5 flex-wrap gap-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-display font-black text-xl text-slate-900">
+                        GATE {pyq.year}
+                      </span>
+                      <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-700 rounded border border-slate-300">
+                        OI: {pyq.organizingInstitute}
+                      </span>
+                      {isSample && (
+                        <span className="font-mono text-[9px] font-black uppercase px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full border border-emerald-300">
+                          Free Preview
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs font-mono font-bold">
+                      <span className="text-slate-500">{pyq.legacySectionCode}</span>
+                      <span className="text-slate-300">&rarr;</span>
+                      <span className="text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
+                        {pyq.canonicalSectionCode}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1.5 text-xs font-mono font-bold">
-                    <span className="text-slate-500">{pyq.legacySectionCode}</span>
-                    <span className="text-slate-300">&rarr;</span>
-                    <span className="text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">
-                      {pyq.canonicalSectionCode}
+
+                  <div className="space-y-1.5">
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
+                      Core Examination Topics Tested:
                     </span>
+                    <ul className="text-xs text-slate-700 space-y-1">
+                      {pyq.keyFocusAreas.map((area, idx) => (
+                        <li key={idx} className="flex items-start gap-1.5">
+                          <span className="text-blue-600 font-bold">&bull;</span>
+                          <span>{area}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs font-mono font-bold flex-wrap gap-2">
+                    <span className="text-slate-500">
+                      {pyq.questionsCount} Questions &middot; {pyq.marksTotal} Marks
+                    </span>
+
+                    {isUnlocked ? (
+                      <div className="flex items-center gap-2">
+                        <a
+                          href={pyq.officialQuestionPaperPdfUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 flex items-center gap-1 transition-colors"
+                        >
+                          <FileText className="w-3 h-3 text-slate-600" /> Paper PDF
+                        </a>
+                        <a
+                          href={pyq.officialAnswerKeyPdfUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200 flex items-center gap-1 transition-colors"
+                        >
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Answer Key
+                        </a>
+                      </div>
+                    ) : (
+                      <Link
+                        href={`/signup?next=/gate-xe-f#pyq-${pyq.year}`}
+                        className="px-3 py-1 bg-amber-50 hover:bg-amber-100 text-amber-950 font-bold rounded-lg border border-amber-300 flex items-center gap-1.5 transition-colors shadow-2xs"
+                      >
+                        <Lock className="w-3 h-3 text-amber-600" />
+                        <span>Sign Up to Download</span>
+                      </Link>
+                    )}
                   </div>
                 </div>
-
-                <div className="space-y-1.5">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
-                    Core Examination Topics Tested:
-                  </span>
-                  <ul className="text-xs text-slate-700 space-y-1">
-                    {pyq.keyFocusAreas.map((area, idx) => (
-                      <li key={idx} className="flex items-start gap-1.5">
-                        <span className="text-blue-600 font-bold">&bull;</span>
-                        <span>{area}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs font-mono font-bold">
-                  <span className="text-slate-500">
-                    {pyq.questionsCount} Questions &middot; {pyq.marksTotal} Marks
-                  </span>
-
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={pyq.officialQuestionPaperPdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300 flex items-center gap-1 transition-colors"
-                    >
-                      <FileText className="w-3 h-3 text-slate-600" /> Paper PDF
-                    </a>
-                    <a
-                      href={pyq.officialAnswerKeyPdfUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-lg border border-emerald-200 flex items-center gap-1 transition-colors"
-                    >
-                      <CheckCircle2 className="w-3 h-3 text-emerald-600" /> Answer Key
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
+
+          {/* Locked Member Banner if not logged in */}
+          {!isLoggedIn && (
+            <div className="bg-gradient-to-r from-slate-950 via-[#0A1628] to-slate-900 text-white rounded-3xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1.5">
+                <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+                  <Lock className="w-4 h-4 text-amber-400" /> Free Student Account Required
+                </div>
+                <h3 className="font-display font-black text-xl text-white uppercase">
+                  Unlock Full 11-Year PYQ Archive (2016–2024 Papers &amp; Master Keys)
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-xl leading-relaxed">
+                  2025 and 2026 papers are open for free preview. Create a free PolymerHub account in 30 seconds to download the entire 11-year question bank and access simulated GATE CBT mock tests.
+                </p>
+              </div>
+              <div className="flex items-center gap-3 shrink-0">
+                <Link
+                  href="/signup?next=/gate-xe-f#pyq-archive"
+                  className="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:translate-y-[-1px]"
+                >
+                  Sign Up Free &rarr;
+                </Link>
+                <Link
+                  href="/login?next=/gate-xe-f#pyq-archive"
+                  className="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all border border-white/20"
+                >
+                  Log In
+                </Link>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ─── 3. Re-Codification Matrix: 2026 vs 2027 XE Sections ─── */}
@@ -589,7 +671,75 @@ export default function GateXeFPage() {
           </div>
         </section>
 
-        {/* ─── 8. Action Banner ─── */}
+        {/* ─── 8. Access Tiers Matrix (Demo vs Free vs Premium) ─── */}
+        <section className="space-y-4">
+          <div className="border-b border-slate-200 pb-2">
+            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500">
+              Access Tiers &middot; Transparent Membership Structure
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Free Demo Tier */}
+            <div className="bg-white border-2 border-slate-900 rounded-2xl p-5 shadow-sm space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-display font-bold text-base text-slate-900">Demo Trial</span>
+                <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-slate-100 text-slate-600 rounded">No Account</span>
+              </div>
+              <ul className="text-xs text-slate-600 space-y-2">
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-600" /> 2025 &amp; 2026 PYQ papers preview</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-600" /> 5-Question Demo CBT Mock Test</li>
+                <li className="flex items-center gap-1.5 text-slate-400"><Lock className="w-3.5 h-3.5" /> Full 11-Year PYQ Archive</li>
+                <li className="flex items-center gap-1.5 text-slate-400"><Lock className="w-3.5 h-3.5" /> Full 30-Question Tests</li>
+              </ul>
+              <Link href="/gate-mock" className="block text-center py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono font-bold text-xs uppercase rounded-xl transition-colors">
+                Try 5-Q Demo &rarr;
+              </Link>
+            </div>
+
+            {/* Free Student Tier */}
+            <div className="bg-white border-2 border-blue-600 rounded-2xl p-5 shadow-sm space-y-3 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-blue-600 text-white font-mono text-[9px] font-bold px-3 py-0.5 rounded-bl-lg uppercase">
+                Free Signup
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-display font-bold text-base text-blue-950">Student Member</span>
+                <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-blue-50 text-blue-700 rounded border border-blue-200">Free Account</span>
+              </div>
+              <ul className="text-xs text-slate-700 space-y-2">
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-600" /> Complete 11-Year PYQ Archive (2016-2026)</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-600" /> Full 30-Question Mock Test Arena</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-emerald-600" /> Saved score history on Leaderboard</li>
+                <li className="flex items-center gap-1.5 text-slate-400"><Lock className="w-3.5 h-3.5" /> Step-by-Step Derivations (All 30)</li>
+              </ul>
+              <Link href="/signup?next=/gate-xe-f" className="block text-center py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase rounded-xl transition-colors shadow-sm">
+                Sign Up Free &rarr;
+              </Link>
+            </div>
+
+            {/* Premium Pro Tier */}
+            <div className="bg-gradient-to-b from-[#0A1628] to-slate-950 text-white border-2 border-amber-500 rounded-2xl p-5 shadow-md space-y-3 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-amber-500 text-slate-950 font-mono text-[9px] font-black px-3 py-0.5 rounded-bl-lg uppercase tracking-wider">
+                Full Unlimited
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="font-display font-bold text-base text-amber-400">Premium Pro</span>
+                <span className="font-mono text-[10px] font-bold px-2 py-0.5 bg-amber-400/20 text-amber-300 rounded border border-amber-400/30">Ultimate</span>
+              </div>
+              <ul className="text-xs text-slate-200 space-y-2">
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-amber-400" /> Unlimited CBT Mock Exam attempts</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-amber-400" /> Full Step-by-Step Derivations on all 30 questions</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-amber-400" /> 24/7 AI GATE Coach with Gemini RAG</li>
+                <li className="flex items-center gap-1.5"><Check className="w-3.5 h-3.5 text-amber-400" /> Complete Formula Sheets &amp; PDF Notes</li>
+              </ul>
+              <Link href="/upgrade" className="block text-center py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase rounded-xl transition-all shadow-md">
+                Get Premium &rarr;
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── 9. Action Banner ─── */}
         <div className="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 border-2 border-slate-900 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
           <div className="space-y-2 max-w-xl">
             <h3 className="text-xl sm:text-2xl font-bold font-display text-white">

@@ -13,7 +13,9 @@ import {
   Sparkles, 
   Compass, 
   Flag,
-  PlayCircle
+  PlayCircle,
+  Lock,
+  Check
 } from 'lucide-react'
 import { GATE_CONFIG } from '@/lib/config/gate-config'
 import { createClient } from '@/lib/supabase/client'
@@ -403,14 +405,27 @@ function DynamicTimer({ seconds, onTimeout }: { seconds: number; onTimeout: () =
 
 // ─── Score Report Component ───────────────────────────────────────────────────
 
-function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: number }) {
-  const totalMarks = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
+function ScoreReport({ 
+  answers, 
+  timeTaken, 
+  user, 
+  isPremium, 
+  isDemo 
+}: { 
+  answers: AnswerMap; 
+  timeTaken: number; 
+  user: any; 
+  isPremium: boolean;
+  isDemo: boolean;
+}) {
+  const evaluatedQuestions = isDemo ? GATE_QUESTIONS.slice(0, 5) : GATE_QUESTIONS
+  const totalMarks = evaluatedQuestions.reduce((a, q) => a + q.marks, 0)
   let scored = 0
   let correct = 0
   let wrong = 0
   let unattempted = 0
 
-  GATE_QUESTIONS.forEach(q => {
+  evaluatedQuestions.forEach(q => {
     if (answers[q.id] === undefined) {
       unattempted++
     } else if (answers[q.id] === q.correct) {
@@ -426,9 +441,9 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
   const mins = Math.floor(timeTaken / 60)
   const secs = timeTaken % 60
 
-  const subjects = GATE_QUESTIONS.map(q => q.subject).filter((value, index, self) => self.indexOf(value) === index)
+  const subjects = evaluatedQuestions.map(q => q.subject).filter((value, index, self) => self.indexOf(value) === index)
   const subjectBreakdown = subjects.map(sub => {
-    const subQs = GATE_QUESTIONS.filter(q => q.subject === sub)
+    const subQs = evaluatedQuestions.filter(q => q.subject === sub)
     const subMarks = subQs.reduce((a, q) => a + q.marks, 0)
     let subScored = 0
     subQs.forEach(q => {
@@ -440,10 +455,43 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
 
   return (
     <div className="space-y-6">
+      {/* Demo Completion Banner for Guest Users */}
+      {isDemo && (
+        <div className="bg-gradient-to-r from-slate-950 via-[#0A1628] to-slate-900 text-white p-6 sm:p-8 rounded-3xl border-2 border-slate-900 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="space-y-1.5 text-center md:text-left">
+            <div className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-300 uppercase tracking-wider">
+              <Trophy className="w-4 h-4 text-amber-400" /> Free Demo Results (Questions 1–5)
+            </div>
+            <h3 className="font-display font-black text-xl text-white uppercase">
+              Ready to Practice the Full 30-Question Exam?
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-300 font-sans max-w-xl leading-relaxed">
+              You just attempted the 5 sample demo questions. Create a free student account in 30 seconds to unlock all 30 questions, save your score to the national leaderboard, and access the 11-year PYQ archive!
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <Link
+              href="/signup?next=/gate-mock"
+              className="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:translate-y-[-1px]"
+            >
+              Sign Up Free &rarr;
+            </Link>
+            <Link
+              href="/login?next=/gate-mock"
+              className="px-5 py-3.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all border border-white/20"
+            >
+              Sign In
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Main Score Banner */}
       <div className="border-2 border-slate-900 rounded-2xl bg-white shadow-xl overflow-hidden">
         <div className="bg-[#0A1628] text-white p-8 text-center space-y-2">
-          <span className="text-xs font-mono font-bold tracking-widest text-[#F5C518] uppercase">Official GATE Scoring Breakdown</span>
+          <span className="text-xs font-mono font-bold tracking-widest text-[#F5C518] uppercase">
+            {isDemo ? 'Demo Assessment Score (Questions 1–5)' : 'Official GATE Scoring Breakdown'}
+          </span>
           <div className="font-display text-5xl sm:text-6xl font-black">
             {Math.max(0, scored).toFixed(2)}
             <span className="text-2xl text-slate-400 font-light"> / {totalMarks} Marks</span>
@@ -516,14 +564,22 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
 
       {/* Detailed Question Review */}
       <div className="space-y-4">
-        <h3 className="font-display font-bold text-base uppercase text-slate-900">
-          Complete Answer Review ({GATE_QUESTIONS.length} Questions)
-        </h3>
+        <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+          <h3 className="font-display font-bold text-base uppercase text-slate-900">
+            {isDemo ? 'Demo Answer Review (5 Sample Questions)' : `Complete Answer Review (${GATE_QUESTIONS.length} Questions)`}
+          </h3>
+          {!isPremium && !isDemo && (
+            <span className="text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200">
+              Derivations Q1–Q5 Free &middot; Q6–Q30 Premium
+            </span>
+          )}
+        </div>
 
-        {GATE_QUESTIONS.map((q, idx) => {
+        {evaluatedQuestions.map((q, idx) => {
           const userAnswer = answers[q.id]
           const isCorrect = userAnswer === q.correct
           const isUnattempted = userAnswer === undefined
+          const isSolutionUnlocked = isPremium || idx < 5
 
           return (
             <article key={q.id} className="border-2 border-slate-900 rounded-2xl bg-white p-6 shadow-sm space-y-3">
@@ -579,10 +635,34 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
                 })}
               </div>
 
-              <div className="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200 text-xs text-blue-950 space-y-1">
-                <span className="font-mono font-bold text-[10px] text-blue-800 uppercase tracking-wider block">Rationale &amp; Solution</span>
-                <p className="leading-relaxed">{q.explanation}</p>
-              </div>
+              {isSolutionUnlocked ? (
+                <div className="p-3.5 bg-blue-50/70 rounded-xl border border-blue-200 text-xs text-blue-950 space-y-1">
+                  <span className="font-mono font-bold text-[10px] text-blue-800 uppercase tracking-wider block">Rationale &amp; Solution</span>
+                  <p className="leading-relaxed">{q.explanation}</p>
+                </div>
+              ) : (
+                <div className="p-3.5 bg-amber-50/60 rounded-xl border border-amber-200 text-xs text-amber-950 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono font-bold text-[10px] text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+                      <Lock className="w-3.5 h-3.5 text-amber-600" /> Mathematical Derivation &amp; Proof Locked
+                    </span>
+                    <span className="text-[10px] font-mono text-amber-800 font-bold bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                      ⭐ Premium
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 font-sans leading-relaxed">
+                    Complete step-by-step kinetic equations, dimensional proofs, and AI Coach explanations for Questions 6 to 30 are reserved for Premium members.
+                  </p>
+                  <div className="pt-0.5">
+                    <Link
+                      href="/upgrade"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-[11px] uppercase tracking-wider rounded-lg transition-all shadow-xs"
+                    >
+                      Upgrade to Unlock All Derivations &rarr;
+                    </Link>
+                  </div>
+                </div>
+              )}
 
               <div className="pt-1">
                 <Link 
@@ -595,6 +675,35 @@ function ScoreReport({ answers, timeTaken }: { answers: AnswerMap; timeTaken: nu
             </article>
           )
         })}
+
+        {/* Demo Mode Callout for Questions 6 to 30 */}
+        {isDemo && (
+          <div className="bg-gradient-to-r from-slate-900 via-[#0A1628] to-slate-900 text-white p-6 sm:p-8 rounded-2xl border-2 border-slate-900 shadow-xl text-center space-y-3">
+            <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-amber-400 uppercase tracking-wider">
+              <Lock className="w-4 h-4 text-amber-400" /> Questions 6 to 30 Locked in Demo Mode
+            </div>
+            <h4 className="font-display font-black text-xl text-white uppercase">
+              Unlock the Remaining 25 Questions &amp; Full 30-Question Assessment
+            </h4>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto font-sans leading-relaxed">
+              Create a free student account now to take the complete 60-minute 30-question exam, rank on the national leaderboard, and unlock the entire 11-year PYQ archive.
+            </p>
+            <div className="pt-2 flex flex-col sm:flex-row justify-center items-center gap-3">
+              <Link
+                href="/signup?next=/gate-mock"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:translate-y-[-1px]"
+              >
+                Sign Up Free to Unlock Remaining 25 Questions &rarr;
+              </Link>
+              <Link
+                href="/login?next=/gate-mock"
+                className="w-full sm:w-auto px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-mono font-bold text-xs uppercase tracking-wider transition-all border border-white/20"
+              >
+                Log In
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -610,8 +719,34 @@ export default function GATEMockPage() {
   const [timeTaken, setTimeTaken] = useState(0)
   const [flagged, setFlagged] = useState<Set<string>>(new Set())
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false)
+  const [isUnlockModalOpen, setIsUnlockModalOpen] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const [isPremium, setIsPremium] = useState(false)
+  const [authLoaded, setAuthLoaded] = useState(false)
 
+  const DEMO_LIMIT = 5
+  const isDemo = authLoaded && !user
   const TOTAL_TIME = 60 * 60 // 60 minutes
+
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      setUser(user)
+      if (user) {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('subscription_status')
+            .eq('id', user.id)
+            .single()
+          setIsPremium(profile?.subscription_status === 'premium' || profile?.subscription_status === 'active')
+        } catch (err) {
+          console.warn('Could not load subscription status:', err)
+        }
+      }
+      setAuthLoaded(true)
+    }).catch(() => setAuthLoaded(true))
+  }, [])
 
   const handleStart = () => {
     setStartTime(Date.now())
@@ -630,9 +765,10 @@ export default function GATEMockPage() {
 
     // Evaluate and award GATE mock XP + Persist attempt history
     try {
-      const totalMarks = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
+      const questionsToScore = isDemo ? GATE_QUESTIONS.slice(0, DEMO_LIMIT) : GATE_QUESTIONS
+      const totalMarks = questionsToScore.reduce((a, q) => a + q.marks, 0)
       let scored = 0
-      GATE_QUESTIONS.forEach(q => {
+      questionsToScore.forEach(q => {
         if (answers[q.id] === q.correct) {
           scored += q.marks
         } else if (answers[q.id] !== undefined) {
@@ -643,38 +779,36 @@ export default function GATEMockPage() {
       const pct = (finalScore / totalMarks) * 100
 
       // Persist to Supabase if authenticated
-      const supabase = createClient()
-      supabase.auth.getUser().then(async ({ data: { user } }) => {
-        if (user) {
-          try {
-            await supabase.from('gate_mock_attempts').insert({
-              user_id: user.id,
-              score: parseFloat(finalScore.toFixed(2)),
-              total_marks: totalMarks,
-              accuracy_pct: parseFloat(pct.toFixed(2)),
-              time_taken_seconds: elapsed,
-              question_breakdown: GATE_QUESTIONS.map(q => ({
-                id: q.id,
-                selected: answers[q.id] ?? null,
-                correct: q.correct,
-                isCorrect: answers[q.id] === q.correct,
-                marks: q.marks,
-                subject: q.subject
-              }))
-            })
-          } catch (dbErr) {
-            console.warn('GATE mock attempt persistence skipped:', dbErr)
-          }
-        }
-      }).catch(authErr => console.warn('GATE mock auth check error:', authErr))
+      if (user) {
+        const supabase = createClient()
+        Promise.resolve(
+          supabase.from('gate_mock_attempts').insert({
+            user_id: user.id,
+            score: parseFloat(finalScore.toFixed(2)),
+            total_marks: totalMarks,
+            accuracy_pct: parseFloat(pct.toFixed(2)),
+            time_taken_seconds: elapsed,
+            question_breakdown: GATE_QUESTIONS.map(q => ({
+              id: q.id,
+              selected: answers[q.id] ?? null,
+              correct: q.correct,
+              isCorrect: answers[q.id] === q.correct,
+              marks: q.marks,
+              subject: q.subject
+            }))
+          })
+        ).then(({ error }: any) => {
+          if (error) console.warn('GATE mock attempt persistence skipped:', error)
+        }).catch((dbErr: any) => console.warn('GATE mock attempt persistence skipped:', dbErr))
 
-      if (pct >= 50) {
-        const action = pct >= 75 ? 'gate_top' : 'gate_pass'
-        fetch('/api/xp/award', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action, reference: `gate-mock-${new Date().toISOString().split('T')[0]}` })
-        }).catch(err => console.warn('GATE mock XP award error:', err))
+        if (pct >= 50) {
+          const action = pct >= 75 ? 'gate_top' : 'gate_pass'
+          fetch('/api/xp/award', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, reference: `gate-mock-${new Date().toISOString().split('T')[0]}` })
+          }).catch(err => console.warn('GATE mock XP award error:', err))
+        }
       }
     } catch (e) {
       console.warn('GATE mock XP calculation failed:', e)
@@ -732,11 +866,17 @@ export default function GATEMockPage() {
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">{GATE_QUESTIONS.length}</span>
-              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">GATE Questions</span>
+              <span className="font-display text-xl font-bold text-white block">
+                {isDemo ? `${DEMO_LIMIT} (Demo)` : GATE_QUESTIONS.length}
+              </span>
+              <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">
+                {isDemo ? 'Demo Questions' : 'GATE Questions'}
+              </span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">{TOTAL_MARKS}</span>
+              <span className="font-display text-xl font-bold text-amber-400 block">
+                {isDemo ? '7 Marks' : `${TOTAL_MARKS} Marks`}
+              </span>
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Total Marks</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
@@ -766,6 +906,53 @@ export default function GATEMockPage() {
               </p>
             </div>
 
+            {/* Auth / Demo Status Callout */}
+            {isDemo ? (
+              <div className="bg-gradient-to-r from-amber-500/15 via-amber-50 to-orange-500/10 border-2 border-amber-300 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0 shadow-xs">
+                    <Trophy className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="font-mono text-[10px] font-bold text-amber-900 uppercase tracking-wider block">Demo Trial Mode Active</span>
+                    <p className="text-xs sm:text-sm text-slate-800 font-medium">
+                      You are in guest demo mode (Questions 1–5). <Link href="/signup?next=/gate-mock" className="text-blue-600 font-bold underline hover:text-blue-800">Sign up free</Link> to unlock all 30 questions &amp; record scores to the leaderboard!
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Link
+                    href="/signup?next=/gate-mock"
+                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs"
+                  >
+                    Sign Up Free &rarr;
+                  </Link>
+                </div>
+              </div>
+            ) : user ? (
+              <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <div>
+                    <span className="text-xs font-mono font-bold text-emerald-900 uppercase tracking-wide">
+                      {isPremium ? '⭐ Premium Pro Account' : 'Student Member Active'}
+                    </span>
+                    <p className="text-xs text-emerald-800">
+                      All 30 GATE questions unlocked &middot; Leaderboard tracking enabled for {user.email}
+                    </p>
+                  </div>
+                </div>
+                {!isPremium && (
+                  <Link
+                    href="/upgrade"
+                    className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-[11px] uppercase tracking-wider rounded-lg transition-all shrink-0"
+                  >
+                    Get Premium &rarr;
+                  </Link>
+                )}
+              </div>
+            ) : null}
+
             <div className="p-4 bg-amber-50 rounded-xl border border-amber-200 space-y-2">
               <span className="font-mono text-xs font-bold text-amber-900 uppercase tracking-wide block">Evaluation Rules</span>
               <ul className="space-y-1.5 text-xs text-amber-950 font-medium">
@@ -792,7 +979,8 @@ export default function GATEMockPage() {
               onClick={handleStart}
               className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-sm uppercase tracking-wider rounded-xl border-2 border-blue-700 shadow-md hover:translate-y-[-1px] transition-all flex items-center justify-center gap-2"
             >
-              <PlayCircle className="w-5 h-5" /> Start GATE Timed Practice Mock &mdash; 60 Minutes
+              <PlayCircle className="w-5 h-5" /> 
+              {isDemo ? 'Start 5-Question Demo Practice — 60 Minutes' : 'Start GATE Timed Practice Mock (30 Qs) — 60 Minutes'}
             </button>
             <p className="text-[11px] font-mono text-slate-500 text-center">
               * Educational simulation aligned with GATE XE5 Polymer Science &amp; Engineering syllabus standards ({GATE_CONFIG.organizingInstitute}).
@@ -808,11 +996,25 @@ export default function GATEMockPage() {
             <div className="bg-white border-2 border-slate-900 rounded-2xl p-4 sm:p-5 shadow-xl flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-3">
                 <span className="font-display font-bold text-base text-slate-900">
-                  Question {currentQ + 1} of {GATE_QUESTIONS.length}
+                  Question {currentQ + 1} of {isDemo ? DEMO_LIMIT : GATE_QUESTIONS.length}
                 </span>
+                {isDemo && (
+                  <span className="text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+                    Demo Mode (5 Qs)
+                  </span>
+                )}
               </div>
 
               <div className="flex items-center gap-3">
+                {isDemo && (
+                  <button
+                    onClick={() => setIsUnlockModalOpen(true)}
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs"
+                  >
+                    <Lock className="w-3.5 h-3.5" /> Unlock All 30 Qs
+                  </button>
+                )}
+
                 {/* Prominent Flag for Review Button */}
                 <button
                   onClick={toggleFlag}
@@ -895,7 +1097,22 @@ export default function GATEMockPage() {
                     >
                       &larr; Prev
                     </button>
-                    {currentQ < GATE_QUESTIONS.length - 1 ? (
+                    {isDemo && currentQ >= DEMO_LIMIT - 1 ? (
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => setIsUnlockModalOpen(true)}
+                          className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono text-xs font-bold uppercase rounded-xl transition-all flex items-center gap-1.5 shadow-sm"
+                        >
+                          <Lock className="w-3.5 h-3.5" /> Unlock Q6–Q30
+                        </button>
+                        <button
+                          onClick={() => setIsSubmitModalOpen(true)}
+                          className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md"
+                        >
+                          Finish Demo &rarr;
+                        </button>
+                      </div>
+                    ) : currentQ < GATE_QUESTIONS.length - 1 ? (
                       <button
                         onClick={() => setCurrentQ(prev => prev + 1)}
                         className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all"
@@ -922,10 +1139,24 @@ export default function GATEMockPage() {
 
                 <div className="grid grid-cols-5 gap-1.5">
                   {GATE_QUESTIONS.map((q, idx) => {
+                    const isLocked = isDemo && idx >= DEMO_LIMIT
                     const isQAnswered = answers[q.id] !== undefined
                     const isQFlagged = flagged.has(q.id)
                     const isQCurrent = idx === currentQ
                     
+                    if (isLocked) {
+                      return (
+                        <button
+                          key={q.id}
+                          onClick={() => setIsUnlockModalOpen(true)}
+                          title={`Question ${idx + 1} locked — Sign up free to unlock`}
+                          className="h-8 rounded-lg border border-dashed border-slate-300 bg-slate-50/70 text-slate-400 hover:border-amber-400 hover:text-amber-600 hover:bg-amber-50/50 flex items-center justify-center transition-all cursor-pointer group"
+                        >
+                          <Lock className="w-3 h-3 text-slate-400 group-hover:text-amber-600" />
+                        </button>
+                      )
+                    }
+
                     let bg = 'bg-slate-50 text-slate-700 border-slate-200'
                     if (isQCurrent) {
                       bg = 'bg-blue-600 text-white border-blue-700 font-black ring-2 ring-blue-300'
@@ -958,8 +1189,14 @@ export default function GATEMockPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-3 h-3 bg-slate-100 border border-slate-300 rounded-sm" />
-                    <span>Unattempted ({GATE_QUESTIONS.length - answered})</span>
+                    <span>Unattempted ({(isDemo ? DEMO_LIMIT : GATE_QUESTIONS.length) - answered})</span>
                   </div>
+                  {isDemo && (
+                    <div className="flex items-center gap-2 text-amber-700 font-bold pt-1">
+                      <Lock className="w-3 h-3 text-amber-600" />
+                      <span>Locked (25 Qs) &middot; Free Signup</span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Submit Exam Button - Red Alert Style */}
@@ -967,7 +1204,7 @@ export default function GATEMockPage() {
                   onClick={() => setIsSubmitModalOpen(true)}
                   className="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase rounded-xl transition-all shadow-md"
                 >
-                  Submit Exam
+                  {isDemo ? 'Finish Demo Test' : 'Submit Exam'}
                 </button>
               </div>
 
@@ -978,7 +1215,13 @@ export default function GATEMockPage() {
 
         {/* Submitted Score Summary */}
         {state === 'submitted' && (
-          <ScoreReport answers={answers} timeTaken={timeTaken} />
+          <ScoreReport 
+            answers={answers} 
+            timeTaken={timeTaken} 
+            user={user} 
+            isPremium={isPremium} 
+            isDemo={isDemo} 
+          />
         )}
 
       </div>
@@ -990,13 +1233,19 @@ export default function GATEMockPage() {
             <div className="flex items-center gap-3 text-red-600">
               <AlertTriangle className="w-8 h-8 shrink-0" />
               <div>
-                <h3 className="font-display font-black text-lg text-slate-900 uppercase">Confirm Exam Submission</h3>
-                <span className="text-[11px] font-mono text-slate-500 font-bold uppercase">Irreversible Action</span>
+                <h3 className="font-display font-black text-lg text-slate-900 uppercase">
+                  {isDemo ? 'Finish Demo Test' : 'Confirm Exam Submission'}
+                </h3>
+                <span className="text-[11px] font-mono text-slate-500 font-bold uppercase">
+                  {isDemo ? 'Demo Assessment' : 'Irreversible Action'}
+                </span>
               </div>
             </div>
 
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium">
-              Are you sure you want to submit your exam now? Once submitted, your score will be calculated using official GATE negative marking.
+              {isDemo
+                ? 'Are you sure you want to finish your 5-question demo practice? Your demo score will be calculated using official GATE marking.'
+                : 'Are you sure you want to submit your exam now? Once submitted, your score will be calculated using official GATE negative marking.'}
             </p>
 
             <div className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-1.5 text-xs font-mono">
@@ -1010,7 +1259,7 @@ export default function GATEMockPage() {
               </div>
               <div className="flex justify-between text-slate-700">
                 <span>Unattempted Questions:</span>
-                <strong className="text-rose-700">{GATE_QUESTIONS.length - answered}</strong>
+                <strong className="text-rose-700">{(isDemo ? DEMO_LIMIT : GATE_QUESTIONS.length) - answered}</strong>
               </div>
             </div>
 
@@ -1025,8 +1274,71 @@ export default function GATEMockPage() {
                 onClick={confirmSubmit}
                 className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-mono text-xs font-bold uppercase rounded-xl shadow-md transition-all"
               >
-                Confirm &amp; Submit
+                {isDemo ? 'Finish & View Score' : 'Confirm & Submit'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── UNLOCK MODAL FOR GUESTS ── */}
+      {isUnlockModalOpen && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white border-2 border-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in duration-200">
+            <div className="flex items-center gap-3 text-amber-600">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500 text-slate-950 flex items-center justify-center shrink-0">
+                <Lock className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-display font-black text-lg text-slate-900 uppercase">Unlock Full 30-Question Exam</h3>
+                <span className="text-[11px] font-mono text-amber-700 font-bold uppercase">Free Student Membership</span>
+              </div>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
+              You are currently attempting the 5-question demo simulation. Create a free PolymerHub account in 30 seconds to:
+            </p>
+
+            <ul className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 text-xs font-sans text-slate-700">
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span><strong>All 30 GATE XE5 Questions</strong> with full 60-minute CBT simulator</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span><strong>11-Year PYQ Archive (2016–2026)</strong> question papers &amp; master keys</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span><strong>National Leaderboard</strong> tracking and XP badges</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-500 shrink-0" />
+                <span><strong>Upgrade to Premium</strong> anytime for full mathematical derivations on all questions</span>
+              </li>
+            </ul>
+
+            <div className="space-y-2 pt-2">
+              <Link
+                href="/signup?next=/gate-mock"
+                className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md flex items-center justify-center gap-2"
+              >
+                Sign Up Free &amp; Unlock All 30 Qs &rarr;
+              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/login?next=/gate-mock"
+                  className="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-mono text-xs font-bold uppercase rounded-xl border border-slate-300 transition-all text-center"
+                >
+                  Sign In
+                </Link>
+                <button
+                  onClick={() => setIsUnlockModalOpen(false)}
+                  className="flex-1 py-2.5 bg-white hover:bg-slate-50 text-slate-600 font-mono text-xs font-bold uppercase rounded-xl border border-slate-200 transition-all"
+                >
+                  Continue Demo
+                </button>
+              </div>
             </div>
           </div>
         </div>
