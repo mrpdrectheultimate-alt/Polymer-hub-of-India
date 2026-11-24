@@ -18,10 +18,10 @@ import {
 import { GATE_CONFIG } from '@/lib/config/gate-config'
 import { createClient } from '@/lib/supabase/client'
 
-// ─── GATE Questions (30 questions mapped to 216 lessons) ───────────────────────
+// ─── GATE Questions (30 questions mapped to 216 curriculum lessons) ───────────
 
 const GATE_QUESTIONS = [
-  // Polymer Chemistry (6 questions)
+  // Polymer Chemistry (8 questions)
   {
     id: 'gc1', subject: 'Polymer Chemistry', lessonSlug: 'polymerization-mechanisms-addition-vs-condensation',
     question: 'In free radical addition polymerization, the rate-determining step is:',
@@ -31,7 +31,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'gc2', subject: 'Polymer Chemistry', lessonSlug: 'glass-transition-temperature-tg-the-most-important-polymer-property',
+    id: 'gc2', subject: 'Polymer Chemistry', lessonSlug: 'dsc-thermal-analysis-tg-tm-hf-and-crystallinity',
     question: 'The glass transition temperature (Tg) of a polymer is best described as:',
     options: [
       'The temperature at which the polymer melts',
@@ -44,7 +44,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'gc3', subject: 'Polymer Chemistry', lessonSlug: 'molecular-weight-and-molecular-weight-distribution',
+    id: 'gc3', subject: 'Polymer Chemistry', lessonSlug: 'introduction-to-polymer-structure-and-molecular-weight',
     question: 'The polydispersity index (PDI) of an ideal living anionic polymerization approaches:',
     options: ['0', '1.0', '2.0', '∞'],
     correct: 1,
@@ -52,7 +52,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'gc4', subject: 'Polymer Chemistry', lessonSlug: 'polymer-degradation-and-stabilization',
+    id: 'gc4', subject: 'Polymer Chemistry', lessonSlug: 'uv-stabilizers-hals-benzotriazoles',
     question: 'Hindered amine light stabilizers (HALS) protect polyolefins from UV degradation by:',
     options: [
       'Absorbing UV radiation and converting it to heat',
@@ -65,7 +65,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'gc5', subject: 'Polymer Chemistry', lessonSlug: 'copolymers-blends-and-alloys',
+    id: 'gc5', subject: 'Polymer Chemistry', lessonSlug: 'polymer-blends-and-composites-combining-materials-for-better-performance',
     question: 'ABS (Acrylonitrile-Butadiene-Styrene) is a terpolymer where the butadiene component primarily contributes:',
     options: ['Chemical resistance', 'Impact strength and toughness', 'Rigidity and modulus', 'Heat resistance'],
     correct: 1,
@@ -85,6 +85,27 @@ const GATE_QUESTIONS = [
     explanation: 'Isotactic PP has all methyl substituents on the same side of the backbone — this regular stereoregularity allows chains to pack into helical crystalline structures (3/1 helix, Tm ~165°C). Atactic PP has random methyl placement — cannot crystallize, remains amorphous with no distinct Tm, behaving as a sticky wax at room temperature. Ziegler-Natta catalysis produces isotactic PP; radical polymerization produces mostly atactic PP.',
     marks: 2,
   },
+  {
+    id: 'pc7', subject: 'Polymer Chemistry', lessonSlug: 'ring-opening-polymerization-nylon-6-and-polycaprolactone',
+    question: 'Nylon-6 is industrially synthesized from epsilon-caprolactam via:',
+    options: [
+      'Free radical precipitation polymerization',
+      'Hydrolytic ring-opening polymerization (ROP)',
+      'Interfacial condensation polycondensation',
+      'Coordination metallocene catalysis',
+    ],
+    correct: 1,
+    explanation: 'Nylon-6 is produced by hydrolytic ring-opening polymerization of ε-caprolactam at 240–270°C in the presence of water as initiator. Water hydrolyzes a fraction of caprolactam into ε-aminocaproic acid, which catalyzes step-growth ring opening and polyaddition of further caprolactam molecules into high molecular weight polycaprolactam chains.',
+    marks: 1,
+  },
+  {
+    id: 'pc8', subject: 'Polymer Chemistry', lessonSlug: 'introduction-to-polymer-structure-and-molecular-weight',
+    question: 'In the Mark-Houwink-Sakurada equation [η] = K · Mv^a, the exponent "a" for a flexible polymer in a thermodynamically ideal theta (θ) solvent is:',
+    options: ['0.0', '0.5', '0.8', '2.0'],
+    correct: 1,
+    explanation: 'In a theta solvent at theta temperature, polymer-solvent and polymer-polymer interactions cancel out exactly, allowing the polymer coil to assume its unperturbed dimensions (random walk Gaussian coil). Under these conditions, the intrinsic viscosity exponent "a" equals 0.5. In good solvents with chain expansion, "a" ranges between 0.6 and 0.8; for rigid rod polymers, "a" approaches 1.8–2.0.',
+    marks: 2,
+  },
 
   // Polymer Processing (5 questions)
   {
@@ -96,7 +117,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'pp2', subject: 'Polymer Processing', lessonSlug: 'extrusion-fundamentals-the-backbone-of-plastic-processing',
+    id: 'pp2', subject: 'Polymer Processing', lessonSlug: 'extrusion-process-screw-design-and-die-types',
     question: 'The output rate of a single-screw extruder is primarily controlled by:',
     options: ['Barrel temperature only', 'Screw speed (RPM) — the primary variable for output control', 'Die pressure only', 'Feed hopper level'],
     correct: 1,
@@ -117,7 +138,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'pp4', subject: 'Polymer Processing', lessonSlug: 'blow-moulding-processes-extrusion-injection-and-stretch-blow',
+    id: 'pp4', subject: 'Polymer Processing', lessonSlug: 'blow-moulding-parison-extrusion-programming-and-stretch-blow',
     question: 'In PET stretch blow moulding (ISBM), biaxial orientation improves bottle properties primarily by:',
     options: [
       'Increasing polymer density only',
@@ -130,7 +151,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'pp5', subject: 'Polymer Processing', lessonSlug: 'thermoforming-techniques-and-applications',
+    id: 'pp5', subject: 'Polymer Processing', lessonSlug: 'thermoforming-vacuum-pressure-and-twin-sheet-processes',
     question: 'In vacuum thermoforming, the maximum theoretical forming pressure available is:',
     options: ['0.1 MPa (1 bar — atmospheric pressure)', '1.0 MPa (10 bar)', '10 MPa', 'Infinite with high-capacity pump'],
     correct: 0,
@@ -138,9 +159,32 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
 
+  // Polymer Rheology (2 questions)
+  {
+    id: 'pr1', subject: 'Polymer Rheology', lessonSlug: 'non-newtonian-rheology-power-law-and-carreau-models',
+    question: 'In the Ostwald-de Waele power-law model (τ = K · γ̇^n), pseudoplastic (shear-thinning) polymer melts are characterized by a flow behavior index "n" of:',
+    options: ['n = 1.0', 'n < 1.0', 'n > 1.0', 'n = 0.0'],
+    correct: 1,
+    explanation: 'Pseudoplastic shear-thinning polymer melts exhibit a power-law index n < 1.0 (typically 0.2 to 0.6 for commercial melts like HDPE, PP, and PS). As shear rate increases, entangled polymer coils untangle and align in the flow direction, causing apparent viscosity (η = K · γ̇^(n-1)) to decrease. Newtonian fluids have n = 1.0; dilatant shear-thickening materials have n > 1.0.',
+    marks: 1,
+  },
+  {
+    id: 'pr2', subject: 'Polymer Rheology', lessonSlug: 'time-temperature-superposition-wlf-shifts-and-rheological-master-curves',
+    question: 'The Williams-Landel-Ferry (WLF) equation for time-temperature superposition is valid across which temperature range?',
+    options: [
+      'Absolute zero up to Tg',
+      'From Tg up to (Tg + 100°C)',
+      'Only above the equilibrium crystalline melting point (Tm + 50°C)',
+      'Any temperature regardless of phase transitions',
+    ],
+    correct: 1,
+    explanation: 'The WLF equation log(aT) = -C1(T - Tg) / (C2 + T - Tg) is derived from free-volume theory and holds reliably in the temperature window from Tg to approximately Tg + 100°C. Above Tg + 100°C, free volume expansion becomes less dominant and melt viscosity transitions to an Arrhenius-type activation energy dependence: η(T) = A · exp(Ea / RT).',
+    marks: 2,
+  },
+
   // Testing & Characterization (5 questions)
   {
-    id: 'pt1', subject: 'Polymer Testing', lessonSlug: 'tensile-testing-astm-d638-is-13360-stress-strain-curves-decoded',
+    id: 'pt1', subject: 'Polymer Testing', lessonSlug: 'tensile-and-flexural-testing-measuring-mechanical-strength',
     question: 'In an ASTM D638 tensile test of an unreinforced thermoplastic, the point where stress reaches a local maximum and necking begins is called:',
     options: ['Proportional limit', 'Yield point', 'Ultimate tensile strength', 'Fracture point'],
     correct: 1,
@@ -148,7 +192,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'pt2', subject: 'Polymer Testing', lessonSlug: 'differential-scanning-calorimetry-dsc-thermal-fingerprints',
+    id: 'pt2', subject: 'Polymer Testing', lessonSlug: 'dsc-thermal-analysis-tg-tm-hf-and-crystallinity',
     question: 'In a DSC thermogram of a semi-crystalline polymer, an exothermic peak observed during heating (between Tg and Tm) corresponds to:',
     options: ['Melting', 'Cold crystallization', 'Thermal degradation', 'Glass transition'],
     correct: 1,
@@ -156,7 +200,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'thermogravimetric-analysis-tga-thermal-stability-and-filler-content',
+    id: 'pt3', subject: 'Polymer Testing', lessonSlug: 'thermal-analysis-dsc-tga-and-hdt-testing',
     question: 'TGA is used to determine the inorganic filler content (e.g. glass fiber, CaCO₃) in a polymer composite by:',
     options: [
       'Measuring thermal expansion up to 200°C',
@@ -169,7 +213,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'izod-and-charpy-impact-testing-astm-d256-notch-sensitivity',
+    id: 'pt4', subject: 'Polymer Testing', lessonSlug: 'impact-testing-izod-and-charpy-methods',
     question: 'In Izod impact testing (ASTM D256), the specimen is mounted as a:',
     options: ['Simply supported beam (supported at both ends)', 'Vertical cantilever beam (clamped at one end, struck at free end)', 'Flat disc clamped along the circumference', 'Tension bar pulled at constant speed'],
     correct: 1,
@@ -185,9 +229,9 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
 
-  // Rubber & Composites (5 questions)
+  // Rubber & Composites (6 questions)
   {
-    id: 'rc1', subject: 'Rubber Technology', lessonSlug: 'vulcanization-kinetics-sulfur-vs-peroxide-curing',
+    id: 'rc1', subject: 'Rubber Technology', lessonSlug: 'vulcanization-of-rubber-chemistry-systems-and-industrial-practice',
     question: 'In sulfur vulcanization of natural rubber, the addition of zinc oxide and stearic acid serves to:',
     options: [
       'Increase the solubility of sulfur only',
@@ -200,7 +244,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'rc2', subject: 'Rubber Technology', lessonSlug: 'elastomer-selection-guide-nr-sbr-epdm-nbr-fkm-silicone',
+    id: 'rc2', subject: 'Rubber Technology', lessonSlug: 'natural-rubber-vs-synthetic-rubber-sources-and-selection',
     question: 'Which elastomer is specifically selected for automotive fuel hoses due to its exceptional resistance to petroleum oils and fuels?',
     options: ['Natural Rubber (NR)', 'Ethylene Propylene Diene Monomer (EPDM)', 'Nitrile Butadiene Rubber (NBR)', 'Silicone Rubber (VMQ)'],
     correct: 2,
@@ -208,7 +252,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'rc3', subject: 'Composites', lessonSlug: 'carbon-fiber-reinforced-polymers-cfrp-manufacturing-and-properties',
+    id: 'rc3', subject: 'Composites', lessonSlug: 'carbon-fibre-reinforced-polymers-cfrp-aerospace-to-automotive',
     question: 'The specific strength (strength-to-weight ratio) of carbon fiber composite (CFRP) compared to structural steel (FE 410) is approximately:',
     options: ['Same', '2× higher', '5-8× higher', '20× higher'],
     correct: 2,
@@ -216,7 +260,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'rc4', subject: 'Composites', lessonSlug: 'resin-transfer-moulding-rtm-and-vacuum-assisted-processes',
+    id: 'rc4', subject: 'Composites', lessonSlug: 'resin-transfer-moulding-rtm-darcy-flow-permeability-and-viscosity',
     question: 'In Resin Transfer Moulding (RTM), Darcy\'s Law governs liquid resin flow through the dry fiber preform. Flow velocity (v) is proportional to:',
     options: [
       'Preform permeability (K) and pressure gradient (dP/dx), inversely proportional to resin viscosity (μ)',
@@ -229,7 +273,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'rc5', subject: 'Recycling', lessonSlug: 'mechanical-recycling-sorting-washing-re-granulation',
+    id: 'rc5', subject: 'Recycling', lessonSlug: 'mechanical-recycling-collection-sorting-and-reprocessing',
     question: 'In post-consumer PET bottle recycling, automated optical sorting uses NIR (Near-Infrared) spectroscopy to distinguish PET from PVC because:',
     options: [
       'PET and PVC have different colors under visible light',
@@ -241,10 +285,23 @@ const GATE_QUESTIONS = [
     explanation: 'NIR spectroscopy identifies polymers by their unique C-H, O-H, and N-H vibrational overtone absorptions in the 1000-1700 nm wavelength range. NIR sensors detect the chemical signature of incoming bottles on a high-speed conveyor (2-3 m/s) in milliseconds, triggering air jets to blast PVC bottles out of the PET stream. This prevents PVC contamination (>50 ppm causes acid degradation during rPET processing).',
     marks: 1,
   },
+  {
+    id: 'rc6', subject: 'Composites', lessonSlug: 'introduction-to-polymer-composites-matrix-reinforcement-and-interface',
+    question: 'The Voigt (parallel / iso-strain) Rule of Mixtures predicts the longitudinal elastic modulus (E1) of a unidirectional continuous fiber composite as:',
+    options: [
+      'E1 = Ef · Vf + Em · (1 - Vf)',
+      '1 / E1 = Vf / Ef + (1 - Vf) / Em',
+      'E1 = Ef · (1 - Vf) + Em · Vf',
+      'E1 = (Ef · Em) / (Ef + Em)',
+    ],
+    correct: 0,
+    explanation: 'Under longitudinal loading parallel to fiber direction, both fiber and matrix experience equal strain (iso-strain condition: εc = εf = εm). The total load is the sum of loads carried by fiber and matrix, yielding the Voigt model: E1 = Ef · Vf + Em · Vm = Ef · Vf + Em · (1 - Vf). The transverse modulus E2 follows the Reuss inverse rule of mixtures (iso-stress).',
+    marks: 2,
+  },
 
   // Mould Design & Sustainability (4 questions)
   {
-    id: 'ms1', subject: 'Mould Design', lessonSlug: 'injection-mould-runner-systems-cold-vs-hot-runner-design',
+    id: 'ms1', subject: 'Mould Design', lessonSlug: 'hot-runner-valve-gating-mechanics-and-sequential-injection',
     question: 'In hot runner mold design, the primary advantage of valve-gated hot runners over open-tip hot runners is:',
     options: [
       'Lower mold manufacturing cost',
@@ -257,7 +314,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'ms2', subject: 'Mould Design', lessonSlug: 'conformal-cooling-in-injection-moulds-3d-metal-printing',
+    id: 'ms2', subject: 'Mould Design', lessonSlug: 'conformal-cooling-design-principles-additive-manufacturing',
     question: '3D metal printed conformal cooling channels improve injection moulding productivity primarily by:',
     options: [
       'Reducing mold steel cost',
@@ -270,7 +327,7 @@ const GATE_QUESTIONS = [
     marks: 2,
   },
   {
-    id: 'ms3', subject: 'Sustainability', lessonSlug: 'life-cycle-assessment-lca-of-polymers-cradle-to-grave-carbon-footprint',
+    id: 'ms3', subject: 'Sustainability', lessonSlug: 'lifecycle-assessment-lca-of-polymers-iso-14040-methodology',
     question: 'In ISO 14040 Life Cycle Assessment (LCA), Global Warming Potential (GWP) is expressed in units of:',
     options: ['kg SO₂ equivalent', 'kg CO₂ equivalent per functional unit', 'MJ of primary energy', 'ppm of VOC'],
     correct: 1,
@@ -278,7 +335,7 @@ const GATE_QUESTIONS = [
     marks: 1,
   },
   {
-    id: 'ms4', subject: 'Sustainability', lessonSlug: 'extended-producer-responsibility-epr-for-plastics-in-india',
+    id: 'ms4', subject: 'Sustainability', lessonSlug: 'epr-extended-producer-responsibility-compliance-frameworks-in-india',
     question: 'Under India\'s MoEFCC Extended Producer Responsibility (EPR) Guidelines 2022, Category I plastics refer to:',
     options: [
       'Flexible plastic packaging (single layer or multilayer)',
@@ -292,9 +349,12 @@ const GATE_QUESTIONS = [
   },
 ]
 
+const TOTAL_MARKS = GATE_QUESTIONS.reduce((a, q) => a + q.marks, 0)
+
 const SUBJECT_COLORS: Record<string, string> = {
   'Polymer Chemistry': 'bg-[#2563EB] text-white',
   'Polymer Processing': 'bg-[#EA580C] text-white',
+  'Polymer Rheology': 'bg-[#D97706] text-white',
   'Polymer Testing': 'bg-[#EF4444] text-white',
   'Rubber Technology': 'bg-[#8B5CF6] text-white',
   'Composites': 'bg-[#0284C7] text-white',
@@ -672,11 +732,11 @@ export default function GATEMockPage() {
           {/* Quick Metrics */}
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-white block">30</span>
+              <span className="font-display text-xl font-bold text-white block">{GATE_QUESTIONS.length}</span>
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">GATE Questions</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
-              <span className="font-display text-xl font-bold text-amber-400 block">35</span>
+              <span className="font-display text-xl font-bold text-amber-400 block">{TOTAL_MARKS}</span>
               <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider">Total Marks</span>
             </div>
             <div className="bg-white/10 border border-white/15 px-4 py-2 rounded-xl text-center">
