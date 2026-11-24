@@ -64,7 +64,7 @@ const PREMIUM_BENEFITS = [
   },
   {
     icon: Zap,
-    title: 'GATE XE5 Mock Simulator',
+    title: 'GATE XE-F Mock Simulator',
     desc: 'Timed computer-based test platform with negative marking & rankings.'
   }
 ]

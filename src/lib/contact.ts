@@ -50,7 +50,7 @@ export const USER_ROLES = [
   'Diploma / CIPET Student',
   'College Faculty / Head of Department (HOD)',
   'Plastics Industry Processor / Compounder',
-  'GATE 2027 XE5 Aspirant',
+  'GATE 2027 XE-F Aspirant',
   'Academic Researcher / Scholar',
   'Other / General Visitor'
 ] as const

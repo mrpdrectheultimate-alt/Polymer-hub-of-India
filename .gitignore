@@ -38,6 +38,7 @@ next-env.d.ts
 
 # agent configurations & scratchpad
 .gemini/
+.agents/
 scratch/
 
 .vercel

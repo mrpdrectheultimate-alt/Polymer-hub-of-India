@@ -155,7 +155,7 @@ const INDUSTRIES = [
 
 const PILLARS = [
   {
-    title: 'GATE XE5 & CIPET Syllabus',
+    title: 'GATE XE-F & CIPET Syllabus',
     desc: 'Structured across 19 subjects covering step-growth kinetics, rheology, viscoelastic constitutive models, and mould design.',
     icon: '🎓'
   },
@@ -275,7 +275,7 @@ export default function HomePage() {
               </span>
               <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs font-mono text-[11px]">
                 <Target className="h-3.5 w-3.5 text-[#2563EB]" />
-                Curriculum Aligned to AICTE Model Guidelines &amp; GATE XE5
+                Curriculum Aligned to AICTE Model Guidelines &amp; GATE XE-F
               </span>
               <span className="flex items-center gap-1.5 bg-white/90 px-3 py-1 rounded-full border border-[#E2E8F0] shadow-xs font-mono text-[11px]">
                 <Cpu className="h-3.5 w-3.5 text-[#2563EB]" />
@@ -547,7 +547,7 @@ export default function HomePage() {
               },
               {
                 icon: <Target className="h-7 w-7 text-[#2563EB]" />,
-                title: '🎯 GATE XE5 Aspirant',
+                title: '🎯 GATE XE-F Aspirant',
                 description: 'Prepare systematically with topic-wise quizzes, formula flashcards, and full-length simulated mock tests.',
                 path: '/gate-mock'
               }
@@ -789,7 +789,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <span className="text-xs font-mono font-bold text-[#2563EB] uppercase tracking-wider">Built for Technical Excellence</span>
             <h2 className="text-2xl sm:text-3xl font-bold font-display text-[#111827] mt-2">The PolymerHub Engineering Standard</h2>
-            <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">Engineered specifically for undergraduate exams, GATE XE5 preparation, and plastics manufacturing.</p>
+            <p className="text-[#64748B] text-xs sm:text-sm mt-0.5">Engineered specifically for undergraduate exams, GATE XE-F preparation, and plastics manufacturing.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
