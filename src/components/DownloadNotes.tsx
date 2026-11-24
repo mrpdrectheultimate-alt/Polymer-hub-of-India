@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Download, Loader2, FileText, Printer, CheckCircle2 } from 'lucide-react'
+import Link from 'next/link'
+import { Download, Loader2, FileText, Printer, CheckCircle2, Crown } from 'lucide-react'
 
 type DownloadNotesProps = {
   lessonSlug: string
@@ -13,7 +14,7 @@ type DownloadNotesProps = {
 export default function DownloadNotes({
   lessonSlug,
   lessonTitle,
-  isPremium = true,
+  isPremium = false,
   compact = false,
 }: DownloadNotesProps) {
   const [loading, setLoading] = useState(false)
@@ -64,12 +65,15 @@ export default function DownloadNotes({
       
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1.5">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <span className="font-mono text-[10px] font-black uppercase tracking-widest bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2.5 py-0.5 rounded-lg flex items-center gap-1">
               <FileText className="w-3 h-3 text-amber-400" /> OFFICIAL CURRICULUM NOTES
             </span>
             <span className="font-mono text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2 py-0.5 rounded-md">
               A4 PRINT READY
+            </span>
+            <span className="font-mono text-[10px] font-bold text-amber-300 bg-amber-950/60 border border-amber-500/30 px-2 py-0.5 rounded-md flex items-center gap-1">
+              <Crown className="w-3 h-3 text-amber-400" /> Unlimited in Premium (₹149/mo)
             </span>
           </div>
 
@@ -107,11 +111,11 @@ export default function DownloadNotes({
 
       <div className="pt-3 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-400">
         <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" /> Includes all technical tables &amp; figures
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" /> Free Plan: 3 Lesson PDFs/mo · Unlimited in Premium Pro (₹149/mo)
         </span>
-        <span className="flex items-center gap-1.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" /> 1-Click Save as PDF via Browser Print
-        </span>
+        <Link href="/pricing" className="text-blue-400 hover:text-blue-300 underline font-semibold flex items-center gap-1">
+          <span>Compare All Tiers</span> &rarr;
+        </Link>
       </div>
     </div>
   )

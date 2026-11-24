@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -18,8 +18,13 @@ import {
   RotateCcw,
   Info,
   CheckCircle2,
-  FileText
+  FileText,
+  Lock,
+  Crown,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react'
+import { createClient } from '@/lib/supabase/client'
 import Footer from '@/components/Footer'
 
 // ==================== TYPES & CONFIGURATION ====================
@@ -41,6 +46,7 @@ export interface CalculatorMeta {
   formula: string
   formulaShort: string
   description: string
+  is_free?: boolean
 }
 
 const CALCULATORS: CalculatorMeta[] = [
@@ -57,7 +63,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'injection-moulding-process-parameters-and-defects',
     formula: 'F = (A_total × P / 1000) × SF',
     formulaShort: 'F = (A × N × P / 1000) × SF',
-    description: 'Calculate minimum press clamping tonnage required to prevent mold parting line flashing during peak injection pressure.'
+    description: 'Calculate minimum press clamping tonnage required to prevent mold parting line flashing during peak injection pressure.',
+    is_free: true,
   },
   {
     id: 'cooling',
@@ -72,7 +79,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'cooling-system-design-and-cycle-time-optimization',
     formula: 't_c = (h² / π²α) × ln[ (8/π²) × ((T_m - T_w) / (T_e - T_w)) ]',
     formulaShort: 'Fourier Transient 1D Conduction',
-    description: 'Estimate required in-mold solidification time based on thermal diffusivity, part thickness, and ejection temperature limits.'
+    description: 'Estimate required in-mold solidification time based on thermal diffusivity, part thickness, and ejection temperature limits.',
+    is_free: false,
   },
   {
     id: 'shrinkage',
@@ -87,7 +95,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'injection-moulding-process-parameters-and-defects',
     formula: 'D_mould = D_target / (1 - S / 100)',
     formulaShort: 'D_mould = D_part / (1 - S%)',
-    description: 'Compute precise cut-steel tool cavity dimensions accounting for volumetric volumetric crystallization shrinkage.'
+    description: 'Compute precise cut-steel tool cavity dimensions accounting for volumetric volumetric crystallization shrinkage.',
+    is_free: true,
   },
   {
     id: 'cycle',
@@ -102,7 +111,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'cooling-system-design-and-cycle-time-optimization',
     formula: 'T_total = t_inject + t_pack + t_cool + t_reset',
     formulaShort: 'T_total = ∑(Phase Durations)',
-    description: 'Break down total injection molding cycle time into discrete phases to benchmark hourly production output and machine cost.'
+    description: 'Break down total injection molding cycle time into discrete phases to benchmark hourly production output and machine cost.',
+    is_free: true,
   },
   {
     id: 'screw_shear',
@@ -117,7 +127,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'extrusion-fundamentals-the-backbone-of-plastic-processing',
     formula: 'γ̇ = (π × D × N) / (60 × h)',
     formulaShort: 'γ̇ = (π·D·N) / (60·h)',
-    description: 'Determine apparent shear rate in the metering channel flight clearance to prevent shear-induced thermal degradation.'
+    description: 'Determine apparent shear rate in the metering channel flight clearance to prevent shear-induced thermal degradation.',
+    is_free: false,
   },
   {
     id: 'gate_freeze',
@@ -132,7 +143,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'gate-design-types-location-and-sizing',
     formula: 't_freeze = (d_gate² / (16 × α)) × ln[ (T_m - T_w) / (T_freeze - T_w) ]',
     formulaShort: 't_freeze ∝ d_gate² / α',
-    description: 'Calculate the optimum holding/packing pressure duration before gate seal prevents backflow and sink marks.'
+    description: 'Calculate the optimum holding/packing pressure duration before gate seal prevents backflow and sink marks.',
+    is_free: false,
   },
   {
     id: 'mfi_viscosity',
@@ -147,7 +159,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'melt-flow-index-mfi-measurement-significance-and-indian-standards',
     formula: 'η_apparent ≈ (τ_w / γ̇_w) ∝ (M_load / MFI)',
     formulaShort: 'η ∝ 1 / MFI^0.75',
-    description: 'Correlate standard capillary melt flow index (g/10 min) to zero-shear dynamic viscosity and processing window.'
+    description: 'Correlate standard capillary melt flow index (g/10 min) to zero-shear dynamic viscosity and processing window.',
+    is_free: false,
   },
   {
     id: 'drying',
@@ -162,7 +175,8 @@ const CALCULATORS: CalculatorMeta[] = [
     lessonSlug: 'polymer-degradation-and-stabilization',
     formula: 't_dry = (ln(M_initial / M_target)) / k_diffusion',
     formulaShort: 'Moisture Decay Kinetic Model',
-    description: 'Determine required residence time in desiccant dehumidifying hoppers for hygroscopic resins (PET, PA66, PBT, PC).'
+    description: 'Determine required residence time in desiccant dehumidifying hoppers for hygroscopic resins (PET, PA66, PBT, PC).',
+    is_free: false,
   },
 ]
 
@@ -179,6 +193,9 @@ export interface HistoryEntry {
 export default function CalculatorsPage() {
   const [activeCalc, setActiveCalc] = useState<CalcId>('tonnage')
   const [unitSystem, setUnitSystem] = useState<UnitSystem>('metric')
+  const [user, setUser] = useState<any>(null)
+  const [isPremium, setIsPremium] = useState(false)
+  const [authLoaded, setAuthLoaded] = useState(false)
   const [history, setHistory] = useState<HistoryEntry[]>([
     {
       id: 'h-1',
@@ -197,9 +214,31 @@ export default function CalculatorsPage() {
   ])
   const [copiedNotification, setCopiedNotification] = useState(false)
 
+  useEffect(() => {
+    const supabase = createClient()
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      setUser(user)
+      if (user) {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('subscription_status')
+            .eq('id', user.id)
+            .single()
+          setIsPremium(profile?.subscription_status === 'premium' || profile?.subscription_status === 'active')
+        } catch (err) {
+          console.warn('Subscription check error:', err)
+        }
+      }
+      setAuthLoaded(true)
+    }).catch(() => setAuthLoaded(true))
+  }, [])
+
   const currentMeta = useMemo(() => {
     return CALCULATORS.find(c => c.id === activeCalc) || CALCULATORS[0]
   }, [activeCalc])
+
+  const isCalcLocked = !isPremium && !currentMeta.is_free
 
   const handleCopyResult = (text: string) => {
     navigator.clipboard.writeText(text)
@@ -256,6 +295,22 @@ export default function CalculatorsPage() {
                 8 calibrated design engines for injection clamping force, Fourier cooling kinetics, 
                 shrinkage compensation, shear rate limits, and desiccant drying equilibrium.
               </p>
+
+              {/* Pricing & Access Tier Badges */}
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[11px] font-mono font-bold">
+                  🟢 3 Core Solvers Free Forever
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[11px] font-mono font-bold">
+                  ⭐ 5 Advanced Solvers in Premium (₹149/mo)
+                </span>
+                <Link
+                  href="/pricing"
+                  className="text-[11px] font-mono text-cyan-300 hover:text-white underline font-bold transition-colors ml-1"
+                >
+                  View Plan Pricing &rarr;
+                </Link>
+              </div>
             </motion.div>
 
             {/* Global Unit System Switcher */}
@@ -364,8 +419,14 @@ export default function CalculatorsPage() {
                   >
                     <Icon className="h-4 w-4" />
                   </div>
-                  {isSelected && (
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 ring-2 ring-emerald-200" />
+                  {c.is_free ? (
+                    <span className="text-[8px] font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                      FREE
+                    </span>
+                  ) : (
+                    <span className="text-[8px] font-mono font-bold text-amber-800 bg-amber-50 px-1 py-0.5 rounded border border-amber-200 flex items-center gap-0.5">
+                      <Crown className="w-2.5 h-2.5 text-amber-600" /> PRO
+                    </span>
                   )}
                 </div>
 
@@ -402,6 +463,15 @@ export default function CalculatorsPage() {
                   <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-white/20 text-white uppercase">
                     {currentMeta.standard}
                   </span>
+                  {currentMeta.is_free ? (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 uppercase">
+                      Free Tool
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-400/30 uppercase flex items-center gap-1">
+                      <Crown className="w-3 h-3 text-amber-400" /> Premium Tool
+                    </span>
+                  )}
                 </div>
                 <p className="text-xs text-slate-300 font-light">{currentMeta.description}</p>
               </div>
@@ -427,14 +497,20 @@ export default function CalculatorsPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.25 }}
               >
-                {activeCalc === 'tonnage' && <TonnageEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'cooling' && <CoolingEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'shrinkage' && <ShrinkageEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'cycle' && <CycleTimeEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'screw_shear' && <ScrewShearEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'gate_freeze' && <GateFreezeEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'mfi_viscosity' && <MfiViscosityEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
-                {activeCalc === 'drying' && <DryingEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                {isCalcLocked ? (
+                  <LockedCalculatorCard meta={currentMeta} />
+                ) : (
+                  <>
+                    {activeCalc === 'tonnage' && <TonnageEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'cooling' && <CoolingEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'shrinkage' && <ShrinkageEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'cycle' && <CycleTimeEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'screw_shear' && <ScrewShearEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'gate_freeze' && <GateFreezeEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'mfi_viscosity' && <MfiViscosityEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                    {activeCalc === 'drying' && <DryingEngine unitSystem={unitSystem} onSave={handleSaveCalculation} onCopy={handleCopyResult} />}
+                  </>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -491,6 +567,76 @@ export default function CalculatorsPage() {
       {/* ===== GLOBAL FOOTER ===== */}
       <Footer />
 
+    </div>
+  )
+}
+
+// ─── Locked Calculator Component ─────────────────────────────────────────────
+function LockedCalculatorCard({ meta }: { meta: CalculatorMeta }) {
+  return (
+    <div className="bg-gradient-to-b from-[#0B132B] to-[#090F20] text-white rounded-3xl border-2 border-amber-500 p-8 sm:p-10 shadow-2xl relative overflow-hidden space-y-6">
+      <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-slate-950 font-mono font-black text-[10px] uppercase px-4 py-1.5 rounded-bl-xl tracking-wider shadow-md flex items-center gap-1.5">
+        <Crown className="w-3.5 h-3.5 text-slate-950" /> Premium Engineering Tool
+      </div>
+
+      <div className="space-y-3 max-w-2xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider">
+          <Lock className="w-3.5 h-3.5 text-amber-400" /> Advanced Solver Reserved for Premium
+        </div>
+
+        <h3 className="font-display font-black text-2xl sm:text-3xl text-white uppercase">
+          {meta.label}
+        </h3>
+        
+        <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed">
+          {meta.description} Calibrated strictly according to <strong>{meta.standard}</strong> for industrial mold design and rheology.
+        </p>
+      </div>
+
+      {/* Formula & Standard Preview Box */}
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-2">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase border-b border-white/10 pb-2">
+          <span>Governing Equation</span>
+          <span className="text-amber-400 font-bold">{meta.standard}</span>
+        </div>
+        <div className="font-mono text-xs sm:text-sm text-emerald-300 font-bold py-1">
+          {meta.formula}
+        </div>
+        <p className="text-[11px] text-slate-400 font-mono">
+          Method: {meta.formulaShort} &middot; Field: {meta.subject}
+        </p>
+      </div>
+
+      {/* Pricing & Upgrade Callout */}
+      <div className="bg-white/10 border border-amber-500/30 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div className="space-y-1">
+          <div className="flex items-baseline gap-2">
+            <span className="font-display font-black text-3xl text-white">₹149</span>
+            <span className="text-xs font-mono text-slate-300 uppercase">/ Month</span>
+            <span className="text-[11px] font-mono text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded border border-amber-400/30 ml-2">
+              All 8 Solvers Unlocked
+            </span>
+          </div>
+          <p className="text-xs text-slate-300 font-sans">
+            Unlock all 8 industrial engineering calculators, 12 ASTM testing simulators, full LaTeX formula derivations, and unlimited AI Copilot queries.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
+          <Link
+            href="/upgrade"
+            className="w-full md:w-auto px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg text-center flex items-center justify-center gap-2 hover:translate-y-[-1px]"
+          >
+            <span>Upgrade to Premium (₹149/mo)</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 pt-2 border-t border-white/10">
+        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+        <span>Free Tools Available: Clamping Force, Shrinkage Sizing, and Cycle Time are 100% Free Forever.</span>
+      </div>
     </div>
   )
 }

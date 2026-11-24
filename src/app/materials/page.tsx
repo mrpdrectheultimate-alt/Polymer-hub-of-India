@@ -8,7 +8,7 @@ import {
   Search, Filter, Lock, ChevronDown, ChevronUp, Database, Sparkles,
   Brain, Compass, AlertTriangle, Layers, Scale, Maximize2, X, ArrowLeft,
   ArrowRight, BookOpen, ExternalLink, CheckCircle2, FlaskConical, Atom,
-  Check, Copy, Info
+  Check, Copy, Info, Crown
 } from 'lucide-react'
 import { ThreeDViewer } from '@/components/ThreeDViewer'
 import { CommercialGradeComparator } from '@/components/CommercialGradeComparator'
@@ -351,35 +351,36 @@ function InPlace3DLab({ model, onCollapse }: { model: LocalModel; onCollapse: ()
   )
 }
 
-function MaterialRow({ material, expanded, onToggle }: {
+function MaterialRow({ material, expanded, onToggle, isUserPremium }: {
   material: Material
   expanded: boolean
   onToggle: () => void
+  isUserPremium?: boolean
 }) {
   const fc = FAMILY_COLORS[material.family] ?? { bg: '#F8FAFC', text: '#0A0A0A', border: '#CBD5E1' }
 
-  if (material.is_premium) {
+  if (material.is_premium && !isUserPremium) {
     return (
-      <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-xs hover:border-slate-300 transition-all opacity-90">
+      <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-xs hover:border-slate-300 transition-all opacity-95">
         <div className="flex items-center gap-3.5 min-w-0">
           <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-700 flex-shrink-0">
-            <Lock className="w-4 h-4" />
+            <Lock className="w-4 h-4 text-amber-600" />
           </div>
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-display font-bold text-slate-800 text-base">{material.name}</span>
-              <span className="text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
-                Specialty High-Performance Resin
+              <span className="text-[10px] font-mono font-bold bg-amber-100 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+                <Crown className="w-3 h-3 text-amber-600" /> Specialty High-Performance Resin
               </span>
             </div>
-            <p className="font-sans text-xs text-slate-500 mt-0.5">Specialized engineering resin with verified ASTM data</p>
+            <p className="font-sans text-xs text-slate-500 mt-0.5">Specialized aerospace &amp; medical engineering polymer with verified ASTM TDS data</p>
           </div>
         </div>
         <Link
-          href="/pricing"
-          className="font-mono text-[10px] font-bold px-3 py-1.5 bg-amber-400 hover:bg-amber-500 text-slate-950 rounded-xl transition-all shadow-xs flex-shrink-0"
+          href="/upgrade"
+          className="font-mono text-xs font-bold px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl transition-all shadow-xs flex-shrink-0 flex items-center gap-1 hover:translate-y-[-1px]"
         >
-          Unlock Database &rarr;
+          <span>Unlock (₹149/mo)</span> &rarr;
         </Link>
       </div>
     )
@@ -462,6 +463,7 @@ export default function MaterialsPage() {
   const [selectedFamily, setSelectedFamily] = useState('All')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<'table' | 'commercial' | '3d'>('3d')
+  const [isPremium, setIsPremium] = useState<boolean>(false)
 
   // 3D Models state
   const [modelSearch, setModelSearch] = useState('')
@@ -473,6 +475,20 @@ export default function MaterialsPage() {
     async function loadMaterials() {
       try {
         const supabase = createClient()
+
+        // Auth & Subscription check
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user?.id) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('subscription_status')
+            .eq('id', session.user.id)
+            .maybeSingle()
+          if (profile?.subscription_status === 'premium' || profile?.subscription_status === 'active') {
+            setIsPremium(true)
+          }
+        }
+
         const { data, error } = await supabase
           .from('materials')
           .select('id, name, family, density, melt_temp, tensile_strength, top_applications, indian_trade_names, is_premium')
@@ -552,6 +568,21 @@ export default function MaterialsPage() {
               <div className="font-display text-3xl font-black text-emerald-400">100%</div>
               <div className="text-[11px] font-mono text-emerald-300 uppercase tracking-wider font-bold mt-0.5">TDS Accuracy Matched</div>
             </div>
+          </div>
+
+          {/* Platform Pricing Banner */}
+          <div className="max-w-3xl mx-auto pt-2 flex flex-wrap items-center justify-center gap-2 font-mono text-xs">
+            <span className="px-3 py-1 bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 rounded-full flex items-center gap-1.5 font-bold shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              🟢 20+ Base &amp; Engineering Resins Free Forever
+            </span>
+            <span className="px-3 py-1 bg-amber-950/80 border border-amber-500/40 text-amber-300 rounded-full flex items-center gap-1.5 font-bold shadow-xs">
+              <Crown className="w-3.5 h-3.5 text-amber-400" />
+              ⭐ Specialty Aerospace &amp; Medical Polymers in Premium (₹149/mo)
+            </span>
+            <Link href="/pricing" className="text-blue-400 hover:text-blue-300 underline font-semibold ml-1">
+              View All Tiers &rarr;
+            </Link>
           </div>
         </div>
       </section>
@@ -783,6 +814,7 @@ export default function MaterialsPage() {
                     material={material}
                     expanded={expandedId === material.id}
                     onToggle={() => setExpandedId(expandedId === material.id ? null : material.id)}
+                    isUserPremium={isPremium}
                   />
                 ))
               )}

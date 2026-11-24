@@ -161,6 +161,21 @@ function FormulasContent() {
               <div className="text-xs text-slate-600 font-semibold mt-1">Formulas Mapped</div>
             </div>
           </div>
+
+          {/* Pricing & Free vs Premium Transparency Banner */}
+          <div className="max-w-4xl mx-auto pt-5 flex flex-wrap items-center justify-center gap-2 font-mono text-xs">
+            <span className="px-3 py-1 bg-emerald-50 border border-emerald-300 text-emerald-800 rounded-full flex items-center gap-1.5 font-bold shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              🟢 All 280+ Equations &amp; KaTeX Formulas Free to Browse
+            </span>
+            <span className="px-3 py-1 bg-amber-50 border border-amber-300 text-amber-900 rounded-full flex items-center gap-1.5 font-bold shadow-xs">
+              <Award className="w-3.5 h-3.5 text-amber-600" />
+              ⭐ Advanced Industrial Solvers &amp; Derivations in Premium (₹149/mo)
+            </span>
+            <Link href="/pricing" className="text-blue-600 hover:text-blue-800 underline font-semibold ml-1">
+              View All Plans &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -26,7 +26,10 @@ import {
   BarChart3,
   Layers,
   Globe,
-  Loader2
+  Loader2,
+  Lock,
+  Crown,
+  Check
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Session } from '@supabase/supabase-js'
@@ -75,26 +78,27 @@ interface LabBenchItem {
   color: string
   bgColor: string
   description: string
+  is_free?: boolean
 }
 
 const LAB_BENCHES: LabBenchItem[] = [
   // Mechanical
-  { id: 'tensile', name: 'Tensile Strength', standard: 'ASTM D638', category: 'Mechanical', icon: Gauge, color: '#2563EB', bgColor: '#EFF6FF', description: 'Measure tensile strength, Young modulus, yield necking, and elongation at break.' },
-  { id: 'flexural', name: 'Flexural 3-Point', standard: 'ASTM D790', category: 'Mechanical', icon: Ruler, color: '#2563EB', bgColor: '#EFF6FF', description: 'Determine flexural modulus and stress at 5% strain under 3-point bending load.' },
-  { id: 'hardness', name: 'Shore Hardness', standard: 'ASTM D2240', category: 'Mechanical', icon: Layers, color: '#2563EB', bgColor: '#EFF6FF', description: 'Measure durometer Shore A and Shore D indentation hardness of polymers and elastomers.' },
+  { id: 'tensile', name: 'Tensile Strength', standard: 'ASTM D638', category: 'Mechanical', icon: Gauge, color: '#2563EB', bgColor: '#EFF6FF', description: 'Measure tensile strength, Young modulus, yield necking, and elongation at break.', is_free: true },
+  { id: 'flexural', name: 'Flexural 3-Point', standard: 'ASTM D790', category: 'Mechanical', icon: Ruler, color: '#2563EB', bgColor: '#EFF6FF', description: 'Determine flexural modulus and stress at 5% strain under 3-point bending load.', is_free: false },
+  { id: 'hardness', name: 'Shore Hardness', standard: 'ASTM D2240', category: 'Mechanical', icon: Layers, color: '#2563EB', bgColor: '#EFF6FF', description: 'Measure durometer Shore A and Shore D indentation hardness of polymers and elastomers.', is_free: false },
   // Thermal
-  { id: 'dsc', name: 'DSC Calorimeter', standard: 'ASTM D3418', category: 'Thermal', icon: Flame, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Measure glass transition (Tg), crystallization exotherm, and melting endotherm (Tm).' },
-  { id: 'tga', name: 'TGA Thermogravimetry', standard: 'ASTM E1131', category: 'Thermal', icon: Thermometer, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Analyze thermal degradation kinetics, decomposition onset, and carbon black filler content.' },
-  { id: 'vicat', name: 'Vicat Softening', standard: 'ASTM D1525', category: 'Thermal', icon: Activity, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Determine temperature at which standard needle penetrates 1mm into specimen under load.' },
-  { id: 'hdt', name: 'HDT Deflection', standard: 'ASTM D648', category: 'Thermal', icon: Flame, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Measure heat deflection temperature under 0.455 MPa and 1.82 MPa surface stress.' },
+  { id: 'dsc', name: 'DSC Calorimeter', standard: 'ASTM D3418', category: 'Thermal', icon: Flame, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Measure glass transition (Tg), crystallization exotherm, and melting endotherm (Tm).', is_free: false },
+  { id: 'tga', name: 'TGA Thermogravimetry', standard: 'ASTM E1131', category: 'Thermal', icon: Thermometer, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Analyze thermal degradation kinetics, decomposition onset, and carbon black filler content.', is_free: false },
+  { id: 'vicat', name: 'Vicat Softening', standard: 'ASTM D1525', category: 'Thermal', icon: Activity, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Determine temperature at which standard needle penetrates 1mm into specimen under load.', is_free: false },
+  { id: 'hdt', name: 'HDT Deflection', standard: 'ASTM D648', category: 'Thermal', icon: Flame, color: '#F59E0B', bgColor: '#FEF3E8', description: 'Measure heat deflection temperature under 0.455 MPa and 1.82 MPa surface stress.', is_free: false },
   // Rheological
-  { id: 'mfi', name: 'Melt Flow Index', standard: 'ASTM D1238', category: 'Rheological', icon: Droplets, color: '#06B6D4', bgColor: '#E8F8FA', description: 'Measure thermoplastic melt flow rate (g/10 min) under 2.16 kg and 5.0 kg standardized weights.' },
-  { id: 'mvr', name: 'MVR Volume Rate', standard: 'ISO 1133', category: 'Rheological', icon: Activity, color: '#06B6D4', bgColor: '#E8F8FA', description: 'Measure volumetric melt displacement per 10 minutes at elevated processing temperatures.' },
+  { id: 'mfi', name: 'Melt Flow Index', standard: 'ASTM D1238', category: 'Rheological', icon: Droplets, color: '#06B6D4', bgColor: '#E8F8FA', description: 'Measure thermoplastic melt flow rate (g/10 min) under 2.16 kg and 5.0 kg standardized weights.', is_free: true },
+  { id: 'mvr', name: 'MVR Volume Rate', standard: 'ISO 1133', category: 'Rheological', icon: Activity, color: '#06B6D4', bgColor: '#E8F8FA', description: 'Measure volumetric melt displacement per 10 minutes at elevated processing temperatures.', is_free: false },
   // Optical
-  { id: 'haze', name: 'Haze & Clarity', standard: 'ASTM D1003', category: 'Optical', icon: Beaker, color: '#EAB308', bgColor: '#FEFCE8', description: 'Measure percent wide-angle light scattering and total luminous transmittance of films.' },
+  { id: 'haze', name: 'Haze & Clarity', standard: 'ASTM D1003', category: 'Optical', icon: Beaker, color: '#EAB308', bgColor: '#FEFCE8', description: 'Measure percent wide-angle light scattering and total luminous transmittance of films.', is_free: false },
   // Impact
-  { id: 'izod', name: 'Izod Impact Pendulum', standard: 'ASTM D256', category: 'Impact', icon: Zap, color: '#EF4444', bgColor: '#FDE8E8', description: 'Measure notched cantilever impact toughness (J/m) under rapid pendulum striking velocity.' },
-  { id: 'charpy', name: 'Charpy Impact', standard: 'ASTM D6110', category: 'Impact', icon: Activity, color: '#EF4444', bgColor: '#FDE8E8', description: 'Determine 3-point supported beam fracture energy absorption under high-speed impact.' },
+  { id: 'izod', name: 'Izod Impact Pendulum', standard: 'ASTM D256', category: 'Impact', icon: Zap, color: '#EF4444', bgColor: '#FDE8E8', description: 'Measure notched cantilever impact toughness (J/m) under rapid pendulum striking velocity.', is_free: true },
+  { id: 'charpy', name: 'Charpy Impact', standard: 'ASTM D6110', category: 'Impact', icon: Activity, color: '#EF4444', bgColor: '#FDE8E8', description: 'Determine 3-point supported beam fracture energy absorption under high-speed impact.', is_free: false },
 ]
 
 const CATEGORIES = [
@@ -137,6 +141,7 @@ export default function SimulationsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [session, setSession] = useState<Session | null>(null)
+  const [isPremium, setIsPremium] = useState(false)
   const [history, setHistory] = useState<LabSession[]>([])
   const [historyLoading, setHistoryLoading] = useState(true)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -146,8 +151,20 @@ export default function SimulationsPage() {
   // 1. Fetch Supabase Session & Session History
   useEffect(() => {
     setIsLoaded(true)
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session)
+      if (session?.user) {
+        try {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('subscription_status')
+            .eq('id', session.user.id)
+            .single()
+          setIsPremium(profile?.subscription_status === 'premium' || profile?.subscription_status === 'active')
+        } catch (err) {
+          console.warn('Subscription fetch error:', err)
+        }
+      }
     })
   }, [supabase])
 
@@ -192,6 +209,7 @@ export default function SimulationsPage() {
   }, [activeLab])
 
   const CurrentBenchIcon = currentBench.icon
+  const isLabLocked = !isPremium && !currentBench.is_free && LAB_BENCHES.some(b => b.id === activeLab)
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] overflow-x-hidden text-slate-900 font-sans">
@@ -250,8 +268,24 @@ export default function SimulationsPage() {
               })}
             </div>
 
+            {/* Pricing Tiers Badge Bar */}
+            <div className="flex flex-wrap items-center gap-2 mt-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-[11px] font-mono font-bold">
+                🟢 3 Core ASTM Labs Free Forever
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-400/30 text-[11px] font-mono font-bold">
+                ⭐ 9 Advanced Benches in Premium (₹149/mo)
+              </span>
+              <Link
+                href="/pricing"
+                className="text-[11px] font-mono text-cyan-300 hover:text-white underline font-bold transition-colors ml-1"
+              >
+                View Plan Pricing &rarr;
+              </Link>
+            </div>
+
             {/* Quick Actions */}
-            <div className="flex flex-wrap gap-4 mt-8">
+            <div className="flex flex-wrap gap-4 mt-6">
               <a
                 href="#workspace"
                 className="px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all flex items-center gap-2 shadow-md hover:scale-102"
@@ -269,7 +303,7 @@ export default function SimulationsPage() {
                 className="px-6 py-3 rounded-xl font-mono font-bold text-xs uppercase tracking-wider text-white bg-white/10 hover:bg-white/20 border border-white/20 transition-all flex items-center gap-2"
               >
                 <Play className="h-4 w-4 fill-white" />
-                Launch ASTM D638 Tensile
+                Launch ASTM D638 Tensile (Free)
               </button>
             </div>
 
@@ -384,7 +418,15 @@ export default function SimulationsPage() {
                     >
                       {bench.category}
                     </span>
-                    <span className="text-[10px] font-mono font-bold text-emerald-600">+15 XP</span>
+                    {bench.is_free ? (
+                      <span className="text-[9px] font-mono font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">
+                        FREE
+                      </span>
+                    ) : (
+                      <span className="text-[9px] font-mono font-bold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200 flex items-center gap-0.5">
+                        <Crown className="w-2.5 h-2.5 text-amber-600" /> PRO
+                      </span>
+                    )}
                   </div>
                 </motion.button>
               )
@@ -475,9 +517,15 @@ export default function SimulationsPage() {
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-mono text-xs font-bold uppercase">
-                +15 XP on Complete
-              </span>
+              {currentBench.is_free ? (
+                <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 font-mono text-xs font-bold uppercase">
+                  Free Access
+                </span>
+              ) : (
+                <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 font-mono text-xs font-bold uppercase flex items-center gap-1">
+                  <Crown className="w-3.5 h-3.5 text-amber-400" /> Premium Lab
+                </span>
+              )}
               <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 font-mono text-xs font-bold uppercase">
                 CALIBRATED
               </span>
@@ -494,30 +542,36 @@ export default function SimulationsPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                {/* 12 ASTM/ISO Real Simulation Components */}
-                {activeLab === 'tensile' && <TensileTester onComplete={loadHistory} />}
-                {activeLab === 'mfi' && <MeltFlowIndexer onComplete={loadHistory} />}
-                {activeLab === 'izod' && <IzodTester onComplete={loadHistory} />}
-                {activeLab === 'charpy' && <CharpyTester onComplete={loadHistory} />}
-                {activeLab === 'flexural' && <FlexuralTester onComplete={loadHistory} />}
-                {activeLab === 'hardness' && <HardnessTester onComplete={loadHistory} />}
-                {activeLab === 'dsc' && <DSCAnalyzer onComplete={loadHistory} />}
-                {activeLab === 'tga' && <TGAnalyzer onComplete={loadHistory} />}
-                {activeLab === 'haze' && <HazeTester onComplete={loadHistory} />}
-                {activeLab === 'mvr' && <MvrTester onComplete={loadHistory} />}
-                {activeLab === 'vicat' && <VicatTester onComplete={loadHistory} />}
-                {activeLab === 'hdt' && <HDTTester onComplete={loadHistory} />}
+                {isLabLocked ? (
+                  <LockedBenchCard bench={currentBench} />
+                ) : (
+                  <>
+                    {/* 12 ASTM/ISO Real Simulation Components */}
+                    {activeLab === 'tensile' && <TensileTester onComplete={loadHistory} />}
+                    {activeLab === 'mfi' && <MeltFlowIndexer onComplete={loadHistory} />}
+                    {activeLab === 'izod' && <IzodTester onComplete={loadHistory} />}
+                    {activeLab === 'charpy' && <CharpyTester onComplete={loadHistory} />}
+                    {activeLab === 'flexural' && <FlexuralTester onComplete={loadHistory} />}
+                    {activeLab === 'hardness' && <HardnessTester onComplete={loadHistory} />}
+                    {activeLab === 'dsc' && <DSCAnalyzer onComplete={loadHistory} />}
+                    {activeLab === 'tga' && <TGAnalyzer onComplete={loadHistory} />}
+                    {activeLab === 'haze' && <HazeTester onComplete={loadHistory} />}
+                    {activeLab === 'mvr' && <MvrTester onComplete={loadHistory} />}
+                    {activeLab === 'vicat' && <VicatTester onComplete={loadHistory} />}
+                    {activeLab === 'hdt' && <HDTTester onComplete={loadHistory} />}
 
-                {/* 9 Molecular & Process Simulators */}
-                {activeLab === 'polymerization' && <PolymerizationAnimator />}
-                {activeLab === 'molding' && <InjectionMoldingAnimator />}
-                {activeLab === 'crystallization' && <SpheruliteCrystallizationSimulator />}
-                {activeLab === 'chain-folding' && <PolymerChainFoldingAnimator />}
-                {activeLab === 'shear-thinning' && <ShearThinningVisualizer />}
-                {activeLab === 'mold-flow' && <InjectionMoldingFlowSimulator />}
-                {activeLab === 'die-swell' && <ExtrusionDieSwellVisualizer />}
-                {activeLab === 'vulcanization' && <RubberVulcanizationSimulator />}
-                {activeLab === 'gpc' && <GPCVisualizer />}
+                    {/* 9 Molecular & Process Simulators */}
+                    {activeLab === 'polymerization' && <PolymerizationAnimator />}
+                    {activeLab === 'molding' && <InjectionMoldingAnimator />}
+                    {activeLab === 'crystallization' && <SpheruliteCrystallizationSimulator />}
+                    {activeLab === 'chain-folding' && <PolymerChainFoldingAnimator />}
+                    {activeLab === 'shear-thinning' && <ShearThinningVisualizer />}
+                    {activeLab === 'mold-flow' && <InjectionMoldingFlowSimulator />}
+                    {activeLab === 'die-swell' && <ExtrusionDieSwellVisualizer />}
+                    {activeLab === 'vulcanization' && <RubberVulcanizationSimulator />}
+                    {activeLab === 'gpc' && <GPCVisualizer />}
+                  </>
+                )}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -711,6 +765,76 @@ export default function SimulationsPage() {
       {/* ===== GLOBAL FOOTER ===== */}
       <Footer />
 
+    </div>
+  )
+}
+
+// ─── Locked Bench Component ──────────────────────────────────────────────────
+function LockedBenchCard({ bench }: { bench: LabBenchItem }) {
+  return (
+    <div className="bg-gradient-to-b from-[#0B132B] to-[#090F20] text-white rounded-3xl border-2 border-amber-500 p-8 sm:p-10 shadow-2xl relative overflow-hidden space-y-6">
+      <div className="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-amber-600 text-slate-950 font-mono font-black text-[10px] uppercase px-4 py-1.5 rounded-bl-xl tracking-wider shadow-md flex items-center gap-1.5">
+        <Crown className="w-3.5 h-3.5 text-slate-950" /> Premium Testing Bench
+      </div>
+
+      <div className="space-y-3 max-w-2xl">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold uppercase tracking-wider">
+          <Lock className="w-3.5 h-3.5 text-amber-400" /> ASTM Testing Bench Reserved for Premium
+        </div>
+
+        <h3 className="font-display font-black text-2xl sm:text-3xl text-white uppercase">
+          {bench.name} ({bench.standard})
+        </h3>
+        
+        <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed">
+          {bench.description} Calibrated strictly according to international <strong>{bench.standard}</strong> protocol.
+        </p>
+      </div>
+
+      {/* Protocol Details Preview */}
+      <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-2">
+        <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase border-b border-white/10 pb-2">
+          <span>Standard Protocol</span>
+          <span className="text-amber-400 font-bold">{bench.standard}</span>
+        </div>
+        <p className="text-xs text-emerald-300 font-mono font-bold py-1">
+          Category: {bench.category} Testing &middot; XP Reward: +15 XP per trial
+        </p>
+        <p className="text-[11px] text-slate-400 font-sans">
+          Includes real-time data curve generation, specimen failure diagnostics, and PDF export for college &amp; industrial lab reports.
+        </p>
+      </div>
+
+      {/* Pricing & Upgrade Callout */}
+      <div className="bg-white/10 border border-amber-500/30 rounded-2xl p-5 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-5">
+        <div className="space-y-1">
+          <div className="flex items-baseline gap-2">
+            <span className="font-display font-black text-3xl text-white">₹149</span>
+            <span className="text-xs font-mono text-slate-300 uppercase">/ Month</span>
+            <span className="text-[11px] font-mono text-amber-300 font-bold bg-amber-500/20 px-2 py-0.5 rounded border border-amber-400/30 ml-2">
+              All 12 ASTM Labs Unlocked
+            </span>
+          </div>
+          <p className="text-xs text-slate-300 font-sans">
+            Full thermal calorimetry (DSC/TGA), HDT/Vicat deflection, 8 engineering calculators, and unlimited AI tutor queries for one simple monthly rate.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 shrink-0 w-full md:w-auto">
+          <Link
+            href="/upgrade"
+            className="w-full md:w-auto px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-lg text-center flex items-center justify-center gap-2 hover:translate-y-[-1px]"
+          >
+            <span>Upgrade to Premium (₹149/mo)</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 pt-2 border-t border-white/10">
+        <span className="w-2 h-2 rounded-full bg-emerald-400" />
+        <span>Free Labs Available: Tensile Strength (ASTM D638), Melt Flow Index (ASTM D1238), and Izod Impact (ASTM D256) are 100% Free Forever.</span>
+      </div>
     </div>
   )
 }

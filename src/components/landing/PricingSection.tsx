@@ -44,12 +44,14 @@ export default function PricingSection() {
 
               <div className="space-y-3 pt-4 border-t border-slate-800 mb-8">
                 {[
-                  'All 19 core subjects & 216 curriculum lessons',
-                  'Interactive 3D molecular viewer (100+ models)',
-                  'Shop-floor defect diagnostic troubleshooter',
+                  'All 19 core subjects & 216 curriculum lessons online',
+                  '3 Core shop-floor press solvers (Tonnage, Shrinkage, Cycle Time)',
+                  '3 Foundational ASTM testing labs (Tensile, MFI, Izod Impact)',
+                  '20+ Base & engineering polymers property specs (PP, HDPE, PC, PA66)',
                   '15 AI Polymer Copilot queries per day',
-                  'Daily petrochem spot price benchmarks',
-                  'Free access to Official WhatsApp & Telegram channels',
+                  'GATE 2025–2026 PYQ papers & 5-question demo CBT mock test',
+                  'Interactive 3D molecular viewer (100+ models)',
+                  '3 Offline A4 PDF lesson notes per month',
                 ].map((feat) => (
                   <div key={feat} className="flex items-start gap-2.5 text-xs text-slate-200 font-sans">
                     <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -95,18 +97,20 @@ export default function PricingSection() {
               </div>
 
               <p className="text-xs text-slate-300 font-sans mb-6 leading-relaxed">
-                Full industrial engineering calculators, LaTeX formula derivations, 21 ASTM/ISO simulators, and simulated GATE XE-F mock exams.
+                Full industrial engineering calculators, 12 ASTM testing benches, complete 11-year GATE XE-F archive, and 30-question CBT mock exam with derivations.
               </p>
 
               <div className="space-y-3 pt-4 border-t border-slate-800 mb-8">
                 {[
                   'Everything in Free Core Access included',
-                  'All 8 industrial shop-floor calculators with safety limits',
-                  '98 formulas with full LaTeX mathematical derivations',
-                  'Full 60-min timed simulated GATE XE-F mock tests',
-                  '21 ASTM/ISO virtual testing simulators with report export',
+                  'All 8 industrial shop-floor press calculators (Cooling, Shear, Gate Freeze)',
+                  'All 12 ASTM virtual testing benches with virtual physics simulations',
+                  'Full 11-Year GATE XE-F PYQs (2016–2026) with official keys',
+                  'Full 30-Question timed GATE CBT mock test with step-by-step LaTeX derivations',
+                  'Specialty high-performance aerospace resins (PEEK, PTFE, PVDF, PEI)',
                   'Unlimited AI Polymer Copilot queries & document RAG',
-                  'Priority member support with direct engineering feedback',
+                  'Unlimited offline A4 PDF lesson booklet exports',
+                  'Priority member engineering support within 24h',
                 ].map((feat) => (
                   <div key={feat} className="flex items-start gap-2.5 text-xs text-slate-200 font-sans">
                     <Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />

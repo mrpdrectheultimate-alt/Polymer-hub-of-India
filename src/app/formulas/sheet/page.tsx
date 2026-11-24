@@ -35,6 +35,14 @@ export default function FormulaSheetPage() {
             <p className="text-xs text-slate-600 mt-1 font-medium">
               High-density subject-wise formula cheat sheet for rapid exam revision &amp; shop-floor reference ({GATE_CONFIG.organizingInstitute} Aligned).
             </p>
+            <div className="flex items-center gap-2 mt-2 font-mono text-[11px]">
+              <span className="text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 rounded font-bold">
+                🟢 Free Online Reference
+              </span>
+              <span className="text-amber-800 bg-amber-50 border border-amber-300 px-2 py-0.5 rounded font-bold">
+                ⭐ Printable High-Resolution PDF Booklet in Premium (₹149/mo)
+              </span>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
