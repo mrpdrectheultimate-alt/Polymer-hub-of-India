@@ -60,9 +60,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1954',
-  headline: 'Phillips Petroleum Files Landmark Patent on Chromium Catalytic High-Density Polyethylene (Marlex)',
-  body: 'On November 23, 1954, research chemists J. Paul Hogan and Robert L. Banks filed pivotal patent disclosures documenting the low-pressure catalytic polymerization of ethylene over silica-supported chromium oxide (the Phillips catalyst). The process enabled the commercial synthesis of linear, high-density polyethylene (HDPE, trade named Marlex) with crystalline densities exceeding 0.96 g/cm³ and high tensile modulus. This breakthrough eliminated the severe 1,000–3,000 bar autoclave pressures demanded by high-pressure LDPE, directly pioneering modern extrusion blow moulding of rigid chemical drums, fuel containers, and continuous municipal pressure piping worldwide.',
+  year: '1941',
+  headline: 'British Chemists J.T. Dickson & J.R. Whinfield File Historic Patent for Polyethylene Terephthalate (PET)',
+  body: "On November 24, 1941, British research chemists John Rex Whinfield and James Tennant Dickson of the Calico Printers' Association filed British Patent Application 562,390 for Polyethylene Terephthalate (PET). Synthesized via polycondensation of ethylene glycol with terephthalic acid, PET demonstrated extraordinary mechanical tensile strength, high melting point (260°C), and dimensional stability as both synthetic fibers (Terylene/Dacron) and biaxially oriented films (Mylar). Whinfield and Dickson's landmark patent laid the foundation for modern global polyester fiber production, high-barrier food packaging, and stretch blow-moulded beverage bottles which today represent over 80 million metric tonnes of annual worldwide polymer consumption.",
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {

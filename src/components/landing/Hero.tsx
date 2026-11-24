@@ -111,7 +111,7 @@ export default function Hero() {
               </div>
               <div>
                 <div className="font-mono text-[9px] text-emerald-700 font-bold uppercase">Domestic Spot</div>
-                <div className="font-mono text-xs font-bold text-slate-900">Reliance PP: ₹100.80/kg (+0.4%)</div>
+                <div className="font-mono text-xs font-bold text-slate-900">Reliance PP: ₹101.20/kg (+0.4%)</div>
               </div>
             </div>
           </div>
