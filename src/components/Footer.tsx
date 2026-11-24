@@ -369,6 +369,11 @@ export default function Footer({ showTrustBar = false, theme = 'light' }: Footer
                 </Link>
               </li>
               <li>
+                <Link href="/privacy#cookies" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
+                  Cookie Policy &amp; Storage
+                </Link>
+              </li>
+              <li>
                 <Link href="/terms" className={`${isDark ? 'text-slate-400 hover:text-blue-400' : 'text-slate-700 hover:text-[#2563EB]'} font-medium transition-colors`}>
                   Terms of Service
                 </Link>

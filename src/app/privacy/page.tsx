@@ -120,11 +120,15 @@ export default function PrivacyPolicyPage() {
           <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Right to Access &amp; Summary:</strong> Request a complete summary of personal data being processed, learning records, and identity disclosures.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
               <span><strong>Right to Correction:</strong> Edit or update your college affiliation, profile name, and portfolio projects at any time from your profile dashboard.</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
-              <span><strong>Right to Erasure:</strong> Request permanent deletion of your account and personal identifiers by contacting our data protection officer.</span>
+              <span><strong>Right to Erasure:</strong> Request permanent deletion of your account, test logs, and personal identifiers by contacting our data protection officer.</span>
             </li>
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
@@ -133,6 +137,10 @@ export default function PrivacyPolicyPage() {
             <li className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
               <span><strong>Right to Withdraw Consent:</strong> You may withdraw your processing consent at any time via account settings or written grievance request.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Right to Nominate (DPDP Sec 14):</strong> In accordance with Section 14 of the DPDP Act 2023, you hold the right to nominate another individual who, in the event of death or incapacity, shall exercise your Data Principal rights.</span>
             </li>
           </ul>
         </section>
@@ -162,7 +170,7 @@ export default function PrivacyPolicyPage() {
         </section>
 
         {/* Section 5: Cookies & Local Storage Architecture */}
-        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+        <section id="cookies" className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4 scroll-mt-24">
           <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
             <span className="text-blue-600 font-mono text-base">05.</span> Cookie &amp; Storage Architecture
           </h2>
@@ -190,9 +198,19 @@ export default function PrivacyPolicyPage() {
                   <td className="p-2">Stores 24-hour instant guest pass for faculty and institutional evaluators (24 Hours).</td>
                 </tr>
                 <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">ph_guest_ai_count</td>
+                  <td className="p-2">Rate-Limiting</td>
+                  <td className="p-2">Tracks anonymous guest AI queries (up to 10 queries) to prevent denial-of-service and fair usage (24 Hours).</td>
+                </tr>
+                <tr>
                   <td className="p-2 font-mono font-semibold text-slate-900">polymerhub_cookie_consent</td>
                   <td className="p-2">Preferences</td>
-                  <td className="p-2">Preserves user cookie preference selection under DPDP Act 2023 (1 Year).</td>
+                  <td className="p-2">Preserves user cookie preference selection in LocalStorage under DPDP Act 2023 (1 Year).</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-mono font-semibold text-slate-900">ph_cookie_consent</td>
+                  <td className="p-2">Preferences</td>
+                  <td className="p-2">Synchronizes cookie preference settings via secure HTTP cookie for SSR page compliance (1 Year).</td>
                 </tr>
                 <tr>
                   <td className="p-2 font-mono font-semibold text-slate-900">ph_waitlist_pos</td>

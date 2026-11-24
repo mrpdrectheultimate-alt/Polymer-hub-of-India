@@ -1,6 +1,6 @@
 // src/app/legal/page.tsx — Enterprise Legal, Copyright & Academic Provenance Charter
 import Link from 'next/link'
-import { Scale, ShieldCheck, CheckCircle2, ArrowLeft, AlertTriangle, BookOpen, Mail, Share2, Database, Calculator, GraduationCap, Users, Cpu } from 'lucide-react'
+import { Scale, ShieldCheck, CheckCircle2, ArrowLeft, AlertTriangle, BookOpen, Mail, Share2, Database, Calculator, GraduationCap, Users, Cpu, Layers } from 'lucide-react'
 
 export const metadata = {
   title: 'Legal, Copyright & Academic Provenance Charter | PolymerHub',
@@ -199,10 +199,51 @@ export default function LegalProvenancePage() {
           </ul>
         </section>
 
-        {/* Section 8: Notice & Expedited Takedown Protocol */}
+        {/* Section 8: GATE XE-F Examination & Previous-Year Question Papers (PYQs) */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <GraduationCap className="w-5 h-5 text-purple-600" />
+            <span className="text-blue-600 font-mono text-base">08.</span> GATE XE-F Non-Affiliation &amp; Previous-Year Papers Fair Dealing
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            PolymerHub publishes study materials, syllabi breakdowns, previous-year question papers (2016–2026), and simulated CBT mock exams for <strong>GATE Engineering Sciences Section F (Polymer Science &amp; Engineering)</strong>:
+          </p>
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm text-slate-700 space-y-2">
+            <p className="font-bold text-slate-900">Legal Provenance &amp; Institutional Separation:</p>
+            <p className="text-slate-600 leading-relaxed">
+              &bull; <strong>Non-Affiliation Notice:</strong> The Graduate Aptitude Test in Engineering (GATE) is administered by the 8 coordinating institutions (IISc Bengaluru, IIT Bombay, IIT Delhi, IIT Guwahati, IIT Kanpur, IIT Kharagpur, IIT Madras, and IIT Roorkee) on behalf of the National Coordination Board (NCB-GATE), Ministry of Education, Government of India. PolymerHub is an <strong>independent edtech platform and is NOT affiliated with, sponsored by, or endorsed by IITs, IISc, or NCB-GATE</strong>.
+            </p>
+            <p className="text-slate-600 leading-relaxed">
+              &bull; <strong>Statutory Fair Dealing (Sec 52(1)(a) &amp; 52(1)(i) Copyright Act 1957):</strong> Reproduction of public examination question papers and answer keys is conducted strictly for educational research, private study, criticism, and review. PolymerHub adds original educational value through step-by-step mathematical derivations, pedagogical commentary, and interactive test simulation engines.
+            </p>
+          </div>
+        </section>
+
+        {/* Section 9: ASTM & ISO Virtual Testing Standards & Simulation Safe Harbor */}
+        <section className="bg-white border-2 border-slate-900 rounded-2xl p-6 sm:p-8 shadow-sm space-y-4">
+          <h2 className="font-display text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <Layers className="w-5 h-5 text-amber-600" />
+            <span className="text-blue-600 font-mono text-base">09.</span> ASTM &amp; ISO Standards Citation &amp; Virtual Labs Safe Harbor
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Our virtual laboratory benches simulate standardized testing protocols (e.g. ASTM D638, ASTM D1238, ASTM D256, ASTM D790, ASTM D648, ASTM D1525, ISO 527, ISO 1133):
+          </p>
+          <ul className="space-y-2 text-xs sm:text-sm text-slate-700">
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Nominative Method Identification:</strong> Standard numbers and testing titles (such as ASTM D638 for Tensile Properties of Plastics) are cited strictly to identify universal test geometries, gauge lengths, and crosshead speeds recognized worldwide.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <span><strong>Educational Simulation Scope:</strong> Virtual testing curves (Hookean stress-strain, Eyring yield kinetics, non-Newtonian melt flow) are computed using theoretical physics and viscoelastic models for academic training. They are not certified physical test reports and must not be used for statutory regulatory compliance or structural safety sign-offs.</span>
+            </li>
+          </ul>
+        </section>
+
+        {/* Section 10: Notice & Expedited Takedown Protocol */}
         <section className="bg-slate-900 text-white rounded-2xl p-6 sm:p-8 border-2 border-slate-900 shadow-xl space-y-4">
           <div className="flex items-center gap-2 text-amber-400 font-mono font-bold text-xs uppercase tracking-wider">
-            <AlertTriangle className="w-4 h-4" /> 08. Formal Notice &amp; Takedown Protocol (48-Hour Guarantee)
+            <AlertTriangle className="w-4 h-4" /> 10. Formal Notice &amp; Takedown Protocol (48-Hour Guarantee)
           </div>
           <h3 className="font-display text-xl font-bold text-white">
             Copyright Grievance &amp; DMCA Agent
