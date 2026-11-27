@@ -317,12 +317,12 @@ export default function Navbar() {
           Does NOT push page content down
       ──────────────────────────────────────────────────────────────────────── */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden" style={{ top: '72px' }}>
+        <div className="fixed inset-0 z-[120] md:hidden" style={{ top: '72px' }}>
           {/* Backdrop */}
           <div className="absolute inset-0 bg-black/60 backdrop-blur-xs" onClick={() => setMobileOpen(false)} />
 
-          {/* Drawer */}
-          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-72px)] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2 duration-200">
+          {/* Drawer — 100dvh dynamic viewport + safe area padding */}
+          <div className="absolute top-0 left-0 right-0 bg-white border-b-4 border-black max-h-[calc(100vh-72px)] max-h-[calc(100dvh-72px)] overflow-y-auto shadow-2xl animate-in slide-in-from-top-2 duration-200 pb-[env(safe-area-inset-bottom,24px)] overscroll-contain">
 
             {/* Auth section */}
             {session ? (

@@ -429,7 +429,7 @@ export default function Footer({ showTrustBar = false, theme = 'light' }: Footer
       </div>
 
       {/* ── Bottom Copyright & Dot Matrix Bar ── */}
-      <div className={`${isDark ? 'bg-[#04060A] border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-600'} border-t py-4 px-4 sm:px-6`}>
+      <div className={`${isDark ? 'bg-[#04060A] border-slate-800 text-slate-400' : 'bg-slate-50 border-slate-200 text-slate-600'} border-t pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] px-4 sm:px-6`}>
         <div className="max-w-7xl 2xl:max-w-[1600px] 3xl:max-w-[1850px] 4xl:max-w-[2400px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono font-medium">
           <p>
             &copy; 2026 PolymerHub &middot; Precision Knowledge Platform for Polymer Science &amp; Engineering &middot; <Link href="/legal" className="text-blue-400 hover:underline">Legal &amp; Provenance</Link> &middot; <Link href="/admin/feedback" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-500 hover:text-slate-800'} transition-colors`}>Admin Desk</Link>

@@ -155,8 +155,8 @@ export default function FeedbackWidget() {
             isAiTutorPage 
               ? 'hidden md:flex bottom-6 right-6' 
               : isLessonPage
-              ? 'flex bottom-4 left-4 sm:bottom-6 sm:left-6'
-              : 'flex bottom-4 right-4 sm:bottom-6 sm:right-6'
+              ? 'flex bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] left-4 sm:bottom-6 sm:left-6'
+              : 'flex bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] right-4 sm:bottom-6 sm:right-6'
           }`}
         >
           <MessageSquarePlus className="w-4 h-4" />

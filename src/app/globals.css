@@ -509,6 +509,10 @@ button, a[class*="btn"], input[type="submit"] {
 }
 
 @media (max-width: 640px) {
+  /* Prevent iOS Safari auto-zoom on inputs */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
   /* Mobile padding and touch target adjustments */
   .cn-card-body {
     padding: 16px 16px;
@@ -884,3 +888,29 @@ select:focus-visible {
 }
 
 
+
+/* ─── MOBILE VIEWPORT & SAFE-AREA INSET ENHANCEMENTS ─── */
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.safe-pb-nav {
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+}
+.min-h-screen-dvh {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.h-screen-dvh {
+  height: 100vh;
+  height: 100dvh;
+}
+
+@media (max-width: 380px) {
+  .container-responsive {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+}

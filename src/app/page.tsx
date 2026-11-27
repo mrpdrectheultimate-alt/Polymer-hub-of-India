@@ -204,7 +204,7 @@ export default function HomePage() {
               Built for India&apos;s Polymer Engineering Students &amp; Industry
             </div>
 
-            <h1 className="text-[clamp(3rem,6vw,5rem)] font-extrabold text-slate-900 leading-[1.1] tracking-tight font-display">
+            <h1 className="text-[clamp(2.15rem,5.5vw,4.5rem)] font-extrabold text-slate-900 leading-[1.1] tracking-tight font-display">
               Master Polymer Engineering.
               <span className="block bg-gradient-to-r from-[#2563EB] via-blue-700 to-[#16A34A] bg-clip-text text-transparent pb-2.5 pt-1">
                 From Molecules to Manufacturing.
