@@ -60,9 +60,9 @@ const SHOP_FLOOR_TIPS = [
 ]
 
 const ON_THIS_DAY = {
-  year: '1941',
-  headline: 'British Chemists J.T. Dickson & J.R. Whinfield File Historic Patent for Polyethylene Terephthalate (PET)',
-  body: "On November 24, 1941, British research chemists John Rex Whinfield and James Tennant Dickson of the Calico Printers' Association filed British Patent Application 562,390 for Polyethylene Terephthalate (PET). Synthesized via polycondensation of ethylene glycol with terephthalic acid, PET demonstrated extraordinary mechanical tensile strength, high melting point (260°C), and dimensional stability as both synthetic fibers (Terylene/Dacron) and biaxially oriented films (Mylar). Whinfield and Dickson's landmark patent laid the foundation for modern global polyester fiber production, high-barrier food packaging, and stretch blow-moulded beverage bottles which today represent over 80 million metric tonnes of annual worldwide polymer consumption.",
+  year: '1953',
+  headline: 'Giulio Natta & Karl Ziegler Synthesize First Stereoregular Isotactic Polypropylene (PP)',
+  body: "On November 28, 1953, Italian chemist Giulio Natta at the Polytechnic University of Milan, building upon Karl Ziegler's discovery of organometallic titanium catalysts, synthesized crystalline isotactic polypropylene (PP). By orienting every methyl pendant group stereoregularly along the polymer backbone, Ziegler and Natta transformed brittle, disordered atactic polypropylene into a durable, high-melting (165°C) engineering thermoplastic. Their revolutionary Ziegler-Natta coordination polymerization mechanism earned them the 1963 Nobel Prize in Chemistry and spawned the multi-billion-dollar global polypropylene manufacturing industry that dominates Indian commodity plastics today.",
 }
 
 export default function TodayDashboard({ initialItems }: { initialItems: NewsItem[] }) {
@@ -370,19 +370,19 @@ export default function TodayDashboard({ initialItems }: { initialItems: NewsIte
               <div className="flex items-start gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-orange-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">India Expansion:</strong> {indiaCount} reports highlight Reliance, GAIL, and ISRO carbon composite &amp; PP infrastructure investments.
+                  <strong className="text-slate-900">India Expansion:</strong> {indiaCount} reports highlight IOCL Paradip 650 KTA PP unit commissioning, Reliance &amp; GAIL domestic supply resilience.
                 </p>
               </div>
               <div className="flex items-start gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">EPR &amp; Circularity:</strong> {sustainabilityCount} updates emphasize chemical pyrolysis recycling facilities and strict MoEFCC EPR credit mandates.
+                  <strong className="text-slate-900">EPR &amp; Circularity:</strong> {sustainabilityCount} updates emphasize Banyan Nation–HUL 50k MT/yr PCR-HDPE scaling and mandatory CPCB portal batch verification.
                 </p>
               </div>
               <div className="flex items-start gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 flex-shrink-0" />
                 <p>
-                  <strong className="text-slate-900">Engineering Grades:</strong> Growing demand for high-heat automotive polyamides and bioplastics across EV battery packs.
+                  <strong className="text-slate-900">Engineering Grades:</strong> Breakthrough IIT Delhi/CIPET high-thermal boron-nitride EV polyimide films and MIT vitrimeric self-healing polyurethanes.
                 </p>
               </div>
             </div>
